@@ -1031,6 +1031,9 @@ video {
 .whitespace-pre-wrap{
   white-space: pre-wrap;
 }
+.break-words{
+  overflow-wrap: break-word;
+}
 .rounded-2xl{
   border-radius: 1rem;
 }
@@ -1674,12 +1677,26 @@ body { font-family: 'DM Sans', system-ui, sans-serif; -webkit-font-smoothing: an
     display: inline;
   }
 
+  .sm\:hidden{
+    display: none;
+  }
+
   .sm\:grid-cols-2{
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .sm\:grid-cols-4{
     grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .sm\:\!px-5{
+    padding-left: 1.25rem !important;
+    padding-right: 1.25rem !important;
+  }
+
+  .sm\:text-4xl{
+    font-size: 2.25rem;
+    line-height: 2.5rem;
   }
 }
 @media (min-width: 768px){

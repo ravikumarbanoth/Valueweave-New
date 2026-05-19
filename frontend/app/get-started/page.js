@@ -48,8 +48,8 @@ export default function GetStartedPage() {
 
         <div className="text-center mb-12">
           <span className="chip bg-amber-200 text-amber-700 mb-4">STEP 1 OF 3</span>
-          <h1 className="font-display font-extrabold text-4xl md:text-5xl leading-tight tracking-tight mb-3">
-            What brings you to <span className="text-amber-500">ValueWeave</span>?
+          <h1 className="font-display font-extrabold text-3xl sm:text-4xl md:text-5xl leading-tight tracking-tight mb-3 break-words">
+            What brings you to<br className="sm:hidden" /> <span className="text-amber-500">ValueWeave</span>?
           </h1>
           <p className="text-muted max-w-lg mx-auto">
             Pick what fits best. You can always change this later on your profile.

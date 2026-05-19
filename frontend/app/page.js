@@ -14,8 +14,9 @@ export default function LandingPage() {
           </Link>
           <div className="flex items-center gap-3">
             <a href="#how" className="hidden sm:inline text-sm font-semibold text-muted hover:text-ink">How it works</a>
-            <Link href="/get-started" data-testid="nav-get-started" className="btn-primary !py-2 !px-5 text-sm">
-              Join Early Access →
+            <Link href="/get-started" data-testid="nav-get-started" className="btn-primary !py-2 !px-4 sm:!px-5 text-sm">
+              <span className="sm:hidden">Join →</span>
+              <span className="hidden sm:inline">Join Early Access →</span>
             </Link>
           </div>
         </div>

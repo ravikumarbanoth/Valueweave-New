@@ -1,0 +1,166 @@
+import Link from "next/link";
+
+export default function LandingPage() {
+  return (
+    <div className="min-h-screen bg-cream font-sans">
+      {/* Navbar */}
+      <nav className="fixed top-0 inset-x-0 z-50 bg-cream/85 backdrop-blur-md border-b border-stone-200/60">
+        <div className="max-w-6xl mx-auto h-16 px-6 flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-2.5">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-500 to-yellow-400 flex items-center justify-center shadow-md shadow-amber-500/30">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 3L4 7.5V16.5L12 21L20 16.5V7.5L12 3Z" stroke="#fff" strokeWidth="2" strokeLinejoin="round"/><path d="M4 7.5L12 12M12 12L20 7.5M12 12V21" stroke="#fff" strokeWidth="2" strokeLinecap="round"/></svg>
+            </div>
+            <span className="font-display font-extrabold text-lg tracking-tight">Value<span className="text-amber-500">Weave</span></span>
+          </Link>
+          <div className="flex items-center gap-3">
+            <a href="#how" className="hidden sm:inline text-sm font-semibold text-muted hover:text-ink">How it works</a>
+            <Link href="/get-started" data-testid="nav-get-started" className="btn-primary !py-2 !px-5 text-sm">
+              Join Early Access →
+            </Link>
+          </div>
+        </div>
+      </nav>
+
+      {/* Hero */}
+      <section className="pt-32 pb-20 px-6 relative overflow-hidden">
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_60%_60%_at_80%_20%,rgba(249,115,22,0.14)_0%,transparent_60%),radial-gradient(ellipse_50%_50%_at_10%_80%,rgba(13,148,136,0.12)_0%,transparent_55%)]" />
+        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+          <div>
+            <div className="inline-flex items-center gap-2 bg-amber-200 rounded-full px-4 py-1.5 mb-6 animate-fadeUp">
+              <span className="w-2 h-2 rounded-full bg-amber-500 ring-4 ring-amber-500/20" />
+              <span className="text-xs font-semibold text-amber-700">Now Open for Early Access · Bharat Edition</span>
+            </div>
+            <h1 className="font-display font-extrabold text-5xl md:text-6xl leading-[1.05] tracking-tight mb-6 animate-fadeUp">
+              Where Ambition<br />
+              <span className="bg-gradient-to-r from-amber-500 via-yellow-400 to-teal-500 bg-clip-text text-transparent">Finds Its Team.</span>
+            </h1>
+            <p className="text-lg text-muted leading-relaxed mb-8 max-w-md animate-fadeUp" style={{ animationDelay: "0.1s" }}>
+              ValueWeave connects India's youth, students, and skilled builders to discover collaborators, form startup teams, and create real economic opportunities — from tier-2 towns to global ambitions.
+            </p>
+            <div className="flex flex-wrap gap-3 animate-fadeUp" style={{ animationDelay: "0.2s" }}>
+              <Link href="/get-started" data-testid="hero-cta-primary" className="btn-primary">Start Building ⚡</Link>
+              <a href="#how" className="btn-secondary">How It Works →</a>
+            </div>
+            <div className="flex items-center gap-3 mt-10 animate-fadeUp" style={{ animationDelay: "0.3s" }}>
+              <div className="flex">
+                {["🧑‍💻","👩‍🔬","🧑‍🌾","👩‍🔧","🧑‍🎨"].map((e, i) => (
+                  <div key={i} className="w-9 h-9 rounded-full border-2 border-white flex items-center justify-center text-base" style={{ background: `hsl(${i * 35 + 20},80%,88%)`, marginLeft: i ? -10 : 0 }}>{e}</div>
+                ))}
+              </div>
+              <div>
+                <div className="font-display font-bold text-sm">2,400+ builders joined</div>
+                <div className="text-xs text-muted">across 28 states · growing daily</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Right illustration — floating cards around central hub */}
+          <div className="relative h-[440px] hidden md:block">
+            <div className="absolute inset-0 m-auto w-72 h-72 rounded-[60%_40%_30%_70%/60%_30%_70%_40%] bg-gradient-to-br from-amber-500/15 to-teal-500/15" />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="relative w-24 h-24 rounded-full bg-gradient-to-br from-amber-500 to-yellow-400 flex items-center justify-center shadow-2xl shadow-amber-500/40">
+                <svg width="44" height="44" viewBox="0 0 24 24" fill="none"><path d="M12 3L4 7.5V16.5L12 21L20 16.5V7.5L12 3Z" stroke="#fff" strokeWidth="1.8" strokeLinejoin="round"/><path d="M4 7.5L12 12M12 12L20 7.5M12 12V21" stroke="#fff" strokeWidth="1.8" strokeLinecap="round"/></svg>
+                <span className="absolute -inset-2 rounded-full border-2 border-amber-500/30 animate-ping" />
+              </div>
+            </div>
+            {[
+              { top: "8%", left: "12%", emoji: "🧑‍💻", label: "Dev · Pune", bg: "bg-blue-50", border: "border-blue-200" },
+              { top: "15%", right: "0%", emoji: "👩‍🔬", label: "AI · Bhopal", bg: "bg-green-50", border: "border-green-200" },
+              { bottom: "14%", left: "0%", emoji: "🧑‍🌾", label: "Agri · Nagpur", bg: "bg-amber-50", border: "border-amber-200" },
+              { bottom: "22%", right: "10%", emoji: "🔧", label: "EV · Nashik", bg: "bg-violet-50", border: "border-violet-200" },
+            ].map((c, i) => (
+              <div
+                key={i}
+                className={`absolute ${c.bg} border ${c.border} rounded-2xl px-3 py-2 flex items-center gap-2 shadow-md animate-float`}
+                style={{ top: c.top, left: c.left, right: c.right, bottom: c.bottom, animationDelay: `${i * 0.5}s` }}
+              >
+                <span className="text-xl">{c.emoji}</span>
+                <span className="text-xs font-semibold text-ink whitespace-nowrap">{c.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* How it works */}
+      <section id="how" className="bg-warm py-24 px-6">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-14">
+            <span className="chip bg-teal-100 text-teal-600 mb-4">HOW IT WORKS</span>
+            <h2 className="font-display font-extrabold text-4xl md:text-5xl tracking-tight leading-tight">
+              From "I have an idea" to<br /><span className="text-teal-500">"We built it."</span>
+            </h2>
+            <p className="mt-4 text-muted max-w-lg mx-auto">Four simple steps to find your people and bring ideas to life.</p>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {[
+              { n: "01", icon: "👤", t: "Create Your Profile", d: "Share your skills, interests, and what you want to build. Everyone has a place here." },
+              { n: "02", icon: "🔍", t: "Discover Opportunities", d: "Browse local businesses, startup ideas, and projects that match your interests." },
+              { n: "03", icon: "🤝", t: "Connect Directly", d: "Send collaboration requests and chat with builders. No middlemen, no fees." },
+              { n: "04", icon: "🚀", t: "Build Together", d: "Form your team, define your project, and launch from your hometown." },
+            ].map((s) => (
+              <div key={s.n} className="card-base p-6 hover:-translate-y-1 hover:shadow-xl transition-all">
+                <div className="text-4xl mb-4">{s.icon}</div>
+                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-amber-500 to-yellow-400 text-white font-display font-extrabold text-sm flex items-center justify-center mb-3">{s.n}</div>
+                <h3 className="font-display font-bold text-base mb-2">{s.t}</h3>
+                <p className="text-sm text-muted leading-relaxed">{s.d}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Opportunity Categories */}
+      <section className="py-24 px-6">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-14">
+            <span className="chip bg-amber-100 text-amber-700 mb-4">EVERY SKILL HAS A HOME</span>
+            <h2 className="font-display font-extrabold text-4xl md:text-5xl tracking-tight leading-tight">
+              Built for India's <span className="text-amber-500">builders.</span>
+            </h2>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            {[
+              { e: "🤖", l: "AI & Tech", c: "bg-blue-50" },
+              { e: "🏪", l: "Local Biz", c: "bg-amber-50" },
+              { e: "⚡", l: "EV Tech", c: "bg-green-50" },
+              { e: "🚁", l: "Drone", c: "bg-violet-50" },
+              { e: "🌾", l: "Agriculture", c: "bg-emerald-50" },
+              { e: "🎓", l: "Student", c: "bg-rose-50" },
+              { e: "🔧", l: "Trades", c: "bg-yellow-50" },
+              { e: "📱", l: "Digital", c: "bg-sky-50" },
+            ].map((c) => (
+              <div key={c.l} className={`${c.c} rounded-2xl p-5 text-center border border-stone-100 hover:-translate-y-1 hover:shadow-md transition-all`}>
+                <div className="text-3xl mb-2">{c.e}</div>
+                <div className="font-display font-bold text-sm">{c.l}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Final CTA */}
+      <section className="bg-ink text-white py-24 px-6 relative overflow-hidden">
+        <div className="absolute -top-20 -right-20 w-80 h-80 rounded-full bg-amber-500/20 blur-3xl" />
+        <div className="absolute -bottom-20 -left-20 w-96 h-96 rounded-full bg-teal-500/20 blur-3xl" />
+        <div className="max-w-3xl mx-auto text-center relative">
+          <span className="chip bg-amber-500/20 text-amber-300 border border-amber-500/30 mb-6">OUR MISSION</span>
+          <h2 className="font-display font-extrabold text-4xl md:text-6xl tracking-tight leading-[1.05] mb-6">
+            Be part of the<br />
+            <span className="bg-gradient-to-r from-amber-500 via-yellow-400 to-teal-500 bg-clip-text text-transparent">first wave.</span>
+          </h2>
+          <p className="text-white/60 text-lg mb-10 leading-relaxed">
+            Join 2,400+ early builders shaping India's next collaboration platform.
+          </p>
+          <Link href="/get-started" data-testid="footer-cta" className="btn-primary !px-8 !py-4 text-base">
+            Get Early Access ✨
+          </Link>
+        </div>
+      </section>
+
+      <footer className="bg-[#141210] text-white/50 py-8 px-6 text-center text-sm">
+        © 2025 ValueWeave · Made with ❤️ for Bharat
+      </footer>
+    </div>
+  );
+}

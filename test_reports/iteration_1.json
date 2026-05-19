@@ -1,0 +1,36 @@
+{
+  "summary": "First test pass after migration to Next.js 14 + Supabase. Frontend-only testing covering page rendering, routing, protected-route middleware, OAuth initiation, and mobile responsiveness. All 6 functional test areas passed. Two minor mobile UI overflow issues observed.",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "Landing (/) — mobile 375x812", "issues": ["Navbar 'Join Early Access →' button on the right overflows / gets clipped beyond the viewport's right edge. Two-line wrap behind/over edge. Consider hiding 'How it works' text link on small screens (already done) and shrinking nav CTA padding or label to e.g. 'Join →' for mobile, OR add overflow-hidden / proper max-width handling so the button stays within viewport."]},
+      {"screen": "/get-started — mobile 375x812", "issues": ["Heading 'What brings you to ValueWeave?' — the gradient 'ValueWeave' word does NOT wrap and extends past the right viewport edge (visible in screenshot). The h1 uses text-4xl md:text-5xl but the brand word is too wide. Recommend adding break-words / overflow-wrap-anywhere on the h1, OR reduce mobile font size (e.g. text-3xl md:text-5xl), OR move 'ValueWeave?' to its own line via <br/> at sm breakpoint."]}
+    ]
+  },
+  "test_report_links": [],
+  "action_items": [
+    "Fix mobile nav overflow on landing page navbar (Join Early Access button clipped at 375px)",
+    "Fix mobile heading overflow on /get-started (the 'ValueWeave' word extends past viewport)",
+    "Reminder: Supabase Google OAuth provider is not enabled yet and the SQL schema (/app/frontend/supabase_schema.sql) is not applied — end-to-end auth + CRUD cannot be tested until the user does this in the Supabase dashboard. The OAuth authorize request IS initiated correctly (verified network call to https://hpqkqhngjcsygohyizbi.supabase.co/auth/v1/authorize?provider=google&redirect_to=...) and Supabase returns 400 since Google provider is disabled, which is expected."
+  ],
+  "critical_code_review_comments": [
+    "middleware.js: /opportunities/[id] and /profile/[userId] are public-ish pages but the matcher treats /opportunities/* and /profile/* as protected (any path starting with these prefixes). If you want public read access to opportunity details and other-user profiles for unauthenticated users, the middleware's protectedRoutes list needs refinement (e.g. only guard /opportunities/new, /profile when no userId). Currently anonymous users cannot view a shared opportunity or profile link — they get bounced to /. Confirm this matches the intended product behaviour.",
+    "/app/frontend/.env.local: anon key is committed in the repo (acceptable for Supabase anon key by design, just flagging).",
+    "supabase_schema.sql NOT applied to the project — main agent should either provide a one-click SQL deploy instruction in README or call this out clearly to the end user, since profile creation in /auth/callback will silently 500 otherwise.",
+    "get-started page.js: localStorage.setItem('vw_intent', selected) is set before OAuth redirect; this is good, but the /auth/callback route also reads intent from query string — make sure callback handler doesn't double-write or conflict (couldn't fully validate without Google provider enabled).",
+    "Code looks DRY and well-structured. No file >700 lines spotted in the app/ directory."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A (backend intentionally stopped)", "frontend": "100% functional, 2 minor responsive design issues"},
+  "test_credentials": "/app/memory/test_credentials.md is empty (only header comments). No credentials needed for this pass — auth flow only verified up to OAuth redirect initiation.",
+  "seed_data_creation": "None. Supabase schema not applied; no seed possible.",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "Next test pass should be after (a) user enables Google OAuth provider in Supabase dashboard and (b) user applies /app/frontend/supabase_schema.sql. Then full E2E: real Google sign-in -> /auth/callback -> profile row created -> /onboarding -> /dashboard -> create opportunity -> view detail -> send connection -> accept on other account. Will likely need two Google test accounts. /app/memory/test_credentials.md should be populated by main agent before that pass.",
+  "rca of the issue": "N/A — no functional bugs found. Only 2 mobile CSS overflow tweaks needed; both are isolated to specific viewports and have clear fixes (heading word-break on h1 in /get-started; nav CTA size or label change on landing navbar)."
+}

@@ -47,12 +47,15 @@ export default function GetStartedPage() {
         </Link>
 
         <div className="text-center mb-12">
-          <span className="chip bg-amber-200 text-amber-700 mb-4">STEP 1 OF 3</span>
+          <span className="chip bg-amber-200 text-amber-700 mb-4">STEP 1 OF 3 · NEW MEMBERS</span>
           <h1 className="font-display font-extrabold text-3xl sm:text-4xl md:text-5xl leading-tight tracking-tight mb-3 break-words">
             What brings you to<br className="sm:hidden" /> <span className="text-amber-500">ValueWeave</span>?
           </h1>
           <p className="text-muted max-w-lg mx-auto">
             Pick what fits best. You can always change this later on your profile.
+          </p>
+          <p className="mt-4 text-sm text-stone-500">
+            Already a member? <Link href="/signin" data-testid="getstarted-signin-link" className="text-amber-600 font-semibold hover:underline">Sign in →</Link>
           </p>
         </div>
 

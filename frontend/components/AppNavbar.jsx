@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import { createClient } from "@/lib/supabase-browser";
-import { LogOut, User as UserIcon, Inbox, Plus, Home, LogIn } from "lucide-react";
+import { LogOut, User as UserIcon, Inbox, Plus, Home } from "lucide-react";
 
 export default function AppNavbar({ initialProfile = null }) {
   const supabase = createClient();
@@ -31,6 +31,7 @@ export default function AppNavbar({ initialProfile = null }) {
   };
 
   const isActive = (p) => pathname === p;
+  const logoHref = authed ? "/dashboard" : "/";
 
   const NavItem = ({ href, label, icon: Icon, testid }) => (
     <Link
@@ -43,9 +44,6 @@ export default function AppNavbar({ initialProfile = null }) {
       <Icon size={15} /> {label}
     </Link>
   );
-
-  // Logo always navigates: signed-in → /dashboard, signed-out → /
-  const logoHref = authed ? "/dashboard" : "/";
 
   return (
     <>
@@ -69,10 +67,9 @@ export default function AppNavbar({ initialProfile = null }) {
 
           {authed === false && (
             <div className="flex items-center gap-2">
-              <Link href="/" data-testid="nav-public-home" className="hidden sm:inline btn-ghost text-xs">Home</Link>
-              <Link href="/get-started" data-testid="nav-public-signin" className="btn-primary !py-2 !px-4 sm:!px-5 text-sm">
-                <LogIn size={15} /> <span className="hidden sm:inline">Sign in</span><span className="sm:hidden">Join</span>
-              </Link>
+              <Link href="/explore" data-testid="nav-public-explore" className="hidden sm:inline btn-ghost text-xs">Explore</Link>
+              <Link href="/signin" data-testid="nav-public-signin" className="btn-secondary !py-2 !px-4 text-sm">Sign in</Link>
+              <Link href="/get-started" data-testid="nav-public-join" className="btn-primary !py-2 !px-4 text-sm">Join</Link>
             </div>
           )}
 

@@ -63,9 +63,19 @@ export default function ConnectionsPage() {
         </div>
 
         {loading ? <p>Loading…</p> : list.length === 0 ? (
-          <div data-testid="connections-empty" className="card-base !border-dashed !border-2 p-12 text-center text-muted">
-            <div className="text-4xl mb-2">📭</div>
-            No {tab} connection requests yet.
+          <div data-testid="connections-empty" className="card-base !border-dashed !border-2 p-12 text-center">
+            <div className="text-5xl mb-3">📭</div>
+            <h3 className="font-display font-bold text-lg mb-2">
+              {tab === "received" ? "No requests yet" : "You haven't sent any requests"}
+            </h3>
+            <p className="text-muted text-sm mb-5 max-w-sm mx-auto">
+              {tab === "received"
+                ? "When someone wants to collaborate on your opportunities, their request will show up here."
+                : "Browse the feed and connect with builders working on things you care about."}
+            </p>
+            <Link href={tab === "received" ? "/opportunities/new" : "/dashboard"} className="btn-primary">
+              {tab === "received" ? "Post an opportunity →" : "Browse feed →"}
+            </Link>
           </div>
         ) : (
           <div className="grid gap-3">

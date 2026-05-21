@@ -1,65 +1,76 @@
 import Link from "next/link";
+import { Shield, Smartphone, Sparkles } from "lucide-react";
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-cream font-sans">
+    <div className="min-h-screen bg-cream font-body">
       {/* Navbar */}
       <nav className="fixed top-0 inset-x-0 z-50 bg-cream/85 backdrop-blur-md border-b border-stone-200/60">
-        <div className="max-w-6xl mx-auto h-16 px-6 flex items-center justify-between">
+        <div className="max-w-6xl mx-auto h-16 px-4 sm:px-6 flex items-center justify-between gap-3">
           <Link href="/" className="flex items-center gap-2.5">
             <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-500 to-yellow-400 flex items-center justify-center shadow-md shadow-amber-500/30">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 3L4 7.5V16.5L12 21L20 16.5V7.5L12 3Z" stroke="#fff" strokeWidth="2" strokeLinejoin="round"/><path d="M4 7.5L12 12M12 12L20 7.5M12 12V21" stroke="#fff" strokeWidth="2" strokeLinecap="round"/></svg>
             </div>
             <span className="font-display font-extrabold text-lg tracking-tight">Value<span className="text-amber-500">Weave</span></span>
           </Link>
-          <div className="flex items-center gap-3">
-            <a href="#how" className="hidden sm:inline text-sm font-semibold text-muted hover:text-ink">How it works</a>
-            <Link href="/get-started" data-testid="nav-get-started" className="btn-primary !py-2 !px-4 sm:!px-5 text-sm">
-              <span className="sm:hidden">Join →</span>
-              <span className="hidden sm:inline">Join Early Access →</span>
+          <div className="flex items-center gap-2">
+            <Link href="/explore" data-testid="nav-explore" className="hidden sm:inline text-sm font-display font-semibold text-muted hover:text-ink px-3 py-2 rounded-lg hover:bg-stone-100">Explore</Link>
+            <a href="#why" className="hidden md:inline text-sm font-display font-semibold text-muted hover:text-ink px-3 py-2 rounded-lg hover:bg-stone-100">Why</a>
+            <Link href="/signin" data-testid="nav-signin" className="btn-secondary !py-2 !px-4 text-sm">Sign in</Link>
+            <Link href="/get-started" data-testid="nav-join" className="btn-primary !py-2 !px-4 sm:!px-5 text-sm">
+              <span className="sm:hidden">Join</span>
+              <span className="hidden sm:inline">Join ValueWeave</span>
             </Link>
           </div>
         </div>
       </nav>
 
       {/* Hero */}
-      <section className="pt-32 pb-20 px-6 relative overflow-hidden">
+      <section className="pt-32 pb-20 px-4 sm:px-6 relative overflow-hidden">
         <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_60%_60%_at_80%_20%,rgba(249,115,22,0.14)_0%,transparent_60%),radial-gradient(ellipse_50%_50%_at_10%_80%,rgba(13,148,136,0.12)_0%,transparent_55%)]" />
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
           <div>
             <div className="inline-flex items-center gap-2 bg-amber-200 rounded-full px-4 py-1.5 mb-6 animate-fadeUp">
               <span className="w-2 h-2 rounded-full bg-amber-500 ring-4 ring-amber-500/20" />
-              <span className="text-xs font-semibold text-amber-700">Now Open for Early Access · Bharat Edition</span>
+              <span className="text-xs font-display font-semibold text-amber-700">Now Open · Bharat Edition</span>
             </div>
             <h1 className="h-hero mb-6 animate-fadeUp">
               Where Ambition<br />
               <span className="bg-gradient-to-r from-amber-500 via-yellow-400 to-teal-500 bg-clip-text text-transparent">Finds Its Team.</span>
             </h1>
-            <p className="text-base sm:text-lg text-muted leading-relaxed mb-8 max-w-md animate-fadeUp" style={{ animationDelay: "0.1s" }}>
+            <p className="text-base sm:text-lg text-muted leading-relaxed mb-7 max-w-md animate-fadeUp" style={{ animationDelay: "0.1s" }}>
               ValueWeave connects India's youth, students, and skilled builders to discover collaborators, form startup teams, and create real economic opportunities — from tier-2 towns to global ambitions.
             </p>
-            <div className="flex flex-wrap gap-3 animate-fadeUp" style={{ animationDelay: "0.2s" }}>
-              <Link href="/get-started" data-testid="hero-cta-primary" className="btn-primary">Start Building ⚡</Link>
-              <a href="#how" className="btn-secondary">How It Works →</a>
+
+            <div className="flex flex-wrap gap-3 mb-6 animate-fadeUp" style={{ animationDelay: "0.2s" }}>
+              <Link href="/get-started" data-testid="hero-cta-join" className="btn-primary">Join ValueWeave →</Link>
+              <Link href="/signin" data-testid="hero-cta-signin" className="btn-secondary">Sign in</Link>
             </div>
-            <div className="flex items-center gap-3 mt-10 animate-fadeUp" style={{ animationDelay: "0.3s" }}>
-              <div className="flex">
-                {["🧑‍💻","👩‍🔬","🧑‍🌾","👩‍🔧","🧑‍🎨"].map((e, i) => (
-                  <div key={i} className="w-9 h-9 rounded-full border-2 border-white flex items-center justify-center text-base" style={{ background: `hsl(${i * 35 + 20},80%,88%)`, marginLeft: i ? -10 : 0 }}>{e}</div>
-                ))}
-              </div>
-              <div>
-                <div className="font-display font-bold text-sm">2,400+ builders joined</div>
-                <div className="text-xs text-muted">across 29 states · growing daily</div>
-              </div>
+            <div className="mb-8 animate-fadeUp" style={{ animationDelay: "0.25s" }}>
+              <Link href="/explore" data-testid="hero-cta-explore" className="inline-flex items-center gap-1.5 text-sm font-display font-semibold text-teal-700 hover:text-teal-800">
+                Explore opportunities →
+              </Link>
             </div>
+
+            {/* Trust signals */}
+            <ul className="flex flex-wrap gap-x-5 gap-y-2 animate-fadeUp" style={{ animationDelay: "0.3s" }}>
+              <li className="inline-flex items-center gap-1.5 text-xs sm:text-sm text-muted">
+                <Shield size={14} className="text-teal-600" /> Google-authenticated profiles
+              </li>
+              <li className="inline-flex items-center gap-1.5 text-xs sm:text-sm text-muted">
+                <Smartphone size={14} className="text-teal-600" /> Mobile-first
+              </li>
+              <li className="inline-flex items-center gap-1.5 text-xs sm:text-sm text-muted">
+                <Sparkles size={14} className="text-teal-600" /> Free to join
+              </li>
+            </ul>
           </div>
 
-          {/* Right illustration — floating cards around central hub */}
+          {/* Right illustration */}
           <div className="relative h-[440px] hidden md:block">
             <div className="absolute inset-0 m-auto w-72 h-72 rounded-[60%_40%_30%_70%/60%_30%_70%_40%] bg-gradient-to-br from-amber-500/15 to-teal-500/15" />
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="relative w-24 h-24 rounded-full bg-gradient-to-br from-amber-500 to-yellow-400 flex items-center justify-center shadow-2xl shadow-amber-500/40">
+              <div className="relative w-24 h-24 rounded-full bg-gradient-to-br from-amber-500 to-yellow-400 flex items-center justify-center shadow-xl shadow-amber-500/30">
                 <svg width="44" height="44" viewBox="0 0 24 24" fill="none"><path d="M12 3L4 7.5V16.5L12 21L20 16.5V7.5L12 3Z" stroke="#fff" strokeWidth="1.8" strokeLinejoin="round"/><path d="M4 7.5L12 12M12 12L20 7.5M12 12V21" stroke="#fff" strokeWidth="1.8" strokeLinecap="round"/></svg>
                 <span className="absolute -inset-2 rounded-full border-2 border-amber-500/30 animate-ping" />
               </div>
@@ -72,24 +83,64 @@ export default function LandingPage() {
             ].map((c, i) => (
               <div
                 key={i}
-                className={`absolute ${c.bg} border ${c.border} rounded-2xl px-3 py-2 flex items-center gap-2 shadow-md animate-float`}
+                className={`absolute ${c.bg} border ${c.border} rounded-2xl px-3 py-2 flex items-center gap-2 shadow-sm animate-float`}
                 style={{ top: c.top, left: c.left, right: c.right, bottom: c.bottom, animationDelay: `${i * 0.5}s` }}
               >
                 <span className="text-xl">{c.emoji}</span>
-                <span className="text-xs font-semibold text-ink whitespace-nowrap">{c.label}</span>
+                <span className="text-xs font-display font-semibold text-ink whitespace-nowrap">{c.label}</span>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* How it works */}
-      <section id="how" className="bg-warm py-24 px-6">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-14">
-            <span className="chip bg-teal-100 text-teal-600 mb-4">HOW IT WORKS</span>
+      {/* Why ValueWeave Exists */}
+      <section id="why" className="bg-warm py-20 sm:py-24 px-4 sm:px-6">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-12">
+            <span className="chip bg-teal-100 text-teal-600 mb-4">WHY VALUEWEAVE EXISTS</span>
             <h2 className="h-section">
-              From "I have an idea" to<br /><span className="text-teal-500">"We built it."</span>
+              The collaboration gap in<br />
+              <span className="text-teal-500">India's grassroots economy.</span>
+            </h2>
+            <p className="mt-5 text-muted max-w-2xl mx-auto text-base sm:text-lg leading-relaxed">
+              Millions of brilliant minds across India aren't held back by lack of skill — they're held back by lack of the right connections.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-5">
+            <GapCard
+              icon="🔍"
+              title="Talent without visibility"
+              desc="A diploma-holder electrician in Nashik, a coder in Bhopal, a baker in Coimbatore — full of skill, invisible to the people who'd build with them."
+            />
+            <GapCard
+              icon="💡"
+              title="Ideas without teams"
+              desc="Founders in tier-2 cities have ambition and insight, but no easy way to find a co-founder or first team-mate locally."
+            />
+            <GapCard
+              icon="🤝"
+              title="Trust without proof"
+              desc="LinkedIn rewards titles; Fiverr rewards bidding. Neither rewards real collaboration. We're building the third option."
+            />
+          </div>
+
+          <div className="text-center mt-12">
+            <p className="font-display font-bold text-lg max-w-2xl mx-auto leading-snug text-ink">
+              ValueWeave is the missing bridge — between skill and opportunity, between ambition and team, between idea and execution.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* How it works */}
+      <section id="how" className="py-20 sm:py-24 px-4 sm:px-6">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <span className="chip bg-amber-100 text-amber-700 mb-4">HOW IT WORKS</span>
+            <h2 className="h-section">
+              From "I have an idea" to<br /><span className="text-amber-500">"We built it."</span>
             </h2>
             <p className="mt-4 text-muted max-w-lg mx-auto">Four simple steps to find your people and bring ideas to life.</p>
           </div>
@@ -100,7 +151,7 @@ export default function LandingPage() {
               { n: "03", icon: "🤝", t: "Connect Directly", d: "Send collaboration requests and chat with builders. No middlemen, no fees." },
               { n: "04", icon: "🚀", t: "Build Together", d: "Form your team, define your project, and launch from your hometown." },
             ].map((s) => (
-              <div key={s.n} className="card-base p-6 hover:-translate-y-1 hover:shadow-xl transition-all">
+              <div key={s.n} className="card-base p-6 hover:-translate-y-1 hover:shadow-lg transition-all">
                 <div className="text-4xl mb-4">{s.icon}</div>
                 <div className="w-9 h-9 rounded-full bg-gradient-to-br from-amber-500 to-yellow-400 text-white font-display font-extrabold text-sm flex items-center justify-center mb-3">{s.n}</div>
                 <h3 className="font-display font-bold text-base mb-2">{s.t}</h3>
@@ -111,10 +162,10 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Opportunity Categories */}
-      <section className="py-24 px-6">
+      {/* Categories */}
+      <section className="bg-warm py-20 sm:py-24 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-14">
+          <div className="text-center mb-12">
             <span className="chip bg-amber-100 text-amber-700 mb-4">EVERY SKILL HAS A HOME</span>
             <h2 className="h-section">
               Built for India's <span className="text-amber-500">builders.</span>
@@ -131,37 +182,101 @@ export default function LandingPage() {
               { e: "🔧", l: "Trades", c: "bg-yellow-50" },
               { e: "📱", l: "Digital", c: "bg-sky-50" },
             ].map((c) => (
-              <div key={c.l} className={`${c.c} rounded-2xl p-5 text-center border border-stone-100 hover:-translate-y-1 hover:shadow-md transition-all`}>
+              <div key={c.l} className={`${c.c} rounded-2xl p-5 text-center border border-stone-100 hover:-translate-y-1 hover:shadow-sm transition-all`}>
                 <div className="text-3xl mb-2">{c.e}</div>
                 <div className="font-display font-bold text-sm">{c.l}</div>
               </div>
             ))}
           </div>
+          <div className="text-center mt-10">
+            <Link href="/explore" className="btn-secondary">Explore opportunities →</Link>
+          </div>
         </div>
       </section>
 
       {/* Final CTA */}
-      <section className="bg-ink text-white py-24 px-6 relative overflow-hidden">
+      <section className="bg-ink text-white py-20 sm:py-24 px-4 sm:px-6 relative overflow-hidden">
         <div className="absolute -top-20 -right-20 w-80 h-80 rounded-full bg-amber-500/20 blur-3xl" />
         <div className="absolute -bottom-20 -left-20 w-96 h-96 rounded-full bg-teal-500/20 blur-3xl" />
         <div className="max-w-3xl mx-auto text-center relative">
-          <span className="chip bg-amber-500/20 text-amber-300 border border-amber-500/30 mb-6">OUR MISSION</span>
-          <h2 className="h-hero mb-6">
-            Be part of the<br />
-            <span className="bg-gradient-to-r from-amber-500 via-yellow-400 to-teal-500 bg-clip-text text-transparent">first wave.</span>
+          <span className="chip bg-amber-500/20 text-amber-300 border border-amber-500/30 mb-5">JOIN THE FIRST WAVE</span>
+          <h2 className="font-display font-extrabold text-4xl sm:text-5xl md:text-6xl tracking-tight leading-[1.05] mb-5">
+            Start building with<br />
+            <span className="bg-gradient-to-r from-amber-500 via-yellow-400 to-teal-500 bg-clip-text text-transparent">your people.</span>
           </h2>
-          <p className="text-white/60 text-lg mb-10 leading-relaxed">
-            Join 2,400+ early builders shaping India's next collaboration platform.
+          <p className="text-white/60 text-base sm:text-lg mb-9 leading-relaxed">
+            Free to join. Google sign-in. Mobile-first. Built for Bharat.
           </p>
-          <Link href="/get-started" data-testid="footer-cta" className="btn-primary !px-8 !py-4 text-base">
-            Get Early Access ✨
-          </Link>
+          <div className="flex items-center justify-center gap-3 flex-wrap">
+            <Link href="/get-started" data-testid="footer-cta-join" className="btn-primary !px-7 !py-3.5 text-base">
+              Join ValueWeave ✨
+            </Link>
+            <Link href="/signin" data-testid="footer-cta-signin" className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/15 border border-white/20 text-white rounded-full px-7 py-3.5 font-display font-semibold text-base transition-colors min-h-[44px]">
+              Sign in
+            </Link>
+          </div>
         </div>
       </section>
 
-      <footer className="bg-[#141210] text-white/50 py-8 px-6 text-center text-sm">
-        © 2025 ValueWeave · Made with ❤️ for Bharat
+      {/* Footer */}
+      <footer className="bg-[#141210] text-white/60 py-14 px-4 sm:px-6">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid md:grid-cols-4 gap-10 mb-10">
+            <div>
+              <div className="flex items-center gap-2.5 mb-4">
+                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-amber-500 to-yellow-400 flex items-center justify-center">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3L4 7.5V16.5L12 21L20 16.5V7.5L12 3Z" stroke="#fff" strokeWidth="2" strokeLinejoin="round"/><path d="M4 7.5L12 12M12 12L20 7.5M12 12V21" stroke="#fff" strokeWidth="2" strokeLinecap="round"/></svg>
+                </div>
+                <span className="font-display font-extrabold text-white text-lg">Value<span className="text-amber-500">Weave</span></span>
+              </div>
+              <p className="text-sm leading-relaxed max-w-xs">
+                India's collaboration & opportunity platform. Built for Bharat builders.
+              </p>
+            </div>
+            <FooterCol
+              title="About"
+              text="ValueWeave is a collaboration platform helping ambitious people across India discover co-builders, opportunities, and meaningful startup or business connections. Built for students, professionals, local entrepreneurs, skilled workers, and builders from every part of Bharat."
+              more={{ href: "/about", label: "Read more →" }}
+            />
+            <FooterCol
+              title="Privacy"
+              text="We collect only essential information required to operate the platform, including profile details and authentication data. We do not sell personal information. Public profile and opportunity visibility is controlled through platform settings."
+              more={{ href: "/privacy", label: "Full policy →" }}
+            />
+            <FooterCol
+              title="Terms"
+              text="By using ValueWeave, users agree to provide accurate information, avoid spam or misuse, respect other users, and avoid fraudulent or harmful content. We may moderate content and suspend abusive accounts."
+              more={{ href: "/terms", label: "Full terms →" }}
+            />
+          </div>
+          <div className="border-t border-white/10 pt-6 flex flex-wrap items-center justify-between gap-3">
+            <p className="text-xs">© 2026 ValueWeave · Made with ❤️ for Bharat</p>
+            <div className="flex items-center gap-5 text-xs">
+              <a href="mailto:valueweave.team@gmail.com" data-testid="footer-contact" className="hover:text-amber-400">Contact: valueweave.team@gmail.com</a>
+            </div>
+          </div>
+        </div>
       </footer>
+    </div>
+  );
+}
+
+function GapCard({ icon, title, desc }) {
+  return (
+    <div className="card-base p-6 hover:-translate-y-1 hover:shadow-md transition-all">
+      <div className="text-4xl mb-3">{icon}</div>
+      <h3 className="font-display font-bold text-base mb-2">{title}</h3>
+      <p className="text-sm text-muted leading-relaxed">{desc}</p>
+    </div>
+  );
+}
+
+function FooterCol({ title, text, more }) {
+  return (
+    <div>
+      <h4 className="font-display font-bold text-white text-xs uppercase tracking-wider mb-3">{title}</h4>
+      <p className="text-sm leading-relaxed mb-3">{text}</p>
+      {more && <Link href={more.href} className="text-xs text-amber-400 hover:text-amber-300 font-display font-semibold">{more.label}</Link>}
     </div>
   );
 }

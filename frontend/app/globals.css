@@ -21,13 +21,13 @@ h1, h2, h3, h4, .font-display {
 
 @layer components {
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-600 active:bg-amber-700 text-white rounded-full px-6 py-3 font-display font-bold text-sm shadow-lg shadow-amber-500/30 transition-all hover:-translate-y-0.5 min-h-[44px];
+    @apply inline-flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-600 active:bg-amber-700 text-white rounded-full px-6 py-3 font-display font-bold text-sm shadow-md shadow-amber-500/20 transition-all hover:-translate-y-0.5 min-h-[44px];
   }
   .btn-secondary {
     @apply inline-flex items-center justify-center gap-2 bg-white hover:bg-amber-50 active:bg-amber-100 border-2 border-stone-200 hover:border-amber-500 text-ink rounded-full px-6 py-3 font-display font-semibold text-sm transition-all hover:-translate-y-0.5 min-h-[44px];
   }
   .btn-teal {
-    @apply inline-flex items-center justify-center gap-2 bg-teal-500 hover:bg-teal-600 active:bg-teal-700 text-white rounded-full px-6 py-3 font-display font-bold text-sm shadow-lg shadow-teal-500/30 transition-all hover:-translate-y-0.5 min-h-[44px];
+    @apply inline-flex items-center justify-center gap-2 bg-teal-500 hover:bg-teal-600 active:bg-teal-700 text-white rounded-full px-6 py-3 font-display font-bold text-sm shadow-md shadow-teal-500/20 transition-all hover:-translate-y-0.5 min-h-[44px];
   }
   .btn-ghost {
     @apply inline-flex items-center justify-center gap-2 bg-transparent hover:bg-stone-100 text-ink rounded-full px-5 py-2.5 font-display font-semibold text-sm transition-colors min-h-[40px];

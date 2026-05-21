@@ -49,6 +49,15 @@ ValueWeave is a collaboration and opportunity discovery platform for India's tie
 - iteration_1 (initial build): 100% functional, 2 minor mobile responsive fixes applied
 - iteration_2 (typography + public share + diversified suggestions): 12/12 100% pass
 - iteration_3 (smart auth + trust polish + legal pages): 13/13 100% pass
+- iteration_4 (Bharat-rebalance + trust-first connection UX): 13/13 100% pass
+
+## Iteration 4 changes (2026-01)
+- **Bharat-balanced landing labels:** AI · Hyderabad, Agri · Warangal, Retail · Vijayawada, EV · Coimbatore
+- **Why-section copy:** mentions Warangal, Vizag, Guntur, Hyderabad, Vijayawada, Coimbatore
+- **Onboarding + Post-Opportunity placeholders:** "Hyderabad, Telangana"
+- **Trust-first connections:** No auto-reveal of phone/email/WhatsApp. Accepted state shows soft-green styling + explicit helper: "Connection accepted. You can now safely share contact details if you'd like to collaborate further. ValueWeave keeps contact sharing manual to protect your privacy."
+- **OpportunityCard:** prominent 3-tag header row (category · collaboration_type · commitment) + MapPin location pill
+- **Dashboard feed nearby boost:** Items whose location substring-matches user's city are floated to the top with a "Nearby" badge (`data-testid=opp-nearby-*`). Otherwise newest-first.
 
 ## Backlog
 ### P0

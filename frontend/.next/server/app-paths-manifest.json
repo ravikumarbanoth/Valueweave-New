@@ -1,11 +1,8 @@
 {
   "/page": "app/page.js",
-  "/signin/page": "app/signin/page.js",
-  "/get-started/page": "app/get-started/page.js",
   "/explore/page": "app/explore/page.js",
+  "/signin/page": "app/signin/page.js",
   "/about/page": "app/about/page.js",
   "/privacy/page": "app/privacy/page.js",
-  "/terms/page": "app/terms/page.js",
-  "/opportunities/[id]/page": "app/opportunities/[id]/page.js",
-  "/profile/[userId]/page": "app/profile/[userId]/page.js"
+  "/terms/page": "app/terms/page.js"
 }

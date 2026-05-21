@@ -1,4 +1,4 @@
-import { LegalShell } from "../about/page";
+import LegalShell from "@/components/LegalShell";
 
 export const metadata = { title: "Terms — ValueWeave" };
 

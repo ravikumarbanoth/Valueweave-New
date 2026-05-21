@@ -8,59 +8,64 @@ ValueWeave is a collaboration and opportunity discovery platform for India's tie
 - **Backend / DB / Auth:** Supabase (Postgres + RLS + Google OAuth)
 - **No separate backend service**
 - **Styling:** Tailwind CSS, mobile-first
-- **Deployment:** Vercel (frontend) — Supabase manages the rest
+- **Typography:** Plus Jakarta Sans (display) + Inter (body) via next/font
+- **Deployment:** Vercel — production at https://valueweave.in
 
 ## Users
 Students · Unemployed youth · AI learners · Local entrepreneurs · Skilled workers · Freelancers · Startup builders · Tier-2/3 opportunity seekers
 
-## What's been implemented (MVP v1 — 2026-01)
-1. **Landing page** — Hero, How It Works (4 steps), Opportunity Categories (8), Final CTA. Warm amber/teal palette, Syne + DM Sans, lightweight CSS animations.
-2. **Get Started** — 8 intent cards, intent stored in localStorage + Supabase profile after OAuth.
-3. **Authentication** — Supabase Google OAuth (Email OTP deferred to v2). `/auth/callback` exchanges code → routes to `/onboarding` or `/dashboard`.
-4. **Protected route middleware** — `/dashboard`, `/onboarding`, `/opportunities`, `/profile`, `/connections` redirect unauthenticated users to `/`.
-5. **Onboarding** — Lightweight profile: name, city, skills (chip input), interests, looking_for, short bio.
-6. **Dashboard / Feed** — Opportunity list with category filter (8 categories), keyword search.
-7. **Post Opportunity** — Title, description, category, skills_needed, location, collaboration_type, commitment.
-8. **Opportunity Detail** — Full view + Connect modal (one request per opportunity per user). Owner can delete.
-9. **Profile** — Mine (editable) + others (`/profile/[userId]`). Shows skills, interests, looking_for, posted opportunities.
-10. **Connections** — Received/Sent tabs, accept/decline. Status: pending/accepted/rejected.
-11. **Database schema** — `/app/frontend/supabase_schema.sql` with RLS policies (public read profiles/opportunities, owner-only writes, recipient-only status updates).
-12. **Reusable components** — `AppNavbar` (desktop top + mobile bottom nav), `OpportunityCard`, chip inputs.
+## Implemented (v1 — 2026-01)
+### Core flows
+- Landing page (hero, how-it-works, categories, final CTA, footer) — "29 states" copy
+- Get Started intent selection (8 cards) → Google OAuth via Supabase
+- `/auth/callback` route exchanges code → routes to `/onboarding` or `/dashboard`
+- Lightweight Onboarding (name, city, skills, interests, looking_for, bio)
+- Dashboard / Feed with category filter (8) + keyword search + skeleton loader + profile completion banner
+- Post Opportunity
+- **Public** Opportunity Detail (`/opportunities/[id]`) with WhatsApp + Copy-link Share, anon sign-in CTA
+- **Public** User Profile (`/profile/[userId]`) with Share buttons + anon "Join" CTA
+- My Profile (`/profile`) — editable via re-onboarding
+- Connections — Sent/Received tabs, accept/decline
 
-## Action items for user (required for the app to actually work end-to-end)
-1. **Run schema SQL** — Supabase Dashboard → SQL Editor → paste `/app/frontend/supabase_schema.sql` → Run.
-2. **Enable Google OAuth** — Supabase → Authentication → Providers → Google → enable. Add Google OAuth client ID + secret (follow Supabase's official guide).
-3. **Add allowed redirect URLs** — Supabase → Authentication → URL Configuration → add:
-   - `https://6ae7e30c-6a13-4f33-9a2b-6cf1a1124a32.preview.emergentagent.com/auth/callback`
-   - Your Vercel domain `/auth/callback`
-   - `http://localhost:3000/auth/callback` (for local dev)
+### Polish & infra
+- Auth-aware AppNavbar (anon shows Sign-in/Join, authed shows Feed/Post/Inbox/Profile + bottom mobile nav with safe-area inset)
+- Logo always navigates home (`/` for anon, `/dashboard` for authed)
+- All URLs dynamic via `window.location.origin` and request origin — no localhost/vercel.app hardcodes
+- `metadataBase: https://valueweave.in` for OG tags
+- 44px min touch targets, `pb-[max(0.375rem,env(safe-area-inset-bottom))]` on mobile nav
+- Skeleton loaders (FeedSkeleton)
+- Diversified skill (35) + interest (23) suggestions covering local-business, trades, Bharat-ecosystem
+- Supabase schema in `supabase_schema.sql` with RLS (public read, owner-write)
 
-## Prioritized Backlog
-### P0 (do next session)
-- Email OTP sign-in (alternative to Google) — Supabase native, low effort.
-- Public read for opportunity detail and other-user profile (unauth viewers see the page; only "Connect" needs auth). Today middleware blocks them.
-- "My opportunities" inline editing.
-- Better empty states and skeleton loaders.
+## Action items for user (production)
+1. Schema applied ✅ (production auth confirmed working)
+2. Google OAuth enabled in Supabase ✅
+3. Redirect URLs configured ✅ (https://valueweave.in/auth/callback)
+
+## Backlog
+### P0 (next session candidates)
+- Email OTP fallback (Supabase native)
+- Profile picture upload (Supabase Storage)
+- Connection acceptance reveals contact (email or WhatsApp link)
+- Realtime connection inbox badge
 
 ### P1
-- Image upload on profile (Supabase Storage).
-- Basic notifications (badge for unread connection requests).
-- Filter feed by location.
-- Connection acceptance opens a contact reveal (email or chat link).
-- Vercel Analytics or Plausible for onboarding dropoff.
+- Filter feed by location
+- "Suggested opportunities" based on profile skills/interests
+- Mentor flag
+- SEO: server-render opportunity detail + profile (currently client-rendered)
+- Vercel Analytics
 
 ### P2
-- AI smart matching ("opportunities for you" based on skills/interests)
-- Mentor flag on profiles
-- Local-language support (Hindi/Marathi first)
-- Trust badges / reputation score from completed connections
+- AI smart matching
+- Local-language support (Hindi/Marathi)
+- Trust badges / reputation from completed connections
 - In-app messaging
 
-## Known limitations / not implemented
-- No Email OTP (deferred per user instruction).
-- Resend / email automation deferred.
-- No analytics yet.
-- Connection updates require a manual page refresh (no realtime; could add Supabase Realtime later).
-
 ## Tech debt
-- `profile/[userId]/page.js` imports `ProfileView` from `../page` which is a Next.js anti-pattern (importing client components across route segments). Acceptable for now; should be moved to `/components/ProfileView.jsx` in next refactor.
+- `/profile/[userId]/page.js` imports `ProfileView` from `../page` (cross-segment). Move to `/components/ProfileView.jsx` next refactor.
+- AppNavbar creates a new supabase client on each render — memoize.
+
+## Test pass history
+- iteration_1: 100% functional, 2 mobile overflow fixes applied
+- iteration_2: 100% (12/12) polish-pass items verified — typography migration, public pages, '29 states', diversified suggestions, no hardcoded URLs, mobile UX

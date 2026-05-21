@@ -130,7 +130,7 @@ export default function OnboardingPage() {
               value={skillInput}
               onChange={setSkillInput}
               onAdd={(v) => addToList("skills", v, setSkillInput)}
-              suggestions={SKILL_SUGGESTIONS.filter(s => !form.skills.includes(s)).slice(0, 14)}
+              suggestions={SKILL_SUGGESTIONS.filter(s => !form.skills.includes(s)).slice(0, 18)}
             />
             <Chips items={form.skills} onRemove={(v) => removeFromList("skills", v)} testidPrefix="skill-chip" tone="amber" />
           </Field>
@@ -141,7 +141,7 @@ export default function OnboardingPage() {
               value={interestInput}
               onChange={setInterestInput}
               onAdd={(v) => addToList("interests", v, setInterestInput)}
-              suggestions={INTEREST_SUGGESTIONS.filter(s => !form.interests.includes(s)).slice(0, 14)}
+              suggestions={INTEREST_SUGGESTIONS.filter(s => !form.interests.includes(s)).slice(0, 16)}
             />
             <Chips items={form.interests} onRemove={(v) => removeFromList("interests", v)} testidPrefix="interest-chip" tone="teal" />
           </Field>

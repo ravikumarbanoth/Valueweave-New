@@ -31,11 +31,11 @@ export default function LandingPage() {
               <span className="w-2 h-2 rounded-full bg-amber-500 ring-4 ring-amber-500/20" />
               <span className="text-xs font-semibold text-amber-700">Now Open for Early Access · Bharat Edition</span>
             </div>
-            <h1 className="font-display font-extrabold text-5xl md:text-6xl leading-[1.05] tracking-tight mb-6 animate-fadeUp">
+            <h1 className="h-hero mb-6 animate-fadeUp">
               Where Ambition<br />
               <span className="bg-gradient-to-r from-amber-500 via-yellow-400 to-teal-500 bg-clip-text text-transparent">Finds Its Team.</span>
             </h1>
-            <p className="text-lg text-muted leading-relaxed mb-8 max-w-md animate-fadeUp" style={{ animationDelay: "0.1s" }}>
+            <p className="text-base sm:text-lg text-muted leading-relaxed mb-8 max-w-md animate-fadeUp" style={{ animationDelay: "0.1s" }}>
               ValueWeave connects India's youth, students, and skilled builders to discover collaborators, form startup teams, and create real economic opportunities — from tier-2 towns to global ambitions.
             </p>
             <div className="flex flex-wrap gap-3 animate-fadeUp" style={{ animationDelay: "0.2s" }}>
@@ -50,7 +50,7 @@ export default function LandingPage() {
               </div>
               <div>
                 <div className="font-display font-bold text-sm">2,400+ builders joined</div>
-                <div className="text-xs text-muted">across 28 states · growing daily</div>
+                <div className="text-xs text-muted">across 29 states · growing daily</div>
               </div>
             </div>
           </div>
@@ -88,7 +88,7 @@ export default function LandingPage() {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-14">
             <span className="chip bg-teal-100 text-teal-600 mb-4">HOW IT WORKS</span>
-            <h2 className="font-display font-extrabold text-4xl md:text-5xl tracking-tight leading-tight">
+            <h2 className="h-section">
               From "I have an idea" to<br /><span className="text-teal-500">"We built it."</span>
             </h2>
             <p className="mt-4 text-muted max-w-lg mx-auto">Four simple steps to find your people and bring ideas to life.</p>
@@ -116,7 +116,7 @@ export default function LandingPage() {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-14">
             <span className="chip bg-amber-100 text-amber-700 mb-4">EVERY SKILL HAS A HOME</span>
-            <h2 className="font-display font-extrabold text-4xl md:text-5xl tracking-tight leading-tight">
+            <h2 className="h-section">
               Built for India's <span className="text-amber-500">builders.</span>
             </h2>
           </div>
@@ -146,7 +146,7 @@ export default function LandingPage() {
         <div className="absolute -bottom-20 -left-20 w-96 h-96 rounded-full bg-teal-500/20 blur-3xl" />
         <div className="max-w-3xl mx-auto text-center relative">
           <span className="chip bg-amber-500/20 text-amber-300 border border-amber-500/30 mb-6">OUR MISSION</span>
-          <h2 className="font-display font-extrabold text-4xl md:text-6xl tracking-tight leading-[1.05] mb-6">
+          <h2 className="h-hero mb-6">
             Be part of the<br />
             <span className="bg-gradient-to-r from-amber-500 via-yellow-400 to-teal-500 bg-clip-text text-transparent">first wave.</span>
           </h2>

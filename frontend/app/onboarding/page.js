@@ -3,8 +3,20 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase-browser";
 
-const SKILL_SUGGESTIONS = ["Python","JavaScript","React","Design","Marketing","Sales","AI/ML","Mobile Dev","Content","Electronics","Agriculture","Finance","Operations","Writing","Video","Drone Piloting","EV Tech","Carpentry","Electrical","Photography"];
-const INTEREST_SUGGESTIONS = ["AI","SaaS","Sustainability","EdTech","FinTech","AgriTech","HealthTech","Climate","Local commerce","Creator economy","Open source","Hardware"];
+const SKILL_SUGGESTIONS = [
+  // Local business & trades
+  "Retail","Sales","Teaching","Farming","Dairy","Food Business","Logistics","Construction","Electrical Work","Repair Services",
+  "Photography","Video Editing","Printing","Tailoring","Event Management","Coaching","Handicrafts","Beauty & Wellness","Bakery",
+  "Local Marketing","Distribution","Real Estate","Mechanical Work","Automobile Services",
+  // Tech & digital
+  "Python","JavaScript","React","Design","Marketing","AI/ML","Mobile Dev","Content","Operations","Writing","Drone Piloting","EV Tech",
+];
+
+const INTEREST_SUGGESTIONS = [
+  "Small Business","Local Commerce","AgriTech","Rural Innovation","Franchise","Manufacturing","Skill Development","Community Building",
+  "Digital Business","Financial Literacy","Local Services","Entrepreneurship","Self Employment","Youth Collaboration","Regional Startups",
+  "EdTech","FinTech","HealthTech","Sustainability","Climate","Creator economy","Open source","Hardware",
+];
 
 const LOOKING_FOR_OPTIONS = [
   ["find-collaborators","Find Collaborators"],
@@ -118,7 +130,7 @@ export default function OnboardingPage() {
               value={skillInput}
               onChange={setSkillInput}
               onAdd={(v) => addToList("skills", v, setSkillInput)}
-              suggestions={SKILL_SUGGESTIONS.filter(s => !form.skills.includes(s)).slice(0, 8)}
+              suggestions={SKILL_SUGGESTIONS.filter(s => !form.skills.includes(s)).slice(0, 14)}
             />
             <Chips items={form.skills} onRemove={(v) => removeFromList("skills", v)} testidPrefix="skill-chip" tone="amber" />
           </Field>
@@ -129,7 +141,7 @@ export default function OnboardingPage() {
               value={interestInput}
               onChange={setInterestInput}
               onAdd={(v) => addToList("interests", v, setInterestInput)}
-              suggestions={INTEREST_SUGGESTIONS.filter(s => !form.interests.includes(s)).slice(0, 8)}
+              suggestions={INTEREST_SUGGESTIONS.filter(s => !form.interests.includes(s)).slice(0, 14)}
             />
             <Chips items={form.interests} onRemove={(v) => removeFromList("interests", v)} testidPrefix="interest-chip" tone="teal" />
           </Field>

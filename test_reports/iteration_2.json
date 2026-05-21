@@ -1,0 +1,39 @@
+{
+  "summary": "Frontend-only polish-pass verification on Next.js preview. All 12 review items verified live or via source. Typography (Plus Jakarta Sans display + Inter body), '29 states' copy, AppNavbar anon/auth aware logic, public opportunity & profile pages (status 200, 'not found' empty state with sign-in CTA), protected routes redirect (307 -> /?auth=required), no hardcoded localhost/127.0.0.1/vercel.app URLs in app/components/lib, ShareButton component wiring, onboarding diversified Bharat-friendly skill (24)/interest (23) arrays, dashboard profile-completion-banner conditional, and 375px mobile responsiveness all PASS. Iteration-1 mobile overflow bugs are fixed (landing nav fits, /get-started h1 wraps cleanly).",
+  "backend_issues": { "critical": [], "minor": [] },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "verified_checks": [
+    "Typography: h1 computed font = '__Plus_Jakarta_Sans_a11773 ...' and body/p = '__Inter_fa2f99 ...' on landing (also applied via root html className in app/layout.js so propagates to /get-started and public /opportunities/[id]).",
+    "Landing copy: 'across 29 states · growing daily' present (28 not found).",
+    "Desktop CTA: 'Join Early Access →' visible top-right. Mobile 375px: shorter 'Join →' / 'Join' label visible and not clipped (scrollWidth==clientWidth==375).",
+    "Public /opportunities/00000000-0000-0000-0000-000000000000 -> HTTP 200 (no 307). UI shows 'Opportunity not found' card + 'Back to home' button + AppNavbar with logo->/ and Sign-in/Join CTA.",
+    "Public /profile/00000000-0000-0000-0000-000000000000 -> HTTP 200. Shows 'Profile not found' + 'Back to home'.",
+    "Protected routes 307 -> /?auth=required confirmed for: /dashboard, /onboarding, /opportunities/new, /profile (exact), /connections.",
+    "/get-started mobile 375px: no horizontal overflow (scrollWidth==clientWidth).",
+    "Onboarding source (app/onboarding/page.js) contains all 17 required skill terms (Retail, Sales, Teaching, Farming, Dairy, Food Business, Logistics, Construction, Electrical Work, Repair Services, Photography, Video Editing, Printing, Tailoring, Event Management, Coaching, Handicrafts) and all 15 required interest terms (Small Business, Local Commerce, AgriTech, Rural Innovation, Franchise, Manufacturing, Skill Development, Community Building, Digital Business, Financial Literacy, Local Services, Entrepreneurship, Self Employment, Youth Collaboration, Regional Startups). Total 35 skills + 23 interests in constants.",
+    "ShareButton component (components/ShareButton.jsx) exports buttons with data-testid 'share-copy-link' and 'share-whatsapp'; WhatsApp uses correct https://wa.me/?text=... deeplink pattern. Imported and rendered in opportunities/[id]/page.js (line 113) wrapped by `if (opp)` so it only shows when opportunity exists — correct behaviour.",
+    "AppNavbar: when anon on /opportunities/<id> & /profile/<id>, navbar renders Home + Sign in/Join (data-testid=nav-public-signin) and logo href=/ (verified live). When authed (per code review), renders Feed/Post/Inbox/Profile NavItems plus user dropdown with logout, plus mobile bottom-bar (md:hidden fixed bottom-0). Logo href becomes /dashboard when authed.",
+    "Hardcoded URL grep across /app/frontend/app, /components, /lib for 'localhost|127.0.0.1|vercel.app' returned 0 matches. metadataBase='https://valueweave.in' in layout.js (allowed).",
+    "Dashboard profile-completion-banner: renders only when `profile && pct < 100` (app/dashboard/page.js line 91); navigates to /onboarding; gradient progress bar uses pct correctly. Cannot exercise live without auth seed but conditional logic is correct."
+  ],
+  "test_report_links": ["/app/test_reports/iteration_2.json"],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "ChipInput suggestions are sliced to first 14 (.slice(0,14)) in onboarding/page.js lines 133,144. The first 14 of SKILL_SUGGESTIONS cover Retail..Tailoring; Event Management/Coaching/Handicrafts (indices 14-16) will only appear after the user adds earlier ones (filter pushes them up). This is acceptable UX, but if you want all 17 requested local-business skills immediately visible, raise the slice to 0,18 or 0,20. Same applies to interests: first 14 of 23 include all 15 required terms except 'Regional Startups' (index 14) — it will only appear after the user picks one suggestion. Recommend bumping interest slice to .slice(0,16) so 'Regional Startups' is always visible by default.",
+    "ShareButton.shareUrl uses `new URL(url, window.location.origin)` — on SSR pass the prop is the raw relative path '/opportunities/<id>' which is rendered fine since the component is 'use client'. ✓",
+    "middleware.js requiresAuth() logic is now correct: only exact /profile is protected (so /profile/<userId> stays public), /opportunities/new is protected but /opportunities/<id> stays public. Matches review intent.",
+    "AppNavbar useEffect dependency [supabase, initialProfile] — supabase is a new client instance per render; consider memoizing via useMemo or moving createClient() outside the component to avoid re-running the effect. Minor perf nit, not a bug."
+  ],
+  "updated_files": [],
+  "success_rate": { "backend": "N/A (intentionally stopped)", "frontend": "100% (12/12 review items verified)" },
+  "test_credentials": "/app/memory/test_credentials.md not populated — not needed; preview Google OAuth is not whitelisted, per user instructions we skipped live sign-in attempts.",
+  "seed_data_creation": "None.",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "All polish-pass items pass. The only optional improvement is increasing the suggestion slice from .slice(0,14) to .slice(0,16) or .slice(0,18) in onboarding/page.js so the last few requested terms (Event Management, Coaching, Handicrafts on skills; Regional Startups on interests) are visible without scroll/filter. For full E2E auth + dashboard banner verification, the user must enable Google OAuth provider on the preview URL or provide seeded session cookies / a magic-link test path.",
+  "rca of the issue": "N/A — no functional bugs found."
+}

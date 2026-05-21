@@ -1,24 +1,39 @@
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600;700&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --font-display-fallback: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-body-fallback: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
 html, body { background: #FFFBF5; color: #1C1917; }
-body { font-family: 'DM Sans', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+body {
+  font-family: var(--font-body), var(--font-body-fallback);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "cv11", "ss01";
+}
+h1, h2, h3, h4, .font-display {
+  font-family: var(--font-display), var(--font-display-fallback);
+  letter-spacing: -0.02em;
+}
 
 @layer components {
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-600 text-white rounded-full px-6 py-3 font-display font-bold text-sm shadow-lg shadow-amber-500/30 transition-all hover:-translate-y-0.5;
+    @apply inline-flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-600 active:bg-amber-700 text-white rounded-full px-6 py-3 font-display font-bold text-sm shadow-lg shadow-amber-500/30 transition-all hover:-translate-y-0.5 min-h-[44px];
   }
   .btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 bg-white hover:bg-amber-50 border-2 border-stone-200 hover:border-amber-500 text-ink rounded-full px-6 py-3 font-display font-semibold text-sm transition-all hover:-translate-y-0.5;
+    @apply inline-flex items-center justify-center gap-2 bg-white hover:bg-amber-50 active:bg-amber-100 border-2 border-stone-200 hover:border-amber-500 text-ink rounded-full px-6 py-3 font-display font-semibold text-sm transition-all hover:-translate-y-0.5 min-h-[44px];
   }
   .btn-teal {
-    @apply inline-flex items-center justify-center gap-2 bg-teal-500 hover:bg-teal-600 text-white rounded-full px-6 py-3 font-display font-bold text-sm shadow-lg shadow-teal-500/30 transition-all hover:-translate-y-0.5;
+    @apply inline-flex items-center justify-center gap-2 bg-teal-500 hover:bg-teal-600 active:bg-teal-700 text-white rounded-full px-6 py-3 font-display font-bold text-sm shadow-lg shadow-teal-500/30 transition-all hover:-translate-y-0.5 min-h-[44px];
+  }
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 bg-transparent hover:bg-stone-100 text-ink rounded-full px-5 py-2.5 font-display font-semibold text-sm transition-colors min-h-[40px];
   }
   .input-field {
-    @apply w-full px-4 py-3 rounded-xl border-2 border-stone-200 bg-white text-ink text-sm outline-none focus:border-amber-500 transition-colors;
+    @apply w-full px-4 py-3 rounded-xl border-2 border-stone-200 bg-white text-ink text-base md:text-sm outline-none focus:border-amber-500 transition-colors min-h-[44px];
   }
   .chip {
     @apply inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold;
@@ -29,8 +44,20 @@ body { font-family: 'DM Sans', system-ui, sans-serif; -webkit-font-smoothing: an
   .label-display {
     @apply block font-display font-bold text-xs text-ink uppercase tracking-wider mb-2;
   }
+  .h-hero {
+    @apply font-display font-extrabold tracking-tight leading-[1.05] text-4xl sm:text-5xl md:text-6xl;
+  }
+  .h-section {
+    @apply font-display font-extrabold tracking-tight leading-tight text-3xl sm:text-4xl md:text-5xl;
+  }
+  .h-card {
+    @apply font-display font-bold tracking-tight text-base sm:text-lg;
+  }
+  .skeleton {
+    @apply animate-pulse bg-stone-200/70 rounded-xl;
+  }
 }
 
-/* subtle scrollbar */
 ::-webkit-scrollbar { width: 8px; height: 8px; }
 ::-webkit-scrollbar-thumb { background: #E7E5E4; border-radius: 4px; }
+::selection { background: #FED7AA; color: #1C1917; }

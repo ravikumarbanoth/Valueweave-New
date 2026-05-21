@@ -1,6 +1,17 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse } from "next/server";
 
+// Only these exact paths (or paths starting with them when explicitly listed) require auth.
+// Public: /, /get-started, /auth/callback, /opportunities/[id] (shareable), /profile/[userId] (shareable).
+function requiresAuth(pathname) {
+  if (pathname === "/dashboard" || pathname.startsWith("/dashboard/")) return true;
+  if (pathname === "/onboarding") return true;
+  if (pathname === "/opportunities/new") return true;
+  if (pathname === "/profile") return true; // /profile/[userId] is public
+  if (pathname === "/connections" || pathname.startsWith("/connections/")) return true;
+  return false;
+}
+
 export async function middleware(request) {
   let response = NextResponse.next({ request });
 
@@ -19,19 +30,18 @@ export async function middleware(request) {
     }
   );
 
+  // Refresh session for all requests so cookies stay valid
   const { data: { user } } = await supabase.auth.getUser();
-  const path = request.nextUrl.pathname;
-  const protectedRoutes = ["/dashboard", "/onboarding", "/opportunities", "/profile", "/connections"];
-  const needsAuth = protectedRoutes.some((p) => path.startsWith(p));
 
-  if (needsAuth && !user) {
+  if (requiresAuth(request.nextUrl.pathname) && !user) {
     const url = request.nextUrl.clone();
     url.pathname = "/";
+    url.searchParams.set("auth", "required");
     return NextResponse.redirect(url);
   }
   return response;
 }
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)"],
 };

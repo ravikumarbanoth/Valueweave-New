@@ -4,8 +4,9 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        display: ['Syne', 'system-ui', 'sans-serif'],
-        sans: ['DM Sans', 'system-ui', 'sans-serif'],
+        display: ["var(--font-display)", "ui-sans-serif", "system-ui", "sans-serif"],
+        body: ["var(--font-body)", "ui-sans-serif", "system-ui", "sans-serif"],
+        sans: ["var(--font-body)", "ui-sans-serif", "system-ui", "sans-serif"],
       },
       colors: {
         cream: "#FFFBF5",
@@ -13,7 +14,7 @@ module.exports = {
         ink: "#1C1917",
         muted: "#78716C",
         amber: { 50:"#FFF7ED",100:"#FFEDD5",200:"#FED7AA",500:"#F97316",600:"#EA580C",700:"#C2410C" },
-        teal: { 50:"#F0FDFA",100:"#CCFBF1",500:"#0D9488",600:"#0F766E" },
+        teal: { 50:"#F0FDFA",100:"#CCFBF1",500:"#0D9488",600:"#0F766E",700:"#115E59" },
       },
       animation: {
         fadeUp: "fadeUp 0.6s ease-out both",

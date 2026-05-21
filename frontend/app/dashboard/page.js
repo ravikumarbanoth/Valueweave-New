@@ -63,9 +63,24 @@ export default function DashboardPage() {
       q = q.or(`title.ilike.%${s}%,description.ilike.%${s}%`);
     }
     const { data, error } = await q;
-    if (!error) setItems(data || []);
+    if (error) { setItems([]); setLoading(false); return; }
+
+    // Lightweight feed ranking: newest first, but boost matches in user's city to the top.
+    let ranked = data || [];
+    const myCity = (profile?.city || "").trim().toLowerCase();
+    if (myCity) {
+      const cityKey = myCity.split(",")[0].trim();
+      const nearby = [], rest = [];
+      ranked.forEach((o) => {
+        const loc = (o.location || "").toLowerCase();
+        if (cityKey && loc.includes(cityKey)) nearby.push({ ...o, _nearby: true });
+        else rest.push(o);
+      });
+      ranked = [...nearby, ...rest];
+    }
+    setItems(ranked);
     setLoading(false);
-  }, [supabase, category, search]);
+  }, [supabase, category, search, profile?.city]);
 
   useEffect(() => { load(); }, [load]);
 
@@ -146,7 +161,7 @@ export default function DashboardPage() {
           </div>
         ) : (
           <div data-testid="feed-list" className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {items.map((opp) => <OpportunityCard key={opp.id} opp={opp} />)}
+            {items.map((opp) => <OpportunityCard key={opp.id} opp={opp} isNearby={!!opp._nearby} />)}
           </div>
         )}
       </main>

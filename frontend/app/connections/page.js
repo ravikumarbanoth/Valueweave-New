@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase-browser";
 import AppNavbar from "@/components/AppNavbar";
+import { CheckCircle2 } from "lucide-react";
 
 export default function ConnectionsPage() {
   const supabase = createClient();
@@ -44,9 +45,9 @@ export default function ConnectionsPage() {
   const list = tab === "received" ? received : sent;
 
   return (
-    <div className="min-h-screen bg-cream pb-20 md:pb-0">
+    <div className="min-h-screen bg-cream pb-24 md:pb-12">
       <AppNavbar initialProfile={me} />
-      <main className="max-w-3xl mx-auto px-6 py-8">
+      <main className="max-w-3xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
         <h1 className="font-display font-extrabold text-3xl tracking-tight mb-5">Connections</h1>
 
         <div className="inline-flex items-center gap-1 mb-5 bg-white border border-stone-200 rounded-full p-1">
@@ -82,30 +83,57 @@ export default function ConnectionsPage() {
             {list.map((c) => {
               const isReceived = tab === "received";
               const other = isReceived ? c.from_user : c.to_user;
+              const accepted = c.status === "accepted";
               return (
-                <div key={c.id} data-testid={`conn-${c.id}`} className="card-base p-5">
+                <div
+                  key={c.id}
+                  data-testid={`conn-${c.id}`}
+                  className={`rounded-2xl p-5 transition-colors border ${
+                    accepted ? "bg-emerald-50/60 border-emerald-200" : "bg-white border-stone-200"
+                  }`}
+                >
                   <div className="flex items-center gap-3 mb-3">
                     {other?.picture ? (
-                      <img src={other.picture} alt="" className="w-10 h-10 rounded-full" />
+                      <img src={other.picture} alt="" className={`w-10 h-10 rounded-full ${accepted ? "ring-2 ring-emerald-300" : ""}`} />
                     ) : (
-                      <div className="w-10 h-10 rounded-full bg-amber-200 text-amber-700 flex items-center justify-center font-bold">{(other?.name || "?")[0]}</div>
+                      <div className={`w-10 h-10 rounded-full bg-amber-200 text-amber-700 flex items-center justify-center font-bold ${accepted ? "ring-2 ring-emerald-300" : ""}`}>{(other?.name || "?")[0]}</div>
                     )}
-                    <div className="flex-1">
-                      <div className="font-display font-bold text-sm">
+                    <div className="flex-1 min-w-0">
+                      <Link href={`/profile/${other?.id}`} className="font-display font-bold text-sm hover:underline">
                         {isReceived ? other?.name : `To: ${other?.name}`}
-                      </div>
+                      </Link>
                       {c.opportunity && (
-                        <Link href={`/opportunities/${c.opportunity.id}`} className="text-xs text-teal-600 font-semibold">
-                          re: {c.opportunity.title} →
-                        </Link>
+                        <div>
+                          <Link href={`/opportunities/${c.opportunity.id}`} className="text-xs text-teal-600 font-semibold hover:underline">
+                            re: {c.opportunity.title} →
+                          </Link>
+                        </div>
                       )}
                     </div>
-                    <span className={`chip uppercase text-[10px] ${
-                      c.status === "accepted" ? "bg-teal-50 text-teal-700" :
-                      c.status === "rejected" ? "bg-rose-50 text-rose-700" : "bg-amber-50 text-amber-700"
-                    }`}>{c.status}</span>
+                    <span
+                      data-testid={`conn-status-${c.id}`}
+                      className={`chip uppercase text-[10px] ${
+                        accepted ? "bg-emerald-100 text-emerald-700" :
+                        c.status === "rejected" ? "bg-rose-50 text-rose-700" :
+                        "bg-amber-50 text-amber-700"
+                      }`}
+                    >
+                      {accepted && <CheckCircle2 size={11} className="-ml-0.5" />}
+                      {c.status}
+                    </span>
                   </div>
-                  <p className="bg-cream rounded-xl px-4 py-2.5 text-sm text-ink leading-relaxed">"{c.message}"</p>
+
+                  <p className="bg-white/70 rounded-xl px-4 py-2.5 text-sm text-ink leading-relaxed">"{c.message}"</p>
+
+                  {accepted && (
+                    <div data-testid={`conn-accepted-helper-${c.id}`} className="mt-3 flex items-start gap-2 bg-emerald-100/70 border border-emerald-200 rounded-xl px-4 py-3">
+                      <CheckCircle2 size={16} className="text-emerald-700 shrink-0 mt-0.5" />
+                      <p className="text-xs sm:text-sm text-emerald-800 leading-relaxed">
+                        <span className="font-display font-bold">Connection accepted.</span> You can now safely share contact details if you'd like to collaborate further. ValueWeave keeps contact sharing manual to protect your privacy.
+                      </p>
+                    </div>
+                  )}
+
                   {isReceived && c.status === "pending" && (
                     <div className="flex gap-2 mt-3">
                       <button data-testid={`accept-${c.id}`} onClick={() => update(c.id, "accepted")} className="btn-teal !py-2 !px-5 text-xs">Accept</button>

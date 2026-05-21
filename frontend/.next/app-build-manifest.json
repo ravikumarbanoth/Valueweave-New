@@ -35,21 +35,6 @@
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/terms/page.js"
-    ],
-    "/get-started/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/get-started/page.js"
-    ],
-    "/opportunities/[id]/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/opportunities/[id]/page.js"
-    ],
-    "/profile/[userId]/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/profile/[userId]/page.js"
     ]
   }
 }

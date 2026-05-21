@@ -145,8 +145,28 @@ export default function OpportunityDetailPage() {
         </Link>
 
         {existingConn && (
-          <div data-testid="connect-existing" className="bg-teal-50 text-teal-700 px-4 py-3 rounded-xl text-sm font-display font-semibold mb-4">
-            ✓ You've already requested to connect — status: <span className="uppercase">{existingConn.status}</span>
+          <div data-testid="connect-existing" className={`px-4 py-3 rounded-xl mb-4 ${
+            existingConn.status === "accepted" ? "bg-emerald-50 border border-emerald-200 text-emerald-800" :
+            existingConn.status === "rejected" ? "bg-rose-50 border border-rose-200 text-rose-700" :
+            "bg-teal-50 text-teal-700"
+          }`}>
+            <div className="flex items-start gap-2">
+              {existingConn.status === "accepted" ? "✅" : existingConn.status === "rejected" ? "✕" : "✓"}
+              <div className="flex-1">
+                <div className="font-display font-semibold text-sm">
+                  {existingConn.status === "accepted"
+                    ? "Connection accepted"
+                    : existingConn.status === "rejected"
+                    ? "Connection declined"
+                    : "Connection request sent · awaiting response"}
+                </div>
+                {existingConn.status === "accepted" && (
+                  <div className="text-xs sm:text-sm mt-1 leading-relaxed">
+                    You can now safely share contact details if you'd like to collaborate further. ValueWeave keeps contact sharing manual to protect your privacy.
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         )}
 

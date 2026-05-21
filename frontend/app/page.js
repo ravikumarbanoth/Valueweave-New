@@ -76,10 +76,10 @@ export default function LandingPage() {
               </div>
             </div>
             {[
-              { top: "8%", left: "12%", emoji: "🧑‍💻", label: "Dev · Pune", bg: "bg-blue-50", border: "border-blue-200" },
-              { top: "15%", right: "0%", emoji: "👩‍🔬", label: "AI · Bhopal", bg: "bg-green-50", border: "border-green-200" },
-              { bottom: "14%", left: "0%", emoji: "🧑‍🌾", label: "Agri · Nagpur", bg: "bg-amber-50", border: "border-amber-200" },
-              { bottom: "22%", right: "10%", emoji: "🔧", label: "EV · Nashik", bg: "bg-violet-50", border: "border-violet-200" },
+              { top: "8%", left: "12%", emoji: "🤖", label: "AI · Hyderabad", bg: "bg-blue-50", border: "border-blue-200" },
+              { top: "15%", right: "0%", emoji: "🌾", label: "Agri · Warangal", bg: "bg-emerald-50", border: "border-emerald-200" },
+              { bottom: "14%", left: "0%", emoji: "🏪", label: "Retail · Vijayawada", bg: "bg-amber-50", border: "border-amber-200" },
+              { bottom: "22%", right: "10%", emoji: "⚡", label: "EV · Coimbatore", bg: "bg-violet-50", border: "border-violet-200" },
             ].map((c, i) => (
               <div
                 key={i}
@@ -112,12 +112,12 @@ export default function LandingPage() {
             <GapCard
               icon="🔍"
               title="Talent without visibility"
-              desc="A diploma-holder electrician in Nashik, a coder in Bhopal, a baker in Coimbatore — full of skill, invisible to the people who'd build with them."
+              desc="A diploma-holder electrician in Warangal, a coder in Vizag, a baker in Guntur — full of skill, invisible to the people who'd build with them."
             />
             <GapCard
               icon="💡"
               title="Ideas without teams"
-              desc="Founders in tier-2 cities have ambition and insight, but no easy way to find a co-founder or first team-mate locally."
+              desc="Founders in tier-2 cities like Hyderabad, Vijayawada, Coimbatore have ambition and insight, but no easy way to find a co-founder locally."
             />
             <GapCard
               icon="🤝"

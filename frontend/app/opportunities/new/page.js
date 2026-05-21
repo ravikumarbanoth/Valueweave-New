@@ -88,7 +88,7 @@ export default function PostOpportunityPage() {
               </select>
             </Field>
             <Field label="Location" required>
-              <input data-testid="post-location" className="input-field" value={form.location} onChange={(e) => setForm({ ...form, location: e.target.value })} placeholder="Pune, Maharashtra" />
+              <input data-testid="post-location" className="input-field" value={form.location} onChange={(e) => setForm({ ...form, location: e.target.value })} placeholder="e.g. Hyderabad, Telangana" />
             </Field>
           </div>
           <Field label="Skills needed" hint="Comma separated">

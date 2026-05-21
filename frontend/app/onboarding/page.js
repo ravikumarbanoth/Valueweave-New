@@ -121,7 +121,7 @@ export default function OnboardingPage() {
           </Field>
 
           <Field label="City" required>
-            <input data-testid="ob-city" className="input-field" value={form.city} onChange={(e) => setForm({ ...form, city: e.target.value })} placeholder="e.g. Nashik, Maharashtra" />
+            <input data-testid="ob-city" className="input-field" value={form.city} onChange={(e) => setForm({ ...form, city: e.target.value })} placeholder="e.g. Hyderabad, Telangana" />
           </Field>
 
           <Field label="Skills" required hint="What do you do best? Add 3–6 skills.">

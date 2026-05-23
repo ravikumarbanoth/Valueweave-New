@@ -4,18 +4,30 @@ import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase-browser";
 
 const SKILL_SUGGESTIONS = [
-  // Local business & trades
-  "Retail","Sales","Teaching","Farming","Dairy","Food Business","Logistics","Construction","Electrical Work","Repair Services",
-  "Photography","Video Editing","Printing","Tailoring","Event Management","Coaching","Handicrafts","Beauty & Wellness","Bakery",
-  "Local Marketing","Distribution","Real Estate","Mechanical Work","Automobile Services",
-  // Tech & digital
-  "Python","JavaScript","React","Design","Marketing","AI/ML","Mobile Dev","Content","Operations","Writing","Drone Piloting","EV Tech",
+  // Digital & Tech
+  "Web Development","Mobile App Development","UI/UX Design","AI Engineering","Data Entry","Digital Marketing",
+  "Video Editing","SEO","Social Media Management","Graphic Design","Content Writing",
+  // Business & Operations
+  "Sales","Field Marketing","Customer Handling","Inventory Management","Procurement","Vendor Management",
+  "Team Management","Operations Coordination","Business Development","Retail Management",
+  // Agriculture & Rural
+  "Organic Farming","Dairy Management","Poultry Management","Soil Testing","Irrigation Systems",
+  "Agri Equipment Handling","Seed Management","Crop Advisory",
+  // Local trades & services
+  "Electrical Work","Plumbing","Welding","Carpentry","CCTV Installation","AC Repair","Bike Repair",
+  "Mobile Repair","Tailoring","Beautician Services","Housekeeping Services",
+  // Manufacturing
+  "Food Processing","Packaging","Machine Operations","Textile Production","Furniture Manufacturing","Printing Operations",
+  // Creative & media
+  "Photography","Influencer Marketing","Voice Over","Local Advertising","Animation","Event Management",
+  // Financial & professional
+  "Accounting","GST Filing","Loan Documentation","Financial Planning","Legal Documentation",
 ];
 
 const INTEREST_SUGGESTIONS = [
   "Small Business","Local Commerce","AgriTech","Rural Innovation","Franchise","Manufacturing","Skill Development","Community Building",
   "Digital Business","Financial Literacy","Local Services","Entrepreneurship","Self Employment","Youth Collaboration","Regional Startups",
-  "EdTech","FinTech","HealthTech","Sustainability","Climate","Creator economy","Open source","Hardware",
+  "EdTech","FinTech","HealthTech","Sustainability","Climate","Creator economy","Open source","Hardware","Women-Led",
 ];
 
 const LOOKING_FOR_OPTIONS = [

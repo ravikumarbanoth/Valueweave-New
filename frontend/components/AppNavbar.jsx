@@ -67,6 +67,7 @@ export default function AppNavbar({ initialProfile = null }) {
 
           {authed === false && (
             <div className="flex items-center gap-2">
+              <Link href="/ideas" data-testid="nav-public-ideas" className="hidden sm:inline btn-ghost text-xs">Ideas</Link>
               <Link href="/explore" data-testid="nav-public-explore" className="hidden sm:inline btn-ghost text-xs">Explore</Link>
               <Link href="/signin" data-testid="nav-public-signin" className="btn-secondary !py-2 !px-4 text-sm">Sign in</Link>
               <Link href="/get-started" data-testid="nav-public-join" className="btn-primary !py-2 !px-4 text-sm">Join</Link>

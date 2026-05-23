@@ -14,6 +14,7 @@ export default function LandingPage() {
             <span className="font-display font-extrabold text-lg tracking-tight">Value<span className="text-amber-500">Weave</span></span>
           </Link>
           <div className="flex items-center gap-2">
+            <Link href="/ideas" data-testid="nav-ideas" className="hidden sm:inline text-sm font-display font-semibold text-muted hover:text-ink px-3 py-2 rounded-lg hover:bg-stone-100">Ideas</Link>
             <Link href="/explore" data-testid="nav-explore" className="hidden sm:inline text-sm font-display font-semibold text-muted hover:text-ink px-3 py-2 rounded-lg hover:bg-stone-100">Explore</Link>
             <a href="#why" className="hidden md:inline text-sm font-display font-semibold text-muted hover:text-ink px-3 py-2 rounded-lg hover:bg-stone-100">Why</a>
             <Link href="/signin" data-testid="nav-signin" className="btn-secondary !py-2 !px-4 text-sm">Sign in</Link>
@@ -47,6 +48,9 @@ export default function LandingPage() {
               <Link href="/signin" data-testid="hero-cta-signin" className="btn-secondary">Sign in</Link>
             </div>
             <div className="mb-8 animate-fadeUp" style={{ animationDelay: "0.25s" }}>
+              <Link href="/ideas" data-testid="hero-cta-ideas" className="inline-flex items-center gap-1.5 text-sm font-display font-semibold text-teal-700 hover:text-teal-800 mr-4">
+                Browse 30+ business ideas →
+              </Link>
               <Link href="/explore" data-testid="hero-cta-explore" className="inline-flex items-center gap-1.5 text-sm font-display font-semibold text-teal-700 hover:text-teal-800">
                 Explore opportunities →
               </Link>

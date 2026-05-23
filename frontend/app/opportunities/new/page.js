@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase-browser";
 import AppNavbar from "@/components/AppNavbar";
 
@@ -18,13 +18,20 @@ const CATEGORIES = [
 export default function PostOpportunityPage() {
   const supabase = createClient();
   const router = useRouter();
+  const params = useSearchParams();
   const [profile, setProfile] = useState(null);
   const [form, setForm] = useState({
-    title: "", description: "", category: "ai-tech", location: "",
-    skills_raw: "", collaboration_type: "cofounder", commitment: "part-time",
+    title: params.get("title") || "",
+    description: params.get("description") || "",
+    category: params.get("category") || "ai-tech",
+    location: params.get("location") || "",
+    skills_raw: params.get("skills") || "",
+    collaboration_type: params.get("collab") || "cofounder",
+    commitment: params.get("commit") || "part-time",
   });
   const [submitting, setSubmitting] = useState(false);
   const [err, setErr] = useState("");
+  const isPrefilled = !!(params.get("title") || params.get("skills"));
 
   useEffect(() => {
     (async () => {
@@ -73,6 +80,12 @@ export default function PostOpportunityPage() {
       <main className="max-w-2xl mx-auto px-6 py-8">
         <h1 className="font-display font-extrabold text-3xl tracking-tight mb-1">Post an opportunity</h1>
         <p className="text-muted text-sm mb-6">Share what you're building or looking for. The community can connect with you.</p>
+
+        {isPrefilled && (
+          <div data-testid="post-prefilled-banner" className="mb-5 bg-teal-50 border border-teal-200 text-teal-800 rounded-xl px-4 py-3 text-sm font-display font-semibold">
+            ✨ Pre-filled from the Idea Library. Edit anything before posting.
+          </div>
+        )}
 
         <form onSubmit={submit} className="card-base p-6 flex flex-col gap-4">
           <Field label="Title" required>

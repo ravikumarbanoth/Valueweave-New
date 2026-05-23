@@ -1,83 +1,68 @@
 # ValueWeave — PRD (Living Document)
 
 ## Vision
-ValueWeave is a collaboration and opportunity discovery platform for India's tier-2/tier-3 builders. Connect students, freelancers, skilled workers, and entrepreneurs to discover collaborators, form startup teams, and create real economic opportunities. Not a job portal, not LinkedIn, not Fiverr — a productive collaboration ecosystem.
+ValueWeave is a Bharat-first collaboration and opportunity discovery platform — and now a **grassroots startup operating system**. Connect students, freelancers, skilled workers, women entrepreneurs, and tier-2/tier-3 builders to discover ideas, collaborators, and form teams locally.
 
 ## Architecture
 - **Frontend:** Next.js 14 (App Router) in `/app/frontend`
 - **Backend / DB / Auth:** Supabase (Postgres + RLS + Google OAuth)
-- **No separate backend service**
+- **Idea Library:** Static JSON dataset (no DB tables yet) — easy migration later
 - **Typography:** Plus Jakarta Sans (display) + Inter (body) via `next/font`
 - **Styling:** Tailwind CSS, mobile-first
 - **Deployment:** Vercel — production at https://valueweave.in
 
-## Public routes (no auth)
-`/` · `/get-started` · `/signin` · `/explore` · `/about` · `/privacy` · `/terms` · `/opportunities/[id]` · `/profile/[userId]` · `/auth/callback`
+## Public routes
+`/` · `/get-started` · `/signin` · `/explore` · `/ideas` · `/ideas/[slug]` · `/about` · `/privacy` · `/terms` · `/opportunities/[id]` · `/profile/[userId]` · `/auth/callback`
 
-## Protected routes (Supabase session required)
+## Protected routes
 `/dashboard` · `/onboarding` · `/opportunities/new` · `/profile` (self) · `/connections`
 
-## Smart auth flow
-- **Landing CTAs**: "Join ValueWeave" (new) → `/get-started`; "Sign in" (returning) → `/signin`
-- **`/signin`**: If session exists → smart redirect (`profile_complete ? /dashboard : /onboarding`). If not → Google OAuth.
-- **`/auth/callback`**: Exchanges code, persists `looking_for` from intent query if present, then routes to `/dashboard` or `/onboarding` based on `profile_complete`.
-- **Middleware**: refreshes session on every request, gates protected routes.
-
-## Implemented features
-1. Landing — dual CTAs, trust signals (Google-auth · Mobile-first · Free to join), "Why ValueWeave Exists" gap-narrative, How-it-works, Categories, Final CTA, expanded 4-column footer with About/Privacy/Terms/Contact.
-2. Get Started — 8 intent cards, "Already a member? Sign in →" link.
-3. Sign in — Welcome-back page with Google OAuth + smart redirect.
-4. Onboarding — lightweight profile (name, city, skills, interests, looking_for, bio), 35 Bharat-inclusive skill suggestions + 23 interests.
-5. Dashboard / Feed — filters, search, skeleton loaders, profile-completion banner.
-6. Post Opportunity — full form.
-7. Opportunity Detail — public-readable, WhatsApp + Copy-link Share, anon "Sign in to connect" CTA, owner delete.
-8. Profile (mine + others) — public-readable for others.
-9. Connections — Sent/Received tabs with tab-specific empty states + CTAs.
-10. Explore — public feed without auth.
-11. About / Privacy / Terms — info pages via shared `LegalShell` component.
-12. Footer with `valueweave.team@gmail.com` contact.
-
-## Production readiness
-- No hardcoded `localhost` / `vercel.app` / `127.0.0.1` URLs (grep verified)
-- All OAuth redirects use `window.location.origin` (browser) or request URL `origin` (server)
-- `metadataBase: https://valueweave.in` + OG tags
-- Mobile-first: 44px min touch targets, safe-area inset bottom nav
-- Reduced shadow intensity for premium feel
-- All public pages 200, protected pages 307 → `/?auth=required`
+## Implemented modules
+1. **Landing** — dual CTAs, trust signals, Why-section, Bharat-balanced floating labels (Hyderabad/Warangal/Vijayawada/Coimbatore), expanded footer.
+2. **Auth** — Google OAuth via Supabase, smart-routing (`/signin` for returning users, `/get-started` for new), `/auth/callback` exchange.
+3. **Onboarding** — lightweight 6-field profile, 53 Bharat-inclusive skill suggestions, 24 interests.
+4. **Dashboard / Feed** — category filter, search, skeleton loaders, profile-completion banner, "Nearby" city-boost ranking.
+5. **Post Opportunity** — full form, query-param prefill from Idea Library.
+6. **Opportunity Detail** — public-readable, WhatsApp + Copy-link share, anon sign-in CTA, accepted-state trust banner.
+7. **Profile** — public-readable for others, editable for self.
+8. **Connections** — Sent/Received tabs, soft-green accepted styling, explicit "manual contact sharing" helper.
+9. **Explore** — public opportunity feed.
+10. **Idea Library** ⭐ NEW — 30 balanced Bharat-grounded business ideas (12 local-physical + 9 hybrid + 6 digital + 3 future), public listing with bucket/sector/district/beginner filters + search, detail pages with Problem/Ideal-for/Investment/Skills/Roles/District/Tags + "Start this in your district →" prefill CTA.
+11. **Legal pages** — About / Privacy / Terms via shared `LegalShell`.
 
 ## Test pass history
-- iteration_1 (initial build): 100% functional, 2 minor mobile responsive fixes applied
-- iteration_2 (typography + public share + diversified suggestions): 12/12 100% pass
-- iteration_3 (smart auth + trust polish + legal pages): 13/13 100% pass
-- iteration_4 (Bharat-rebalance + trust-first connection UX): 13/13 100% pass
+- iteration_1 (initial build): 100%
+- iteration_2 (typography + public share + diversified suggestions): 12/12
+- iteration_3 (smart auth + trust polish + legal pages): 13/13
+- iteration_4 (Bharat-rebalance + trust-first connection UX): 13/13
+- iteration_5 (Idea Library MVP v1): 14/14
 
-## Iteration 4 changes (2026-01)
-- **Bharat-balanced landing labels:** AI · Hyderabad, Agri · Warangal, Retail · Vijayawada, EV · Coimbatore
-- **Why-section copy:** mentions Warangal, Vizag, Guntur, Hyderabad, Vijayawada, Coimbatore
-- **Onboarding + Post-Opportunity placeholders:** "Hyderabad, Telangana"
-- **Trust-first connections:** No auto-reveal of phone/email/WhatsApp. Accepted state shows soft-green styling + explicit helper: "Connection accepted. You can now safely share contact details if you'd like to collaborate further. ValueWeave keeps contact sharing manual to protect your privacy."
-- **OpportunityCard:** prominent 3-tag header row (category · collaboration_type · commitment) + MapPin location pill
-- **Dashboard feed nearby boost:** Items whose location substring-matches user's city are floated to the top with a "Nearby" badge (`data-testid=opp-nearby-*`). Otherwise newest-first.
+## Idea Library — v1 dataset (30 ideas, static JSON at `/app/frontend/lib/idea-library.js`)
+- **Local Physical (12):** Soil Testing Lab, RO Water Service, Mobile Repair Network, Two-Wheeler Workshop, Tailoring Cluster (Women-led), Pickle & Papad Brand, Solar Installation, Dairy Collection Network, Local Delivery Fleet, CCTV Installation, Tuition Hub, Homemade Tiffin Brand
+- **Hybrid Tech+Local (9):** WhatsApp Commerce Setup, Business Digitalization Agency, District Marketplace, Drone Spraying, Cloud Kitchen Brand, AI Content Studio, Event Media Crew, Smart Farm Sensors, Beauty Training Center
+- **Pure Digital (6):** UI/UX Agency, SEO/Local Marketing Agency, AI Voice-Over Studio, Mobile App Studio, Edu YouTube Channel, Campus Merch
+- **Future (3):** EV Charging Hub, Vermicompost Unit, Drone Mapping for Real Estate
+
+Each idea has 15+ fields including bucket, sector, problem_solved, ideal_for (audience), investment tiers, monthly revenue range, team_roles, skills_needed, district_fit, tags.
 
 ## Backlog
-### P0
-- Email OTP fallback (Supabase native, low effort)
-- Connection acceptance reveals contact (WhatsApp/email)
+### P0 (next session candidates)
+- Expand Idea Library to 60–100 ideas (incremental)
+- Email OTP fallback (Supabase native)
 - Profile picture upload (Supabase Storage)
-- Realtime inbox badge for unread connection requests
-- Server-render `/opportunities/[id]` + `/profile/[userId]` for SEO
+- Idea bookmarks / "Save for later"
+- SEO: SSR /ideas/[slug] + /opportunities/[id] + /profile/[userId]
 
 ### P1
-- Feed location filter
-- "Suggested for you" based on profile skills/interests
-- Mentor flag
-- Vercel Analytics / Plausible
+- District intelligence dashboard (population, dominant industries, employment gap)
+- "Suggested ideas for you" based on profile skills/city
+- Government schemes table linked to ideas
+- Idea voting / community curation
+- Vercel Analytics
 
 ### P2
-- AI smart matching
-- Hindi / Marathi i18n
-- Trust badges / reputation from completed connections
+- AI matching engine (skills + city + intent → ideas + collaborators)
+- Hindi/Telugu/Marathi i18n
+- Trust badges / reputation
+- Investor / supplier partner directories
 - In-app messaging
-
-## Tech debt resolved
-- `LegalShell` now lives in `/components/LegalShell.jsx` (was in `app/about/page.js`)

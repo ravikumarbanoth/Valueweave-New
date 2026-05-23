@@ -130,6 +130,11 @@ export default function Ideas() {
 }
 
 function FilterGroup({ label, value, options, labelMap, onChange, testid }) {
+  const allLabel = `All ${label.toLowerCase()}`;
+  const renderedOptions = options.map((o) => {
+    const text = (labelMap && labelMap[o]) || o;
+    return <option key={o} value={o}>{text}</option>;
+  });
   return (
     <div className="flex items-center gap-2 whitespace-nowrap" data-testid={testid}>
       <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground hidden md:inline">{label}:</span>
@@ -139,8 +144,8 @@ function FilterGroup({ label, value, options, labelMap, onChange, testid }) {
         className="px-3 py-2 rounded-full text-sm font-semibold border border-border bg-card hover:border-primary/40 focus:outline-none focus:ring-2 focus:ring-primary/30"
         data-testid={`${testid}-select`}
       >
-        <option value="">All {label.toLowerCase()}</option>
-        {options.map((o) => <option key={o} value={o}>{labelMap?.[o] || o}</option>)}
+        <option value="">{allLabel}</option>
+        {renderedOptions}
       </select>
     </div>
   );

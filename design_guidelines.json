@@ -1,0 +1,160 @@
+{
+  "theme": "light",
+  "archetype": "Archetype 1: Organic & Earthy (Warm Bharat Variant)",
+  "vibe": "Modern Bharat startup ecosystem, warm, ambitious, grassroots entrepreneurship, collaborative. Feels like 'People across India building meaningful things together.'",
+  "colors": {
+    "background": "#FCFAF8",
+    "foreground": "#2B211E",
+    "primary": "#E85D04",
+    "primary_hover": "#DC2F02",
+    "secondary": "#FFF2EB",
+    "secondary_foreground": "#E85D04",
+    "accent": "#F4A261",
+    "muted": "#F3EBE6",
+    "muted_foreground": "#7A6860",
+    "border": "#E8DDD7",
+    "card": "#FFFFFF",
+    "card_foreground": "#2B211E",
+    "success": "#2A9D8F",
+    "warning": "#E9C46A"
+  },
+  "typography": {
+    "fonts": {
+      "heading": "'Plus Jakarta Sans', sans-serif",
+      "body": "'Inter', sans-serif"
+    },
+    "rules": {
+      "h1": "text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-foreground leading-tight",
+      "h2": "text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-foreground",
+      "h3": "text-xl sm:text-2xl font-semibold tracking-tight text-foreground",
+      "body": "text-base font-normal text-muted-foreground leading-relaxed",
+      "labels": "text-xs font-bold uppercase tracking-[0.15em] text-muted-foreground"
+    }
+  },
+  "spacing_and_layout": {
+    "philosophy": "Generous Spacing (p-6, p-8, p-12). Allow content to breathe, reducing cognitive load.",
+    "container": "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
+    "grid_bento": "grid grid-cols-1 md:grid-cols-8 lg:grid-cols-12 gap-6 md:gap-8",
+    "grid_dashboard": "grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6",
+    "card_padding": "p-6 md:p-8",
+    "border_radius": "rounded-2xl md:rounded-3xl (soft modern geometry)"
+  },
+  "surfaces": {
+    "cards": "bg-card border border-border shadow-sm hover:shadow-md transition-all duration-300 rounded-2xl",
+    "glass_header": "backdrop-blur-xl bg-background/80 border-b border-border z-50 sticky top-0",
+    "glass_mobile_nav": "backdrop-blur-2xl bg-background/90 border-t border-border z-50 fixed bottom-0 w-full",
+    "chips_and_tags": "bg-secondary text-secondary-foreground px-3 py-1 rounded-full text-xs font-semibold",
+    "primary_button": "bg-primary text-white hover:bg-primary_hover shadow-[0_4px_14px_0_rgba(232,93,4,0.39)] hover:shadow-[0_6px_20px_rgba(232,93,4,0.23)] hover:-translate-y-0.5 transition-all duration-200"
+  },
+  "components": {
+    "IdeaCard": {
+      "layout": "Flex column, gap-4",
+      "elements": [
+        "Top row: Sector chip (e.g., AgriTech) + Trending Icon/Save Count",
+        "Title (h3) + Short Description (body line-clamp-2)",
+        "Meta flex wrap: Execution Type badge (Physical/Hybrid/Digital), Investment Range, Team Size",
+        "Footer: Beginner Friendly badge + Hover arrow icon"
+      ]
+    },
+    "FilterBar": {
+      "mobile": "Sticky top-[header-height] bg-background/90 backdrop-blur-md z-40 p-4 border-b border-border overflow-x-auto whitespace-nowrap scrollbar-hide flex gap-2",
+      "desktop": "Sidebar or top horizontal bar with dropdowns (Sector, Execution, Investment)"
+    },
+    "EmptyState": {
+      "layout": "Flex column center, generous padding (py-24), max-w-md mx-auto text-center",
+      "elements": [
+        "Abstract warm illustration (image)",
+        "H3 Title (e.g., 'No ideas found matching your filters')",
+        "Body text",
+        "Primary Button 'Clear Filters'"
+      ]
+    }
+  },
+  "page_structures": {
+    "landing_page": {
+      "hero": "Wide layout, minimal text. H1 'Build the Future of Bharat Together'. Idea Library CTA prominent. Hero image of collaborative workspace.",
+      "value_prop": "Bento grid showcasing collaboration, community, and opportunity."
+    },
+    "idea_library_directory": {
+      "path": "/ideas",
+      "layout": "Header with title and description. Sticky filter bar. CSS Grid for IdeaCards (grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6). Pagination or infinite scroll."
+    },
+    "idea_detail": {
+      "path": "/ideas/:slug",
+      "layout": "Two-column desktop (main content left, sticky summary card right). Single column mobile.",
+      "sections": [
+        "Header: Title, tags, tags, quick stats",
+        "Main: Problem, Target Customers, Roles Needed, Suitable Districts, Govt Schemes",
+        "Sticky Card: Investment Tier, Revenue Range, 'Join ValueWeave to Build This' CTA (triggers Google Auth if anonymous)"
+      ]
+    },
+    "dashboard_home": {
+      "path": "/dashboard",
+      "layout": "Grid-based. Prominent 'Browse Ideas' card acting as an entry point, Saved Ideas widget, Team status.",
+      "access": "Auth-gated."
+    }
+  },
+  "media_urls": {
+    "logos": [
+      {
+        "category": "brand_logo",
+        "url": "https://static.prod-images.emergentagent.com/jobs/9893adf9-2474-40a4-9829-2cf309a21e6b/images/f5235d687caef0fa4df00e9d6d61989aaec6624b781b0bf4c68aa401cbcedd74.png",
+        "description": "ValueWeave minimalist warm orange abstract weave logo"
+      }
+    ],
+    "hero_images": [
+      {
+        "category": "landing_hero",
+        "url": "https://static.prod-images.emergentagent.com/jobs/9893adf9-2474-40a4-9829-2cf309a21e6b/images/97ccd4e04344bcea64797549356f4a7bba62f42b67506e2d58e77cb4864e7134.png",
+        "description": "Collaborative workspace in India, warm golden hour lighting, optimistic"
+      }
+    ],
+    "backgrounds": [
+      {
+        "category": "card_texture",
+        "url": "https://static.prod-images.emergentagent.com/jobs/9893adf9-2474-40a4-9829-2cf309a21e6b/images/e8ba9b15dcb6f4d96dbcaef968a77a62d764d60e86c13c5913490a8fcd54bf5e.png",
+        "description": "Abstract warm terracotta and cream gradient texture with subtle grain"
+      }
+    ],
+    "illustrations": [
+      {
+        "category": "empty_state",
+        "url": "https://static.prod-images.emergentagent.com/jobs/9893adf9-2474-40a4-9829-2cf309a21e6b/images/92dfef1cdf5afcbea678066391cb02b1c8c84691c68aca8ad7d14b770d43cf05.png",
+        "description": "Abstract 3D interconnected blocks and plants for empty states"
+      }
+    ],
+    "photography": [
+      {
+        "category": "idea_context_1",
+        "url": "https://images.unsplash.com/photo-1599978395458-d4ce49ea5e56?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1OTV8MHwxfHNlYXJjaHwzfHxpbmRpYW4lMjBzbWFsbCUyMGJ1c2luZXNzJTIwZW50cmVwcmVuZXVyfGVufDB8fHx8MTc3OTU2Mzc1Mnww&ixlib=rb-4.1.0&q=85",
+        "description": "Indian entrepreneur context image"
+      },
+      {
+        "category": "idea_context_2",
+        "url": "https://images.pexels.com/photos/10148457/pexels-photo-10148457.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "description": "Modern workspace setting in Gurugram, India"
+      }
+    ]
+  },
+  "testing_attributes": {
+    "rule": "All interactive elements MUST have data-testid attributes.",
+    "examples": [
+      "data-testid='navbar-ideas-link'",
+      "data-testid='hero-explore-ideas-cta'",
+      "data-testid='mobile-nav-ideas'",
+      "data-testid='idea-card-[slug]'",
+      "data-testid='idea-filter-sector'",
+      "data-testid='idea-detail-join-cta'"
+    ]
+  },
+  "instructions_to_main_agent": [
+    "Ensure standard routing sets the Idea Library to exactly `/ideas` and Idea Detail to `/ideas/:slug`.",
+    "Construct the Navigation Bar (Desktop) with: Logo, 'Ideas' (active state indication), 'Opportunities', 'Dashboard', and 'Sign In'.",
+    "Construct a Mobile Bottom Navigation bar visible only on md< viewports: 'Home', 'Ideas', 'Dashboard', 'Profile'. It must have backdrop-blur and border-t.",
+    "Unauthenticated users MUST be able to freely browse `/ideas` and view `/ideas/:slug`. The 'Join ValueWeave to Build This' CTA on the detail page acts as the auth gate.",
+    "Style the Idea Cards elegantly. Do not overload them with borders; rely on shadow-sm, card background, and layout padding. Ensure tags like 'Execution Type' and 'Sector' pop with warm background chips.",
+    "Implement a polished Empty State using the provided 'empty_state' illustration URL when filters return 0 results.",
+    "Do NOT use raw HTML `<select>` for filters. Use Shadcn DropdownMenu or Select for desktop, and a scrolling chip list or bottom sheet for mobile filters.",
+    "Emphasize mobile responsiveness. Ensure the Idea Cards flex naturally to full width on mobile, and sticky filters don't obscure content."
+  ]
+}

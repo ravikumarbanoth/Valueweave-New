@@ -11,6 +11,7 @@ export default function PostOpportunityPage() {
   );
 }
 
+
 function OpportunityFormFallback() {
   return (
     <div className="min-h-screen bg-cream pb-20 md:pb-0">

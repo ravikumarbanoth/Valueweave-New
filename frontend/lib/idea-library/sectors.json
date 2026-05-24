@@ -1,0 +1,72 @@
+[
+  {
+    "id": "agriculture",
+    "label": "Agriculture",
+    "emoji": "🌾"
+  },
+  {
+    "id": "local-services",
+    "label": "Local Services",
+    "emoji": "🏪"
+  },
+  {
+    "id": "repair-economy",
+    "label": "Repair Economy",
+    "emoji": "🔧"
+  },
+  {
+    "id": "women-led",
+    "label": "Women-Led",
+    "emoji": "💐"
+  },
+  {
+    "id": "food-business",
+    "label": "Food Business",
+    "emoji": "🍱"
+  },
+  {
+    "id": "manufacturing",
+    "label": "Manufacturing",
+    "emoji": "🏭"
+  },
+  {
+    "id": "education",
+    "label": "Education",
+    "emoji": "🎓"
+  },
+  {
+    "id": "logistics",
+    "label": "Logistics",
+    "emoji": "🚚"
+  },
+  {
+    "id": "digital-services",
+    "label": "Digital Services",
+    "emoji": "📱"
+  },
+  {
+    "id": "creator-economy",
+    "label": "Creator Economy",
+    "emoji": "🎬"
+  },
+  {
+    "id": "agritech",
+    "label": "AgriTech",
+    "emoji": "🤖"
+  },
+  {
+    "id": "ev-energy",
+    "label": "EV & Energy",
+    "emoji": "⚡"
+  },
+  {
+    "id": "drone-tech",
+    "label": "Drone Tech",
+    "emoji": "🚁"
+  },
+  {
+    "id": "climate-tech",
+    "label": "Climate Tech",
+    "emoji": "♻️"
+  }
+]

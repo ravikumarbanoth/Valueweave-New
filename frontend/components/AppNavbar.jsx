@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import { createClient } from "@/lib/supabase-browser";
 import { LogOut, User as UserIcon, Inbox, Plus, Home } from "lucide-react";
+import SocialLinks from "@/components/SocialLinks";
 
 export default function AppNavbar({ initialProfile = null }) {
   const supabase = createClient();
@@ -69,6 +70,7 @@ export default function AppNavbar({ initialProfile = null }) {
             <div className="flex items-center gap-2">
               <Link href="/ideas" data-testid="nav-public-ideas" className="hidden sm:inline btn-ghost text-xs">Ideas</Link>
               <Link href="/explore" data-testid="nav-public-explore" className="hidden sm:inline btn-ghost text-xs">Explore</Link>
+              <SocialLinks className="hidden sm:flex !gap-2" size={16} />
               <Link href="/signin" data-testid="nav-public-signin" className="btn-secondary !py-2 !px-4 text-sm">Sign in</Link>
               <Link href="/get-started" data-testid="nav-public-join" className="btn-primary !py-2 !px-4 text-sm">Join</Link>
             </div>
@@ -101,6 +103,11 @@ export default function AppNavbar({ initialProfile = null }) {
                     <button data-testid="menu-logout" onClick={logout} className="w-full text-left px-4 py-2.5 text-sm text-amber-700 hover:bg-amber-50 flex items-center gap-2">
                       <LogOut size={14} /> Sign out
                     </button>
+                    <div className="border-t border-stone-100 my-1" />
+                    <div className="px-2 py-1.5">
+                      <p className="px-2 text-[10px] uppercase tracking-wider text-stone-400 font-display font-bold mb-1">Follow ValueWeave</p>
+                      <SocialLinks variant="inline" size={16} />
+                    </div>
                   </div>
                 </>
               )}

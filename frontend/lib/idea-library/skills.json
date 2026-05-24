@@ -1,0 +1,76 @@
+[
+  {
+    "group": "Trades & Repair",
+    "skills": [
+      "Mobile Repair",
+      "Bike Repair",
+      "AC Repair",
+      "Mechanical Work",
+      "Welding",
+      "Electrical Work",
+      "Plumbing",
+      "CCTV Installation",
+      "Construction Supervision"
+    ]
+  },
+  {
+    "group": "Agriculture & Allied",
+    "skills": [
+      "Soil Testing",
+      "Agriculture",
+      "Organic Farming",
+      "Dairy Management",
+      "Drone Piloting",
+      "Lab Operations"
+    ]
+  },
+  {
+    "group": "Food & Making",
+    "skills": [
+      "Food Processing",
+      "Packaging",
+      "Tailoring",
+      "Printing"
+    ]
+  },
+  {
+    "group": "Operations & Field",
+    "skills": [
+      "Operations Coordination",
+      "Logistics",
+      "Inventory Management",
+      "Vendor Management",
+      "Field Marketing",
+      "Event Management",
+      "Retail Operations"
+    ]
+  },
+  {
+    "group": "Sales & People",
+    "skills": [
+      "Sales",
+      "Local Sales",
+      "Customer Handling",
+      "Team Management",
+      "Teaching",
+      "Beautician Services"
+    ]
+  },
+  {
+    "group": "Digital & Creative",
+    "skills": [
+      "Digital Marketing",
+      "SEO",
+      "Social Media Management",
+      "Content Writing",
+      "Graphic Design",
+      "UI/UX Design",
+      "Web Development",
+      "Mobile App Development",
+      "Video Editing",
+      "Photography",
+      "Voice Over",
+      "AI Engineering"
+    ]
+  }
+]

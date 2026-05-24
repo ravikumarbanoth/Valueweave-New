@@ -1,0 +1,84 @@
+{
+  "priority_states": [
+    "Telangana",
+    "Andhra Pradesh"
+  ],
+  "districts": [
+    {
+      "name": "Hyderabad",
+      "state": "Telangana"
+    },
+    {
+      "name": "Medak",
+      "state": "Telangana"
+    },
+    {
+      "name": "Sangareddy",
+      "state": "Telangana"
+    },
+    {
+      "name": "Siddipet",
+      "state": "Telangana"
+    },
+    {
+      "name": "Warangal",
+      "state": "Telangana"
+    },
+    {
+      "name": "Karimnagar",
+      "state": "Telangana"
+    },
+    {
+      "name": "Nizamabad",
+      "state": "Telangana"
+    },
+    {
+      "name": "Khammam",
+      "state": "Telangana"
+    },
+    {
+      "name": "Mahabubnagar",
+      "state": "Telangana"
+    },
+    {
+      "name": "Nalgonda",
+      "state": "Telangana"
+    },
+    {
+      "name": "Visakhapatnam",
+      "state": "Andhra Pradesh"
+    },
+    {
+      "name": "Vijayawada",
+      "state": "Andhra Pradesh"
+    },
+    {
+      "name": "Guntur",
+      "state": "Andhra Pradesh"
+    },
+    {
+      "name": "Tirupati",
+      "state": "Andhra Pradesh"
+    },
+    {
+      "name": "Nellore",
+      "state": "Andhra Pradesh"
+    },
+    {
+      "name": "Kurnool",
+      "state": "Andhra Pradesh"
+    },
+    {
+      "name": "East Godavari",
+      "state": "Andhra Pradesh"
+    },
+    {
+      "name": "West Godavari",
+      "state": "Andhra Pradesh"
+    },
+    {
+      "name": "Anantapur",
+      "state": "Andhra Pradesh"
+    }
+  ]
+}

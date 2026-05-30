@@ -7,7 +7,6 @@ import AppNavbar from "@/components/AppNavbar";
 import ProfileView from "@/components/ProfileView";
 
 export default function PublicProfilePage() {
-  const supabase = createClient();
   const { id } = useParams();
   const [me, setMe] = useState(null);
   const [profile, setProfile] = useState(null);
@@ -16,6 +15,7 @@ export default function PublicProfilePage() {
 
   useEffect(() => {
     (async () => {
+      const supabase = createClient();
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
         const { data: myProfile } = await supabase.from("profiles").select("*").eq("id", user.id).single();
@@ -35,7 +35,7 @@ export default function PublicProfilePage() {
       }
       setLoading(false);
     })();
-  }, [supabase, id]);
+  }, [id]);
 
   if (loading) return <Shell me={me}><p>Loading…</p></Shell>;
 

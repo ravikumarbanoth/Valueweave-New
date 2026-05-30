@@ -3,7 +3,9 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import {
   IDEAS, SECTORS, BUCKETS, PRIORITY_DISTRICTS, INVESTMENT_RANGES, ALL_TAGS,
-  formatINR, getSector, getInvestmentRange,
+  DISCOVERY_FILTERS,
+  formatINR, getSector, getInvestmentRange, getIdeaSearchText, matchesDiscoveryFilter,
+  isFeaturedIdea, isTrendingIdea, isLowInvestmentIdea, isWomenLedIdea, isStudentFriendlyIdea,
 } from "@/lib/idea-library";
 import AppNavbar from "@/components/AppNavbar";
 import { Search, MapPin, Sparkles, SlidersHorizontal, X } from "lucide-react";
@@ -20,11 +22,12 @@ const SORTS = [
   { id: "invest-asc",   label: "Lowest investment" },
   { id: "invest-desc",  label: "Highest investment" },
   { id: "revenue-desc", label: "Highest revenue" },
-  { id: "az",           label: "A–Z" },
+  { id: "az",           label: "A-Z" },
 ];
 
 export default function IdeasPage() {
   const [search, setSearch] = useState("");
+  const [discovery, setDiscovery] = useState("");
   const [sector, setSector] = useState("");
   const [bucket, setBucket] = useState("");
   const [district, setDistrict] = useState("");
@@ -36,6 +39,7 @@ export default function IdeasPage() {
 
   const ideas = useMemo(() => {
     const matches = (i) => {
+      if (discovery && !matchesDiscoveryFilter(i, discovery)) return false;
       if (sector && i.sector !== sector) return false;
       if (bucket && i.bucket !== bucket) return false;
       if (district && !i.district_fit.includes(district)) return false;
@@ -46,13 +50,7 @@ export default function IdeasPage() {
       if (tag && !i.tags.includes(tag)) return false;
       if (beginnerOnly && !i.beginner_friendly) return false;
       if (search.trim()) {
-        const s = search.toLowerCase();
-        return (
-          i.title.toLowerCase().includes(s) ||
-          i.short_description.toLowerCase().includes(s) ||
-          i.tags.some((t) => t.toLowerCase().includes(s)) ||
-          i.skills_needed.some((k) => k.toLowerCase().includes(s))
-        );
+        return getIdeaSearchText(i).includes(search.trim().toLowerCase());
       }
       return true;
     };
@@ -62,11 +60,11 @@ export default function IdeasPage() {
       "invest-desc":  (a, b) => b.investment_min - a.investment_min,
       "revenue-desc": (a, b) => b.monthly_revenue_max - a.monthly_revenue_max,
       "az":           (a, b) => a.title.localeCompare(b.title),
+      "default":      (a, b) => discoveryRank(b) - discoveryRank(a) || a.investment_min - b.investment_min,
     };
-    return by[sort] ? [...out].sort(by[sort]) : out;
-  }, [search, sector, bucket, district, invest, tag, beginnerOnly, sort]);
+    return [...out].sort(by[sort] || by.default);
+  }, [search, discovery, sector, bucket, district, invest, tag, beginnerOnly, sort]);
 
-  // Count ideas per investment range so empty ranges can be disabled.
   const investCounts = useMemo(() => {
     const c = {};
     for (const i of IDEAS) {
@@ -77,11 +75,11 @@ export default function IdeasPage() {
   }, []);
 
   const activeCount =
-    (sector ? 1 : 0) + (bucket ? 1 : 0) + (district ? 1 : 0) +
+    (discovery ? 1 : 0) + (sector ? 1 : 0) + (bucket ? 1 : 0) + (district ? 1 : 0) +
     (invest ? 1 : 0) + (tag ? 1 : 0) + (beginnerOnly ? 1 : 0);
 
   const clearAll = () => {
-    setSector(""); setBucket(""); setDistrict("");
+    setDiscovery(""); setSector(""); setBucket(""); setDistrict("");
     setInvest(""); setTag(""); setBeginnerOnly(false); setSearch("");
   };
 
@@ -99,7 +97,6 @@ export default function IdeasPage() {
           </p>
         </header>
 
-        {/* Filter panel — sticky under the navbar so it stays reachable while scrolling */}
         <div className="card-base p-3 sm:p-4 mb-5 sticky top-16 z-30 bg-cream/95 backdrop-blur-md">
           <div className="relative mb-3">
             <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400" />
@@ -107,12 +104,20 @@ export default function IdeasPage() {
               data-testid="ideas-search"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search ideas by title, skill, or tag…"
+              placeholder="Search by title, sector, skill, tag, or district..."
               className="input-field !pl-10"
             />
           </div>
 
-          {/* Execution type (bucket) */}
+          <div className="flex gap-2 overflow-x-auto pb-1 mb-2">
+            <FilterChip active={discovery === ""} onClick={() => setDiscovery("")} testid="ideas-discovery-all">✨ All ideas</FilterChip>
+            {DISCOVERY_FILTERS.map((filter) => (
+              <FilterChip key={filter.id} active={discovery === filter.id} onClick={() => setDiscovery(filter.id)} testid={`ideas-discovery-${filter.id}`}>
+                {filter.emoji} {filter.label}
+              </FilterChip>
+            ))}
+          </div>
+
           <div className="flex gap-2 overflow-x-auto pb-1 mb-2">
             <FilterChip active={bucket === ""} onClick={() => setBucket("")} testid="ideas-bucket-all">🌐 All types</FilterChip>
             {BUCKETS.map((b) => (
@@ -122,7 +127,6 @@ export default function IdeasPage() {
             ))}
           </div>
 
-          {/* Sector */}
           <div className="flex gap-2 overflow-x-auto pb-1 mb-2">
             <FilterChip active={sector === ""} onClick={() => setSector("")} testid="ideas-sector-all">All sectors</FilterChip>
             {SECTORS.map((s) => (
@@ -132,7 +136,6 @@ export default function IdeasPage() {
             ))}
           </div>
 
-          {/* District — Telangana + AP priority */}
           <div className="flex gap-2 overflow-x-auto pb-1 mb-2">
             <FilterChip active={district === ""} onClick={() => setDistrict("")} testid="ideas-district-all">
               <MapPin size={11} /> All districts
@@ -144,7 +147,6 @@ export default function IdeasPage() {
             ))}
           </div>
 
-          {/* More filters: investment range + tags (collapsible to keep mobile light) */}
           <button
             data-testid="ideas-more-filters"
             onClick={() => setMoreOpen((o) => !o)}
@@ -190,7 +192,6 @@ export default function IdeasPage() {
             </div>
           )}
 
-          {/* Bottom row: beginner toggle · sort · clear */}
           <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mt-3 pt-3 border-t border-stone-100">
             <label className="inline-flex items-center gap-2 text-xs cursor-pointer select-none">
               <input type="checkbox" data-testid="ideas-beginner-toggle" checked={beginnerOnly} onChange={(e) => setBeginnerOnly(e.target.checked)} className="accent-amber-500 w-4 h-4" />
@@ -217,7 +218,6 @@ export default function IdeasPage() {
           </div>
         </div>
 
-        {/* Result count */}
         <div className="flex items-center justify-between mb-3">
           <p data-testid="ideas-count" className="text-xs font-display font-semibold text-muted">
             {ideas.length} {ideas.length === 1 ? "idea" : "ideas"}
@@ -246,6 +246,17 @@ export default function IdeasPage() {
         </div>
       </main>
     </div>
+  );
+}
+
+function discoveryRank(idea) {
+  return (
+    (isFeaturedIdea(idea) ? 8 : 0) +
+    (isTrendingIdea(idea) ? 5 : 0) +
+    (idea.beginner_friendly ? 3 : 0) +
+    (isLowInvestmentIdea(idea) ? 3 : 0) +
+    (isWomenLedIdea(idea) ? 2 : 0) +
+    (isStudentFriendlyIdea(idea) ? 2 : 0)
   );
 }
 
@@ -285,12 +296,16 @@ function IdeaCard({ idea }) {
       <p className="text-sm text-muted leading-relaxed line-clamp-3">{idea.short_description}</p>
       <div className="flex flex-wrap gap-1.5">
         <span className="chip bg-amber-50 text-amber-700">{sector.emoji} {sector.label}</span>
+        {isFeaturedIdea(idea) && <span className="chip bg-amber-100 text-amber-800">Featured</span>}
+        {isTrendingIdea(idea) && <span className="chip bg-rose-50 text-rose-700">Trending</span>}
         {idea.beginner_friendly && <span className="chip bg-teal-50 text-teal-700">Beginner friendly</span>}
-        {idea.remote_possible && <span className="chip bg-blue-50 text-blue-700">Remote possible</span>}
+        {isLowInvestmentIdea(idea) && <span className="chip bg-emerald-50 text-emerald-700">Below ₹1L</span>}
+        {isWomenLedIdea(idea) && <span className="chip bg-pink-50 text-pink-700">Women-led</span>}
+        {isStudentFriendlyIdea(idea) && <span className="chip bg-blue-50 text-blue-700">Student friendly</span>}
       </div>
       <div className="flex items-center justify-between pt-3 border-t border-stone-100 text-xs">
         <span className="font-display font-bold text-ink">
-          {formatINR(idea.investment_min)}–{formatINR(idea.investment_adv)}
+          {formatINR(idea.investment_min)}-{formatINR(idea.investment_adv)}
         </span>
         <span className="text-muted">{idea.district_fit.slice(0, 2).join(" · ")}</span>
       </div>

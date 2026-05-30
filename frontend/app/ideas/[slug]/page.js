@@ -1,7 +1,7 @@
 "use client";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import { getIdea, getSector, getBucket, getInvestmentRange, formatINR } from "@/lib/idea-library";
+import { getIdea, getSector, getBucket, formatINR, getRelatedIdeas } from "@/lib/idea-library";
 import AppNavbar from "@/components/AppNavbar";
 import ShareButton from "@/components/ShareButton";
 import { MapPin, Users, Target, Wrench, IndianRupee, TrendingUp, Sparkles, ShieldCheck, Landmark, ShoppingBag } from "lucide-react";
@@ -13,7 +13,6 @@ const BUCKET_COLOR = {
   "future":         "bg-violet-100 text-violet-800",
 };
 
-// Map an idea's sector to an opportunity category (for prefill).
 const SECTOR_TO_OPP_CATEGORY = {
   "agriculture": "agri",
   "agritech": "agri",
@@ -31,7 +30,6 @@ const SECTOR_TO_OPP_CATEGORY = {
   "climate-tech": "agri",
 };
 
-// Always render arrays safely — a single malformed record must never crash the page.
 const arr = (v) => (Array.isArray(v) ? v : []);
 
 export default function IdeaDetailPage() {
@@ -56,9 +54,8 @@ export default function IdeaDetailPage() {
   const skills = arr(idea.skills_needed);
   const tags = arr(idea.tags);
   const isAiProof = tags.includes("AI-Proof");
+  const relatedIdeas = getRelatedIdeas(idea, 3);
 
-  // Build the prefill, including DISTRICT CONTEXT. /opportunities/new reads the
-  // `location` param (not `district`), so the first suggested district seeds it.
   const seedDistrict = arr(idea.district_fit)[0] || "";
   const params = new URLSearchParams({
     title: `Looking for collaborators — ${idea.title}`,
@@ -116,7 +113,7 @@ export default function IdeaDetailPage() {
           </div>
           <div className="bg-amber-50 rounded-xl px-4 py-3 text-sm">
             <span className="font-display font-bold text-amber-700">Monthly revenue range: </span>
-            <span className="text-ink">{formatINR(idea.monthly_revenue_min)} – {formatINR(idea.monthly_revenue_max)}</span>
+            <span className="text-ink">{formatINR(idea.monthly_revenue_min)} - {formatINR(idea.monthly_revenue_max)}</span>
             <span className="text-stone-500 text-xs ml-2">(estimate, varies by execution)</span>
           </div>
         </Section>
@@ -145,8 +142,6 @@ export default function IdeaDetailPage() {
           </Section>
         )}
 
-        {/* Optional sections — render only when the dataset provides them, so we
-            never show fabricated government schemes or customer claims. */}
         {arr(idea.target_customers).length > 0 && (
           <Section icon={ShoppingBag} label="Target customers">
             <div className="flex flex-wrap gap-1.5">
@@ -186,7 +181,39 @@ export default function IdeaDetailPage() {
           <Link href={postHref} data-testid="idea-start-cta" className="btn-primary">Start this in your district →</Link>
         </div>
       </article>
+
+      {relatedIdeas.length > 0 && <RelatedIdeas ideas={relatedIdeas} />}
     </Shell>
+  );
+}
+
+function RelatedIdeas({ ideas }) {
+  return (
+    <section className="mt-6" data-testid="related-ideas">
+      <div className="flex items-end justify-between gap-3 mb-3">
+        <div>
+          <h2 className="font-display font-extrabold text-xl tracking-tight">Related ideas</h2>
+          <p className="text-xs text-muted mt-0.5">Based on sector, tags, and similar investment level.</p>
+        </div>
+        <Link href="/ideas" className="text-xs font-display font-semibold text-amber-700 hover:text-amber-800">Browse all →</Link>
+      </div>
+      <div className="grid sm:grid-cols-3 gap-3">
+        {ideas.map((related) => {
+          const sector = getSector(related.sector);
+          return (
+            <Link key={related.slug} href={`/ideas/${related.slug}`} className="card-base p-4 hover:-translate-y-1 hover:shadow-md hover:border-amber-300 transition-all">
+              <div className="text-2xl mb-2">{related.emoji}</div>
+              <h3 className="font-display font-bold text-sm leading-snug mb-2 line-clamp-2">{related.title}</h3>
+              <div className="flex flex-wrap gap-1.5 mb-3">
+                <span className="chip bg-amber-50 text-amber-700">{sector.emoji} {sector.label}</span>
+                {related.beginner_friendly && <span className="chip bg-teal-50 text-teal-700">Beginner</span>}
+              </div>
+              <div className="text-xs font-display font-bold text-ink">{formatINR(related.investment_min)}-{formatINR(related.investment_adv)}</div>
+            </Link>
+          );
+        })}
+      </div>
+    </section>
   );
 }
 

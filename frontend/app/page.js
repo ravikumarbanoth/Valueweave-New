@@ -1,10 +1,52 @@
 import Link from "next/link";
 import { Shield, Smartphone, Sparkles } from "lucide-react";
 
+const FLOATING_CARDS = [
+  { top: "8%", left: "12%", emoji: "🤖", label: "AI · Hyderabad", bg: "bg-blue-50", border: "border-blue-200" },
+  { top: "15%", right: "0%", emoji: "🌾", label: "Agri · Warangal", bg: "bg-emerald-50", border: "border-emerald-200" },
+  { bottom: "14%", left: "0%", emoji: "🏪", label: "Retail · Vijayawada", bg: "bg-amber-50", border: "border-amber-200" },
+  { bottom: "22%", right: "10%", emoji: "⚡", label: "EV · Coimbatore", bg: "bg-violet-50", border: "border-violet-200" },
+];
+
+const GAP_CARDS = [
+  {
+    icon: "🔍",
+    title: "Talent without visibility",
+    desc: "A diploma-holder electrician in Warangal, a coder in Vizag, a baker in Guntur — full of skill, invisible to the people who'd build with them.",
+  },
+  {
+    icon: "💡",
+    title: "Ideas without teams",
+    desc: "Founders in tier-2 cities like Hyderabad, Vijayawada, Coimbatore have ambition and insight, but no easy way to find a co-founder locally.",
+  },
+  {
+    icon: "🤝",
+    title: "Trust without proof",
+    desc: "LinkedIn rewards titles; Fiverr rewards bidding. Neither rewards real collaboration. We're building the third option.",
+  },
+];
+
+const HOW_STEPS = [
+  { n: "01", icon: "👤", t: "Create Your Profile", d: "Share your skills, interests, and what you want to build. Everyone has a place here." },
+  { n: "02", icon: "🔍", t: "Discover Opportunities", d: "Browse local businesses, startup ideas, and projects that match your interests." },
+  { n: "03", icon: "🤝", t: "Connect Directly", d: "Send collaboration requests and chat with builders. No middlemen, no fees." },
+  { n: "04", icon: "🚀", t: "Build Together", d: "Form your team, define your project, and launch from your hometown." },
+];
+
+const CATEGORIES = [
+  { e: "🤖", l: "AI & Tech", c: "bg-blue-50" },
+  { e: "🏪", l: "Local Biz", c: "bg-amber-50" },
+  { e: "⚡", l: "EV Tech", c: "bg-green-50" },
+  { e: "🚁", l: "Drone", c: "bg-violet-50" },
+  { e: "🌾", l: "Agriculture", c: "bg-emerald-50" },
+  { e: "🎓", l: "Student", c: "bg-rose-50" },
+  { e: "🔧", l: "Trades", c: "bg-yellow-50" },
+  { e: "📱", l: "Digital", c: "bg-sky-50" },
+];
+
 export default function LandingPage() {
   return (
     <div className="min-h-screen bg-cream font-body">
-      {/* Navbar */}
       <nav className="fixed top-0 inset-x-0 z-50 bg-cream/85 backdrop-blur-md border-b border-stone-200/60">
         <div className="max-w-6xl mx-auto h-16 px-4 sm:px-6 flex items-center justify-between gap-3">
           <Link href="/" className="flex items-center gap-2.5">
@@ -26,7 +68,6 @@ export default function LandingPage() {
         </div>
       </nav>
 
-      {/* Hero */}
       <section className="pt-32 pb-20 px-4 sm:px-6 relative overflow-hidden">
         <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_60%_60%_at_80%_20%,rgba(249,115,22,0.14)_0%,transparent_60%),radial-gradient(ellipse_50%_50%_at_10%_80%,rgba(13,148,136,0.12)_0%,transparent_55%)]" />
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
@@ -56,7 +97,6 @@ export default function LandingPage() {
               </Link>
             </div>
 
-            {/* Trust signals */}
             <ul className="flex flex-wrap gap-x-5 gap-y-2 animate-fadeUp" style={{ animationDelay: "0.3s" }}>
               <li className="inline-flex items-center gap-1.5 text-xs sm:text-sm text-muted">
                 <Shield size={14} className="text-teal-600" /> Google-authenticated profiles
@@ -70,7 +110,6 @@ export default function LandingPage() {
             </ul>
           </div>
 
-          {/* Right illustration */}
           <div className="relative h-[440px] hidden md:block">
             <div className="absolute inset-0 m-auto w-72 h-72 rounded-[60%_40%_30%_70%/60%_30%_70%_40%] bg-gradient-to-br from-amber-500/15 to-teal-500/15" />
             <div className="absolute inset-0 flex items-center justify-center">
@@ -79,26 +118,20 @@ export default function LandingPage() {
                 <span className="absolute -inset-2 rounded-full border-2 border-amber-500/30 animate-ping" />
               </div>
             </div>
-            {[
-              { top: "8%", left: "12%", emoji: "🤖", label: "AI · Hyderabad", bg: "bg-blue-50", border: "border-blue-200" },
-              { top: "15%", right: "0%", emoji: "🌾", label: "Agri · Warangal", bg: "bg-emerald-50", border: "border-emerald-200" },
-              { bottom: "14%", left: "0%", emoji: "🏪", label: "Retail · Vijayawada", bg: "bg-amber-50", border: "border-amber-200" },
-              { bottom: "22%", right: "10%", emoji: "⚡", label: "EV · Coimbatore", bg: "bg-violet-50", border: "border-violet-200" },
-            ].map((c, i) => (
+            {FLOATING_CARDS.map((card, index) => (
               <div
-                key={i}
-                className={`absolute ${c.bg} border ${c.border} rounded-2xl px-3 py-2 flex items-center gap-2 shadow-sm animate-float`}
-                style={{ top: c.top, left: c.left, right: c.right, bottom: c.bottom, animationDelay: `${i * 0.5}s` }}
+                key={card.label}
+                className={`absolute ${card.bg} border ${card.border} rounded-2xl px-3 py-2 flex items-center gap-2 shadow-sm animate-float`}
+                style={{ top: card.top, left: card.left, right: card.right, bottom: card.bottom, animationDelay: `${index * 0.5}s` }}
               >
-                <span className="text-xl">{c.emoji}</span>
-                <span className="text-xs font-display font-semibold text-ink whitespace-nowrap">{c.label}</span>
+                <span className="text-xl">{card.emoji}</span>
+                <span className="text-xs font-display font-semibold text-ink whitespace-nowrap">{card.label}</span>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Why ValueWeave Exists */}
       <section id="why" className="bg-warm py-20 sm:py-24 px-4 sm:px-6">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
@@ -113,21 +146,7 @@ export default function LandingPage() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-5">
-            <GapCard
-              icon="🔍"
-              title="Talent without visibility"
-              desc="A diploma-holder electrician in Warangal, a coder in Vizag, a baker in Guntur — full of skill, invisible to the people who'd build with them."
-            />
-            <GapCard
-              icon="💡"
-              title="Ideas without teams"
-              desc="Founders in tier-2 cities like Hyderabad, Vijayawada, Coimbatore have ambition and insight, but no easy way to find a co-founder locally."
-            />
-            <GapCard
-              icon="🤝"
-              title="Trust without proof"
-              desc="LinkedIn rewards titles; Fiverr rewards bidding. Neither rewards real collaboration. We're building the third option."
-            />
+            {GAP_CARDS.map((card) => <GapCard key={card.title} {...card} />)}
           </div>
 
           <div className="text-center mt-12">
@@ -138,7 +157,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* How it works */}
       <section id="how" className="py-20 sm:py-24 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
@@ -149,24 +167,18 @@ export default function LandingPage() {
             <p className="mt-4 text-muted max-w-lg mx-auto">Four simple steps to find your people and bring ideas to life.</p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {[
-              { n: "01", icon: "👤", t: "Create Your Profile", d: "Share your skills, interests, and what you want to build. Everyone has a place here." },
-              { n: "02", icon: "🔍", t: "Discover Opportunities", d: "Browse local businesses, startup ideas, and projects that match your interests." },
-              { n: "03", icon: "🤝", t: "Connect Directly", d: "Send collaboration requests and chat with builders. No middlemen, no fees." },
-              { n: "04", icon: "🚀", t: "Build Together", d: "Form your team, define your project, and launch from your hometown." },
-            ].map((s) => (
-              <div key={s.n} className="card-base p-6 hover:-translate-y-1 hover:shadow-lg transition-all">
-                <div className="text-4xl mb-4">{s.icon}</div>
-                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-amber-500 to-yellow-400 text-white font-display font-extrabold text-sm flex items-center justify-center mb-3">{s.n}</div>
-                <h3 className="font-display font-bold text-base mb-2">{s.t}</h3>
-                <p className="text-sm text-muted leading-relaxed">{s.d}</p>
+            {HOW_STEPS.map((step) => (
+              <div key={step.n} className="card-base p-6 hover:-translate-y-1 hover:shadow-lg transition-all">
+                <div className="text-4xl mb-4">{step.icon}</div>
+                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-amber-500 to-yellow-400 text-white font-display font-extrabold text-sm flex items-center justify-center mb-3">{step.n}</div>
+                <h3 className="font-display font-bold text-base mb-2">{step.t}</h3>
+                <p className="text-sm text-muted leading-relaxed">{step.d}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Categories */}
       <section className="bg-warm py-20 sm:py-24 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
@@ -176,19 +188,10 @@ export default function LandingPage() {
             </h2>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-            {[
-              { e: "🤖", l: "AI & Tech", c: "bg-blue-50" },
-              { e: "🏪", l: "Local Biz", c: "bg-amber-50" },
-              { e: "⚡", l: "EV Tech", c: "bg-green-50" },
-              { e: "🚁", l: "Drone", c: "bg-violet-50" },
-              { e: "🌾", l: "Agriculture", c: "bg-emerald-50" },
-              { e: "🎓", l: "Student", c: "bg-rose-50" },
-              { e: "🔧", l: "Trades", c: "bg-yellow-50" },
-              { e: "📱", l: "Digital", c: "bg-sky-50" },
-            ].map((c) => (
-              <div key={c.l} className={`${c.c} rounded-2xl p-5 text-center border border-stone-100 hover:-translate-y-1 hover:shadow-sm transition-all`}>
-                <div className="text-3xl mb-2">{c.e}</div>
-                <div className="font-display font-bold text-sm">{c.l}</div>
+            {CATEGORIES.map((category) => (
+              <div key={category.l} className={`${category.c} rounded-2xl p-5 text-center border border-stone-100 hover:-translate-y-1 hover:shadow-sm transition-all`}>
+                <div className="text-3xl mb-2">{category.e}</div>
+                <div className="font-display font-bold text-sm">{category.l}</div>
               </div>
             ))}
           </div>
@@ -198,7 +201,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Final CTA */}
       <section className="bg-ink text-white py-20 sm:py-24 px-4 sm:px-6 relative overflow-hidden">
         <div className="absolute -top-20 -right-20 w-80 h-80 rounded-full bg-amber-500/20 blur-3xl" />
         <div className="absolute -bottom-20 -left-20 w-96 h-96 rounded-full bg-teal-500/20 blur-3xl" />
@@ -221,46 +223,6 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className="bg-[#141210] text-white/60 py-14 px-4 sm:px-6">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid md:grid-cols-4 gap-10 mb-10">
-            <div>
-              <div className="flex items-center gap-2.5 mb-4">
-                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-amber-500 to-yellow-400 flex items-center justify-center">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3L4 7.5V16.5L12 21L20 16.5V7.5L12 3Z" stroke="#fff" strokeWidth="2" strokeLinejoin="round"/><path d="M4 7.5L12 12M12 12L20 7.5M12 12V21" stroke="#fff" strokeWidth="2" strokeLinecap="round"/></svg>
-                </div>
-                <span className="font-display font-extrabold text-white text-lg">Value<span className="text-amber-500">Weave</span></span>
-              </div>
-              <p className="text-sm leading-relaxed max-w-xs">
-                India's collaboration & opportunity platform. Built for Bharat builders.
-              </p>
-            </div>
-            <FooterCol
-              title="About"
-              text="ValueWeave is a collaboration platform helping ambitious people across India discover co-builders, opportunities, and meaningful startup or business connections. Built for students, professionals, local entrepreneurs, skilled workers, and builders from every part of Bharat."
-              more={{ href: "/about", label: "Read more →" }}
-            />
-            <FooterCol
-              title="Privacy"
-              text="We collect only essential information required to operate the platform, including profile details and authentication data. We do not sell personal information. Public profile and opportunity visibility is controlled through platform settings."
-              more={{ href: "/privacy", label: "Full policy →" }}
-            />
-            <FooterCol
-              title="Terms"
-              text="By using ValueWeave, users agree to provide accurate information, avoid spam or misuse, respect other users, and avoid fraudulent or harmful content. We may moderate content and suspend abusive accounts."
-              more={{ href: "/terms", label: "Full terms →" }}
-            />
-          </div>
-          <div className="border-t border-white/10 pt-6 flex flex-wrap items-center justify-between gap-3">
-            <p className="text-xs">© 2026 ValueWeave · Made with ❤️ for Bharat</p>
-            <div className="flex items-center gap-5 text-xs">
-              <a href="mailto:valueweave.team@gmail.com" data-testid="footer-contact" className="hover:text-amber-400">Contact: valueweave.team@gmail.com</a>
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }
@@ -271,16 +233,6 @@ function GapCard({ icon, title, desc }) {
       <div className="text-4xl mb-3">{icon}</div>
       <h3 className="font-display font-bold text-base mb-2">{title}</h3>
       <p className="text-sm text-muted leading-relaxed">{desc}</p>
-    </div>
-  );
-}
-
-function FooterCol({ title, text, more }) {
-  return (
-    <div>
-      <h4 className="font-display font-bold text-white text-xs uppercase tracking-wider mb-3">{title}</h4>
-      <p className="text-sm leading-relaxed mb-3">{text}</p>
-      {more && <Link href={more.href} className="text-xs text-amber-400 hover:text-amber-300 font-display font-semibold">{more.label}</Link>}
     </div>
   );
 }

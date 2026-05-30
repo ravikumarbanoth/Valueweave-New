@@ -5,13 +5,13 @@ import AppNavbar from "@/components/AppNavbar";
 import ProfileView from "@/components/ProfileView";
 
 export default function MyProfilePage() {
-  const supabase = createClient();
   const [profile, setProfile] = useState(null);
   const [opps, setOpps] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     (async () => {
+      const supabase = createClient();
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) { setLoading(false); return; }
       const { data } = await supabase.from("profiles").select("*").eq("id", user.id).single();
@@ -20,7 +20,7 @@ export default function MyProfilePage() {
       setOpps(o || []);
       setLoading(false);
     })();
-  }, [supabase]);
+  }, []);
 
   if (loading) return <Shell me={profile}><p>Loading…</p></Shell>;
   if (!profile) return <Shell me={null}><p>Profile not found.</p></Shell>;

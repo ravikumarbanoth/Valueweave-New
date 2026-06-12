@@ -64,6 +64,7 @@ export default function LandingPage() {
           </Link>
           <div className="flex items-center gap-2">
             <Link href="/discover" data-testid="nav-discover" className="hidden sm:inline text-sm font-display font-semibold text-muted hover:text-ink px-3 py-2 rounded-lg hover:bg-stone-100">Discover</Link>
+            <Link href="/research" data-testid="nav-research" className="hidden md:inline text-sm font-display font-semibold text-muted hover:text-ink px-3 py-2 rounded-lg hover:bg-stone-100">Research</Link>
             <Link href="/ideas" data-testid="nav-ideas" className="hidden sm:inline text-sm font-display font-semibold text-muted hover:text-ink px-3 py-2 rounded-lg hover:bg-stone-100">Ideas</Link>
             <Link href="/explore" data-testid="nav-explore" className="hidden sm:inline text-sm font-display font-semibold text-muted hover:text-ink px-3 py-2 rounded-lg hover:bg-stone-100">Explore</Link>
             <a href="#why" className="hidden md:inline text-sm font-display font-semibold text-muted hover:text-ink px-3 py-2 rounded-lg hover:bg-stone-100">Why</a>

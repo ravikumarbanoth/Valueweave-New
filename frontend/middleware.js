@@ -9,6 +9,7 @@ function requiresAuth(pathname) {
   if (pathname === "/opportunities/new") return true;
   if (pathname === "/profile") return true; // /profile/[userId] is public
   if (pathname === "/connections" || pathname.startsWith("/connections/")) return true;
+  if (pathname === "/admin" || pathname.startsWith("/admin/")) return true;
   // /ideas and /ideas/[slug] are public
   return false;
 }

@@ -4,6 +4,9 @@ import SocialLinks from "@/components/SocialLinks";
 const FOOTER_LINKS = [
   { href: "/about", label: "About" },
   { href: "/ideas", label: "Idea Library" },
+  { href: "/research", label: "Research" },
+  { href: "/district", label: "Districts" },
+  { href: "/opportunity-radar", label: "Opportunity Radar" },
   { href: "/privacy", label: "Privacy" },
   { href: "/terms", label: "Terms" },
 ];

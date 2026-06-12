@@ -39,15 +39,20 @@ export function ArticleCard({ article, featured }) {
         featured ? "md:flex-row" : ""
       }`}
     >
-      {/* Gradient header */}
+      {/* Cover image when provided, themed gradient otherwise */}
       <div
-        className={`relative flex items-center justify-center bg-gradient-to-br ${
+        className={`relative flex items-center justify-center overflow-hidden bg-gradient-to-br ${
           CATEGORY_GRADIENT[article.category] || "from-amber-100 to-teal-50"
         } ${featured ? "md:w-2/5 min-h-[180px]" : "h-36"}`}
       >
-        <span className={featured ? "text-7xl" : "text-5xl"}>
-          {CATEGORY_EMOJI[article.category] || "📊"}
-        </span>
+        {article.coverImage ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={article.coverImage} alt="" className="absolute inset-0 w-full h-full object-cover" />
+        ) : (
+          <span className={featured ? "text-7xl" : "text-5xl"}>
+            {CATEGORY_EMOJI[article.category] || "📊"}
+          </span>
+        )}
         <div className="absolute top-3 left-3">
           <CategoryBadge category={article.category} />
         </div>
@@ -76,7 +81,9 @@ export function ArticleCard({ article, featured }) {
         <p className="text-sm text-muted line-clamp-2 mb-4 flex-1">{article.metaDescription}</p>
 
         <div className="flex items-center justify-between pt-3 border-t border-stone-100">
-          <InvestmentBadge label={article.investmentRange.label} />
+          {article.investmentRange?.label
+            ? <InvestmentBadge label={article.investmentRange.label} />
+            : <span className="text-xs text-stone-400">{article.author || "ValueWeave Research"}</span>}
           <span className="text-xs text-stone-400">{article.readingTime} min read</span>
         </div>
       </div>

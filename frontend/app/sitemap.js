@@ -1,11 +1,12 @@
-import { getAllArticleSlugs } from "@/lib/mdx";
+import { getCombinedArticles } from "@/lib/research";
 import { getAllDistrictSlugs } from "@/lib/districts-data";
 import { getAllSegments } from "@/lib/radar-data";
 import { sitemapEntry } from "@/lib/seo";
 import { IDEAS } from "@/lib/idea-library";
 
-export default function sitemap() {
-  const articleSlugs = getAllArticleSlugs();
+export default async function sitemap() {
+  // Combined sources: published database articles + file-based MDX
+  const articleSlugs = (await getCombinedArticles()).map((a) => a.slug);
   const districtSlugs = getAllDistrictSlugs();
   const radarSegments = getAllSegments();
 

@@ -5,7 +5,7 @@
 import { MDXRemote } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
 
-const mdxComponents = {
+export const mdxComponents = {
   h2: (props) => (
     <h2 className="font-display font-extrabold tracking-tight text-2xl text-ink mt-10 mb-4 scroll-mt-24" {...props} />
   ),

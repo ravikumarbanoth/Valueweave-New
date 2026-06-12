@@ -20,7 +20,7 @@ export function ArticleTemplate({ article, relatedLinks, relatedArticles, mdx })
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 pt-12 pb-10">
           <div className="flex items-center gap-2 mb-4 flex-wrap">
             <CategoryBadge category={article.category} />
-            {article.investmentRange.label && (
+            {article.investmentRange?.label && (
               <span className="chip bg-white/15 text-white border border-white/20">{article.investmentRange.label}</span>
             )}
             {article.stateTags.map((s) => (
@@ -52,6 +52,14 @@ export function ArticleTemplate({ article, relatedLinks, relatedArticles, mdx })
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-10">
           {/* ── Main content ── */}
           <article>
+            {article.coverImage && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={article.coverImage}
+                alt={article.title}
+                className="w-full max-h-96 object-cover rounded-2xl border border-stone-200 mb-8"
+              />
+            )}
             <div>{mdx}</div>
 
             {/* District Suitability Chips */}
@@ -107,10 +115,12 @@ export function ArticleTemplate({ article, relatedLinks, relatedArticles, mdx })
             <div className="card-base p-5 lg:sticky lg:top-20">
               <p className="text-sm font-display font-bold text-muted mb-4 uppercase tracking-wider">Quick Snapshot</p>
               <div className="space-y-1">
-                <div className="flex justify-between items-center py-2 border-b border-stone-100">
-                  <span className="text-sm text-muted">Investment</span>
-                  <span className="text-sm font-display font-bold text-amber-700">{article.investmentRange.label}</span>
-                </div>
+                {article.investmentRange?.label && (
+                  <div className="flex justify-between items-center py-2 border-b border-stone-100">
+                    <span className="text-sm text-muted">Investment</span>
+                    <span className="text-sm font-display font-bold text-amber-700">{article.investmentRange.label}</span>
+                  </div>
+                )}
                 <div className="flex justify-between items-center py-2 border-b border-stone-100">
                   <span className="text-sm text-muted">Sector</span>
                   <span className="text-sm font-display font-bold text-ink capitalize">{article.sector}</span>

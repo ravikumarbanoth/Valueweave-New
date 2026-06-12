@@ -56,6 +56,22 @@ h1, h2, h3, h4, .font-display {
   .skeleton {
     @apply animate-pulse bg-stone-200/70 rounded-xl;
   }
+  /* Rendered-markdown typography: admin editor preview + fallback article body */
+  .md-preview h1 { @apply font-display font-extrabold tracking-tight text-2xl text-ink mt-6 mb-4; }
+  .md-preview h2 { @apply font-display font-extrabold tracking-tight text-2xl text-ink mt-8 mb-4; }
+  .md-preview h3 { @apply font-display font-bold text-xl text-ink mt-6 mb-3; }
+  .md-preview p { @apply text-stone-600 leading-relaxed mb-4; }
+  .md-preview ul { @apply list-disc list-inside space-y-1.5 text-stone-600 mb-4; }
+  .md-preview ol { @apply list-decimal list-inside space-y-1.5 text-stone-600 mb-4; }
+  .md-preview a { @apply text-amber-700 font-semibold hover:underline; }
+  .md-preview strong { @apply font-bold text-ink; }
+  .md-preview blockquote { @apply border-l-4 border-amber-400 pl-4 py-1 my-4 text-stone-600 italic bg-amber-50 rounded-r-lg; }
+  .md-preview table { @apply w-full text-sm border-collapse my-6; }
+  .md-preview th { @apply text-left px-4 py-3 bg-amber-50 text-amber-800 font-display font-bold border border-stone-200; }
+  .md-preview td { @apply px-4 py-3 border border-stone-200 text-stone-600; }
+  .md-preview hr { @apply my-8 border-stone-200; }
+  .md-preview img { @apply rounded-xl my-4 max-w-full; }
+  .md-preview code { @apply bg-stone-100 px-1.5 py-0.5 rounded text-xs; }
 }
 
 ::-webkit-scrollbar { width: 8px; height: 8px; }

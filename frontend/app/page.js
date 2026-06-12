@@ -33,6 +33,13 @@ const HOW_STEPS = [
   { n: "04", icon: "🚀", t: "Build Together", d: "Form your team, define your project, and launch from your hometown." },
 ];
 
+const DISCOVER_CARDS = [
+  { emoji: "💡", label: "Innovator", desc: "Product & Strategy Lead — spots opportunities others miss.", bg: "bg-violet-50", border: "border-violet-200" },
+  { emoji: "🦁", label: "Leader", desc: "CEO / Managing Director — sets direction and owns outcomes.", bg: "bg-rose-50", border: "border-rose-200" },
+  { emoji: "🏗️", label: "Builder", desc: "Operations & Delivery Lead — makes things actually run.", bg: "bg-amber-50", border: "border-amber-200" },
+  { emoji: "🎙️", label: "Influencer", desc: "Marketing & Sales Lead — tells the story, builds the brand.", bg: "bg-pink-50", border: "border-pink-200" },
+];
+
 const CATEGORIES = [
   { e: "🤖", l: "AI & Tech", c: "bg-blue-50" },
   { e: "🏪", l: "Local Biz", c: "bg-amber-50" },
@@ -56,6 +63,7 @@ export default function LandingPage() {
             <span className="font-display font-extrabold text-lg tracking-tight">Value<span className="text-amber-500">Weave</span></span>
           </Link>
           <div className="flex items-center gap-2">
+            <Link href="/discover" data-testid="nav-discover" className="hidden sm:inline text-sm font-display font-semibold text-muted hover:text-ink px-3 py-2 rounded-lg hover:bg-stone-100">Discover</Link>
             <Link href="/ideas" data-testid="nav-ideas" className="hidden sm:inline text-sm font-display font-semibold text-muted hover:text-ink px-3 py-2 rounded-lg hover:bg-stone-100">Ideas</Link>
             <Link href="/explore" data-testid="nav-explore" className="hidden sm:inline text-sm font-display font-semibold text-muted hover:text-ink px-3 py-2 rounded-lg hover:bg-stone-100">Explore</Link>
             <a href="#why" className="hidden md:inline text-sm font-display font-semibold text-muted hover:text-ink px-3 py-2 rounded-lg hover:bg-stone-100">Why</a>
@@ -86,6 +94,7 @@ export default function LandingPage() {
 
             <div className="flex flex-wrap gap-3 mb-6 animate-fadeUp" style={{ animationDelay: "0.2s" }}>
               <Link href="/get-started" data-testid="hero-cta-join" className="btn-primary">Join ValueWeave →</Link>
+              <Link href="/discover" data-testid="hero-cta-discover" className="btn-teal">🧭 Discover Yourself</Link>
               <Link href="/signin" data-testid="hero-cta-signin" className="btn-secondary">Sign in</Link>
             </div>
             <div className="mb-8 animate-fadeUp" style={{ animationDelay: "0.25s" }}>
@@ -157,7 +166,47 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section id="how" className="py-20 sm:py-24 px-4 sm:px-6">
+      <section id="discover" className="py-20 sm:py-24 px-4 sm:px-6">
+        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+          <div>
+            <span className="chip bg-teal-100 text-teal-600 mb-4">NEW · DISCOVER YOURSELF</span>
+            <h2 className="h-section mb-5">
+              Not sure where to start?<br />
+              <span className="text-teal-500">Find your founder DNA.</span>
+            </h2>
+            <p className="text-muted text-base sm:text-lg leading-relaxed mb-6 max-w-md">
+              A free 7-minute assessment that maps your personality, sector interests, budget, and district into your entrepreneur archetype, founder role, and the business ideas best suited to where you live.
+            </p>
+            <ul className="flex flex-col gap-2.5 mb-7">
+              {[
+                ["🧠", "Your archetype & founder role — Innovator, Builder, Leader & more"],
+                ["📍", "Business ideas matched to your district's real opportunity demand"],
+                ["💰", "Filtered by what you can actually invest, from ₹30K to ₹15L+"],
+                ["🚀", "Turn your top idea into a live opportunity post in one click"],
+              ].map(([icon, text]) => (
+                <li key={text} className="flex items-start gap-2.5 text-sm text-muted">
+                  <span className="text-base">{icon}</span>
+                  <span className="leading-relaxed">{text}</span>
+                </li>
+              ))}
+            </ul>
+            <Link href="/discover" data-testid="section-cta-discover" className="btn-teal">
+              Take the free assessment →
+            </Link>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            {DISCOVER_CARDS.map((card) => (
+              <div key={card.label} className={`${card.bg} border ${card.border} rounded-2xl p-5 hover:-translate-y-1 hover:shadow-md transition-all`}>
+                <div className="text-3xl mb-2">{card.emoji}</div>
+                <div className="font-display font-bold text-sm mb-1">{card.label}</div>
+                <div className="text-xs text-muted leading-relaxed">{card.desc}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="how" className="py-20 sm:py-24 px-4 sm:px-6 bg-warm">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <span className="chip bg-amber-100 text-amber-700 mb-4">HOW IT WORKS</span>
@@ -179,7 +228,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section className="bg-warm py-20 sm:py-24 px-4 sm:px-6">
+      <section className="py-20 sm:py-24 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <span className="chip bg-amber-100 text-amber-700 mb-4">EVERY SKILL HAS A HOME</span>

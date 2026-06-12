@@ -1,4 +1,4 @@
-// File: /app/frontend/app/ideas/[slug]/page.js
+// File: C:\Users\saiku\Desktop\VW\Valueweave-New\frontend\app\ideas\[slug]\page.js
 import * as entry from '../../../../../app/ideas/[slug]/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

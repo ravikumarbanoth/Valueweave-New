@@ -1,8 +1,8 @@
-// File: /app/frontend/app/signin/page.js
-import * as entry from '../../../../app/signin/page.js'
+// File: C:\Users\saiku\Desktop\VW\Valueweave-New\frontend\app\discover\page.js
+import * as entry from '../../../../app/discover/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
-type TEntry = typeof import('../../../../app/signin/page.js')
+type TEntry = typeof import('../../../../app/discover/page.js')
 
 // Check that the entry is a valid entry
 checkFields<Diff<{

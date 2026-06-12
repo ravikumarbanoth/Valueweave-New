@@ -16,20 +16,25 @@
       "static/chunks/main-app.js",
       "static/chunks/app/ideas/page.js"
     ],
+    "/ideas/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/ideas/layout.js"
+    ],
+    "/ideas/loading": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/ideas/loading.js"
+    ],
     "/ideas/[slug]/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/ideas/[slug]/page.js"
     ],
-    "/explore/page": [
+    "/discover/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/explore/page.js"
-    ],
-    "/signin/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/signin/page.js"
+      "static/chunks/app/discover/page.js"
     ]
   }
 }

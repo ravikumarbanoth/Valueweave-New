@@ -1,7 +1,6 @@
 {
   "/page": "app/page.js",
-  "/ideas/page": "app/ideas/page.js",
+  "/discover/page": "app/discover/page.js",
   "/ideas/[slug]/page": "app/ideas/[slug]/page.js",
-  "/explore/page": "app/explore/page.js",
-  "/signin/page": "app/signin/page.js"
+  "/ideas/page": "app/ideas/page.js"
 }

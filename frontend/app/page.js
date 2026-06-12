@@ -99,7 +99,7 @@ export default function LandingPage() {
             </div>
             <div className="mb-8 animate-fadeUp" style={{ animationDelay: "0.25s" }}>
               <Link href="/ideas" data-testid="hero-cta-ideas" className="inline-flex items-center gap-1.5 text-sm font-display font-semibold text-teal-700 hover:text-teal-800 mr-4">
-                Browse 30+ business ideas →
+                Browse 120+ business ideas →
               </Link>
               <Link href="/explore" data-testid="hero-cta-explore" className="inline-flex items-center gap-1.5 text-sm font-display font-semibold text-teal-700 hover:text-teal-800">
                 Explore opportunities →

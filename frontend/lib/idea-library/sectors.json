@@ -68,5 +68,45 @@
     "id": "climate-tech",
     "label": "Climate Tech",
     "emoji": "♻️"
+  },
+  {
+    "id": "healthcare",
+    "label": "Healthcare",
+    "emoji": "🏥"
+  },
+  {
+    "id": "textile-handloom",
+    "label": "Textile & Handloom",
+    "emoji": "🧵"
+  },
+  {
+    "id": "tourism",
+    "label": "Tourism & Hospitality",
+    "emoji": "🏖️"
+  },
+  {
+    "id": "construction",
+    "label": "Construction",
+    "emoji": "🏗️"
+  },
+  {
+    "id": "finance",
+    "label": "Finance",
+    "emoji": "💰"
+  },
+  {
+    "id": "beauty-wellness",
+    "label": "Beauty & Wellness",
+    "emoji": "💄"
+  },
+  {
+    "id": "events",
+    "label": "Events & Entertainment",
+    "emoji": "🎉"
+  },
+  {
+    "id": "sports-fitness",
+    "label": "Sports & Fitness",
+    "emoji": "🏏"
   }
 ]

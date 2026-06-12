@@ -29,6 +29,14 @@ const SECTOR_TO_OPP_CATEGORY = {
   "ev-energy": "ev-electronics",
   "drone-tech": "drone",
   "climate-tech": "agri",
+  "healthcare": "local-business",
+  "textile-handloom": "local-business",
+  "tourism": "local-business",
+  "construction": "trades",
+  "finance": "local-business",
+  "beauty-wellness": "local-business",
+  "events": "local-business",
+  "sports-fitness": "local-business",
 };
 
 // Always render arrays safely — a single malformed record must never crash the page.

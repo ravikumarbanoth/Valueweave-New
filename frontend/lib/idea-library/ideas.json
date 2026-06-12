@@ -1399,5 +1399,4182 @@
     ],
     "beginner_friendly": false,
     "remote_possible": false
+  },
+  {
+    "id": "idea_031",
+    "slug": "micro-cold-storage-as-a-service",
+    "title": "Micro Cold Storage as a Service",
+    "emoji": "🧊",
+    "sector": "agriculture",
+    "bucket": "local-physical",
+    "short_description": "Shared 2–5 ton cold storage units at village mandis, rented hourly or daily to prevent post-harvest losses for small farmers.",
+    "problem_solved": "Up to 30% of fruit and vegetable harvests spoil because small farmers have no affordable cold storage near the mandi.",
+    "investment_min": 800000,
+    "investment_med": 1150000,
+    "investment_adv": 1500000,
+    "monthly_revenue_min": 95000,
+    "monthly_revenue_max": 180000,
+    "team_roles": [
+      "Cold-chain Technician",
+      "Farmer Liaison",
+      "Finance Manager"
+    ],
+    "skills_needed": [
+      "Operations Coordination",
+      "Electrical Work",
+      "Field Marketing",
+      "Vendor Management"
+    ],
+    "ideal_for": [
+      "Local entrepreneurs",
+      "Agriculture graduates",
+      "Small teams"
+    ],
+    "district_fit": [
+      "Nizamabad",
+      "Khammam",
+      "Guntur",
+      "West Godavari",
+      "Anantapur"
+    ],
+    "tags": [
+      "Rural Opportunity",
+      "High Growth",
+      "Field Intensive",
+      "Community Driven"
+    ],
+    "beginner_friendly": false,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_032",
+    "slug": "farm-input-subscription-box",
+    "title": "Farm Input Subscription Box",
+    "emoji": "📦",
+    "sector": "agriculture",
+    "bucket": "hybrid",
+    "short_description": "Monthly curated box of seeds, nutrients, and bio-pesticides delivered to registered farmers with WhatsApp-based ordering.",
+    "problem_solved": "Small farmers travel long distances for quality inputs and often end up with counterfeit or overpriced products.",
+    "investment_min": 200000,
+    "investment_med": 350000,
+    "investment_adv": 500000,
+    "monthly_revenue_min": 25000,
+    "monthly_revenue_max": 60000,
+    "team_roles": [
+      "Procurement Manager",
+      "Delivery Coordinator",
+      "Customer Support"
+    ],
+    "skills_needed": [
+      "Inventory Management",
+      "Field Marketing",
+      "Customer Handling",
+      "Logistics"
+    ],
+    "ideal_for": [
+      "Rural youth",
+      "Agriculture graduates",
+      "First-time founders"
+    ],
+    "district_fit": [
+      "Nizamabad",
+      "Karimnagar",
+      "Khammam",
+      "Kurnool",
+      "Anantapur"
+    ],
+    "tags": [
+      "Rural Opportunity",
+      "Low Investment",
+      "Tech Enabled",
+      "Evergreen"
+    ],
+    "beginner_friendly": true,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_033",
+    "slug": "agri-waste-to-biochar-unit",
+    "title": "Agri Waste to Biochar Unit",
+    "emoji": "♻️",
+    "sector": "agriculture",
+    "bucket": "local-physical",
+    "short_description": "Convert paddy straw and cotton stalks into biochar and compost, supplying organic farmers and landscaping firms.",
+    "problem_solved": "Crop residue is burnt in the open for lack of alternatives, wasting biomass and polluting the air.",
+    "investment_min": 600000,
+    "investment_med": 900000,
+    "investment_adv": 1200000,
+    "monthly_revenue_min": 70000,
+    "monthly_revenue_max": 145000,
+    "team_roles": [
+      "Process Engineer",
+      "Procurement Agent",
+      "B2B Sales Executive"
+    ],
+    "skills_needed": [
+      "Organic Farming",
+      "Operations Coordination",
+      "Sales",
+      "Vendor Management"
+    ],
+    "ideal_for": [
+      "Engineering graduates",
+      "Local entrepreneurs",
+      "Small teams"
+    ],
+    "district_fit": [
+      "Nizamabad",
+      "Karimnagar",
+      "Guntur",
+      "Kurnool",
+      "Nalgonda"
+    ],
+    "tags": [
+      "Sustainable",
+      "Rural Opportunity",
+      "High Growth",
+      "Field Intensive"
+    ],
+    "beginner_friendly": false,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_034",
+    "slug": "livestock-micro-insurance-and-vet-link",
+    "title": "Livestock Micro-Insurance & Vet Link",
+    "emoji": "🐐",
+    "sector": "agriculture",
+    "bucket": "hybrid",
+    "short_description": "Bundle affordable goat and poultry insurance with on-call mobile vet visits for livestock-owning households.",
+    "problem_solved": "A single animal death wipes out savings for small livestock owners, and vets rarely reach remote villages.",
+    "investment_min": 300000,
+    "investment_med": 450000,
+    "investment_adv": 600000,
+    "monthly_revenue_min": 35000,
+    "monthly_revenue_max": 70000,
+    "team_roles": [
+      "Insurance Liaison",
+      "Mobile Veterinarian",
+      "Community Mobiliser"
+    ],
+    "skills_needed": [
+      "Local Sales",
+      "Customer Handling",
+      "Field Marketing",
+      "Operations Coordination"
+    ],
+    "ideal_for": [
+      "Rural youth",
+      "Veterinary graduates",
+      "Community workers"
+    ],
+    "district_fit": [
+      "Mahabubnagar",
+      "Nalgonda",
+      "Anantapur",
+      "Kurnool",
+      "Khammam"
+    ],
+    "tags": [
+      "Rural Opportunity",
+      "Community Driven",
+      "Relationship Driven",
+      "Low Investment"
+    ],
+    "beginner_friendly": true,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_035",
+    "slug": "ready-to-cook-millet-products",
+    "title": "Ready-to-Cook Millet Products",
+    "emoji": "🥣",
+    "sector": "food-business",
+    "bucket": "local-physical",
+    "short_description": "Instant idli, dosa, and upma mixes made from jowar, bajra, and ragi — FSSAI-registered and sold via quick commerce and stores.",
+    "problem_solved": "Health-conscious demand for millets is booming but few local brands supply them in convenient ready-to-cook formats.",
+    "investment_min": 400000,
+    "investment_med": 700000,
+    "investment_adv": 1000000,
+    "monthly_revenue_min": 50000,
+    "monthly_revenue_max": 120000,
+    "team_roles": [
+      "Food Technologist",
+      "Production Supervisor",
+      "Distribution Manager"
+    ],
+    "skills_needed": [
+      "Food Processing",
+      "Packaging",
+      "Sales",
+      "Inventory Management"
+    ],
+    "ideal_for": [
+      "Food technology graduates",
+      "Local entrepreneurs",
+      "Small teams"
+    ],
+    "district_fit": [
+      "Hyderabad",
+      "Warangal",
+      "Vijayawada",
+      "Guntur"
+    ],
+    "tags": [
+      "High Growth",
+      "Export Potential",
+      "Skill-Based",
+      "Family Business Friendly"
+    ],
+    "beginner_friendly": false,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_036",
+    "slug": "cloud-kitchen-for-regional-cuisine",
+    "title": "Cloud Kitchen for Regional Cuisine",
+    "emoji": "🍛",
+    "sector": "food-business",
+    "bucket": "local-physical",
+    "short_description": "Ghost kitchen preparing authentic regional thalis for delivery apps, plus office lunch subscriptions.",
+    "problem_solved": "Authentic regional food is underrepresented on delivery apps dominated by generic fast food.",
+    "investment_min": 300000,
+    "investment_med": 500000,
+    "investment_adv": 700000,
+    "monthly_revenue_min": 35000,
+    "monthly_revenue_max": 85000,
+    "team_roles": [
+      "Head Cook",
+      "Kitchen Assistant",
+      "Order Coordinator"
+    ],
+    "skills_needed": [
+      "Food Processing",
+      "Customer Handling",
+      "Inventory Management",
+      "Digital Marketing"
+    ],
+    "ideal_for": [
+      "Home chefs",
+      "First-time founders",
+      "Family businesses"
+    ],
+    "district_fit": [
+      "Hyderabad",
+      "Visakhapatnam",
+      "Vijayawada",
+      "Warangal"
+    ],
+    "tags": [
+      "Urban Opportunity",
+      "High Growth",
+      "Family Business Friendly",
+      "Evergreen"
+    ],
+    "beginner_friendly": true,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_037",
+    "slug": "cold-pressed-oil-unit",
+    "title": "Cold-Pressed Oil Unit",
+    "emoji": "🫒",
+    "sector": "food-business",
+    "bucket": "local-physical",
+    "short_description": "Extract groundnut, sesame, and coconut oils using cold-press machines; sell premium retail and direct to households.",
+    "problem_solved": "Households want chemical-free cooking oils but premium brands are costly and traceable local options are rare.",
+    "investment_min": 500000,
+    "investment_med": 850000,
+    "investment_adv": 1200000,
+    "monthly_revenue_min": 60000,
+    "monthly_revenue_max": 145000,
+    "team_roles": [
+      "Machine Operator",
+      "Procurement Agent",
+      "Retail Sales Manager"
+    ],
+    "skills_needed": [
+      "Food Processing",
+      "Packaging",
+      "Retail Operations",
+      "Vendor Management"
+    ],
+    "ideal_for": [
+      "Local entrepreneurs",
+      "Family businesses",
+      "Agriculture graduates"
+    ],
+    "district_fit": [
+      "Guntur",
+      "Kurnool",
+      "Anantapur",
+      "West Godavari",
+      "Nizamabad"
+    ],
+    "tags": [
+      "Semi-Urban Opportunity",
+      "Sustainable",
+      "High Growth",
+      "Family Business Friendly"
+    ],
+    "beginner_friendly": false,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_038",
+    "slug": "organic-honey-processing-and-branding",
+    "title": "Organic Honey Processing & Branding",
+    "emoji": "🍯",
+    "sector": "food-business",
+    "bucket": "local-physical",
+    "short_description": "Source wild and apiary honey from tribal areas, then process, bottle, and sell under your own brand with export potential.",
+    "problem_solved": "Tribal and apiary honey sells raw at throwaway prices for lack of processing, branding, and certification.",
+    "investment_min": 300000,
+    "investment_med": 550000,
+    "investment_adv": 800000,
+    "monthly_revenue_min": 35000,
+    "monthly_revenue_max": 95000,
+    "team_roles": [
+      "Sourcing Agent",
+      "Compliance Officer",
+      "Brand Manager"
+    ],
+    "skills_needed": [
+      "Food Processing",
+      "Packaging",
+      "Digital Marketing",
+      "Vendor Management"
+    ],
+    "ideal_for": [
+      "Rural youth",
+      "Local entrepreneurs",
+      "First-time founders"
+    ],
+    "district_fit": [
+      "Khammam",
+      "East Godavari",
+      "Visakhapatnam",
+      "Warangal"
+    ],
+    "tags": [
+      "Rural Opportunity",
+      "Export Potential",
+      "Sustainable",
+      "Community Driven"
+    ],
+    "beginner_friendly": true,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_039",
+    "slug": "packaged-dry-snacks-brand",
+    "title": "Packaged Dry Snacks Brand",
+    "emoji": "🥜",
+    "sector": "food-business",
+    "bucket": "local-physical",
+    "short_description": "Machine-pack murmura, roasted nuts, and jaggery chikki under a district brand sold at toll plazas, petrol pumps, and stores.",
+    "problem_solved": "Local snacks sell loose with no hygiene or branding, losing the highway, travel, and gifting market to national brands.",
+    "investment_min": 200000,
+    "investment_med": 400000,
+    "investment_adv": 600000,
+    "monthly_revenue_min": 25000,
+    "monthly_revenue_max": 70000,
+    "team_roles": [
+      "Production Operator",
+      "Packaging Designer",
+      "Channel Sales Agent"
+    ],
+    "skills_needed": [
+      "Food Processing",
+      "Packaging",
+      "Local Sales",
+      "Inventory Management"
+    ],
+    "ideal_for": [
+      "Family businesses",
+      "First-time founders",
+      "Rural youth"
+    ],
+    "district_fit": [
+      "Kurnool",
+      "Nalgonda",
+      "Guntur",
+      "Karimnagar"
+    ],
+    "tags": [
+      "Low Investment",
+      "Family Business Friendly",
+      "Evergreen",
+      "Semi-Urban Opportunity"
+    ],
+    "beginner_friendly": true,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_040",
+    "slug": "spoken-english-and-digital-literacy-centre",
+    "title": "Spoken English & Digital Literacy Centre",
+    "emoji": "🗣️",
+    "sector": "education",
+    "bucket": "local-physical",
+    "short_description": "Six-week evening batches teaching spoken English, WhatsApp skills, and basic computing to students, job-seekers, and homemakers.",
+    "problem_solved": "English fluency and basic digital skills gate most private jobs, yet affordable training is missing in tier-3 towns.",
+    "investment_min": 100000,
+    "investment_med": 200000,
+    "investment_adv": 300000,
+    "monthly_revenue_min": 10000,
+    "monthly_revenue_max": 35000,
+    "team_roles": [
+      "English Trainer",
+      "Computer Instructor",
+      "Batch Coordinator"
+    ],
+    "skills_needed": [
+      "Teaching",
+      "Customer Handling",
+      "Social Media Management"
+    ],
+    "ideal_for": [
+      "Graduates",
+      "Teachers",
+      "Working professionals"
+    ],
+    "district_fit": [
+      "Warangal",
+      "Karimnagar",
+      "Nizamabad",
+      "Nellore",
+      "Kurnool"
+    ],
+    "tags": [
+      "Low Investment",
+      "Student Friendly",
+      "Skill-Based",
+      "Evergreen"
+    ],
+    "beginner_friendly": true,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_041",
+    "slug": "competitive-exam-coaching-centre",
+    "title": "Competitive Exam Coaching Centre",
+    "emoji": "📚",
+    "sector": "education",
+    "bucket": "local-physical",
+    "short_description": "Affordable group coaching for TSPSC, APPSC, SSC, and constable exams with printed material and weekly mock tests.",
+    "problem_solved": "Lakhs of government job aspirants in small towns can't afford city coaching institutes or hostel costs.",
+    "investment_min": 200000,
+    "investment_med": 350000,
+    "investment_adv": 500000,
+    "monthly_revenue_min": 25000,
+    "monthly_revenue_max": 60000,
+    "team_roles": [
+      "Subject Experts",
+      "Test Series Developer",
+      "Counsellor"
+    ],
+    "skills_needed": [
+      "Teaching",
+      "Content Writing",
+      "Operations Coordination"
+    ],
+    "ideal_for": [
+      "Subject experts",
+      "Teachers",
+      "Graduates"
+    ],
+    "district_fit": [
+      "Warangal",
+      "Karimnagar",
+      "Guntur",
+      "Tirupati",
+      "Nalgonda"
+    ],
+    "tags": [
+      "Low Investment",
+      "Student Friendly",
+      "Evergreen",
+      "Skill-Based"
+    ],
+    "beginner_friendly": true,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_042",
+    "slug": "vocational-skills-lab",
+    "title": "Vocational Skills Lab",
+    "emoji": "🔧",
+    "sector": "education",
+    "bucket": "local-physical",
+    "short_description": "Three-month electrician, plumber, and AC technician bridge courses with NCVT certification and contractor placement tie-ups.",
+    "problem_solved": "Construction and services sectors are starved of certified tradespeople while rural youth stay unemployed.",
+    "investment_min": 300000,
+    "investment_med": 500000,
+    "investment_adv": 700000,
+    "monthly_revenue_min": 35000,
+    "monthly_revenue_max": 85000,
+    "team_roles": [
+      "Master Trainer",
+      "Lab Engineer",
+      "Placement Coordinator"
+    ],
+    "skills_needed": [
+      "Teaching",
+      "Electrical Work",
+      "Plumbing",
+      "Team Management"
+    ],
+    "ideal_for": [
+      "ITI graduates",
+      "Trainers",
+      "Local entrepreneurs"
+    ],
+    "district_fit": [
+      "Warangal",
+      "Khammam",
+      "Nizamabad",
+      "Nellore",
+      "Anantapur"
+    ],
+    "tags": [
+      "Skill-Based",
+      "Rural Opportunity",
+      "Community Driven",
+      "High Growth"
+    ],
+    "beginner_friendly": false,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_043",
+    "slug": "coding-bootcamp-for-rural-youth",
+    "title": "Coding Bootcamp for Rural Youth",
+    "emoji": "💻",
+    "sector": "education",
+    "bucket": "hybrid",
+    "short_description": "Twelve-week Python, web development, and freelancing bootcamp with online delivery plus an offline support centre.",
+    "problem_solved": "Rural students have the aptitude for tech careers but no structured, affordable path into programming jobs.",
+    "investment_min": 200000,
+    "investment_med": 350000,
+    "investment_adv": 500000,
+    "monthly_revenue_min": 25000,
+    "monthly_revenue_max": 60000,
+    "team_roles": [
+      "Lead Instructor",
+      "Curriculum Designer",
+      "Community Manager"
+    ],
+    "skills_needed": [
+      "Web Development",
+      "Teaching",
+      "Content Writing",
+      "Social Media Management"
+    ],
+    "ideal_for": [
+      "Developers",
+      "Engineering graduates",
+      "Returnee professionals"
+    ],
+    "district_fit": [
+      "Warangal",
+      "Karimnagar",
+      "Guntur",
+      "Tirupati",
+      "Visakhapatnam"
+    ],
+    "tags": [
+      "Student Friendly",
+      "Tech Enabled",
+      "High Growth",
+      "Skill-Based"
+    ],
+    "beginner_friendly": false,
+    "remote_possible": true
+  },
+  {
+    "id": "idea_044",
+    "slug": "early-childhood-activity-centre",
+    "title": "Early Childhood Activity Centre",
+    "emoji": "🧸",
+    "sector": "education",
+    "bucket": "local-physical",
+    "short_description": "Franchisable preschool model with activity kits and bilingual instruction at low capex per centre.",
+    "problem_solved": "Quality early childhood education barely exists outside cities, leaving small-town kids behind before Class 1.",
+    "investment_min": 300000,
+    "investment_med": 550000,
+    "investment_adv": 800000,
+    "monthly_revenue_min": 35000,
+    "monthly_revenue_max": 95000,
+    "team_roles": [
+      "Montessori Teacher",
+      "Centre Manager",
+      "Parent Outreach Coordinator"
+    ],
+    "skills_needed": [
+      "Teaching",
+      "Customer Handling",
+      "Operations Coordination"
+    ],
+    "ideal_for": [
+      "Teachers",
+      "Women entrepreneurs",
+      "Homemakers"
+    ],
+    "district_fit": [
+      "Warangal",
+      "Nizamabad",
+      "Guntur",
+      "Nellore",
+      "Tirupati"
+    ],
+    "tags": [
+      "Women-Led",
+      "Family Business Friendly",
+      "Evergreen",
+      "Semi-Urban Opportunity"
+    ],
+    "beginner_friendly": true,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_045",
+    "slug": "stem-tinkering-lab-for-schools",
+    "title": "STEM Tinkering Lab for Schools",
+    "emoji": "🤖",
+    "sector": "education",
+    "bucket": "hybrid",
+    "short_description": "Bring robotics, electronics, and 3D-printing labs to government and aided schools under CSR and government grants.",
+    "problem_solved": "Government school students never touch hands-on science equipment, widening the urban-rural skills gap.",
+    "investment_min": 400000,
+    "investment_med": 700000,
+    "investment_adv": 1000000,
+    "monthly_revenue_min": 50000,
+    "monthly_revenue_max": 120000,
+    "team_roles": [
+      "STEM Educator",
+      "Hardware Technician",
+      "School Liaison"
+    ],
+    "skills_needed": [
+      "Teaching",
+      "Electrical Work",
+      "Content Writing",
+      "Sales"
+    ],
+    "ideal_for": [
+      "Engineering graduates",
+      "Teachers",
+      "Small teams"
+    ],
+    "district_fit": [
+      "Hyderabad",
+      "Warangal",
+      "Visakhapatnam",
+      "Vijayawada",
+      "Guntur"
+    ],
+    "tags": [
+      "Tech Enabled",
+      "Student Friendly",
+      "Community Driven",
+      "High Growth"
+    ],
+    "beginner_friendly": false,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_046",
+    "slug": "tele-health-facilitation-centre",
+    "title": "Tele-health Facilitation Centre",
+    "emoji": "🩺",
+    "sector": "healthcare",
+    "bucket": "hybrid",
+    "short_description": "Physical kiosk with basic diagnostics (BP, SpO2, glucose) plus video consultations with city doctors at ₹50–100 per visit.",
+    "problem_solved": "Rural patients lose a full day's wages travelling to town for consultations that could happen over video.",
+    "investment_min": 200000,
+    "investment_med": 350000,
+    "investment_adv": 500000,
+    "monthly_revenue_min": 25000,
+    "monthly_revenue_max": 60000,
+    "team_roles": [
+      "Health Worker",
+      "Kiosk Technician",
+      "Partnership Manager"
+    ],
+    "skills_needed": [
+      "Customer Handling",
+      "Operations Coordination",
+      "Field Marketing"
+    ],
+    "ideal_for": [
+      "Nursing graduates",
+      "Rural youth",
+      "Healthcare workers"
+    ],
+    "district_fit": [
+      "Mahabubnagar",
+      "Nalgonda",
+      "Khammam",
+      "Anantapur",
+      "Kurnool"
+    ],
+    "tags": [
+      "Rural Opportunity",
+      "Tech Enabled",
+      "Community Driven",
+      "Low Investment"
+    ],
+    "beginner_friendly": true,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_047",
+    "slug": "physiotherapy-and-rehab-clinic",
+    "title": "Physiotherapy & Rehab Clinic",
+    "emoji": "🦴",
+    "sector": "healthcare",
+    "bucket": "local-physical",
+    "short_description": "Outpatient physiotherapy for ortho, post-stroke, and sports injuries with district hospital referral tie-ups.",
+    "problem_solved": "Patients needing weeks of physiotherapy abandon treatment because the nearest clinic is hours away.",
+    "investment_min": 300000,
+    "investment_med": 500000,
+    "investment_adv": 700000,
+    "monthly_revenue_min": 35000,
+    "monthly_revenue_max": 85000,
+    "team_roles": [
+      "Registered Physiotherapist",
+      "Rehab Assistant",
+      "Front Desk Manager"
+    ],
+    "skills_needed": [
+      "Customer Handling",
+      "Operations Coordination",
+      "Local Sales"
+    ],
+    "ideal_for": [
+      "Physiotherapy graduates",
+      "Healthcare professionals",
+      "Small teams"
+    ],
+    "district_fit": [
+      "Warangal",
+      "Karimnagar",
+      "Guntur",
+      "Nellore",
+      "Tirupati"
+    ],
+    "tags": [
+      "Skill-Based",
+      "Evergreen",
+      "Semi-Urban Opportunity",
+      "AI-Proof"
+    ],
+    "beginner_friendly": true,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_048",
+    "slug": "ayurveda-and-yoga-wellness-centre",
+    "title": "Ayurveda & Yoga Wellness Centre",
+    "emoji": "🧘",
+    "sector": "healthcare",
+    "bucket": "local-physical",
+    "short_description": "Panchakarma, therapeutic yoga, and diet counselling with corporate wellness and residential stress-relief packages.",
+    "problem_solved": "Lifestyle and stress disorders are surging but credible traditional-wellness options are scarce outside metros.",
+    "investment_min": 400000,
+    "investment_med": 700000,
+    "investment_adv": 1000000,
+    "monthly_revenue_min": 50000,
+    "monthly_revenue_max": 120000,
+    "team_roles": [
+      "Ayurvedic Doctor",
+      "Yoga Instructor",
+      "Operations Manager"
+    ],
+    "skills_needed": [
+      "Customer Handling",
+      "Team Management",
+      "Digital Marketing"
+    ],
+    "ideal_for": [
+      "BAMS doctors",
+      "Yoga instructors",
+      "Healthcare professionals"
+    ],
+    "district_fit": [
+      "Hyderabad",
+      "Tirupati",
+      "Visakhapatnam",
+      "Vijayawada"
+    ],
+    "tags": [
+      "Urban Opportunity",
+      "High Growth",
+      "Skill-Based",
+      "AI-Proof"
+    ],
+    "beginner_friendly": false,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_049",
+    "slug": "diagnostic-sample-collection-hub",
+    "title": "Diagnostic Sample Collection Hub",
+    "emoji": "🧪",
+    "sector": "healthcare",
+    "bucket": "local-physical",
+    "short_description": "Last-mile sample collection point partnered with large pathology labs on a commission model.",
+    "problem_solved": "Patients in small towns travel to cities for routine blood tests that only need a collection point locally.",
+    "investment_min": 100000,
+    "investment_med": 200000,
+    "investment_adv": 300000,
+    "monthly_revenue_min": 10000,
+    "monthly_revenue_max": 35000,
+    "team_roles": [
+      "Phlebotomist",
+      "Centre Operator",
+      "Lab Liaison"
+    ],
+    "skills_needed": [
+      "Lab Operations",
+      "Customer Handling",
+      "Operations Coordination"
+    ],
+    "ideal_for": [
+      "Lab technicians",
+      "First-time founders",
+      "Healthcare workers"
+    ],
+    "district_fit": [
+      "Nalgonda",
+      "Siddipet",
+      "Khammam",
+      "Nellore",
+      "Kurnool"
+    ],
+    "tags": [
+      "Low Investment",
+      "Local Service",
+      "Evergreen",
+      "Semi-Urban Opportunity"
+    ],
+    "beginner_friendly": true,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_050",
+    "slug": "medical-consumables-supply-store",
+    "title": "Medical Consumables Supply Store",
+    "emoji": "⚕️",
+    "sector": "healthcare",
+    "bucket": "local-physical",
+    "short_description": "B2B supply of dressings, gloves, and surgical consumables to nursing homes, clinics, and PHCs at bulk pricing.",
+    "problem_solved": "Small clinics overpay for consumables because organised medical distribution skips smaller districts.",
+    "investment_min": 500000,
+    "investment_med": 850000,
+    "investment_adv": 1200000,
+    "monthly_revenue_min": 60000,
+    "monthly_revenue_max": 145000,
+    "team_roles": [
+      "Procurement Manager",
+      "Field Sales Rep",
+      "Logistics Coordinator"
+    ],
+    "skills_needed": [
+      "Inventory Management",
+      "Sales",
+      "Vendor Management",
+      "Logistics"
+    ],
+    "ideal_for": [
+      "Pharma graduates",
+      "Local entrepreneurs",
+      "Small teams"
+    ],
+    "district_fit": [
+      "Warangal",
+      "Guntur",
+      "Vijayawada",
+      "Nellore",
+      "Karimnagar"
+    ],
+    "tags": [
+      "Semi-Urban Opportunity",
+      "Evergreen",
+      "High Growth",
+      "Relationship Driven"
+    ],
+    "beginner_friendly": false,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_051",
+    "slug": "ambulance-and-first-response-service",
+    "title": "Ambulance & First Response Service",
+    "emoji": "🚑",
+    "sector": "healthcare",
+    "bucket": "local-physical",
+    "short_description": "Non-emergency ambulance transport with trained first-responder crews, on subscription to corporates and hospitals.",
+    "problem_solved": "Outside cities, patients depend on autos and private cars during medical emergencies and transfers.",
+    "investment_min": 800000,
+    "investment_med": 1300000,
+    "investment_adv": 1800000,
+    "monthly_revenue_min": 95000,
+    "monthly_revenue_max": 215000,
+    "team_roles": [
+      "EMT Paramedic",
+      "Driver",
+      "Dispatch Coordinator"
+    ],
+    "skills_needed": [
+      "Operations Coordination",
+      "Customer Handling",
+      "Team Management"
+    ],
+    "ideal_for": [
+      "Healthcare professionals",
+      "Local entrepreneurs",
+      "Small teams"
+    ],
+    "district_fit": [
+      "Warangal",
+      "Khammam",
+      "Guntur",
+      "Kurnool",
+      "Anantapur"
+    ],
+    "tags": [
+      "Community Driven",
+      "High Trust Required",
+      "Evergreen",
+      "Field Intensive"
+    ],
+    "beginner_friendly": false,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_052",
+    "slug": "hyperlocal-grocery-delivery",
+    "title": "Hyperlocal Grocery Delivery",
+    "emoji": "🛒",
+    "sector": "local-services",
+    "bucket": "hybrid",
+    "short_description": "WhatsApp and app-based same-day grocery delivery from partner kirana stores, earning margin plus delivery fees.",
+    "problem_solved": "Quick commerce stops at city limits; small-town households still haul groceries themselves.",
+    "investment_min": 300000,
+    "investment_med": 550000,
+    "investment_adv": 800000,
+    "monthly_revenue_min": 35000,
+    "monthly_revenue_max": 95000,
+    "team_roles": [
+      "Tech Developer",
+      "Kirana Onboarding Manager",
+      "Delivery Fleet Lead"
+    ],
+    "skills_needed": [
+      "Logistics",
+      "Local Sales",
+      "Customer Handling",
+      "Web Development"
+    ],
+    "ideal_for": [
+      "Local entrepreneurs",
+      "Engineering graduates",
+      "Small teams"
+    ],
+    "district_fit": [
+      "Warangal",
+      "Karimnagar",
+      "Guntur",
+      "Nellore",
+      "Tirupati"
+    ],
+    "tags": [
+      "Tech Enabled",
+      "Semi-Urban Opportunity",
+      "High Growth",
+      "Local Service"
+    ],
+    "beginner_friendly": false,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_053",
+    "slug": "premium-organic-produce-store",
+    "title": "Premium Organic Produce Store",
+    "emoji": "🥬",
+    "sector": "local-services",
+    "bucket": "local-physical",
+    "short_description": "Brick-and-online store stocking certified organic vegetables, grains, and dairy on a membership subscription model.",
+    "problem_solved": "Affluent households want trustworthy organic food but can't verify loose claims in regular markets.",
+    "investment_min": 400000,
+    "investment_med": 700000,
+    "investment_adv": 1000000,
+    "monthly_revenue_min": 50000,
+    "monthly_revenue_max": 120000,
+    "team_roles": [
+      "Procurement Officer",
+      "Store Manager",
+      "Supplier Network Builder"
+    ],
+    "skills_needed": [
+      "Retail Operations",
+      "Organic Farming",
+      "Inventory Management",
+      "Digital Marketing"
+    ],
+    "ideal_for": [
+      "Local entrepreneurs",
+      "Agriculture graduates",
+      "Working professionals"
+    ],
+    "district_fit": [
+      "Hyderabad",
+      "Visakhapatnam",
+      "Vijayawada",
+      "Guntur"
+    ],
+    "tags": [
+      "Urban Opportunity",
+      "Sustainable",
+      "High Growth",
+      "Relationship Driven"
+    ],
+    "beginner_friendly": false,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_054",
+    "slug": "district-b2b-wholesale-aggregator",
+    "title": "District B2B Wholesale Aggregator",
+    "emoji": "🏪",
+    "sector": "local-services",
+    "bucket": "local-physical",
+    "short_description": "Aggregate weekly orders from kirana stores and supply from city wholesale markets at better-than-retail rates.",
+    "problem_solved": "Individual kirana owners shut shop for a day and overpay middlemen to restock from city markets.",
+    "investment_min": 500000,
+    "investment_med": 850000,
+    "investment_adv": 1200000,
+    "monthly_revenue_min": 60000,
+    "monthly_revenue_max": 145000,
+    "team_roles": [
+      "Procurement Manager",
+      "Kirana Sales Agent",
+      "Logistics Driver"
+    ],
+    "skills_needed": [
+      "Vendor Management",
+      "Logistics",
+      "Local Sales",
+      "Inventory Management"
+    ],
+    "ideal_for": [
+      "Local entrepreneurs",
+      "Commerce graduates",
+      "Small teams"
+    ],
+    "district_fit": [
+      "Nizamabad",
+      "Nalgonda",
+      "Kurnool",
+      "West Godavari",
+      "Khammam"
+    ],
+    "tags": [
+      "Rural Opportunity",
+      "Evergreen",
+      "Relationship Driven",
+      "Field Intensive"
+    ],
+    "beginner_friendly": false,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_055",
+    "slug": "auto-parts-and-rural-machinery-spares-store",
+    "title": "Auto Parts & Rural Machinery Spares Store",
+    "emoji": "🚜",
+    "sector": "local-services",
+    "bucket": "local-physical",
+    "short_description": "Genuine spare parts for tractors, two-wheelers, and tillers, covering several mandals from one hub store.",
+    "problem_solved": "Farm machinery sits idle for days while owners hunt genuine spares in distant city markets.",
+    "investment_min": 600000,
+    "investment_med": 1050000,
+    "investment_adv": 1500000,
+    "monthly_revenue_min": 70000,
+    "monthly_revenue_max": 180000,
+    "team_roles": [
+      "Technical Store Manager",
+      "Sales Executive",
+      "Supply Chain Coordinator"
+    ],
+    "skills_needed": [
+      "Inventory Management",
+      "Mechanical Work",
+      "Local Sales",
+      "Vendor Management"
+    ],
+    "ideal_for": [
+      "Mechanics",
+      "Local entrepreneurs",
+      "Family businesses"
+    ],
+    "district_fit": [
+      "Nizamabad",
+      "Khammam",
+      "Kurnool",
+      "Anantapur",
+      "West Godavari"
+    ],
+    "tags": [
+      "Rural Opportunity",
+      "Evergreen",
+      "Family Business Friendly",
+      "AI-Proof"
+    ],
+    "beginner_friendly": false,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_056",
+    "slug": "stationery-and-print-shop",
+    "title": "Stationery & Print Shop",
+    "emoji": "🖨️",
+    "sector": "local-services",
+    "bucket": "local-physical",
+    "short_description": "Printing, lamination, binding, school stationery, and government form-filling with DTP and Aadhaar services.",
+    "problem_solved": "Students and citizens in mandal towns lack a single reliable stop for printing and digital government paperwork.",
+    "investment_min": 100000,
+    "investment_med": 200000,
+    "investment_adv": 300000,
+    "monthly_revenue_min": 10000,
+    "monthly_revenue_max": 35000,
+    "team_roles": [
+      "DTP Operator",
+      "Store Attendant",
+      "Govt Services Agent"
+    ],
+    "skills_needed": [
+      "Printing",
+      "Customer Handling",
+      "Graphic Design"
+    ],
+    "ideal_for": [
+      "First-time founders",
+      "Students",
+      "Family businesses"
+    ],
+    "district_fit": [
+      "Siddipet",
+      "Nalgonda",
+      "Mahabubnagar",
+      "Nellore",
+      "Kurnool"
+    ],
+    "tags": [
+      "Low Investment",
+      "Local Service",
+      "Evergreen",
+      "Family Business Friendly"
+    ],
+    "beginner_friendly": true,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_057",
+    "slug": "agri-produce-transport-aggregator",
+    "title": "Agri Produce Transport Aggregator",
+    "emoji": "🚛",
+    "sector": "logistics",
+    "bucket": "hybrid",
+    "short_description": "Connect farmers to market-bound trucks and fill empty backhaul capacity, earning commission per trip.",
+    "problem_solved": "Farmers pay full truck rates for half loads while trucks return from markets empty.",
+    "investment_min": 200000,
+    "investment_med": 350000,
+    "investment_adv": 500000,
+    "monthly_revenue_min": 25000,
+    "monthly_revenue_max": 60000,
+    "team_roles": [
+      "Fleet Aggregator Manager",
+      "Farmer Liaison",
+      "Driver Network Coordinator"
+    ],
+    "skills_needed": [
+      "Logistics",
+      "Field Marketing",
+      "Vendor Management",
+      "Customer Handling"
+    ],
+    "ideal_for": [
+      "Rural youth",
+      "Local entrepreneurs",
+      "First-time founders"
+    ],
+    "district_fit": [
+      "Guntur",
+      "Kurnool",
+      "Nizamabad",
+      "West Godavari",
+      "Anantapur"
+    ],
+    "tags": [
+      "Rural Opportunity",
+      "Low Investment",
+      "Tech Enabled",
+      "Field Intensive"
+    ],
+    "beginner_friendly": true,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_058",
+    "slug": "cold-chain-logistics-for-pharma-and-dairy",
+    "title": "Cold Chain Logistics for Pharma & Dairy",
+    "emoji": "❄️",
+    "sector": "logistics",
+    "bucket": "local-physical",
+    "short_description": "Temperature-controlled vans distributing medicines to PHCs and running dairy collect-and-deliver routes.",
+    "problem_solved": "Vaccines, insulin, and milk degrade in transit because districts lack temperature-controlled transport.",
+    "investment_min": 1000000,
+    "investment_med": 1500000,
+    "investment_adv": 2000000,
+    "monthly_revenue_min": 120000,
+    "monthly_revenue_max": 240000,
+    "team_roles": [
+      "Cold Chain Driver-Operator",
+      "Pharma Liaison",
+      "Route Compliance Manager"
+    ],
+    "skills_needed": [
+      "Logistics",
+      "Operations Coordination",
+      "Vendor Management"
+    ],
+    "ideal_for": [
+      "Local entrepreneurs",
+      "Working professionals",
+      "Small teams"
+    ],
+    "district_fit": [
+      "Warangal",
+      "Guntur",
+      "Vijayawada",
+      "Nellore",
+      "Khammam"
+    ],
+    "tags": [
+      "High Growth",
+      "Evergreen",
+      "Field Intensive",
+      "High Trust Required"
+    ],
+    "beginner_friendly": false,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_059",
+    "slug": "rural-micro-fulfilment-centre",
+    "title": "Rural Micro-Fulfilment Centre",
+    "emoji": "🏬",
+    "sector": "logistics",
+    "bucket": "hybrid",
+    "short_description": "Dark warehouse stocking ~500 fast-moving SKUs for 1–2 day delivery in rural belts, partnered with e-commerce platforms.",
+    "problem_solved": "E-commerce delivery to villages takes a week because the nearest warehouse is hundreds of kilometres away.",
+    "investment_min": 800000,
+    "investment_med": 1300000,
+    "investment_adv": 1800000,
+    "monthly_revenue_min": 95000,
+    "monthly_revenue_max": 215000,
+    "team_roles": [
+      "Warehouse Manager",
+      "Picker-Packer Team",
+      "Last-mile Fleet Lead"
+    ],
+    "skills_needed": [
+      "Inventory Management",
+      "Logistics",
+      "Operations Coordination",
+      "Team Management"
+    ],
+    "ideal_for": [
+      "Local entrepreneurs",
+      "Working professionals",
+      "Small teams"
+    ],
+    "district_fit": [
+      "Nizamabad",
+      "Khammam",
+      "Kurnool",
+      "Anantapur",
+      "East Godavari"
+    ],
+    "tags": [
+      "Rural Opportunity",
+      "Tech Enabled",
+      "High Growth",
+      "District Scale"
+    ],
+    "beginner_friendly": false,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_060",
+    "slug": "e-commerce-return-pickup-service",
+    "title": "E-commerce Return Pickup Service",
+    "emoji": "🔄",
+    "sector": "logistics",
+    "bucket": "local-physical",
+    "short_description": "Dedicated reverse logistics collecting e-commerce returns from rural buyers, sold on contract to marketplaces.",
+    "problem_solved": "Marketplaces struggle with rural returns, and buyers wait weeks for refunds because pickup never comes.",
+    "investment_min": 200000,
+    "investment_med": 400000,
+    "investment_adv": 600000,
+    "monthly_revenue_min": 25000,
+    "monthly_revenue_max": 70000,
+    "team_roles": [
+      "Field Pickup Agents",
+      "Quality Check Operator",
+      "Client Relationship Manager"
+    ],
+    "skills_needed": [
+      "Logistics",
+      "Customer Handling",
+      "Operations Coordination"
+    ],
+    "ideal_for": [
+      "Rural youth",
+      "First-time founders",
+      "Small teams"
+    ],
+    "district_fit": [
+      "Nalgonda",
+      "Mahabubnagar",
+      "Khammam",
+      "Kurnool",
+      "Nellore"
+    ],
+    "tags": [
+      "Rural Opportunity",
+      "Low Investment",
+      "Tech Enabled",
+      "Field Intensive"
+    ],
+    "beginner_friendly": true,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_061",
+    "slug": "handloom-weaver-aggregation-platform",
+    "title": "Handloom Weaver Aggregation Platform",
+    "emoji": "🧵",
+    "sector": "textile-handloom",
+    "bucket": "hybrid",
+    "short_description": "Aggregate 50–100 weavers, digitise designs, and connect them to city boutiques and online buyers with quality upgrades.",
+    "problem_solved": "Master weavers earn a fraction of retail value because middlemen control design, pricing, and market access.",
+    "investment_min": 300000,
+    "investment_med": 500000,
+    "investment_adv": 700000,
+    "monthly_revenue_min": 35000,
+    "monthly_revenue_max": 85000,
+    "team_roles": [
+      "Design Curator",
+      "Weaver Coordinator",
+      "Online Sales Manager"
+    ],
+    "skills_needed": [
+      "Tailoring",
+      "Digital Marketing",
+      "Vendor Management",
+      "Photography"
+    ],
+    "ideal_for": [
+      "Design graduates",
+      "Community workers",
+      "Local entrepreneurs"
+    ],
+    "district_fit": [
+      "Warangal",
+      "Nalgonda",
+      "Guntur",
+      "East Godavari"
+    ],
+    "tags": [
+      "Community Driven",
+      "Export Potential",
+      "Sustainable",
+      "Relationship Driven"
+    ],
+    "beginner_friendly": false,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_062",
+    "slug": "custom-uniform-manufacturing",
+    "title": "Custom Uniform Manufacturing",
+    "emoji": "👔",
+    "sector": "textile-handloom",
+    "bucket": "local-physical",
+    "short_description": "School, hospital, and corporate uniforms through bulk tenders and direct B2B sales.",
+    "problem_solved": "Institutions order uniforms from distant cities at high cost while local tailoring capacity sits underused.",
+    "investment_min": 500000,
+    "investment_med": 850000,
+    "investment_adv": 1200000,
+    "monthly_revenue_min": 60000,
+    "monthly_revenue_max": 145000,
+    "team_roles": [
+      "Garment Technologist",
+      "Tailoring Team Lead",
+      "Tender Specialist"
+    ],
+    "skills_needed": [
+      "Tailoring",
+      "Team Management",
+      "Sales",
+      "Vendor Management"
+    ],
+    "ideal_for": [
+      "Tailors",
+      "Local entrepreneurs",
+      "Women entrepreneurs"
+    ],
+    "district_fit": [
+      "Warangal",
+      "Guntur",
+      "Nizamabad",
+      "Nellore",
+      "Karimnagar"
+    ],
+    "tags": [
+      "Skill-Based",
+      "Evergreen",
+      "Women-Led",
+      "Family Business Friendly"
+    ],
+    "beginner_friendly": false,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_063",
+    "slug": "natural-dye-processing-unit",
+    "title": "Natural Dye Processing Unit",
+    "emoji": "🎨",
+    "sector": "textile-handloom",
+    "bucket": "local-physical",
+    "short_description": "Extract natural dyes from indigo, turmeric, and pomegranate, supplying textile mills and artisan weavers.",
+    "problem_solved": "Global brands want natural-dyed textiles but Indian weavers can't source consistent natural dyes locally.",
+    "investment_min": 400000,
+    "investment_med": 650000,
+    "investment_adv": 900000,
+    "monthly_revenue_min": 50000,
+    "monthly_revenue_max": 110000,
+    "team_roles": [
+      "Dye Chemist",
+      "Raw Material Procurer",
+      "Export Liaison"
+    ],
+    "skills_needed": [
+      "Lab Operations",
+      "Operations Coordination",
+      "Sales",
+      "Packaging"
+    ],
+    "ideal_for": [
+      "Chemistry graduates",
+      "Engineering graduates",
+      "Small teams"
+    ],
+    "district_fit": [
+      "Warangal",
+      "Guntur",
+      "East Godavari",
+      "Anantapur"
+    ],
+    "tags": [
+      "Export Potential",
+      "Sustainable",
+      "Skill-Based",
+      "High Growth"
+    ],
+    "beginner_friendly": false,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_064",
+    "slug": "upcycled-fabric-fashion-brand",
+    "title": "Upcycled Fabric Fashion Brand",
+    "emoji": "👜",
+    "sector": "textile-handloom",
+    "bucket": "hybrid",
+    "short_description": "Collect mill waste and convert it into trendy bags, totes, and home linen sold through an Instagram-first D2C brand.",
+    "problem_solved": "Tonnes of usable fabric waste go to landfill while eco-conscious buyers hunt for sustainable accessories.",
+    "investment_min": 200000,
+    "investment_med": 350000,
+    "investment_adv": 500000,
+    "monthly_revenue_min": 25000,
+    "monthly_revenue_max": 60000,
+    "team_roles": [
+      "Fashion Designer",
+      "Production Coordinator",
+      "Social Media Manager"
+    ],
+    "skills_needed": [
+      "Tailoring",
+      "Social Media Management",
+      "Graphic Design",
+      "Packaging"
+    ],
+    "ideal_for": [
+      "Design graduates",
+      "Women entrepreneurs",
+      "Students"
+    ],
+    "district_fit": [
+      "Hyderabad",
+      "Warangal",
+      "Visakhapatnam",
+      "Vijayawada"
+    ],
+    "tags": [
+      "Sustainable",
+      "Women-Led",
+      "Low Investment",
+      "Student Friendly"
+    ],
+    "beginner_friendly": true,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_065",
+    "slug": "school-bag-and-stationery-kit-manufacturing",
+    "title": "School Bag & Stationery Kit Manufacturing",
+    "emoji": "🎒",
+    "sector": "textile-handloom",
+    "bucket": "local-physical",
+    "short_description": "BIS-compliant school bags and stationery kits for government school procurement and retail.",
+    "problem_solved": "Government kit tenders are won by far-off manufacturers while local stitching units lack compliance support.",
+    "investment_min": 400000,
+    "investment_med": 700000,
+    "investment_adv": 1000000,
+    "monthly_revenue_min": 50000,
+    "monthly_revenue_max": 120000,
+    "team_roles": [
+      "Production Supervisor",
+      "Material Procurer",
+      "Tender Sales Manager"
+    ],
+    "skills_needed": [
+      "Tailoring",
+      "Team Management",
+      "Vendor Management",
+      "Sales"
+    ],
+    "ideal_for": [
+      "Local entrepreneurs",
+      "Tailors",
+      "Small teams"
+    ],
+    "district_fit": [
+      "Karimnagar",
+      "Nizamabad",
+      "Guntur",
+      "Kurnool"
+    ],
+    "tags": [
+      "Evergreen",
+      "Skill-Based",
+      "Family Business Friendly",
+      "District Scale"
+    ],
+    "beginner_friendly": false,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_066",
+    "slug": "heritage-homestay-network",
+    "title": "Heritage Homestay Network",
+    "emoji": "🏡",
+    "sector": "tourism",
+    "bucket": "hybrid",
+    "short_description": "Curate and list 20–30 traditional homes, forts, and farmhouses, handling booking, host training, and quality checks.",
+    "problem_solved": "Heritage properties sit empty while travellers seeking authentic stays can't find or trust unlisted homes.",
+    "investment_min": 300000,
+    "investment_med": 500000,
+    "investment_adv": 700000,
+    "monthly_revenue_min": 35000,
+    "monthly_revenue_max": 85000,
+    "team_roles": [
+      "Homestay Coordinator",
+      "Listing Photographer",
+      "Guest Relations Lead"
+    ],
+    "skills_needed": [
+      "Photography",
+      "Customer Handling",
+      "Digital Marketing",
+      "Operations Coordination"
+    ],
+    "ideal_for": [
+      "Hospitality graduates",
+      "Local entrepreneurs",
+      "Working professionals"
+    ],
+    "district_fit": [
+      "Warangal",
+      "Tirupati",
+      "Visakhapatnam",
+      "East Godavari"
+    ],
+    "tags": [
+      "High Growth",
+      "Community Driven",
+      "Tech Enabled",
+      "Relationship Driven"
+    ],
+    "beginner_friendly": true,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_067",
+    "slug": "rural-experience-tourism-packages",
+    "title": "Rural Experience Tourism Packages",
+    "emoji": "🌄",
+    "sector": "tourism",
+    "bucket": "local-physical",
+    "short_description": "Farm stays, pottery, weaving, and organic meal experiences packaged as weekend trips for city families.",
+    "problem_solved": "Urban families want authentic rural weekends but villages have no one packaging safe, bookable experiences.",
+    "investment_min": 200000,
+    "investment_med": 350000,
+    "investment_adv": 500000,
+    "monthly_revenue_min": 25000,
+    "monthly_revenue_max": 60000,
+    "team_roles": [
+      "Experience Designer",
+      "Village Liaison",
+      "Booking Manager"
+    ],
+    "skills_needed": [
+      "Event Management",
+      "Customer Handling",
+      "Social Media Management"
+    ],
+    "ideal_for": [
+      "Rural youth",
+      "Hospitality graduates",
+      "Community workers"
+    ],
+    "district_fit": [
+      "Medak",
+      "Siddipet",
+      "Warangal",
+      "East Godavari",
+      "West Godavari"
+    ],
+    "tags": [
+      "Rural Opportunity",
+      "Low Investment",
+      "Community Driven",
+      "Sustainable"
+    ],
+    "beginner_friendly": true,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_068",
+    "slug": "adventure-and-trek-tourism-operator",
+    "title": "Adventure & Trek Tourism Operator",
+    "emoji": "⛰️",
+    "sector": "tourism",
+    "bucket": "local-physical",
+    "short_description": "Curated trekking, night camping, and rappelling packages for students and corporate groups in hill and forest belts.",
+    "problem_solved": "Scenic terrain near tier-2 cities goes unmonetised for lack of certified, safety-first adventure operators.",
+    "investment_min": 300000,
+    "investment_med": 550000,
+    "investment_adv": 800000,
+    "monthly_revenue_min": 35000,
+    "monthly_revenue_max": 95000,
+    "team_roles": [
+      "Certified Trek Leader",
+      "Safety Equipment Manager",
+      "Booking Coordinator"
+    ],
+    "skills_needed": [
+      "Event Management",
+      "Team Management",
+      "Social Media Management",
+      "Customer Handling"
+    ],
+    "ideal_for": [
+      "Fitness enthusiasts",
+      "Students",
+      "Local entrepreneurs"
+    ],
+    "district_fit": [
+      "Visakhapatnam",
+      "Khammam",
+      "East Godavari",
+      "Tirupati"
+    ],
+    "tags": [
+      "High Growth",
+      "Student Friendly",
+      "Skill-Based",
+      "AI-Proof"
+    ],
+    "beginner_friendly": false,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_069",
+    "slug": "corporate-team-outing-organiser",
+    "title": "Corporate Team Outing Organiser",
+    "emoji": "🎪",
+    "sector": "tourism",
+    "bucket": "local-physical",
+    "short_description": "End-to-end team outings — venue, activities, catering, transport — for IT companies within a 150 km radius.",
+    "problem_solved": "HR teams burn weeks coordinating vendors for offsites that a local specialist could deliver turnkey.",
+    "investment_min": 200000,
+    "investment_med": 400000,
+    "investment_adv": 600000,
+    "monthly_revenue_min": 25000,
+    "monthly_revenue_max": 70000,
+    "team_roles": [
+      "Event Planner",
+      "Vendor Network Manager",
+      "Corporate Sales Executive"
+    ],
+    "skills_needed": [
+      "Event Management",
+      "Vendor Management",
+      "Sales",
+      "Customer Handling"
+    ],
+    "ideal_for": [
+      "Event planners",
+      "Working professionals",
+      "First-time founders"
+    ],
+    "district_fit": [
+      "Hyderabad",
+      "Sangareddy",
+      "Medak",
+      "Vijayawada"
+    ],
+    "tags": [
+      "Urban Opportunity",
+      "Low Investment",
+      "Relationship Driven",
+      "High Growth"
+    ],
+    "beginner_friendly": true,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_070",
+    "slug": "temple-town-tour-guide-app",
+    "title": "Temple Town Tour Guide App",
+    "emoji": "🛕",
+    "sector": "tourism",
+    "bucket": "hybrid",
+    "short_description": "Multilingual audio guides plus restaurant and darshan bookings for pilgrimage towns, earning from bookings and listings.",
+    "problem_solved": "Crores of pilgrims navigate temple towns with zero curated guidance, missing history and overpaying touts.",
+    "investment_min": 400000,
+    "investment_med": 700000,
+    "investment_adv": 1000000,
+    "monthly_revenue_min": 50000,
+    "monthly_revenue_max": 120000,
+    "team_roles": [
+      "App Developer",
+      "Content Researcher",
+      "Merchant Onboarding Agent"
+    ],
+    "skills_needed": [
+      "Mobile App Development",
+      "Content Writing",
+      "Local Sales",
+      "Digital Marketing"
+    ],
+    "ideal_for": [
+      "Developers",
+      "Content creators",
+      "Local entrepreneurs"
+    ],
+    "district_fit": [
+      "Tirupati",
+      "Warangal",
+      "Vijayawada",
+      "East Godavari"
+    ],
+    "tags": [
+      "Tech Enabled",
+      "High Growth",
+      "Semi-Urban Opportunity",
+      "Student Friendly"
+    ],
+    "beginner_friendly": false,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_071",
+    "slug": "modular-low-cost-housing-units",
+    "title": "Modular Low-Cost Housing Units",
+    "emoji": "🏠",
+    "sector": "construction",
+    "bucket": "local-physical",
+    "short_description": "Prefab steel-frame and CSEB block housing for PMAY beneficiaries and farm workers via government tie-ups and private sales.",
+    "problem_solved": "Conventional construction is too slow and costly for the lakhs of approved-but-unbuilt rural housing units.",
+    "investment_min": 1200000,
+    "investment_med": 1850000,
+    "investment_adv": 2500000,
+    "monthly_revenue_min": 145000,
+    "monthly_revenue_max": 300000,
+    "team_roles": [
+      "Civil Engineer",
+      "Procurement Head",
+      "Govt Liaison"
+    ],
+    "skills_needed": [
+      "Construction Supervision",
+      "Vendor Management",
+      "Team Management",
+      "Sales"
+    ],
+    "ideal_for": [
+      "Civil engineers",
+      "Experienced contractors",
+      "Established teams"
+    ],
+    "district_fit": [
+      "Mahabubnagar",
+      "Nalgonda",
+      "Kurnool",
+      "Anantapur",
+      "Khammam"
+    ],
+    "tags": [
+      "Rural Opportunity",
+      "High Growth",
+      "District Scale",
+      "Field Intensive"
+    ],
+    "beginner_friendly": false,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_072",
+    "slug": "building-material-testing-lab",
+    "title": "Building Material Testing Lab",
+    "emoji": "🧱",
+    "sector": "construction",
+    "bucket": "local-physical",
+    "short_description": "Compressive strength, cement, steel, and soil-bearing tests for developers, contractors, and panchayats.",
+    "problem_solved": "Builders in districts skip material testing entirely because the nearest certified lab is in the state capital.",
+    "investment_min": 500000,
+    "investment_med": 850000,
+    "investment_adv": 1200000,
+    "monthly_revenue_min": 60000,
+    "monthly_revenue_max": 145000,
+    "team_roles": [
+      "Civil Lab Technician",
+      "Field Sampling Agent",
+      "Business Development Lead"
+    ],
+    "skills_needed": [
+      "Lab Operations",
+      "Construction Supervision",
+      "Sales"
+    ],
+    "ideal_for": [
+      "Civil engineers",
+      "Engineering graduates",
+      "Small teams"
+    ],
+    "district_fit": [
+      "Warangal",
+      "Karimnagar",
+      "Guntur",
+      "Vijayawada",
+      "Nellore"
+    ],
+    "tags": [
+      "Skill-Based",
+      "Evergreen",
+      "Semi-Urban Opportunity",
+      "High Trust Required"
+    ],
+    "beginner_friendly": false,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_073",
+    "slug": "interior-design-and-renovation-service",
+    "title": "Interior Design & Renovation Service",
+    "emoji": "🛋️",
+    "sector": "construction",
+    "bucket": "local-physical",
+    "short_description": "Affordable turnkey interiors for ₹3–15L home budgets with catalogue-driven selection and WhatsApp consultations.",
+    "problem_solved": "New homeowners in tier-2 towns want professional interiors but only find unreliable freelance contractors.",
+    "investment_min": 300000,
+    "investment_med": 550000,
+    "investment_adv": 800000,
+    "monthly_revenue_min": 35000,
+    "monthly_revenue_max": 95000,
+    "team_roles": [
+      "Interior Designer",
+      "Carpentry Partner",
+      "Project Coordinator"
+    ],
+    "skills_needed": [
+      "Graphic Design",
+      "Construction Supervision",
+      "Vendor Management",
+      "Customer Handling"
+    ],
+    "ideal_for": [
+      "Design graduates",
+      "Civil engineers",
+      "Local entrepreneurs"
+    ],
+    "district_fit": [
+      "Warangal",
+      "Karimnagar",
+      "Guntur",
+      "Tirupati",
+      "Nellore"
+    ],
+    "tags": [
+      "High Growth",
+      "Skill-Based",
+      "Semi-Urban Opportunity",
+      "Relationship Driven"
+    ],
+    "beginner_friendly": false,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_074",
+    "slug": "real-estate-documentation-support",
+    "title": "Real Estate Documentation Support",
+    "emoji": "📋",
+    "sector": "construction",
+    "bucket": "local-physical",
+    "short_description": "Title search, mutation, encumbrance certificates, and sale deed drafting with pan-taluka coverage.",
+    "problem_solved": "Property buyers risk fraud and months of delay navigating registration paperwork without professional help.",
+    "investment_min": 100000,
+    "investment_med": 200000,
+    "investment_adv": 300000,
+    "monthly_revenue_min": 10000,
+    "monthly_revenue_max": 35000,
+    "team_roles": [
+      "Documentation Advocate",
+      "Field Verification Agent",
+      "Registrar Liaison"
+    ],
+    "skills_needed": [
+      "Content Writing",
+      "Customer Handling",
+      "Operations Coordination"
+    ],
+    "ideal_for": [
+      "Law graduates",
+      "Working professionals",
+      "First-time founders"
+    ],
+    "district_fit": [
+      "Nalgonda",
+      "Sangareddy",
+      "Guntur",
+      "Nellore",
+      "Kurnool"
+    ],
+    "tags": [
+      "Low Investment",
+      "High Trust Required",
+      "Evergreen",
+      "AI-Proof"
+    ],
+    "beginner_friendly": true,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_075",
+    "slug": "prefab-toilet-and-sanitation-units",
+    "title": "Prefab Toilet & Sanitation Units",
+    "emoji": "🚻",
+    "sector": "construction",
+    "bucket": "local-physical",
+    "short_description": "Design, fabricate, and install low-cost toilet units for gram panchayats under Swachh Bharat Mission grants.",
+    "problem_solved": "SBM Phase-2 funds go unspent because panchayats can't find vendors who deliver compliant units at scale.",
+    "investment_min": 800000,
+    "investment_med": 1300000,
+    "investment_adv": 1800000,
+    "monthly_revenue_min": 95000,
+    "monthly_revenue_max": 215000,
+    "team_roles": [
+      "Sanitation Engineer",
+      "Fabrication Team Lead",
+      "Govt Contract Manager"
+    ],
+    "skills_needed": [
+      "Welding",
+      "Construction Supervision",
+      "Vendor Management",
+      "Sales"
+    ],
+    "ideal_for": [
+      "Civil engineers",
+      "Fabricators",
+      "Established teams"
+    ],
+    "district_fit": [
+      "Mahabubnagar",
+      "Nalgonda",
+      "Khammam",
+      "Kurnool",
+      "Anantapur"
+    ],
+    "tags": [
+      "Rural Opportunity",
+      "Community Driven",
+      "District Scale",
+      "Field Intensive"
+    ],
+    "beginner_friendly": false,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_076",
+    "slug": "gst-filing-and-compliance-service",
+    "title": "GST Filing & Compliance Service",
+    "emoji": "🧾",
+    "sector": "digital-services",
+    "bucket": "digital",
+    "short_description": "Monthly GST, ITR, and TDS filing for 100–300 local businesses on retainers of ₹500–2000 per client.",
+    "problem_solved": "Small traders pay penalties or overpay city CAs because affordable local compliance help doesn't exist.",
+    "investment_min": 100000,
+    "investment_med": 200000,
+    "investment_adv": 300000,
+    "monthly_revenue_min": 10000,
+    "monthly_revenue_max": 35000,
+    "team_roles": [
+      "Tax Professional",
+      "Accounts Assistant",
+      "Client Relationship Executive"
+    ],
+    "skills_needed": [
+      "Accounting",
+      "Customer Handling",
+      "Operations Coordination"
+    ],
+    "ideal_for": [
+      "Commerce graduates",
+      "CA aspirants",
+      "Working professionals"
+    ],
+    "district_fit": [
+      "Warangal",
+      "Karimnagar",
+      "Guntur",
+      "Nellore",
+      "Kurnool"
+    ],
+    "tags": [
+      "Low Investment",
+      "Remote Possible",
+      "Evergreen",
+      "Skill-Based"
+    ],
+    "beginner_friendly": true,
+    "remote_possible": true
+  },
+  {
+    "id": "idea_077",
+    "slug": "hr-and-payroll-saas-for-local-firms",
+    "title": "HR & Payroll SaaS for Local Firms",
+    "emoji": "💼",
+    "sector": "digital-services",
+    "bucket": "digital",
+    "short_description": "Subscription HR software for factories, schools, and hospitals with 20–200 employees, with PF/ESI compliance built in.",
+    "problem_solved": "Mid-size local employers run payroll on error-prone spreadsheets because enterprise HR tools are overkill.",
+    "investment_min": 500000,
+    "investment_med": 850000,
+    "investment_adv": 1200000,
+    "monthly_revenue_min": 60000,
+    "monthly_revenue_max": 145000,
+    "team_roles": [
+      "SaaS Developer",
+      "HR Domain Expert",
+      "Onboarding Agent"
+    ],
+    "skills_needed": [
+      "Web Development",
+      "Sales",
+      "Customer Handling",
+      "Accounting"
+    ],
+    "ideal_for": [
+      "Developers",
+      "HR professionals",
+      "Engineering graduates"
+    ],
+    "district_fit": [
+      "Hyderabad",
+      "Visakhapatnam",
+      "Vijayawada",
+      "Warangal"
+    ],
+    "tags": [
+      "Tech Enabled",
+      "High Growth",
+      "Remote Possible",
+      "Urban Opportunity"
+    ],
+    "beginner_friendly": false,
+    "remote_possible": true
+  },
+  {
+    "id": "idea_078",
+    "slug": "cybersecurity-audit-for-smbs",
+    "title": "Cybersecurity Audit for SMBs",
+    "emoji": "🔐",
+    "sector": "digital-services",
+    "bucket": "digital",
+    "short_description": "Basic cyber-hygiene audits, phishing simulations, and firewall setup for hospitals, schools, and local firms.",
+    "problem_solved": "Small institutions hold sensitive data with zero security practices and no affordable auditor to call.",
+    "investment_min": 200000,
+    "investment_med": 350000,
+    "investment_adv": 500000,
+    "monthly_revenue_min": 25000,
+    "monthly_revenue_max": 60000,
+    "team_roles": [
+      "Cybersecurity Analyst",
+      "Sales Consultant",
+      "Technical Support Executive"
+    ],
+    "skills_needed": [
+      "Web Development",
+      "AI Engineering",
+      "Sales",
+      "Customer Handling"
+    ],
+    "ideal_for": [
+      "Engineering graduates",
+      "IT professionals",
+      "Small teams"
+    ],
+    "district_fit": [
+      "Hyderabad",
+      "Visakhapatnam",
+      "Vijayawada",
+      "Warangal",
+      "Guntur"
+    ],
+    "tags": [
+      "Tech Enabled",
+      "High Growth",
+      "Remote Possible",
+      "Skill-Based"
+    ],
+    "beginner_friendly": false,
+    "remote_possible": true
+  },
+  {
+    "id": "idea_079",
+    "slug": "vernacular-ai-chatbot-agency",
+    "title": "Vernacular AI Chatbot Agency",
+    "emoji": "🤖",
+    "sector": "digital-services",
+    "bucket": "digital",
+    "short_description": "Build WhatsApp and website chatbots in Telugu and Hindi for local businesses, hospitals, and colleges at ₹15K–50K per deployment.",
+    "problem_solved": "Local businesses lose customers who message in Telugu after hours and never get a reply.",
+    "investment_min": 300000,
+    "investment_med": 500000,
+    "investment_adv": 700000,
+    "monthly_revenue_min": 35000,
+    "monthly_revenue_max": 85000,
+    "team_roles": [
+      "AI Developer",
+      "Telugu Language Expert",
+      "Business Development Manager"
+    ],
+    "skills_needed": [
+      "AI Engineering",
+      "Web Development",
+      "Content Writing",
+      "Sales"
+    ],
+    "ideal_for": [
+      "Developers",
+      "Engineering graduates",
+      "Students"
+    ],
+    "district_fit": [
+      "Hyderabad",
+      "Warangal",
+      "Visakhapatnam",
+      "Vijayawada"
+    ],
+    "tags": [
+      "Tech Enabled",
+      "High Growth",
+      "Remote Possible",
+      "Student Friendly"
+    ],
+    "beginner_friendly": false,
+    "remote_possible": true
+  },
+  {
+    "id": "idea_080",
+    "slug": "biogas-plant-setup-service",
+    "title": "Biogas Plant Setup Service",
+    "emoji": "🔥",
+    "sector": "climate-tech",
+    "bucket": "local-physical",
+    "short_description": "Install family-size and community biogas plants from kitchen and cattle waste, with gas distribution tie-ups.",
+    "problem_solved": "Cattle-owning households burn LPG money while dung and kitchen waste that could fuel them goes to waste.",
+    "investment_min": 400000,
+    "investment_med": 700000,
+    "investment_adv": 1000000,
+    "monthly_revenue_min": 50000,
+    "monthly_revenue_max": 120000,
+    "team_roles": [
+      "Biogas Engineer",
+      "Field Installer",
+      "Govt Scheme Liaison"
+    ],
+    "skills_needed": [
+      "Plumbing",
+      "Mechanical Work",
+      "Field Marketing",
+      "Operations Coordination"
+    ],
+    "ideal_for": [
+      "Engineering graduates",
+      "Rural youth",
+      "Small teams"
+    ],
+    "district_fit": [
+      "Nizamabad",
+      "Khammam",
+      "Kurnool",
+      "West Godavari",
+      "Anantapur"
+    ],
+    "tags": [
+      "Sustainable",
+      "Rural Opportunity",
+      "Community Driven",
+      "Field Intensive"
+    ],
+    "beginner_friendly": false,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_081",
+    "slug": "e-waste-collection-and-recycling-hub",
+    "title": "E-Waste Collection & Recycling Hub",
+    "emoji": "♻️",
+    "sector": "climate-tech",
+    "bucket": "future",
+    "short_description": "Authorised e-waste collection under the E-Waste Rules with B2B tie-ups with IT firms, schools, and hospitals.",
+    "problem_solved": "Offices stockpile dead electronics because no authorised collector operates at the district level.",
+    "investment_min": 300000,
+    "investment_med": 550000,
+    "investment_adv": 800000,
+    "monthly_revenue_min": 35000,
+    "monthly_revenue_max": 95000,
+    "team_roles": [
+      "Compliance Officer",
+      "Collection Fleet Operator",
+      "B2B Outreach Manager"
+    ],
+    "skills_needed": [
+      "Logistics",
+      "Vendor Management",
+      "Sales",
+      "Operations Coordination"
+    ],
+    "ideal_for": [
+      "Engineering graduates",
+      "Local entrepreneurs",
+      "Working professionals"
+    ],
+    "district_fit": [
+      "Hyderabad",
+      "Visakhapatnam",
+      "Vijayawada",
+      "Warangal",
+      "Guntur"
+    ],
+    "tags": [
+      "Sustainable",
+      "Tech Enabled",
+      "High Growth",
+      "Urban Opportunity"
+    ],
+    "beginner_friendly": true,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_082",
+    "slug": "industrial-energy-audit-service",
+    "title": "Industrial Energy Audit Service",
+    "emoji": "⚡",
+    "sector": "climate-tech",
+    "bucket": "hybrid",
+    "short_description": "Certified energy audits for factories, hospitals, and hotels, helping them claim MSME energy-efficiency subsidies.",
+    "problem_solved": "Small factories overpay lakhs in power bills with no one local to identify obvious efficiency fixes.",
+    "investment_min": 200000,
+    "investment_med": 350000,
+    "investment_adv": 500000,
+    "monthly_revenue_min": 25000,
+    "monthly_revenue_max": 60000,
+    "team_roles": [
+      "Certified Energy Auditor",
+      "Data Analyst",
+      "B2B Sales Consultant"
+    ],
+    "skills_needed": [
+      "Electrical Work",
+      "Sales",
+      "Content Writing"
+    ],
+    "ideal_for": [
+      "Electrical engineers",
+      "Engineering graduates",
+      "Working professionals"
+    ],
+    "district_fit": [
+      "Hyderabad",
+      "Medak",
+      "Sangareddy",
+      "Visakhapatnam",
+      "Nellore"
+    ],
+    "tags": [
+      "Sustainable",
+      "Low Investment",
+      "Skill-Based",
+      "High Growth"
+    ],
+    "beginner_friendly": true,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_083",
+    "slug": "business-loan-facilitation-agency",
+    "title": "Business Loan Facilitation Agency",
+    "emoji": "🏦",
+    "sector": "finance",
+    "bucket": "local-physical",
+    "short_description": "DSA for MUDRA, SIDBI, and NBFC loans of ₹50K–25L, serving first-generation entrepreneurs on commission.",
+    "problem_solved": "First-time borrowers get rejected for fixable paperwork issues no banker has time to explain.",
+    "investment_min": 100000,
+    "investment_med": 200000,
+    "investment_adv": 300000,
+    "monthly_revenue_min": 10000,
+    "monthly_revenue_max": 35000,
+    "team_roles": [
+      "Loan Counsellor",
+      "Document Verification Agent",
+      "Field Sales Officer"
+    ],
+    "skills_needed": [
+      "Accounting",
+      "Customer Handling",
+      "Local Sales",
+      "Field Marketing"
+    ],
+    "ideal_for": [
+      "Commerce graduates",
+      "Banking aspirants",
+      "Working professionals"
+    ],
+    "district_fit": [
+      "Warangal",
+      "Karimnagar",
+      "Guntur",
+      "Kurnool",
+      "Nellore"
+    ],
+    "tags": [
+      "Low Investment",
+      "High Trust Required",
+      "Evergreen",
+      "Relationship Driven"
+    ],
+    "beginner_friendly": true,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_084",
+    "slug": "rural-insurance-aggregator",
+    "title": "Rural Insurance Aggregator",
+    "emoji": "🛡️",
+    "sector": "finance",
+    "bucket": "local-physical",
+    "short_description": "Door-to-door micro-agent network selling PMJJBY, PMSBY, crop, and health insurance through SHG channels.",
+    "problem_solved": "Rural families stay uninsured against death, accident, and crop loss simply because no agent ever visits.",
+    "investment_min": 100000,
+    "investment_med": 200000,
+    "investment_adv": 300000,
+    "monthly_revenue_min": 10000,
+    "monthly_revenue_max": 35000,
+    "team_roles": [
+      "Licensed Insurance Advisor",
+      "Field Agent Network",
+      "Claims Support Coordinator"
+    ],
+    "skills_needed": [
+      "Local Sales",
+      "Customer Handling",
+      "Field Marketing",
+      "Team Management"
+    ],
+    "ideal_for": [
+      "Community workers",
+      "Rural youth",
+      "Women entrepreneurs"
+    ],
+    "district_fit": [
+      "Mahabubnagar",
+      "Nalgonda",
+      "Anantapur",
+      "Kurnool",
+      "Khammam"
+    ],
+    "tags": [
+      "Rural Opportunity",
+      "Low Investment",
+      "Community Driven",
+      "High Trust Required"
+    ],
+    "beginner_friendly": true,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_085",
+    "slug": "bookkeeping-service-bureau",
+    "title": "Bookkeeping Service Bureau",
+    "emoji": "📒",
+    "sector": "finance",
+    "bucket": "hybrid",
+    "short_description": "Outsourced accounts for 50–100 small businesses at ₹1–5K per month, operated on Tally and Zoho Books.",
+    "problem_solved": "Shops and small firms discover losses months late because nobody maintains their books.",
+    "investment_min": 100000,
+    "investment_med": 200000,
+    "investment_adv": 300000,
+    "monthly_revenue_min": 10000,
+    "monthly_revenue_max": 35000,
+    "team_roles": [
+      "Certified Accountant",
+      "Junior Bookkeeper",
+      "Client Relations Manager"
+    ],
+    "skills_needed": [
+      "Accounting",
+      "Customer Handling",
+      "Operations Coordination"
+    ],
+    "ideal_for": [
+      "Commerce graduates",
+      "Homemakers",
+      "Working professionals"
+    ],
+    "district_fit": [
+      "Warangal",
+      "Guntur",
+      "Nellore",
+      "Karimnagar",
+      "Tirupati"
+    ],
+    "tags": [
+      "Low Investment",
+      "Remote Possible",
+      "Evergreen",
+      "Part-Time Friendly"
+    ],
+    "beginner_friendly": true,
+    "remote_possible": true
+  },
+  {
+    "id": "idea_086",
+    "slug": "gold-loan-and-appraisal-desk",
+    "title": "Gold Loan & Appraisal Desk",
+    "emoji": "💍",
+    "sector": "finance",
+    "bucket": "local-physical",
+    "short_description": "Sub-agent desk for major gold-loan NBFCs, serving rural women who need quick credit against ornaments.",
+    "problem_solved": "Rural households in cash emergencies fall to predatory pawnbrokers because formal gold loans feel distant.",
+    "investment_min": 100000,
+    "investment_med": 200000,
+    "investment_adv": 300000,
+    "monthly_revenue_min": 10000,
+    "monthly_revenue_max": 35000,
+    "team_roles": [
+      "Trained Gold Appraiser",
+      "DSA Relationship Manager",
+      "Customer Service Officer"
+    ],
+    "skills_needed": [
+      "Customer Handling",
+      "Local Sales",
+      "Accounting"
+    ],
+    "ideal_for": [
+      "Commerce graduates",
+      "First-time founders",
+      "Working professionals"
+    ],
+    "district_fit": [
+      "Nizamabad",
+      "Mahabubnagar",
+      "Kurnool",
+      "Anantapur",
+      "Nalgonda"
+    ],
+    "tags": [
+      "Low Investment",
+      "High Trust Required",
+      "Evergreen",
+      "Rural Opportunity"
+    ],
+    "beginner_friendly": true,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_087",
+    "slug": "digital-chit-fund-platform",
+    "title": "Digital Chit Fund Platform",
+    "emoji": "💸",
+    "sector": "finance",
+    "bucket": "hybrid",
+    "short_description": "Digitised chit funds run by a licensed organiser, with payment tracking and investment-education sessions.",
+    "problem_solved": "Informal chits collapse from poor records and fraud, burning the savings of trusting members.",
+    "investment_min": 300000,
+    "investment_med": 550000,
+    "investment_adv": 800000,
+    "monthly_revenue_min": 35000,
+    "monthly_revenue_max": 95000,
+    "team_roles": [
+      "Licensed Chit Organiser",
+      "Tech Developer",
+      "Community Finance Educator"
+    ],
+    "skills_needed": [
+      "Accounting",
+      "Web Development",
+      "Community Driven Sales",
+      "Customer Handling"
+    ],
+    "ideal_for": [
+      "Finance professionals",
+      "Developers",
+      "Community workers"
+    ],
+    "district_fit": [
+      "Warangal",
+      "Guntur",
+      "Vijayawada",
+      "Nellore"
+    ],
+    "tags": [
+      "Tech Enabled",
+      "High Trust Required",
+      "Community Driven",
+      "High Growth"
+    ],
+    "beginner_friendly": false,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_088",
+    "slug": "agricultural-tool-fabrication-workshop",
+    "title": "Agricultural Tool Fabrication Workshop",
+    "emoji": "🛠️",
+    "sector": "manufacturing",
+    "bucket": "local-physical",
+    "short_description": "Custom-make weeding tools, transplanters, and hoes for local farmers, with government scheme procurement.",
+    "problem_solved": "Farmers use worn generic tools because nothing is made for local crops, soil, and technique.",
+    "investment_min": 400000,
+    "investment_med": 700000,
+    "investment_adv": 1000000,
+    "monthly_revenue_min": 50000,
+    "monthly_revenue_max": 120000,
+    "team_roles": [
+      "Skilled Fabricator",
+      "Procurement Manager",
+      "Govt Tender Specialist"
+    ],
+    "skills_needed": [
+      "Welding",
+      "Mechanical Work",
+      "Sales",
+      "Vendor Management"
+    ],
+    "ideal_for": [
+      "Welders",
+      "ITI graduates",
+      "Local entrepreneurs"
+    ],
+    "district_fit": [
+      "Nizamabad",
+      "Karimnagar",
+      "Kurnool",
+      "Anantapur",
+      "Khammam"
+    ],
+    "tags": [
+      "Rural Opportunity",
+      "Skill-Based",
+      "AI-Proof",
+      "Evergreen"
+    ],
+    "beginner_friendly": false,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_089",
+    "slug": "wooden-furniture-manufacturing",
+    "title": "Wooden Furniture Manufacturing",
+    "emoji": "🪑",
+    "sector": "manufacturing",
+    "bucket": "local-physical",
+    "short_description": "Living room, school, and office furniture from local timber, sold through a showroom and B2B institutional orders.",
+    "problem_solved": "Schools and offices import furniture from cities at a premium while local carpentry talent stays informal.",
+    "investment_min": 500000,
+    "investment_med": 850000,
+    "investment_adv": 1200000,
+    "monthly_revenue_min": 60000,
+    "monthly_revenue_max": 145000,
+    "team_roles": [
+      "Master Carpenter",
+      "Machine Operator",
+      "Sales Executive"
+    ],
+    "skills_needed": [
+      "Mechanical Work",
+      "Team Management",
+      "Sales",
+      "Inventory Management"
+    ],
+    "ideal_for": [
+      "Carpenters",
+      "Local entrepreneurs",
+      "Family businesses"
+    ],
+    "district_fit": [
+      "Khammam",
+      "East Godavari",
+      "Warangal",
+      "Kurnool"
+    ],
+    "tags": [
+      "Skill-Based",
+      "Evergreen",
+      "Family Business Friendly",
+      "AI-Proof"
+    ],
+    "beginner_friendly": false,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_090",
+    "slug": "paper-bag-and-eco-packaging-unit",
+    "title": "Paper Bag & Eco-Packaging Unit",
+    "emoji": "🛍️",
+    "sector": "manufacturing",
+    "bucket": "local-physical",
+    "short_description": "Machine-made paper bags replacing single-use plastic, sold B2B to supermarkets, pharmacies, and bakeries.",
+    "problem_solved": "Plastic bans leave thousands of shops scrambling for compliant packaging with no local supplier.",
+    "investment_min": 400000,
+    "investment_med": 700000,
+    "investment_adv": 1000000,
+    "monthly_revenue_min": 50000,
+    "monthly_revenue_max": 120000,
+    "team_roles": [
+      "Machine Operator",
+      "Raw Material Procurer",
+      "B2B Sales Executive"
+    ],
+    "skills_needed": [
+      "Packaging",
+      "Operations Coordination",
+      "Sales",
+      "Inventory Management"
+    ],
+    "ideal_for": [
+      "First-time founders",
+      "Local entrepreneurs",
+      "Women entrepreneurs"
+    ],
+    "district_fit": [
+      "Warangal",
+      "Guntur",
+      "Vijayawada",
+      "Nellore",
+      "Karimnagar"
+    ],
+    "tags": [
+      "Sustainable",
+      "High Growth",
+      "Semi-Urban Opportunity",
+      "Family Business Friendly"
+    ],
+    "beginner_friendly": false,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_091",
+    "slug": "rcc-hume-pipe-manufacturing",
+    "title": "RCC Hume Pipe Manufacturing",
+    "emoji": "⚙️",
+    "sector": "manufacturing",
+    "bucket": "local-physical",
+    "short_description": "Supply panchayats and PWD with drainage pipes, well rings, and culvert pipes — steady government demand.",
+    "problem_solved": "Rural infrastructure works stall waiting for pipes trucked in from distant plants at high freight cost.",
+    "investment_min": 800000,
+    "investment_med": 1300000,
+    "investment_adv": 1800000,
+    "monthly_revenue_min": 95000,
+    "monthly_revenue_max": 215000,
+    "team_roles": [
+      "Civil Engineer",
+      "Production Supervisor",
+      "Govt Contract Manager"
+    ],
+    "skills_needed": [
+      "Construction Supervision",
+      "Team Management",
+      "Vendor Management",
+      "Sales"
+    ],
+    "ideal_for": [
+      "Civil engineers",
+      "Experienced contractors",
+      "Established teams"
+    ],
+    "district_fit": [
+      "Nalgonda",
+      "Mahabubnagar",
+      "Kurnool",
+      "Anantapur",
+      "Khammam"
+    ],
+    "tags": [
+      "Rural Opportunity",
+      "Evergreen",
+      "District Scale",
+      "Field Intensive"
+    ],
+    "beginner_friendly": false,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_092",
+    "slug": "steel-gate-and-grill-fabrication",
+    "title": "Steel Gate & Grill Fabrication",
+    "emoji": "🔩",
+    "sector": "manufacturing",
+    "bucket": "local-physical",
+    "short_description": "Custom residential and commercial iron and stainless-steel fabrication from a three-person workshop with a display yard.",
+    "problem_solved": "Home builders wait weeks for gates and grills because good fabricators are overbooked and unorganised.",
+    "investment_min": 300000,
+    "investment_med": 550000,
+    "investment_adv": 800000,
+    "monthly_revenue_min": 35000,
+    "monthly_revenue_max": 95000,
+    "team_roles": [
+      "Welder-Fabricators",
+      "Estimator & Sales",
+      "Finishing & Delivery"
+    ],
+    "skills_needed": [
+      "Welding",
+      "Mechanical Work",
+      "Local Sales",
+      "Customer Handling"
+    ],
+    "ideal_for": [
+      "Welders",
+      "ITI graduates",
+      "Family businesses"
+    ],
+    "district_fit": [
+      "Karimnagar",
+      "Siddipet",
+      "Nalgonda",
+      "Nellore",
+      "Kurnool"
+    ],
+    "tags": [
+      "Skill-Based",
+      "AI-Proof",
+      "Evergreen",
+      "Family Business Friendly"
+    ],
+    "beginner_friendly": true,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_093",
+    "slug": "unisex-salon-chain",
+    "title": "Unisex Salon Chain",
+    "emoji": "💇",
+    "sector": "beauty-wellness",
+    "bucket": "local-physical",
+    "short_description": "Standardised affordable salons with trained staff, branded products, and hygiene certification — franchisable across mandals.",
+    "problem_solved": "Small-town customers pay city prices for inconsistent salon quality with no hygiene standards.",
+    "investment_min": 300000,
+    "investment_med": 550000,
+    "investment_adv": 800000,
+    "monthly_revenue_min": 35000,
+    "monthly_revenue_max": 95000,
+    "team_roles": [
+      "Certified Stylist",
+      "Branch Manager",
+      "Franchise Development Lead"
+    ],
+    "skills_needed": [
+      "Beautician Services",
+      "Customer Handling",
+      "Team Management",
+      "Retail Operations"
+    ],
+    "ideal_for": [
+      "Beauticians",
+      "Local entrepreneurs",
+      "Working professionals"
+    ],
+    "district_fit": [
+      "Warangal",
+      "Karimnagar",
+      "Guntur",
+      "Nellore",
+      "Tirupati"
+    ],
+    "tags": [
+      "Skill-Based",
+      "Evergreen",
+      "AI-Proof",
+      "Semi-Urban Opportunity"
+    ],
+    "beginner_friendly": true,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_094",
+    "slug": "organic-skincare-brand",
+    "title": "Organic Skincare Brand",
+    "emoji": "🌿",
+    "sector": "beauty-wellness",
+    "bucket": "hybrid",
+    "short_description": "Neem, turmeric, and aloe-based skincare — AYUSH registered, sold D2C and through local pharmacies.",
+    "problem_solved": "Buyers distrust chemical-heavy cosmetics but find few credible, certified natural alternatives at local prices.",
+    "investment_min": 200000,
+    "investment_med": 400000,
+    "investment_adv": 600000,
+    "monthly_revenue_min": 25000,
+    "monthly_revenue_max": 70000,
+    "team_roles": [
+      "Formulation Chemist",
+      "Production Supervisor",
+      "Brand Manager"
+    ],
+    "skills_needed": [
+      "Packaging",
+      "Digital Marketing",
+      "Social Media Management",
+      "Sales"
+    ],
+    "ideal_for": [
+      "Chemistry graduates",
+      "Women entrepreneurs",
+      "Students"
+    ],
+    "district_fit": [
+      "Hyderabad",
+      "Vijayawada",
+      "Visakhapatnam",
+      "Guntur"
+    ],
+    "tags": [
+      "Women-Led",
+      "Sustainable",
+      "High Growth",
+      "Low Investment"
+    ],
+    "beginner_friendly": false,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_095",
+    "slug": "bridal-makeup-and-photography-bundle",
+    "title": "Bridal Makeup & Photography Bundle",
+    "emoji": "💄",
+    "sector": "beauty-wellness",
+    "bucket": "local-physical",
+    "short_description": "One-stop bridal service bundling makeup artist, photographer, and decorator at competitive package pricing.",
+    "problem_solved": "Families juggle three unreliable vendors for the same wedding when one coordinated team could serve them better.",
+    "investment_min": 200000,
+    "investment_med": 400000,
+    "investment_adv": 600000,
+    "monthly_revenue_min": 25000,
+    "monthly_revenue_max": 70000,
+    "team_roles": [
+      "Bridal Makeup Artist",
+      "Photographer",
+      "Event Decorator"
+    ],
+    "skills_needed": [
+      "Beautician Services",
+      "Photography",
+      "Video Editing",
+      "Customer Handling"
+    ],
+    "ideal_for": [
+      "Beauticians",
+      "Photographers",
+      "Creative professionals"
+    ],
+    "district_fit": [
+      "Warangal",
+      "Karimnagar",
+      "Guntur",
+      "Nellore",
+      "Kurnool"
+    ],
+    "tags": [
+      "Skill-Based",
+      "Evergreen",
+      "AI-Proof",
+      "Family Business Friendly"
+    ],
+    "beginner_friendly": true,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_096",
+    "slug": "mobile-beauty-service-for-women",
+    "title": "Mobile Beauty Service for Women",
+    "emoji": "💅",
+    "sector": "beauty-wellness",
+    "bucket": "local-physical",
+    "short_description": "At-home threading, waxing, and facials booked over WhatsApp — serving working women, conservative households, and the elderly.",
+    "problem_solved": "Many women can't visit salons due to work hours or family norms, leaving demand entirely unserved.",
+    "investment_min": 100000,
+    "investment_med": 200000,
+    "investment_adv": 300000,
+    "monthly_revenue_min": 10000,
+    "monthly_revenue_max": 35000,
+    "team_roles": [
+      "Certified Beauticians",
+      "Booking Dispatcher",
+      "Supplies Coordinator"
+    ],
+    "skills_needed": [
+      "Beautician Services",
+      "Customer Handling",
+      "Social Media Management"
+    ],
+    "ideal_for": [
+      "Beauticians",
+      "Homemakers",
+      "Women entrepreneurs"
+    ],
+    "district_fit": [
+      "Hyderabad",
+      "Warangal",
+      "Vijayawada",
+      "Guntur",
+      "Nellore"
+    ],
+    "tags": [
+      "Women-Led",
+      "Low Investment",
+      "Part-Time Friendly",
+      "AI-Proof"
+    ],
+    "beginner_friendly": true,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_097",
+    "slug": "herbal-hair-oil-manufacturing",
+    "title": "Herbal Hair Oil Manufacturing",
+    "emoji": "🧴",
+    "sector": "beauty-wellness",
+    "bucket": "local-physical",
+    "short_description": "Bhringraj, coconut, and hibiscus herbal hair oils — AYUSH licensed, sold retail, D2C, and as gifting packs.",
+    "problem_solved": "Households pay premium prices for 'herbal' oils from national brands with little actual herbal content.",
+    "investment_min": 200000,
+    "investment_med": 400000,
+    "investment_adv": 600000,
+    "monthly_revenue_min": 25000,
+    "monthly_revenue_max": 70000,
+    "team_roles": [
+      "Ayurveda Formulator",
+      "Production Operator",
+      "Retail Sales Agent"
+    ],
+    "skills_needed": [
+      "Packaging",
+      "Local Sales",
+      "Digital Marketing"
+    ],
+    "ideal_for": [
+      "Family businesses",
+      "Women entrepreneurs",
+      "First-time founders"
+    ],
+    "district_fit": [
+      "East Godavari",
+      "West Godavari",
+      "Guntur",
+      "Warangal"
+    ],
+    "tags": [
+      "Family Business Friendly",
+      "Low Investment",
+      "Women-Led",
+      "Evergreen"
+    ],
+    "beginner_friendly": true,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_098",
+    "slug": "wedding-planning-and-decoration-service",
+    "title": "Wedding Planning & Decoration Service",
+    "emoji": "💒",
+    "sector": "events",
+    "bucket": "local-physical",
+    "short_description": "End-to-end wedding management — venue, catering, decor, entertainment — for ₹3–15L wedding budgets.",
+    "problem_solved": "Families lose sleep coordinating a dozen vendors for weddings that professionals could run turnkey.",
+    "investment_min": 300000,
+    "investment_med": 500000,
+    "investment_adv": 700000,
+    "monthly_revenue_min": 35000,
+    "monthly_revenue_max": 85000,
+    "team_roles": [
+      "Event Planner",
+      "Decor Artist",
+      "Vendor Network Manager"
+    ],
+    "skills_needed": [
+      "Event Management",
+      "Vendor Management",
+      "Customer Handling",
+      "Team Management"
+    ],
+    "ideal_for": [
+      "Event planners",
+      "Creative professionals",
+      "Local entrepreneurs"
+    ],
+    "district_fit": [
+      "Warangal",
+      "Karimnagar",
+      "Guntur",
+      "Nellore",
+      "Kurnool"
+    ],
+    "tags": [
+      "Evergreen",
+      "Relationship Driven",
+      "AI-Proof",
+      "High Growth"
+    ],
+    "beginner_friendly": true,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_099",
+    "slug": "corporate-event-management",
+    "title": "Corporate Event Management",
+    "emoji": "🎤",
+    "sector": "events",
+    "bucket": "local-physical",
+    "short_description": "Seminars, product launches, and AGMs for local industry, colleges, and government departments.",
+    "problem_solved": "Institutions outside metros settle for amateur event execution because professional agencies won't travel.",
+    "investment_min": 200000,
+    "investment_med": 350000,
+    "investment_adv": 500000,
+    "monthly_revenue_min": 25000,
+    "monthly_revenue_max": 60000,
+    "team_roles": [
+      "Event Coordinator",
+      "AV Technical Lead",
+      "Corporate Sales Manager"
+    ],
+    "skills_needed": [
+      "Event Management",
+      "Sales",
+      "Vendor Management"
+    ],
+    "ideal_for": [
+      "Event planners",
+      "Working professionals",
+      "Graduates"
+    ],
+    "district_fit": [
+      "Hyderabad",
+      "Warangal",
+      "Vijayawada",
+      "Visakhapatnam",
+      "Guntur"
+    ],
+    "tags": [
+      "Low Investment",
+      "Urban Opportunity",
+      "Relationship Driven",
+      "Skill-Based"
+    ],
+    "beginner_friendly": true,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_100",
+    "slug": "sound-and-lighting-equipment-rental",
+    "title": "Sound & Lighting Equipment Rental",
+    "emoji": "🔊",
+    "sector": "events",
+    "bucket": "local-physical",
+    "short_description": "Professional PA systems, stage lighting, and trusses on hire, with peak utilisation through wedding and festival seasons.",
+    "problem_solved": "Every function in the district rents the same few ageing sound systems at inflated festival prices.",
+    "investment_min": 600000,
+    "investment_med": 1050000,
+    "investment_adv": 1500000,
+    "monthly_revenue_min": 70000,
+    "monthly_revenue_max": 180000,
+    "team_roles": [
+      "Audio Engineer",
+      "Equipment Technician",
+      "Logistics Coordinator"
+    ],
+    "skills_needed": [
+      "Electrical Work",
+      "Event Management",
+      "Inventory Management",
+      "Customer Handling"
+    ],
+    "ideal_for": [
+      "Audio technicians",
+      "Local entrepreneurs",
+      "Family businesses"
+    ],
+    "district_fit": [
+      "Karimnagar",
+      "Nizamabad",
+      "Guntur",
+      "Kurnool",
+      "Nellore"
+    ],
+    "tags": [
+      "Evergreen",
+      "Family Business Friendly",
+      "Field Intensive",
+      "Skill-Based"
+    ],
+    "beginner_friendly": false,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_101",
+    "slug": "folk-artist-and-cultural-program-management",
+    "title": "Folk Artist & Cultural Program Management",
+    "emoji": "🎭",
+    "sector": "events",
+    "bucket": "local-physical",
+    "short_description": "Manage local folk artists, bands, and classical performers; produce ticketed shows and institutional bookings.",
+    "problem_solved": "Talented folk artists earn a pittance while event hosts struggle to find and book authentic performers.",
+    "investment_min": 200000,
+    "investment_med": 350000,
+    "investment_adv": 500000,
+    "monthly_revenue_min": 25000,
+    "monthly_revenue_max": 60000,
+    "team_roles": [
+      "Talent Manager",
+      "Event Producer",
+      "Marketing Coordinator"
+    ],
+    "skills_needed": [
+      "Event Management",
+      "Social Media Management",
+      "Sales",
+      "Content Writing"
+    ],
+    "ideal_for": [
+      "Creative professionals",
+      "Community workers",
+      "Students"
+    ],
+    "district_fit": [
+      "Warangal",
+      "East Godavari",
+      "Vijayawada",
+      "Tirupati"
+    ],
+    "tags": [
+      "Community Driven",
+      "Low Investment",
+      "AI-Proof",
+      "Student Friendly"
+    ],
+    "beginner_friendly": true,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_102",
+    "slug": "water-quality-testing-service",
+    "title": "Water Quality Testing Service",
+    "emoji": "🔬",
+    "sector": "local-services",
+    "bucket": "local-physical",
+    "short_description": "On-site TDS, bacteria, fluoride, and nitrate testing for households, panchayats, and industries.",
+    "problem_solved": "Families drink contaminated groundwater for years because nobody offers affordable local testing.",
+    "investment_min": 200000,
+    "investment_med": 350000,
+    "investment_adv": 500000,
+    "monthly_revenue_min": 25000,
+    "monthly_revenue_max": 60000,
+    "team_roles": [
+      "Water Quality Analyst",
+      "Field Sampling Agent",
+      "Compliance Report Manager"
+    ],
+    "skills_needed": [
+      "Lab Operations",
+      "Field Marketing",
+      "Customer Handling"
+    ],
+    "ideal_for": [
+      "Science graduates",
+      "Engineering graduates",
+      "Rural youth"
+    ],
+    "district_fit": [
+      "Nalgonda",
+      "Mahabubnagar",
+      "Anantapur",
+      "Kurnool",
+      "Guntur"
+    ],
+    "tags": [
+      "Rural Opportunity",
+      "Low Investment",
+      "Skill-Based",
+      "Community Driven"
+    ],
+    "beginner_friendly": true,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_103",
+    "slug": "water-purifier-amc-service",
+    "title": "Water Purifier AMC Service",
+    "emoji": "🚰",
+    "sector": "local-services",
+    "bucket": "local-physical",
+    "short_description": "Annual maintenance contracts for branded and local water purifiers — 500+ contracts mean stable recurring income.",
+    "problem_solved": "Purifiers fail silently after the free service year, and brand technicians take weeks to reach small towns.",
+    "investment_min": 100000,
+    "investment_med": 200000,
+    "investment_adv": 300000,
+    "monthly_revenue_min": 10000,
+    "monthly_revenue_max": 35000,
+    "team_roles": [
+      "Service Technicians",
+      "New-Install Sales Agent",
+      "AMC Coordinator"
+    ],
+    "skills_needed": [
+      "Plumbing",
+      "Electrical Work",
+      "Customer Handling",
+      "Local Sales"
+    ],
+    "ideal_for": [
+      "ITI graduates",
+      "Technicians",
+      "First-time founders"
+    ],
+    "district_fit": [
+      "Warangal",
+      "Karimnagar",
+      "Nellore",
+      "Tirupati",
+      "Guntur"
+    ],
+    "tags": [
+      "Low Investment",
+      "Evergreen",
+      "Local Service",
+      "AI-Proof"
+    ],
+    "beginner_friendly": true,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_104",
+    "slug": "apartment-sewage-treatment-plants",
+    "title": "Apartment Sewage Treatment Plants",
+    "emoji": "🏢",
+    "sector": "climate-tech",
+    "bucket": "local-physical",
+    "short_description": "Design, install, and operate STPs for residential complexes (RERA mandated) on operations-and-maintenance contracts.",
+    "problem_solved": "New apartment projects must run STPs by law but have no local operators, risking penalties and pollution.",
+    "investment_min": 800000,
+    "investment_med": 1400000,
+    "investment_adv": 2000000,
+    "monthly_revenue_min": 95000,
+    "monthly_revenue_max": 240000,
+    "team_roles": [
+      "Environmental Engineer",
+      "STP Operator",
+      "Builder Sales Executive"
+    ],
+    "skills_needed": [
+      "Plumbing",
+      "Construction Supervision",
+      "Operations Coordination",
+      "Sales"
+    ],
+    "ideal_for": [
+      "Environmental engineers",
+      "Civil engineers",
+      "Established teams"
+    ],
+    "district_fit": [
+      "Hyderabad",
+      "Visakhapatnam",
+      "Vijayawada",
+      "Warangal"
+    ],
+    "tags": [
+      "Urban Opportunity",
+      "Sustainable",
+      "High Growth",
+      "District Scale"
+    ],
+    "beginner_friendly": false,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_105",
+    "slug": "rainwater-harvesting-installer",
+    "title": "Rainwater Harvesting Installer",
+    "emoji": "🌧️",
+    "sector": "climate-tech",
+    "bucket": "local-physical",
+    "short_description": "Rooftop rainwater harvesting systems for institutions, industries, and homes — both compliance-driven and voluntary clients.",
+    "problem_solved": "Borewells run dry deeper every summer while rooftop rain drains away for lack of installers.",
+    "investment_min": 300000,
+    "investment_med": 500000,
+    "investment_adv": 700000,
+    "monthly_revenue_min": 35000,
+    "monthly_revenue_max": 85000,
+    "team_roles": [
+      "Plumbing Engineer",
+      "Installation Team",
+      "Sales Consultant"
+    ],
+    "skills_needed": [
+      "Plumbing",
+      "Construction Supervision",
+      "Sales",
+      "Field Marketing"
+    ],
+    "ideal_for": [
+      "Civil engineers",
+      "Plumbers",
+      "Engineering graduates"
+    ],
+    "district_fit": [
+      "Hyderabad",
+      "Anantapur",
+      "Kurnool",
+      "Mahabubnagar",
+      "Nalgonda"
+    ],
+    "tags": [
+      "Sustainable",
+      "Skill-Based",
+      "Community Driven",
+      "Semi-Urban Opportunity"
+    ],
+    "beginner_friendly": true,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_106",
+    "slug": "shg-product-aggregation-and-e-marketing",
+    "title": "SHG Product Aggregation & E-Marketing",
+    "emoji": "🧺",
+    "sector": "women-led",
+    "bucket": "hybrid",
+    "short_description": "Aggregate SHG-made products — agarbatti, candles, snacks, crafts — and sell via Amazon, Flipkart, and ONDC.",
+    "problem_solved": "SHG women make quality products that never travel beyond the weekly village market.",
+    "investment_min": 200000,
+    "investment_med": 350000,
+    "investment_adv": 500000,
+    "monthly_revenue_min": 25000,
+    "monthly_revenue_max": 60000,
+    "team_roles": [
+      "SHG Liaison & QC Lead",
+      "E-commerce Manager",
+      "Packaging Designer"
+    ],
+    "skills_needed": [
+      "Social Media Management",
+      "Packaging",
+      "Vendor Management",
+      "Digital Marketing"
+    ],
+    "ideal_for": [
+      "Women entrepreneurs",
+      "Community workers",
+      "Graduates"
+    ],
+    "district_fit": [
+      "Mahabubnagar",
+      "Nalgonda",
+      "Khammam",
+      "Kurnool",
+      "West Godavari"
+    ],
+    "tags": [
+      "Women-Led",
+      "Community Driven",
+      "Rural Opportunity",
+      "Low Investment"
+    ],
+    "beginner_friendly": true,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_107",
+    "slug": "cr-che-and-daycare-centre",
+    "title": "Crèche & Daycare Centre",
+    "emoji": "👶",
+    "sector": "women-led",
+    "bucket": "local-physical",
+    "short_description": "Safe, affordable childcare for working mothers with nutritious meals, serving ICDS and private clients.",
+    "problem_solved": "Mothers drop out of jobs because there is nowhere trustworthy to leave young children during work hours.",
+    "investment_min": 200000,
+    "investment_med": 400000,
+    "investment_adv": 600000,
+    "monthly_revenue_min": 25000,
+    "monthly_revenue_max": 70000,
+    "team_roles": [
+      "Trained Childcare Workers",
+      "Centre Manager",
+      "Parent Liaison"
+    ],
+    "skills_needed": [
+      "Teaching",
+      "Customer Handling",
+      "Operations Coordination"
+    ],
+    "ideal_for": [
+      "Homemakers",
+      "Teachers",
+      "Women entrepreneurs"
+    ],
+    "district_fit": [
+      "Hyderabad",
+      "Warangal",
+      "Vijayawada",
+      "Guntur",
+      "Nellore"
+    ],
+    "tags": [
+      "Women-Led",
+      "Community Driven",
+      "Evergreen",
+      "AI-Proof"
+    ],
+    "beginner_friendly": true,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_108",
+    "slug": "women-s-fitness-and-wellness-studio",
+    "title": "Women's Fitness & Wellness Studio",
+    "emoji": "🤸",
+    "sector": "women-led",
+    "bucket": "local-physical",
+    "short_description": "Ladies-only yoga, zumba, and strength classes with postpartum recovery and PCOS wellness programmes.",
+    "problem_solved": "Women skip fitness entirely in towns where mixed gyms feel unwelcoming and women-only options don't exist.",
+    "investment_min": 200000,
+    "investment_med": 400000,
+    "investment_adv": 600000,
+    "monthly_revenue_min": 25000,
+    "monthly_revenue_max": 70000,
+    "team_roles": [
+      "Certified Fitness Trainer",
+      "Part-time Nutritionist",
+      "Studio Manager"
+    ],
+    "skills_needed": [
+      "Teaching",
+      "Customer Handling",
+      "Social Media Management"
+    ],
+    "ideal_for": [
+      "Fitness trainers",
+      "Women entrepreneurs",
+      "Homemakers"
+    ],
+    "district_fit": [
+      "Warangal",
+      "Karimnagar",
+      "Guntur",
+      "Tirupati",
+      "Nellore"
+    ],
+    "tags": [
+      "Women-Led",
+      "Low Investment",
+      "Evergreen",
+      "AI-Proof"
+    ],
+    "beginner_friendly": true,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_109",
+    "slug": "fashion-boutique-and-online-reselling",
+    "title": "Fashion Boutique & Online Reselling",
+    "emoji": "👗",
+    "sector": "women-led",
+    "bucket": "hybrid",
+    "short_description": "Curated ethnic wear, blouses, and lehengas sold via Instagram and WhatsApp, with custom stitching as an add-on.",
+    "problem_solved": "Small-town women see fashion trends online but can't buy or fit them locally.",
+    "investment_min": 100000,
+    "investment_med": 250000,
+    "investment_adv": 400000,
+    "monthly_revenue_min": 10000,
+    "monthly_revenue_max": 50000,
+    "team_roles": [
+      "Fashion Curator",
+      "Stitching Partner",
+      "Social Media Manager"
+    ],
+    "skills_needed": [
+      "Tailoring",
+      "Social Media Management",
+      "Customer Handling",
+      "Photography"
+    ],
+    "ideal_for": [
+      "Homemakers",
+      "Women entrepreneurs",
+      "Students"
+    ],
+    "district_fit": [
+      "Warangal",
+      "Nizamabad",
+      "Guntur",
+      "Nellore",
+      "Kurnool"
+    ],
+    "tags": [
+      "Women-Led",
+      "Low Investment",
+      "Part-Time Friendly",
+      "Family Business Friendly"
+    ],
+    "beginner_friendly": true,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_110",
+    "slug": "elder-care-home-assistance-service",
+    "title": "Elder Care Home Assistance Service",
+    "emoji": "🤝",
+    "sector": "healthcare",
+    "bucket": "local-physical",
+    "short_description": "Trained caregivers for daily living support, medication reminders, and doctor visits on ₹8K–20K monthly subscriptions.",
+    "problem_solved": "Children working in cities have no reliable way to care for ageing parents back home.",
+    "investment_min": 200000,
+    "investment_med": 350000,
+    "investment_adv": 500000,
+    "monthly_revenue_min": 25000,
+    "monthly_revenue_max": 60000,
+    "team_roles": [
+      "Trained Caregivers",
+      "Care Manager",
+      "Family Communication Coordinator"
+    ],
+    "skills_needed": [
+      "Customer Handling",
+      "Team Management",
+      "Operations Coordination"
+    ],
+    "ideal_for": [
+      "Nursing graduates",
+      "Healthcare workers",
+      "Community workers"
+    ],
+    "district_fit": [
+      "Hyderabad",
+      "Warangal",
+      "Vijayawada",
+      "Guntur",
+      "Visakhapatnam"
+    ],
+    "tags": [
+      "High Trust Required",
+      "Community Driven",
+      "AI-Proof",
+      "High Growth"
+    ],
+    "beginner_friendly": true,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_111",
+    "slug": "medical-escort-and-hospital-support",
+    "title": "Medical Escort & Hospital Support",
+    "emoji": "🧑‍⚕️",
+    "sector": "healthcare",
+    "bucket": "local-physical",
+    "short_description": "Accompany elders and disabled patients to hospitals, manage paperwork, and coordinate with doctors.",
+    "problem_solved": "Solo elders skip treatment because navigating hospitals alone is overwhelming and unsafe.",
+    "investment_min": 100000,
+    "investment_med": 200000,
+    "investment_adv": 300000,
+    "monthly_revenue_min": 10000,
+    "monthly_revenue_max": 35000,
+    "team_roles": [
+      "Trained Medical Escorts",
+      "Dispatcher",
+      "Insurance Document Assistant"
+    ],
+    "skills_needed": [
+      "Customer Handling",
+      "Operations Coordination",
+      "Local Sales"
+    ],
+    "ideal_for": [
+      "Healthcare workers",
+      "Rural youth",
+      "Working professionals"
+    ],
+    "district_fit": [
+      "Hyderabad",
+      "Warangal",
+      "Guntur",
+      "Vijayawada",
+      "Nellore"
+    ],
+    "tags": [
+      "Low Investment",
+      "High Trust Required",
+      "AI-Proof",
+      "Community Driven"
+    ],
+    "beginner_friendly": true,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_112",
+    "slug": "senior-activity-and-daycare-centre",
+    "title": "Senior Activity & Daycare Centre",
+    "emoji": "🌅",
+    "sector": "healthcare",
+    "bucket": "local-physical",
+    "short_description": "Daily activity centre for active elders — yoga, craft, music, peer socialising, and health monitoring.",
+    "problem_solved": "Retired elders spend isolated days at home, accelerating cognitive and physical decline.",
+    "investment_min": 200000,
+    "investment_med": 400000,
+    "investment_adv": 600000,
+    "monthly_revenue_min": 25000,
+    "monthly_revenue_max": 70000,
+    "team_roles": [
+      "Activity Coordinator",
+      "Health Monitor",
+      "Transport Coordinator"
+    ],
+    "skills_needed": [
+      "Event Management",
+      "Customer Handling",
+      "Teaching"
+    ],
+    "ideal_for": [
+      "Healthcare workers",
+      "Retired professionals",
+      "Community workers"
+    ],
+    "district_fit": [
+      "Hyderabad",
+      "Visakhapatnam",
+      "Vijayawada",
+      "Warangal"
+    ],
+    "tags": [
+      "Community Driven",
+      "Urban Opportunity",
+      "AI-Proof",
+      "Evergreen"
+    ],
+    "beginner_friendly": true,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_113",
+    "slug": "assistive-device-sales-and-rental",
+    "title": "Assistive Device Sales & Rental",
+    "emoji": "♿",
+    "sector": "healthcare",
+    "bucket": "local-physical",
+    "short_description": "Wheelchairs, walkers, hearing aids, and hospital beds on sale and rent, with rehab centre tie-ups.",
+    "problem_solved": "Families buy expensive devices for short recoveries because nobody rents them locally.",
+    "investment_min": 300000,
+    "investment_med": 550000,
+    "investment_adv": 800000,
+    "monthly_revenue_min": 35000,
+    "monthly_revenue_max": 95000,
+    "team_roles": [
+      "Device Sales Executive",
+      "Repair Technician",
+      "Delivery Coordinator"
+    ],
+    "skills_needed": [
+      "Inventory Management",
+      "Customer Handling",
+      "Mechanical Work",
+      "Local Sales"
+    ],
+    "ideal_for": [
+      "Healthcare workers",
+      "Local entrepreneurs",
+      "First-time founders"
+    ],
+    "district_fit": [
+      "Warangal",
+      "Guntur",
+      "Vijayawada",
+      "Nellore",
+      "Kurnool"
+    ],
+    "tags": [
+      "Evergreen",
+      "Community Driven",
+      "Local Service",
+      "Low Investment"
+    ],
+    "beginner_friendly": true,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_114",
+    "slug": "disability-inclusion-training-service",
+    "title": "Disability Inclusion Training Service",
+    "emoji": "🤟",
+    "sector": "healthcare",
+    "bucket": "hybrid",
+    "short_description": "Train schools, corporates, and government offices in sign language, accessibility norms, and inclusive hiring.",
+    "problem_solved": "RPWD Act compliance is mandatory but institutions have no local trainers to build basic inclusion skills.",
+    "investment_min": 100000,
+    "investment_med": 200000,
+    "investment_adv": 300000,
+    "monthly_revenue_min": 10000,
+    "monthly_revenue_max": 35000,
+    "team_roles": [
+      "Sign Language Interpreter",
+      "Inclusion Consultant",
+      "Business Development Manager"
+    ],
+    "skills_needed": [
+      "Teaching",
+      "Content Writing",
+      "Sales"
+    ],
+    "ideal_for": [
+      "Special educators",
+      "Social workers",
+      "Graduates"
+    ],
+    "district_fit": [
+      "Hyderabad",
+      "Visakhapatnam",
+      "Warangal",
+      "Vijayawada"
+    ],
+    "tags": [
+      "Community Driven",
+      "Low Investment",
+      "Skill-Based",
+      "Remote Possible"
+    ],
+    "beginner_friendly": true,
+    "remote_possible": true
+  },
+  {
+    "id": "idea_115",
+    "slug": "multi-sport-training-academy",
+    "title": "Multi-Sport Training Academy",
+    "emoji": "🏏",
+    "sector": "sports-fitness",
+    "bucket": "local-physical",
+    "short_description": "Cricket, badminton, kabaddi, and volleyball coaching for ages 6–18 with a district tournament pipeline.",
+    "problem_solved": "Talented kids in districts never get structured coaching until it's too late to compete.",
+    "investment_min": 500000,
+    "investment_med": 850000,
+    "investment_adv": 1200000,
+    "monthly_revenue_min": 60000,
+    "monthly_revenue_max": 145000,
+    "team_roles": [
+      "Certified Sport Coach",
+      "Fitness Trainer",
+      "Tournament Coordinator"
+    ],
+    "skills_needed": [
+      "Teaching",
+      "Team Management",
+      "Event Management",
+      "Customer Handling"
+    ],
+    "ideal_for": [
+      "Sports coaches",
+      "Fitness enthusiasts",
+      "Retired players"
+    ],
+    "district_fit": [
+      "Warangal",
+      "Karimnagar",
+      "Guntur",
+      "Nellore",
+      "Anantapur"
+    ],
+    "tags": [
+      "Student Friendly",
+      "Skill-Based",
+      "AI-Proof",
+      "Community Driven"
+    ],
+    "beginner_friendly": false,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_116",
+    "slug": "yoga-and-meditation-studio",
+    "title": "Yoga & Meditation Studio",
+    "emoji": "🧘‍♀️",
+    "sector": "sports-fitness",
+    "bucket": "local-physical",
+    "short_description": "Morning and evening batches for all ages, corporate wellness sessions, and online classes as an added revenue layer.",
+    "problem_solved": "Stress and lifestyle disease are everywhere, but quality yoga instruction is concentrated in cities.",
+    "investment_min": 200000,
+    "investment_med": 350000,
+    "investment_adv": 500000,
+    "monthly_revenue_min": 25000,
+    "monthly_revenue_max": 60000,
+    "team_roles": [
+      "Certified Yoga Instructor",
+      "Scheduler",
+      "Online Content Creator"
+    ],
+    "skills_needed": [
+      "Teaching",
+      "Social Media Management",
+      "Customer Handling"
+    ],
+    "ideal_for": [
+      "Yoga instructors",
+      "Fitness enthusiasts",
+      "Working professionals"
+    ],
+    "district_fit": [
+      "Warangal",
+      "Karimnagar",
+      "Tirupati",
+      "Guntur",
+      "Nellore"
+    ],
+    "tags": [
+      "Low Investment",
+      "Evergreen",
+      "AI-Proof",
+      "Part-Time Friendly"
+    ],
+    "beginner_friendly": true,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_117",
+    "slug": "sports-equipment-rental-and-retail",
+    "title": "Sports Equipment Rental & Retail",
+    "emoji": "🏸",
+    "sector": "sports-fitness",
+    "bucket": "local-physical",
+    "short_description": "Rent cricket kits, racquets, and cycling gear plus branded retail, located near stadium and school clusters.",
+    "problem_solved": "Parents won't buy costly kits for a child's new sport, so kids simply never start.",
+    "investment_min": 300000,
+    "investment_med": 550000,
+    "investment_adv": 800000,
+    "monthly_revenue_min": 35000,
+    "monthly_revenue_max": 95000,
+    "team_roles": [
+      "Store Manager",
+      "Repair Technician",
+      "School Liaison"
+    ],
+    "skills_needed": [
+      "Retail Operations",
+      "Inventory Management",
+      "Local Sales",
+      "Customer Handling"
+    ],
+    "ideal_for": [
+      "Sports enthusiasts",
+      "First-time founders",
+      "Family businesses"
+    ],
+    "district_fit": [
+      "Warangal",
+      "Guntur",
+      "Vijayawada",
+      "Nellore",
+      "Karimnagar"
+    ],
+    "tags": [
+      "Student Friendly",
+      "Evergreen",
+      "Local Service",
+      "Family Business Friendly"
+    ],
+    "beginner_friendly": true,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_118",
+    "slug": "esports-caf-and-gaming-zone",
+    "title": "Esports Café & Gaming Zone",
+    "emoji": "🎮",
+    "sector": "sports-fitness",
+    "bucket": "local-physical",
+    "short_description": "High-speed gaming PCs, consoles, and VR stations with tournaments, memberships, and food and beverage revenue.",
+    "problem_solved": "Gen-Z gamers in small cities have disposable income and nowhere to play or compete together.",
+    "investment_min": 500000,
+    "investment_med": 1000000,
+    "investment_adv": 1500000,
+    "monthly_revenue_min": 60000,
+    "monthly_revenue_max": 180000,
+    "team_roles": [
+      "Tech Setup Manager",
+      "Community Host",
+      "Café Operations Lead"
+    ],
+    "skills_needed": [
+      "Customer Handling",
+      "Event Management",
+      "Social Media Management",
+      "Inventory Management"
+    ],
+    "ideal_for": [
+      "Gamers",
+      "Students",
+      "Young entrepreneurs"
+    ],
+    "district_fit": [
+      "Hyderabad",
+      "Warangal",
+      "Vijayawada",
+      "Visakhapatnam",
+      "Guntur"
+    ],
+    "tags": [
+      "Urban Opportunity",
+      "Student Friendly",
+      "High Growth",
+      "Tech Enabled"
+    ],
+    "beginner_friendly": false,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_119",
+    "slug": "corporate-wellness-programme-provider",
+    "title": "Corporate Wellness Programme Provider",
+    "emoji": "💆",
+    "sector": "sports-fitness",
+    "bucket": "hybrid",
+    "short_description": "On-site health check-ups, yoga sessions, mental wellness talks, and step challenges for companies.",
+    "problem_solved": "Employers want wellness benefits for retention but have no local providers to run programmes.",
+    "investment_min": 200000,
+    "investment_med": 350000,
+    "investment_adv": 500000,
+    "monthly_revenue_min": 25000,
+    "monthly_revenue_max": 60000,
+    "team_roles": [
+      "Wellness Coach",
+      "Corporate Relationship Manager",
+      "Programme Coordinator"
+    ],
+    "skills_needed": [
+      "Teaching",
+      "Sales",
+      "Event Management",
+      "Content Writing"
+    ],
+    "ideal_for": [
+      "Fitness trainers",
+      "Healthcare professionals",
+      "Working professionals"
+    ],
+    "district_fit": [
+      "Hyderabad",
+      "Visakhapatnam",
+      "Vijayawada",
+      "Sangareddy"
+    ],
+    "tags": [
+      "Urban Opportunity",
+      "Low Investment",
+      "High Growth",
+      "Relationship Driven"
+    ],
+    "beginner_friendly": true,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_120",
+    "slug": "hyperlocal-district-news-portal",
+    "title": "Hyperlocal District News Portal",
+    "emoji": "📰",
+    "sector": "creator-economy",
+    "bucket": "digital",
+    "short_description": "Telugu/Hindi news app and website covering local politics, jobs, and welfare schemes, earning from ads and subscriptions.",
+    "problem_solved": "District news is invisible in state-level media, leaving citizens uninformed about local schemes and issues.",
+    "investment_min": 200000,
+    "investment_med": 400000,
+    "investment_adv": 600000,
+    "monthly_revenue_min": 25000,
+    "monthly_revenue_max": 70000,
+    "team_roles": [
+      "Editor",
+      "Freelance Reporter Network",
+      "Ad Sales Manager"
+    ],
+    "skills_needed": [
+      "Content Writing",
+      "Social Media Management",
+      "Video Editing",
+      "Sales"
+    ],
+    "ideal_for": [
+      "Journalists",
+      "Content creators",
+      "Graduates"
+    ],
+    "district_fit": [
+      "Warangal",
+      "Karimnagar",
+      "Guntur",
+      "Nellore",
+      "Kurnool"
+    ],
+    "tags": [
+      "Community Driven",
+      "Low Investment",
+      "Remote Possible",
+      "Tech Enabled"
+    ],
+    "beginner_friendly": true,
+    "remote_possible": true
+  },
+  {
+    "id": "idea_121",
+    "slug": "podcast-studio-for-hire",
+    "title": "Podcast Studio for Hire",
+    "emoji": "🎙️",
+    "sector": "creator-economy",
+    "bucket": "local-physical",
+    "short_description": "Soundproofed studio with professional mics and editing support, on hourly and monthly plans for educators, politicians, and brands.",
+    "problem_solved": "Regional creators record on phones in bedrooms because no professional audio space exists outside metros.",
+    "investment_min": 200000,
+    "investment_med": 350000,
+    "investment_adv": 500000,
+    "monthly_revenue_min": 25000,
+    "monthly_revenue_max": 60000,
+    "team_roles": [
+      "Audio Engineer",
+      "Studio Manager",
+      "Part-time Producer"
+    ],
+    "skills_needed": [
+      "Video Editing",
+      "Voice Over",
+      "Customer Handling",
+      "Social Media Management"
+    ],
+    "ideal_for": [
+      "Audio engineers",
+      "Content creators",
+      "Students"
+    ],
+    "district_fit": [
+      "Hyderabad",
+      "Warangal",
+      "Vijayawada",
+      "Visakhapatnam"
+    ],
+    "tags": [
+      "Urban Opportunity",
+      "Low Investment",
+      "Student Friendly",
+      "Tech Enabled"
+    ],
+    "beginner_friendly": true,
+    "remote_possible": false
+  },
+  {
+    "id": "idea_122",
+    "slug": "influencer-management-agency",
+    "title": "Influencer Management Agency",
+    "emoji": "🌟",
+    "sector": "creator-economy",
+    "bucket": "digital",
+    "short_description": "Scout local micro-influencers, manage brand deals, and produce branded content for regional FMCG brands.",
+    "problem_solved": "Regional brands want vernacular influencer campaigns but can't find or manage small-town creators.",
+    "investment_min": 100000,
+    "investment_med": 200000,
+    "investment_adv": 300000,
+    "monthly_revenue_min": 10000,
+    "monthly_revenue_max": 35000,
+    "team_roles": [
+      "Talent Manager",
+      "Brand Partnership Executive",
+      "Content Strategist"
+    ],
+    "skills_needed": [
+      "Social Media Management",
+      "Content Writing",
+      "Sales",
+      "Video Editing"
+    ],
+    "ideal_for": [
+      "Content creators",
+      "Marketing graduates",
+      "Students"
+    ],
+    "district_fit": [
+      "Hyderabad",
+      "Vijayawada",
+      "Visakhapatnam",
+      "Warangal",
+      "Guntur"
+    ],
+    "tags": [
+      "Low Investment",
+      "Remote Possible",
+      "Student Friendly",
+      "High Growth"
+    ],
+    "beginner_friendly": true,
+    "remote_possible": true
   }
 ]

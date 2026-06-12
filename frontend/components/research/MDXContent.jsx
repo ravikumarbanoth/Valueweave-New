@@ -3,6 +3,7 @@
 // passed into client components as a prop/children).
 
 import { MDXRemote } from "next-mdx-remote/rsc";
+import remarkGfm from "remark-gfm";
 
 const mdxComponents = {
   h2: (props) => (
@@ -50,5 +51,11 @@ const mdxComponents = {
 };
 
 export function MDXContent({ source }) {
-  return <MDXRemote source={source} components={mdxComponents} />;
+  return (
+    <MDXRemote
+      source={source}
+      components={mdxComponents}
+      options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }}
+    />
+  );
 }

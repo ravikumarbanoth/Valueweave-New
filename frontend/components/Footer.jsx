@@ -7,6 +7,7 @@ const FOOTER_LINKS = [
   { href: "/research", label: "Research" },
   { href: "/district", label: "Districts" },
   { href: "/opportunity-radar", label: "Opportunity Radar" },
+  { href: "/collaborators", label: "Collaborators" },
   { href: "/privacy", label: "Privacy" },
   { href: "/terms", label: "Terms" },
 ];

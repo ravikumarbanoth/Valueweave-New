@@ -1,226 +1,95 @@
-"use client";
-import { useEffect, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+// /opportunities/[id] serves two purposes (Next.js forbids a sibling
+// [state] segment alongside [id], so state landing pages share this
+// dynamic segment):
+//   /opportunities/<uuid>      → opportunity detail (existing client flow)
+//   /opportunities/telangana   → state opportunity index (SEO)
+//   /opportunities/ap          → Andhra Pradesh index (SEO alias)
+
 import Link from "next/link";
-import { createClient } from "@/lib/supabase-browser";
+import { STATE_SLUGS, districtsForState, getOpportunityCountsByDistrict } from "@/lib/collab";
+import { buildBaseMetadata, breadcrumbJsonLd, BASE_URL } from "@/lib/seo";
 import AppNavbar from "@/components/AppNavbar";
-import ShareButton from "@/components/ShareButton";
-import { CATEGORY_META } from "@/components/OpportunityCard";
-import { LogIn } from "lucide-react";
+import OpportunityDetailClient from "./OpportunityDetailClient";
 
-export default function OpportunityDetailPage() {
-  const supabase = createClient();
-  const { id } = useParams();
-  const router = useRouter();
-  const [me, setMe] = useState(null);
-  const [authChecked, setAuthChecked] = useState(false);
-  const [opp, setOpp] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [showConnect, setShowConnect] = useState(false);
-  const [message, setMessage] = useState("");
-  const [sending, setSending] = useState(false);
-  const [err, setErr] = useState("");
-  const [existingConn, setExistingConn] = useState(null);
+export const revalidate = 300;
 
-  useEffect(() => {
-    (async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) {
-        const { data: profile } = await supabase.from("profiles").select("*").eq("id", user.id).single();
-        setMe(profile);
-      }
-      setAuthChecked(true);
-
-      const { data: oppData } = await supabase
-        .from("opportunities")
-        .select("*, owner:profiles!opportunities_owner_id_fkey(id,name,picture,city,bio)")
-        .eq("id", id)
-        .single();
-      setOpp(oppData);
-
-      if (user && oppData) {
-        const { data: conn } = await supabase
-          .from("connections")
-          .select("*")
-          .eq("opportunity_id", id)
-          .eq("from_user_id", user.id)
-          .maybeSingle();
-        setExistingConn(conn);
-      }
-      setLoading(false);
-    })();
-  }, [supabase, id]);
-
-  const sendConnect = async () => {
-    setErr("");
-    if (!message.trim()) { setErr("Please add a message."); return; }
-    setSending(true);
-    try {
-      const { data, error } = await supabase
-        .from("connections")
-        .insert({
-          opportunity_id: opp.id,
-          from_user_id: me.id,
-          to_user_id: opp.owner_id,
-          message: message.trim(),
-        })
-        .select()
-        .single();
-      if (error) throw error;
-      setExistingConn(data);
-      setShowConnect(false);
-    } catch (e) {
-      setErr(e.message || "Could not send.");
-    } finally { setSending(false); }
-  };
-
-  const removeOpp = async () => {
-    if (!window.confirm("Delete this opportunity?")) return;
-    await supabase.from("opportunities").delete().eq("id", opp.id);
-    router.push("/dashboard");
-  };
-
-  if (loading) return <Shell me={me}>
-    <div className="card-base p-6 md:p-8">
-      <div className="skeleton h-6 w-32 mb-4" />
-      <div className="skeleton h-10 w-3/4 mb-3" />
-      <div className="skeleton h-4 w-1/2 mb-6" />
-      <div className="skeleton h-4 w-full mb-2" />
-      <div className="skeleton h-4 w-5/6 mb-2" />
-      <div className="skeleton h-4 w-4/6" />
-    </div>
-  </Shell>;
-
-  if (!opp) return <Shell me={me}>
-    <div className="card-base p-10 text-center" data-testid="detail-not-found">
-      <div className="text-5xl mb-3">🔍</div>
-      <h2 className="font-display font-bold text-xl mb-2">Opportunity not found</h2>
-      <p className="text-muted text-sm mb-5">This link may have been removed or doesn't exist.</p>
-      <Link href={me ? "/dashboard" : "/"} className="btn-primary">Back to {me ? "feed" : "home"}</Link>
-    </div>
-  </Shell>;
-
-  const isOwner = me?.id === opp.owner_id;
-  const cat = CATEGORY_META[opp.category] || { emoji: "🌐", label: opp.category };
-  const isAnon = authChecked && !me;
-
-  return (
-    <Shell me={me}>
-      <div className="flex items-center justify-between flex-wrap gap-3 mb-4">
-        <Link href={me ? "/dashboard" : "/"} className="text-sm font-display font-semibold text-muted hover:text-ink">
-          ← {me ? "Back to feed" : "Back to home"}
-        </Link>
-        <ShareButton url={`/opportunities/${opp.id}`} title={opp.title} />
-      </div>
-
-      <article className="card-base p-6 md:p-8">
-        <div className="flex flex-wrap gap-2 mb-4">
-          <span className="chip bg-amber-50 text-amber-700">{cat.emoji} {cat.label}</span>
-          <span className="chip bg-teal-50 text-teal-600">{opp.collaboration_type}</span>
-          <span className="chip bg-violet-50 text-violet-700">{opp.commitment}</span>
-        </div>
-        <h1 data-testid="detail-title" className="h-section mb-3">{opp.title}</h1>
-        <p className="text-muted text-sm mb-6">📍 {opp.location}</p>
-        <div data-testid="detail-description" className="text-ink text-base leading-relaxed whitespace-pre-wrap mb-7">{opp.description}</div>
-
-        {opp.skills_needed?.length > 0 && (
-          <div className="mb-7">
-            <h3 className="label-display">Skills needed</h3>
-            <div className="flex flex-wrap gap-1.5">
-              {opp.skills_needed.map((s) => <span key={s} className="chip bg-amber-200 text-amber-700">{s}</span>)}
-            </div>
-          </div>
-        )}
-
-        <Link href={`/profile/${opp.owner_id}`} className="flex items-center gap-3 py-4 border-y border-stone-100 mb-5 -mx-1 px-1 rounded-lg hover:bg-stone-50 transition-colors">
-          {opp.owner?.picture ? (
-            <img src={opp.owner.picture} alt="" className="w-11 h-11 rounded-full" />
-          ) : (
-            <div className="w-11 h-11 rounded-full bg-amber-200 text-amber-700 flex items-center justify-center font-bold">{(opp.owner?.name || "?")[0]}</div>
-          )}
-          <div className="flex-1">
-            <div className="font-display font-bold text-sm">{opp.owner?.name}</div>
-            <div className="text-xs text-teal-600 font-semibold">View profile →</div>
-          </div>
-        </Link>
-
-        {existingConn && (
-          <div data-testid="connect-existing" className={`px-4 py-3 rounded-xl mb-4 ${
-            existingConn.status === "accepted" ? "bg-emerald-50 border border-emerald-200 text-emerald-800" :
-            existingConn.status === "rejected" ? "bg-rose-50 border border-rose-200 text-rose-700" :
-            "bg-teal-50 text-teal-700"
-          }`}>
-            <div className="flex items-start gap-2">
-              {existingConn.status === "accepted" ? "✅" : existingConn.status === "rejected" ? "✕" : "✓"}
-              <div className="flex-1">
-                <div className="font-display font-semibold text-sm">
-                  {existingConn.status === "accepted"
-                    ? "Connection accepted"
-                    : existingConn.status === "rejected"
-                    ? "Connection declined"
-                    : "Connection request sent · awaiting response"}
-                </div>
-                {existingConn.status === "accepted" && (
-                  <div className="text-xs sm:text-sm mt-1 leading-relaxed">
-                    You can now safely share contact details if you'd like to collaborate further. ValueWeave keeps contact sharing manual to protect your privacy.
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        )}
-
-        {isAnon && (
-          <div data-testid="connect-anon-cta" className="bg-amber-50 border border-amber-200 rounded-2xl p-5">
-            <h4 className="font-display font-bold text-base mb-1">Want to connect with {opp.owner?.name?.split(" ")[0] || "this builder"}?</h4>
-            <p className="text-sm text-muted mb-4">Sign in with Google to send a connection request. Takes 10 seconds.</p>
-            <Link href="/get-started" className="btn-primary">
-              <LogIn size={15} /> Sign in to connect
-            </Link>
-          </div>
-        )}
-
-        {!isAnon && !isOwner && !existingConn && (
-          showConnect ? (
-            <div className="bg-amber-50 rounded-2xl p-5">
-              <h4 className="font-display font-bold text-sm mb-2">Send a connection request</h4>
-              <textarea
-                data-testid="connect-message"
-                rows={4}
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                placeholder="Introduce yourself — what's your background and why this opportunity?"
-                className="w-full px-3 py-2.5 rounded-xl border-2 border-amber-200 bg-white text-sm outline-none focus:border-amber-500 resize-y"
-              />
-              {err && <div className="text-rose-700 text-sm mt-2">{err}</div>}
-              <div className="flex gap-2 mt-3 flex-wrap">
-                <button data-testid="connect-send" onClick={sendConnect} disabled={sending} className="btn-primary !py-2.5 disabled:opacity-50">
-                  {sending ? "Sending…" : "Send Request"}
-                </button>
-                <button onClick={() => setShowConnect(false)} className="btn-secondary !py-2.5">Cancel</button>
-              </div>
-            </div>
-          ) : (
-            <button data-testid="connect-open" onClick={() => setShowConnect(true)} className="btn-teal">
-              🤝 Connect with {opp.owner?.name?.split(" ")[0]}
-            </button>
-          )
-        )}
-        {isOwner && (
-          <button data-testid="opp-delete" onClick={removeOpp} className="inline-flex items-center gap-2 text-rose-700 border-2 border-rose-200 hover:bg-rose-50 rounded-full px-5 py-2.5 font-display font-bold text-sm min-h-[44px]">
-            Delete opportunity
-          </button>
-        )}
-      </article>
-    </Shell>
-  );
+export async function generateStaticParams() {
+  return Object.keys(STATE_SLUGS).map((id) => ({ id }));
 }
 
-function Shell({ me, children }) {
+export async function generateMetadata({ params }) {
+  const stateName = STATE_SLUGS[params.id];
+  if (!stateName) return {};
+  return buildBaseMetadata({
+    title: `Startup Opportunities in ${stateName} — District-wise | ValueWeave`,
+    description: `Browse open startup and collaboration opportunities across ${stateName} districts — healthcare, education, agriculture, technology, and manufacturing.`,
+    alternates: { canonical: `${BASE_URL}/opportunities/${params.id}` },
+  });
+}
+
+export default async function OpportunityIdOrStatePage({ params }) {
+  const stateName = STATE_SLUGS[params.id];
+  if (!stateName) return <OpportunityDetailClient />;
+
+  const districts = districtsForState(stateName);
+  const counts = await getOpportunityCountsByDistrict(stateName);
+  const total = Object.values(counts).reduce((a, b) => a + b, 0);
+  const breadcrumbs = [
+    { name: "Home", url: BASE_URL },
+    { name: "Opportunities", url: `${BASE_URL}/explore` },
+    { name: stateName, url: `${BASE_URL}/opportunities/${params.id}` },
+  ];
+
   return (
-    <div className="min-h-screen bg-cream pb-24 md:pb-12">
-      <AppNavbar initialProfile={me} />
-      <main className="max-w-3xl mx-auto px-4 sm:px-6 py-6 sm:py-8">{children}</main>
+    <div className="min-h-screen bg-cream font-body">
+      <AppNavbar />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd(breadcrumbs)) }} />
+      <main className="pb-16">
+        <section className="relative overflow-hidden bg-ink px-4 sm:px-6 py-14">
+          <div className="absolute -top-20 -right-20 w-80 h-80 rounded-full bg-amber-500/20 blur-3xl" />
+          <div className="absolute -bottom-20 -left-20 w-96 h-96 rounded-full bg-teal-500/20 blur-3xl" />
+          <div className="relative max-w-4xl mx-auto text-center">
+            <span className="chip bg-teal-500/20 text-teal-300 border border-teal-500/30 mb-4">OPPORTUNITY MARKETPLACE</span>
+            <h1 data-testid="state-opps-title" className="font-display font-extrabold tracking-tight text-3xl sm:text-4xl md:text-5xl text-white leading-tight mb-4">
+              Startup Opportunities<br className="hidden md:block" /> in {stateName}
+            </h1>
+            <p className="text-white/60 text-base sm:text-lg max-w-2xl mx-auto">
+              {total > 0 ? `${total}+ open opportunities` : "Curated opportunities"} across {districts.length} districts —
+              find what to build and who to build it with.
+            </p>
+          </div>
+        </section>
+
+        <section className="max-w-5xl mx-auto px-4 sm:px-6 py-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {districts.map((d) => (
+              <Link
+                key={d.slug}
+                href={`/opportunities/${params.id}/${d.slug}`}
+                data-testid={`state-district-${d.slug}`}
+                className="group card-base p-5 hover:border-amber-400 hover:shadow-md hover:-translate-y-1 transition-all duration-200"
+              >
+                <h2 className="font-display font-bold text-lg text-ink group-hover:text-amber-700 transition-colors">{d.name}</h2>
+                <p className="text-sm text-muted mt-1">
+                  {counts[d.name] ? `${counts[d.name]} open opportunities` : "Opportunities available"}
+                </p>
+                <span className="mt-3 inline-flex items-center gap-1 text-amber-700 text-sm font-display font-bold">
+                  View opportunities <span className="group-hover:translate-x-1 transition-transform">→</span>
+                </span>
+              </Link>
+            ))}
+          </div>
+
+          <div className="mt-10 bg-gradient-to-r from-amber-50 to-teal-50 border border-amber-200 rounded-2xl p-6 text-center">
+            <h3 className="font-display font-bold text-lg mb-1">Not sure which opportunity fits you?</h3>
+            <p className="text-sm text-muted mb-4 max-w-md mx-auto">Take the 7-minute Discover Yourself assessment to get matched by archetype, district, and budget.</p>
+            <div className="flex items-center justify-center gap-2 flex-wrap">
+              <Link href="/discover" className="btn-primary">🧭 Discover Yourself</Link>
+              <Link href="/explore" className="btn-secondary">Browse all opportunities</Link>
+            </div>
+          </div>
+        </section>
+      </main>
     </div>
   );
 }

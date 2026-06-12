@@ -3,6 +3,9 @@ import { getAllDistrictSlugs } from "@/lib/districts-data";
 import { getAllSegments } from "@/lib/radar-data";
 import { sitemapEntry } from "@/lib/seo";
 import { IDEAS } from "@/lib/idea-library";
+import { MARKETPLACE_DISTRICTS, MARKETPLACE_SECTORS } from "@/lib/collab";
+
+const stateToSlug = (stateName) => (stateName === "Telangana" ? "telangana" : "andhra-pradesh");
 
 export default async function sitemap() {
   // Combined sources: published database articles + file-based MDX
@@ -40,6 +43,24 @@ export default async function sitemap() {
     // ── Opportunity radar segments ──
     ...radarSegments.map((seg) =>
       sitemapEntry(`/opportunity-radar/${seg}`, { changeFreq: "weekly", priority: 0.8 })
+    ),
+
+    // ── Opportunity marketplace (state + district SEO pages) ──
+    sitemapEntry("/opportunities/telangana", { changeFreq: "daily", priority: 0.85 }),
+    sitemapEntry("/opportunities/andhra-pradesh", { changeFreq: "daily", priority: 0.85 }),
+    ...MARKETPLACE_DISTRICTS.map((d) =>
+      sitemapEntry(`/opportunities/${stateToSlug(d.state)}/${d.slug}`, { changeFreq: "daily", priority: 0.8 })
+    ),
+
+    // ── District business-idea pages ──
+    ...MARKETPLACE_DISTRICTS.map((d) =>
+      sitemapEntry(`/business-ideas/${d.slug}`, { changeFreq: "weekly", priority: 0.75 })
+    ),
+
+    // ── Collaborator marketplace ──
+    sitemapEntry("/collaborators", { changeFreq: "daily", priority: 0.85 }),
+    ...MARKETPLACE_SECTORS.map((s) =>
+      sitemapEntry(`/collaborators/${s.id}`, { changeFreq: "daily", priority: 0.75 })
     ),
   ];
 }

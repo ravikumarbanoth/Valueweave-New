@@ -6,14 +6,18 @@ import AppNavbar from "@/components/AppNavbar";
 import OpportunityCard from "@/components/OpportunityCard";
 import { FeedSkeleton } from "@/components/Skeleton";
 import { Search, Lock } from "lucide-react";
+import { MARKETPLACE_DISTRICTS } from "@/lib/collab";
 
 const CATEGORIES = [
   { id: "", emoji: "🌐", label: "All" },
-  { id: "ai-tech", emoji: "🤖", label: "AI & Tech" },
+  { id: "healthcare", emoji: "🏥", label: "Healthcare" },
+  { id: "education", emoji: "📚", label: "Education" },
+  { id: "agri", emoji: "🌾", label: "Agriculture" },
+  { id: "ai-tech", emoji: "🤖", label: "Technology" },
+  { id: "manufacturing", emoji: "🏭", label: "Manufacturing" },
   { id: "local-business", emoji: "🏪", label: "Local Business" },
   { id: "ev-electronics", emoji: "⚡", label: "EV & Electronics" },
   { id: "drone", emoji: "🚁", label: "Drone" },
-  { id: "agri", emoji: "🌾", label: "Agriculture" },
   { id: "student", emoji: "🎓", label: "Student" },
   { id: "trades", emoji: "🔧", label: "Trades" },
   { id: "digital", emoji: "📱", label: "Digital" },
@@ -24,6 +28,7 @@ export default function ExplorePage() {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [category, setCategory] = useState("");
+  const [district, setDistrict] = useState("");
   const [search, setSearch] = useState("");
 
   const load = useCallback(async () => {
@@ -32,8 +37,9 @@ export default function ExplorePage() {
       .from("opportunities")
       .select("*, owner:profiles!opportunities_owner_id_fkey(id,name,picture)")
       .order("created_at", { ascending: false })
-      .limit(50);
+      .limit(60);
     if (category) q = q.eq("category", category);
+    if (district) q = q.eq("district", district);
     if (search.trim()) {
       const s = search.trim().replace(/[%,]/g, "");
       q = q.or(`title.ilike.%${s}%,description.ilike.%${s}%`);
@@ -41,7 +47,7 @@ export default function ExplorePage() {
     const { data, error } = await q;
     if (!error) setItems(data || []);
     setLoading(false);
-  }, [supabase, category, search]);
+  }, [supabase, category, district, search]);
 
   useEffect(() => { load(); }, [load]);
 
@@ -69,7 +75,7 @@ export default function ExplorePage() {
               className="input-field !pl-10"
             />
           </div>
-          <div className="flex gap-2 overflow-x-auto pb-1 -mx-1 px-1">
+          <div className="flex gap-2 overflow-x-auto pb-1 -mx-1 px-1 mb-3">
             {CATEGORIES.map((c) => (
               <button
                 key={c.id || "all"}
@@ -83,6 +89,24 @@ export default function ExplorePage() {
               </button>
             ))}
           </div>
+          <select
+            data-testid="explore-district"
+            value={district}
+            onChange={(e) => setDistrict(e.target.value)}
+            className="rounded-lg border border-stone-200 bg-white px-3 py-2 text-xs font-display font-semibold text-ink outline-none focus:border-amber-500"
+          >
+            <option value="">📍 All districts</option>
+            <optgroup label="Telangana">
+              {MARKETPLACE_DISTRICTS.filter((d) => d.state === "Telangana").map((d) => (
+                <option key={d.slug} value={d.name}>{d.name}</option>
+              ))}
+            </optgroup>
+            <optgroup label="Andhra Pradesh">
+              {MARKETPLACE_DISTRICTS.filter((d) => d.state === "Andhra Pradesh").map((d) => (
+                <option key={d.slug} value={d.name}>{d.name}</option>
+              ))}
+            </optgroup>
+          </select>
         </div>
 
         {loading ? <FeedSkeleton count={6} /> : items.length === 0 ? (

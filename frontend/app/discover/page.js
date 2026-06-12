@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
+import LiveMatches from "@/components/LiveMatches";
 
 // ─── DISTRICT MASTER ──────────────────────────────────────────────────────────
 // Tiers: Metro | Tier-1 | Tier-2 | Tier-3 | Rural
@@ -819,6 +820,7 @@ export default function DiscoverYourselfPage() {
     const sArch = ARCHETYPES[profile.secondaryArchetype];
     const tabs = [
       { id: "ideas", label: "Ideas", icon: "🚀" },
+      { id: "network", label: "Network", icon: "🤝" },
       { id: "summary", label: "Profile", icon: "🎯" },
       { id: "careers", label: "Careers", icon: "💼" },
       { id: "courses", label: "Courses", icon: "🎓" },
@@ -929,6 +931,9 @@ export default function DiscoverYourselfPage() {
               ))}
             </div>
           )}
+
+          {/* NETWORK — live marketplace matches */}
+          {activeTab === "network" && <LiveMatches profile={profile} />}
 
           {/* PROFILE */}
           {activeTab === "summary" && (

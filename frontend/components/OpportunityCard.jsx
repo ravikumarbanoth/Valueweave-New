@@ -10,6 +10,9 @@ const CATEGORY_META = {
   "student": { emoji: "🎓", label: "Student" },
   "trades": { emoji: "🔧", label: "Trades" },
   "digital": { emoji: "📱", label: "Digital" },
+  "healthcare": { emoji: "🏥", label: "Healthcare" },
+  "education": { emoji: "📚", label: "Education" },
+  "manufacturing": { emoji: "🏭", label: "Manufacturing" },
 };
 
 const COLLAB_LABEL = {
@@ -65,15 +68,28 @@ export default function OpportunityCard({ opp, isNearby = false }) {
         </div>
       )}
 
+      {opp.investment_range && (
+        <span className="text-xs font-display font-bold text-amber-700">💰 {opp.investment_range}</span>
+      )}
+
       <div className="flex items-center gap-2 pt-3 border-t border-stone-100">
-        {owner.picture ? (
-          <img src={owner.picture} alt="" className="w-7 h-7 rounded-full" />
+        {opp.created_by === "system_seed" ? (
+          <>
+            <div className="w-7 h-7 rounded-full bg-gradient-to-br from-amber-400 to-teal-400 flex items-center justify-center text-white font-bold text-xs">V</div>
+            <span className="text-xs font-semibold text-teal-700">ValueWeave Curated</span>
+          </>
         ) : (
-          <div className="w-7 h-7 rounded-full bg-amber-200 text-amber-700 flex items-center justify-center font-bold text-xs">
-            {(owner.name || "?")[0]?.toUpperCase()}
-          </div>
+          <>
+            {owner.picture ? (
+              <img src={owner.picture} alt="" className="w-7 h-7 rounded-full" />
+            ) : (
+              <div className="w-7 h-7 rounded-full bg-amber-200 text-amber-700 flex items-center justify-center font-bold text-xs">
+                {(owner.name || "?")[0]?.toUpperCase()}
+              </div>
+            )}
+            <span className="text-xs font-semibold text-ink">{owner.name || "Builder"}</span>
+          </>
         )}
-        <span className="text-xs font-semibold text-ink">{owner.name || "Builder"}</span>
         <span data-testid={`opp-location-${opp.id}`} className="ml-auto inline-flex items-center gap-1 text-[11px] text-muted">
           <MapPin size={11} /> {opp.location}
         </span>

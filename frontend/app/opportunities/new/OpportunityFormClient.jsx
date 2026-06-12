@@ -3,13 +3,17 @@ import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase-browser";
 import AppNavbar from "@/components/AppNavbar";
+import { MARKETPLACE_DISTRICTS } from "@/lib/collab";
 
 const CATEGORIES = [
+  { id: "healthcare", label: "Healthcare" },
+  { id: "education", label: "Education" },
+  { id: "agri", label: "Agriculture" },
   { id: "ai-tech", label: "AI & Tech" },
+  { id: "manufacturing", label: "Manufacturing" },
   { id: "local-business", label: "Local Business" },
   { id: "ev-electronics", label: "EV & Electronics" },
   { id: "drone", label: "Drone Services" },
-  { id: "agri", label: "Agriculture" },
   { id: "student", label: "Student Startup" },
   { id: "trades", label: "Skilled Trades" },
   { id: "digital", label: "Digital Services" },
@@ -28,6 +32,8 @@ export default function OpportunityFormClient() {
     skills_raw: params.get("skills") || "",
     collaboration_type: params.get("collab") || "cofounder",
     commitment: params.get("commit") || "part-time",
+    district: "",
+    investment_range: "",
   });
   const [submitting, setSubmitting] = useState(false);
   const [err, setErr] = useState("");
@@ -64,6 +70,9 @@ export default function OpportunityFormClient() {
           location: form.location.trim(),
           collaboration_type: form.collaboration_type,
           commitment: form.commitment,
+          district: form.district || null,
+          state: MARKETPLACE_DISTRICTS.find((d) => d.name === form.district)?.state || null,
+          investment_range: form.investment_range || null,
         })
         .select()
         .single();
@@ -102,6 +111,33 @@ export default function OpportunityFormClient() {
             </Field>
             <Field label="Location" required>
               <input data-testid="post-location" className="input-field" value={form.location} onChange={(e) => setForm({ ...form, location: e.target.value })} placeholder="e.g. Hyderabad, Telangana" />
+            </Field>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <Field label="District" hint="Shows your post on district pages">
+              <select data-testid="post-district" className="input-field" value={form.district} onChange={(e) => setForm({ ...form, district: e.target.value })}>
+                <option value="">Select district…</option>
+                <optgroup label="Telangana">
+                  {MARKETPLACE_DISTRICTS.filter((d) => d.state === "Telangana").map((d) => (
+                    <option key={d.slug} value={d.name}>{d.name}</option>
+                  ))}
+                </optgroup>
+                <optgroup label="Andhra Pradesh">
+                  {MARKETPLACE_DISTRICTS.filter((d) => d.state === "Andhra Pradesh").map((d) => (
+                    <option key={d.slug} value={d.name}>{d.name}</option>
+                  ))}
+                </optgroup>
+              </select>
+            </Field>
+            <Field label="Investment range">
+              <select data-testid="post-investment" className="input-field" value={form.investment_range} onChange={(e) => setForm({ ...form, investment_range: e.target.value })}>
+                <option value="">Not specified</option>
+                <option value="Under ₹50K">Under ₹50K</option>
+                <option value="₹50K – ₹2L">₹50K – ₹2L</option>
+                <option value="₹2L – ₹5L">₹2L – ₹5L</option>
+                <option value="₹5L – ₹10L">₹5L – ₹10L</option>
+                <option value="₹10L+">₹10L+</option>
+              </select>
             </Field>
           </div>
           <Field label="Skills needed" hint="Comma separated">

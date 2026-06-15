@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Shield, Smartphone, Sparkles } from "lucide-react";
+import HomepageStats from "@/components/HomepageStats";
 
 const FLOATING_CARDS = [
   { top: "8%", left: "12%", emoji: "🤖", label: "AI · Hyderabad", bg: "bg-blue-50", border: "border-blue-200" },
@@ -141,6 +142,8 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
+
+      <HomepageStats />
 
       <section id="why" className="bg-warm py-20 sm:py-24 px-4 sm:px-6">
         <div className="max-w-5xl mx-auto">

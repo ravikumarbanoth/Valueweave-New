@@ -1,10 +1,11 @@
 import Link from "next/link";
 import AdminShell from "@/components/admin/AdminShell";
+import AdminQuickAccess from "@/components/admin/AdminQuickAccess";
 import { createClient } from "@/lib/supabase-server";
 import {
   Users, Briefcase, UserCheck, BookOpen, MessageSquare,
   TrendingUp, MapPin, Star, Zap, ArrowRight, Bell, Search,
-  Grid, Activity, BarChart3, CheckCircle, AlertCircle,
+  Grid, Activity, BarChart3, CheckCircle, AlertCircle, Eye,
 } from "lucide-react";
 
 export const dynamic = "force-dynamic";
@@ -26,6 +27,7 @@ async function fetchDashboardData() {
       { count: totalRequests },
       { count: unreadNotifications },
       { count: pendingMatches },
+      { count: totalVisitors },
       { data: oppDistricts },
       { data: collabSectors },
       { data: recentFeedback },
@@ -43,6 +45,7 @@ async function fetchDashboardData() {
       sb.from("user_requests").select("*", { count: "exact", head: true }).eq("status", "pending"),
       sb.from("admin_notifications").select("*", { count: "exact", head: true }).eq("status", "unread"),
       sb.from("founder_matches").select("*", { count: "exact", head: true }).eq("status", "pending"),
+      sb.from("visitor_sessions").select("*", { count: "exact", head: true }),
       sb.from("opportunities").select("district").not("district", "is", null).limit(500),
       sb.from("collaborator_profiles").select("top_sectors").limit(500),
       sb.from("user_feedback").select("type,message,created_at,status").order("created_at", { ascending: false }).limit(5),
@@ -98,6 +101,7 @@ async function fetchDashboardData() {
       totalRequests: totalRequests || 0,
       unreadNotifications: unreadNotifications || 0,
       pendingMatches: pendingMatches || 0,
+      totalVisitors: totalVisitors || 0,
       topDistrict, topDistrictCount,
       topSector, topSectorCount,
       topSearch, topSearchCount,
@@ -112,7 +116,7 @@ async function fetchDashboardData() {
     return {
       totalUsers: 0, totalOpportunities: 0, totalCollaborators: 0,
       totalArticles: 0, totalFeedback: 0, totalRequests: 0,
-      unreadNotifications: 0, pendingMatches: 0,
+      unreadNotifications: 0, pendingMatches: 0, totalVisitors: 0,
       topDistrict: "N/A", topDistrictCount: 0,
       topSector: "N/A", topSectorCount: 0,
       topSearch: null, topSearchCount: 0,
@@ -221,13 +225,16 @@ export default async function AdminControlCenter() {
         </div>
 
         {/* Key Metrics */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
-          <StatCard icon={Users} label="Users" value={d.totalUsers} href="/admin/analytics" accent="amber" />
-          <StatCard icon={Briefcase} label="Opportunities" value={d.totalOpportunities} href="/admin/opportunity-generator" accent="teal" />
-          <StatCard icon={UserCheck} label="Collaborators" value={d.totalCollaborators} href="/admin/matches" accent="blue" />
-          <StatCard icon={BookOpen} label="Articles" value={d.totalArticles} href="/admin/research-performance" accent="purple" />
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+          <StatCard icon={Eye} label="Visitor Sessions" value={d.totalVisitors} href="/admin/analytics" accent="amber" />
+          <StatCard icon={Users} label="Users" value={d.totalUsers} href="/admin/analytics" accent="teal" />
+          <StatCard icon={Briefcase} label="Opportunities" value={d.totalOpportunities} href="/admin/opportunity-generator" accent="blue" />
+          <StatCard icon={UserCheck} label="Collaborators" value={d.totalCollaborators} href="/admin/matches" accent="purple" />
+          <StatCard icon={BookOpen} label="Articles" value={d.totalArticles} href="/admin/research-performance" accent="green" />
+        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
           <StatCard icon={MessageSquare} label="Feedback" value={d.totalFeedback} href="/admin/intent" accent="rose" />
-          <StatCard icon={TrendingUp} label="Requests" value={d.totalRequests} href="/admin/intent" accent="green" />
+          <StatCard icon={TrendingUp} label="Requests" value={d.totalRequests} href="/admin/intent" accent="amber" />
           <StatCard icon={Bell} label="Unread Alerts" value={d.unreadNotifications} href="/admin/notifications" accent="rose" badge={d.unreadNotifications} />
           <StatCard icon={Users} label="Pending Matches" value={d.pendingMatches} href="/admin/matches" accent="purple" badge={d.pendingMatches} />
         </div>
@@ -294,29 +301,7 @@ export default async function AdminControlCenter() {
         )}
 
         {/* Admin Tools Grid */}
-        <div>
-          <h2 className="font-display font-bold text-lg text-ink mb-4 flex items-center gap-2">
-            <Zap size={18} className="text-amber-500" /> Admin Tools
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {TOOLS.map(({ href, label, desc, chip, accent }) => (
-              <Link
-                key={href}
-                href={href}
-                className="card-base p-5 hover:shadow-md transition-all hover:-translate-y-0.5 group block"
-              >
-                <div className="flex items-center justify-between mb-3">
-                  <span className={`chip text-[10px] ${CHIP_COLORS[accent]}`}>{chip}</span>
-                  <ArrowRight size={14} className="text-stone-300 group-hover:text-amber-500 transition-colors" />
-                </div>
-                <h3 className="font-display font-bold text-ink group-hover:text-amber-700 transition-colors text-sm">
-                  {label}
-                </h3>
-                <p className="text-[12px] text-stone-400 mt-1 leading-relaxed">{desc}</p>
-              </Link>
-            ))}
-          </div>
-        </div>
+        <AdminQuickAccess currentPath="/admin" />
 
         {/* Recent Activity */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

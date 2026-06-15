@@ -5,6 +5,8 @@ import { buildDistrictMetadata, localBusinessJsonLd, breadcrumbJsonLd, BASE_URL 
 import { getDistrictRelatedLinks } from "@/lib/internal-links";
 import { DistrictProfile } from "@/components/district/DistrictProfile";
 import AppNavbar from "@/components/AppNavbar";
+import PageTracker from "@/components/PageTracker";
+import RequestContentWidget from "@/components/RequestContentWidget";
 
 export async function generateStaticParams() {
   return getAllDistrictSlugs().map((slug) => ({ slug }));
@@ -35,6 +37,12 @@ export default function DistrictPage({ params }) {
   return (
     <div className="min-h-screen bg-cream font-body">
       <AppNavbar />
+      <PageTracker
+        pageType="district"
+        slug={district.slug}
+        title={district.name}
+        district={district.name}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -46,6 +54,18 @@ export default function DistrictPage({ params }) {
         relatedLinks={relatedLinks}
         relatedArticles={relatedArticles}
       />
+      <div className="max-w-5xl mx-auto px-4 pb-10">
+        <div className="flex items-center justify-between pt-6 border-t border-stone-200 mt-2">
+          <p className="text-[13px] text-stone-400">Missing something about {district.name}?</p>
+          <RequestContentWidget
+            defaultType="district"
+            district={district.name}
+            prefillTitle={`${district.name} District Report`}
+            buttonLabel="Request District Report"
+            compact
+          />
+        </div>
+      </div>
     </div>
   );
 }

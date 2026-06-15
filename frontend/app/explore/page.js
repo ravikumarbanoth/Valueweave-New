@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase-browser";
 import AppNavbar from "@/components/AppNavbar";
 import OpportunityCard from "@/components/OpportunityCard";
 import { FeedSkeleton } from "@/components/Skeleton";
+import PageTracker from "@/components/PageTracker";
 import { Search, Lock } from "lucide-react";
 import { MARKETPLACE_DISTRICTS } from "@/lib/collab";
 
@@ -54,6 +55,7 @@ export default function ExplorePage() {
   return (
     <div className="min-h-screen bg-cream pb-16">
       <AppNavbar />
+      <PageTracker pageType="other" slug="explore" title="Explore Opportunities" />
       <main className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
         <div className="mb-6">
           <h1 data-testid="explore-title" className="font-display font-extrabold text-3xl sm:text-4xl tracking-tight mb-2">

@@ -32,10 +32,11 @@ async function fetchRecommendations() {
     const [
       { data: searches },
       { data: requests },
-      { data: interests },
+      { data: pageViewOpps },
       { data: articles },
       { data: opportunities },
       { data: collabSectors },
+      { data: allPageViews },
     ] = await Promise.all([
       sb.from("search_events").select("query,sector,district").limit(5000),
       sb.from("user_requests").select("title,sector,district,type").limit(2000),
@@ -43,6 +44,7 @@ async function fetchRecommendations() {
       sb.from("research_articles").select("title,slug,category,district").eq("status", "published").limit(500),
       sb.from("opportunities").select("title,category,district").limit(500),
       sb.from("collaborator_profiles").select("top_sectors").limit(500),
+      sb.from("page_views").select("page_slug,page_title,sector,district").limit(5000),
     ]);
 
     // Build demand signals per keyword
@@ -62,8 +64,12 @@ async function fetchRecommendations() {
     (collabSectors || []).forEach(({ top_sectors }) => {
       (top_sectors || []).forEach((s) => bump(s, "collabs", 1));
     });
-    (interests || []).forEach(({ sector, district }) => {
+    (pageViewOpps || []).forEach(({ sector, district }) => {
       if (sector) bump(sector, "interests", 1, { sector, district });
+    });
+    // Incorporate page_views × 0.25 weight
+    (allPageViews || []).forEach(({ page_slug, sector, district }) => {
+      if (page_slug) bump(page_slug.replace(/-/g, " "), "collabs", 0.25, { sector, district });
     });
 
     // Existing content
@@ -80,7 +86,7 @@ async function fetchRecommendations() {
     // Score and sort
     const scored = Object.entries(demandMap)
       .map(([keyword, v]) => {
-        const rawScore = v.searches * 1 + v.requests * 2 + v.interests * 3 + v.collabs * 1;
+        const rawScore = v.searches * 1 + v.requests * 2 + v.interests * 3 + v.collabs * 2;
         const existing = hasContent(keyword);
         const score = Math.min(100, Math.max(0, Math.round(rawScore - (existing ? 20 : 0))));
         return { keyword, score, existing, ...v };

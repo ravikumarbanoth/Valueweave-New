@@ -4,6 +4,8 @@ import Link from "next/link";
 import { getIdea, getSector, getBucket, getInvestmentRange, formatINR } from "@/lib/idea-library";
 import AppNavbar from "@/components/AppNavbar";
 import ShareButton from "@/components/ShareButton";
+import PageTracker from "@/components/PageTracker";
+import RequestContentWidget from "@/components/RequestContentWidget";
 import { MapPin, Users, Target, Wrench, IndianRupee, TrendingUp, Sparkles, ShieldCheck, Landmark, ShoppingBag } from "lucide-react";
 
 const BUCKET_COLOR = {
@@ -78,6 +80,13 @@ export default function IdeaDetailPage() {
 
   return (
     <Shell>
+      <PageTracker
+        pageType="idea"
+        slug={idea.slug}
+        title={idea.title}
+        sector={idea.sector}
+        district={seedDistrict || null}
+      />
       <div className="flex items-center justify-between flex-wrap gap-3 mb-4">
         <Link href="/ideas" className="text-sm font-display font-semibold text-muted hover:text-ink">← Back to ideas</Link>
         <ShareButton url={`/ideas/${idea.slug}`} title={`${idea.title} — ValueWeave Idea Library`} />
@@ -194,6 +203,18 @@ export default function IdeaDetailPage() {
           <Link href={postHref} data-testid="idea-start-cta" className="btn-primary">Start this in your district →</Link>
         </div>
       </article>
+
+      <div className="flex items-center justify-between mt-4 px-1">
+        <p className="text-[13px] text-stone-400">Want a detailed business guide for this idea?</p>
+        <RequestContentWidget
+          defaultType="idea"
+          sector={idea.sector}
+          district={seedDistrict || null}
+          prefillTitle={idea.title}
+          buttonLabel="Request Full Guide"
+          compact
+        />
+      </div>
     </Shell>
   );
 }

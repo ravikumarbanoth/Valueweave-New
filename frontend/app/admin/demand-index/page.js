@@ -29,37 +29,46 @@ function ScoreBadge({ score }) {
   return <span className={`chip border text-[12px] font-extrabold ${color}`}>{score}</span>;
 }
 
-// Compute demand score for a given key (sector or district)
-// Formula: searches + requests×2 + interests×3 + collab_demand
-function computeDemandMap(searches, requests, interests, collabData, getKey) {
+// Demand Score Formula (Phase 5):
+//   Searches × 1  +  Requests × 2  +  Opp Interests × 3
+//   +  Collaborator Interest × 2  +  Page Views × 0.25
+function computeDemandMap(searches, requests, interests, collabData, getKey, pageViews = []) {
   const map = {};
+  const init = () => ({ searches: 0, requests: 0, interests: 0, collabs: 0, pageViews: 0 });
 
   searches.forEach((r) => {
     const k = getKey(r);
     if (!k) return;
-    if (!map[k]) map[k] = { searches: 0, requests: 0, interests: 0, collabs: 0 };
+    if (!map[k]) map[k] = init();
     map[k].searches++;
   });
 
   requests.forEach((r) => {
     const k = getKey(r);
     if (!k) return;
-    if (!map[k]) map[k] = { searches: 0, requests: 0, interests: 0, collabs: 0 };
+    if (!map[k]) map[k] = init();
     map[k].requests++;
   });
 
   interests.forEach((r) => {
     const k = getKey(r);
     if (!k) return;
-    if (!map[k]) map[k] = { searches: 0, requests: 0, interests: 0, collabs: 0 };
+    if (!map[k]) map[k] = init();
     map[k].interests++;
   });
 
   collabData.forEach((r) => {
     const k = getKey(r);
     if (!k) return;
-    if (!map[k]) map[k] = { searches: 0, requests: 0, interests: 0, collabs: 0 };
+    if (!map[k]) map[k] = init();
     map[k].collabs++;
+  });
+
+  pageViews.forEach((r) => {
+    const k = getKey(r);
+    if (!k) return;
+    if (!map[k]) map[k] = init();
+    map[k].pageViews++;
   });
 
   return Object.entries(map).map(([key, v]) => ({
@@ -68,7 +77,14 @@ function computeDemandMap(searches, requests, interests, collabData, getKey) {
     requests: v.requests,
     interests: v.interests,
     collabs: v.collabs,
-    score: v.searches + v.requests * 2 + v.interests * 3 + v.collabs,
+    pageViews: v.pageViews,
+    score: Math.round(
+      v.searches * 1 +
+      v.requests * 2 +
+      v.interests * 3 +
+      v.collabs * 2 +
+      v.pageViews * 0.25
+    ),
   })).sort((a, b) => b.score - a.score);
 }
 
@@ -79,19 +95,19 @@ async function fetchDemandData() {
     const [
       { data: searches },
       { data: requests },
-      { data: interests },
       { data: oppInterests },
       { data: collabSectors },
       { data: collabDistricts },
       { data: opportunities },
+      { data: pvData },
     ] = await Promise.all([
       sb.from("search_events").select("query,sector,district").limit(5000),
       sb.from("user_requests").select("title,sector,district").limit(2000),
-      sb.from("page_views").select("page_type,sector,district").limit(10000),
       sb.from("opportunity_interests").select("opportunity_id").limit(5000),
       sb.from("collaborator_profiles").select("top_sectors").limit(1000),
       sb.from("collaborator_profiles").select("district,state").limit(1000),
       sb.from("opportunities").select("id,category,district,state").limit(2000),
+      sb.from("page_views").select("page_type,sector,district").limit(10000),
     ]);
 
     // Map opp interests to sector/district via joined opportunities
@@ -109,27 +125,33 @@ async function fetchDemandData() {
       (top_sectors || []).forEach((s) => collabSectorRows.push({ sector: s }));
     });
 
-    // Demand by sector
+    const pageViewRows = pvData || [];
+
+    // Demand by sector (passes page_views as 6th arg for ×0.25 weighting)
     const bySector = computeDemandMap(
       searches || [], requests || [], interestsWithContext, collabSectorRows,
-      (r) => r.sector || null
+      (r) => r.sector || null,
+      pageViewRows
     ).slice(0, 15);
 
     // Demand by district
     const collabDistrictRows = (collabDistricts || []).map((c) => ({ district: c.district }));
     const byDistrict = computeDemandMap(
       searches || [], requests || [], interestsWithContext, collabDistrictRows,
-      (r) => r.district || null
+      (r) => r.district || null,
+      pageViewRows
     ).slice(0, 15);
 
     // Demand by state
     const collabStateRows = (collabDistricts || []).map((c) => ({ state: c.state }));
     const byState = computeDemandMap(
       [], [], interestsWithContext, collabStateRows,
-      (r) => r.state || null
+      (r) => r.state || null,
+      []
     ).slice(0, 5);
 
-    const totalSignals = (searches?.length || 0) + (requests?.length || 0) + (oppInterests?.length || 0);
+    const totalSignals = (searches?.length || 0) + (requests?.length || 0) +
+      (oppInterests?.length || 0) + Math.round((pageViewRows.length || 0) * 0.25);
 
     return { bySector, byDistrict, byState, totalSignals, hasData: totalSignals > 0 };
   } catch (e) {
@@ -155,6 +177,7 @@ function DemandTable({ rows, keyLabel, showBreakdown }) {
               <th className="text-right py-2.5 px-4 text-[10px] text-stone-400 uppercase tracking-widest">Requests</th>
               <th className="text-right py-2.5 px-4 text-[10px] text-stone-400 uppercase tracking-widest">Interests</th>
               <th className="text-right py-2.5 px-4 text-[10px] text-stone-400 uppercase tracking-widest">Collabs</th>
+              <th className="text-right py-2.5 px-4 text-[10px] text-stone-400 uppercase tracking-widest">Views</th>
             </>}
             <th className="text-right py-2.5 px-4 text-[10px] text-stone-400 uppercase tracking-widest">Score</th>
             <th className="py-2.5 px-4 w-32 text-[10px] text-stone-400 uppercase tracking-widest">Demand</th>
@@ -171,7 +194,8 @@ function DemandTable({ rows, keyLabel, showBreakdown }) {
                 <td className="py-2.5 px-4 text-right text-stone-500">{r.searches}</td>
                 <td className="py-2.5 px-4 text-right text-stone-500">{r.requests * 2} <span className="text-stone-300 text-[10px]">(×2)</span></td>
                 <td className="py-2.5 px-4 text-right text-stone-500">{r.interests * 3} <span className="text-stone-300 text-[10px]">(×3)</span></td>
-                <td className="py-2.5 px-4 text-right text-stone-500">{r.collabs}</td>
+                <td className="py-2.5 px-4 text-right text-stone-500">{r.collabs * 2} <span className="text-stone-300 text-[10px]">(×2)</span></td>
+                <td className="py-2.5 px-4 text-right text-stone-500">{Math.round(r.pageViews * 0.25)} <span className="text-stone-300 text-[10px]">(×0.25)</span></td>
               </>}
               <td className="py-2.5 px-4 text-right">
                 <ScoreBadge score={r.score} />

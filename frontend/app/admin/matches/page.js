@@ -1,7 +1,7 @@
 import AdminShell from "@/components/admin/AdminShell";
 import { createClient } from "@/lib/supabase-server";
 import MatchActions from "./MatchActions";
-import { Users, Star, MapPin, Briefcase, Zap, Info } from "lucide-react";
+import { Users, Star, MapPin, Briefcase, Zap, Info, Award, BarChart3 } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 export const metadata = {
@@ -156,11 +156,63 @@ async function fetchMatchData() {
 
     const pendingCount = enrichedMatches.filter((m) => m.status === "pending").length;
     const approvedCount = enrichedMatches.filter((m) => m.status === "approved").length;
+    const ignoredCount = enrichedMatches.filter((m) => m.status === "ignored").length;
+    const contactedCount = enrichedMatches.filter((m) => m.status === "contacted").length;
 
-    return { matches: enrichedMatches, pendingCount, approvedCount, totalCandidates: candidates.length };
+    // Success rate = approved / (approved + ignored)
+    const decided = approvedCount + ignoredCount;
+    const successRate = decided > 0 ? Math.round((approvedCount / decided) * 100) : null;
+
+    // Best archetype combos (from approved matches)
+    const archetypeComboMap = {};
+    enrichedMatches.filter((m) => m.status === "approved").forEach((m) => {
+      const a1 = m.collab1.archetype;
+      const a2 = m.collab2.archetype;
+      if (a1 && a2) {
+        const combo = [a1, a2].sort().join(" + ");
+        archetypeComboMap[combo] = (archetypeComboMap[combo] || 0) + 1;
+      }
+    });
+    const bestArchetypes = Object.entries(archetypeComboMap)
+      .sort((a, b) => b[1] - a[1]).slice(0, 5).map(([combo, count]) => ({ combo, count }));
+
+    // Best sectors by approval count
+    const sectorMap2 = {};
+    enrichedMatches.forEach((m) => {
+      if (!m.sector) return;
+      if (!sectorMap2[m.sector]) sectorMap2[m.sector] = { approved: 0, total: 0 };
+      sectorMap2[m.sector].total++;
+      if (m.status === "approved") sectorMap2[m.sector].approved++;
+    });
+    const bestSectors = Object.entries(sectorMap2)
+      .sort((a, b) => b[1].approved - a[1].approved || b[1].total - a[1].total)
+      .slice(0, 5).map(([sector, v]) => ({ sector, approved: v.approved, total: v.total }));
+
+    // Best districts by approval count
+    const districtMap2 = {};
+    enrichedMatches.forEach((m) => {
+      if (!m.district) return;
+      if (!districtMap2[m.district]) districtMap2[m.district] = { approved: 0, total: 0 };
+      districtMap2[m.district].total++;
+      if (m.status === "approved") districtMap2[m.district].approved++;
+    });
+    const bestDistricts = Object.entries(districtMap2)
+      .sort((a, b) => b[1].approved - a[1].approved || b[1].total - a[1].total)
+      .slice(0, 5).map(([district, v]) => ({ district, approved: v.approved, total: v.total }));
+
+    return {
+      matches: enrichedMatches,
+      pendingCount, approvedCount, ignoredCount, contactedCount,
+      successRate, bestArchetypes, bestSectors, bestDistricts,
+      totalCandidates: candidates.length,
+    };
   } catch (e) {
     console.error("Matches error:", e);
-    return { matches: [], pendingCount: 0, approvedCount: 0, totalCandidates: 0 };
+    return {
+      matches: [], pendingCount: 0, approvedCount: 0, ignoredCount: 0, contactedCount: 0,
+      successRate: null, bestArchetypes: [], bestSectors: [], bestDistricts: [],
+      totalCandidates: 0,
+    };
   }
 }
 
@@ -177,7 +229,10 @@ const TYPE_CHIP = {
 };
 
 export default async function FounderMatchesPage() {
-  const { matches, pendingCount, approvedCount, totalCandidates } = await fetchMatchData();
+  const {
+    matches, pendingCount, approvedCount, ignoredCount, contactedCount,
+    successRate, bestArchetypes, bestSectors, bestDistricts, totalCandidates,
+  } = await fetchMatchData();
 
   return (
     <AdminShell>
@@ -193,19 +248,92 @@ export default async function FounderMatchesPage() {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
           {[
             { label: "Candidates", value: totalCandidates, color: "bg-blue-50 text-blue-700" },
             { label: "Total Matches", value: matches.length, color: "bg-purple-50 text-purple-700" },
-            { label: "Pending Review", value: pendingCount, color: "bg-amber-50 text-amber-700" },
+            { label: "Pending", value: pendingCount, color: "bg-amber-50 text-amber-700" },
             { label: "Approved", value: approvedCount, color: "bg-green-50 text-green-700" },
+            { label: "Contacted", value: contactedCount, color: "bg-teal-50 text-teal-700" },
+            { label: "Success Rate", value: successRate !== null ? `${successRate}%` : "—", color: "bg-rose-50 text-rose-700" },
           ].map(({ label, value, color }) => (
             <div key={label} className="card-base p-4 text-center">
-              <div className={`text-2xl font-display font-extrabold inline-block px-3 py-1 rounded-lg ${color}`}>{value}</div>
-              <div className="text-[11px] text-stone-400 uppercase tracking-widest font-semibold mt-2">{label}</div>
+              <div className={`text-xl font-display font-extrabold inline-block px-3 py-1 rounded-lg ${color}`}>{value}</div>
+              <div className="text-[10px] text-stone-400 uppercase tracking-widest font-semibold mt-2">{label}</div>
             </div>
           ))}
         </div>
+
+        {/* Match Quality Engine */}
+        {(bestArchetypes.length > 0 || bestSectors.length > 0 || bestDistricts.length > 0) && (
+          <div className="card-base overflow-hidden">
+            <div className="p-5 border-b border-stone-100 flex items-center gap-2">
+              <Award size={15} className="text-amber-500" />
+              <h3 className="font-display font-bold text-ink text-sm">Match Quality Engine</h3>
+              <span className="chip bg-amber-50 text-amber-700 text-[10px] ml-auto">From approved matches</span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-0 divide-y sm:divide-y-0 sm:divide-x divide-stone-100">
+
+              {/* Best archetype combos */}
+              <div className="p-5">
+                <h4 className="text-[11px] font-bold text-stone-400 uppercase tracking-widest mb-3">Best Archetype Combos</h4>
+                {bestArchetypes.length === 0 ? (
+                  <p className="text-[12px] text-stone-300 italic">Appears after approvals</p>
+                ) : (
+                  <div className="space-y-2">
+                    {bestArchetypes.map(({ combo, count }) => (
+                      <div key={combo} className="flex items-center justify-between">
+                        <span className="text-[12px] font-semibold text-ink">{combo}</span>
+                        <span className="chip bg-purple-50 text-purple-700 text-[11px]">{count}×</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Best sectors */}
+              <div className="p-5">
+                <h4 className="text-[11px] font-bold text-stone-400 uppercase tracking-widest mb-3">Top Sectors</h4>
+                {bestSectors.length === 0 ? (
+                  <p className="text-[12px] text-stone-300 italic">Appears after matches with sectors</p>
+                ) : (
+                  <div className="space-y-2">
+                    {bestSectors.map(({ sector, approved, total }) => (
+                      <div key={sector} className="flex items-center justify-between">
+                        <span className="text-[12px] font-semibold text-ink capitalize">{sector}</span>
+                        <div className="flex gap-1">
+                          <span className="chip bg-green-50 text-green-700 text-[10px]">{approved} approved</span>
+                          <span className="chip bg-stone-100 text-stone-400 text-[10px]">{total} total</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Best districts */}
+              <div className="p-5">
+                <h4 className="text-[11px] font-bold text-stone-400 uppercase tracking-widest mb-3">Top Districts</h4>
+                {bestDistricts.length === 0 ? (
+                  <p className="text-[12px] text-stone-300 italic">Appears after same-district matches</p>
+                ) : (
+                  <div className="space-y-2">
+                    {bestDistricts.map(({ district, approved, total }) => (
+                      <div key={district} className="flex items-center justify-between">
+                        <span className="text-[12px] font-semibold text-ink capitalize">{district}</span>
+                        <div className="flex gap-1">
+                          <span className="chip bg-teal-50 text-teal-700 text-[10px]">{approved} approved</span>
+                          <span className="chip bg-stone-100 text-stone-400 text-[10px]">{total} total</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+            </div>
+          </div>
+        )}
 
         {/* Scoring Info */}
         <div className="card-base p-4 bg-stone-50 flex items-start gap-3">

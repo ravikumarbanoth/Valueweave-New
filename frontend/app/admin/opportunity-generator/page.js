@@ -1,4 +1,5 @@
 import AdminShell from "@/components/admin/AdminShell";
+import { createClient } from "@/lib/supabase-server";
 import GeneratorClient from "./GeneratorClient";
 
 export const dynamic = "force-dynamic";
@@ -7,7 +8,42 @@ export const metadata = {
   robots: { index: false, follow: false },
 };
 
-export default function OpportunityGeneratorPage() {
+async function fetchDemandSuggestions() {
+  try {
+    const sb = createClient();
+    const [{ data: searches }, { data: requests }, { data: collabSectors }] = await Promise.all([
+      sb.from("search_events").select("sector,district").not("sector", "is", null).limit(2000),
+      sb.from("user_requests").select("sector,district").not("sector", "is", null).limit(1000),
+      sb.from("collaborator_profiles").select("top_sectors,district").limit(500),
+    ]);
+
+    const map = {};
+    const addKey = (sector, district, field) => {
+      if (!sector) return;
+      const k = `${sector}||${district || ""}`;
+      if (!map[k]) map[k] = { sector, district: district || null, searches: 0, requests: 0, collabs: 0 };
+      map[k][field]++;
+    };
+
+    (searches || []).forEach(({ sector, district }) => addKey(sector, district, "searches"));
+    (requests || []).forEach(({ sector, district }) => addKey(sector, district, "requests"));
+    (collabSectors || []).forEach(({ top_sectors, district }) => {
+      (top_sectors || []).forEach((s) => addKey(s, district, "collabs"));
+    });
+
+    return Object.values(map)
+      .map((v) => ({ ...v, score: v.searches + v.requests * 2 + v.collabs }))
+      .filter((v) => v.score > 0)
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 12);
+  } catch {
+    return [];
+  }
+}
+
+export default async function OpportunityGeneratorPage() {
+  const demandSuggestions = await fetchDemandSuggestions();
+
   return (
     <AdminShell>
       <div className="p-6 max-w-4xl space-y-6">
@@ -18,7 +54,7 @@ export default function OpportunityGeneratorPage() {
             Bulk-generate SEO-optimized opportunity records with templated descriptions, skill requirements, and collaborator roles. Preview before publishing.
           </p>
         </div>
-        <GeneratorClient />
+        <GeneratorClient demandSuggestions={demandSuggestions} />
       </div>
     </AdminShell>
   );

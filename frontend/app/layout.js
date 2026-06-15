@@ -1,6 +1,7 @@
 import "./globals.css";
 import { Plus_Jakarta_Sans, Inter } from "next/font/google";
 import Footer from "@/components/Footer";
+import FeedbackWidget from "@/components/FeedbackWidget";
 import { organizationJsonLd } from "@/lib/seo";
 
 const jakarta = Plus_Jakarta_Sans({
@@ -42,6 +43,7 @@ export default function RootLayout({ children }) {
         />
         {children}
         <Footer />
+        <FeedbackWidget />
       </body>
     </html>
   );

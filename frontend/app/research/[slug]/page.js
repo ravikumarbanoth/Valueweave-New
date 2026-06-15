@@ -9,6 +9,8 @@ import { getArticleRelatedLinks } from "@/lib/internal-links";
 import { ArticleTemplate } from "@/components/research/ArticleTemplate";
 import { mdxComponents } from "@/components/research/MDXContent";
 import AppNavbar from "@/components/AppNavbar";
+import PageTracker from "@/components/PageTracker";
+import RequestContentWidget from "@/components/RequestContentWidget";
 
 // MDX file articles are prerendered; database article slugs are not known
 // at build time, so dynamicParams (default true) renders them on demand
@@ -68,6 +70,13 @@ export default async function ResearchArticlePage({ params }) {
   return (
     <div className="min-h-screen bg-cream font-body">
       <AppNavbar />
+      <PageTracker
+        pageType="research"
+        slug={article.slug}
+        title={article.title}
+        district={article.district || null}
+        sector={article.category || null}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -78,6 +87,19 @@ export default async function ResearchArticlePage({ params }) {
         relatedArticles={relatedArticles}
         mdx={mdx}
       />
+      <div className="max-w-3xl mx-auto px-4 pb-10">
+        <div className="flex items-center justify-between pt-6 border-t border-stone-200 mt-6">
+          <p className="text-[13px] text-stone-400">Can&apos;t find what you need?</p>
+          <RequestContentWidget
+            defaultType="research"
+            district={article.district || null}
+            sector={article.category || null}
+            prefillTitle={article.title}
+            buttonLabel="Request Related Article"
+            compact
+          />
+        </div>
+      </div>
     </div>
   );
 }

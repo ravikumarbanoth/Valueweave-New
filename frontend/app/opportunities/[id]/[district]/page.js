@@ -12,6 +12,8 @@ import { getDistrictBySlug } from "@/lib/districts-data";
 import { buildBaseMetadata, breadcrumbJsonLd, BASE_URL } from "@/lib/seo";
 import AppNavbar from "@/components/AppNavbar";
 import OpportunityCard from "@/components/OpportunityCard";
+import PageTracker from "@/components/PageTracker";
+import RequestContentWidget from "@/components/RequestContentWidget";
 
 export const revalidate = 300;
 
@@ -50,6 +52,12 @@ export default async function DistrictOpportunitiesPage({ params }) {
   return (
     <div className="min-h-screen bg-cream font-body">
       <AppNavbar />
+      <PageTracker
+        pageType="opportunity"
+        slug={`${params.id}/${params.district}`}
+        title={`Opportunities in ${district.name}`}
+        district={district.name}
+      />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd(breadcrumbs)) }} />
       <main className="pb-16">
         {/* Hero */}

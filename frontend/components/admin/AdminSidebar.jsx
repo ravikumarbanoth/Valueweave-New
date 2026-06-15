@@ -1,66 +1,114 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import { createClient } from "@/lib/supabase-browser";
 import {
-  LayoutDashboard,
-  BarChart3,
-  Brain,
-  Lightbulb,
-  SearchCheck,
-  MapPin,
-  Zap,
-  Users,
-  BookOpen,
-  PenSquare,
+  LayoutDashboard, Bell, BarChart3, Search, TrendingUp, Brain,
+  Lightbulb, Star, SearchCheck, BookOpen, PenSquare,
+  MapPin, Grid, Briefcase, Activity, Zap, Users,
 } from "lucide-react";
 
-const NAV = [
-  { href: "/admin", label: "Control Center", icon: LayoutDashboard, exact: true },
-  { href: "/admin/analytics", label: "Analytics", icon: BarChart3 },
-  { href: "/admin/intent", label: "User Intent", icon: Brain },
-  { href: "/admin/content-opportunities", label: "Content Opportunities", icon: Lightbulb },
-  { href: "/admin/seo", label: "SEO Command", icon: SearchCheck },
-  { href: "/admin/districts", label: "Districts", icon: MapPin },
-  { href: "/admin/opportunity-generator", label: "Opp. Generator", icon: Zap },
-  { href: "/admin/matches", label: "Founder Matches", icon: Users },
-  { href: "/admin/research-performance", label: "Research Perf.", icon: BookOpen },
-  { href: "/admin/research", label: "Research Publisher", icon: PenSquare },
+const GROUPS = [
+  {
+    label: "OPERATIONS",
+    items: [
+      { href: "/admin", label: "Control Center", icon: LayoutDashboard, exact: true },
+      { href: "/admin/notifications", label: "Notifications", icon: Bell, badge: true },
+    ],
+  },
+  {
+    label: "INTELLIGENCE",
+    items: [
+      { href: "/admin/analytics", label: "Analytics", icon: BarChart3 },
+      { href: "/admin/search-intelligence", label: "Search Intelligence", icon: Search },
+      { href: "/admin/demand-index", label: "Demand Index", icon: TrendingUp },
+      { href: "/admin/intent", label: "User Intent", icon: Brain },
+    ],
+  },
+  {
+    label: "CONTENT",
+    items: [
+      { href: "/admin/content-opportunities", label: "Content Opportunities", icon: Lightbulb },
+      { href: "/admin/recommendations", label: "Recommendations", icon: Star },
+      { href: "/admin/seo", label: "SEO Command", icon: SearchCheck },
+      { href: "/admin/research-performance", label: "Research Perf.", icon: BookOpen },
+      { href: "/admin/research", label: "Research Publisher", icon: PenSquare },
+    ],
+  },
+  {
+    label: "PLATFORM",
+    items: [
+      { href: "/admin/districts", label: "Districts", icon: MapPin },
+      { href: "/admin/district-opportunity-index", label: "District Opp. Index", icon: Grid },
+      { href: "/admin/opportunity-performance", label: "Opp. Performance", icon: Activity },
+      { href: "/admin/opportunity-generator", label: "Opp. Generator", icon: Zap },
+      { href: "/admin/matches", label: "Founder Matches", icon: Users },
+    ],
+  },
 ];
 
 export default function AdminSidebar() {
   const pathname = usePathname();
+  const [unreadCount, setUnreadCount] = useState(0);
+
+  useEffect(() => {
+    async function fetchUnread() {
+      try {
+        const sb = createClient();
+        const { count } = await sb
+          .from("admin_notifications")
+          .select("*", { count: "exact", head: true })
+          .eq("status", "unread");
+        setUnreadCount(count || 0);
+      } catch {
+        // silent — table may not exist yet
+      }
+    }
+    fetchUnread();
+  }, [pathname]);
 
   return (
-    <aside className="w-60 shrink-0 min-h-[calc(100vh-64px)] bg-white border-r border-stone-200 hidden lg:flex flex-col">
-      <div className="p-4 border-b border-stone-100">
+    <aside className="w-56 shrink-0 min-h-[calc(100vh-64px)] bg-white border-r border-stone-200 hidden lg:flex flex-col">
+      <div className="p-3 border-b border-stone-100">
         <span className="chip bg-amber-100 text-amber-700 border border-amber-200 text-[10px]">
           ADMIN PANEL
         </span>
-        <p className="text-[11px] text-stone-400 mt-1 font-medium">ValueWeave Control Center</p>
+        <p className="text-[10px] text-stone-400 mt-1 font-medium">ValueWeave Intelligence Platform</p>
       </div>
 
-      <nav className="flex-1 p-2 overflow-y-auto">
-        {NAV.map(({ href, label, icon: Icon, exact }) => {
-          const active = exact ? pathname === href : pathname.startsWith(href);
-          return (
-            <Link
-              key={href}
-              href={href}
-              className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-[13px] font-semibold transition-colors mb-0.5 ${
-                active
-                  ? "bg-amber-50 text-amber-700 border border-amber-200"
-                  : "text-stone-500 hover:bg-stone-50 hover:text-ink"
-              }`}
-            >
-              <Icon size={15} className={active ? "text-amber-600" : "text-stone-400"} />
-              {label}
-            </Link>
-          );
-        })}
+      <nav className="flex-1 p-2 overflow-y-auto space-y-3">
+        {GROUPS.map(({ label, items }) => (
+          <div key={label}>
+            <p className="text-[9px] font-bold text-stone-300 uppercase tracking-widest px-2 mb-1">{label}</p>
+            {items.map(({ href, label: itemLabel, icon: Icon, exact, badge }) => {
+              const active = exact ? pathname === href : pathname.startsWith(href);
+              return (
+                <Link
+                  key={href}
+                  href={href}
+                  className={`flex items-center gap-2 px-2.5 py-2 rounded-xl text-[12px] font-semibold transition-colors mb-0.5 ${
+                    active
+                      ? "bg-amber-50 text-amber-700 border border-amber-200"
+                      : "text-stone-500 hover:bg-stone-50 hover:text-ink"
+                  }`}
+                >
+                  <Icon size={13} className={active ? "text-amber-600" : "text-stone-400"} />
+                  <span className="flex-1 truncate">{itemLabel}</span>
+                  {badge && unreadCount > 0 && (
+                    <span className="bg-red-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full min-w-[16px] text-center">
+                      {unreadCount > 99 ? "99+" : unreadCount}
+                    </span>
+                  )}
+                </Link>
+              );
+            })}
+          </div>
+        ))}
       </nav>
 
-      <div className="p-4 border-t border-stone-100">
-        <p className="text-[10px] text-stone-300 font-medium">Phase 3 · Admin Control Center</p>
+      <div className="p-3 border-t border-stone-100">
+        <p className="text-[9px] text-stone-300 font-medium">Phase 4 · Growth Intelligence</p>
       </div>
     </aside>
   );

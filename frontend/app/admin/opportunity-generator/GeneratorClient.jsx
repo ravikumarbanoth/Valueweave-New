@@ -8,12 +8,67 @@ import {
   FOUNDER_ROLES,
   generateOpportunityRecord,
 } from "@/lib/opportunity-templates";
-import { Zap, CheckCircle, Loader2, Eye, Send, Trash2 } from "lucide-react";
+import { Zap, CheckCircle, Loader2, Eye, Send, Trash2, TrendingUp, Search, MessageSquare, Users } from "lucide-react";
 
 const SECTORS = Object.entries(SECTOR_TEMPLATES).map(([key, val]) => ({ key, label: val.label }));
 const STATES = ["Telangana", "Andhra Pradesh"];
 
-export default function GeneratorClient() {
+function DemandTab({ suggestions, onApply }) {
+  if (suggestions.length === 0) {
+    return (
+      <div className="card-base p-8 text-center">
+        <TrendingUp size={28} className="text-stone-300 mx-auto mb-3" />
+        <p className="text-stone-500 text-sm">No demand signals yet.</p>
+        <p className="text-stone-400 text-[12px] mt-1">
+          Demand appears as users search, request content, and join as collaborators.
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-4">
+      <p className="text-[12px] text-stone-400 italic">
+        Top {suggestions.length} sector/district combos from real user signals — click a card to pre-fill the generator.
+      </p>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        {suggestions.map((s, i) => (
+          <button
+            key={`${s.sector}||${s.district}||${i}`}
+            type="button"
+            onClick={() => onApply(s)}
+            className="card-base p-4 text-left hover:shadow-md hover:-translate-y-0.5 transition-all group"
+          >
+            <div className="flex items-start justify-between gap-2 mb-2">
+              <span className="chip bg-amber-100 text-amber-700 text-[11px] capitalize">{s.sector}</span>
+              <span className="chip bg-teal-50 text-teal-700 border border-teal-100 text-[12px] font-extrabold">{s.score}</span>
+            </div>
+            {s.district && (
+              <p className="text-[13px] font-semibold text-ink capitalize mb-2">{s.district}</p>
+            )}
+            <div className="flex flex-wrap gap-2 text-[11px] text-stone-500">
+              {s.searches > 0 && (
+                <span className="flex items-center gap-1"><Search size={10} /> {s.searches} searches</span>
+              )}
+              {s.requests > 0 && (
+                <span className="flex items-center gap-1"><MessageSquare size={10} /> {s.requests} requests</span>
+              )}
+              {s.collabs > 0 && (
+                <span className="flex items-center gap-1"><Users size={10} /> {s.collabs} collabs</span>
+              )}
+            </div>
+            <div className="mt-3 text-[11px] text-amber-600 font-semibold group-hover:underline">
+              Use this → pre-fill generator
+            </div>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export default function GeneratorClient({ demandSuggestions = [] }) {
+  const [activeTab, setActiveTab] = useState("manual");
   const [form, setForm] = useState({
     state: "Telangana",
     districts: [],
@@ -35,6 +90,34 @@ export default function GeneratorClient() {
     set("districts", form.districts.includes(name)
       ? form.districts.filter((d) => d !== name)
       : [...form.districts, name]);
+  };
+
+  const applyDemandSuggestion = (s) => {
+    // Map demand sector to template key
+    const sectorKey = Object.keys(SECTOR_TEMPLATES).find(
+      (k) => k === s.sector || SECTOR_TEMPLATES[k]?.label?.toLowerCase() === s.sector?.toLowerCase()
+    ) || "healthcare";
+
+    // Find state from district
+    let newState = form.state;
+    let newDistricts = [];
+    if (s.district) {
+      const districtObj = DISTRICTS.find((d) => d.name.toLowerCase() === s.district.toLowerCase());
+      if (districtObj) {
+        newState = districtObj.state;
+        newDistricts = [districtObj.name];
+      }
+    }
+
+    setForm((f) => ({
+      ...f,
+      sector: sectorKey,
+      state: newState,
+      districts: newDistricts.length > 0 ? newDistricts : f.districts,
+    }));
+    setActiveTab("manual");
+    setPreviews([]);
+    setPublished(0);
   };
 
   const handleGenerate = () => {
@@ -92,141 +175,169 @@ export default function GeneratorClient() {
   return (
     <div className="space-y-8">
 
-      {/* Form */}
-      <div className="card-base p-6 space-y-6">
-        <h2 className="font-display font-bold text-ink text-sm flex items-center gap-2">
-          <Zap size={15} className="text-amber-500" /> Configure Generation
-        </h2>
-
-        {/* State */}
-        <div>
-          <label className="label-display">State</label>
-          <div className="flex gap-2">
-            {STATES.map((s) => (
-              <button
-                key={s}
-                type="button"
-                onClick={() => { set("state", s); set("districts", []); }}
-                className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${
-                  form.state === s ? "bg-amber-500 text-white" : "btn-secondary"
-                }`}
-              >
-                {s}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Districts */}
-        <div>
-          <label className="label-display">
-            Districts ({form.districts.length} selected)
-            <button
-              type="button"
-              className="ml-2 text-[11px] text-amber-600 font-semibold hover:underline"
-              onClick={() => set("districts", filteredDistricts.map((d) => d.name))}
-            >
-              Select All
-            </button>
-            {form.districts.length > 0 && (
-              <button
-                type="button"
-                className="ml-2 text-[11px] text-stone-400 hover:underline"
-                onClick={() => set("districts", [])}
-              >
-                Clear
-              </button>
-            )}
-          </label>
-          <div className="flex flex-wrap gap-2 mt-2">
-            {filteredDistricts.map((d) => (
-              <button
-                key={d.name}
-                type="button"
-                onClick={() => toggleDistrict(d.name)}
-                className={`px-3 py-1.5 rounded-full text-[12px] font-semibold transition-colors border ${
-                  form.districts.includes(d.name)
-                    ? "bg-teal-500 text-white border-teal-500"
-                    : "bg-white text-stone-500 border-stone-200 hover:border-teal-400"
-                }`}
-              >
-                {d.name}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Sector */}
-        <div>
-          <label className="label-display">Sector</label>
-          <div className="flex flex-wrap gap-2 mt-1">
-            {SECTORS.map(({ key, label }) => (
-              <button
-                key={key}
-                type="button"
-                onClick={() => set("sector", key)}
-                className={`px-3 py-1.5 rounded-full text-[12px] font-semibold transition-colors border ${
-                  form.sector === key
-                    ? "bg-amber-500 text-white border-amber-500"
-                    : "bg-white text-stone-500 border-stone-200 hover:border-amber-400"
-                }`}
-              >
-                {label}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Count + Investment Range + Founder Role */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div>
-            <label className="label-display">Count (max 20)</label>
-            <input
-              type="number"
-              min={1}
-              max={20}
-              value={form.count}
-              onChange={(e) => set("count", e.target.value)}
-              className="input-field"
-            />
-          </div>
-          <div>
-            <label className="label-display">Investment Range</label>
-            <select
-              value={form.investmentRange}
-              onChange={(e) => set("investmentRange", e.target.value)}
-              className="input-field"
-            >
-              {INVESTMENT_RANGES.map((r) => (
-                <option key={r} value={r}>{r}</option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <label className="label-display">Founder Role (optional)</label>
-            <select
-              value={form.founderRole}
-              onChange={(e) => set("founderRole", e.target.value)}
-              className="input-field"
-            >
-              <option value="">Auto (from sector)</option>
-              {FOUNDER_ROLES.map((r) => (
-                <option key={r} value={r}>{r}</option>
-              ))}
-            </select>
-          </div>
-        </div>
-
-        {error && <p className="text-sm text-red-600">{error}</p>}
-
-        <button
-          type="button"
-          onClick={handleGenerate}
-          className="btn-primary gap-2"
-        >
-          <Eye size={16} /> Preview Opportunities
-        </button>
+      {/* Tab switcher */}
+      <div className="flex gap-2 border-b border-stone-200 pb-0">
+        {[
+          { key: "manual", label: "Manual Configure" },
+          { key: "demand", label: `Auto-Generate from Demand${demandSuggestions.length > 0 ? ` (${demandSuggestions.length})` : ""}` },
+        ].map(({ key, label }) => (
+          <button
+            key={key}
+            type="button"
+            onClick={() => setActiveTab(key)}
+            className={`px-4 py-2.5 text-[13px] font-semibold border-b-2 transition-colors ${
+              activeTab === key
+                ? "border-amber-500 text-amber-700"
+                : "border-transparent text-stone-400 hover:text-stone-600"
+            }`}
+          >
+            {label}
+          </button>
+        ))}
       </div>
+
+      {/* Auto-Generate from Demand */}
+      {activeTab === "demand" && (
+        <DemandTab suggestions={demandSuggestions} onApply={applyDemandSuggestion} />
+      )}
+
+      {/* Manual Configure Form */}
+      {activeTab === "manual" && (
+        <div className="card-base p-6 space-y-6">
+          <h2 className="font-display font-bold text-ink text-sm flex items-center gap-2">
+            <Zap size={15} className="text-amber-500" /> Configure Generation
+          </h2>
+
+          {/* State */}
+          <div>
+            <label className="label-display">State</label>
+            <div className="flex gap-2">
+              {STATES.map((s) => (
+                <button
+                  key={s}
+                  type="button"
+                  onClick={() => { set("state", s); set("districts", []); }}
+                  className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${
+                    form.state === s ? "bg-amber-500 text-white" : "btn-secondary"
+                  }`}
+                >
+                  {s}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Districts */}
+          <div>
+            <label className="label-display">
+              Districts ({form.districts.length} selected)
+              <button
+                type="button"
+                className="ml-2 text-[11px] text-amber-600 font-semibold hover:underline"
+                onClick={() => set("districts", filteredDistricts.map((d) => d.name))}
+              >
+                Select All
+              </button>
+              {form.districts.length > 0 && (
+                <button
+                  type="button"
+                  className="ml-2 text-[11px] text-stone-400 hover:underline"
+                  onClick={() => set("districts", [])}
+                >
+                  Clear
+                </button>
+              )}
+            </label>
+            <div className="flex flex-wrap gap-2 mt-2">
+              {filteredDistricts.map((d) => (
+                <button
+                  key={d.name}
+                  type="button"
+                  onClick={() => toggleDistrict(d.name)}
+                  className={`px-3 py-1.5 rounded-full text-[12px] font-semibold transition-colors border ${
+                    form.districts.includes(d.name)
+                      ? "bg-teal-500 text-white border-teal-500"
+                      : "bg-white text-stone-500 border-stone-200 hover:border-teal-400"
+                  }`}
+                >
+                  {d.name}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Sector */}
+          <div>
+            <label className="label-display">Sector</label>
+            <div className="flex flex-wrap gap-2 mt-1">
+              {SECTORS.map(({ key, label }) => (
+                <button
+                  key={key}
+                  type="button"
+                  onClick={() => set("sector", key)}
+                  className={`px-3 py-1.5 rounded-full text-[12px] font-semibold transition-colors border ${
+                    form.sector === key
+                      ? "bg-amber-500 text-white border-amber-500"
+                      : "bg-white text-stone-500 border-stone-200 hover:border-amber-400"
+                  }`}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Count + Investment Range + Founder Role */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div>
+              <label className="label-display">Count (max 20)</label>
+              <input
+                type="number"
+                min={1}
+                max={20}
+                value={form.count}
+                onChange={(e) => set("count", e.target.value)}
+                className="input-field"
+              />
+            </div>
+            <div>
+              <label className="label-display">Investment Range</label>
+              <select
+                value={form.investmentRange}
+                onChange={(e) => set("investmentRange", e.target.value)}
+                className="input-field"
+              >
+                {INVESTMENT_RANGES.map((r) => (
+                  <option key={r} value={r}>{r}</option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className="label-display">Founder Role (optional)</label>
+              <select
+                value={form.founderRole}
+                onChange={(e) => set("founderRole", e.target.value)}
+                className="input-field"
+              >
+                <option value="">Auto (from sector)</option>
+                {FOUNDER_ROLES.map((r) => (
+                  <option key={r} value={r}>{r}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          {error && <p className="text-sm text-red-600">{error}</p>}
+
+          <button
+            type="button"
+            onClick={handleGenerate}
+            className="btn-primary gap-2"
+          >
+            <Eye size={16} /> Preview Opportunities
+          </button>
+        </div>
+      )}
 
       {/* Published banner */}
       {published > 0 && (

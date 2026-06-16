@@ -5,6 +5,7 @@ import Link from "next/link";
 import {
   BarChart3, Bell, Search, TrendingUp, Brain, Layers, Star,
   Globe, MapPin, Grid, Zap, Target, Users, BookOpen, FileText, Activity,
+  Megaphone, Clock, MessageSquare, Wrench,
 } from "lucide-react";
 
 const ADMIN_LINKS = [
@@ -24,6 +25,10 @@ const ADMIN_LINKS = [
   { href: "/admin/research-performance",     icon: BookOpen, label: "Research Performance",    chip: "CONTENT",   accent: "teal" },
   { href: "/admin/research",                 icon: FileText, label: "Research Publisher",      chip: "PUBLISH",   accent: "stone" },
   { href: "/admin/notifications",            icon: Bell,     label: "Notifications",           chip: "ALERTS",    accent: "rose" },
+  { href: "/admin/engagement",               icon: Activity, label: "Engagement Center",        chip: "ENGAGE",    accent: "teal" },
+  { href: "/admin/retention",                icon: Clock,    label: "Re-Engagement",            chip: "RETAIN",    accent: "blue" },
+  { href: "/admin/announcements",            icon: Megaphone,label: "Announcements",            chip: "ANNOUNCE",  accent: "amber" },
+  { href: "/admin/tools",                    icon: Wrench,   label: "Command Center",           chip: "TOOLS",     accent: "stone" },
 ];
 
 const CHIP_COLORS = {

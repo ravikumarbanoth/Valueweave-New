@@ -5,6 +5,7 @@ import { useRouter, usePathname } from "next/navigation";
 import { createClient } from "@/lib/supabase-browser";
 import { LogOut, User as UserIcon, Inbox, Plus, Home } from "lucide-react";
 import SocialLinks from "@/components/SocialLinks";
+import NotificationBell from "@/components/NotificationBell";
 
 export default function AppNavbar({ initialProfile = null }) {
   const supabase = createClient();
@@ -73,6 +74,12 @@ export default function AppNavbar({ initialProfile = null }) {
               <SocialLinks className="hidden sm:flex !gap-2" size={16} />
               <Link href="/signin" data-testid="nav-public-signin" className="btn-secondary !py-2 !px-4 text-sm">Sign in</Link>
               <Link href="/get-started" data-testid="nav-public-join" className="btn-primary !py-2 !px-4 text-sm">Join</Link>
+            </div>
+          )}
+
+          {authed && (
+            <div className="flex items-center gap-2">
+              <NotificationBell />
             </div>
           )}
 

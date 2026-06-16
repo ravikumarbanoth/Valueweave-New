@@ -1,6 +1,7 @@
 import Link from "next/link";
 import AdminShell from "@/components/admin/AdminShell";
 import AdminQuickAccess from "@/components/admin/AdminQuickAccess";
+import HealthScore from "@/components/admin/HealthScore";
 import { createClient } from "@/lib/supabase-server";
 import {
   Users, Briefcase, UserCheck, BookOpen, MessageSquare,
@@ -299,6 +300,9 @@ export default async function AdminControlCenter() {
             </div>
           </div>
         )}
+
+        {/* Business Health Score */}
+        <HealthScore />
 
         {/* Admin Tools Grid */}
         <AdminQuickAccess currentPath="/admin" />

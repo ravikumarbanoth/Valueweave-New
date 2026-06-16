@@ -2,6 +2,7 @@ import "./globals.css";
 import { Plus_Jakarta_Sans, Inter } from "next/font/google";
 import Footer from "@/components/Footer";
 import FeedbackWidget from "@/components/FeedbackWidget";
+import AnnouncementBanner from "@/components/AnnouncementBanner";
 import { organizationJsonLd } from "@/lib/seo";
 
 const jakarta = Plus_Jakarta_Sans({
@@ -41,6 +42,7 @@ export default function RootLayout({ children }) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd()) }}
         />
+        <AnnouncementBanner />
         {children}
         <Footer />
         <FeedbackWidget />

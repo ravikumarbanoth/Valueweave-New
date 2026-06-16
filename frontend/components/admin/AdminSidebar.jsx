@@ -7,6 +7,7 @@ import {
   LayoutDashboard, Bell, BarChart3, Search, TrendingUp, Brain,
   Lightbulb, Star, SearchCheck, BookOpen, PenSquare,
   MapPin, Grid, Briefcase, Activity, Zap, Users,
+  Megaphone, Clock, MessageSquare, Wrench,
 } from "lucide-react";
 
 const GROUPS = [
@@ -37,6 +38,14 @@ const GROUPS = [
     ],
   },
   {
+    label: "ENGAGEMENT",
+    items: [
+      { href: "/admin/engagement", label: "Engagement Center", icon: Activity },
+      { href: "/admin/retention", label: "Re-Engagement", icon: Clock },
+      { href: "/admin/announcements", label: "Announcements", icon: Megaphone },
+    ],
+  },
+  {
     label: "PLATFORM",
     items: [
       { href: "/admin/districts", label: "Districts", icon: MapPin },
@@ -44,6 +53,12 @@ const GROUPS = [
       { href: "/admin/opportunity-performance", label: "Opp. Performance", icon: Activity },
       { href: "/admin/opportunity-generator", label: "Opp. Generator", icon: Zap },
       { href: "/admin/matches", label: "Founder Matches", icon: Users },
+    ],
+  },
+  {
+    label: "TOOLS",
+    items: [
+      { href: "/admin/tools", label: "Command Center", icon: Wrench },
     ],
   },
 ];
@@ -108,7 +123,7 @@ export default function AdminSidebar() {
       </nav>
 
       <div className="p-3 border-t border-stone-100">
-        <p className="text-[9px] text-stone-300 font-medium">Phase 4 · Growth Intelligence</p>
+        <p className="text-[9px] text-stone-300 font-medium">Phase 6 · Engagement Engine</p>
       </div>
     </aside>
   );

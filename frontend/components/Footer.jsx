@@ -1,7 +1,8 @@
 import Link from "next/link";
 import SocialLinks from "@/components/SocialLinks";
+import { getPlatformSettings, setting } from "@/lib/settings";
 
-const FOOTER_LINKS = [
+const FALLBACK_LINKS = [
   { href: "/about", label: "About" },
   { href: "/ideas", label: "Idea Library" },
   { href: "/research", label: "Research" },
@@ -12,7 +13,16 @@ const FOOTER_LINKS = [
   { href: "/terms", label: "Terms" },
 ];
 
-export default function Footer() {
+function safeLinks(value) {
+  return Array.isArray(value) && value.length > 0 ? value.filter((l) => l.href && l.label) : FALLBACK_LINKS;
+}
+
+export default async function Footer() {
+  const settings = await getPlatformSettings();
+  const footerText = setting(settings, "footer.text");
+  const contactEmail = setting(settings, "footer.contact_email") || setting(settings, "contact.email");
+  const footerLinks = safeLinks(setting(settings, "footer.links"));
+
   return (
     <footer className="border-t border-stone-200 bg-cream" data-testid="site-footer">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10">
@@ -24,22 +34,20 @@ export default function Footer() {
               </div>
               <span className="font-display font-extrabold text-lg tracking-tight">Value<span className="text-amber-500">Weave</span></span>
             </Link>
-            <p className="text-sm text-muted leading-relaxed">
-              Where ambition finds its team. Find what to build and who to build it with — from your district.
-            </p>
+            <p className="text-sm text-muted leading-relaxed">{footerText}</p>
           </div>
 
           <div className="grid sm:grid-cols-2 gap-8 md:gap-12">
             <div>
               <h3 className="font-display font-bold text-sm text-ink mb-3">ValueWeave</h3>
               <div className="flex flex-wrap gap-x-4 gap-y-2 text-xs text-muted">
-                {FOOTER_LINKS.map((link) => (
+                {footerLinks.map((link) => (
                   <Link key={link.href} href={link.href} className="hover:text-ink font-display font-semibold">
                     {link.label}
                   </Link>
                 ))}
                 <a
-                  href="mailto:valueweave.team@gmail.com"
+                  href={`mailto:${contactEmail}`}
                   data-testid="footer-contact"
                   className="hover:text-ink font-display font-semibold"
                 >
@@ -58,8 +66,8 @@ export default function Footer() {
 
         <div className="mt-8 pt-6 border-t border-stone-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-xs text-muted">
           <span>© {new Date().getFullYear()} ValueWeave. Built in Bharat.</span>
-          <a href="mailto:valueweave.team@gmail.com" className="hover:text-ink font-display font-semibold">
-            valueweave.team@gmail.com
+          <a href={`mailto:${contactEmail}`} className="hover:text-ink font-display font-semibold">
+            {contactEmail}
           </a>
         </div>
       </div>

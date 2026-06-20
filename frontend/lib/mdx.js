@@ -7,6 +7,7 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
+import { getYouTubeEmbedUrl, isValidYouTubeUrl } from "@/lib/youtube";
 
 const CONTENT_DIR = path.join(process.cwd(), "content/research");
 
@@ -33,6 +34,15 @@ export function getArticleBySlug(slug, { includeDrafts = false } = {}) {
   const { data, content } = matter(raw);
   const published = data.published !== false;
   if (!published && !includeDrafts) return null;
+  const video = data.youtubeUrl && isValidYouTubeUrl(data.youtubeUrl)
+    ? {
+        youtubeUrl: data.youtubeUrl,
+        embedUrl: getYouTubeEmbedUrl(data.youtubeUrl),
+        title: data.videoTitle || data.title || "ValueWeave research video",
+        description: data.videoDescription || "",
+        viewCount: 0,
+      }
+    : null;
 
   return {
     slug,
@@ -45,9 +55,12 @@ export function getArticleBySlug(slug, { includeDrafts = false } = {}) {
     districtTags: data.districtTags || [],
     stateTags: data.stateTags || [],
     investmentRange: data.investmentRange || { min: 0, max: 0, currency: "INR", label: "Varies" },
+    coverImage: data.coverImage || null,
     content,
     faq: data.faq || [],
     relatedIdeas: data.relatedIdeas || [],
+    keywords: data.keywords || [],
+    video,
     publishedAt: data.publishedAt || new Date().toISOString(),
     updatedAt: data.updatedAt || new Date().toISOString(),
     author: data.author || "ValueWeave Research Team",

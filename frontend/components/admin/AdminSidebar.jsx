@@ -6,8 +6,8 @@ import { createClient } from "@/lib/supabase-browser";
 import {
   LayoutDashboard, Bell, BarChart3, Search, TrendingUp, Brain,
   Lightbulb, Star, SearchCheck, BookOpen, PenSquare,
-  MapPin, Grid, Briefcase, Activity, Zap, Users,
-  Megaphone, Clock, MessageSquare, Wrench,
+  MapPin, Grid, Activity, Zap, Users,
+  Megaphone, Clock, Wrench, Bot, SlidersHorizontal,
 } from "lucide-react";
 
 const GROUPS = [
@@ -33,6 +33,7 @@ const GROUPS = [
       { href: "/admin/content-opportunities", label: "Content Opportunities", icon: Lightbulb },
       { href: "/admin/recommendations", label: "Recommendations", icon: Star },
       { href: "/admin/seo", label: "SEO Command", icon: SearchCheck },
+      { href: "/admin/geo", label: "GEO Audit", icon: Bot },
       { href: "/admin/research-performance", label: "Research Perf.", icon: BookOpen },
       { href: "/admin/research", label: "Research Publisher", icon: PenSquare },
     ],
@@ -48,6 +49,7 @@ const GROUPS = [
   {
     label: "PLATFORM",
     items: [
+      { href: "/admin/devops", label: "DevOps Control", icon: SlidersHorizontal },
       { href: "/admin/districts", label: "Districts", icon: MapPin },
       { href: "/admin/district-opportunity-index", label: "District Opp. Index", icon: Grid },
       { href: "/admin/opportunity-performance", label: "Opp. Performance", icon: Activity },
@@ -123,7 +125,7 @@ export default function AdminSidebar() {
       </nav>
 
       <div className="p-3 border-t border-stone-100">
-        <p className="text-[9px] text-stone-300 font-medium">Phase 6 · Engagement Engine</p>
+        <p className="text-[9px] text-stone-300 font-medium">Phase GEO · Platform Ops</p>
       </div>
     </aside>
   );

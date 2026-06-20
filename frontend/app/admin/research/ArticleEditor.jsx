@@ -11,6 +11,7 @@ import { marked } from "marked";
 import { createClient } from "@/lib/supabase-browser";
 import { CATEGORY_LABELS } from "@/lib/theme";
 import { DISTRICTS } from "@/lib/districts-data";
+import { getYouTubeEmbedUrl, isValidYouTubeUrl } from "@/lib/youtube";
 
 const EMPTY = {
   title: "",
@@ -26,6 +27,9 @@ const EMPTY = {
   seo_description: "",
   keywords: "",
   faq_json: [],
+  youtube_url: "",
+  video_title: "",
+  video_description: "",
 };
 
 const slugify = (t) =>
@@ -43,6 +47,7 @@ export default function ArticleEditor({ id, mdxSlugs = [] }) {
   const [lastSaved, setLastSaved] = useState(null);
   const [tab, setTab] = useState("write");
   const [seoOpen, setSeoOpen] = useState(false);
+  const [videoOpen, setVideoOpen] = useState(false);
   const [slugTouched, setSlugTouched] = useState(!!id);
   const formRef = useRef(form);
   const dirtyRef = useRef(false);
@@ -68,7 +73,11 @@ export default function ArticleEditor({ id, mdxSlugs = [] }) {
           seo_description: data.seo_description || "",
           keywords: (data.keywords || []).join(", "),
           faq_json: Array.isArray(data.faq_json) ? data.faq_json : [],
+          youtube_url: data.youtube_url || "",
+          video_title: data.video_title || "",
+          video_description: data.video_description || "",
         });
+        setVideoOpen(!!data.youtube_url);
       }
       setLoading(false);
     })();
@@ -89,6 +98,9 @@ export default function ArticleEditor({ id, mdxSlugs = [] }) {
     [form.slug, mdxSlugs]
   );
 
+  const videoValid = !form.youtube_url.trim() || isValidYouTubeUrl(form.youtube_url);
+  const videoEmbedUrl = getYouTubeEmbedUrl(form.youtube_url);
+
   const toRow = useCallback((f) => ({
     title: f.title.trim(),
     slug: f.slug.trim(),
@@ -102,12 +114,19 @@ export default function ArticleEditor({ id, mdxSlugs = [] }) {
     seo_description: f.seo_description.trim() || null,
     keywords: f.keywords.split(",").map((k) => k.trim()).filter(Boolean),
     faq_json: f.faq_json.filter((q) => q.question?.trim() && q.answer?.trim()),
+    youtube_url: f.youtube_url.trim() || null,
+    video_title: f.video_title.trim() || null,
+    video_description: f.video_description.trim() || null,
   }), []);
 
   const save = useCallback(async (statusOverride) => {
     const f = formRef.current;
     if (!f.title.trim() || !f.slug.trim()) {
       setErr("Title and slug are required.");
+      return null;
+    }
+    if (f.youtube_url.trim() && !isValidYouTubeUrl(f.youtube_url)) {
+      setErr("YouTube URL is not valid. Use a youtube.com or youtu.be link.");
       return null;
     }
     setSaving(true);
@@ -194,6 +213,7 @@ export default function ArticleEditor({ id, mdxSlugs = [] }) {
           <span className={`chip ${form.status === "published" ? "bg-teal-100 text-teal-700" : "bg-amber-100 text-amber-700"}`}>
             {form.status}
           </span>
+          {form.youtube_url && <span className={`chip ${videoValid ? "bg-blue-50 text-blue-700" : "bg-red-50 text-red-700"}`}>Video {videoValid ? "valid" : "invalid"}</span>}
           {saving ? <span>Saving…</span> : lastSaved ? <span>Saved {lastSaved.toLocaleTimeString("en-IN")}</span> : dirty ? <span className="text-amber-600">Unsaved changes</span> : null}
         </div>
       </div>
@@ -251,6 +271,41 @@ export default function ArticleEditor({ id, mdxSlugs = [] }) {
             <input value={form.cover_image} onChange={(e) => update("cover_image", e.target.value)}
               placeholder="https://… (optional)" className="input-field" />
           </div>
+        </div>
+
+        {/* Video */}
+        <div className="border-t border-stone-100 pt-4">
+          <button onClick={() => setVideoOpen((o) => !o)} className="font-display font-bold text-sm text-ink flex items-center gap-2">
+            <span className={`transition-transform ${videoOpen ? "rotate-90" : ""}`}>▸</span>
+            Research Video <span className="text-xs text-muted font-normal">(optional YouTube embed)</span>
+          </button>
+          {videoOpen && (
+            <div className="mt-4 flex flex-col gap-4">
+              <div>
+                <label className="label-display">YouTube URL</label>
+                <input value={form.youtube_url} onChange={(e) => update("youtube_url", e.target.value)}
+                  placeholder="https://youtu.be/..." className={`input-field ${videoValid ? "" : "!border-red-400"}`} />
+                <p className={`text-xs mt-1 ${videoValid ? "text-stone-400" : "text-red-600"}`}>
+                  Embed validation: {form.youtube_url ? (videoValid ? "valid YouTube link" : "invalid YouTube link") : "not set"}
+                </p>
+              </div>
+              <div>
+                <label className="label-display">Video Title</label>
+                <input value={form.video_title} onChange={(e) => update("video_title", e.target.value)}
+                  placeholder={form.title || "Defaults to article title"} className="input-field" />
+              </div>
+              <div>
+                <label className="label-display">Video Description</label>
+                <textarea value={form.video_description} onChange={(e) => update("video_description", e.target.value)} rows={2}
+                  placeholder="Short context shown below the embedded video." className="input-field resize-none" />
+              </div>
+              {videoEmbedUrl && (
+                <div className="aspect-video rounded-xl overflow-hidden border border-stone-200 bg-ink">
+                  <iframe title="Video preview" src={videoEmbedUrl} className="w-full h-full" loading="lazy" allowFullScreen />
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
         {/* Content with write/preview tabs */}

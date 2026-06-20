@@ -3,6 +3,7 @@ import { Plus_Jakarta_Sans, Inter } from "next/font/google";
 import Footer from "@/components/Footer";
 import FeedbackWidget from "@/components/FeedbackWidget";
 import AnnouncementBanner from "@/components/AnnouncementBanner";
+import ThemeStyle from "@/components/ThemeStyle";
 import { organizationJsonLd } from "@/lib/seo";
 
 const jakarta = Plus_Jakarta_Sans({
@@ -38,6 +39,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${jakarta.variable} ${inter.variable}`}>
       <body className="font-body antialiased">
+        <ThemeStyle />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd()) }}

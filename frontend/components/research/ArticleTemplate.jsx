@@ -7,9 +7,14 @@ import Link from "next/link";
 import { useState } from "react";
 import { Breadcrumb, CategoryBadge } from "@/components/ui/index";
 import { ArticleCard } from "./ArticleCard";
+import AiReadableSummary from "@/components/geo/AiReadableSummary";
+import ResearchVideoEmbed from "@/components/research/ResearchVideoEmbed";
 
 export function ArticleTemplate({ article, relatedLinks, relatedArticles, mdx }) {
   const [openFaq, setOpenFaq] = useState(null);
+  const districtRelevance = article.districtTags.length > 0
+    ? article.districtTags.map((d) => d.replace(/-/g, " "))
+    : "Relevant for district-first and local business readers";
 
   return (
     <main className="min-h-screen bg-cream font-body pb-16">
@@ -20,6 +25,7 @@ export function ArticleTemplate({ article, relatedLinks, relatedArticles, mdx })
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 pt-12 pb-10">
           <div className="flex items-center gap-2 mb-4 flex-wrap">
             <CategoryBadge category={article.category} />
+            {article.video && <span className="chip bg-white/15 text-white border border-white/20">▶ Video Available</span>}
             {article.investmentRange?.label && (
               <span className="chip bg-white/15 text-white border border-white/20">{article.investmentRange.label}</span>
             )}
@@ -60,6 +66,25 @@ export function ArticleTemplate({ article, relatedLinks, relatedArticles, mdx })
                 className="w-full max-h-96 object-cover rounded-2xl border border-stone-200 mb-8"
               />
             )}
+
+            <AiReadableSummary
+              title="AI-readable research summary"
+              items={{
+                "Key Takeaways": article.metaDescription,
+                "Who should read this": `Entrepreneurs, students, local operators, and collaborators exploring ${article.sector || article.category}.`,
+                "Investment Range": article.investmentRange?.label || "Varies by execution",
+                "District Relevance": districtRelevance,
+                "Business Potential": `Useful for validating ${article.category} opportunities and local demand signals.`,
+              }}
+              faq={article.faq}
+            />
+
+            <ResearchVideoEmbed
+              url={article.video?.youtubeUrl}
+              title={article.video?.title}
+              description={article.video?.description}
+            />
+
             <div>{mdx}</div>
 
             {/* District Suitability Chips */}
@@ -125,6 +150,12 @@ export function ArticleTemplate({ article, relatedLinks, relatedArticles, mdx })
                   <span className="text-sm text-muted">Sector</span>
                   <span className="text-sm font-display font-bold text-ink capitalize">{article.sector}</span>
                 </div>
+                {article.video && (
+                  <div className="flex justify-between items-center py-2 border-b border-stone-100">
+                    <span className="text-sm text-muted">Video</span>
+                    <span className="text-sm font-display font-bold text-teal-700">Available</span>
+                  </div>
+                )}
                 <div className="flex justify-between items-center py-2">
                   <span className="text-sm text-muted">Reading time</span>
                   <span className="text-sm font-display font-bold text-ink">{article.readingTime} min</span>

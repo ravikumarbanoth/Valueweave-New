@@ -10,6 +10,9 @@ import HomeSuccessJourney from "@/components/HomeSuccessJourney";
 import HomeLiveActivity from "@/components/HomeLiveActivity";
 import MobileStartHereSheet from "@/components/MobileStartHereSheet";
 import MobileNavMenu from "@/components/MobileNavMenu";
+import { getPlatformSettings, enabled, setting } from "@/lib/settings";
+import { NAVIGATION_SETTING_KEYS } from "@/lib/settings-schema";
+import { BASE_URL, speakableJsonLd, webApplicationJsonLd, websiteJsonLd } from "@/lib/seo";
 
 const FLOATING_CARDS = [
   { top: "8%", left: "12%", emoji: "🤖", label: "AI · Hyderabad", bg: "bg-blue-50", border: "border-blue-200" },
@@ -44,17 +47,28 @@ const DISCOVER_CARDS = [
 ];
 
 const NAV_LINKS = [
-  { href: "/discover", label: "Discover" },
+  { href: "/discover", label: "Discover", settingKey: NAVIGATION_SETTING_KEYS.discover },
   { href: "/ideas", label: "Ideas" },
   { href: "/explore", label: "Explore" },
-  { href: "/collaborators", label: "Collaborators" },
-  { href: "/research", label: "Research" },
-  { href: "/district", label: "Districts" },
+  { href: "/collaborators", label: "Collaborators", settingKey: NAVIGATION_SETTING_KEYS.collaborators },
+  { href: "/research", label: "Research", settingKey: NAVIGATION_SETTING_KEYS.research },
+  { href: "/district", label: "Districts", settingKey: NAVIGATION_SETTING_KEYS.districts },
 ];
 
-export default function LandingPage() {
+export default async function LandingPage() {
+  const settings = await getPlatformSettings();
+  const navLinks = NAV_LINKS.filter((link) => !link.settingKey || enabled(settings, link.settingKey));
+  const heroHeading = setting(settings, "homepage.hero.heading");
+  const heroSubheading = setting(settings, "homepage.hero.subheading");
+  const primaryCta = setting(settings, "homepage.cta.primary.label");
+  const secondaryCta = setting(settings, "homepage.cta.secondary.label");
+  const tertiaryCta = setting(settings, "homepage.cta.tertiary.label");
+  const homepageVideoUrl = setting(settings, "homepage.video.url");
+  const jsonLd = [websiteJsonLd(), webApplicationJsonLd(), speakableJsonLd({ url: BASE_URL })];
+
   return (
     <div className="min-h-screen bg-cream font-body">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       {/* ── NAV ───────────────────────────────────────────────── */}
       <nav className="fixed top-0 inset-x-0 z-50 bg-cream/85 backdrop-blur-md border-b border-stone-200/60">
         <div className="max-w-6xl mx-auto h-16 px-4 sm:px-6 flex items-center justify-between gap-3">
@@ -67,7 +81,7 @@ export default function LandingPage() {
 
           {/* Desktop nav links */}
           <div className="hidden md:flex items-center gap-1">
-            {NAV_LINKS.map((l) => (
+            {navLinks.map((l) => (
               <Link key={l.href} href={l.href} className="text-sm font-display font-semibold text-muted hover:text-ink px-3 py-2 rounded-lg hover:bg-stone-100 transition-colors">
                 {l.label}
               </Link>
@@ -96,19 +110,18 @@ export default function LandingPage() {
               <span className="w-2 h-2 rounded-full bg-amber-500 ring-4 ring-amber-500/20" />
               <span className="text-xs font-display font-semibold text-amber-700">Now Open · Bharat Edition</span>
             </div>
-            <h1 className="h-hero mb-6 animate-fadeUp">
-              Where Ambition<br />
-              <span className="bg-gradient-to-r from-amber-500 via-yellow-400 to-teal-500 bg-clip-text text-transparent">Finds Its Team.</span>
+            <h1 className="h-hero mb-6 animate-fadeUp" data-speakable>
+              {heroHeading}
             </h1>
-            <p className="text-base sm:text-lg text-muted leading-relaxed mb-7 max-w-md animate-fadeUp" style={{ animationDelay: "0.1s" }}>
-              ValueWeave connects India&apos;s youth, students, and skilled builders to discover collaborators, form startup teams, and create real economic opportunities — from tier-2 towns to global ambitions.
+            <p className="text-base sm:text-lg text-muted leading-relaxed mb-7 max-w-md animate-fadeUp" style={{ animationDelay: "0.1s" }} data-speakable>
+              {heroSubheading}
             </p>
 
             {/* Primary CTAs — only 3 */}
             <div className="flex flex-wrap gap-3 mb-6 animate-fadeUp" style={{ animationDelay: "0.2s" }}>
-              <Link href="/discover" data-testid="hero-cta-discover" className="btn-teal">🧠 Discover Yourself</Link>
-              <Link href="/ideas" data-testid="hero-cta-ideas" className="btn-primary">💡 Explore Ideas</Link>
-              <Link href="/collaborators" data-testid="hero-cta-collabs" className="btn-secondary">🤝 Find Collaborators</Link>
+              <Link href="/discover" data-testid="hero-cta-discover" className="btn-teal">🧠 {primaryCta}</Link>
+              <Link href="/ideas" data-testid="hero-cta-ideas" className="btn-primary">💡 {secondaryCta}</Link>
+              <Link href="/collaborators" data-testid="hero-cta-collabs" className="btn-secondary">🤝 {tertiaryCta}</Link>
             </div>
 
             <ul className="flex flex-wrap gap-x-5 gap-y-2 animate-fadeUp" style={{ animationDelay: "0.3s" }}>
@@ -156,7 +169,7 @@ export default function LandingPage() {
       <HomeHowItWorks />
 
       {/* ── 4. EXPLAINER VIDEO ────────────────────────────────── */}
-      <HomeVideoEmbed youtubeUrl="https://youtu.be/hRhhYQLPJ7Q?si=ZPAl8q878ZuNFZkY" />
+      <HomeVideoEmbed youtubeUrl={homepageVideoUrl} />
 
       {/* ── 5. WHAT YOU CAN DO HERE ───────────────────────────── */}
       <HomeFeatureGrid />
@@ -164,7 +177,7 @@ export default function LandingPage() {
       {/* ── 6. FEATURED OPPORTUNITIES ─────────────────────────── */}
       <HomeFeaturedOpportunities />
 
-      {/* ── 7. SUCCESS JOURNEY ────────────────────────────────── */}
+      {/* ── 7. SUCCESS JOURNEY ───────────────────────────────── */}
       <HomeSuccessJourney />
 
       {/* ── 8. LIVE ACTIVITY ──────────────────────────────────── */}
@@ -308,4 +321,3 @@ function GapCard({ icon, title, desc }) {
     </div>
   );
 }
-

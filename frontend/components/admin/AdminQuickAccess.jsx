@@ -5,7 +5,7 @@ import Link from "next/link";
 import {
   BarChart3, Bell, Search, TrendingUp, Brain, Layers, Star,
   Globe, MapPin, Grid, Zap, Target, Users, BookOpen, FileText, Activity,
-  Megaphone, Clock, MessageSquare, Wrench,
+  Megaphone, Clock, Wrench, Bot, SlidersHorizontal,
 } from "lucide-react";
 
 const ADMIN_LINKS = [
@@ -17,6 +17,7 @@ const ADMIN_LINKS = [
   { href: "/admin/content-opportunities",    icon: Layers,   label: "Content Opportunities",   chip: "GAPS",      accent: "blue" },
   { href: "/admin/recommendations",          icon: Star,     label: "Recommendations",         chip: "AI",        accent: "green" },
   { href: "/admin/seo",                      icon: Globe,    label: "SEO Command Center",      chip: "SEO",       accent: "green" },
+  { href: "/admin/geo",                      icon: Bot,      label: "GEO Audit",               chip: "GEO",       accent: "blue" },
   { href: "/admin/districts",                icon: MapPin,   label: "District Intelligence",   chip: "DISTRICTS", accent: "purple" },
   { href: "/admin/district-opportunity-index",icon: Target,  label: "District Opp. Index",    chip: "RANKED",    accent: "blue" },
   { href: "/admin/opportunity-generator",    icon: Zap,      label: "Opportunity Generator",   chip: "GENERATE",  accent: "amber" },
@@ -28,6 +29,7 @@ const ADMIN_LINKS = [
   { href: "/admin/engagement",               icon: Activity, label: "Engagement Center",        chip: "ENGAGE",    accent: "teal" },
   { href: "/admin/retention",                icon: Clock,    label: "Re-Engagement",            chip: "RETAIN",    accent: "blue" },
   { href: "/admin/announcements",            icon: Megaphone,label: "Announcements",            chip: "ANNOUNCE",  accent: "amber" },
+  { href: "/admin/devops",                   icon: SlidersHorizontal, label: "DevOps Control", chip: "CONFIG",    accent: "purple" },
   { href: "/admin/tools",                    icon: Wrench,   label: "Command Center",           chip: "TOOLS",     accent: "stone" },
 ];
 

@@ -1,9 +1,10 @@
 import { notFound } from "next/navigation";
 import { getAllDistrictSlugs, getDistrictBySlug } from "@/lib/districts-data";
 import { getAllArticles } from "@/lib/mdx";
-import { buildDistrictMetadata, localBusinessJsonLd, breadcrumbJsonLd, BASE_URL } from "@/lib/seo";
+import { buildDistrictMetadata, localBusinessJsonLd, breadcrumbJsonLd, pageSummaryJsonLd, BASE_URL } from "@/lib/seo";
 import { getDistrictRelatedLinks } from "@/lib/internal-links";
 import { DistrictProfile } from "@/components/district/DistrictProfile";
+import AiReadableSummary from "@/components/geo/AiReadableSummary";
 import AppNavbar from "@/components/AppNavbar";
 import PageTracker from "@/components/PageTracker";
 import RequestContentWidget from "@/components/RequestContentWidget";
@@ -34,6 +35,14 @@ export default function DistrictPage({ params }) {
     { name: district.name, url: `${BASE_URL}/district/${district.slug}` },
   ];
 
+  const summary = {
+    "Key Takeaways": district.profileSummary,
+    "Who should read this": `Entrepreneurs, students, MSMEs, and collaborators exploring business potential in ${district.name}.`,
+    "Investment Range": "Varies by sector and business model",
+    "District Relevance": `${district.name}, ${district.state}`,
+    "Business Potential": `Use this page to evaluate priority sectors, schemes, demand signals, and collaborator opportunities in ${district.name}.`,
+  };
+
   return (
     <div className="min-h-screen bg-cream font-body">
       <AppNavbar />
@@ -46,9 +55,22 @@ export default function DistrictPage({ params }) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify([localBusinessJsonLd(district), breadcrumbJsonLd(breadcrumbs)]),
+          __html: JSON.stringify([
+            localBusinessJsonLd(district),
+            breadcrumbJsonLd(breadcrumbs),
+            pageSummaryJsonLd({
+              url: `${BASE_URL}/district/${district.slug}`,
+              title: `Business Opportunities in ${district.name}`,
+              summary: district.profileSummary,
+              about: district.name,
+              keywords: [district.name, district.state, "district intelligence", "business opportunities"],
+            }),
+          ]),
         }}
       />
+      <div className="max-w-5xl mx-auto px-4 pt-6">
+        <AiReadableSummary title="AI-readable district summary" items={summary} />
+      </div>
       <DistrictProfile
         district={district}
         relatedLinks={relatedLinks}

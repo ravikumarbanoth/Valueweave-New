@@ -1,6 +1,4 @@
-// ValueWeave — Reusable SEO utilities (metadata, JSON-LD, sitemap helpers).
-// Adapted from the SEO Growth Engine pack to plain JS and the existing
-// layout.js metadata conventions.
+// ValueWeave — Reusable SEO and GEO utilities.
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://valueweave.in";
 
@@ -11,7 +9,12 @@ const ORG_JSON_LD = {
   url: BASE_URL,
   logo: `${BASE_URL}/logo.png`,
   description:
-    "ValueWeave connects skilled youth and entrepreneurs in tier-2/tier-3 India with local business opportunities, collaborators, and resources.",
+    "ValueWeave is a Bharat-focused collaboration and opportunity discovery platform for research, district intelligence, business ideas, collaborators, and local opportunities.",
+  sameAs: [
+    "https://www.youtube.com/@valueweave",
+    "https://www.instagram.com/valueweave",
+    "https://x.com/valueweave",
+  ],
   address: { "@type": "PostalAddress", addressRegion: "Telangana", addressCountry: "IN" },
 };
 
@@ -71,6 +74,48 @@ export function buildDistrictMetadata(district) {
 }
 
 // ── JSON-LD generators ──
+export function websiteJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "ValueWeave",
+    url: BASE_URL,
+    description: ORG_JSON_LD.description,
+    publisher: ORG_JSON_LD,
+    potentialAction: {
+      "@type": "SearchAction",
+      target: `${BASE_URL}/search?q={search_term_string}`,
+      "query-input": "required name=search_term_string",
+    },
+  };
+}
+
+export function webApplicationJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    name: "ValueWeave",
+    url: BASE_URL,
+    applicationCategory: "BusinessApplication",
+    operatingSystem: "Web",
+    description: "Discover business ideas, district intelligence, research, opportunities, and collaborators on ValueWeave.",
+    offers: { "@type": "Offer", price: "0", priceCurrency: "INR" },
+    publisher: ORG_JSON_LD,
+  };
+}
+
+export function speakableJsonLd({ url = BASE_URL, selectors = ["h1", "[data-speakable]"] } = {}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    url,
+    speakable: {
+      "@type": "SpeakableSpecification",
+      cssSelector: selectors,
+    },
+  };
+}
+
 export function articleJsonLd(article) {
   return {
     "@context": "https://schema.org",
@@ -79,10 +124,19 @@ export function articleJsonLd(article) {
     description: article.metaDescription,
     datePublished: article.publishedAt,
     dateModified: article.updatedAt,
-    author: { "@type": "Organization", name: "ValueWeave Research Team", url: BASE_URL },
+    author: { "@type": "Organization", name: article.author || "ValueWeave Research Team", url: BASE_URL },
     publisher: ORG_JSON_LD,
     url: `${BASE_URL}/research/${article.slug}`,
-    keywords: [article.sector, ...article.districtTags, ...article.stateTags].join(", "),
+    keywords: [article.sector, ...article.districtTags, ...article.stateTags, ...(article.keywords || [])].join(", "),
+    video: article.video?.youtubeUrl
+      ? {
+          "@type": "VideoObject",
+          name: article.video.title || article.title,
+          description: article.video.description || article.metaDescription,
+          embedUrl: article.video.embedUrl,
+          uploadDate: article.publishedAt,
+        }
+      : undefined,
   };
 }
 
@@ -114,6 +168,19 @@ export function localBusinessJsonLd(district) {
   };
 }
 
+export function businessIdeaJsonLd(idea, sector) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    name: idea.title,
+    description: idea.short_description,
+    url: `${BASE_URL}/ideas/${idea.slug}`,
+    about: sector?.label || idea.sector,
+    keywords: (idea.tags || []).join(", "),
+    audience: (idea.ideal_for || []).join(", "),
+  };
+}
+
 export function breadcrumbJsonLd(items) {
   return {
     "@context": "https://schema.org",
@@ -129,6 +196,18 @@ export function breadcrumbJsonLd(items) {
 
 export function organizationJsonLd() {
   return ORG_JSON_LD;
+}
+
+export function pageSummaryJsonLd({ url, title, summary, about, keywords = [] }) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    url,
+    name: title,
+    description: summary,
+    about,
+    keywords: Array.isArray(keywords) ? keywords.join(", ") : keywords,
+  };
 }
 
 // ── Sitemap entry helper ──

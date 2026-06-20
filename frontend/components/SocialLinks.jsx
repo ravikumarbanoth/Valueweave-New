@@ -1,11 +1,8 @@
 "use client";
+import { useEffect, useMemo, useState } from "react";
 import { Youtube, Instagram } from "lucide-react";
+import { createClient } from "@/lib/supabase-browser";
 
-// ─────────────────────────────────────────────────────────────────────────────
-// EDIT YOUR LINKS HERE. These are the official ValueWeave channels — to change a
-// handle later, just replace the URL string on the matching line. Nothing else
-// in this file needs touching.
-// ─────────────────────────────────────────────────────────────────────────────
 export const SOCIAL_URLS = {
   youtube:   "https://www.youtube.com/@valueweave",
   x:         "https://x.com/TeamValueweave",
@@ -14,29 +11,31 @@ export const SOCIAL_URLS = {
 
 // Lucide (already in the project) ships Youtube + Instagram in v0.453.0. It has
 // no "X" mark, so X uses a small inline glyph below — no extra package needed.
-const SOCIAL_LINKS = [
-  {
-    id: "youtube",
-    label: "YouTube",
-    href: SOCIAL_URLS.youtube,
-    Icon: Youtube,
-    hover: "hover:bg-red-50 hover:text-red-600 hover:border-red-200",
-  },
-  {
-    id: "x",
-    label: "X (Twitter)",
-    href: SOCIAL_URLS.x,
-    Icon: XGlyph,
-    hover: "hover:bg-stone-900 hover:text-white hover:border-stone-900",
-  },
-  {
-    id: "instagram",
-    label: "Instagram",
-    href: SOCIAL_URLS.instagram,
-    Icon: Instagram,
-    hover: "hover:bg-amber-50 hover:text-amber-600 hover:border-amber-200",
-  },
-];
+function buildLinks(urls) {
+  return [
+    {
+      id: "youtube",
+      label: "YouTube",
+      href: urls.youtube,
+      Icon: Youtube,
+      hover: "hover:bg-red-50 hover:text-red-600 hover:border-red-200",
+    },
+    {
+      id: "x",
+      label: "X (Twitter)",
+      href: urls.x,
+      Icon: XGlyph,
+      hover: "hover:bg-stone-900 hover:text-white hover:border-stone-900",
+    },
+    {
+      id: "instagram",
+      label: "Instagram",
+      href: urls.instagram,
+      Icon: Instagram,
+      hover: "hover:bg-amber-50 hover:text-amber-600 hover:border-amber-200",
+    },
+  ].filter((link) => link.href);
+}
 
 // Inline X / Twitter mark — Lucide has no X logo, so we draw it.
 function XGlyph({ size = 18, ...props }) {
@@ -55,10 +54,29 @@ function XGlyph({ size = 18, ...props }) {
  * All links open in a new tab, are rel-safe, and carry aria-labels + tooltips.
  */
 export default function SocialLinks({ variant = "icon", size = 18, className = "" }) {
+  const [urls, setUrls] = useState(SOCIAL_URLS);
+
+  useEffect(() => {
+    createClient()
+      .from("platform_settings")
+      .select("key,value")
+      .in("key", ["social.youtube", "social.instagram", "social.x"])
+      .then(({ data }) => {
+        const map = Object.fromEntries((data || []).map((row) => [row.key, row.value]));
+        setUrls({
+          youtube: map["social.youtube"] || SOCIAL_URLS.youtube,
+          instagram: map["social.instagram"] || SOCIAL_URLS.instagram,
+          x: map["social.x"] || SOCIAL_URLS.x,
+        });
+      });
+  }, []);
+
+  const socialLinks = useMemo(() => buildLinks(urls), [urls]);
+
   if (variant === "inline") {
     return (
       <div className={`flex flex-col gap-1 ${className}`}>
-        {SOCIAL_LINKS.map(({ id, label, href, Icon }) => (
+        {socialLinks.map(({ id, label, href, Icon }) => (
           <a
             key={id}
             href={href}
@@ -78,7 +96,7 @@ export default function SocialLinks({ variant = "icon", size = 18, className = "
 
   return (
     <div className={`flex items-center gap-2.5 ${className}`}>
-      {SOCIAL_LINKS.map(({ id, label, href, Icon, hover }) => (
+      {socialLinks.map(({ id, label, href, Icon, hover }) => (
         <a
           key={id}
           href={href}

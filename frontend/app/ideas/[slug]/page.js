@@ -2,10 +2,12 @@
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { getIdea, getSector, getBucket, getInvestmentRange, formatINR } from "@/lib/idea-library";
+import { BASE_URL, breadcrumbJsonLd, businessIdeaJsonLd, pageSummaryJsonLd } from "@/lib/seo";
 import AppNavbar from "@/components/AppNavbar";
 import ShareButton from "@/components/ShareButton";
 import PageTracker from "@/components/PageTracker";
 import RequestContentWidget from "@/components/RequestContentWidget";
+import AiReadableSummary from "@/components/geo/AiReadableSummary";
 import { MapPin, Users, Target, Wrench, IndianRupee, TrendingUp, Sparkles, ShieldCheck, Landmark, ShoppingBag } from "lucide-react";
 
 const BUCKET_COLOR = {
@@ -63,6 +65,7 @@ export default function IdeaDetailPage() {
 
   const sector = getSector(idea.sector);
   const bucket = getBucket(idea.bucket);
+  const range = getInvestmentRange(idea);
   const skills = arr(idea.skills_needed);
   const tags = arr(idea.tags);
   const isAiProof = tags.includes("AI-Proof");
@@ -77,9 +80,25 @@ export default function IdeaDetailPage() {
   });
   if (seedDistrict) params.set("location", seedDistrict);
   const postHref = `/opportunities/new?${params.toString()}`;
+  const jsonLd = [
+    businessIdeaJsonLd(idea, sector),
+    pageSummaryJsonLd({
+      url: `${BASE_URL}/ideas/${idea.slug}`,
+      title: idea.title,
+      summary: idea.short_description,
+      about: sector.label,
+      keywords: tags,
+    }),
+    breadcrumbJsonLd([
+      { name: "Home", url: BASE_URL },
+      { name: "Ideas", url: `${BASE_URL}/ideas` },
+      { name: idea.title, url: `${BASE_URL}/ideas/${idea.slug}` },
+    ]),
+  ];
 
   return (
     <Shell>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <PageTracker
         pageType="idea"
         slug={idea.slug}
@@ -106,6 +125,17 @@ export default function IdeaDetailPage() {
             <h1 data-testid="idea-title" className="font-display font-extrabold text-2xl sm:text-3xl tracking-tight leading-tight">{idea.title}</h1>
           </div>
         </div>
+
+        <AiReadableSummary
+          title="AI-readable business idea summary"
+          items={{
+            "Key Takeaways": idea.short_description,
+            "Who should read this": arr(idea.ideal_for).length ? arr(idea.ideal_for) : "Entrepreneurs and collaborators exploring practical business ideas.",
+            "Investment Range": range?.label || `${formatINR(idea.investment_min)} to ${formatINR(idea.investment_adv)}`,
+            "District Relevance": arr(idea.district_fit),
+            "Business Potential": `Estimated monthly revenue: ${formatINR(idea.monthly_revenue_min)} to ${formatINR(idea.monthly_revenue_max)}.`,
+          }}
+        />
 
         <p className="text-base text-ink leading-relaxed mb-6">{idea.short_description}</p>
 

@@ -5,6 +5,10 @@ export const NAVIGATION_SETTING_KEYS = {
   collaborators: "navigation.collaborators.enabled",
   questions: "navigation.questions.enabled",
   discover: "navigation.discover.enabled",
+  skills: "navigation.skills.enabled",
+  schemes: "navigation.schemes.enabled",
+  resources: "navigation.resources.enabled",
+  roadmaps: "navigation.roadmaps.enabled",
 };
 
 export const DEFAULT_PLATFORM_SETTINGS = {
@@ -40,12 +44,24 @@ export const DEFAULT_PLATFORM_SETTINGS = {
   "social.youtube": "",
   "social.instagram": "",
   "social.x": "",
+  "modules.skills.enabled": true,
+  "modules.schemes.enabled": true,
+  "modules.resources.enabled": true,
+  "modules.roadmaps.enabled": true,
+  "modules.opportunity_index.enabled": true,
+  "homepage.sections.skills.enabled": true,
+  "homepage.sections.schemes.enabled": true,
+  "homepage.sections.resources.enabled": true,
   [NAVIGATION_SETTING_KEYS.research]: true,
   [NAVIGATION_SETTING_KEYS.districts]: true,
   [NAVIGATION_SETTING_KEYS.radar]: true,
   [NAVIGATION_SETTING_KEYS.collaborators]: true,
   [NAVIGATION_SETTING_KEYS.questions]: true,
   [NAVIGATION_SETTING_KEYS.discover]: true,
+  [NAVIGATION_SETTING_KEYS.skills]: true,
+  [NAVIGATION_SETTING_KEYS.schemes]: true,
+  [NAVIGATION_SETTING_KEYS.resources]: true,
+  [NAVIGATION_SETTING_KEYS.roadmaps]: true,
 };
 
 export const PLATFORM_SETTING_DEFINITIONS = [
@@ -58,6 +74,9 @@ export const PLATFORM_SETTING_DEFINITIONS = [
   { key: "homepage.cta.secondary.label", label: "Secondary CTA Label", type: "text", category: "Buttons" },
   { key: "homepage.cta.tertiary.label", label: "Tertiary CTA Label", type: "text", category: "Buttons" },
   { key: "homepage.video.url", label: "Homepage Video URL", type: "url", category: "Homepage" },
+  { key: "homepage.sections.skills.enabled", label: "Show Skills Section", type: "boolean", category: "Homepage" },
+  { key: "homepage.sections.schemes.enabled", label: "Show Schemes Section", type: "boolean", category: "Homepage" },
+  { key: "homepage.sections.resources.enabled", label: "Show Resources Section", type: "boolean", category: "Homepage" },
   { key: "footer.text", label: "Footer Text", type: "textarea", category: "Footer" },
   { key: "footer.links", label: "Footer Links", type: "json", category: "Footer" },
   { key: "footer.contact_email", label: "Footer Contact Email", type: "email", category: "Footer" },
@@ -66,6 +85,11 @@ export const PLATFORM_SETTING_DEFINITIONS = [
   { key: "announcement.text", label: "Announcement Text", type: "textarea", category: "Platform" },
   { key: "maintenance.enabled", label: "Maintenance Mode", type: "boolean", category: "Platform" },
   { key: "maintenance.text", label: "Maintenance Message", type: "textarea", category: "Platform" },
+  { key: "modules.skills.enabled", label: "Enable Skills Module", type: "boolean", category: "Platform" },
+  { key: "modules.schemes.enabled", label: "Enable Schemes Module", type: "boolean", category: "Platform" },
+  { key: "modules.resources.enabled", label: "Enable Resources Module", type: "boolean", category: "Platform" },
+  { key: "modules.roadmaps.enabled", label: "Enable Roadmaps Module", type: "boolean", category: "Platform" },
+  { key: "modules.opportunity_index.enabled", label: "Enable Opportunity Index", type: "boolean", category: "Platform" },
   { key: "theme.primary_color", label: "Primary Color", type: "color", category: "Branding" },
   { key: "theme.secondary_color", label: "Secondary Color", type: "color", category: "Branding" },
   { key: "theme.accent_color", label: "Accent Color", type: "color", category: "Branding" },
@@ -78,6 +102,10 @@ export const PLATFORM_SETTING_DEFINITIONS = [
   { key: NAVIGATION_SETTING_KEYS.collaborators, label: "Show Collaborators", type: "boolean", category: "Navigation" },
   { key: NAVIGATION_SETTING_KEYS.questions, label: "Show Questions", type: "boolean", category: "Navigation" },
   { key: NAVIGATION_SETTING_KEYS.discover, label: "Show Discover Yourself", type: "boolean", category: "Navigation" },
+  { key: NAVIGATION_SETTING_KEYS.skills, label: "Enable Skills Menu", type: "boolean", category: "Navigation" },
+  { key: NAVIGATION_SETTING_KEYS.schemes, label: "Enable Schemes Menu", type: "boolean", category: "Navigation" },
+  { key: NAVIGATION_SETTING_KEYS.resources, label: "Enable Resources Menu", type: "boolean", category: "Navigation" },
+  { key: NAVIGATION_SETTING_KEYS.roadmaps, label: "Enable Roadmaps Menu", type: "boolean", category: "Navigation" },
 ];
 
 export function getDefaultSetting(key) {

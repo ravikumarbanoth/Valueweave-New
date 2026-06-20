@@ -49,7 +49,7 @@ export default function KnowledgeEntityManager({ table, title, description, titl
 
   function startNew() {
     setSelected(null);
-    setForm({ status: "draft", faq_json: [], structured_data: {} });
+    setForm({ status: "draft", faq_json: "[]", structured_data: "{}" });
     setMessage("");
   }
 
@@ -81,7 +81,10 @@ export default function KnowledgeEntityManager({ table, title, description, titl
         catch { row[field.name] = field.name === "faq_json" ? [] : {}; }
       } else row[field.name] = raw === "" ? null : raw;
     }
-    if (row.status === "published" && !selected) row.published_at = new Date().toISOString();
+    if (row.status === "published") {
+      const current = records.find((record) => record.id === selected);
+      if (!selected || !current?.published_at) row.published_at = new Date().toISOString();
+    }
     return row;
   }
 

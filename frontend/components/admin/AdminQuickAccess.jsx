@@ -5,11 +5,18 @@ import Link from "next/link";
 import {
   BarChart3, Bell, Search, TrendingUp, Brain, Layers, Star,
   Globe, MapPin, Grid, Zap, Target, Users, BookOpen, FileText, Activity,
-  Megaphone, Clock, Wrench, Bot, SlidersHorizontal,
+  Megaphone, Clock, Wrench, Bot, SlidersHorizontal, Network, Landmark, Package, Route,
 } from "lucide-react";
 
 const ADMIN_LINKS = [
   { href: "/admin",                          icon: Grid,     label: "Control Center",          chip: "HOME",      accent: "amber" },
+  { href: "/admin/knowledge-graph",          icon: Network,  label: "Knowledge Graph",         chip: "GRAPH",     accent: "blue" },
+  { href: "/admin/districts-cms",            icon: MapPin,   label: "District CMS",            chip: "CMS",       accent: "purple" },
+  { href: "/admin/skills",                   icon: Wrench,   label: "Skills CMS",              chip: "SKILLS",    accent: "amber" },
+  { href: "/admin/schemes",                  icon: Landmark, label: "Schemes CMS",             chip: "SCHEMES",   accent: "green" },
+  { href: "/admin/resources",                icon: Package,  label: "Resources CMS",           chip: "RES",       accent: "teal" },
+  { href: "/admin/roadmaps",                 icon: Route,    label: "Roadmaps CMS",            chip: "ROADMAP",   accent: "blue" },
+  { href: "/admin/opportunity-mapping",      icon: Network,  label: "Opp. Mapping",            chip: "MAP",       accent: "rose" },
   { href: "/admin/analytics",                icon: BarChart3,label: "Analytics",               chip: "STATS",     accent: "amber" },
   { href: "/admin/search-intelligence",      icon: Search,   label: "Search Intelligence",     chip: "SEARCH",    accent: "blue" },
   { href: "/admin/demand-index",             icon: TrendingUp,label: "Demand Index",           chip: "DEMAND",    accent: "amber" },
@@ -34,60 +41,20 @@ const ADMIN_LINKS = [
 ];
 
 const CHIP_COLORS = {
-  amber:  "bg-amber-100 text-amber-700",
-  teal:   "bg-teal-100 text-teal-700",
-  blue:   "bg-blue-100 text-blue-700",
-  green:  "bg-green-100 text-green-700",
-  purple: "bg-purple-100 text-purple-700",
-  rose:   "bg-rose-100 text-rose-700",
-  stone:  "bg-stone-100 text-stone-600",
+  amber: "bg-amber-100 text-amber-700", teal: "bg-teal-100 text-teal-700", blue: "bg-blue-100 text-blue-700", green: "bg-green-100 text-green-700", purple: "bg-purple-100 text-purple-700", rose: "bg-rose-100 text-rose-700", stone: "bg-stone-100 text-stone-600",
 };
-
 const ICON_COLORS = {
-  amber:  "bg-amber-50 text-amber-600",
-  teal:   "bg-teal-50 text-teal-600",
-  blue:   "bg-blue-50 text-blue-600",
-  green:  "bg-green-50 text-green-600",
-  purple: "bg-purple-50 text-purple-600",
-  rose:   "bg-rose-50 text-rose-600",
-  stone:  "bg-stone-50 text-stone-500",
+  amber: "bg-amber-50 text-amber-600", teal: "bg-teal-50 text-teal-600", blue: "bg-blue-50 text-blue-600", green: "bg-green-50 text-green-600", purple: "bg-purple-50 text-purple-600", rose: "bg-rose-50 text-rose-600", stone: "bg-stone-50 text-stone-500",
 };
 
 export default function AdminQuickAccess({ currentPath = "" }) {
   return (
     <div>
-      <h2 className="font-display font-bold text-sm text-ink mb-3 flex items-center gap-2">
-        <Grid size={14} className="text-amber-500" />
-        Quick Access — All Admin Tools
-      </h2>
+      <h2 className="font-display font-bold text-sm text-ink mb-3 flex items-center gap-2"><Grid size={14} className="text-amber-500" />Quick Access — All Admin Tools</h2>
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5">
         {ADMIN_LINKS.map(({ href, icon: Icon, label, chip, accent }) => {
           const isActive = currentPath === href;
-          return (
-            <Link
-              key={href}
-              href={href}
-              className={`flex items-center gap-3 p-3 rounded-xl border transition-all group ${
-                isActive
-                  ? "bg-amber-50 border-amber-300 shadow-sm"
-                  : "bg-white border-stone-150 hover:border-amber-200 hover:shadow-sm"
-              }`}
-            >
-              <div className={`shrink-0 w-8 h-8 flex items-center justify-center rounded-lg ${ICON_COLORS[accent]}`}>
-                <Icon size={14} />
-              </div>
-              <div className="min-w-0 flex-1">
-                <p className={`text-[12px] font-semibold leading-tight truncate transition-colors ${
-                  isActive ? "text-amber-700" : "text-ink group-hover:text-amber-700"
-                }`}>
-                  {label}
-                </p>
-                <span className={`text-[9px] font-bold mt-0.5 px-1.5 py-0.5 rounded-full inline-block ${CHIP_COLORS[accent]}`}>
-                  {chip}
-                </span>
-              </div>
-            </Link>
-          );
+          return <Link key={href} href={href} className={`flex items-center gap-3 p-3 rounded-xl border transition-all group ${isActive ? "bg-amber-50 border-amber-300 shadow-sm" : "bg-white border-stone-150 hover:border-amber-200 hover:shadow-sm"}`}><div className={`shrink-0 w-8 h-8 flex items-center justify-center rounded-lg ${ICON_COLORS[accent]}`}><Icon size={14} /></div><div className="min-w-0 flex-1"><p className={`text-[12px] font-semibold leading-tight truncate transition-colors ${isActive ? "text-amber-700" : "text-ink group-hover:text-amber-700"}`}>{label}</p><span className={`text-[9px] font-bold mt-0.5 px-1.5 py-0.5 rounded-full inline-block ${CHIP_COLORS[accent]}`}>{chip}</span></div></Link>;
         })}
       </div>
     </div>

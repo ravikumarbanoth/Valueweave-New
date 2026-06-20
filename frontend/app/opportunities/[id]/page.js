@@ -7,8 +7,9 @@
 
 import Link from "next/link";
 import { STATE_SLUGS, districtsForState, getOpportunityCountsByDistrict } from "@/lib/collab";
-import { buildBaseMetadata, breadcrumbJsonLd, BASE_URL } from "@/lib/seo";
+import { buildBaseMetadata, breadcrumbJsonLd, pageSummaryJsonLd, BASE_URL } from "@/lib/seo";
 import AppNavbar from "@/components/AppNavbar";
+import AiReadableSummary from "@/components/geo/AiReadableSummary";
 import OpportunityDetailClient from "./OpportunityDetailClient";
 
 export const revalidate = 300;
@@ -43,7 +44,21 @@ export default async function OpportunityIdOrStatePage({ params }) {
   return (
     <div className="min-h-screen bg-cream font-body">
       <AppNavbar />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd(breadcrumbs)) }} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify([
+            breadcrumbJsonLd(breadcrumbs),
+            pageSummaryJsonLd({
+              url: `${BASE_URL}/opportunities/${params.id}`,
+              title: `Startup Opportunities in ${stateName}`,
+              summary: `Browse open startup and collaboration opportunities across ${stateName} districts.`,
+              about: stateName,
+              keywords: [stateName, "opportunities", "collaboration", "startup", "district business"],
+            }),
+          ]),
+        }}
+      />
       <main className="pb-16">
         <section className="relative overflow-hidden bg-ink px-4 sm:px-6 py-14">
           <div className="absolute -top-20 -right-20 w-80 h-80 rounded-full bg-amber-500/20 blur-3xl" />
@@ -60,7 +75,20 @@ export default async function OpportunityIdOrStatePage({ params }) {
           </div>
         </section>
 
-        <section className="max-w-5xl mx-auto px-4 sm:px-6 py-12">
+        <section className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
+          <AiReadableSummary
+            title="AI-readable opportunity marketplace summary"
+            items={{
+              "Key Takeaways": `${stateName} has ${districts.length} district opportunity pages and ${total || "curated"} open opportunity signals.`,
+              "Who should read this": `Builders, students, MSMEs, and collaborators exploring opportunities in ${stateName}.`,
+              "Investment Range": "Varies by posted opportunity and sector",
+              "District Relevance": districts.map((d) => d.name),
+              "Business Potential": "Use this page to compare district demand and find collaboration-ready business opportunities.",
+            }}
+          />
+        </section>
+
+        <section className="max-w-5xl mx-auto px-4 sm:px-6 py-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {districts.map((d) => (
               <Link

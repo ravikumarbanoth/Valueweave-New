@@ -16,6 +16,32 @@ export default function AnnouncementBanner() {
 
   useEffect(() => {
     const sb = createClient();
+
+    sb.from("platform_settings")
+      .select("key,value")
+      .in("key", ["maintenance.enabled", "maintenance.text", "announcement.enabled", "announcement.text"])
+      .then(({ data }) => {
+        const map = Object.fromEntries((data || []).map((row) => [row.key, row.value]));
+        const settingsAnnouncements = [];
+        if (map["maintenance.enabled"] === true) {
+          settingsAnnouncements.push({
+            id: "platform-maintenance",
+            title: "Maintenance Mode",
+            message: map["maintenance.text"] || "Some features may be temporarily unavailable.",
+            priority: "high",
+          });
+        }
+        if (map["announcement.enabled"] === true && map["announcement.text"]) {
+          settingsAnnouncements.push({
+            id: "platform-announcement",
+            title: "Important Announcement",
+            message: map["announcement.text"],
+            priority: "normal",
+          });
+        }
+        if (settingsAnnouncements.length) setAnnouncements((prev) => [...settingsAnnouncements, ...prev]);
+      });
+
     sb.from("announcements")
       .select("id,title,message,link,link_label,priority")
       .eq("is_active", true)
@@ -29,7 +55,7 @@ export default function AnnouncementBanner() {
           })
         );
         setDismissed(already);
-        setAnnouncements(data);
+        setAnnouncements((prev) => [...prev, ...data]);
       });
   }, []);
 

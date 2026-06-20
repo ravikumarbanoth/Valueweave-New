@@ -5,6 +5,7 @@
 
 import { createClient } from "@supabase/supabase-js";
 import { CATEGORY_LABELS } from "@/lib/theme";
+import { getYouTubeEmbedUrl, isValidYouTubeUrl } from "@/lib/youtube";
 
 function anonClient() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -28,6 +29,17 @@ function normalizeCategory(raw) {
 function estimateReadingTime(content) {
   const words = String(content || "").trim().split(/\s+/).length;
   return Math.max(1, Math.ceil(words / 200));
+}
+
+function normalizeVideo(row) {
+  if (!row?.youtube_url || !isValidYouTubeUrl(row.youtube_url)) return null;
+  return {
+    youtubeUrl: row.youtube_url,
+    embedUrl: getYouTubeEmbedUrl(row.youtube_url),
+    title: row.video_title || row.title || "ValueWeave research video",
+    description: row.video_description || "",
+    viewCount: row.video_view_count || 0,
+  };
 }
 
 // Normalize a research_articles row to the SAME shape lib/mdx.js produces,
@@ -56,6 +68,7 @@ export function normalizeDbArticle(row) {
     faq: faq.filter((f) => f && f.question && f.answer),
     relatedIdeas: [],
     keywords: Array.isArray(row.keywords) ? row.keywords : [],
+    video: normalizeVideo(row),
     publishedAt: row.published_at || row.created_at || new Date().toISOString(),
     updatedAt: row.updated_at || new Date().toISOString(),
     author: row.author || "ValueWeave Research Team",

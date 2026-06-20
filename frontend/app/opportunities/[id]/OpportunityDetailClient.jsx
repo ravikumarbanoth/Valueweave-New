@@ -9,6 +9,7 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase-browser";
 import AppNavbar from "@/components/AppNavbar";
 import ShareButton from "@/components/ShareButton";
+import AiReadableSummary from "@/components/geo/AiReadableSummary";
 import { CATEGORY_META } from "@/components/OpportunityCard";
 import { LogIn } from "lucide-react";
 
@@ -152,6 +153,18 @@ export default function OpportunityDetailClient() {
         </div>
         <h1 data-testid="detail-title" className="h-section mb-3">{opp.title}</h1>
         <p className="text-muted text-sm mb-6">📍 {opp.location}</p>
+
+        <AiReadableSummary
+          title="AI-readable opportunity summary"
+          items={{
+            "Key Takeaways": opp.description,
+            "Who should read this": opp.founder_role ? `Builders who can take the ${opp.founder_role} role.` : "Builders, collaborators, and local entrepreneurs exploring this opportunity.",
+            "Investment Range": opp.investment_range || "Not specified",
+            "District Relevance": opp.district || opp.location || "District relevance not specified",
+            "Business Potential": `${cat.label || opp.category} opportunity requiring ${opp.collaboration_type || "collaboration"} with ${opp.commitment || "flexible"} commitment.`,
+          }}
+        />
+
         <div data-testid="detail-description" className="text-ink text-base leading-relaxed whitespace-pre-wrap mb-7">{opp.description}</div>
 
         {(opp.founder_role || opp.investment_range) && (

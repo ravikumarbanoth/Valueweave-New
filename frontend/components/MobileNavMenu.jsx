@@ -9,6 +9,10 @@ const LINKS = [
   { href: "/", label: "Home" },
   { href: "/discover", label: "🧠 Discover Yourself", key: NAVIGATION_SETTING_KEYS.discover },
   { href: "/ideas", label: "💡 Business Ideas" },
+  { href: "/skills", label: "🛠️ Skills", key: NAVIGATION_SETTING_KEYS.skills },
+  { href: "/schemes", label: "🏛️ Schemes", key: NAVIGATION_SETTING_KEYS.schemes },
+  { href: "/resources", label: "📦 Resources", key: NAVIGATION_SETTING_KEYS.resources },
+  { href: "/roadmaps", label: "🧭 Roadmaps", key: NAVIGATION_SETTING_KEYS.roadmaps },
   { href: "/explore", label: "🚀 Opportunities" },
   { href: "/collaborators", label: "🤝 Collaborators", key: NAVIGATION_SETTING_KEYS.collaborators },
   { href: "/district", label: "📍 Districts", key: NAVIGATION_SETTING_KEYS.districts },
@@ -40,28 +44,14 @@ export default function MobileNavMenu() {
         {open ? <X size={20} className="text-ink" /> : <Menu size={20} className="text-ink" />}
       </button>
 
-      {/* Backdrop */}
       {open && (
-        <div
-          className="fixed inset-0 z-40 bg-ink/30 backdrop-blur-sm md:hidden"
-          onClick={() => setOpen(false)}
-        />
+        <div className="fixed inset-0 z-40 bg-ink/30 backdrop-blur-sm md:hidden" onClick={() => setOpen(false)} />
       )}
 
-      {/* Dropdown */}
-      <div
-        className={`md:hidden fixed top-16 inset-x-0 z-50 bg-white border-b border-stone-200 shadow-xl transition-all duration-200 ${
-          open ? "opacity-100 pointer-events-auto translate-y-0" : "opacity-0 pointer-events-none -translate-y-2"
-        }`}
-      >
-        <nav className="px-4 py-3 flex flex-col gap-0.5">
+      <div className={`md:hidden fixed top-16 inset-x-0 z-50 bg-white border-b border-stone-200 shadow-xl transition-all duration-200 ${open ? "opacity-100 pointer-events-auto translate-y-0" : "opacity-0 pointer-events-none -translate-y-2"}`}>
+        <nav className="px-4 py-3 flex flex-col gap-0.5 max-h-[calc(100vh-5rem)] overflow-y-auto">
           {links.map((l) => (
-            <Link
-              key={l.href}
-              href={l.href}
-              onClick={() => setOpen(false)}
-              className="flex items-center px-3 py-3 rounded-xl text-sm font-display font-semibold text-ink hover:bg-amber-50 hover:text-amber-700 transition-colors min-h-[44px]"
-            >
+            <Link key={l.href} href={l.href} onClick={() => setOpen(false)} className="flex items-center px-3 py-3 rounded-xl text-sm font-display font-semibold text-ink hover:bg-amber-50 hover:text-amber-700 transition-colors min-h-[44px]">
               {l.label}
             </Link>
           ))}

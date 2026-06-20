@@ -53,8 +53,9 @@ export function ArticleCard({ article, featured }) {
             {CATEGORY_EMOJI[article.category] || "📊"}
           </span>
         )}
-        <div className="absolute top-3 left-3">
+        <div className="absolute top-3 left-3 flex flex-wrap gap-1.5">
           <CategoryBadge category={article.category} />
+          {article.video && <span className="chip bg-white/90 text-ink shadow-sm">▶ Video Available</span>}
         </div>
       </div>
 

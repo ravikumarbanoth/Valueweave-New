@@ -1,21 +1,34 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
+import { createClient } from "@/lib/supabase-browser";
+import { NAVIGATION_SETTING_KEYS } from "@/lib/settings-schema";
 
 const LINKS = [
   { href: "/", label: "Home" },
-  { href: "/discover", label: "🧠 Discover Yourself" },
+  { href: "/discover", label: "🧠 Discover Yourself", key: NAVIGATION_SETTING_KEYS.discover },
   { href: "/ideas", label: "💡 Business Ideas" },
   { href: "/explore", label: "🚀 Opportunities" },
-  { href: "/collaborators", label: "🤝 Collaborators" },
-  { href: "/district", label: "📍 Districts" },
-  { href: "/research", label: "📊 Research" },
-  { href: "/questions", label: "❓ Q&A" },
+  { href: "/collaborators", label: "🤝 Collaborators", key: NAVIGATION_SETTING_KEYS.collaborators },
+  { href: "/district", label: "📍 Districts", key: NAVIGATION_SETTING_KEYS.districts },
+  { href: "/research", label: "📊 Research", key: NAVIGATION_SETTING_KEYS.research },
+  { href: "/questions", label: "❓ Q&A", key: NAVIGATION_SETTING_KEYS.questions },
 ];
 
 export default function MobileNavMenu() {
   const [open, setOpen] = useState(false);
+  const [navSettings, setNavSettings] = useState({});
+
+  useEffect(() => {
+    createClient()
+      .from("platform_settings")
+      .select("key,value")
+      .in("key", Object.values(NAVIGATION_SETTING_KEYS))
+      .then(({ data }) => setNavSettings(Object.fromEntries((data || []).map((row) => [row.key, row.value]))));
+  }, []);
+
+  const links = LINKS.filter((link) => !link.key || navSettings[link.key] !== false);
 
   return (
     <>
@@ -42,7 +55,7 @@ export default function MobileNavMenu() {
         }`}
       >
         <nav className="px-4 py-3 flex flex-col gap-0.5">
-          {LINKS.map((l) => (
+          {links.map((l) => (
             <Link
               key={l.href}
               href={l.href}

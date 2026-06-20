@@ -4,7 +4,22 @@ import { createClient } from "@/lib/supabase-server";
 import { getCombinedArticles } from "@/lib/research";
 import { DISTRICTS } from "@/lib/districts-data";
 import { IDEAS } from "@/lib/idea-library";
-import { CheckCircle, AlertCircle, XCircle, Bot, FileText, MapPin, Lightbulb, Briefcase } from "lucide-react";
+import { getKgEntities } from "@/lib/knowledge-graph";
+import {
+  CheckCircle,
+  AlertCircle,
+  XCircle,
+  Bot,
+  FileText,
+  MapPin,
+  Lightbulb,
+  Briefcase,
+  Wrench,
+  Landmark,
+  Package,
+  Route,
+  Network,
+} from "lucide-react";
 
 export const dynamic = "force-dynamic";
 export const metadata = {
@@ -18,8 +33,40 @@ function statusIcon(ok, warn = false) {
   return <XCircle size={14} className="text-red-500" />;
 }
 
+function hasFaq(entity) {
+  return Array.isArray(entity.faq_json) && entity.faq_json.length > 0;
+}
+
+function hasMetadata(entity) {
+  return !!(entity.meta_title && entity.meta_description);
+}
+
+function hasSummary(entity) {
+  return !!(entity.summary || entity.ai_summary || entity.meta_description);
+}
+
+function kgPage(entity, type, href) {
+  return {
+    type,
+    title: entity.name || entity.title || entity.district_name || entity.slug,
+    href,
+    schema: true,
+    summary: hasSummary(entity),
+    faq: hasFaq(entity),
+    metadata: hasMetadata(entity),
+  };
+}
+
 async function fetchGeoAudit() {
-  const articles = await getCombinedArticles();
+  const [articles, kgDistricts, skills, resources, schemes, roadmaps] = await Promise.all([
+    getCombinedArticles(),
+    getKgEntities("districts", { status: "published" }),
+    getKgEntities("skills", { status: "published" }),
+    getKgEntities("resources", { status: "published" }),
+    getKgEntities("schemes", { status: "published" }),
+    getKgEntities("roadmaps", { status: "published" }),
+  ]);
+
   let opportunities = [];
   try {
     const sb = createClient();
@@ -48,6 +95,7 @@ async function fetchGeoAudit() {
       faq: false,
       metadata: true,
     })),
+    ...kgDistricts.map((d) => kgPage(d, "District CMS", `/district-opportunity-index?district=${d.slug}`)),
     ...IDEAS.map((i) => ({
       type: "Idea",
       title: i.title,
@@ -66,6 +114,10 @@ async function fetchGeoAudit() {
       faq: false,
       metadata: !!(o.title && o.description),
     })),
+    ...skills.map((s) => kgPage(s, "Skill", `/skills/${s.slug}`)),
+    ...resources.map((r) => kgPage(r, "Resource", `/resources/${r.slug}`)),
+    ...schemes.map((s) => kgPage(s, "Scheme", `/schemes/${s.slug}`)),
+    ...roadmaps.map((r) => kgPage(r, "Roadmap", `/roadmaps/${r.slug}`)),
   ];
 
   const total = pages.length || 1;
@@ -127,6 +179,18 @@ function MissingList({ title, items }) {
   );
 }
 
+const SCHEMA_TYPES = [
+  { type: "Research", icon: FileText },
+  { type: "District", icon: MapPin },
+  { type: "District CMS", icon: Network },
+  { type: "Idea", icon: Lightbulb },
+  { type: "Opportunity", icon: Briefcase },
+  { type: "Skill", icon: Wrench },
+  { type: "Resource", icon: Package },
+  { type: "Scheme", icon: Landmark },
+  { type: "Roadmap", icon: Route },
+];
+
 export default async function GeoAuditPage() {
   const d = await fetchGeoAudit();
   const scoreColor = d.score >= 80 ? "text-green-600 bg-green-50 border-green-200" : d.score >= 60 ? "text-amber-600 bg-amber-50 border-amber-200" : "text-red-600 bg-red-50 border-red-200";
@@ -155,11 +219,10 @@ export default async function GeoAuditPage() {
 
         <section className="card-base p-5">
           <h2 className="font-display font-bold text-base text-ink mb-4">Schema Coverage By Page Type</h2>
-          <div className="grid sm:grid-cols-4 gap-3">
-            {["Research", "District", "Idea", "Opportunity"].map((type) => {
+          <div className="grid sm:grid-cols-3 lg:grid-cols-5 gap-3">
+            {SCHEMA_TYPES.map(({ type, icon: Icon }) => {
               const pages = d.pages.filter((p) => p.type === type);
-              const ok = pages.every((p) => p.schema && p.summary);
-              const Icon = type === "Research" ? FileText : type === "District" ? MapPin : type === "Idea" ? Lightbulb : Briefcase;
+              const ok = pages.length > 0 && pages.every((p) => p.schema && p.summary);
               return (
                 <div key={type} className="bg-stone-50 rounded-xl p-4">
                   <div className="flex items-center justify-between mb-2">

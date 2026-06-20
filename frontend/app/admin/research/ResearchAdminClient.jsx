@@ -7,6 +7,7 @@ import { useState, useEffect, useMemo, useCallback } from "react";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase-browser";
 import { CATEGORY_LABELS } from "@/lib/theme";
+import { isValidYouTubeUrl } from "@/lib/youtube";
 
 const STATUS_FILTERS = [
   { id: "", label: "All" },
@@ -29,7 +30,7 @@ export default function ResearchAdminClient({ mdxArticles }) {
     setErr("");
     const { data, error } = await supabase
       .from("research_articles")
-      .select("id, title, slug, excerpt, category, district, status, published_at, updated_at")
+      .select("id, title, slug, excerpt, category, district, status, published_at, updated_at, youtube_url, video_title, video_view_count")
       .order("updated_at", { ascending: false });
     if (error) setErr(`Could not load articles: ${error.message}`);
     setArticles(data || []);
@@ -41,6 +42,7 @@ export default function ResearchAdminClient({ mdxArticles }) {
   const counts = useMemo(() => ({
     published: articles.filter((a) => a.status === "published").length,
     draft: articles.filter((a) => a.status === "draft").length,
+    video: articles.filter((a) => isValidYouTubeUrl(a.youtube_url)).length,
   }), [articles]);
 
   const filtered = useMemo(() => {
@@ -103,7 +105,7 @@ export default function ResearchAdminClient({ mdxArticles }) {
       </div>
 
       {/* Counts */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-6">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
         <div className="card-base p-4">
           <p className="text-xs text-muted uppercase tracking-wider mb-1">Published</p>
           <p data-testid="admin-count-published" className="font-display font-extrabold text-2xl text-teal-600">{counts.published}</p>
@@ -112,7 +114,11 @@ export default function ResearchAdminClient({ mdxArticles }) {
           <p className="text-xs text-muted uppercase tracking-wider mb-1">Drafts</p>
           <p data-testid="admin-count-draft" className="font-display font-extrabold text-2xl text-amber-600">{counts.draft}</p>
         </div>
-        <div className="card-base p-4 col-span-2 sm:col-span-1">
+        <div className="card-base p-4">
+          <p className="text-xs text-muted uppercase tracking-wider mb-1">Video Present?</p>
+          <p className="font-display font-extrabold text-2xl text-blue-600">{counts.video}</p>
+        </div>
+        <div className="card-base p-4">
           <p className="text-xs text-muted uppercase tracking-wider mb-1">Legacy MDX files</p>
           <p className="font-display font-extrabold text-2xl text-stone-500">{mdxArticles.length}</p>
         </div>
@@ -180,55 +186,67 @@ export default function ResearchAdminClient({ mdxArticles }) {
             )}
           </div>
         ) : (
-          filtered.map((a) => (
-            <div key={a.id} data-testid={`admin-article-${a.slug}`} className="px-5 py-4 border-b border-stone-100 last:border-0 flex flex-wrap items-center gap-3">
-              <div className="flex-1 min-w-[220px]">
-                <Link href={`/admin/research/${a.id}`} className="font-display font-bold text-sm text-ink hover:text-amber-700">
-                  {a.title || "(untitled)"}
-                </Link>
-                <p className="text-xs text-muted mt-0.5">
-                  /research/{a.slug} · {a.district || "no district"} · updated {new Date(a.updated_at).toLocaleDateString("en-IN")}
-                </p>
-              </div>
-              <span className={`chip ${a.status === "published" ? "bg-teal-100 text-teal-700" : "bg-amber-100 text-amber-700"}`}>
-                {a.status}
-              </span>
-              <div className="flex items-center gap-1.5">
-                <Link href={`/admin/research/${a.id}`} className="btn-ghost !px-3 !py-1.5 text-xs border border-stone-200">
-                  Edit
-                </Link>
-                {a.status === "published" ? (
-                  <>
-                    <Link href={`/research/${a.slug}`} target="_blank" className="btn-ghost !px-3 !py-1.5 text-xs border border-stone-200">
-                      View
-                    </Link>
+          filtered.map((a) => {
+            const validVideo = isValidYouTubeUrl(a.youtube_url);
+            return (
+              <div key={a.id} data-testid={`admin-article-${a.slug}`} className="px-5 py-4 border-b border-stone-100 last:border-0 flex flex-wrap items-center gap-3">
+                <div className="flex-1 min-w-[220px]">
+                  <Link href={`/admin/research/${a.id}`} className="font-display font-bold text-sm text-ink hover:text-amber-700">
+                    {a.title || "(untitled)"}
+                  </Link>
+                  <p className="text-xs text-muted mt-0.5">
+                    /research/{a.slug} · {a.district || "no district"} · updated {new Date(a.updated_at).toLocaleDateString("en-IN")}
+                  </p>
+                  <div className="flex flex-wrap gap-1.5 mt-2">
+                    <span className={`chip ${validVideo ? "bg-blue-50 text-blue-700" : "bg-stone-100 text-stone-500"}`}>
+                      {validVideo ? "▶ Video Present" : "No video"}
+                    </span>
+                    <span className={`chip ${!a.youtube_url || validVideo ? "bg-teal-50 text-teal-700" : "bg-red-50 text-red-700"}`}>
+                      Embed {a.youtube_url ? (validVideo ? "valid" : "invalid") : "not set"}
+                    </span>
+                    <span className="chip bg-stone-50 text-stone-500">Video views: {a.video_view_count || 0}</span>
+                  </div>
+                </div>
+                <span className={`chip ${a.status === "published" ? "bg-teal-100 text-teal-700" : "bg-amber-100 text-amber-700"}`}>
+                  {a.status}
+                </span>
+                <div className="flex items-center gap-1.5">
+                  <Link href={`/admin/research/${a.id}`} className="btn-ghost !px-3 !py-1.5 text-xs border border-stone-200">
+                    Edit
+                  </Link>
+                  {a.status === "published" ? (
+                    <>
+                      <Link href={`/research/${a.slug}`} target="_blank" className="btn-ghost !px-3 !py-1.5 text-xs border border-stone-200">
+                        View
+                      </Link>
+                      <button
+                        disabled={busyId === a.id}
+                        onClick={() => setArticleStatus(a, "draft")}
+                        className="btn-ghost !px-3 !py-1.5 text-xs border border-stone-200 disabled:opacity-50"
+                      >
+                        Unpublish
+                      </button>
+                    </>
+                  ) : (
                     <button
                       disabled={busyId === a.id}
-                      onClick={() => setArticleStatus(a, "draft")}
-                      className="btn-ghost !px-3 !py-1.5 text-xs border border-stone-200 disabled:opacity-50"
+                      onClick={() => setArticleStatus(a, "published")}
+                      className="text-xs font-display font-bold px-3 py-1.5 rounded-full bg-teal-500 hover:bg-teal-600 text-white transition-colors disabled:opacity-50"
                     >
-                      Unpublish
+                      Publish
                     </button>
-                  </>
-                ) : (
+                  )}
                   <button
                     disabled={busyId === a.id}
-                    onClick={() => setArticleStatus(a, "published")}
-                    className="text-xs font-display font-bold px-3 py-1.5 rounded-full bg-teal-500 hover:bg-teal-600 text-white transition-colors disabled:opacity-50"
+                    onClick={() => deleteArticle(a)}
+                    className="text-xs font-display font-semibold px-3 py-1.5 rounded-full text-red-600 hover:bg-red-50 transition-colors disabled:opacity-50"
                   >
-                    Publish
+                    Delete
                   </button>
-                )}
-                <button
-                  disabled={busyId === a.id}
-                  onClick={() => deleteArticle(a)}
-                  className="text-xs font-display font-semibold px-3 py-1.5 rounded-full text-red-600 hover:bg-red-50 transition-colors disabled:opacity-50"
-                >
-                  Delete
-                </button>
+                </div>
               </div>
-            </div>
-          ))
+            );
+          })
         )}
       </div>
 

@@ -7,17 +7,13 @@ import { NAVIGATION_SETTING_KEYS } from "@/lib/settings-schema";
 
 const LINKS = [
   { href: "/", label: "Home" },
-  { href: "/discover", label: "🧠 Discover Yourself", key: NAVIGATION_SETTING_KEYS.discover },
-  { href: "/ideas", label: "💡 Business Ideas" },
-  { href: "/skills", label: "🛠️ Skills", key: NAVIGATION_SETTING_KEYS.skills },
-  { href: "/schemes", label: "🏛️ Schemes", key: NAVIGATION_SETTING_KEYS.schemes },
-  { href: "/resources", label: "📦 Resources", key: NAVIGATION_SETTING_KEYS.resources },
-  { href: "/roadmaps", label: "🧭 Roadmaps", key: NAVIGATION_SETTING_KEYS.roadmaps },
-  { href: "/explore", label: "🚀 Opportunities" },
-  { href: "/collaborators", label: "🤝 Collaborators", key: NAVIGATION_SETTING_KEYS.collaborators },
-  { href: "/district", label: "📍 Districts", key: NAVIGATION_SETTING_KEYS.districts },
-  { href: "/research", label: "📊 Research", key: NAVIGATION_SETTING_KEYS.research },
-  { href: "/questions", label: "❓ Q&A", key: NAVIGATION_SETTING_KEYS.questions },
+  { href: "/discover", label: "Discover", key: NAVIGATION_SETTING_KEYS.discover },
+  { href: "/districts", label: "Districts", key: NAVIGATION_SETTING_KEYS.districts },
+  { href: "/readiness", label: "Industrial Readiness" },
+  { href: "/manufacturing", label: "Manufacturing" },
+  { href: "/scale", label: "Scale" },
+  { href: "/network", label: "Network", key: NAVIGATION_SETTING_KEYS.collaborators },
+  { href: "/ai", label: "AI" },
 ];
 
 export default function MobileNavMenu() {

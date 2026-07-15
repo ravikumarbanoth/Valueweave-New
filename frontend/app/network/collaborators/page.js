@@ -1,1 +1,5 @@
-export { metadata, default } from "@/app/collaborators/page";
+import { redirect } from "next/navigation";
+
+export default function NetworkCollaboratorsPage() {
+  redirect("/collaborators");
+}

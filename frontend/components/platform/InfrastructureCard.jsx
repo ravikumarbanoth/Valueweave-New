@@ -1,6 +1,16 @@
 import Link from "next/link";
 
-export default function InfrastructureCard({ href, emoji, title, description, items = [], accent = "amber" }) {
+export default function InfrastructureCard({
+  href,
+  emoji,
+  title,
+  subtitle,
+  description,
+  items = [],
+  accent = "amber",
+  buttonLabel = "Explore",
+  comingSoon = false,
+}) {
   const styles = {
     amber: "bg-amber-50 border-amber-200 hover:border-amber-300",
     teal: "bg-teal-50 border-teal-200 hover:border-teal-300",
@@ -14,24 +24,34 @@ export default function InfrastructureCard({ href, emoji, title, description, it
   return (
     <Link
       href={href}
-      className={`${styles[accent] || styles.amber} border-2 rounded-2xl p-6 flex flex-col gap-4 hover:-translate-y-1 hover:shadow-md transition-all group min-h-[220px]`}
+      className={`${styles[accent] || styles.amber} border-2 rounded-2xl p-6 flex flex-col gap-4 hover:-translate-y-1 hover:shadow-md transition-all group min-h-[320px]`}
     >
-      <div className="text-3xl" aria-hidden="true">{emoji}</div>
+      <div className="flex items-start justify-between gap-3">
+        <div className="text-4xl" aria-hidden="true">{emoji}</div>
+        {comingSoon && <span className="chip bg-white/80 text-violet-700 border border-violet-100">Coming Soon</span>}
+      </div>
       <div>
-        <h3 className="font-display font-bold text-lg text-ink mb-2 group-hover:text-amber-700 transition-colors">
+        <h3 className="font-display font-extrabold text-xl text-ink mb-2 group-hover:text-amber-700 transition-colors leading-tight">
           {title}
         </h3>
-        <p className="text-sm text-muted leading-relaxed">{description}</p>
+        {subtitle && <p className="font-display font-bold text-sm text-teal-700 mb-3">{subtitle}</p>}
+        {description && <p className="text-sm text-muted leading-relaxed">{description}</p>}
       </div>
       {items.length > 0 && (
-        <div className="flex flex-wrap gap-1.5 mt-auto">
-          {items.slice(0, 4).map((item) => (
-            <span key={item} className="chip bg-white/70 text-stone-600 border border-white text-[10px]">
+        <div className="grid grid-cols-1 gap-2">
+          {items.map((item) => (
+            <span key={item} className="flex items-center gap-2 text-sm text-stone-700">
+              <span className="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0" />
               {item}
             </span>
           ))}
         </div>
       )}
+      <div className="mt-auto pt-2">
+        <span className="inline-flex items-center justify-center rounded-full bg-white/85 border border-white px-4 py-2 text-sm font-display font-bold text-ink group-hover:text-amber-700 transition-colors">
+          {buttonLabel} →
+        </span>
+      </div>
     </Link>
   );
 }

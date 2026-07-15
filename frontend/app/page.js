@@ -47,12 +47,14 @@ const DISCOVER_CARDS = [
 ];
 
 const NAV_LINKS = [
+  { href: "/", label: "Home" },
   { href: "/discover", label: "Discover", settingKey: NAVIGATION_SETTING_KEYS.discover },
-  { href: "/ideas", label: "Ideas" },
-  { href: "/explore", label: "Explore" },
-  { href: "/collaborators", label: "Collaborators", settingKey: NAVIGATION_SETTING_KEYS.collaborators },
-  { href: "/research", label: "Research", settingKey: NAVIGATION_SETTING_KEYS.research },
-  { href: "/district", label: "Districts", settingKey: NAVIGATION_SETTING_KEYS.districts },
+  { href: "/districts", label: "Districts", settingKey: NAVIGATION_SETTING_KEYS.districts },
+  { href: "/readiness", label: "Industrial Readiness" },
+  { href: "/manufacturing", label: "Manufacturing" },
+  { href: "/scale", label: "Scale" },
+  { href: "/network", label: "Network", settingKey: NAVIGATION_SETTING_KEYS.collaborators },
+  { href: "/ai", label: "AI" },
 ];
 
 export default async function LandingPage() {
@@ -80,9 +82,9 @@ export default async function LandingPage() {
           </Link>
 
           {/* Desktop nav links */}
-          <div className="hidden md:flex items-center gap-1">
+          <div className="hidden lg:flex items-center gap-1">
             {navLinks.map((l) => (
-              <Link key={l.href} href={l.href} className="text-sm font-display font-semibold text-muted hover:text-ink px-3 py-2 rounded-lg hover:bg-stone-100 transition-colors">
+              <Link key={l.href} href={l.href} className="text-xs font-display font-semibold text-muted hover:text-ink px-2 py-2 rounded-lg hover:bg-stone-100 transition-colors">
                 {l.label}
               </Link>
             ))}
@@ -121,7 +123,7 @@ export default async function LandingPage() {
             <div className="flex flex-wrap gap-3 mb-6 animate-fadeUp" style={{ animationDelay: "0.2s" }}>
               <Link href="/discover" data-testid="hero-cta-discover" className="btn-teal">🧠 {primaryCta}</Link>
               <Link href="/ideas" data-testid="hero-cta-ideas" className="btn-primary">💡 {secondaryCta}</Link>
-              <Link href="/collaborators" data-testid="hero-cta-collabs" className="btn-secondary">🤝 {tertiaryCta}</Link>
+              <Link href="/network" data-testid="hero-cta-collabs" className="btn-secondary">🤝 {tertiaryCta}</Link>
             </div>
 
             <ul className="flex flex-wrap gap-x-5 gap-y-2 animate-fadeUp" style={{ animationDelay: "0.3s" }}>

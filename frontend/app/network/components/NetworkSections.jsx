@@ -1,60 +1,24 @@
-import InfrastructureCard from "@/components/platform/InfrastructureCard";
+import ModuleDashboard from "@/components/platform/ModuleDashboard";
 
-const SECTIONS = [
-  {
-    href: "/collaborators",
-    emoji: "🤝",
-    title: "Co-founders",
-    description: "Use the existing collaborator marketplace to find people ready to build with you.",
-    accent: "teal",
-    items: ["Existing", "Profiles", "Matching"],
-  },
-  {
-    href: "/network",
-    emoji: "🧑‍🏫",
-    title: "Experts",
-    description: "Future expert directory for domain, finance, operations, and technical guidance.",
-    accent: "blue",
-    items: ["Planned"],
-  },
-  {
-    href: "/network",
-    emoji: "🌱",
-    title: "Mentors",
-    description: "Future mentor network for founders, students, and local business owners.",
-    accent: "green",
-    items: ["Planned"],
-  },
-  {
-    href: "/network",
-    emoji: "💼",
-    title: "Investors",
-    description: "Future capital and investor discovery layer for qualified opportunities.",
-    accent: "amber",
-    items: ["Planned"],
-  },
-  {
-    href: "/network",
-    emoji: "🏫",
-    title: "Institutions",
-    description: "Future institutional partnerships across colleges, industry bodies, and local agencies.",
-    accent: "violet",
-    items: ["Planned"],
-  },
-  {
-    href: "/network",
-    emoji: "🌐",
-    title: "Communities",
-    description: "Future community layer for district, sector, and skill-based groups.",
-    accent: "rose",
-    items: ["Planned"],
-  },
+const cards = [
+  { emoji: "🤝", title: "Co-founders", description: "Existing collaborator marketplace remains available while the network layer expands." },
+  { emoji: "🧑‍🏫", title: "Experts", description: "Future directory for domain, finance, operations, technology, and compliance guidance." },
+  { emoji: "💼", title: "Investors", description: "Planned capital discovery layer for qualified businesses, founders, and opportunities." },
+  { emoji: "🏫", title: "Institutions", description: "Future partnerships with colleges, industry bodies, public agencies, and local anchors." },
 ];
 
 export default function NetworkSections() {
   return (
-    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-      {SECTIONS.map((section) => <InfrastructureCard key={section.title} {...section} />)}
-    </div>
+    <ModuleDashboard
+      primaryHref="/collaborators"
+      primaryLabel="Open Collaborators"
+      roadmap={[
+        "Keep existing collaborator marketplace stable and accessible under the broader network layer.",
+        "Add future network roles for experts, mentors, investors, institutions, and communities.",
+        "Connect people and capital to districts, skills, opportunities, manufacturing, and scaling resources.",
+      ]}
+      capabilities={["Co-founders", "Experts", "Mentors", "Investors", "Institutions", "Communities", "Collaborator Marketplace"]}
+      cards={cards}
+    />
   );
 }

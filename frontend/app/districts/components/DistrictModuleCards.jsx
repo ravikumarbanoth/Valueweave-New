@@ -1,25 +1,22 @@
-const CARDS = [
-  "District Overview",
-  "Industries",
-  "Resources",
-  "Infrastructure",
-  "Skills",
-  "Manufacturing Opportunities",
-  "Government Schemes",
-];
+import ModuleDashboard from "@/components/platform/ModuleDashboard";
 
 export default function DistrictModuleCards({ districtName = "District" }) {
   return (
-    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-      {CARDS.map((title) => (
-        <div key={title} className="card-base p-5 min-h-[160px]">
-          <span className="chip bg-emerald-50 text-emerald-700 border border-emerald-100 mb-3">DISTRICT</span>
-          <h2 className="font-display font-bold text-base text-ink mb-2">{title}</h2>
-          <p className="text-sm text-muted leading-relaxed">
-            Planned intelligence area for {districtName}. Content will be connected when the district data model is implemented.
-          </p>
-        </div>
-      ))}
-    </div>
+    <ModuleDashboard
+      primaryHref="/districts"
+      primaryLabel="Explore Districts"
+      roadmap={[
+        `Create a structured ${districtName} profile covering industries, resources, infrastructure, skills, and schemes.`,
+        "Connect local opportunities to readiness paths, collaborators, manufacturing resources, and capital.",
+        "Prepare district intelligence for future search, recommendations, GEO, and AI-readable knowledge graph use.",
+      ]}
+      capabilities={["District Overview", "Industries", "Resources", "Infrastructure", "Skills", "Manufacturing Opportunities", "Government Schemes"]}
+      cards={[
+        { emoji: "🗺️", title: "District Overview", description: `Planned overview for ${districtName} economic context, local strengths, and opportunity direction.` },
+        { emoji: "🏭", title: "Industries", description: "Future map of active, emerging, and priority industries in this district." },
+        { emoji: "🧰", title: "Resources", description: "Future local resources, institutions, suppliers, training, and support systems." },
+        { emoji: "🏛️", title: "Government Schemes", description: "Planned scheme discovery connected to district and business-stage relevance." },
+      ]}
+    />
   );
 }

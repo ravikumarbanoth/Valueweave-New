@@ -1,24 +1,24 @@
-const SECTIONS = [
-  "Automation",
-  "Robotics",
-  "ERP",
-  "Quality",
-  "Export",
-  "Logistics",
-  "Energy",
-  "Industrial Resources",
+import ModuleDashboard from "@/components/platform/ModuleDashboard";
+
+const cards = [
+  { emoji: "🤖", title: "Automation", description: "Future automation guidance for repeatable operations and reduced manual dependency." },
+  { emoji: "🦾", title: "Robotics", description: "Reserved layer for robotics resources, providers, and industrial upgrade paths." },
+  { emoji: "✅", title: "Quality", description: "Planned quality systems, standards, documentation, and continuous improvement playbooks." },
+  { emoji: "🌍", title: "Export", description: "Future export readiness resources, logistics, compliance, and market expansion guidance." },
 ];
 
 export default function ScaleSections() {
   return (
-    <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-      {SECTIONS.map((title) => (
-        <div key={title} className="card-base p-5 min-h-[150px]">
-          <span className="chip bg-blue-50 text-blue-700 border border-blue-100 mb-3">SCALE</span>
-          <h2 className="font-display font-bold text-base text-ink mb-2">{title}</h2>
-          <p className="text-sm text-muted leading-relaxed">Planned scaling layer for mature businesses and industrial operators.</p>
-        </div>
-      ))}
-    </div>
+    <ModuleDashboard
+      primaryHref="/scale"
+      primaryLabel="Scale Business"
+      roadmap={[
+        "Define the operating maturity ladder from local production to competitive manufacturing.",
+        "Map scale resources to quality, logistics, energy, ERP, export, automation, and robotics needs.",
+        "Connect mature businesses back into the ecosystem as mentors, suppliers, and local anchors.",
+      ]}
+      capabilities={["Automation", "Robotics", "ERP", "Quality", "Export", "Logistics", "Energy", "Industrial Resources"]}
+      cards={cards}
+    />
   );
 }

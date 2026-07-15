@@ -1,20 +1,24 @@
-const SECTIONS = [
-  "AI District Advisor",
-  "AI Manufacturing Advisor",
-  "AI Readiness Advisor",
-  "AI Scale Advisor",
+import ModuleDashboard from "@/components/platform/ModuleDashboard";
+
+const cards = [
+  { emoji: "📍", title: "AI District Advisor", description: "Future advisor for district context, local fit, and opportunity interpretation." },
+  { emoji: "🏭", title: "AI Manufacturing Advisor", description: "Future advisor for product, machinery, factory, supplier, and production decisions." },
+  { emoji: "🛠️", title: "AI Readiness Advisor", description: "Future advisor for skill gaps, learning paths, training, and mentor recommendations." },
+  { emoji: "📈", title: "AI Scale Advisor", description: "Future advisor for quality, export, logistics, automation, and industrial scaling." },
 ];
 
 export default function AiSections() {
   return (
-    <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-      {SECTIONS.map((title) => (
-        <div key={title} className="card-base p-5 min-h-[150px]">
-          <span className="chip bg-violet-50 text-violet-700 border border-violet-100 mb-3">AI-FIRST</span>
-          <h2 className="font-display font-bold text-base text-ink mb-2">{title}</h2>
-          <p className="text-sm text-muted leading-relaxed">Reserved expansion point for future AI intelligence. No AI logic is active here.</p>
-        </div>
-      ))}
-    </div>
+    <ModuleDashboard
+      primaryHref="/ai"
+      primaryLabel="View AI Layer"
+      roadmap={[
+        "Keep AI dependent on trustworthy human-readable modules and structured platform knowledge.",
+        "Prepare AI-readable relationships across districts, skills, manufacturing, network, and scaling resources.",
+        "Introduce advisors only after content quality, permissions, and safety boundaries are ready.",
+      ]}
+      capabilities={["AI District Advisor", "AI Manufacturing Advisor", "AI Readiness Advisor", "AI Scale Advisor", "Knowledge Graph", "Recommendations"]}
+      cards={cards}
+    />
   );
 }

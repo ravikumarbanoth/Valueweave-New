@@ -1,24 +1,24 @@
-const SECTIONS = [
-  "Skill Assessment",
-  "Learning Path",
-  "Courses",
-  "Certifications",
-  "Internships",
-  "Apprenticeships",
-  "Industrial Visits",
-  "Mentors",
+import ModuleDashboard from "@/components/platform/ModuleDashboard";
+
+const cards = [
+  { emoji: "🧭", title: "Skill Assessment", description: "Map current ability against the capabilities needed to start or join industrial work." },
+  { emoji: "🛤️", title: "Learning Paths", description: "Future guided paths for students, founders, operators, and local service providers." },
+  { emoji: "🎓", title: "Training", description: "Planned discovery for courses, certifications, internships, and apprenticeships." },
+  { emoji: "🤝", title: "Mentors", description: "Future mentor matching for practical readiness and confidence before execution." },
 ];
 
 export default function ReadinessSections() {
   return (
-    <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-      {SECTIONS.map((title) => (
-        <div key={title} className="card-base p-5 min-h-[150px]">
-          <span className="chip bg-teal-50 text-teal-700 border border-teal-100 mb-3">READY</span>
-          <h2 className="font-display font-bold text-base text-ink mb-2">{title}</h2>
-          <p className="text-sm text-muted leading-relaxed">Planned module area for structured industrial readiness workflows.</p>
-        </div>
-      ))}
-    </div>
+    <ModuleDashboard
+      primaryHref="/readiness"
+      primaryLabel="Start Learning"
+      roadmap={[
+        "Define readiness profiles for founders, students, operators, and local business owners.",
+        "Map skills to industries, opportunities, training providers, and district demand.",
+        "Introduce guided learning paths once trusted content and partners are available.",
+      ]}
+      capabilities={["Skill Assessment", "Learning Paths", "Training", "Certifications", "Internships", "Apprenticeships", "Industrial Visits", "Mentors"]}
+      cards={cards}
+    />
   );
 }

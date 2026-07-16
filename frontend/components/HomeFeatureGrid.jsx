@@ -1,5 +1,7 @@
 import Link from "next/link";
 import InfrastructureCard from "@/components/platform/InfrastructureCard";
+import KnowledgeSearch from "@/components/platform/KnowledgeSearch";
+import { featuredKnowledge, futureInfrastructureModules, knowledgeLabels } from "@/lib/static-knowledge";
 
 const FEATURES = [
   {
@@ -24,7 +26,7 @@ const FEATURES = [
   },
   {
     emoji: "🤝",
-    title: "Collaboration & Capital",
+    title: "Collaboration & Capital Infrastructure",
     subtitle: "Find the right people and resources.",
     description: "Organize the human and capital network needed to turn local opportunity into execution.",
     href: "/network",
@@ -35,7 +37,7 @@ const FEATURES = [
   {
     emoji: "🏭",
     title: "Digital Manufacturing Operating System",
-    subtitle: "Build and operate your manufacturing business.",
+    subtitle: "Build and operate manufacturing businesses.",
     description: "Create the future operating layer for product, factory, machinery, and production planning.",
     href: "/manufacturing",
     accent: "amber",
@@ -45,7 +47,7 @@ const FEATURES = [
   {
     emoji: "📈",
     title: "Industrial Scaling Resources",
-    subtitle: "Grow into a competitive manufacturer.",
+    subtitle: "Grow into globally competitive manufacturers.",
     description: "Support businesses as they move from first production to scalable industrial operations.",
     href: "/scale",
     accent: "blue",
@@ -55,7 +57,7 @@ const FEATURES = [
   {
     emoji: "✨",
     title: "AI Intelligence Layer",
-    subtitle: "Connect and optimize everything.",
+    subtitle: "Connect and optimize every decision.",
     description: "Reserved for future AI guidance across districts, readiness, manufacturing, and scaling.",
     href: "/ai",
     accent: "violet",
@@ -69,45 +71,49 @@ const JOURNEY = [
   { label: "Idea", href: "/ideas" },
   { label: "Discover Opportunity", href: "/districts" },
   { label: "Develop Skills", href: "/readiness" },
-  { label: "Build Team", href: "/network" },
-  { label: "Start Manufacturing", href: "/manufacturing" },
+  { label: "Find Team", href: "/network" },
+  { label: "Secure Funding", href: "/network" },
+  { label: "Build Factory", href: "/manufacturing" },
+  { label: "Manufacture", href: "/manufacturing" },
   { label: "Scale", href: "/scale" },
   { label: "Export", href: "/scale" },
-  { label: "Mentor Others", href: "/network" },
+  { label: "Become Mentor", href: "/network" },
 ];
 
 export default function HomeFeatureGrid() {
   return (
     <section className="py-20 sm:py-24 px-4 sm:px-6 bg-warm">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-12">
-          <span className="chip bg-teal-100 text-teal-600 mb-4">INDIA&apos;S DIGITAL ECONOMIC INFRASTRUCTURE</span>
-          <h2 className="font-display font-extrabold text-3xl sm:text-4xl md:text-5xl tracking-tight leading-tight text-ink">
-            Infrastructure for Every Entrepreneurial Stage
-          </h2>
-          <p className="mt-4 text-muted max-w-3xl mx-auto text-base sm:text-lg leading-relaxed">
-            ValueWeave is evolving into a modular operating layer for district opportunity discovery, industrial readiness, collaboration, manufacturing, scaling, and future AI intelligence.
-          </p>
+      <div className="max-w-6xl mx-auto space-y-16">
+        <div>
+          <div className="text-center mb-12">
+            <span className="chip bg-teal-100 text-teal-600 mb-4">INDIA&apos;S DIGITAL ECONOMIC INFRASTRUCTURE</span>
+            <h2 className="font-display font-extrabold text-3xl sm:text-4xl md:text-5xl tracking-tight leading-tight text-ink">
+              India&apos;s Digital Economic Infrastructure
+            </h2>
+            <p className="mt-4 text-muted max-w-3xl mx-auto text-base sm:text-lg leading-relaxed">
+              ValueWeave is becoming the permanent gateway for district opportunity discovery, industrial readiness, collaboration, manufacturing, scaling, and future AI intelligence.
+            </p>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {FEATURES.map((feature) => <InfrastructureCard key={feature.href} {...feature} />)}
+          </div>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {FEATURES.map((feature) => <InfrastructureCard key={feature.href} {...feature} />)}
-        </div>
-
-        <section className="mt-16 card-base p-5 sm:p-7 overflow-hidden">
+        <section className="card-base p-5 sm:p-7 overflow-hidden">
           <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4 mb-7">
             <div>
               <span className="chip bg-amber-100 text-amber-700 border border-amber-200 mb-3">THE ENTREPRENEUR JOURNEY</span>
-              <h2 className="font-display font-extrabold text-2xl sm:text-3xl text-ink">From Idea to Economic Multiplier</h2>
+              <h2 className="font-display font-extrabold text-2xl sm:text-3xl text-ink">Entrepreneur Journey</h2>
               <p className="text-sm sm:text-base text-muted mt-2 max-w-2xl leading-relaxed">
-                Each step links to a ValueWeave module, creating a clear path from early curiosity to manufacturing, scaling, exporting, and mentoring others.
+                A visual path from first idea to local manufacturing, export readiness, and mentoring others back into the ecosystem.
               </p>
             </div>
             <Link href="/districts" className="btn-primary shrink-0">Start with districts</Link>
           </div>
 
           <div className="overflow-x-auto pb-2">
-            <div className="min-w-[900px] grid grid-cols-8 gap-3 items-stretch">
+            <div className="min-w-[1120px] grid grid-cols-10 gap-3 items-stretch">
               {JOURNEY.map((stage, index) => (
                 <Link key={stage.label} href={stage.href} className="relative rounded-2xl bg-stone-50 border border-stone-150 p-4 hover:border-amber-300 hover:bg-amber-50 transition-colors group">
                   <span className="w-8 h-8 rounded-full bg-white border border-stone-200 flex items-center justify-center text-xs font-display font-bold text-amber-700 mb-3">
@@ -120,6 +126,57 @@ export default function HomeFeatureGrid() {
                 </Link>
               ))}
             </div>
+          </div>
+        </section>
+
+        <section>
+          <div className="text-center mb-10">
+            <span className="chip bg-blue-100 text-blue-700 border border-blue-200 mb-4">STATIC KNOWLEDGE LAYER</span>
+            <h2 className="font-display font-extrabold text-3xl sm:text-4xl text-ink">Explore Knowledge</h2>
+            <p className="text-muted mt-3 max-w-2xl mx-auto leading-relaxed">
+              Early static knowledge previews show how ValueWeave will connect places, sectors, learning, schemes, products, and manufacturing opportunities.
+            </p>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-6">
+            {featuredKnowledge.map(({ label, type, slug, item }) => (
+              <Link key={`${type}-${slug}`} href={`/knowledge/${type}/${slug}`} className="card-base p-5 hover:border-amber-300 hover:shadow-md hover:-translate-y-1 transition-all group">
+                <span className="chip bg-stone-50 text-stone-500 border border-stone-100 mb-3">{label}</span>
+                <h3 className="font-display font-bold text-lg text-ink group-hover:text-amber-700 transition-colors">{item.name}</h3>
+                <p className="text-xs text-teal-700 font-display font-bold mt-1">{knowledgeLabels[type]}</p>
+                <p className="text-sm text-muted mt-3 line-clamp-3 leading-relaxed">
+                  {item.summary || item.description || item.purpose || item.overview}
+                </p>
+              </Link>
+            ))}
+          </div>
+          <KnowledgeSearch />
+        </section>
+
+        <section>
+          <div className="text-center mb-10">
+            <span className="chip bg-violet-100 text-violet-700 border border-violet-200 mb-4">PLANNED MODULES</span>
+            <h2 className="font-display font-extrabold text-3xl sm:text-4xl text-ink">Future Infrastructure Roadmap</h2>
+            <p className="text-muted mt-3 max-w-2xl mx-auto leading-relaxed">
+              These future infrastructure layers are visible for strategic clarity, but navigation is intentionally disabled until implementation begins.
+            </p>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {futureInfrastructureModules.map((module) => (
+              <div key={module.title} className="card-base p-5 min-h-[230px] opacity-90">
+                <div className="flex items-start justify-between gap-3 mb-4">
+                  <h3 className="font-display font-bold text-lg text-ink leading-tight">{module.title}</h3>
+                  <span className="chip bg-violet-50 text-violet-700 border border-violet-100">Planned</span>
+                </div>
+                <div className="grid gap-2">
+                  {module.items.map((item) => (
+                    <span key={item} className="flex items-center gap-2 text-sm text-muted">
+                      <span className="w-1.5 h-1.5 rounded-full bg-violet-400 shrink-0" />
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
           </div>
         </section>
       </div>

@@ -1,0 +1,8 @@
+[
+  {"slug":"millet-snacks","name":"Millet Snacks","industry":"Food Processing","description":"Ready-to-eat snacks using local millets with urban health positioning.","investment":"Rs 5 lakh to Rs 25 lakh","skills":["Food Safety","Packaging","Retail Operations"]},
+  {"slug":"spice-powders","name":"Spice Powders","industry":"Food Processing","description":"Cleaned, ground, blended, and packed spices for retail and institutional buyers.","investment":"Rs 3 lakh to Rs 20 lakh","skills":["Food Safety","Quality Control","Packaging"]},
+  {"slug":"corrugated-boxes","name":"Corrugated Boxes","industry":"Packaging","description":"Packaging boxes for food, retail, ecommerce, pharma support, and manufacturing units.","investment":"Rs 10 lakh to Rs 60 lakh","skills":["Machine Operation","B2B Sales","Quality Control"]},
+  {"slug":"solar-mounting-structures","name":"Solar Mounting Structures","industry":"Renewable Energy","description":"Fabricated metal structures used for rooftop, farm, and commercial solar installations.","investment":"Rs 8 lakh to Rs 50 lakh","skills":["Fabrication","Solar Installation","B2B Sales"]},
+  {"slug":"led-light-assembly","name":"LED Light Assembly","industry":"Electronics","description":"Assembly and testing of LED lights for homes, shops, institutions, and small industries.","investment":"Rs 5 lakh to Rs 35 lakh","skills":["Electronics Assembly","Testing","Sales"]},
+  {"slug":"workwear-uniforms","name":"Workwear Uniforms","industry":"Textiles","description":"Uniforms and workwear for schools, factories, hospitals, logistics, and service teams.","investment":"Rs 2 lakh to Rs 25 lakh","skills":["Stitching","Quality Control","B2B Sales"]}
+]

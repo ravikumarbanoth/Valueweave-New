@@ -1,0 +1,18 @@
+[
+  {
+    "slug": "medak",
+    "name": "Medak",
+    "state": "Telangana",
+    "summary": "Medak is an industrially relevant district with strengths in manufacturing, food processing, agriculture-linked enterprises, pharma support activity, packaging, and logistics access to Hyderabad's wider economic region.",
+    "overview": "Medak can support small and medium entrepreneurs who want to build around agriculture, packaged foods, industrial services, light manufacturing, pharma-adjacent supply chains, and local distribution.",
+    "majorIndustries": ["Food Processing", "Pharma Support", "Packaging", "Agriculture Equipment", "Textiles", "Light Engineering"],
+    "resources": ["Agricultural produce", "Industrial workforce", "MSME service base", "Road connectivity", "Proximity to Hyderabad market"],
+    "industrialParks": ["Medak industrial clusters", "Toopran industrial belt", "Narsapur manufacturing catchment"],
+    "educationalInstitutions": ["Government degree colleges", "ITI and polytechnic ecosystem", "Nearby Hyderabad technical talent pool"],
+    "msmes": ["Packaging units", "Food processing units", "Fabrication workshops", "Repair and maintenance services", "Local distribution businesses"],
+    "manufacturingOpportunities": ["Millet processing", "Spice grinding and packing", "Corrugated packaging", "Solar mounting structures", "Agri tools assembly", "Dairy value-added products"],
+    "infrastructure": ["Road access to Hyderabad", "Industrial land pockets", "Power connectivity", "Local transport networks", "Access to regional markets"],
+    "governmentSchemes": ["PMEGP", "Mudra", "CGTMSE", "MSME Registration", "Stand-Up India"],
+    "futurePotential": ["Agri-value chains", "Food processing clusters", "Packaging supply chains", "EV component support", "Renewable energy installation ecosystem"]
+  }
+]

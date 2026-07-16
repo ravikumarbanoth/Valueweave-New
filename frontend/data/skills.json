@@ -1,0 +1,12 @@
+[
+  {"slug":"food-safety","name":"Food Safety","category":"Food Processing","description":"Basics of hygiene, FSSAI compliance, storage, contamination control, and safe production."},
+  {"slug":"packaging","name":"Packaging","category":"Manufacturing","description":"Material selection, labeling, sealing, shelf-life protection, and product presentation."},
+  {"slug":"quality-control","name":"Quality Control","category":"Operations","description":"Inspection, documentation, defect reduction, and repeatable process standards."},
+  {"slug":"solar-installation","name":"Solar Installation","category":"Renewable Energy","description":"Site survey, mounting, wiring, safety, commissioning, and maintenance basics."},
+  {"slug":"electronics-assembly","name":"Electronics Assembly","category":"Electronics","description":"Component handling, soldering, wiring, testing, and basic repair practices."},
+  {"slug":"fabrication","name":"Fabrication","category":"Manufacturing","description":"Cutting, welding, drilling, fitting, and basic workshop production methods."},
+  {"slug":"retail-operations","name":"Retail Operations","category":"Business","description":"Inventory, billing, customer handling, merchandising, and local store management."},
+  {"slug":"b2b-sales","name":"B2B Sales","category":"Business","description":"Lead generation, quotation, negotiation, purchase orders, and repeat buyer relationships."},
+  {"slug":"accounting","name":"Accounting","category":"Business","description":"Basic bookkeeping, GST readiness, cash flow, invoicing, and cost tracking."},
+  {"slug":"logistics","name":"Logistics","category":"Operations","description":"Movement planning, dispatch, packaging for transport, vendor coordination, and delivery tracking."}
+]

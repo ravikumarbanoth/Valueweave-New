@@ -6,6 +6,17 @@ import { createClient } from "@/lib/supabase-browser";
 import { LogOut, User as UserIcon, Inbox, Plus, Home } from "lucide-react";
 import SocialLinks from "@/components/SocialLinks";
 import NotificationBell from "@/components/NotificationBell";
+import MobileNavMenu from "@/components/MobileNavMenu";
+
+const PUBLIC_LINKS = [
+  { href: "/discover", label: "Discover" },
+  { href: "/districts", label: "Districts" },
+  { href: "/readiness", label: "Readiness" },
+  { href: "/manufacturing", label: "Manufacturing" },
+  { href: "/scale", label: "Scale" },
+  { href: "/network", label: "Network" },
+  { href: "/ai", label: "AI" },
+];
 
 export default function AppNavbar({ initialProfile = null }) {
   const supabase = createClient();
@@ -32,7 +43,7 @@ export default function AppNavbar({ initialProfile = null }) {
     router.refresh();
   };
 
-  const isActive = (p) => pathname === p;
+  const isActive = (p) => pathname === p || pathname.startsWith(`${p}/`);
   const logoHref = authed ? "/dashboard" : "/";
 
   const NavItem = ({ href, label, icon: Icon, testid }) => (
@@ -69,11 +80,17 @@ export default function AppNavbar({ initialProfile = null }) {
 
           {authed === false && (
             <div className="flex items-center gap-2">
-              <Link href="/ideas" data-testid="nav-public-ideas" className="hidden sm:inline btn-ghost text-xs">Ideas</Link>
-              <Link href="/explore" data-testid="nav-public-explore" className="hidden sm:inline btn-ghost text-xs">Explore</Link>
+              <div className="hidden lg:flex items-center gap-1">
+                {PUBLIC_LINKS.map((link) => (
+                  <Link key={link.href} href={link.href} className={`btn-ghost text-xs ${isActive(link.href) ? "!bg-amber-100 !text-amber-700" : ""}`}>
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
               <SocialLinks className="hidden sm:flex !gap-2" size={16} />
               <Link href="/signin" data-testid="nav-public-signin" className="btn-secondary !py-2 !px-4 text-sm">Sign in</Link>
               <Link href="/get-started" data-testid="nav-public-join" className="btn-primary !py-2 !px-4 text-sm">Join</Link>
+              <MobileNavMenu />
             </div>
           )}
 

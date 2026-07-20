@@ -1,0 +1,63 @@
+{
+  "import_sequence_version": "1.0.0",
+  "package": "Package001_Geography",
+  "target_environment": "ValueWeave Supabase (Postgres)",
+  "steps": [
+    {
+      "step_number": 1,
+      "dataset": "state",
+      "file": "datasets/state.csv",
+      "required_before": [],
+      "required_after": ["district", "revenue_division", "mandal (future)"],
+      "validation": [
+        "st_ref values unique",
+        "state_code is exactly 2 uppercase letters",
+        "row count == 2 (TG, AP) — any deviation should halt import and alert, not silently proceed"
+      ],
+      "rollback_strategy": "No prior data exists for this table in this release — rollback = TRUNCATE state CASCADE (also empties district/revenue_division/mandal, since all FK-chain from here) and re-import from imports/state_district.import_manifest.json's referenced CSV version."
+    },
+    {
+      "step_number": 2,
+      "dataset": "district",
+      "file": "datasets/district.csv",
+      "required_before": ["state"],
+      "required_after": ["revenue_division", "mandal (future)"],
+      "validation": [
+        "Every st_id resolves to a row already committed in state (hard FK constraint, reject batch on violation, do not skip individual rows silently)",
+        "61 unique dist_ref values",
+        "Andhra Pradesh rows (28) should import but remain flagged verification_status = VST-NEEDS_REVIEW — do NOT auto-promote to VST-VERIFIED on import; that is a governance action, not an import-mechanics action"
+      ],
+      "rollback_strategy": "TRUNCATE district CASCADE (empties revenue_division/mandal downstream); re-import."
+    },
+    {
+      "step_number": 3,
+      "dataset": "revenue_division",
+      "file": "datasets/revenue_division_telangana.csv (75 rows) + datasets/revenue_division_andhra_pradesh.csv (0 rows, schema-validation only)",
+      "required_before": ["state", "district"],
+      "required_after": ["mandal (future, once mandal.csv is populated and re-keyed to reference revenue_division_id)"],
+      "validation": [
+        "Every dist_ref resolves to a row already committed in district",
+        "75 unique revenue_division_ref values (Telangana file)",
+        "Andhra Pradesh file import is a no-op (0 data rows) but must still succeed as a schema/structure check — a failure here indicates the two CSVs have drifted out of column-alignment and must be fixed before proceeding"
+      ],
+      "rollback_strategy": "TRUNCATE revenue_division; re-import from imports/revenue_division.import_manifest.json."
+    },
+    {
+      "step_number": 4,
+      "dataset": "mandal",
+      "file": "datasets/mandal.csv",
+      "required_before": ["state", "district", "revenue_division"],
+      "required_after": ["village (future)"],
+      "validation": [
+        "0 rows expected in this release — import should create/validate the table structure only",
+        "Do NOT treat a 0-row successful import as a failure; it is the expected outcome for this release (see acquisition_backlog.json for what unblocks real data)"
+      ],
+      "rollback_strategy": "N/A — no data imported this release; schema-only DROP/CREATE is safe to repeat at will."
+    }
+  ],
+  "overall_rollback_note": "Because every table in this package chains via foreign key back to state, a single TRUNCATE state CASCADE at any point cleanly resets the entire package to empty — there is no scenario in this release where a partial, inconsistent state can persist across a failed import.",
+  "post_sequence_actions": [
+    "Register Knowledge Graph nodes/edges per schemas/schema_catalog.json only after all 4 steps above succeed — do not partially graph-load mid-sequence",
+    "Update registry/dataset_registry.csv status fields to reflect the actual post-import row counts and confidence scores achieved in the target environment (which may differ slightly from this release's figures if the Steward review step changes any verification_status values first)"
+  ]
+}

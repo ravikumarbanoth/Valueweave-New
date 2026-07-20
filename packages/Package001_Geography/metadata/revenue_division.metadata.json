@@ -1,0 +1,69 @@
+{
+  "data_package_name": "valueweave-tg-ap-revenue-division-v1",
+  "title": "ValueWeave.in \u2014 Revenue Division Master Data \u2014 Telangana (Acquired) & Andhra Pradesh (Blocked)",
+  "package": "Package 001 \u2014 Geography Foundation",
+  "version": "1.0.0-draft",
+  "collection_date": "2026-07-19",
+  "layer": "Layer I \u2014 District Intelligent Digital Infrastructure",
+  "resources": [
+    {
+      "name": "revenue_division_telangana",
+      "path": "csv/revenue_division_telangana.csv",
+      "mode_used": "ACQUIRE/PROCESS",
+      "record_count": 75,
+      "primary_key": "revenue_division_id",
+      "foreign_keys": [{"column": "dist_ref", "references": "district.dist_ref"}],
+      "status": "VST-NEEDS_REVIEW"
+    },
+    {
+      "name": "revenue_division_andhra_pradesh",
+      "path": "csv/revenue_division_andhra_pradesh.csv",
+      "mode_used": "BLOCKED",
+      "record_count": 0,
+      "primary_key": "revenue_division_id",
+      "foreign_keys": [{"column": "dist_ref", "references": "district.dist_ref"}],
+      "status": "BLOCKED_PENDING_PRIMARY_SOURCE"
+    }
+  ],
+  "sources": [
+    {
+      "name": "Wikipedia \u2014 List of revenue divisions in Telangana",
+      "url": "https://en.wikipedia.org/wiki/List_of_revenue_divisions_in_Telangana",
+      "reliability_score": 82,
+      "license": "CC BY-SA 4.0",
+      "used_for": "Telangana revenue division names, counts, district mapping"
+    },
+    {
+      "name": "Wikipedia \u2014 List of revenue divisions in Andhra Pradesh",
+      "url": "https://en.wikipedia.org/wiki/List_of_revenue_divisions_in_Andhra_Pradesh",
+      "reliability_score": 45,
+      "license": "CC BY-SA 4.0",
+      "used_for": "Context/conflict-detection only \u2014 NOT used for row-level data (self-flagged stale, internally inconsistent totals, confirmed missing division)"
+    },
+    {
+      "name": "News corroboration of AP district/revenue-division reorganization (The Hindu, The South First, NewsMeter, Deccan Chronicle, Varindia, The Hans India, IndiaNewsNetwork)",
+      "url": "multiple \u2014 see collection_report.md \u00a74",
+      "reliability_score": 78,
+      "license": "Copyrighted news content \u2014 used for fact corroboration/citation only, not reproduced",
+      "used_for": "Resolving the 28-vs-29 Andhra Pradesh district count conflict"
+    }
+  ],
+  "known_data_conflicts": [
+    {
+      "conflict": "Suryapet district (Telangana): table states 2 revenue divisions but lists 3 names; two independent dedicated pages confirm 3.",
+      "resolution": "Corrected to 3. Telangana total revised from source-stated 74 to 75.",
+      "confidence_in_resolution": "High"
+    },
+    {
+      "conflict": "Andhra Pradesh district count: a 25 Nov 2025 proposal described 29 districts (incl. a standalone Madanapalle); the AP Cabinet's final 29 Dec 2025 decision set the count at 28 (Madanapalle became Annamayya district's HQ, not a standalone district).",
+      "resolution": "28 confirmed as authoritative and final; matches ValueWeave's existing District dataset. The 29-district proposal is documented as superseded, not used.",
+      "confidence_in_resolution": "High"
+    },
+    {
+      "conflict": "Andhra Pradesh revenue division table: row-level counts sum to 82 but the article states a total of 79; at least one specific division (Nakkapalli, Anakapalli district) confirmed missing from the table by independent news sources.",
+      "resolution": "Table rejected as a row-level data source for this run. Andhra Pradesh revenue divisions marked BLOCKED (MODE C) pending the primary gazette notification.",
+      "confidence_in_resolution": "N/A \u2014 unresolved, awaiting primary source"
+    }
+  ],
+  "generated_at": "2026-07-19T00:00:00Z"
+}

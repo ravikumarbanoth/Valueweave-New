@@ -1,0 +1,67 @@
+{
+  "evidence_manifest_version": "1.0",
+  "dataset": "revenue_division",
+  "collection_date": "2026-07-19",
+  "sources": [
+    {
+      "official_source": "Telangana State Portal / Chief Commissioner of Land Administration (compiled)",
+      "source_url": "https://en.wikipedia.org/wiki/List_of_revenue_divisions_in_Telangana",
+      "document_type": "Wiki compilation of government sources",
+      "evidence_type": "HTML",
+      "publication_date": "Continuously updated; underlying GO citations dated 2011-2021",
+      "collection_date": "2026-07-19",
+      "checksum": null,
+      "license": "CC BY-SA 4.0",
+      "confidence": 82,
+      "verification_status": "USED_WITH_ONE_DOCUMENTED_CORRECTION",
+      "downloaded_file_name": null,
+      "expected_local_path": "raw_sources/wikipedia/list_of_revenue_divisions_in_telangana_2026-07-19.html"
+    },
+    {
+      "official_source": "Individual Telangana revenue division pages (Khammam, Nalgonda, Suryapet, Kodad, Bhadrachalam, Bhongir)",
+      "source_url": "https://en.wikipedia.org/wiki/Khammam_revenue_division (and 5 sibling pages)",
+      "document_type": "Wiki compilation, individually verified",
+      "evidence_type": "HTML",
+      "publication_date": "Continuously updated",
+      "collection_date": "2026-07-19",
+      "checksum": null,
+      "license": "CC BY-SA 4.0",
+      "confidence": 90,
+      "verification_status": "VERIFIED",
+      "downloaded_file_name": null,
+      "expected_local_path": "raw_sources/wikipedia/individual_division_pages/"
+    },
+    {
+      "official_source": "Andhra Pradesh Cabinet decision (29 Dec 2025) \u2014 district/revenue-division reorganization",
+      "source_url": "NOT YET IDENTIFIED \u2014 gazette PDF URL not located this session",
+      "document_type": "Government Gazette Notification (expected)",
+      "evidence_type": "Gazette (not retrieved)",
+      "publication_date": "31 December 2025 (effective date, per news corroboration)",
+      "collection_date": "2026-07-19",
+      "checksum": null,
+      "license": "Unknown \u2014 not yet retrieved",
+      "confidence": null,
+      "verification_status": "NOT_RETRIEVED \u2014 see Blocking Report, collection_report.md \u00a76",
+      "downloaded_file_name": null,
+      "expected_local_path": "raw_sources/ap_gazette/districts_revenue_divisions_reorg_2025-12-31.pdf"
+    },
+    {
+      "official_source": "News corroboration set (The Hindu, The South First, NewsMeter, Deccan Chronicle, Varindia, The Hans India, IndiaNewsNetwork)",
+      "source_url": "see collection_report.md \u00a74 for individual URLs",
+      "document_type": "News articles",
+      "evidence_type": "HTML",
+      "publication_date": "25 Nov 2025 \u2013 2 Jan 2026 (range)",
+      "collection_date": "2026-07-19",
+      "checksum": null,
+      "license": "Copyrighted \u2014 used for fact corroboration/citation only",
+      "confidence": 78,
+      "verification_status": "USED_FOR_CONFLICT_RESOLUTION_ONLY",
+      "downloaded_file_name": null,
+      "expected_local_path": "raw_sources/news_corroboration/"
+    }
+  ],
+  "recommended_archive_folder_structure": {
+    "pattern": "/package-001-geography-foundation/revenue_division/{source_short_name}/{original_filename}_{collection_date}.{ext}",
+    "rationale": "Consistent with the archive convention established for the mandal dataset in the prior run."
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "package_name": "Package001_Geography",
+  "package_title": "ValueWeave.in Geography Foundation",
+  "version": "1.0.0",
+  "release_date": "2026-07-20",
+  "scope": "Telangana & Andhra Pradesh (architected to extend to all Indian states without schema change)",
+  "datasets_included": [
+    {"name": "state", "records": 2, "states_covered": ["TG", "AP"], "confidence_score": "TG:85 / AP:80", "verification_status": "VST-NEEDS_REVIEW"},
+    {"name": "district", "records": 61, "states_covered": ["TG (33)", "AP (28)"], "confidence_score": "TG:88 / AP:73.75", "verification_status": "VST-NEEDS_REVIEW"},
+    {"name": "revenue_division (Telangana only)", "records": 75, "states_covered": ["TG"], "confidence_score": "82-90", "verification_status": "VST-NEEDS_REVIEW"}
+  ],
+  "datasets_blocked": [
+    {"name": "revenue_division (Andhra Pradesh)", "reason": "Only available source is self-flagged stale, internally inconsistent (row sum \u2260 stated total), and confirmed missing at least one real division", "unblock_requires": "AP Cabinet gazette notification (Dec 2025 reorganization)"},
+    {"name": "mandal (both states)", "reason": "Every primary source attempt was robots.txt-blocked or failed on fetch; the one available secondary compilation lost its table structure on extraction", "unblock_requires": "LGD sub-district bulk export, or Census 2011/Telangana Statistical Abstract PDF, obtained via manual download and uploaded for direct parsing"}
+  ],
+  "datasets_queued": [
+    "village (blocked behind mandal)",
+    "municipal_corporation_municipality_nagar_panchayat",
+    "industrial_park_industrial_area_sez",
+    "road_network",
+    "railways",
+    "airports",
+    "ports_inland_waterways",
+    "water_resources_rivers_reservoirs",
+    "natural_resources"
+  ],
+  "dependencies": "This package has no upstream package dependencies — it is the root of the entire ValueWeave dataset dependency graph. All future packages (Education Foundation, Industrial Infrastructure, Industries & Products, Skills & Training, Companies & MSMEs, Government Schemes, Manufacturing Knowledge, Supply Chain, Knowledge Graph Relationships) depend on this package's state/district (and eventually mandal) tables for geographic anchoring.",
+  "import_order": ["state", "district", "revenue_division", "mandal"],
+  "knowledge_graph_coverage": {
+    "nodes_ready_to_load": {"State": 2, "District": 61, "RevenueDivision_TG": 75, "Mandal": 0},
+    "total_nodes_ready": 138,
+    "edges_ready_to_load": {"District-PART_OF-State": 61, "RevenueDivision-PART_OF-District": 75},
+    "total_edges_ready": 136,
+    "coverage_note": "138 nodes / 136 edges are graph-load-ready today. Full Geography Foundation package scope (incl. Mandal, Village, ULBs, Industrial Parks, Infrastructure, Water/Natural Resources) is estimated at several thousand additional nodes once all queued datasets are populated."
+  },
+  "ai_readiness_score": {
+    "score": 65,
+    "scale": "0-100",
+    "methodology": "Weighted: provenance completeness (every row has data_source/source_url/confidence_score/verification_status = 100%, weight 30%) + stable identifiers (UUID PKs + immutable ref codes = 100%, weight 20%) + geo-precision (lat/long populated = 0%, weight 20%) + cross-government-ID linkage (LGD codes populated = 0%, weight 15%) + FK integrity where data exists (100%, weight 15%). Computed: 0.30(100)+0.20(100)+0.20(0)+0.15(0)+0.15(100) = 65.",
+    "interpretation": "The package is fully AI-consumable in structure (an AI system can reliably reason about what it knows, doesn't know, and how confident to be) but is missing the geo-spatial and cross-government-ID layers that would let it plug into external systems (e.g., matching against GIS map layers or other LGD-keyed datasets)."
+  },
+  "package_health_score": {
+    "score": 58,
+    "scale": "0-100",
+    "see": "package_health_report.md for full component breakdown"
+  },
+  "changelog_reference": "CHANGELOG.md",
+  "readme_reference": "README.md"
+}

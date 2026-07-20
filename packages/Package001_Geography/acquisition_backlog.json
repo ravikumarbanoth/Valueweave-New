@@ -1,0 +1,55 @@
+{
+  "acquisition_backlog_version": "1.0.0",
+  "package": "Package001_Geography",
+  "generated_at": "2026-07-19T00:00:00Z",
+  "backlog": [
+    {
+      "item": "Andhra Pradesh Revenue Divisions",
+      "current_records": 0,
+      "reason": "Only available source (Wikipedia's compiled table) is self-flagged 'needs to be updated (February 2026)'; its 28 row-level district division-counts sum to 82 against its own stated total of 79; this run independently confirmed at least one specific division (Nakkapalli, Anakapalli district, created in the 31-Dec-2025 reorganization) is missing from the table entirely.",
+      "required_official_source": "Andhra Pradesh government gazette notification implementing the AP Cabinet's 29 December 2025 district/revenue-division reorganization decision",
+      "priority": "High",
+      "expected_file": "Government Gazette PDF (bilingual Telugu/English typical for AP notifications)",
+      "parser_ready": true,
+      "parser_note": "Identical column/validation pattern already built and proven for revenue_division_telangana.csv — no new parser logic needed, only the source file",
+      "waiting_for": "Direct fetch of https://gazette.ap.gov.in (unverified this session) or an equivalent official notification link; alternatively, manual download + upload to a future session",
+      "estimated_processing_time_once_unblocked": "1-2 hours (parse + validate + cross-check row-sum-vs-stated-total rule established this run)"
+    },
+    {
+      "item": "Mandal — Telangana",
+      "current_records": 0,
+      "reason": "Census 2011 Part-I PDF blocked by robots.txt; Telangana State Statistical Abstract 2022 PDF fetch failed (server error); district portal (medak.telangana.gov.in) blocked by robots.txt; Wikipedia's 'List of mandals in Telangana' compilation retrieved but its table structure collapsed on extraction, making automated per-mandal district-attribution unsafe.",
+      "required_official_source": "LGD Sub-District Directory (lgdirectory.gov.in) OR Census 2011 Part-I State Administrative Divisions PDF OR Telangana State Statistical Abstract 2022 PDF",
+      "priority": "High",
+      "expected_file": "CSV/XLS (LGD) or PDF (Census/Statistical Abstract)",
+      "parser_ready": true,
+      "parser_note": "mandal.csv schema is fully defined (reports/mandal.data_dictionary.md); parser needs only a structurally-intact source to run against",
+      "waiting_for": "Manual download of any one of the three sources above, uploaded to a future session — file upload bypasses the robots.txt restriction that blocked every automated attempt this run",
+      "estimated_processing_time_once_unblocked": "3-5 hours given the scale (~612-614 records for Telangana alone)"
+    },
+    {
+      "item": "Mandal — Andhra Pradesh",
+      "current_records": 0,
+      "reason": "Not yet attempted directly (this run focused fetch attempts on Telangana sources first) — expected to face the same class of access barriers as Telangana, plus the added complication of the Dec-2025 district reorganization not yet being reflected in most mandal-level sources.",
+      "required_official_source": "LGD Sub-District Directory OR AP Directorate of Economics & Statistics mandal-level publication",
+      "priority": "Medium (behind Telangana Mandal and AP Revenue Division in sequence)",
+      "expected_file": "CSV/XLS or PDF",
+      "parser_ready": true,
+      "waiting_for": "Same LGD unblock as Telangana Mandal — a single successful LGD acquisition would very likely unblock both states' Mandal datasets simultaneously",
+      "estimated_processing_time_once_unblocked": "3-5 hours (~685 records)"
+    },
+    {
+      "item": "Village",
+      "current_records": 0,
+      "reason": "Depends on Mandal, which is not yet populated for either state.",
+      "required_official_source": "LGD Village Directory",
+      "priority": "Blocked behind Mandal — do not attempt until Mandal is populated",
+      "expected_file": "CSV/XLS",
+      "parser_ready": false,
+      "parser_note": "Schema not yet designed — Village entity exists in the original Master Entity Model discussion but no dedicated CSV schema has been formalized yet in this project's artifacts",
+      "waiting_for": "Mandal completion, then a schema-definition pass before any acquisition attempt",
+      "estimated_processing_time_once_unblocked": "Not yet estimated — schema work required first"
+    }
+  ],
+  "cross_cutting_observation": "Three of the four backlog items above trace back to the same root blocker class: government sources either behind robots.txt or not yet directly located, with LGD as the single highest-leverage unblock (it plausibly resolves both Mandal items at once). Recommend prioritizing a dedicated LGD acquisition effort over chasing each state/dataset combination's PDF separately."
+}

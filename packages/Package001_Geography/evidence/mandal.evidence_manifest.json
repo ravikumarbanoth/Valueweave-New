@@ -1,0 +1,84 @@
+{
+  "evidence_manifest_version": "1.0",
+  "dataset": "mandal",
+  "collection_date": "2026-07-18",
+  "note": "Because no data rows were extracted this run, this manifest documents ACCESS ATTEMPTS as the evidentiary record \u2014 proof of due diligence for audit purposes \u2014 rather than downloaded source files.",
+  "sources": [
+    {
+      "official_source": "Local Government Directory (Ministry of Panchayati Raj)",
+      "source_url": "https://lgdirectory.gov.in/downloadDirectory.do",
+      "document_type": "Government Portal / Dynamic Download Tool",
+      "evidence_type": "CSV/XLS (not retrieved)",
+      "publication_date": "Continuously updated",
+      "collection_date": "2026-07-18",
+      "checksum": null,
+      "license": "Government Open Data License \u2013 India (confirmed via community mirror citation: https://data.gov.in/sites/default/files/Gazette_Notification_OGDL.pdf)",
+      "confidence": null,
+      "verification_status": "NOT_RETRIEVED",
+      "downloaded_file_name": null,
+      "expected_local_path": "raw_sources/lgd/lgd_subdistricts_TG_AP_{download_date}.csv"
+    },
+    {
+      "official_source": "Census of India 2011",
+      "source_url": "http://www.censusindia.gov.in/2011census/maps/atlas/28part1.pdf",
+      "document_type": "Government PDF (State Administrative Divisions atlas, Part I)",
+      "evidence_type": "PDF",
+      "publication_date": "2011 (Census reference year)",
+      "collection_date": "2026-07-18",
+      "checksum": null,
+      "license": "Government of India Open Data (NDSAP, 2012) \u2014 not independently reconfirmed this pass",
+      "confidence": null,
+      "verification_status": "ACCESS_BLOCKED (robots.txt)",
+      "downloaded_file_name": null,
+      "expected_local_path": "raw_sources/census/28part1_2011.pdf"
+    },
+    {
+      "official_source": "Government of Telangana \u2014 State Statistical Abstract 2022",
+      "source_url": "https://telangana.gov.in/wp-content/uploads/2023/05/Telangana-State-Statistical-Abstract-2022-1.pdf",
+      "document_type": "Government PDF",
+      "evidence_type": "PDF",
+      "publication_date": "August 2022",
+      "collection_date": "2026-07-18",
+      "checksum": null,
+      "license": "Government of Telangana publication \u2014 not independently confirmed this pass",
+      "confidence": null,
+      "verification_status": "FETCH_FAILED (server error)",
+      "downloaded_file_name": null,
+      "expected_local_path": "raw_sources/telangana_gov/statistical_abstract_2022.pdf"
+    },
+    {
+      "official_source": "District Administration, Medak (Government of Telangana)",
+      "source_url": "https://medak.telangana.gov.in/village-panchayats/",
+      "document_type": "Government Web Portal",
+      "evidence_type": "HTML/Portal",
+      "publication_date": "Continuously updated",
+      "collection_date": "2026-07-18",
+      "checksum": null,
+      "license": "Government of Telangana \u2014 not independently confirmed this pass",
+      "confidence": null,
+      "verification_status": "ACCESS_BLOCKED (robots.txt)",
+      "downloaded_file_name": null,
+      "expected_local_path": "raw_sources/district_portals/medak_village_panchayats.html"
+    },
+    {
+      "official_source": "N/A \u2014 secondary compilation, used for conflict-detection context only",
+      "source_url": "https://en.wikipedia.org/wiki/List_of_mandals_in_Telangana",
+      "document_type": "Wiki Article",
+      "evidence_type": "HTML (retrieved, not used for row-level data \u2014 see source_report.md)",
+      "publication_date": "Continuously updated",
+      "collection_date": "2026-07-18",
+      "checksum": null,
+      "license": "CC BY-SA 4.0",
+      "confidence": 60,
+      "verification_status": "RETRIEVED_BUT_STRUCTURALLY_UNRELIABLE",
+      "downloaded_file_name": null,
+      "expected_local_path": "raw_sources/wikipedia/list_of_mandals_in_telangana.html"
+    }
+  ],
+  "recommended_archive_folder_structure": {
+    "root": "/valueweave-evidence-archive/",
+    "pattern": "/{layer}/{dataset}/{source_short_name}/{original_filename}_{collection_date}.{ext}",
+    "example": "/layer-1-geography/mandal/lgd/lgd_subdistricts_TG_AP_2026-07-18.csv",
+    "rationale": "Keeping the original downloaded file (not just the parsed CSV) alongside a checksum lets any future audit re-verify that ValueWeave's canonical CSV was derived correctly from the exact government file it claims, even after the source website itself changes or goes offline."
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "import_manifest_version": "1.0",
+  "batch_id": "vw-batch-2026-07-19-revenue-division-tg-ap",
+  "target_database": "ValueWeave Supabase (Postgres) \u2014 Layer I: District Intelligent Digital Infrastructure",
+  "dataset_version": "1.0.0-draft",
+  "approval_status": "NOT APPROVED FOR PRODUCTION PUBLICATION \u2014 held at VST-NEEDS_REVIEW pending Data Steward/Reviewer sign-off, consistent with the governance workflow.",
+  "import_order": [
+    {
+      "step": 1,
+      "file": "csv/revenue_division_telangana.csv",
+      "target_table": "revenue_division",
+      "row_count": 75,
+      "primary_key": "revenue_division_id",
+      "depends_on": ["state table populated", "district table populated"],
+      "on_conflict": "upsert on revenue_division_ref (natural key)",
+      "pre_import_checks": [
+        "Confirm every dist_ref resolves to district.dist_ref (referential integrity)",
+        "Confirm all 75 revenue_division_ref values are unique",
+        "Do not import PENDING_VERIFICATION / PENDING_GEOCODING sentinels as literal text \u2014 map to NULL or a flagged staging state"
+      ]
+    },
+    {
+      "step": 2,
+      "file": "csv/revenue_division_andhra_pradesh.csv",
+      "target_table": "revenue_division",
+      "row_count": 0,
+      "action": "Schema validation only \u2014 no rows to insert. Safe to run (creates no data, only confirms column structure matches the Telangana import already run)."
+    }
+  ],
+  "expected_record_count": {
+    "telangana_current": 75,
+    "andhra_pradesh_current": 0,
+    "andhra_pradesh_target": "79-82 (pending primary source resolution \u2014 see collection_report.md \u00a76)"
+  },
+  "foreign_key_checks": ["dist_ref must resolve to district.dist_ref for all 75 Telangana rows"],
+  "lookup_validation": "N/A \u2014 revenue_division does not consume any of the 61 lookup tables",
+  "data_quality_threshold": "\u226585 (Tier 1) required before promotion past VST-NEEDS_REVIEW, per the Data Collection & Governance Framework Part 3.3",
+  "rollback_plan": "Initial batch \u2014 rollback = truncate revenue_division table and re-import from the prior CSV version if a critical error is found post-import.",
+  "post_import_actions_required": [
+    "Resolve the Suryapet count correction against a primary source",
+    "Obtain the AP gazette notification and re-run Stages 3-8 for Andhra Pradesh",
+    "Populate remaining mandal_count values",
+    "Update dataset_registry.csv (see registry/dataset_registry.csv)"
+  ]
+}

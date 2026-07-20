@@ -1,0 +1,113 @@
+{
+  "data_package_name": "valueweave-tg-ap-state-district-v1",
+  "title": "ValueWeave.in — State & District Master Data (Telangana & Andhra Pradesh)",
+  "version": "1.0.0-draft",
+  "collection_date": "2026-07-18",
+  "profile": "P1 — Government Registry & Statistical Source (per ValueWeave Data Collection & Governance Framework)",
+  "layer": "Layer I — District Intelligent Digital Infrastructure",
+  "resources": [
+    {
+      "name": "state",
+      "path": "state.csv",
+      "record_count": 2,
+      "primary_key": "st_id",
+      "official_standard_body": "State Government Portals",
+      "lookup_tables_used": []
+    },
+    {
+      "name": "district",
+      "path": "district.csv",
+      "record_count": 61,
+      "primary_key": "dist_id",
+      "foreign_keys": [
+        {
+          "column": "st_id",
+          "references": "state.st_id"
+        }
+      ],
+      "official_standard_body": "State Government District Notifications; Census of India 2011; AP Directorate of Economics & Statistics",
+      "lookup_tables_used": []
+    }
+  ],
+  "sources": [
+    {
+      "name": "Telangana State Portal",
+      "url": "https://www.telangana.gov.in/about/districts/",
+      "type": "Official Government Portal",
+      "reliability_score": 95,
+      "license": "Government of Telangana content — license terms not directly confirmed in this pass; treat as Government Open Data pending explicit confirmation (see report, Part 5-equivalent note)",
+      "used_for": [
+        "district list",
+        "district headquarters"
+      ]
+    },
+    {
+      "name": "Census of India 2011",
+      "url": "https://censusindia.gov.in",
+      "type": "Official Government Statistical Source",
+      "reliability_score": 95,
+      "license": "Government of India Open Data (per National Data Sharing and Accessibility Policy, 2012) — attribution required",
+      "used_for": [
+        "population",
+        "literacy_rate_pct",
+        "urban_pct",
+        "sex_ratio (Telangana districts)"
+      ],
+      "caveat": "2011 is the last completed Census; 2021 Census was delayed/not yet conducted at time of collection — all population-derived figures are ~15 years old and should be treated as a baseline, not current state."
+    },
+    {
+      "name": "AP Districts (Formation) Act notifications (2022; amended Dec 2025)",
+      "url": "https://en.wikipedia.org/wiki/List_of_districts_of_Andhra_Pradesh",
+      "type": "Government Notification (accessed via secondary compilation, not the primary gazette in this pass)",
+      "reliability_score": 70,
+      "license": "Unknown — primary gazette not yet directly fetched; Wikipedia text itself is CC BY-SA 4.0 but the underlying government notification's own license was not confirmed in this pass",
+      "used_for": [
+        "district list",
+        "district codes",
+        "headquarters",
+        "revenue divisions",
+        "mandal counts"
+      ],
+      "caveat": "District count changed from 26 to 28 on 31 Dec 2025 (Polavaram and Markapuram added). Area/population for these two new districts are explicitly marked by the source as pending official update."
+    },
+    {
+      "name": "AP Directorate of Economics & Statistics — Socio-Economic Survey 2022-23",
+      "url": "https://apfinance.gov.in/downloads/FINALBOOKSES-2023FINAL.pdf",
+      "type": "Official Government Statistical Source",
+      "reliability_score": 85,
+      "license": "Government of AP publication — treat as Government Open Data pending explicit confirmation",
+      "used_for": [
+        "population, area for AP districts (as apportioned to 2022 boundaries; NOT yet re-apportioned for the Dec-2025 Polavaram/Markapuram split)"
+      ]
+    },
+    {
+      "name": "Wikipedia — List of districts of Telangana / List of districts of Andhra Pradesh",
+      "url": "https://en.wikipedia.org/wiki/List_of_districts_of_Telangana ; https://en.wikipedia.org/wiki/List_of_districts_of_Andhra_Pradesh",
+      "type": "Secondary/Tertiary Compilation",
+      "reliability_score": 78,
+      "license": "CC BY-SA 4.0",
+      "used_for": [
+        "structured table compilation of the above official sources; used as the retrieval mechanism, not as an independent authority"
+      ],
+      "caveat": "Used because it compiles official-source data into a structured, machine-readable table faster than manually parsing government PDFs; every figure traces to a cited official source, but this pass has not yet independently re-verified each figure directly against the primary gazette/portal. Flagged for direct primary-source confirmation before promotion to VST-VERIFIED."
+    }
+  ],
+  "known_data_conflicts": [
+    {
+      "conflict": "Andhra Pradesh district count: multiple pre-Dec-2025 sources state 26 districts; current authoritative count is 28.",
+      "resolution": "28 adopted as authoritative, per AP Cabinet decision dated 29 Dec 2025 (effective 31 Dec 2025), corroborated by contemporaneous news reporting and the updated Wikipedia district table.",
+      "confidence_in_resolution": "High"
+    },
+    {
+      "conflict": "Source table (Wikipedia, compiling AP govt data) assigns the same government code 'ANA' to both Anakapalli and Ananthapuramu districts.",
+      "resolution": "Treated as a transcription error in the secondary compilation. ValueWeave assigns AP-ANK (Anakapalli) and AP-ATP (Ananthapuramu) to preserve code uniqueness, pending direct confirmation against the official AP government gazette/district-code notification.",
+      "confidence_in_resolution": "Medium — recommend explicit verification against the primary gazette before treating as final."
+    }
+  ],
+  "overall_dataset_confidence": {
+    "state_records": "82.5 (average of 2 rows) — Tier: below the 85 acceptance threshold recommended for Profile P1/Tier-1 data in the Governance Framework; held at VST-NEEDS_REVIEW",
+    "district_records_telangana": "88 (all 33 rows) — meets the ≥85 Tier-1 threshold; still held at VST-NEEDS_REVIEW pending LGD code and geocoding completion, not a quality failure",
+    "district_records_andhra_pradesh": "73.75 (average of 28 rows, range 55–75) — BELOW the 85 Tier-1 threshold; recommend holding this state's district batch out of production until the primary AP gazette is directly fetched and the two newest districts' statistics are confirmed"
+  },
+  "generated_at": "2026-07-18T00:00:00Z"
+}

@@ -87,7 +87,7 @@ When adding a new package:
 | --- | --- | --- |
 | Package001_Geography | Geography | Released v1.0.0 |
 | Package002_Education | Education | Released v1.0.0 (partial scope — see package acquisition_backlog.json) |
-| Package003_Healthcare | Healthcare | Empty placeholder |
+| Package003_Healthcare | Healthcare | RC1 under review — not yet merged to main (see package acquisition_backlog.json) |
 | Package004_Industries | Industries | Empty placeholder |
 | Package005_Agriculture | Agriculture | Empty placeholder |
 | Package006_Skills | Skills | Empty placeholder |

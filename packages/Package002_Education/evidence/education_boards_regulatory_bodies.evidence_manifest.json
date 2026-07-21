@@ -1,0 +1,97 @@
+{
+  "dataset_name": "education_boards_regulatory_bodies",
+  "package": "Package002_Education",
+  "version": "1.0.0",
+  "fetch_method": "WebSearch tool result snippets only (WebFetch blocked \u2014 see note)",
+  "webfetch_blocked_note": "This session's organizational egress proxy returned HTTP 403 (policy denial) for direct WebFetch to .gov.in, .ac.in, .edu.in, and Wikipedia domains during both the RC1 collection pass (2026-07-21) and the RC2 enrichment pass (2026-07-22) \u2014 re-confirmed via the proxy status endpoint each time, not a transient or client-side failure. No source page in this dataset was ever directly fetched and re-read; every fact is WebSearch-snippet-sourced and cited by URL. Confidence scores reflect this throughout (see metadata/*.metadata.json confidence_calibration_note).",
+  "distinct_sources_cited": 21,
+  "total_rows": 21,
+  "sources": [
+    {
+      "source_url": "https://www.ugc.gov.in/Home/AboutUGC",
+      "data_source": "UGC Official Website"
+    },
+    {
+      "source_url": "https://www.aicte-india.org/about-us/history",
+      "data_source": "AICTE Official Website"
+    },
+    {
+      "source_url": "https://ncte.gov.in/website/index.aspx",
+      "data_source": "NCTE Official Website"
+    },
+    {
+      "source_url": "https://ncvet.gov.in/about-ncvet/",
+      "data_source": "NCVET Official Website"
+    },
+    {
+      "source_url": "https://ncert.nic.in/about-us.php?ln=en",
+      "data_source": "NCERT Official Website"
+    },
+    {
+      "source_url": "https://nios.ac.in/",
+      "data_source": "NIOS Official Website (cross-checked with WebSearch summary)"
+    },
+    {
+      "source_url": "https://www.cbse.gov.in/cbsenew/history.html",
+      "data_source": "CBSE Official Website"
+    },
+    {
+      "source_url": "https://en.wikipedia.org/wiki/Council_for_the_Indian_School_Certificate_Examinations",
+      "data_source": "WebSearch cross-check (CISCE self-description, secondary sources)"
+    },
+    {
+      "source_url": "https://exams.nta.nic.in/about-us/",
+      "data_source": "NTA Official Website"
+    },
+    {
+      "source_url": "https://www.ugc.gov.in/Aboutus/NAAC",
+      "data_source": "UGC Official Website (NAAC page) / WebSearch cross-check"
+    },
+    {
+      "source_url": "https://www.nbaind.org/",
+      "data_source": "WebSearch cross-check (NBA official site + Ministry of Education page)"
+    },
+    {
+      "source_url": "https://www.nirfindia.org/Home/About",
+      "data_source": "NIRF Official Website"
+    },
+    {
+      "source_url": "https://aishe.gov.in/about-survey/",
+      "data_source": "AISHE Official Website"
+    },
+    {
+      "source_url": "https://scert.telangana.gov.in/",
+      "data_source": "SCERT Telangana Portal (via WebSearch cross-check)"
+    },
+    {
+      "source_url": "https://bse.telangana.gov.in/",
+      "data_source": "WebSearch cross-check (multiple secondary education portals)"
+    },
+    {
+      "source_url": "https://tsbie.cgg.gov.in/home.do",
+      "data_source": "TSBIE Official Website (via WebSearch cross-check)"
+    },
+    {
+      "source_url": "https://tgche.ac.in/history/",
+      "data_source": "TSCHE Official Website (History page)"
+    },
+    {
+      "source_url": "https://scert.ap.gov.in/SCERT/",
+      "data_source": "SCERT AP Portal / secondary news source on 2025 office relocation"
+    },
+    {
+      "source_url": "https://en.wikipedia.org/wiki/Andhra_Pradesh_Board_of_Secondary_Education",
+      "data_source": "WebSearch cross-check (Wikipedia and secondary education portals - conflicting dates found)"
+    },
+    {
+      "source_url": "https://en.wikipedia.org/wiki/Board_of_Intermediate_Education,_Andhra_Pradesh",
+      "data_source": "WebSearch cross-check (schools360.in office-relocation report, Wikipedia)"
+    },
+    {
+      "source_url": "https://apsche.ap.gov.in/",
+      "data_source": "WebSearch cross-check (multiple secondary sources)"
+    }
+  ],
+  "collection_report_reference": "reports/education_boards_regulatory_bodies.collection_report.md",
+  "rc2_enrichment_report_reference": "reports/boards_exams_scholarships.rc2_enrichment_report.md"
+}

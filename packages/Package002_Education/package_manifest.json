@@ -1,0 +1,180 @@
+{
+  "package_name": "Package002_Education",
+  "package_id": "PKG-002",
+  "package_title": "ValueWeave.in Education Foundation",
+  "version": "1.0.0",
+  "release_date": "2026-07-22",
+  "release_status": "STABLE \u2014 canonical release, merged to main. Promoted from RC1 (2026-07-21, initial collection) through RC2 (2026-07-22, enrichment pass) to this final 1.0.0 stable release. See CHANGELOG.md and reports/rc1_vs_rc2_comparison.md for the full history.",
+  "scope": "Educational Boards & Regulatory Bodies, Universities, Entrance Exams, and Scholarships for Telangana & Andhra Pradesh plus genuinely national-level entities (architected to extend to all 40 briefed education domains and all Indian states without schema change)",
+  "datasets_included": [
+    {
+      "name": "education_boards_regulatory_bodies",
+      "records": 21,
+      "jurisdictions_covered": [
+        "National (13)",
+        "Telangana (4)",
+        "Andhra Pradesh (4)"
+      ],
+      "confidence_score_range": "63-88",
+      "verification_status": "VST-NEEDS_REVIEW"
+    },
+    {
+      "name": "universities_telangana_andhra_pradesh",
+      "records": 66,
+      "jurisdictions_covered": [
+        "Telangana (29)",
+        "Andhra Pradesh (37)"
+      ],
+      "confidence_score_range": "58-82",
+      "verification_status": "VST-NEEDS_REVIEW"
+    },
+    {
+      "name": "entrance_exams",
+      "records": 29,
+      "jurisdictions_covered": [
+        "National (15)",
+        "Telangana (7)",
+        "Andhra Pradesh (7)"
+      ],
+      "confidence_score_range": "78-92",
+      "verification_status": "VST-NEEDS_REVIEW"
+    },
+    {
+      "name": "scholarships",
+      "records": 25,
+      "jurisdictions_covered": [
+        "National (15)",
+        "Telangana (5)",
+        "Andhra Pradesh (5)"
+      ],
+      "confidence_score_range": "60-88",
+      "verification_status": "VST-NEEDS_REVIEW"
+    }
+  ],
+  "total_records": 141,
+  "rc1_vs_rc2_comparison": {
+    "rc1_total_records": 135,
+    "rc2_total_records": 141,
+    "records_added": 6,
+    "records_added_detail": "5 universities (National Sanskrit University Tirupati, SVIMS Tirupati, RGUKT RK Valley, RGUKT Srikakulam, RGUKT Ongole) + 1 entrance exam (NEET SS)",
+    "rc1_overall_confidence_avg": 75.0,
+    "rc2_overall_confidence_avg": 77.9,
+    "fields_filled_from_pending": {
+      "education_boards_regulatory_bodies": "1 of 1 (APSCHE headquarters_city)",
+      "universities_telangana_andhra_pradesh": "vice_chancellor 49/61, naac_grade 30/48, nirf_rank 11/51 (of originally-pending, pre-existing-row basis)",
+      "entrance_exams": "0 (none were pending in RC1)",
+      "scholarships": "0 (none were pending in RC1)"
+    },
+    "new_columns_added": [
+      "ownership (universities \u2014 66/66 filled)",
+      "contact_details (universities \u2014 5/66 filled)",
+      "student_services_summary (universities \u2014 5/66 filled)"
+    ],
+    "conflicts_resolved": [
+      "GATE 2027 host institute (IIT Madras confirmed via official notification)",
+      "AP ICET conducting body/domain corroborated",
+      "NOS overseas maintenance figures (USD 15,400 / GBP 9,900) confirmed",
+      "NFST JRF/SRF stipend rate confirmed (\u20b931k/\u20b935k)",
+      "NFSC/NFST/NFPwD stipend 'inconsistency' identified as 3 genuinely different current pay scales, not stale data",
+      "Kakatiya University NAAC grade (A \u2192 A+, 3-source corroboration)",
+      "BRAOU NAAC grade (A / 3.12, certificate-sourced)",
+      "Sri Venkateswara University VC vacancy resolved (Dr. Tata Narasinga Rao)"
+    ],
+    "conflicts_still_unresolved": [
+      "BSEAP founding year (1953 vs 1969) \u2014 unresolved, confidence nudged only +5",
+      "AP Ambedkar Overseas Vidya Nidhi (SC) and NTR Vidyonnathi income ceilings \u2014 still genuinely conflicting after re-check",
+      "Krishna University NAAC grade (A++ vs B conflict) \u2014 left PENDING_VERIFICATION rather than guessed",
+      "Acharya Nagarjuna University and NIT Andhra Pradesh vice_chancellor/director \u2014 left PENDING_VERIFICATION (a likely search conflation with IIT Hyderabad's director was explicitly rejected rather than adopted)"
+    ],
+    "integrity_note_added": "KL University: its Vice-Chancellor was reportedly arrested in a CBI probe into alleged NAAC-inspector bribery. NAAC grade retained in the dataset but flagged in notes; confidence raised only modestly given the controversy.",
+    "comparison_report_reference": "reports/rc1_vs_rc2_comparison.md"
+  },
+  "datasets_blocked": [
+    {
+      "name": "Schools (Government/Private/Residential/KV/Navodaya/Sainik/Gurukul/Welfare)",
+      "reason": "Directory scale (tens of thousands of institutions) exceeds what per-institution search-snippet research can verify at the requested field depth",
+      "unblock_requires": "Bulk structured data export (e.g. UDISE+ access) rather than per-institution web research"
+    }
+  ],
+  "datasets_queued": [
+    "junior_college",
+    "degree_college",
+    "engineering_college",
+    "medical_college",
+    "polytechnic_college",
+    "iti",
+    "skill_development_institute",
+    "open_university_distance_education",
+    "online_education_platform_mooc",
+    "coaching_competitive_exam_institute",
+    "digital_ai_learning_platform",
+    "fellowship",
+    "accreditation_ranking_institution_detail",
+    "research_institution",
+    "library",
+    "hostel_student_services",
+    "career_guidance_placement_cell",
+    "innovation_incubation_startup_cell",
+    "internship_apprenticeship_portal",
+    "educational_policy",
+    "educational_scheme_beyond_scholarships",
+    "educational_statistics_aishe_detail",
+    "educational_technology",
+    "all_domains_for_remaining_states_and_uts"
+  ],
+  "environment_constraint": "Direct WebFetch to .gov.in/.ac.in/.edu.in/Wikipedia domains was blocked by this session's organizational egress policy in both RC1 (2026-07-21) and RC2 (2026-07-22) \u2014 re-confirmed HTTP 403 policy denial each time via a live test fetch, not a one-off failure. All data collected via WebSearch result snippets only; confidence scores calibrated accordingly. See docs/METHODOLOGY.md.",
+  "dependencies": "No hard foreign-key dependency on Package001_Geography in this release \u2014 state/jurisdiction fields are free-text values, not district_id references. Wiring to Package001_Geography's geographic primary keys is future work (see acquisition_backlog.json). Future packages requiring education anchoring may in turn depend on this package.",
+  "import_order": [
+    "education_boards_regulatory_bodies",
+    "universities_telangana_andhra_pradesh",
+    "entrance_exams",
+    "scholarships"
+  ],
+  "data_statistics": {
+    "total_datasets_released": 4,
+    "total_records": 141,
+    "total_columns_across_datasets": 69,
+    "pending_verification_fields_total": 198,
+    "total_fields": 2623
+  },
+  "source_statistics": {
+    "total_distinct_source_urls": 140,
+    "source_tiers_used": [
+      "Priority 1 (Government)",
+      "Priority 3 (Trusted education portals, cross-check)",
+      "Priority 5 (News, for time-sensitive scheme-rename and conflict verification)"
+    ],
+    "source_tiers_not_used": [
+      "Priority 2 (Official social media \u2014 not needed this release)",
+      "Priority 4 (Community sources \u2014 excluded per package policy for factual data)"
+    ]
+  },
+  "confidence_statistics": {
+    "overall_range": "58-92",
+    "overall_average": 77.9,
+    "note": "Improved from RC1's 75.0 average via stronger multi-source corroboration, still capped below Package001_Geography's 85-95 band due to this session's persistent WebFetch restriction \u2014 see docs/METHODOLOGY.md confidence_calibration section"
+  },
+  "known_gaps": [
+    "Field depth is still reduced from the ~33 fields per institution named in the package brief. RC2 added ownership (66/66 filled), contact_details (5/66 filled), and student_services_summary (5/66 filled) for universities, but Fee Structure, Admission Process, Eligibility, Latitude/Longitude, Laboratories, Facilities, Research, Incubation, Student Intake, Approval, and Departments remain entirely unpopulated. See docs/METHODOLOGY.md.",
+    "Latitude/longitude geocoding is 0% populated across every dataset in this release (same known gap as Package001_Geography and RC1)",
+    "vice_chancellor filled for 49/66 university rows as of RC2 (up from 0/61); remaining 17 stay PENDING_VERIFICATION",
+    "naac_grade filled for 30 additional rows, nirf_rank for 11 additional rows as of RC2; several rows remain PENDING_VERIFICATION where sources conflicted too sharply (e.g. Krishna University A++ vs B)",
+    "contact_details and student_services_summary populated for only 5 of 66 university rows (flagship institutions); the other 61 remain PENDING_VERIFICATION for these two new fields",
+    "36 of 40 briefed education domains still not researched (BLOCKED/QUEUED, not guessed)",
+    "Coverage limited to Telangana, Andhra Pradesh, and national-level entities \u2014 remaining states/UTs QUEUED",
+    "No row has been promoted to VST-VERIFIED; that is a separate governance action, still pending for all 141 rows",
+    "BSEAP founding year (1953 vs 1969) and two AP overseas-scholarship income ceilings remain genuinely conflicting after a dedicated re-check in RC2"
+  ],
+  "future_improvements": [
+    "Re-verify all rows with direct WebFetch once available, promoting confirmed rows to VST-VERIFIED",
+    "Extend contact_details and student_services_summary coverage beyond the 5 flagship universities via a dedicated deep-dive pass",
+    "Add the remaining per-institution fields named in the original brief not yet covered even after RC2 (fee structure, lat/long, labs, facilities, research, incubation, student intake, approval, departments)",
+    "Resolve BSEAP's founding-year conflict and the two remaining AP overseas-scholarship ceiling conflicts via a primary gazette/document source",
+    "Expand to the remaining 36 education domains per acquisition_backlog.json",
+    "Extend geographic coverage beyond Telangana & Andhra Pradesh",
+    "Wire state/jurisdiction fields to Package001_Geography's district_id once a defensible mapping is verified"
+  ],
+  "license": "Compiled from public government and institutional sources for ValueWeave internal knowledge-graph use; per-row source attribution preserved in source_url",
+  "changelog_reference": "CHANGELOG.md",
+  "readme_reference": "README.md"
+}

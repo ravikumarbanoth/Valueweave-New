@@ -1,0 +1,16 @@
+{
+  "dataset_name": "universities_telangana_andhra_pradesh",
+  "package": "Package002_Education",
+  "version": "1.0.0",
+  "file": "datasets/universities_telangana_andhra_pradesh.csv",
+  "record_count": 66,
+  "primary_key": "id",
+  "foreign_keys": [],
+  "validation_checks": [
+    "primary key (id) uniqueness \u2014 100% pass, verified at build time",
+    "column count matches schema_catalog.json \u2014 100% pass",
+    "verification_status defaults to VST-NEEDS_REVIEW on import \u2014 enforced",
+    "no fabricated fields \u2014 PENDING_VERIFICATION sentinel used wherever a fact could not be sourced"
+  ],
+  "rollback_strategy": "Dataset is a standalone CSV with no downstream foreign keys in this release; rollback is a straight file revert with no cascading cleanup required."
+}

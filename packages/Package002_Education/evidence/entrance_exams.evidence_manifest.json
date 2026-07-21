@@ -1,0 +1,129 @@
+{
+  "dataset_name": "entrance_exams",
+  "package": "Package002_Education",
+  "version": "1.0.0",
+  "fetch_method": "WebSearch tool result snippets only (WebFetch blocked \u2014 see note)",
+  "webfetch_blocked_note": "This session's organizational egress proxy returned HTTP 403 (policy denial) for direct WebFetch to .gov.in, .ac.in, .edu.in, and Wikipedia domains during both the RC1 collection pass (2026-07-21) and the RC2 enrichment pass (2026-07-22) \u2014 re-confirmed via the proxy status endpoint each time, not a transient or client-side failure. No source page in this dataset was ever directly fetched and re-read; every fact is WebSearch-snippet-sourced and cited by URL. Confidence scores reflect this throughout (see metadata/*.metadata.json confidence_calibration_note).",
+  "distinct_sources_cited": 29,
+  "total_rows": 29,
+  "sources": [
+    {
+      "source_url": "https://jeemain.nta.nic.in/",
+      "data_source": "Official NTA portal; cross-checked via Careers360 and CollegeSearch"
+    },
+    {
+      "source_url": "https://jeeadv.ac.in/eligibility.html",
+      "data_source": "Official JEE Advanced portal (jeeadv.ac.in) and Information Brochure PDF"
+    },
+    {
+      "source_url": "https://neet.nta.nic.in/about-department/introduction/",
+      "data_source": "Official NTA NEET portal"
+    },
+    {
+      "source_url": "https://natboard.edu.in/",
+      "data_source": "Official NBEMS/NBE portals (natboard.edu.in / nbe.edu.in) cross-checked via Testbook and Careers360 news coverage"
+    },
+    {
+      "source_url": "https://cuet.nta.nic.in/",
+      "data_source": "Official NTA CUET(UG) portal"
+    },
+    {
+      "source_url": "https://exams.nta.nic.in/cuet-pg/",
+      "data_source": "Official NTA CUET(PG) exam portal"
+    },
+    {
+      "source_url": "https://www.shiksha.com/law/articles/consortiumofnlus-ac-in-clat-official-website-blogId-188634",
+      "data_source": "Official Consortium of NLUs website cross-checked via Careers360 Law and Shiksha"
+    },
+    {
+      "source_url": "https://iimcat.ac.in/",
+      "data_source": "Official CAT portal (iimcat.ac.in) cross-checked via MBAUniverse and Careers360"
+    },
+    {
+      "source_url": "https://testbook.com/news/gate-2027-official-website/",
+      "data_source": "RESOLVED in RC2 enrichment: official GATE 2027 notification released by IIT Madras on 20 July 2026 at gate2027.iitm.ac.in, cross-checked via Testbook and PW Live news coverage of the same notification"
+    },
+    {
+      "source_url": "https://ugcnet.nta.nic.in/",
+      "data_source": "Official NTA UGC-NET portal"
+    },
+    {
+      "source_url": "https://ctet.nic.in/",
+      "data_source": "Official CBSE CTET portal"
+    },
+    {
+      "source_url": "https://xatonline.in/",
+      "data_source": "Official XAT portal (xatonline.in) cross-checked via InsideIIM and Shiksha"
+    },
+    {
+      "source_url": "https://exams.nta.nic.in/icar/",
+      "data_source": "Official NTA ICAR exam portal"
+    },
+    {
+      "source_url": "https://natboard.edu.in/viewnbeexam?exam=gpat",
+      "data_source": "Official NBEMS portal (natboard.edu.in) cross-checked via Careers360 news"
+    },
+    {
+      "source_url": "https://eapcet.tgche.ac.in/",
+      "data_source": "Official TGCHE EAPCET portal cross-checked via Testbook and Careers360"
+    },
+    {
+      "source_url": "https://icet.tgche.ac.in/",
+      "data_source": "Official TGCHE ICET portal cross-checked via Shiksha and MBAUniverse"
+    },
+    {
+      "source_url": "https://edcet.tgche.ac.in/",
+      "data_source": "Official TGCHE EdCET portal cross-checked via Careers360 news"
+    },
+    {
+      "source_url": "https://pgecet.tgche.ac.in/",
+      "data_source": "Official TGCHE PGECET portal cross-checked via Careerpower and Sarvgyan"
+    },
+    {
+      "source_url": "https://law.careers360.com/articles/ts-lawcet",
+      "data_source": "Cross-checked via Toprankers, Shiksha and Careers360 Law (application portal lawcet.tgche.ac.in)"
+    },
+    {
+      "source_url": "https://www.shiksha.com/law/ts-pglcet-exam",
+      "data_source": "Cross-checked via Shiksha and Findmycollege (application portal lawcet.tgche.ac.in)"
+    },
+    {
+      "source_url": "https://polycet.sbtet.telangana.gov.in/",
+      "data_source": "Official SBTET Telangana POLYCET portal cross-checked via Sakshi Education and Collegedunia"
+    },
+    {
+      "source_url": "https://cets.apsche.ap.gov.in/EAPCET/",
+      "data_source": "Official APSCHE CETS EAPCET portal cross-checked via Testbook and Collegedunia"
+    },
+    {
+      "source_url": "https://www.pw.live/mba/exams/ap-icet-2026",
+      "data_source": "Cross-checked via PW Live, Apollo University blog and AP Teachers portal (application portal cets.apsche.ap.gov.in/ICET)"
+    },
+    {
+      "source_url": "https://www.manabadi.co.in/entrance-exams/ap-edcet-notification/",
+      "data_source": "Cross-checked via Manabadi and Shiksha; convenor contact confirms Acharya Nagarjuna University as conducting institution"
+    },
+    {
+      "source_url": "https://engineering.careers360.com/exams/ap-pgecet",
+      "data_source": "Cross-checked via Careers360, Shiksha and Collegedekho (application portal cets.apsche.ap.gov.in)"
+    },
+    {
+      "source_url": "https://cets.apsche.ap.gov.in/LAWCET/",
+      "data_source": "Official APSCHE CETS LAWCET portal cross-checked via Shiksha and Collegedunia"
+    },
+    {
+      "source_url": "https://law.careers360.com/exams/ap-pglcet",
+      "data_source": "Cross-checked via Shiksha, Careers360 Law and Indcareer (application portal cets.apsche.ap.gov.in/LAWCET)"
+    },
+    {
+      "source_url": "https://engineering.careers360.com/articles/ap-polycet-2026",
+      "data_source": "Cross-checked via Careers360, Collegedekho and Manabadi; conducting body confirmed via apsbtet.ap.gov.in"
+    },
+    {
+      "source_url": "https://natboard.edu.in/viewnbeexam?exam=neetss",
+      "data_source": "Official NBEMS NEET-SS exam portal cross-checked via Doctutorials, Shiksha and Careers360 Medicine"
+    }
+  ],
+  "collection_report_reference": "reports/entrance_exams.collection_report.md",
+  "rc2_enrichment_report_reference": "reports/boards_exams_scholarships.rc2_enrichment_report.md"
+}

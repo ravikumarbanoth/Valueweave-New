@@ -1,0 +1,52 @@
+{
+  "dataset_name": "education_boards_regulatory_bodies",
+  "title": "Educational Boards & Regulatory Bodies",
+  "package": "Package002_Education",
+  "version": "1.0.0",
+  "description": "National education regulatory/accreditation/curriculum bodies plus Telangana and Andhra Pradesh state boards for secondary, intermediate, and curriculum governance.",
+  "scope_note": "Covers bodies that regulate, accredit, rank, or set curriculum for Indian education. Does not cover individual institutions.",
+  "file": "datasets/education_boards_regulatory_bodies.csv",
+  "primary_key": "id",
+  "record_count": 21,
+  "column_count": 16,
+  "columns": [
+    "id",
+    "name",
+    "type",
+    "jurisdiction",
+    "parent_ministry_or_department",
+    "established_year",
+    "official_website",
+    "headquarters_city",
+    "headquarters_state",
+    "mandate_summary",
+    "data_source",
+    "source_url",
+    "collection_date",
+    "confidence_score",
+    "verification_status",
+    "notes"
+  ],
+  "jurisdiction_breakdown": {
+    "National": 13,
+    "Telangana": 4,
+    "Andhra Pradesh": 4
+  },
+  "provenance": {
+    "collection_date_range": "2026-07-21 (RC1) to 2026-07-22 (RC2 enrichment)",
+    "collection_method": "WebSearch-based knowledge engineering research. Direct WebFetch to .gov.in/.ac.in/.edu.in/Wikipedia domains remained blocked by this session's organizational egress policy during RC2 as well (re-confirmed HTTP 403). All facts are cited search results; none fabricated.",
+    "confidence_score_range": [
+      63,
+      88
+    ],
+    "confidence_score_average": 79.1,
+    "confidence_calibration_note": "RC2 raised confidence modestly (max +10/row for universities, +8/row for boards/exams/scholarships) where stronger multi-source corroboration was found, capped at 82 (universities) / 88 (others) \u2014 still below the 85-95 'direct official source' band, since WebFetch access was not restored.",
+    "distinct_source_urls": 21,
+    "pending_verification_field_count": 0,
+    "total_fields": 336,
+    "pending_verification_rate_pct": 0.0
+  },
+  "license": "Compiled from public government and institutional sources for ValueWeave internal knowledge-graph use; per-row source attribution preserved in source_url.",
+  "collection_report_reference": "reports/education_boards_regulatory_bodies.collection_report.md",
+  "rc2_enrichment_report_reference": "reports/boards_exams_scholarships.rc2_enrichment_report.md"
+}

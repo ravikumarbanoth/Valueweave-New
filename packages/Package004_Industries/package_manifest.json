@@ -1,0 +1,76 @@
+{
+  "package_name": "Package004_Industries_and_Livelihoods",
+  "package_id": "PKG-004",
+  "package_title": "ValueWeave.in Industries & Livelihoods Foundation",
+  "version": "1.0.0-RC1",
+  "release_date": "2026-07-22",
+  "release_status": "Release Candidate 1 (RC1) — NOT merged to main. Awaiting review before promotion to Stable, per explicit instruction.",
+  "scope": "MSME & Entrepreneurship Support Schemes, Food & Agro-Processing Micro-Enterprises, Construction & Skilled Trade Services, Digital & Technology Livelihoods, and China-Inspired Adapted Opportunities for Telangana & Andhra Pradesh (architected to extend to all ~150 briefed industry/livelihood sub-categories and all Indian states without schema change)",
+  "datasets_included": [
+    {"name": "msme_entrepreneurship_support_schemes", "records": 18, "coverage": "National (8), Telangana (7), Andhra Pradesh (3)", "confidence_score_range": "70-82", "verification_status": "VST-NEEDS_REVIEW"},
+    {"name": "food_agro_processing_micro_enterprises", "records": 13, "coverage": "Manufacturing (12), Agriculture & Allied (1) — TG/AP", "confidence_score_range": "48-78", "verification_status": "VST-NEEDS_REVIEW"},
+    {"name": "construction_skilled_trade_services", "records": 11, "coverage": "Construction & Skilled Trades — TG/AP", "confidence_score_range": "58-82", "verification_status": "VST-NEEDS_REVIEW"},
+    {"name": "digital_technology_livelihoods", "records": 12, "coverage": "Technology — TG/AP", "confidence_score_range": "65-78", "verification_status": "VST-NEEDS_REVIEW"},
+    {"name": "china_inspired_adapted_opportunities", "records": 9, "coverage": "Retail/Local Entrepreneurship/Tourism/Agriculture adaptations — India/TG/AP", "confidence_score_range": "60-80", "verification_status": "VST-NEEDS_REVIEW"}
+  ],
+  "total_records": 63,
+  "datasets_blocked": [
+    {"name": "Textile & Garments", "reason": "Extremely large and fragmented category spanning traditional and industrial scales; no tractable narrow slice identified this session", "unblock_requires": "Dedicated research pass with a defined narrower slice agreed with the requester first"},
+    {"name": "Retail & Local Commerce (general)", "reason": "Grocery, kirana modernization, hyperlocal delivery, tea cafes, organic stores, pet stores individually fragmented with no authoritative registry (the social-commerce angle is already covered in china_inspired_adapted_opportunities.csv)", "unblock_requires": "Dedicated research pass per sub-category"},
+    {"name": "Repair & Maintenance Services", "reason": "Mobile/laptop/TV/appliance repair, CCTV/solar installation, EV/bicycle repair individually fragmented with no authoritative registry", "unblock_requires": "Dedicated research pass; likely lower achievable confidence"}
+  ],
+  "datasets_queued": [
+    "pharmaceuticals_lifesciences_manufacturing", "electronics_manufacturing", "construction_materials_granite_cement_steel",
+    "packaging_paper_products", "furniture_manufacturing", "plastic_products_manufacturing", "engineering_workshops",
+    "mushroom_nursery_terrace_gardening", "organic_farming_beekeeping", "dairy_poultry_fisheries_aquaculture",
+    "tourism_hospitality_general", "recycling_circular_economy", "service_businesses_marketing_media_events",
+    "education_training_businesses", "health_wellness_businesses", "local_entrepreneurship_food_craft",
+    "all_domains_for_remaining_states_and_uts"
+  ],
+  "environment_constraint": "Direct WebFetch to .gov.in/.ac.in/.nic.in domains was blocked by this session's organizational egress policy (confirmed HTTP 403 policy denial, re-tested live before collection began). All data collected via WebSearch result snippets only; numeric investment-range figures required a specific citable government project-profile source or were left PENDING_VERIFICATION. Confidence scores capped at 85. See docs/METHODOLOGY.md.",
+  "dependencies": "No hard foreign-key dependency on Package001_Geography, Package002_Education, or Package003_Healthcare in this release. Datasets in this package characterize livelihood/industry categories, not individually-verified institutions, so the relational model differs from prior packages — see schemas/schema_catalog.json.",
+  "import_order": ["msme_entrepreneurship_support_schemes", "food_agro_processing_micro_enterprises", "construction_skilled_trade_services", "digital_technology_livelihoods", "china_inspired_adapted_opportunities"],
+  "data_statistics": {
+    "total_datasets_released": 5,
+    "total_records": 63,
+    "total_columns_across_datasets": 84,
+    "pending_verification_fields_total": 20,
+    "total_fields": 1053
+  },
+  "source_statistics": {
+    "total_distinct_source_urls": 62,
+    "source_tiers_used": ["Tier 1 (Government — MSME/DIC/PMFME/KVIC project profiles)", "Tier 2 (Official business/association websites)", "Tier 4 (Trusted news, for scheme renames and policy transitions)"],
+    "source_tiers_not_used": ["Tier 3 (Verified social media — not needed this release)", "Tier 5 (Community sources — excluded per package policy for factual data)"]
+  },
+  "confidence_statistics": {
+    "overall_range": "48-82",
+    "overall_average": 70.5,
+    "note": "Lower than Package001-003's typical ceilings because this package's core content (investment ranges for livelihood categories) is inherently harder to source to a specific government document than institutional facts. Government-project-profile-grade sources score 70-85; portal-only estimates capped at 58-65. See docs/METHODOLOGY.md."
+  },
+  "known_gaps": [
+    "Field depth is reduced from the ~25 fields per entity named in the package brief to a smaller verifiable core — Machinery, Raw Materials, Suppliers, Business Risks, Opportunities, AI Opportunities, Sustainability, Market Trends, Future Potential, Related Industries, and District Suitability are NOT populated in this release. See docs/METHODOLOGY.md.",
+    "Estimated Monthly Revenue Range was dropped from the schema entirely — no reliable public source exists for typical small-business revenue in these categories; attempting it would mean 100% PENDING_VERIFICATION or fabrication risk.",
+    "typical_investment_range_summary is PENDING_VERIFICATION for all 12 digital/technology rows and 8 of 13 food/agro-processing rows.",
+    "Facebook Marketplace, named in the package brief's own examples, was checked and confirmed NOT officially launched in India.",
+    "Telangana's MSME Policy 2024 vs. the older T-IDEA/T-PRIDE framework overlap is unresolved — conflicting subsidy figures found, left PENDING_VERIFICATION rather than guessed.",
+    "~145 of ~150 briefed sub-categories not researched in this release (BLOCKED/QUEUED, not guessed).",
+    "Coverage limited to Telangana, Andhra Pradesh, and national-level entities — remaining states/UTs QUEUED.",
+    "No row has been promoted to VST-VERIFIED; that is a separate governance action.",
+    "Government DIC/PMFME project-profile PDFs were located by URL in several cases but their content was only seen via WebSearch snippet, never directly read this session."
+  ],
+  "future_improvements": [
+    "See reports/future_expansion_roadmap.md for the full 10-item roadmap",
+    "Re-verify all rows with direct WebFetch once available, directly reading the DIC/PMFME project-profile PDFs located but not fully mined this session",
+    "Resolve the Telangana MSME-policy overlap (T-IDEA/T-PRIDE vs. MSME Policy 2024)",
+    "Expand Manufacturing beyond food-processing (Pharmaceuticals, Electronics, Construction Materials, Furniture, Plastics, Paper, Engineering Workshops)",
+    "Expand Agriculture & Allied beyond processing (Mushroom Cultivation, Nursery, Organic Farming, Beekeeping, Dairy, Poultry, Fisheries)",
+    "Add Tourism & Hospitality, Repair & Maintenance, Retail & Local Commerce, and Recycling as standalone datasets",
+    "Add remaining Service Businesses, Education & Training, Health & Wellness, and Local Entrepreneurship categories",
+    "Extend geographic coverage beyond Telangana & Andhra Pradesh",
+    "Design a distinct, source-grounded methodology for the analytical fields descoped in RC1 (Business Risks, AI Opportunities, Market Trends, Future Potential) rather than populating them with unsourced commentary",
+    "Evaluate cross-package FK wiring to Package001_Geography's district_id"
+  ],
+  "license": "Compiled from public government, industry-association, and reputable business-journalism sources for ValueWeave internal knowledge-graph use; per-row source attribution preserved in source_url",
+  "changelog_reference": "CHANGELOG.md",
+  "readme_reference": "README.md"
+}

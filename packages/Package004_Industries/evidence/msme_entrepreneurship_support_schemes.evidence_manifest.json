@@ -1,0 +1,84 @@
+{
+  "dataset_name": "msme_entrepreneurship_support_schemes",
+  "package": "Package004_Industries_and_Livelihoods",
+  "version": "1.0.0-RC1",
+  "fetch_method": "WebSearch tool result snippets only (WebFetch blocked -- see note)",
+  "webfetch_blocked_note": "This session's organizational egress proxy returned HTTP 403 (policy denial, confirmed via a live test fetch immediately before collection began) for every direct WebFetch attempt against .gov.in, .ac.in, .nic.in, and similar domains. All facts were sourced from WebSearch tool result snippets, each cited by URL. Confidence scores were capped accordingly, and no numeric investment/revenue figure was accepted without a specific citable source -- generic blog/portal estimates are described qualitatively rather than presented as verified figures.",
+  "distinct_sources_cited": 18,
+  "total_rows": 18,
+  "sources": [
+    {
+      "source_url": "https://www.cashfree.com/blog/pmegp-scheme-subsidy-rates-eligibility-how-to-apply/; https://sarkariyojana.com/prime-minister-employment-generation-programme-pmegp/",
+      "data_source": "WebSearch aggregated (Cashfree, Sarkari Yojana, HDFC Bank, District Industries Centre Puducherry)"
+    },
+    {
+      "source_url": "https://www.ibef.org/government-schemes/stand-up-india; https://www.newsonair.gov.in/fm-nirmala-sitharaman-announces-revamped-stand-up-india-scheme-for-sc-st-and-women-entrepreneurs",
+      "data_source": "WebSearch aggregated (Legal Service India, IBEF, IIFL, News on Air)"
+    },
+    {
+      "source_url": "https://www.stashfin.com/blogs/mudra-loan-india-pmmy-guide; https://matribhumisamachar.com/en/2026/04/25/pm-mudra-loan-yojana-2026-complete-guide-to-shishu-kishore-tarun-and-tarun-plus/",
+      "data_source": "WebSearch aggregated (Sarkari Yojana, Stashfin, Matribhumi Samachar, Yojana Vichar)"
+    },
+    {
+      "source_url": "https://www.legalserviceindia.com/Legal-Articles/startup-india-registration-benefits-2026/; https://vakilsearch.com/article/startup-india-dpiit-registration/",
+      "data_source": "WebSearch aggregated (Legal Service India, myHQ, Vakilsearch, RegisterKaro, Patron Accounting)"
+    },
+    {
+      "source_url": "https://www.nsdcindia.org/; https://www.newkerala.com/news/a/over-650-youth-compete-indiaskills-national-competition-263.htm",
+      "data_source": "WebSearch aggregated (NSDC official site, Vajiram & Ravi, BankBazaar, Newkerala)"
+    },
+    {
+      "source_url": "https://www.cgtmse.in/; https://msme.gov.in/sites/default/files/CredirGuranteeFundScheme_1.pdf",
+      "data_source": "WebSearch aggregated (CGTMSE official site, Vajiram & Ravi, BankBazaar, Ministry of MSME PDF)"
+    },
+    {
+      "source_url": "https://schemesinindia.in/central/pm-vishwakarma-yojana; https://www.egovtschemes.com/pm-vishwakarma-yojana/",
+      "data_source": "WebSearch aggregated (multiple scheme-tracker sites; original launch Sept 17 2023)"
+    },
+    {
+      "source_url": "https://www.smfgindiacredit.com/knowledge-center/district-industries-centers.aspx; https://www.paisabazaar.com/business-loan/district-industries-centers/",
+      "data_source": "WebSearch aggregated (SMFG India Credit, Paisabazaar, Credlix, Bajaj Finserv, AP district portals)"
+    },
+    {
+      "source_url": "https://kpiasacademy.com/telangana-t-idea-industrial/; https://tgfps.telangana.gov.in/t-idea/; https://www.indiasmeforum.org/state_scheme_details.php?id=232",
+      "data_source": "WebSearch aggregated (KP IAS Academy, TGFPS, Dhruva Industrial Consultants, India SME Forum)"
+    },
+    {
+      "source_url": "https://kpiasacademy.com/telangana-t-pride-dalit/; https://msmecouncil.org/schemes-and-incentives/state-schemes/schemes-and-initiatives-by-telangana-government/ts-pride-telangana-state-program-for-rapid-incubation-of-dalit-entrepreneurs/",
+      "data_source": "WebSearch aggregated (KP IAS Academy, MSME Council, Dhruva Industrial Consultants)"
+    },
+    {
+      "source_url": "https://ipass.telangana.gov.in/about.aspx; https://www.indiafilings.com/learn/telangana-ts-ipass",
+      "data_source": "WebSearch aggregated (IndiaFilings, Wikipedia via search summary, HMDA, Directorate of Town and Country Planning Telangana)"
+    },
+    {
+      "source_url": "https://wehub.telangana.gov.in/; https://www.newsonair.gov.in/telangana-launches-ramp-programme-to-boost-45-women-led-msmes-with-world-bank-support",
+      "data_source": "WebSearch aggregated (WE-HUB official site, KP IAS Academy, News on Air)"
+    },
+    {
+      "source_url": "https://www.task.telangana.gov.in/; https://tweb.telangana.gov.in/departments/information-technology-electronics-and-communications-department/telangana-academy-for-skill-and-knowledge-task/",
+      "data_source": "WebSearch aggregated (TASK official site, Telangana Web Directory, engineering college portals)"
+    },
+    {
+      "source_url": "https://www.tgiic.telangana.gov.in/; https://thesouthfirst.com/telangana/telangana-government-making-tgiic-a-public-limited-company-to-mortgage-land-alleges-k-kavitha/",
+      "data_source": "WebSearch aggregated (TGIIC official site, Telangana Web Directory, The South First, Wikipedia via search summary)"
+    },
+    {
+      "source_url": "https://www.telangana.gov.in/news/whats-new/2024/09/telangana-msme-policy-2024/; https://www.business-standard.com/economy/news/telangana-launches-new-msme-policy-plans-to-spend-rs-4-000-crore-124091800867_1.html",
+      "data_source": "WebSearch aggregated (Telangana State Portal, Business Standard, BankExamsToday, News on Air)"
+    },
+    {
+      "source_url": "https://apiic.in/; https://en.wikipedia.org/wiki/Andhra_Pradesh_Industrial_Infrastructure_Corporation",
+      "data_source": "WebSearch aggregated (APIIC official site, Wikipedia via search summary, Business Standard, Dhruva Industrial Consultants)"
+    },
+    {
+      "source_url": "https://apis.ap.gov.in/; https://www.startupindia.gov.in/content/sih/en/state-startup-policies/Andhra-Pradesh-state-policy.html",
+      "data_source": "WebSearch aggregated (APIS official site, IndiaFilings, StartupIndia state policy page, StartupFlora, StartupGrantsIndia)"
+    },
+    {
+      "source_url": "https://kipfinancial.com/andhra-pradesh-msme-and-entrepreneurship-development-policy-4-0-2024-2029-3/; https://kipfinancial.com/andhra-pradesh-msme-and-entrepreneurship-development-policy-4-0-2024-2029/",
+      "data_source": "WebSearch aggregated (KIP Financial Consultancy, Unique Group, eUdyamAadhar)"
+    }
+  ],
+  "collection_report_reference": "reports/msme_entrepreneurship_support_schemes.collection_report.md"
+}

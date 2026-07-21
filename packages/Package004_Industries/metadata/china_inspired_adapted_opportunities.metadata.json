@@ -1,0 +1,45 @@
+{
+  "dataset_name": "china_inspired_adapted_opportunities",
+  "title": "China-Inspired Adapted Opportunities",
+  "package": "Package004_Industries_and_Livelihoods",
+  "version": "1.0.0-RC1",
+  "description": "Real, currently-operating Indian/Telugu-state adaptations of Chinese business models named in the package brief (social commerce, livestream selling, rental businesses, WhatsApp automation, agri-commerce, homestays), verified rather than assumed to exist.",
+  "scope_note": "Facebook Marketplace (named in the brief) was checked and confirmed NOT officially launched in India; documented explicitly rather than silently substituted.",
+  "file": "datasets/china_inspired_adapted_opportunities.csv",
+  "primary_key": "id",
+  "record_count": 9,
+  "column_count": 15,
+  "columns": [
+    "id",
+    "original_china_concept",
+    "adapted_indian_concept",
+    "category",
+    "description",
+    "target_customers",
+    "typical_investment_range_summary",
+    "key_platforms_or_channels",
+    "government_scheme_relevance",
+    "data_source",
+    "source_url",
+    "collection_date",
+    "confidence_score",
+    "verification_status",
+    "notes"
+  ],
+  "provenance": {
+    "collection_date": "2026-07-22",
+    "collection_method": "WebSearch-based knowledge engineering research. Direct WebFetch to .gov.in/.ac.in/.nic.in domains was blocked by this session's organizational egress policy (confirmed HTTP 403, live-tested immediately before collection began). Every fact is a cited search result; none fabricated. Numeric investment-range figures required a specific citable government project-profile source or were left PENDING_VERIFICATION.",
+    "confidence_score_range": [
+      60,
+      80
+    ],
+    "confidence_score_average": 70,
+    "confidence_calibration_note": "Government-project-profile-grade sources scored 70-85; portal/blog-only estimates capped at 58-65; no row exceeds 85 since no direct fetch was possible this session.",
+    "distinct_source_urls": 9,
+    "pending_verification_field_count": 0,
+    "total_fields": 135,
+    "pending_verification_rate_pct": 0.0
+  },
+  "license": "Compiled from public government, industry-association, and reputable business-journalism sources for ValueWeave internal knowledge-graph use; per-row source attribution preserved in source_url.",
+  "collection_report_reference": "reports/china_inspired_adapted_opportunities.collection_report.md"
+}

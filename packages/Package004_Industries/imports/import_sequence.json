@@ -1,0 +1,40 @@
+{
+  "package": "Package004_Industries_and_Livelihoods",
+  "version": "1.0.0-RC1",
+  "import_order": [
+    "msme_entrepreneurship_support_schemes",
+    "food_agro_processing_micro_enterprises",
+    "construction_skilled_trade_services",
+    "digital_technology_livelihoods",
+    "china_inspired_adapted_opportunities"
+  ],
+  "dependency_note": "All 5 datasets are independent (no inter-dataset foreign keys).",
+  "steps": [
+    {
+      "step": 1,
+      "dataset": "msme_entrepreneurship_support_schemes",
+      "manifest": "imports/msme_entrepreneurship_support_schemes.import_manifest.json"
+    },
+    {
+      "step": 2,
+      "dataset": "food_agro_processing_micro_enterprises",
+      "manifest": "imports/food_agro_processing_micro_enterprises.import_manifest.json"
+    },
+    {
+      "step": 3,
+      "dataset": "construction_skilled_trade_services",
+      "manifest": "imports/construction_skilled_trade_services.import_manifest.json"
+    },
+    {
+      "step": 4,
+      "dataset": "digital_technology_livelihoods",
+      "manifest": "imports/digital_technology_livelihoods.import_manifest.json"
+    },
+    {
+      "step": 5,
+      "dataset": "china_inspired_adapted_opportunities",
+      "manifest": "imports/china_inspired_adapted_opportunities.import_manifest.json"
+    }
+  ],
+  "rollback_strategy": "Each dataset can be independently reverted; no cross-dataset cascading effects."
+}

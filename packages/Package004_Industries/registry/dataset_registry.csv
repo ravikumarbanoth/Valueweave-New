@@ -1,0 +1,26 @@
+dataset_name,package,file_path,record_count,status,mode_used,confidence_min,confidence_max,confidence_avg,verification_status,last_updated
+msme_entrepreneurship_support_schemes,Package004_Industries_and_Livelihoods,datasets/msme_entrepreneurship_support_schemes.csv,18,RELEASED_RC1,WebSearch-only (WebFetch blocked by org policy),70,82,77.5,VST-NEEDS_REVIEW,2026-07-22
+food_agro_processing_micro_enterprises,Package004_Industries_and_Livelihoods,datasets/food_agro_processing_micro_enterprises.csv,13,RELEASED_RC1,WebSearch-only (WebFetch blocked by org policy),48,78,60.2,VST-NEEDS_REVIEW,2026-07-22
+construction_skilled_trade_services,Package004_Industries_and_Livelihoods,datasets/construction_skilled_trade_services.csv,11,RELEASED_RC1,WebSearch-only (WebFetch blocked by org policy),58,82,69.7,VST-NEEDS_REVIEW,2026-07-22
+digital_technology_livelihoods,Package004_Industries_and_Livelihoods,datasets/digital_technology_livelihoods.csv,12,RELEASED_RC1,WebSearch-only (WebFetch blocked by org policy),65,78,72.3,VST-NEEDS_REVIEW,2026-07-22
+china_inspired_adapted_opportunities,Package004_Industries_and_Livelihoods,datasets/china_inspired_adapted_opportunities.csv,9,RELEASED_RC1,WebSearch-only (WebFetch blocked by org policy),60,80,70,VST-NEEDS_REVIEW,2026-07-22
+textile_and_garments,Package004_Industries_and_Livelihoods,BLOCKED,0,BLOCKED,N/A,,,,,
+pharmaceuticals_and_lifesciences_manufacturing,Package004_Industries_and_Livelihoods,QUEUED,0,QUEUED,N/A,,,,,
+electronics_manufacturing,Package004_Industries_and_Livelihoods,QUEUED,0,QUEUED,N/A,,,,,
+construction_materials_granite_cement_steel,Package004_Industries_and_Livelihoods,QUEUED,0,QUEUED,N/A,,,,,
+packaging_and_paper_products,Package004_Industries_and_Livelihoods,QUEUED,0,QUEUED,N/A,,,,,
+furniture_manufacturing,Package004_Industries_and_Livelihoods,QUEUED,0,QUEUED,N/A,,,,,
+plastic_products_manufacturing,Package004_Industries_and_Livelihoods,QUEUED,0,QUEUED,N/A,,,,,
+engineering_workshops,Package004_Industries_and_Livelihoods,QUEUED,0,QUEUED,N/A,,,,,
+mushroom_cultivation_nursery_terrace_gardening,Package004_Industries_and_Livelihoods,QUEUED,0,QUEUED,N/A,,,,,
+organic_farming_beekeeping,Package004_Industries_and_Livelihoods,QUEUED,0,QUEUED,N/A,,,,,
+dairy_poultry_fisheries_aquaculture,Package004_Industries_and_Livelihoods,QUEUED,0,QUEUED,N/A,,,,,
+repair_and_maintenance_services,Package004_Industries_and_Livelihoods,BLOCKED,0,BLOCKED,N/A,,,,,
+tourism_and_hospitality_general,Package004_Industries_and_Livelihoods,QUEUED,0,QUEUED,N/A,,,,,
+retail_and_local_commerce_general,Package004_Industries_and_Livelihoods,BLOCKED,0,BLOCKED,N/A,,,,,
+recycling_and_circular_economy,Package004_Industries_and_Livelihoods,QUEUED,0,QUEUED,N/A,,,,,
+service_businesses_marketing_media_events,Package004_Industries_and_Livelihoods,QUEUED,0,QUEUED,N/A,,,,,
+education_and_training_businesses,Package004_Industries_and_Livelihoods,QUEUED,0,QUEUED,N/A,,,,,
+health_and_wellness_businesses,Package004_Industries_and_Livelihoods,QUEUED,0,QUEUED,N/A,,,,,
+local_entrepreneurship_food_and_craft,Package004_Industries_and_Livelihoods,QUEUED,0,QUEUED,N/A,,,,,
+remaining_states_uts_all_domains,Package004_Industries_and_Livelihoods,QUEUED,0,QUEUED,N/A,,,,,

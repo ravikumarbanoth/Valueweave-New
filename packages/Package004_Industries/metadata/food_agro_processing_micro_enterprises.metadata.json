@@ -1,0 +1,48 @@
+{
+  "dataset_name": "food_agro_processing_micro_enterprises",
+  "title": "Food & Agro-Processing Micro-Enterprises",
+  "package": "Package004_Industries_and_Livelihoods",
+  "version": "1.0.0-RC1",
+  "description": "Small-scale food and agricultural processing livelihood opportunities in Telangana and Andhra Pradesh (spice processing, pickle making, cold-pressed oils, millet processing, seed processing, general food processing).",
+  "scope_note": "Investment figures are PENDING_VERIFICATION unless traced to a specific government DIC/MSME/PMFME/KVIC project profile; qualitative context for unverified figures is in `notes`.",
+  "file": "datasets/food_agro_processing_micro_enterprises.csv",
+  "primary_key": "id",
+  "record_count": 13,
+  "column_count": 18,
+  "columns": [
+    "id",
+    "name",
+    "category",
+    "sub_category",
+    "description",
+    "target_customers",
+    "typical_investment_range_summary",
+    "skill_level",
+    "training_availability_summary",
+    "licenses_required_summary",
+    "government_schemes_summary",
+    "rural_urban_suitability",
+    "data_source",
+    "source_url",
+    "collection_date",
+    "confidence_score",
+    "verification_status",
+    "notes"
+  ],
+  "provenance": {
+    "collection_date": "2026-07-22",
+    "collection_method": "WebSearch-based knowledge engineering research. Direct WebFetch to .gov.in/.ac.in/.nic.in domains was blocked by this session's organizational egress policy (confirmed HTTP 403, live-tested immediately before collection began). Every fact is a cited search result; none fabricated. Numeric investment-range figures required a specific citable government project-profile source or were left PENDING_VERIFICATION.",
+    "confidence_score_range": [
+      48,
+      78
+    ],
+    "confidence_score_average": 60.2,
+    "confidence_calibration_note": "Government-project-profile-grade sources scored 70-85; portal/blog-only estimates capped at 58-65; no row exceeds 85 since no direct fetch was possible this session.",
+    "distinct_source_urls": 13,
+    "pending_verification_field_count": 8,
+    "total_fields": 234,
+    "pending_verification_rate_pct": 3.42
+  },
+  "license": "Compiled from public government, industry-association, and reputable business-journalism sources for ValueWeave internal knowledge-graph use; per-row source attribution preserved in source_url.",
+  "collection_report_reference": "reports/food_agro_processing_micro_enterprises.collection_report.md"
+}

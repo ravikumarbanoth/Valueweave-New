@@ -1,0 +1,56 @@
+{
+  "dataset_name": "construction_skilled_trade_services",
+  "package": "Package004_Industries_and_Livelihoods",
+  "version": "1.0.0-RC1",
+  "fetch_method": "WebSearch tool result snippets only (WebFetch blocked -- see note)",
+  "webfetch_blocked_note": "This session's organizational egress proxy returned HTTP 403 (policy denial, confirmed via a live test fetch immediately before collection began) for every direct WebFetch attempt against .gov.in, .ac.in, .nic.in, and similar domains. All facts were sourced from WebSearch tool result snippets, each cited by URL. Confidence scores were capped accordingly, and no numeric investment/revenue figure was accepted without a specific citable source -- generic blog/portal estimates are described qualitatively rather than presented as verified figures.",
+  "distinct_sources_cited": 11,
+  "total_rows": 11,
+  "sources": [
+    {
+      "source_url": "https://nsdcindia.org/plumber-general ; https://www.cstaricalcutta.gov.in/images/CTS%20Plumber_CTS_NSQF-4.pdf ; https://www.mudra.org.in/FAQ ; https://www.pib.gov.in/PressReleaseIframePage.aspx?PRID=1987716",
+      "data_source": "NSDC/PMKVY course pages; DGT/NCVT ITI syllabus portals; PMMY official guidance; PM Vishwakarma official trade list (PIB)"
+    },
+    {
+      "source_url": "https://nsdcindia.org/assistant-electrician ; https://www.electrical4u.net/useful-information/how-to-apply-wireman-license-in-telangana-eligibility/ ; https://indiankanoon.org/doc/101800260/ ; https://www.pib.gov.in/PressReleaseIframePage.aspx?PRID=1987716",
+      "data_source": "NSDC PMKVY course page; DGT/NCVT syllabus; Telangana State Electrical Licensing Regulations 2018 summaries (Electrical4u, Indiankanoon); PIB PM Vishwakarma trade list"
+    },
+    {
+      "source_url": "https://www.electrical4u.net/useful-information/how-to-apply-electrical-supervisor-license-telangana/ ; https://www.wikiprocedure.com/index.php/Telangana_-_Apply_for_Electrical_Supervisor_Certificate_(Workmen_Permit) ; https://indiankanoon.org/doc/101800260/",
+      "data_source": "SBTET/Telangana Electrical Licensing Board procedure summaries (Electrical4u, Wikiprocedure); Telangana State Electrical Licensing Regulations, 2018 (secondary summary)"
+    },
+    {
+      "source_url": "https://nsdcindia.org/welding-and-quality-technician ; https://www.kviconline.gov.in/pmegp/pmegpweb/docs/commonprojectprofile/ ; http://jobskills.apssdc.in/sdc/",
+      "data_source": "PMEGP/KVIC project-profile case summary; NSDC PMKVY course page; DGT/NCVT ITI syllabus; APSSDC course listing"
+    },
+    {
+      "source_url": "https://www.pib.gov.in/PressReleaseIframePage.aspx?PRID=1987716 ; https://bharatskills.gov.in/pdf/QF_Curriculum/CarpenterCITSc.pdf ; https://www.kviconline.gov.in/pmegp/pmegpweb/docs/commonprojectprofile/PROJECT%20PROFILE%20ON%20WOODEN%20FURNITURE.pdf",
+      "data_source": "PIB press release on PM Vishwakarma Yojana; DGT/NCVT ITI Carpenter syllabus (Bharat Skills/NSQF); KVIC PMEGP Wooden Furniture project profile"
+    },
+    {
+      "source_url": "https://www.nsdcindia.org/scmp/assets/image/1622654326-Construction_painter_and_Decorator.pdf ; https://nqr.gov.in/qualifications/9775 ; https://www.csdcindia.org/qualification-packs-model-curriculums/",
+      "data_source": "NSDC 'Construction Painter and Decorator' participant handbook/QP; National Qualifications Register (NQR) qualification file"
+    },
+    {
+      "source_url": "https://www.msmedithrissur.gov.in/pdf/Aluminumfabrication.pdf ; https://www.kviconline.gov.in/pmegp/pmegpweb/docs/commonprojectprofile/AluminiumFabrictaion.pdf",
+      "data_source": "MSME-DI Thrissur project profile on Aluminium Fabrication; KVIC PMEGP common project profile documents (search-snippet level, not direct fetch)"
+    },
+    {
+      "source_url": "https://www.indiacode.nic.in/bitstream/123456789/8587/1/act_10_of_2002.pdf ; https://www.wikiprocedure.com/index.php/Telangana_-_Register_Tubewells_Or_Borewells_(Boreholes) ; https://cgwa.mowr.gov.in/",
+      "data_source": "Telangana Water, Land and Trees Act, 2002 (India Code); secondary summaries of Telangana Groundwater Department procedure; CGWA NOC guidance"
+    },
+    {
+      "source_url": "https://targetstudy.com/iti/trade/101-pump-operator-cum-mechanic/ ; https://syllabus.iti.directory/index.php/pump-operator-cum-mechanic",
+      "data_source": "ITI 'Pump Operator cum Mechanic' course-detail aggregator pages citing DGT/NCVT CTS structure"
+    },
+    {
+      "source_url": "https://www.csdcindia.org/wp-content/uploads/2024/02/NOS_Tile-Mason-Basic.pdf ; https://www.nqr.gov.in/qualifications/9286 ; https://nsdcindia.org/mason-tiling",
+      "data_source": "CSDCI/NSDC Tile Mason qualification pack and NQR qualification file"
+    },
+    {
+      "source_url": "https://www.csdcindia.org/wp-content/uploads/2025/09/CON-Q1104.pdf ; https://www.csdcindia.org/wp-content/uploads/2024/07/FG_English_Assistant-False-Ceiling-_-Dry-Wall-Installer_CONQ1103_v3.0_Level-3.pdf ; https://s3.ap-south-1.amazonaws.com/nsdcproddocuments/qpPdf/CON_Q1107_v4.0.pdf",
+      "data_source": "CSDCI/NSDC Assistant False Ceiling and Drywall Installer and Foreman qualification packs"
+    }
+  ],
+  "collection_report_reference": "reports/construction_skilled_trade_services.collection_report.md"
+}

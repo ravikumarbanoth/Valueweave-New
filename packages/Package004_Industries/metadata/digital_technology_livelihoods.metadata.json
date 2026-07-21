@@ -1,0 +1,48 @@
+{
+  "dataset_name": "digital_technology_livelihoods",
+  "title": "Digital & Technology Livelihoods",
+  "package": "Package004_Industries_and_Livelihoods",
+  "version": "1.0.0-RC1",
+  "description": "IT/software, web/app development, digital marketing, and related livelihood opportunities in the Telangana/AP tech ecosystem.",
+  "scope_note": "typical_investment_range_summary is PENDING_VERIFICATION for all rows -- no credible government/NASSCOM costing source with a specific figure was found this session.",
+  "file": "datasets/digital_technology_livelihoods.csv",
+  "primary_key": "id",
+  "record_count": 12,
+  "column_count": 18,
+  "columns": [
+    "id",
+    "name",
+    "category",
+    "sub_category",
+    "description",
+    "target_customers",
+    "typical_investment_range_summary",
+    "skill_level",
+    "training_availability_summary",
+    "licenses_required_summary",
+    "government_schemes_summary",
+    "rural_urban_suitability",
+    "data_source",
+    "source_url",
+    "collection_date",
+    "confidence_score",
+    "verification_status",
+    "notes"
+  ],
+  "provenance": {
+    "collection_date": "2026-07-22",
+    "collection_method": "WebSearch-based knowledge engineering research. Direct WebFetch to .gov.in/.ac.in/.nic.in domains was blocked by this session's organizational egress policy (confirmed HTTP 403, live-tested immediately before collection began). Every fact is a cited search result; none fabricated. Numeric investment-range figures required a specific citable government project-profile source or were left PENDING_VERIFICATION.",
+    "confidence_score_range": [
+      65,
+      78
+    ],
+    "confidence_score_average": 72.3,
+    "confidence_calibration_note": "Government-project-profile-grade sources scored 70-85; portal/blog-only estimates capped at 58-65; no row exceeds 85 since no direct fetch was possible this session.",
+    "distinct_source_urls": 11,
+    "pending_verification_field_count": 12,
+    "total_fields": 216,
+    "pending_verification_rate_pct": 5.56
+  },
+  "license": "Compiled from public government, industry-association, and reputable business-journalism sources for ValueWeave internal knowledge-graph use; per-row source attribution preserved in source_url.",
+  "collection_report_reference": "reports/digital_technology_livelihoods.collection_report.md"
+}

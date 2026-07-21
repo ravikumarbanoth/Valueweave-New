@@ -1,0 +1,194 @@
+{
+  "package_name": "Package003_Healthcare",
+  "package_id": "PKG-003",
+  "package_title": "ValueWeave.in Healthcare Foundation",
+  "version": "1.0.0",
+  "release_date": "2026-07-22",
+  "release_status": "STABLE \u2014 canonical release, merged to main. Promoted from RC1 (2026-07-21, initial collection) through RC2 (2026-07-22, enrichment pass) to this final 1.0.0 stable release. See CHANGELOG.md and reports/rc1_vs_rc2_comparison.md for the full history.",
+  "scope": "Medical Regulatory Bodies & Health Missions, Medical Colleges, Government Hospitals, and Government Health Insurance Schemes for Telangana & Andhra Pradesh plus genuinely national-level entities (architected to extend to all 40 briefed healthcare domains and all Indian states without schema change)",
+  "datasets_included": [
+    {
+      "name": "medical_regulatory_bodies_and_health_missions",
+      "records": 24,
+      "jurisdictions_covered": [
+        "National (12)",
+        "Telangana (6)",
+        "Andhra Pradesh (6)"
+      ],
+      "confidence_score_range": "81-88",
+      "verification_status": "VST-NEEDS_REVIEW"
+    },
+    {
+      "name": "medical_colleges_telangana_andhra_pradesh",
+      "records": 58,
+      "jurisdictions_covered": [
+        "Telangana (32)",
+        "Andhra Pradesh (26)"
+      ],
+      "confidence_score_range": "80-88",
+      "verification_status": "VST-NEEDS_REVIEW"
+    },
+    {
+      "name": "government_hospitals_telangana_andhra_pradesh",
+      "records": 55,
+      "jurisdictions_covered": [
+        "Telangana (32)",
+        "Andhra Pradesh (23)"
+      ],
+      "confidence_score_range": "78-88",
+      "verification_status": "VST-NEEDS_REVIEW"
+    },
+    {
+      "name": "government_health_insurance_schemes",
+      "records": 9,
+      "jurisdictions_covered": [
+        "National (5)",
+        "Telangana (2)",
+        "Andhra Pradesh (2)"
+      ],
+      "confidence_score_range": "82-88",
+      "verification_status": "VST-NEEDS_REVIEW"
+    }
+  ],
+  "total_records": 146,
+  "rc1_vs_rc2_comparison": {
+    "rc1_total_records": 134,
+    "rc2_total_records": 146,
+    "records_added": 12,
+    "records_added_detail": "1 regulatory body (NBEMS) + 1 health scheme (Rashtriya Arogya Nidhi) + 4 medical colleges (GMC Sangareddy, GMC Kamareddy, GMC Ramagundam, AIIMS Mangalagiri) + 6 government hospitals (GGH Wanaparthy, GMC Rajanna Sircilla, GMC Nandyal, Area Hospital Bapatla, District Hospital Peddapalli, GMC Medak)",
+    "rc1_overall_confidence_avg": 82.9,
+    "rc2_overall_confidence_avg": 85.8,
+    "new_columns_added": [
+      "government_hospitals: email, specialties_summary, available_services_summary, government_scheme_coverage_summary (4 new columns, 21->25)",
+      "medical_colleges: email, departments_summary, government_scheme_coverage_summary (3 new columns, 17->20)"
+    ],
+    "fields_filled_from_pending": {
+      "medical_regulatory_bodies_and_health_missions": "5 of 7 (TS/AP Pharmacy Council years, TS Aarogyasri Trust year, AP Nurses Council HQ city)",
+      "medical_colleges_telangana_andhra_pradesh": "mbbs_seats effectively fully filled; both established_year gaps closed",
+      "government_hospitals_telangana_andhra_pradesh": "33 fields filled (address 10, contact_number 12, bed_capacity 7, emergency_services 4)",
+      "government_health_insurance_schemes": "AP EHS coverage ceiling filled; ECHS contribution partially filled; CGHS beneficiary count narrowed (not fully resolved)"
+    },
+    "conflicts_resolved": [
+      "AP university naming 'Dr NTR vs Dr YSR UHS' explained by a real 2019->2024 rename-and-revert history",
+      "SVS Medical College affiliation corrected to KNRUHS (Telangana), fixing a real aggregator error",
+      "Katuri Medical College established_year changed 1997->2002 on preponderance of evidence",
+      "Konaseema IMS&RF established_year 2005 confirmed with stronger corroboration",
+      "Kakatiya-adjacent hospital bed-count and address conflicts documented in notes rather than guessed"
+    ],
+    "conflicts_still_unresolved": [
+      "TVVP/APVVP master hospital-list pages still never surfaced in WebSearch snippets after 2 collection passes -- the single biggest structural gap",
+      "6 government hospital bed-count/address conflicts remain disclosed, not resolved (Kakinada's got MORE conflicting with additional sources)",
+      "CDSCO precise founding year and both states' NHM-unit establishment years remain genuinely unverifiable",
+      "CGHS beneficiary count narrowed to 47.44 lakh cited but the underlying 42-50 lakh disagreement across sources not fully resolved"
+    ],
+    "notable_updates_found_in_rc2": [
+      "National Dental Commission (NDC) confirmed operationally active as of mid-July 2026",
+      "West Bengal became the 36th/final state to adopt PM-JAY -- nationwide completion, missed in RC1",
+      "APNMC's portal permanently migrated to a centralized INC system (NRTS), not merely suspended as RC1 recorded"
+    ],
+    "comparison_report_reference": "reports/rc1_vs_rc2_comparison.md"
+  },
+  "datasets_blocked": [
+    {
+      "name": "Primary Health Centres (PHC)",
+      "reason": "Telangana and Andhra Pradesh each run several hundred PHCs; per-facility verification exceeds what search-snippet research can do at any meaningful field depth",
+      "unblock_requires": "Bulk structured data export (e.g. HMIS/NHM facility registry) rather than per-institution web research"
+    },
+    {
+      "name": "Community Health Centres (CHC)",
+      "reason": "Same scale problem as PHCs",
+      "unblock_requires": "HMIS/NHM facility registry bulk export"
+    },
+    {
+      "name": "Urban Health Centres",
+      "reason": "Same scale problem",
+      "unblock_requires": "State urban health mission bulk facility list"
+    }
+  ],
+  "datasets_queued": [
+    "private_hospitals_general",
+    "super_specialty_hospitals",
+    "childrens_hospitals",
+    "maternity_hospitals",
+    "cancer_hospitals",
+    "eye_hospitals",
+    "dental_hospitals",
+    "diagnostic_centres",
+    "blood_banks",
+    "organ_donation_centres",
+    "dialysis_centres",
+    "ambulance_services",
+    "emergency_services_general",
+    "trauma_centres",
+    "mental_health_centres",
+    "rehabilitation_centres",
+    "telemedicine_services",
+    "public_health_laboratories",
+    "health_helplines",
+    "vaccination_programmes",
+    "disease_surveillance",
+    "public_health_campaigns",
+    "national_health_programmes_beyond_insurance",
+    "pharmaceutical_support_services",
+    "health_ngos",
+    "all_domains_for_remaining_states_and_uts"
+  ],
+  "environment_constraint": "Direct WebFetch to .gov.in/.ac.in/.edu.in/Wikipedia domains was blocked by this session's organizational egress policy in both RC1 (2026-07-21) and RC2 (2026-07-22) -- re-confirmed HTTP 403 policy denial each time via a live test fetch. All data collected via WebSearch result snippets only; confidence scores capped at 88. See docs/METHODOLOGY.md.",
+  "dependencies": "No hard foreign-key dependency on Package001_Geography in this release -- state/district fields are free-text values, not district_id references. medical_colleges_telangana_andhra_pradesh.attached_teaching_hospital and government_hospitals_telangana_andhra_pradesh.medical_college_affiliation are free-text cross-references to each other within this package, not enforced FKs. No relationship to Package002_Education in this release.",
+  "import_order": [
+    "medical_regulatory_bodies_and_health_missions",
+    "medical_colleges_telangana_andhra_pradesh",
+    "government_hospitals_telangana_andhra_pradesh",
+    "government_health_insurance_schemes"
+  ],
+  "data_statistics": {
+    "total_datasets_released": 4,
+    "total_records": 146,
+    "total_columns_across_datasets": 77,
+    "pending_verification_fields_total": 374,
+    "total_fields": 3063
+  },
+  "source_statistics": {
+    "total_distinct_source_urls": 140,
+    "source_tiers_used": [
+      "Tier 1 (Government/official)",
+      "Tier 3 (Trusted healthcare directories, cross-check)",
+      "Tier 4 (Trusted news, for time-sensitive scheme-rename and regulatory-transition verification)"
+    ],
+    "source_tiers_not_used": [
+      "Tier 2 (Official social media -- not needed this release)",
+      "Tier 5 (Community sources -- excluded per package policy for factual data)"
+    ]
+  },
+  "confidence_statistics": {
+    "overall_range": "78-88",
+    "overall_average": 85.8,
+    "note": "Improved from RC1's 82.9 average via stronger multi-source corroboration, still capped at 88 due to this session's persistent WebFetch restriction -- see docs/METHODOLOGY.md confidence_calibration section"
+  },
+  "known_gaps": [
+    "Field depth is still reduced from the ~30 fields per entity named in the package brief. RC2 added email/specialties_summary/available_services_summary/government_scheme_coverage_summary (hospitals) and email/departments_summary/government_scheme_coverage_summary (colleges), but Latitude/Longitude, Google Maps Link, ICU Availability, Dialysis, Ambulance Availability, and Working Hours remain entirely unpopulated. See docs/METHODOLOGY.md.",
+    "Latitude/longitude is 0% populated across every dataset in this release (same known gap as Package001_Geography and Package002_Education)",
+    "TVVP (Telangana) and APVVP (Andhra Pradesh) master hospital-list pages still never surfaced in WebSearch snippets after 2 collection passes -- the single biggest structural gap in this package",
+    "~13-15 of Telangana's newer government medical colleges remain unrepresented even after RC2 added 4 new colleges",
+    "New RC2 columns are unevenly filled: government_scheme_coverage_summary is deliberately conservative (10-34 of 55-58 rows per dataset) since empanelment claims require a specific confirming source",
+    "36 of 40 briefed healthcare domains still not researched (BLOCKED/QUEUED, not guessed)",
+    "Coverage limited to Telangana, Andhra Pradesh, and national-level entities -- remaining states/UTs QUEUED",
+    "No row has been promoted to VST-VERIFIED; that is a separate governance action, still pending for all 146 rows",
+    "6 government hospital bed-count/address conflicts and the CDSCO/NHM establishment-year gaps remain genuinely unresolved after 2 passes"
+  ],
+  "future_improvements": [
+    "See reports/future_expansion_roadmap.md for the full 10-item roadmap",
+    "Re-verify all rows with direct WebFetch once available, promoting confirmed rows to VST-VERIFIED",
+    "Unlock TVVP/APVVP full hospital rosters -- still the single biggest expansion opportunity after 2 passes",
+    "Fill the remaining ~13-15 missing Telangana medical colleges",
+    "Add PHCs/CHCs/Urban Health Centres once a bulk source (HMIS/NHM) is available",
+    "Expand to specialty hospital categories and service-infrastructure domains",
+    "Add programme/campaign domains (vaccination, disease surveillance, public health campaigns, telemedicine, helplines, pharma support, health NGOs)",
+    "Extend geographic coverage beyond Telangana & Andhra Pradesh",
+    "Extend RC2's new field-depth additions (email, scheme coverage) further -- fill rates are still well under 100%",
+    "Evaluate cross-package FK wiring to Package001_Geography's district_id"
+  ],
+  "license": "Compiled from public government, institutional, and reputable healthcare-journalism sources for ValueWeave internal knowledge-graph use; per-row source attribution preserved in source_url",
+  "changelog_reference": "CHANGELOG.md",
+  "readme_reference": "README.md"
+}

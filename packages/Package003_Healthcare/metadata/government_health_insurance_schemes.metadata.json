@@ -1,0 +1,52 @@
+{
+  "dataset_name": "government_health_insurance_schemes",
+  "title": "Government Health Insurance Schemes",
+  "package": "Package003_Healthcare",
+  "version": "1.0.0",
+  "description": "Major active central government health insurance schemes plus Telangana and Andhra Pradesh state health insurance schemes.",
+  "scope_note": "As of RC2, includes Rashtriya Arogya Nidhi (RAN), a MoHFW financial-assistance scheme missed in RC1.",
+  "file": "datasets/government_health_insurance_schemes.csv",
+  "primary_key": "id",
+  "record_count": 9,
+  "column_count": 16,
+  "columns": [
+    "id",
+    "scheme_name",
+    "scheme_type",
+    "jurisdiction",
+    "administering_body",
+    "target_beneficiaries",
+    "coverage_amount_summary",
+    "empanelled_hospitals_summary",
+    "application_portal",
+    "official_website",
+    "data_source",
+    "source_url",
+    "collection_date",
+    "confidence_score",
+    "verification_status",
+    "notes"
+  ],
+  "jurisdiction_breakdown": {
+    "National": 5,
+    "Telangana": 2,
+    "Andhra Pradesh": 2
+  },
+  "provenance": {
+    "collection_date_range": "2026-07-21 (RC1) to 2026-07-22 (RC2 enrichment)",
+    "collection_method": "WebSearch-based knowledge engineering research. Direct WebFetch to .gov.in/.ac.in/.edu.in/Wikipedia domains remained blocked by this session's organizational egress policy during RC2 as well (re-confirmed HTTP 403 live before enrichment began).",
+    "confidence_score_range": [
+      82,
+      88
+    ],
+    "confidence_score_average": 85.6,
+    "confidence_calibration_note": "RC2 raised confidence modestly (max +8/row) where stronger multi-source corroboration was found, capped at 88 \u2014 still below a 90+ 'direct official source' band, since WebFetch access was not restored.",
+    "distinct_source_urls": 9,
+    "pending_verification_field_count": 0,
+    "total_fields": 144,
+    "pending_verification_rate_pct": 0.0
+  },
+  "license": "Compiled from public government, institutional, and reputable healthcare-journalism sources for ValueWeave internal knowledge-graph use; per-row source attribution preserved in source_url.",
+  "collection_report_reference": "reports/government_health_insurance_schemes.collection_report.md",
+  "rc2_enrichment_report_reference": "reports/regulatory_bodies_and_schemes.rc2_enrichment_report.md"
+}

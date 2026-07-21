@@ -1,0 +1,51 @@
+# Collection Report: Medical Colleges — Telangana & Andhra Pradesh
+
+**Package:** Package003_Healthcare v1.0.0
+**Dataset:** medical_colleges_telangana_andhra_pradesh.csv
+**Collection date:** 2026-07-21
+**Rows collected:** 54 (29 Telangana, 25 Andhra Pradesh)
+
+## 1. Methodology
+
+This dataset was compiled using WebSearch only. Direct WebFetch access to `.gov.in`, `.ac.in`, and Wikipedia domains was blocked by this session's organizational egress policy (confirmed HTTP 403 on retest), so all facts were sourced from **search-result snippets** that themselves quote or summarize Wikipedia articles, official college/university websites, district government portals, and third-party medical-admission aggregators (Careers360, Collegedunia, edufever, medicalneetug.com, etc.). No fact was fetched by directly loading a page; all facts trace back to a snippet returned by a WebSearch query, cited in the `source_url` column.
+
+Process:
+1. Broad queries to establish the master lists of government and private MBBS colleges in each state (NMC-approved counts, KNRUHS/Dr NTR UHS admission-authority descriptions).
+2. Targeted per-college or per-cluster queries (2-4 colleges per query) to pull establishment year, ownership, university affiliation, and attached teaching hospital.
+3. Cross-checking each fact against at least two independent sources where possible (a primary-adjacent source such as Wikipedia or the college's own site, plus one admissions aggregator).
+4. Any field not corroborated to the research team's satisfaction was left as `PENDING_VERIFICATION` rather than inferred or guessed, per the strict no-invention rule.
+5. `mbbs_seats` was left `PENDING_VERIFICATION` for the large majority of rows because annual intake figures change year to year (NMC increases/decreases seats, new colleges ramp up) and no session-verifiable, clearly-dated 2026-27 seat matrix could be fetched directly (the KNRUHS 2024-25 intake PDF surfaced in search but was not fetchable this session). A handful of rows retain a seat number only where an aggregator explicitly stated it as a specific, recently-reported figure (e.g., Government Medical College Jagtial/Karimnagar: 100 seats; Government Siddhartha Medical College Vijayawada: 175; ACSR GMC Nellore: 175; NRI Medical College: 200; Maheshwara Medical College: 150; Ayaan Institute: 150) — these are flagged in `notes` as indicative, not confirmed-current.
+
+## 2. Sources consulted (representative, not exhaustive — full list embedded per-row in `source_url`)
+
+- Wikipedia articles (via search snippets) for most established government colleges and several private colleges: Osmania Medical College, Kakatiya Medical College, Gandhi/Government Medical College Nizamabad/Siddipet/Mancherial/Anantapur/Kadapa/Karimnagar/Jagtial/Mahbubnagar, Andhra Medical College, Guntur Medical College, Rangaraya Medical College, Kurnool Medical College, Siddhartha Medical College, Sri Venkateswara Medical College, SVIMS-Sri Padmavathi Medical College for Women, A.C. Subba Reddy GMC Nellore, Katuri Medical College, NRI Academy of Medical Sciences, Malla Reddy Institute of Medical Sciences, Maheshwara Medical College, Ayaan Institute of Medical Sciences, Deccan College of Medical Sciences, Mamata Medical College, Rajiv Gandhi IMS Adilabad.
+- Official college websites (identified and cited, not fetched): omc.ac.in, kmcwgl.com, gmcnzb.org, mchyderabad.esic.gov.in, gmcsiddipet.org, gmcjagtial.com, gmcknr.com, dcms.ac.in, kimsmedicalcollege.org, mamatamedicalcollege.com, caims.in, prathimaeducation.org, mnrmch.mnrindia.org, mrims.edu.in, amc.edu.in, smcvja.in, rimssrikakulam.org, governmentmedicalcollegekadapa.edu.in, narayanamedicalcollege.com, nrias.net, asram.in, gslmc.com, katurimedicalcollege.org, santhirammedicalcollege.com, aimsrchittoor.edu.in.
+- District/state government portals surfaced in search (cited, not fetched): nizamabad.telangana.gov.in, suryapet.telangana.gov.in, wanaparthy.telangana.gov.in, ananthapuramu.ap.gov.in, krishna.ap.gov.in.
+- Admissions aggregators used as secondary cross-checks: Careers360 (medicine.careers360.com), Collegedunia, edufever.com, medicalneetug.com / medicalneetpg.com, indiaccess.com, mbbscouncil.com, rmgoe.org, banodoctor.com, zynerd.com, thecareerassistance.com, neetadmission.in.
+
+## 3. Conflicts found and resolution
+
+- **Guntur/Konaseema/Ongole/Santhiram/SVS Medical College affiliation naming:** several aggregators referred to the AP state health university as "Dr. YSR University of Health Sciences" rather than "Dr. NTR University of Health Sciences," particularly for colleges in Rayalaseema/southern districts (Ongole, Nandyal, Amalapuram, Mahabubnagar-adjacent listing for SVS). The task brief specifies Dr. NTR University of Health Sciences as the canonical AP affiliation, so that name was recorded uniformly, but each affected row's `notes` flags the discrepancy for downstream review — it may reflect a real post-2022 regional health-university split that this session could not confirm/deny without direct `.gov.in`/`.ac.in` access.
+- **SVS Medical College (Mahabubnagar, Telangana) affiliation:** one aggregator listed its affiliation as "Dr. NTR University of Health Sciences, Vijayawada," which is the Andhra Pradesh university and geographically implausible for a Telangana college. Recorded as reported but flagged as a likely aggregator error, with confidence score lowered to 78.
+- **Katuri Medical College, Guntur — establishment year:** sources conflict between 1997 and 2002. Retained 1997 (the more specific Wikipedia-derived claim) and flagged the conflict in `notes`.
+- **Konaseema Institute of Medical Sciences & Research Foundation — establishment year:** sources conflict between 2005 and 2014. Retained 2005 but flagged low-moderate confidence (76) given the unresolved discrepancy.
+- **Siddhartha Medical College, Vijayawada vs. Dr. Pinnamaneni Siddhartha Institute of Medical Sciences, Gannavaram:** these are two distinct institutions sharing the "Siddhartha" name (one government, transferred to state control in 1986; one private, sponsored by the Siddhartha Academy of General & Technical Education). Both are included as separate rows with notes clarifying the distinction to prevent downstream conflation.
+- **AP district naming (2022 reorganisation):** Andhra Pradesh created new districts in 2022 (e.g., Kakinada, Konaseema, Eluru, Nandyal, NTR district carved from Krishna). Where a college's town now sits in a newly named district, the newer district name is used with a note referencing the pre-2022 district for continuity.
+
+## 4. Colleges considered but excluded
+
+- **Rangaraya Medical College's affiliated Government General Hospital variants and several very-recently-announced 2024-2025 Telangana/AP colleges** (announced but not yet confirmed as NMC-recognized or admitting students) were excluded — no credible independent source could confirm operational status/admissions within this session.
+- **Vishnu Dental College, Vijayawada** and other **dental-only** colleges were excluded — task scope is MBBS-granting medical colleges only.
+- **Prathima Relief Institute of Medical Sciences, Hanamkonda** (reported established 2022) was mentioned in a general aggregator summary but not independently verified with a dedicated source in this session, so it was excluded rather than included with weak sourcing.
+- **AIIMS Mangalagiri** (Andhra Pradesh) was considered but excluded from this pass — it surfaced in a summary ("19 Government Medical Colleges including 1 AIIMS Mangalagiri") but no dedicated per-college verification query was run for it in the time available; flagged as a gap (see below).
+- Several **newer Telangana government colleges** from the 2022-2023 expansion waves (e.g., Ramagundam, Sangareddy, Kamareddy, Jayashankar Bhupalpally, Komaram Bheem Asifabad, Nirmal, Rajanna Sircilla, Vikarabad, Jangaon, Bhadradri Kothagudem) were identified by name in aggregate search results but excluded from the row-level dataset because individual establishment-year/affiliation/hospital details could not be pulled and verified for each within the session's time budget. This is a known gap (see below), not evidence the colleges don't exist — aggregate sources consistently describe Telangana as having 34-36 total government medical colleges, of which this dataset captures 17.
+- Similarly, several of Andhra Pradesh's ~19-20 private and ~19 government colleges beyond those listed here (aggregate sources cite 38-39 total AP MBBS colleges) were not individually pulled in this pass.
+
+## 5. Known gaps
+
+- **Seat counts (`mbbs_seats`):** left `PENDING_VERIFICATION` for the large majority of rows; genuine year-to-year variability and lack of direct access to the current (2026-27) NMC/KNRUHS/Dr NTR UHS seat-matrix PDFs make firm figures unsafe to assert broadly.
+- **Official websites:** roughly a third of rows have `PENDING_VERIFICATION` for `official_website` where a distinct, confidently-attributable official domain did not surface in search (as opposed to aggregator pages about the college).
+- **Telangana's newer (2022-2023) government medical colleges** — roughly 17-19 colleges beyond the 17 captured here (Ramagundam, Sangareddy, Kamareddy, Bhadradri Kothagudem, Jayashankar Bhupalpally, Komaram Bheem Asifabad, Nirmal, Rajanna Sircilla, Vikarabad, Jangaon, Mahaboobabad, and others) are not yet represented as individual rows.
+- **Andhra Pradesh AIIMS Mangalagiri** and several additional AP government/private colleges beyond the 25 rows here (AP aggregates suggest ~38-39 total MBBS colleges statewide) were not individually verified.
+- **Direct primary-source access** (NMC official college list, KNRUHS/Dr NTR UHS official affiliated-college lists, and Wikipedia full articles) was unavailable this session due to the egress block on `.gov.in`/`.ac.in`/Wikipedia domains; all facts rest on search-snippet secondary sourcing, which caps confidence scores at 82-88 per the task's instructions even for well-corroborated rows.
+- **AP health-university naming split** ("Dr. NTR University of Health Sciences" vs. "Dr. YSR University of Health Sciences") could not be conclusively resolved — a follow-up session with direct `.gov.in` access should confirm whether this reflects an actual post-2022 institutional split by region.

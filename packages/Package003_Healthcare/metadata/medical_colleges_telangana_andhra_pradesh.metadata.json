@@ -1,0 +1,55 @@
+{
+  "dataset_name": "medical_colleges_telangana_andhra_pradesh",
+  "title": "Medical Colleges (Telangana & Andhra Pradesh)",
+  "package": "Package003_Healthcare",
+  "version": "1.0.0",
+  "description": "Government and private MBBS-granting medical colleges located in Telangana and Andhra Pradesh.",
+  "scope_note": "As of RC2, includes email, departments_summary, and government_scheme_coverage_summary columns.",
+  "file": "datasets/medical_colleges_telangana_andhra_pradesh.csv",
+  "primary_key": "id",
+  "record_count": 58,
+  "column_count": 20,
+  "columns": [
+    "id",
+    "name",
+    "ownership",
+    "affiliation",
+    "established_year",
+    "district",
+    "state",
+    "city",
+    "official_website",
+    "email",
+    "mbbs_seats",
+    "attached_teaching_hospital",
+    "departments_summary",
+    "government_scheme_coverage_summary",
+    "data_source",
+    "source_url",
+    "collection_date",
+    "confidence_score",
+    "verification_status",
+    "notes"
+  ],
+  "jurisdiction_breakdown": {
+    "Telangana": 32,
+    "Andhra Pradesh": 26
+  },
+  "provenance": {
+    "collection_date_range": "2026-07-21 (RC1) to 2026-07-22 (RC2 enrichment)",
+    "collection_method": "WebSearch-based knowledge engineering research. Direct WebFetch to .gov.in/.ac.in/.edu.in/Wikipedia domains remained blocked by this session's organizational egress policy during RC2 as well (re-confirmed HTTP 403 live before enrichment began).",
+    "confidence_score_range": [
+      80,
+      88
+    ],
+    "confidence_score_average": 87.1,
+    "confidence_calibration_note": "RC2 raised confidence modestly (max +8/row) where stronger multi-source corroboration was found, capped at 88 \u2014 still below a 90+ 'direct official source' band, since WebFetch access was not restored.",
+    "distinct_source_urls": 58,
+    "pending_verification_field_count": 113,
+    "total_fields": 1160,
+    "pending_verification_rate_pct": 9.74
+  },
+  "license": "Compiled from public government, institutional, and reputable healthcare-journalism sources for ValueWeave internal knowledge-graph use; per-row source attribution preserved in source_url.",
+  "collection_report_reference": "reports/medical_colleges_telangana_andhra_pradesh.collection_report.md",
+  "rc2_enrichment_report_reference": "reports/medical_colleges_telangana_andhra_pradesh.rc2_enrichment_report.md"
+}

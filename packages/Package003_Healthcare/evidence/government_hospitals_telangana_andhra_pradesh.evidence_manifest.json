@@ -1,0 +1,209 @@
+{
+  "dataset_name": "government_hospitals_telangana_andhra_pradesh",
+  "package": "Package003_Healthcare",
+  "version": "1.0.0",
+  "fetch_method": "WebSearch tool result snippets only (WebFetch blocked \u2014 see note)",
+  "webfetch_blocked_note": "This session's organizational egress proxy returned HTTP 403 (policy denial) for direct WebFetch to .gov.in, .ac.in, .edu.in, and Wikipedia domains during both the RC1 collection pass (2026-07-21) and the RC2 enrichment pass (2026-07-22) \u2014 re-confirmed via a live test fetch each time, not a transient or client-side failure. No source page in this dataset was ever directly fetched and re-read; every fact is WebSearch-snippet-sourced and cited by URL.",
+  "distinct_sources_cited": 49,
+  "total_rows": 55,
+  "sources": [
+    {
+      "source_url": "https://en.wikipedia.org/wiki/Osmania_General_Hospital ; https://www.medindia.net/directories/hospitals/osmania-general-hospital-hyderabad-telangana-65904.htm",
+      "data_source": "Wikipedia; Medindia; Yappe; hospital directories (WebSearch snippets only, no direct fetch)"
+    },
+    {
+      "source_url": "https://en.wikipedia.org/wiki/Gandhi_Medical_College_and_Hospital ; https://gmcsecunderabad.org/contact-us/",
+      "data_source": "HexaHealth; ZoomInfo; Wikipedia; gmcsecunderabad.org (via search snippet)"
+    },
+    {
+      "source_url": "https://en.wikipedia.org/wiki/Niloufer_Hospital",
+      "data_source": "Mappls; multiple hospital directories; Wikipedia"
+    },
+    {
+      "source_url": "https://www.kmcwgl.com/mgmh.html",
+      "data_source": "kmcwgl.com; Mappls; thewarangal.com (via WebSearch snippets)"
+    },
+    {
+      "source_url": "https://en.wikipedia.org/wiki/Government_General_Hospital,_Nizamabad ; https://www.gmcnzb.org/",
+      "data_source": "Wikipedia (Government General Hospital, Nizamabad); gmcnzb.org"
+    },
+    {
+      "source_url": "https://suryapet.telangana.gov.in/government-general-hospital/",
+      "data_source": "suryapet.telangana.gov.in (via WebSearch snippet)"
+    },
+    {
+      "source_url": "https://gmckothagudem.org/about-us/",
+      "data_source": "gmckothagudem.org (via WebSearch snippet); collnod.com"
+    },
+    {
+      "source_url": "http://www.gmcmancherial.org/about-us/",
+      "data_source": "gmcmancherial.org; Grokipedia (via WebSearch snippet)"
+    },
+    {
+      "source_url": "https://en.wikipedia.org/wiki/Rajiv_Gandhi_Institute_of_Medical_Sciences,_Adilabad",
+      "data_source": "adilabad.telangana.gov.in; Wikipedia; rimsadilabad.org (via WebSearch snippet)"
+    },
+    {
+      "source_url": "https://en.wikipedia.org/wiki/Government_Medical_College,_Mahbubnagar",
+      "data_source": "Multiple college-listing aggregator sites (tabindia.org, careermarg.com, moksh16.com) via WebSearch snippets"
+    },
+    {
+      "source_url": "https://gmcsiddipet.org/about/gmc-siddipet/",
+      "data_source": "gmcsiddipet.org (via WebSearch snippet)"
+    },
+    {
+      "source_url": "https://www.themedicalcounselling.com/doctor/government-medical-college-nalgonda",
+      "data_source": "Aggregator college-listing sites (via WebSearch snippets)"
+    },
+    {
+      "source_url": "https://gmcyadadri.org/contact-us/",
+      "data_source": "gmcyadadri.org (via WebSearch snippet)"
+    },
+    {
+      "source_url": "https://www.moksh16.com/government-medical-college-jagtial",
+      "data_source": "Aggregator college-listing sites (moksh16.com, careers360.com) via WebSearch snippets"
+    },
+    {
+      "source_url": "https://en.wikipedia.org/wiki/Government_Medical_College,_Sangareddy",
+      "data_source": "Aggregator college-listing sites via WebSearch snippets"
+    },
+    {
+      "source_url": "https://gmcvikarabad.ac.in/",
+      "data_source": "gmcvikarabad.ac.in (via WebSearch snippet)"
+    },
+    {
+      "source_url": "https://gmcnagarkurnool.org/",
+      "data_source": "gmcnagarkurnool.org (via WebSearch snippet)"
+    },
+    {
+      "source_url": "https://gmckhammam.org/government-general-hospital/",
+      "data_source": "gmckhammam.org (via WebSearch snippet)"
+    },
+    {
+      "source_url": "https://karimnagar.telangana.gov.in/departments/district-hospital-karimnagar/",
+      "data_source": "karimnagar.telangana.gov.in (via WebSearch snippet)"
+    },
+    {
+      "source_url": "https://kothagudem.telangana.gov.in/vaidya-vidhana-parishad/",
+      "data_source": "kothagudem.telangana.gov.in (via WebSearch snippet)"
+    },
+    {
+      "source_url": "https://mahabubabad.telangana.gov.in/area-hospital/",
+      "data_source": "mahabubabad.telangana.gov.in (via WebSearch snippet)"
+    },
+    {
+      "source_url": "https://kamareddy.telangana.gov.in/public-utility/government-hospital/",
+      "data_source": "kamareddy.telangana.gov.in (via WebSearch snippet)"
+    },
+    {
+      "source_url": "https://kamareddy.telangana.gov.in/public-utility-category/hospitals/",
+      "data_source": "WebSearch aggregate summary referencing Kamareddy district facilities"
+    },
+    {
+      "source_url": "https://dme.telangana.gov.in/open_record.php?ID=196",
+      "data_source": "WebSearch aggregate summary referencing dme.telangana.gov.in hospital list"
+    },
+    {
+      "source_url": "https://jangaon.telangana.gov.in/public-utility/district-area-hospital/",
+      "data_source": "jangaon.telangana.gov.in (via WebSearch snippet)"
+    },
+    {
+      "source_url": "https://gunturmedicalcollege.edu.in/clinical-information/ ; https://en.wikipedia.org/wiki/Guntur_Medical_College",
+      "data_source": "gunturmedicalcollege.edu.in; Wikipedia; Medindia (via WebSearch snippets)"
+    },
+    {
+      "source_url": "https://en.wikipedia.org/wiki/Kurnool_Medical_College ; https://kurnool.ap.gov.in/public-utility/government-general-hospital/",
+      "data_source": "kurnoolmedicalcollege.ac.in; Wikipedia; kurnool.ap.gov.in (via WebSearch snippets)"
+    },
+    {
+      "source_url": "https://en.wikipedia.org/wiki/King_George_Hospital,_Visakhapatnam ; https://amc.edu.in/teaching-hospitals/",
+      "data_source": "amc.edu.in; visakhapatnam.ap.gov.in; Wikipedia (via WebSearch snippets)"
+    },
+    {
+      "source_url": "https://en.wikipedia.org/wiki/Sri_Venkateswara_Ramnarain_Ruia_Government_General_Hospital ; https://tirupati.ap.gov.in/public-utility/sri-venkateswara-ramnarayan-ruia-government-general-hospital-ruia-hospital/",
+      "data_source": "Wikipedia; tirupati.ap.gov.in (via WebSearch snippets)"
+    },
+    {
+      "source_url": "https://en.wikipedia.org/wiki/Siddhartha_Medical_College",
+      "data_source": "HexaHealth; Medindia; Wikipedia (Siddhartha Medical College) via WebSearch snippets"
+    },
+    {
+      "source_url": "https://krishna.ap.gov.in/public-utility/district-hospital/ ; https://www.gmcmachilipatnam-ap-gov.com/vmccollege/",
+      "data_source": "krishna.ap.gov.in; gmcmachilipatnam-ap-gov.com (via WebSearch snippets)"
+    },
+    {
+      "source_url": "https://en.wikipedia.org/wiki/Government_Medical_College,_Anantapur ; https://gmcatp.edu.in/",
+      "data_source": "gmcatp.edu.in; Wikipedia (via WebSearch snippets)"
+    },
+    {
+      "source_url": "https://srikakulam.ap.gov.in/public-utility/rims-district-general-hospital-srikakulam/",
+      "data_source": "srikakulam.ap.gov.in (via WebSearch snippet)"
+    },
+    {
+      "source_url": "https://en.wikipedia.org/wiki/Government_Medical_College,_Kadapa ; https://rims-kadapa.in/hospital.php",
+      "data_source": "rims-kadapa.in; Wikipedia (via WebSearch snippets)"
+    },
+    {
+      "source_url": "https://gmcvizianagaram.ap.gov.in/assets/gghvzm.pdf ; https://gmcvizianagaram.ap.gov.in/Profile.html",
+      "data_source": "gmcvizianagaram.ap.gov.in (via WebSearch snippet, including official hospital profile PDF found in results)"
+    },
+    {
+      "source_url": "https://en.wikipedia.org/wiki/Rangaraya_Medical_College",
+      "data_source": "rmckakinada.com; Wikipedia (via WebSearch snippets)"
+    },
+    {
+      "source_url": "https://gmcrajamahendravaram.ap.gov.in/about.aspx",
+      "data_source": "gmcrajamahendravaram.ap.gov.in; mbbscouncil.com (via WebSearch snippets)"
+    },
+    {
+      "source_url": "https://spsnellore.ap.gov.in/government-general-hospital/ ; https://spsnellore.ap.gov.in/public-utility/acsr-govt-general-hospital-nellore/",
+      "data_source": "spsnellore.ap.gov.in; mbbscouncil.com (via WebSearch snippets)"
+    },
+    {
+      "source_url": "https://gmceluru.ap.gov.in/",
+      "data_source": "gmceluru.ap.gov.in; Medindia (via WebSearch snippets)"
+    },
+    {
+      "source_url": "https://www.gmcongole.org/about-us-2/",
+      "data_source": "gmcongole.org (via WebSearch snippet)"
+    },
+    {
+      "source_url": "https://westgodavari.ap.gov.in/ap-vaidhya-vidhana-parishaddchs/",
+      "data_source": "westgodavari.ap.gov.in (via WebSearch snippet)"
+    },
+    {
+      "source_url": "https://westgodavari.ap.gov.in/public-utility-category/hospitals/",
+      "data_source": "westgodavari.ap.gov.in; Mappls; ayushmancardhospitals.com (via WebSearch snippets)"
+    },
+    {
+      "source_url": "https://chittoor.ap.gov.in/public-utility-category/hospitals/",
+      "data_source": "chittoor.ap.gov.in; Mappls; Medindia (via WebSearch snippets)"
+    },
+    {
+      "source_url": "https://wanaparthy.telangana.gov.in/government-general-hospital/ ; https://medicalneetug.com/college/government-medical-college-wanaparthy",
+      "data_source": "wanaparthy.telangana.gov.in; medicalneetug.com; edufever.com (WebSearch snippets only, no direct fetch)"
+    },
+    {
+      "source_url": "https://gmcrajannasircilla.org/contact ; https://targetstudy.com/institute/101367/government-medical-college-hospital-gmc-rajanna-sircilla/",
+      "data_source": "gmcrajannasircilla.org; targetstudy.com; studentkhabri.com (WebSearch snippets only, no direct fetch)"
+    },
+    {
+      "source_url": "https://www.gmcnandyal-ap-gov.com/hospital-information/ ; https://gmcnandyalaap-govt.in/contact-us/",
+      "data_source": "gmcnandyal-ap-gov.com; gmcnandyalaap-govt.in; nyraeducation.in (WebSearch snippets only, no direct fetch)"
+    },
+    {
+      "source_url": "https://bapatla.ap.gov.in/public-utility/area-hospital-bapatla/",
+      "data_source": "bapatla.ap.gov.in; Medindia (WebSearch snippets only, no direct fetch)"
+    },
+    {
+      "source_url": "https://peddapalli.telangana.gov.in/public-utility-category/hospitals/ ; https://www.thehansindia.com/telangana/peddapalli-hospital-tops-in-aarogyasri-bags-multiple-awards-1063940",
+      "data_source": "peddapalli.telangana.gov.in; thehansindia.com (WebSearch snippets only, no direct fetch)"
+    },
+    {
+      "source_url": "https://neetsupport.com/college/government-medical-college-medak-comprehensive-guide-for-2026 ; https://medak.telangana.gov.in/public-utility-category/hospitals/",
+      "data_source": "neetsupport.com; rmgoe.org; medak.telangana.gov.in (WebSearch snippets only, no direct fetch)"
+    }
+  ],
+  "collection_report_reference": "reports/government_hospitals_telangana_andhra_pradesh.collection_report.md",
+  "rc2_enrichment_report_reference": "reports/government_hospitals_telangana_andhra_pradesh.rc2_enrichment_report.md"
+}

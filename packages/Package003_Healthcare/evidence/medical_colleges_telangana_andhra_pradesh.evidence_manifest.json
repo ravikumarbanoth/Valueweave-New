@@ -1,0 +1,245 @@
+{
+  "dataset_name": "medical_colleges_telangana_andhra_pradesh",
+  "package": "Package003_Healthcare",
+  "version": "1.0.0",
+  "fetch_method": "WebSearch tool result snippets only (WebFetch blocked \u2014 see note)",
+  "webfetch_blocked_note": "This session's organizational egress proxy returned HTTP 403 (policy denial) for direct WebFetch to .gov.in, .ac.in, .edu.in, and Wikipedia domains during both the RC1 collection pass (2026-07-21) and the RC2 enrichment pass (2026-07-22) \u2014 re-confirmed via a live test fetch each time, not a transient or client-side failure. No source page in this dataset was ever directly fetched and re-read; every fact is WebSearch-snippet-sourced and cited by URL.",
+  "distinct_sources_cited": 58,
+  "total_rows": 58,
+  "sources": [
+    {
+      "source_url": "https://en.wikipedia.org/wiki/Osmania_Medical_College ; https://omc.ac.in/",
+      "data_source": "Wikipedia; official college website"
+    },
+    {
+      "source_url": "https://medicine.careers360.com/colleges/list-of-government-medical-colleges-in-telangana",
+      "data_source": "Careers360 / aggregator search snippets"
+    },
+    {
+      "source_url": "https://en.wikipedia.org/wiki/Kakatiya_Medical_College ; https://www.kmcwgl.com/",
+      "data_source": "Wikipedia; official college website (kmcwgl.com)"
+    },
+    {
+      "source_url": "https://en.wikipedia.org/wiki/Rajiv_Gandhi_Institute_of_Medical_Sciences,_Adilabad",
+      "data_source": "Wikipedia"
+    },
+    {
+      "source_url": "https://en.wikipedia.org/wiki/Government_Medical_College,_Nizamabad ; https://www.gmcnzb.org/ ; https://nizamabad.telangana.gov.in/public-utility/govt-medical-college/",
+      "data_source": "Wikipedia; official college website; Nizamabad district government portal"
+    },
+    {
+      "source_url": "https://mchyderabad.esic.gov.in/medical-about-us ; https://mchyderabad.esic.gov.in/",
+      "data_source": "Official ESIC college website"
+    },
+    {
+      "source_url": "https://en.wikipedia.org/wiki/Government_Medical_College,_Mahbubnagar",
+      "data_source": "Wikipedia; aggregator search snippets"
+    },
+    {
+      "source_url": "https://en.wikipedia.org/wiki/Government_Medical_College,_Siddipet ; https://gmcsiddipet.org/",
+      "data_source": "Wikipedia; official college website"
+    },
+    {
+      "source_url": "https://www.indiaccess.com/colleges/medical/telangana/government/",
+      "data_source": "Aggregator search snippets (indiaccess.com, careers360)"
+    },
+    {
+      "source_url": "https://suryapet.telangana.gov.in/government-medical-college/",
+      "data_source": "Suryapet district government portal; aggregator snippets"
+    },
+    {
+      "source_url": "https://www.edufever.com/aiims-bibinagar/",
+      "data_source": "Aggregator search snippets (edufever, collegedunia)"
+    },
+    {
+      "source_url": "https://en.wikipedia.org/wiki/Government_Medical_College,_Mancherial",
+      "data_source": "Wikipedia"
+    },
+    {
+      "source_url": "https://wanaparthy.telangana.gov.in/government-medical-college/",
+      "data_source": "Wanaparthy district government portal; aggregator snippets"
+    },
+    {
+      "source_url": "https://blog.rmgoe.org/government-medical-college-nagarkurnool/",
+      "data_source": "Aggregator search snippets (blog.rmgoe.org, medicalneetug.com)"
+    },
+    {
+      "source_url": "http://gmcjagtial.com/",
+      "data_source": "Official college website (gmcjagtial.com)"
+    },
+    {
+      "source_url": "https://www.moksh16.com/government-medical-college-khammam",
+      "data_source": "Aggregator search snippets (moksh16.com, rmgoe.org)"
+    },
+    {
+      "source_url": "https://www.gmcknr.com/about-us.html ; https://www.gmcknr.com/",
+      "data_source": "Official college website (gmcknr.com); aggregator corroboration"
+    },
+    {
+      "source_url": "https://en.wikipedia.org/wiki/Deccan_College_of_Medical_Sciences ; https://dcms.ac.in/",
+      "data_source": "Wikipedia; official college website"
+    },
+    {
+      "source_url": "https://www.kimsmedicalcollege.org/affiliation.htm",
+      "data_source": "Official college website; aggregator cross-check"
+    },
+    {
+      "source_url": "https://medicalneetug.com/college/kamineni-academy-of-medical-sciences-research-center",
+      "data_source": "Aggregator search snippets (medicalneetpg.com, medicalneetug.com)"
+    },
+    {
+      "source_url": "https://en.wikipedia.org/wiki/Mamata_Medical_College ; https://mamatamedicalcollege.com/",
+      "data_source": "Wikipedia; official college website"
+    },
+    {
+      "source_url": "https://mbbscouncil.com/listing/bhaskar-medical-college-yenkapally/",
+      "data_source": "Aggregator search snippets (edufever, mbbscouncil)"
+    },
+    {
+      "source_url": "https://www.caims.in/ ; https://www.careers360.com/colleges/chalmeda-ananda-rao-institute-of-medical-sciences-karimnagar",
+      "data_source": "Official college website (caims.in); aggregator cross-check"
+    },
+    {
+      "source_url": "https://prathimaeducation.org/ ; https://careermarg.com/college/prathima-institute-of-medical-sciences",
+      "data_source": "Aggregator search snippets; institution group website"
+    },
+    {
+      "source_url": "https://mnrmch.mnrindia.org/ ; https://rmgoe.org/study-india/mnr-medical-college-hospital-sangareddy",
+      "data_source": "Official college website; aggregator cross-check"
+    },
+    {
+      "source_url": "https://www.edufever.com/svsmc-mahbubnagar/",
+      "data_source": "Aggregator search snippets (edufever, collegedunia)"
+    },
+    {
+      "source_url": "https://en.wikipedia.org/wiki/Malla_Reddy_Institute_of_Medical_Sciences ; https://mrims.edu.in/",
+      "data_source": "Wikipedia; official college website"
+    },
+    {
+      "source_url": "https://en.wikipedia.org/wiki/Maheshwara_Medical_College_and_Hospital",
+      "data_source": "Wikipedia"
+    },
+    {
+      "source_url": "https://en.wikipedia.org/wiki/Ayaan_Institute_of_Medical_Sciences",
+      "data_source": "Wikipedia"
+    },
+    {
+      "source_url": "https://en.wikipedia.org/wiki/Andhra_Medical_College ; https://amc.edu.in/about-us/",
+      "data_source": "Wikipedia; official college website"
+    },
+    {
+      "source_url": "https://en.wikipedia.org/wiki/Guntur_Medical_College",
+      "data_source": "Wikipedia; indcareer.com"
+    },
+    {
+      "source_url": "https://en.wikipedia.org/wiki/Rangaraya_Medical_College",
+      "data_source": "Wikipedia"
+    },
+    {
+      "source_url": "https://en.wikipedia.org/wiki/Kurnool_Medical_College",
+      "data_source": "Wikipedia; justmbbs.com"
+    },
+    {
+      "source_url": "https://en.wikipedia.org/wiki/Siddhartha_Medical_College ; https://smcvja.in/about",
+      "data_source": "Wikipedia; official college website (smcvja.in)"
+    },
+    {
+      "source_url": "https://en.wikipedia.org/wiki/Sri_Venkateswara_Medical_College",
+      "data_source": "Wikipedia (Sri_Venkateswara_Medical_College)"
+    },
+    {
+      "source_url": "https://en.wikipedia.org/wiki/SVIMS_-_Sri_Padmavathi_Medical_College_for_Women",
+      "data_source": "Wikipedia"
+    },
+    {
+      "source_url": "https://www.rimssrikakulam.org/ ; https://collegekaka.com/rims-srikakulam/",
+      "data_source": "Official college website; aggregator cross-check"
+    },
+    {
+      "source_url": "https://www.edufever.com/rgims-ongole/",
+      "data_source": "Aggregator search snippets (edufever, collegedunia)"
+    },
+    {
+      "source_url": "https://en.wikipedia.org/wiki/A._C._Subba_Reddy_Government_Medical_College",
+      "data_source": "Wikipedia; neetadmission.in"
+    },
+    {
+      "source_url": "https://en.wikipedia.org/wiki/Government_Medical_College,_Anantapur ; https://ananthapuramu.ap.gov.in/public-utility/government-medical-college/",
+      "data_source": "Wikipedia; Anantapur district government portal"
+    },
+    {
+      "source_url": "https://en.wikipedia.org/wiki/Government_Medical_College,_Kadapa ; https://governmentmedicalcollegekadapa.edu.in/",
+      "data_source": "Wikipedia; official college website"
+    },
+    {
+      "source_url": "https://narayanamedicalcollege.com/about-us/about-the-college/",
+      "data_source": "Official college website; aggregator cross-check"
+    },
+    {
+      "source_url": "https://en.wikipedia.org/wiki/NRI_Academy_of_Medical_Sciences ; https://www.nrias.net/",
+      "data_source": "Wikipedia; institution group website"
+    },
+    {
+      "source_url": "https://www.asram.in/ ; https://collegedunia.com/college/10242-alluri-sitarama-raju-academy-of-medical-sciences-asram-eluru",
+      "data_source": "Official college website; aggregator cross-check"
+    },
+    {
+      "source_url": "https://gslmc.com/ ; https://www.selectyouruniversity.com/college/gsl-medical-college-and-general-hospital-rajahmundhry-cid-9425",
+      "data_source": "Official college website; aggregator cross-check"
+    },
+    {
+      "source_url": "https://en.wikipedia.org/wiki/Katuri_Medical_College ; https://www.katurimedicalcollege.org/",
+      "data_source": "Wikipedia; official college website"
+    },
+    {
+      "source_url": "https://thecareerassistance.com/konaseema-institute-of-medical-sciences-and-research-foundation-amalapuram/",
+      "data_source": "Aggregator search snippets (thecareerassistance.com, getmyuniversity.com)"
+    },
+    {
+      "source_url": "https://krishna.ap.gov.in/public-utility/dr-pinnamaneni-siddhartha-institute-of-medical-sciences-research-centre/",
+      "data_source": "Aggregator search snippets; Krishna district government portal"
+    },
+    {
+      "source_url": "https://santhirammedicalcollege.com/ ; https://www.themedicalcounselling.com/doctor/santhiram-medical-college-nandyal",
+      "data_source": "Official college website; aggregator cross-check"
+    },
+    {
+      "source_url": "https://www.banodoctor.com/college/fathima-institute-of-medical-scienceskadapa-andhra-pradesh",
+      "data_source": "Aggregator search snippets (banodoctor.com, targetneet.com)"
+    },
+    {
+      "source_url": "https://www.zynerd.com/institutes/maharajah-institute-of-medical-sciences-vizianagaram-2670",
+      "data_source": "Aggregator search snippets (zynerd.com, edufever.com)"
+    },
+    {
+      "source_url": "https://neetadmission.in/PG/college/529/gitam-institute-of-medical-sciences-and-research,-visakhapatnam",
+      "data_source": "Aggregator search snippets (neetadmission.in)"
+    },
+    {
+      "source_url": "https://aimsrchittoor.edu.in/ ; https://mbbscouncil.com/listing/apollo-institute-of-medical-sciences-and-research-chittoor/",
+      "data_source": "Official college website; aggregator cross-check"
+    },
+    {
+      "source_url": "https://www.careers360.com/colleges/great-eastern-medical-school-and-hospital-srikakulam/compare",
+      "data_source": "Aggregator search snippets (careers360.com)"
+    },
+    {
+      "source_url": "https://en.wikipedia.org/wiki/Government_Medical_College,_Sangareddy ; https://gmcsangareddy.org/ ; https://gmcsangareddy.org/contact-us/",
+      "data_source": "Wikipedia; official college website; aggregator cross-check"
+    },
+    {
+      "source_url": "https://www.edufever.com/government-medical-college-kamareddy/ ; https://www.careermarg.com/college/government-medical-college-kamareddy",
+      "data_source": "Aggregator search snippets (edufever, careermarg, moksh16)"
+    },
+    {
+      "source_url": "https://www.gmcramagundam.in/ ; https://www.deccanherald.com/india/classes-begin-at-eight-new-medical-colleges-in-telangana-1162664.html",
+      "data_source": "Aggregator search snippets; Deccan Herald news coverage"
+    },
+    {
+      "source_url": "https://www.aiimsmangalagiri.edu.in/ ; https://bodmaseducation.com/aiims-mangalagiri ; https://www.aiimsmangalagiri.edu.in/wp-content/uploads/2025/07/MBBS-Prospectus-2025-26.pdf",
+      "data_source": "Official college website (aiimsmangalagiri.edu.in); aggregator cross-check"
+    }
+  ],
+  "collection_report_reference": "reports/medical_colleges_telangana_andhra_pradesh.collection_report.md",
+  "rc2_enrichment_report_reference": "reports/medical_colleges_telangana_andhra_pradesh.rc2_enrichment_report.md"
+}

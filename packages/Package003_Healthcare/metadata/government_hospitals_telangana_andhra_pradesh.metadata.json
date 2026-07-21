@@ -1,0 +1,58 @@
+{
+  "dataset_name": "government_hospitals_telangana_andhra_pradesh",
+  "title": "Government Hospitals (Telangana & Andhra Pradesh)",
+  "package": "Package003_Healthcare",
+  "version": "1.0.0-RC1",
+  "description": "District Hospitals, Area Hospitals, and Teaching Hospitals run by the Telangana and Andhra Pradesh state governments.",
+  "scope_note": "Excludes PHCs, CHCs, and Urban Health Centres (out of scope \u2014 see acquisition_backlog.json). TVVP's and APVVP's own master hospital-list pages exist but their tabular contents did not surface in WebSearch snippets; only aggregate counts were found (~175 TVVP hospitals, ~228 APVVP hospitals) \u2014 this dataset covers a documented subset, not the full state rosters.",
+  "file": "datasets/government_hospitals_telangana_andhra_pradesh.csv",
+  "primary_key": "id",
+  "record_count": 49,
+  "column_count": 21,
+  "columns": [
+    "id",
+    "name",
+    "category",
+    "ownership",
+    "managing_organization",
+    "district",
+    "state",
+    "city",
+    "address",
+    "official_website",
+    "contact_number",
+    "bed_capacity",
+    "medical_college_affiliation",
+    "teaching_status",
+    "emergency_services",
+    "data_source",
+    "source_url",
+    "collection_date",
+    "confidence_score",
+    "verification_status",
+    "notes"
+  ],
+  "jurisdiction_breakdown": {
+    "Telangana": 28,
+    "Andhra Pradesh": 21
+  },
+  "provenance": {
+    "collection_date": "2026-07-21",
+    "collection_method": "WebSearch-based knowledge engineering research. Direct WebFetch to .gov.in/.ac.in/Wikipedia domains was blocked by this session's organizational egress policy (confirmed HTTP 403 policy denial, re-tested live before collection began) \u2014 same constraint documented in Package001_Geography and Package002_Education. Every fact is a cited search result; none fabricated.",
+    "confidence_score_range": [
+      78,
+      85
+    ],
+    "confidence_score_average": 82.0,
+    "confidence_calibration_note": "Capped at 88 max (no row claims a 90+ 'direct official fetch' score) since no primary source page could be directly fetched and re-read for confirmation this session.",
+    "verification_status_breakdown": {
+      "VST-NEEDS_REVIEW": 49
+    },
+    "distinct_source_urls": 43,
+    "pending_verification_field_count": 130,
+    "total_fields": 1029,
+    "pending_verification_rate_pct": 12.63
+  },
+  "license": "Compiled from public government, institutional, and reputable healthcare-journalism sources for ValueWeave internal knowledge-graph use; per-row source attribution preserved in source_url.",
+  "collection_report_reference": "reports/government_hospitals_telangana_andhra_pradesh.collection_report.md"
+}

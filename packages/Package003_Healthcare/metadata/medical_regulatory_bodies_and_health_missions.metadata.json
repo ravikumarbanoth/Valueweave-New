@@ -1,0 +1,54 @@
+{
+  "dataset_name": "medical_regulatory_bodies_and_health_missions",
+  "title": "Medical Regulatory Bodies & Health Missions",
+  "package": "Package003_Healthcare",
+  "version": "1.0.0-RC1",
+  "description": "National medical regulatory/standards bodies and health missions plus Telangana and Andhra Pradesh state medical councils, health service parastatals, and state health missions.",
+  "scope_note": "Covers bodies that regulate, accredit, or administer public health delivery infrastructure. Does not cover individual hospitals or schemes (see other datasets).",
+  "file": "datasets/medical_regulatory_bodies_and_health_missions.csv",
+  "primary_key": "id",
+  "record_count": 23,
+  "column_count": 16,
+  "columns": [
+    "id",
+    "name",
+    "type",
+    "jurisdiction",
+    "parent_ministry_or_department",
+    "established_year",
+    "official_website",
+    "headquarters_city",
+    "headquarters_state",
+    "mandate_summary",
+    "data_source",
+    "source_url",
+    "collection_date",
+    "confidence_score",
+    "verification_status",
+    "notes"
+  ],
+  "jurisdiction_breakdown": {
+    "National": 11,
+    "Telangana": 6,
+    "Andhra Pradesh": 6
+  },
+  "provenance": {
+    "collection_date": "2026-07-21",
+    "collection_method": "WebSearch-based knowledge engineering research. Direct WebFetch to .gov.in/.ac.in/Wikipedia domains was blocked by this session's organizational egress policy (confirmed HTTP 403 policy denial, re-tested live before collection began) \u2014 same constraint documented in Package001_Geography and Package002_Education. Every fact is a cited search result; none fabricated.",
+    "confidence_score_range": [
+      80,
+      85
+    ],
+    "confidence_score_average": 82.3,
+    "confidence_calibration_note": "Capped at 88 max (no row claims a 90+ 'direct official fetch' score) since no primary source page could be directly fetched and re-read for confirmation this session.",
+    "verification_status_breakdown": {
+      "VST-NEEDS_REVIEW": 23
+    },
+    "distinct_source_urls": 23,
+    "pending_verification_field_count": 7,
+    "total_fields": 368,
+    "pending_verification_rate_pct": 1.9
+  },
+  "license": "Compiled from public government, institutional, and reputable healthcare-journalism sources for ValueWeave internal knowledge-graph use; per-row source attribution preserved in source_url.",
+  "collection_report_reference": "reports/medical_regulatory_bodies_and_health_missions.collection_report.md"
+}

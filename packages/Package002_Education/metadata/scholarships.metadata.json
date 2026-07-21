@@ -1,0 +1,54 @@
+{
+  "dataset_name": "scholarships",
+  "title": "Scholarships",
+  "package": "Package002_Education",
+  "version": "1.0.0",
+  "description": "Major active central government scholarship schemes plus Telangana and Andhra Pradesh state scholarship schemes.",
+  "scope_note": "Scheme names reflect the most current official branding at collection time (2026-07-21); several Andhra Pradesh schemes were renamed in a June 2024 government transition and old names are cross-referenced in the notes field.",
+  "file": "datasets/scholarships.csv",
+  "primary_key": "id",
+  "record_count": 25,
+  "column_count": 16,
+  "columns": [
+    "id",
+    "scheme_name",
+    "scheme_type",
+    "jurisdiction",
+    "administering_body",
+    "target_beneficiaries",
+    "eligibility_summary",
+    "funding_benefit_summary",
+    "application_portal",
+    "official_website",
+    "data_source",
+    "source_url",
+    "collection_date",
+    "confidence_score",
+    "verification_status",
+    "notes"
+  ],
+  "jurisdiction_breakdown": {
+    "National": 15,
+    "Telangana": 5,
+    "Andhra Pradesh": 5
+  },
+  "provenance": {
+    "collection_date": "2026-07-21",
+    "collection_method": "WebSearch-based knowledge engineering research (direct WebFetch to .gov.in / .ac.in / Wikipedia domains was blocked by this session's organizational egress policy \u2014 a policy-level 403, not a retriable client error). Every fact is sourced from a cited search result; none are fabricated or inferred.",
+    "confidence_score_range": [
+      60,
+      80
+    ],
+    "confidence_score_average": 72.0,
+    "confidence_calibration_note": "Because no primary source page could be directly fetched and re-read for confirmation, confidence scores are capped below the 85-95 'direct official source' band used in Package001_Geography where WebFetch was available; scores here instead sit in the 58-92 range reflecting single/multi-search-result corroboration.",
+    "verification_status_breakdown": {
+      "VST-NEEDS_REVIEW": 25
+    },
+    "distinct_source_urls": 24,
+    "pending_verification_field_count": 0,
+    "total_fields": 400,
+    "pending_verification_rate_pct": 0.0
+  },
+  "license": "Compiled from public government and institutional sources for ValueWeave internal knowledge-graph use; individual source attribution is preserved per-row in source_url.",
+  "collection_report_reference": "reports/scholarships.collection_report.md"
+}

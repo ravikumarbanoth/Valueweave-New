@@ -1,0 +1,56 @@
+{
+  "dataset_name": "universities_telangana_andhra_pradesh",
+  "title": "Universities (Telangana & Andhra Pradesh)",
+  "package": "Package002_Education",
+  "version": "1.0.0",
+  "description": "State, central, deemed, private, and Institute-of-National-Importance universities located in Telangana and Andhra Pradesh.",
+  "scope_note": "Covers degree-granting apex university bodies only, not their affiliated colleges. Vice-Chancellor field intentionally left PENDING_VERIFICATION package-wide due to appointment volatility.",
+  "file": "datasets/universities_telangana_andhra_pradesh.csv",
+  "primary_key": "id",
+  "record_count": 61,
+  "column_count": 19,
+  "columns": [
+    "id",
+    "name",
+    "university_type",
+    "state",
+    "district",
+    "city",
+    "affiliation",
+    "established_year",
+    "official_website",
+    "naac_grade",
+    "nirf_rank",
+    "courses_offered_summary",
+    "vice_chancellor",
+    "data_source",
+    "source_url",
+    "collection_date",
+    "confidence_score",
+    "verification_status",
+    "notes"
+  ],
+  "jurisdiction_breakdown": {
+    "Telangana": 29,
+    "Andhra Pradesh": 32
+  },
+  "provenance": {
+    "collection_date": "2026-07-21",
+    "collection_method": "WebSearch-based knowledge engineering research (direct WebFetch to .gov.in / .ac.in / Wikipedia domains was blocked by this session's organizational egress policy \u2014 a policy-level 403, not a retriable client error). Every fact is sourced from a cited search result; none are fabricated or inferred.",
+    "confidence_score_range": [
+      58,
+      75
+    ],
+    "confidence_score_average": 68.9,
+    "confidence_calibration_note": "Because no primary source page could be directly fetched and re-read for confirmation, confidence scores are capped below the 85-95 'direct official source' band used in Package001_Geography where WebFetch was available; scores here instead sit in the 58-92 range reflecting single/multi-search-result corroboration.",
+    "verification_status_breakdown": {
+      "VST-NEEDS_REVIEW": 61
+    },
+    "distinct_source_urls": 61,
+    "pending_verification_field_count": 160,
+    "total_fields": 1159,
+    "pending_verification_rate_pct": 13.81
+  },
+  "license": "Compiled from public government and institutional sources for ValueWeave internal knowledge-graph use; individual source attribution is preserved per-row in source_url.",
+  "collection_report_reference": "reports/universities_telangana_andhra_pradesh.collection_report.md"
+}

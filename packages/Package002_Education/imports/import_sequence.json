@@ -1,0 +1,38 @@
+{
+  "package": "Package002_Education",
+  "version": "1.0.0",
+  "import_order": [
+    "education_boards_regulatory_bodies",
+    "universities_telangana_andhra_pradesh",
+    "entrance_exams",
+    "scholarships"
+  ],
+  "dependency_note": "All four v1.0.0 datasets are independent (no inter-dataset foreign keys), so import order does not affect referential integrity. The listed order simply reflects collection/publication sequence.",
+  "steps": [
+    {
+      "step": 1,
+      "dataset": "education_boards_regulatory_bodies",
+      "manifest": "imports/education_boards_regulatory_bodies.import_manifest.json",
+      "validation": "See imports/education_boards_regulatory_bodies.import_manifest.json validation_checks"
+    },
+    {
+      "step": 2,
+      "dataset": "universities_telangana_andhra_pradesh",
+      "manifest": "imports/universities_telangana_andhra_pradesh.import_manifest.json",
+      "validation": "See imports/universities_telangana_andhra_pradesh.import_manifest.json validation_checks"
+    },
+    {
+      "step": 3,
+      "dataset": "entrance_exams",
+      "manifest": "imports/entrance_exams.import_manifest.json",
+      "validation": "See imports/entrance_exams.import_manifest.json validation_checks"
+    },
+    {
+      "step": 4,
+      "dataset": "scholarships",
+      "manifest": "imports/scholarships.import_manifest.json",
+      "validation": "See imports/scholarships.import_manifest.json validation_checks"
+    }
+  ],
+  "rollback_strategy": "Each dataset can be independently reverted; no cross-dataset cascading effects in this release."
+}

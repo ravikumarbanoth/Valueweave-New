@@ -1,0 +1,112 @@
+{
+  "dataset_name": "scholarships",
+  "package": "Package002_Education",
+  "version": "1.0.0",
+  "fetch_method": "WebSearch tool result snippets only (WebFetch blocked \u2014 see note)",
+  "webfetch_blocked_note": "This session's organizational egress proxy returned HTTP 403 (policy denial, confirmed via the proxy status endpoint) for every direct WebFetch attempt against .gov.in, .ac.in, .edu.in, and Wikipedia domains during data collection. This is a fixed org-level policy, not a retriable client error, and was not routed around. As a result, no source page in this dataset was directly fetched and re-read for confirmation; every fact was instead sourced from WebSearch tool result snippets, each cited by URL in the dataset's source_url column. Confidence scores were capped accordingly (see metadata/*.metadata.json confidence_calibration_note).",
+  "distinct_sources_cited": 25,
+  "total_rows": 25,
+  "sources": [
+    {
+      "source_url": "https://www.education.gov.in/en/nmms",
+      "data_source": "WebSearch cross-check (education.gov.in, myscheme.gov.in listed among results; content summarized via secondary aggregators buddy4study.com and sabscholarship.com)"
+    },
+    {
+      "source_url": "https://news.careers360.com/cbse-central-sector-scheme-of-scholarship-2025-applications-open-scholarships-gov-in-csss-application",
+      "data_source": "WebSearch cross-check (multiple secondary aggregators: buddy4study.com, vajiramandravi.com, careers360.com)"
+    },
+    {
+      "source_url": "https://www.buddy4study.com/scholarship/aicte-pragati-scholarship-for-girls",
+      "data_source": "WebSearch cross-check (buddy4study.com, indiascholarships.in, multiple aggregators consistent on Rs 50,000 figure)"
+    },
+    {
+      "source_url": "https://www.buddy4study.com/article/saksham-scholarship-scheme",
+      "data_source": "WebSearch cross-check (buddy4study.com, teachersbadi.in, schemesinindia.in, mahadevmaitri.org)"
+    },
+    {
+      "source_url": "https://www.online-inspire.gov.in/Content/SHEFAQs.pdf",
+      "data_source": "WebSearch cross-check (dst.gov.in and indiascienceandtechnology.gov.in listed among results; corroborated by buddy4study.com, sabscholarship.com)"
+    },
+    {
+      "source_url": "https://www.bajajfinserv.in/prime-minister-pm-scholarship-scheme",
+      "data_source": "WebSearch cross-check (bajajfinserv.in, nsphelp.in, yojanagyan.in, anantamias.com - multiple aggregators consistent)"
+    },
+    {
+      "source_url": "https://socialjustice.gov.in/schemes/29",
+      "data_source": "WebSearch cross-check (socialjustice.gov.in and nsfdc.nic.in listed among results; corroborated by buddy4study.com, schemesinindia.in)"
+    },
+    {
+      "source_url": "https://socialjustice.gov.in/schemes/28",
+      "data_source": "WebSearch cross-check (nosmsje.gov.in and socialjustice.gov.in listed among results; corroborated by buddy4study.com, gyandhan.com, wemakescholars.com)"
+    },
+    {
+      "source_url": "https://socialjustice.gov.in/schemes/27",
+      "data_source": "WebSearch cross-check (socialjustice.gov.in, tcs.dosje.gov.in, india.gov.in listed among results; corroborated by buddy4study.com, indiascholarships.in)"
+    },
+    {
+      "source_url": "https://www.minorityaffairs.gov.in/show_content.php?lang=1&level=2&ls_id=163&lid=165",
+      "data_source": "WebSearch cross-check (minorityaffairs.gov.in and indiascienceandtechnology.gov.in listed among results; corroborated by testbook.com, mahadevmaitri.org, indiascholarships.in)"
+    },
+    {
+      "source_url": "https://www.minorityaffairs.gov.in/show_content.php?lang=1&level=1&ls_id=775&lid=827",
+      "data_source": "WebSearch cross-check (minorityaffairs.gov.in and indiascienceandtechnology.gov.in listed among results; corroborated by buddy4study.com, india.gov.in)"
+    },
+    {
+      "source_url": "https://news.careers360.com/pm-yasasvi-scholarship-offers-up-rs-125-lakh-applications-open-for-obc-students-in-class-9-11",
+      "data_source": "WebSearch cross-check (careers360.com news article, buddy4study.com, schemesinindia.in - consistent figures)"
+    },
+    {
+      "source_url": "https://fellowship.tribal.gov.in/",
+      "data_source": "WebSearch cross-check (fellowship.tribal.gov.in and tribal.nic.in listed among results; scholarships.gov.in PDF guideline also found)"
+    },
+    {
+      "source_url": "https://tribal.nic.in/topclass/",
+      "data_source": "WebSearch cross-check (tribal.nic.in and pib.gov.in listed among results; corroborated by galaxyeduworld.com, scholarshipsinindia.com)"
+    },
+    {
+      "source_url": "https://depwd.gov.in/en/scholarship/",
+      "data_source": "WebSearch cross-check (depwd.gov.in listed among results; corroborated by depwd.maharashtra.gov.in mirror)"
+    },
+    {
+      "source_url": "https://telanganaepass.cgg.gov.in/",
+      "data_source": "WebSearch cross-check (telanganaepass.cgg.gov.in listed among results; corroborated by teachersbadi.in, buddy4study.com, leverageedu.com)"
+    },
+    {
+      "source_url": "https://telanganaepass.cgg.gov.in/",
+      "data_source": "WebSearch cross-check (telanganaepass.cgg.gov.in listed among results; corroborated by indiascholarships.in, careers360.com, egovtschemes.com)"
+    },
+    {
+      "source_url": "https://teachersbadi.in/ts-ambedkar-overseas-vidya-nidhi-scholarship-sc-st-minority-students/",
+      "data_source": "WebSearch cross-check (telanganaepass.cgg.gov.in listed among results; corroborated by teachersbadi.in, collegemanzil.com, indiascholarships.in)"
+    },
+    {
+      "source_url": "https://teachersbadi.in/ts-overseas-scholarships-online-application-form-sc-st-bc-minority-students-overseas-vidya-nidhi-chief-ministers-mahatma-jyothiba-phule/",
+      "data_source": "WebSearch cross-check (telanganaepass.cgg.gov.in referenced; corroborated by teachersbadi.in listing of the three TG overseas schemes by name)"
+    },
+    {
+      "source_url": "https://www.deccanchronicle.com/southern-states/telangana/telangana-invites-minority-students-for-overseas-scholarship-scheme-2026-1960478",
+      "data_source": "WebSearch cross-check (telanganaepass.cgg.gov.in referenced; corroborated by deccanchronicle.com news article and teachersbadi.in)"
+    },
+    {
+      "source_url": "https://www.deccanchronicle.com/southern-states/andhra-pradesh/andhra-pradesh-naidu-government-renames-welfare-schemes-899727",
+      "data_source": "WebSearch cross-check (jnanabhumi.ap.gov.in referenced across many results; renaming confirmed via GO No. 4 dated 18-Jun-2024 per Deccan Chronicle and other news coverage)"
+    },
+    {
+      "source_url": "https://socialjustice.gov.in/schemes/23",
+      "data_source": "WebSearch cross-check (socialjustice.gov.in generic pre-matric scheme description; jnanabhumi.ap.gov.in and teachersbadi.in for AP-specific application details)"
+    },
+    {
+      "source_url": "https://jnboverseas1.apcfss.in/",
+      "data_source": "WebSearch cross-check (jnboverseas1.apcfss.in listed among results as the dedicated official portal; corroborated by wemakescholars.com, studentcover.in, fly.finance)"
+    },
+    {
+      "source_url": "https://teachersbadi.in/ap-videshi-vidyadharana-scheme-overseas-vidya-nidhi-scholarship-study-bc-students/",
+      "data_source": "WebSearch cross-check (studentcover.in, teachersbadi.in describing this as the BC-category successor naming after 2024 rebrand)"
+    },
+    {
+      "source_url": "https://jnanabhumi.ap.gov.in/UPSCEmpanelmentForm.edu",
+      "data_source": "WebSearch cross-check (jnanabhumi.ap.gov.in UPSC empanelment form found directly; corroborated by indiascholarships.in, cleartax.in, rtiwala.com, sarkariyojana.com)"
+    }
+  ],
+  "collection_report_reference": "reports/scholarships.collection_report.md"
+}

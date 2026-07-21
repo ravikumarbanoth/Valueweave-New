@@ -1,0 +1,68 @@
+{
+  "package_name": "Package002_Education",
+  "package_id": "PKG-002",
+  "package_title": "ValueWeave.in Education Foundation",
+  "version": "1.0.0",
+  "release_date": "2026-07-21",
+  "scope": "Educational Boards & Regulatory Bodies, Universities, Entrance Exams, and Scholarships for Telangana & Andhra Pradesh plus genuinely national-level entities (architected to extend to all 40 briefed education domains and all Indian states without schema change)",
+  "datasets_included": [
+    {"name": "education_boards_regulatory_bodies", "records": 21, "jurisdictions_covered": ["National (13)", "Telangana (4)", "Andhra Pradesh (4)"], "confidence_score_range": "58-85", "verification_status": "VST-NEEDS_REVIEW"},
+    {"name": "universities_telangana_andhra_pradesh", "records": 61, "jurisdictions_covered": ["Telangana (29)", "Andhra Pradesh (32)"], "confidence_score_range": "58-75", "verification_status": "VST-NEEDS_REVIEW"},
+    {"name": "entrance_exams", "records": 28, "jurisdictions_covered": ["National (14)", "Telangana (7)", "Andhra Pradesh (7)"], "confidence_score_range": "72-92", "verification_status": "VST-NEEDS_REVIEW"},
+    {"name": "scholarships", "records": 25, "jurisdictions_covered": ["National (15)", "Telangana (5)", "Andhra Pradesh (5)"], "confidence_score_range": "60-80", "verification_status": "VST-NEEDS_REVIEW"}
+  ],
+  "total_records": 135,
+  "datasets_blocked": [
+    {"name": "Schools (Government/Private/Residential/KV/Navodaya/Sainik/Gurukul/Welfare)", "reason": "Directory scale (tens of thousands of institutions) exceeds what per-institution search-snippet research can verify at the requested field depth", "unblock_requires": "Bulk structured data export (e.g. UDISE+ access) rather than per-institution web research"}
+  ],
+  "datasets_queued": [
+    "junior_college", "degree_college", "engineering_college", "medical_college", "polytechnic_college",
+    "iti", "skill_development_institute", "open_university_distance_education",
+    "online_education_platform_mooc", "coaching_competitive_exam_institute",
+    "digital_ai_learning_platform", "fellowship", "accreditation_ranking_institution_detail",
+    "research_institution", "library", "hostel_student_services", "career_guidance_placement_cell",
+    "innovation_incubation_startup_cell", "internship_apprenticeship_portal", "educational_policy",
+    "educational_scheme_beyond_scholarships", "educational_statistics_aishe_detail",
+    "educational_technology", "all_domains_for_remaining_states_and_uts"
+  ],
+  "environment_constraint": "Direct WebFetch to .gov.in/.ac.in/.edu.in/Wikipedia domains was blocked by this session's organizational egress policy (confirmed HTTP 403 policy denial). All data collected via WebSearch result snippets only; confidence scores calibrated accordingly. See docs/METHODOLOGY.md.",
+  "dependencies": "No hard foreign-key dependency on Package001_Geography in v1.0.0 — state/jurisdiction fields are free-text values, not district_id references. Wiring to Package001_Geography's geographic primary keys is future work (see acquisition_backlog.json). Future packages requiring education anchoring may in turn depend on this package.",
+  "import_order": ["education_boards_regulatory_bodies", "universities_telangana_andhra_pradesh", "entrance_exams", "scholarships"],
+  "data_statistics": {
+    "total_datasets_released": 4,
+    "total_records": 135,
+    "total_columns_across_datasets": 66,
+    "pending_verification_fields_total": 161,
+    "total_fields": 2315
+  },
+  "source_statistics": {
+    "total_distinct_source_urls": 134,
+    "source_tiers_used": ["Priority 1 (Government)", "Priority 3 (Trusted education portals, cross-check)", "Priority 5 (News, for time-sensitive scheme-rename verification)"],
+    "source_tiers_not_used": ["Priority 2 (Official social media — not needed this release)", "Priority 4 (Community sources — excluded per package policy for factual data)"]
+  },
+  "confidence_statistics": {
+    "overall_range": "58-92",
+    "overall_average": 75.0,
+    "note": "Capped below Package001_Geography's 85-95 band due to this session's WebFetch restriction — see docs/METHODOLOGY.md confidence_calibration section"
+  },
+  "known_gaps": [
+    "Field depth is reduced from the ~33 fields per institution named in the package brief to a smaller verifiable core (identity, type, jurisdiction, affiliation, establishment year, website, NAAC/NIRF where sourced) — Fee Structure, Admission Process, Eligibility, Contact Details, Latitude/Longitude, Hostel, Library, Laboratories, Placement, Facilities, Research, Incubation, Student Intake, Ownership, Approval, Departments, and NBA/AISHE per-institution status are NOT populated in this release. See docs/METHODOLOGY.md.",
+    "Latitude/longitude geocoding is 0% populated across every dataset in this release (same known gap as Package001_Geography)",
+    "vice_chancellor left PENDING_VERIFICATION for all 61 university rows by design",
+    "naac_grade/nirf_rank populated only where clearly-dated sources were found",
+    "36 of 40 briefed education domains not researched in this release (BLOCKED/QUEUED, not guessed)",
+    "Coverage limited to Telangana, Andhra Pradesh, and national-level entities — remaining states/UTs QUEUED",
+    "No row has been promoted to VST-VERIFIED; that is a separate governance action"
+  ],
+  "future_improvements": [
+    "Re-verify all rows with direct WebFetch once available, promoting confirmed rows to VST-VERIFIED",
+    "Add the remaining ~15+ per-institution fields named in the original brief (fee structure, lat/long, hostel/library/lab, placement, facilities, research, incubation, student intake, ownership, approval, departments) via a dedicated deep-dive pass",
+    "Populate vice_chancellor, naac_grade, and nirf_rank fields via a dedicated bulk-source pass",
+    "Expand to the remaining 36 education domains per acquisition_backlog.json",
+    "Extend geographic coverage beyond Telangana & Andhra Pradesh",
+    "Wire state/jurisdiction fields to Package001_Geography's district_id once a defensible mapping is verified"
+  ],
+  "license": "Compiled from public government and institutional sources for ValueWeave internal knowledge-graph use; per-row source attribution preserved in source_url",
+  "changelog_reference": "CHANGELOG.md",
+  "readme_reference": "README.md"
+}

@@ -86,7 +86,7 @@ When adding a new package:
 | Package | Domain | Status |
 | --- | --- | --- |
 | Package001_Geography | Geography | Released v1.0.0 |
-| Package002_Education | Education | Empty placeholder |
+| Package002_Education | Education | Released v1.0.0 (partial scope — see package acquisition_backlog.json) |
 | Package003_Healthcare | Healthcare | Empty placeholder |
 | Package004_Industries | Industries | Empty placeholder |
 | Package005_Agriculture | Agriculture | Empty placeholder |

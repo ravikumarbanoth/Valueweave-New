@@ -85,7 +85,7 @@ When adding a new package:
 
 | Package | Domain | Status |
 | --- | --- | --- |
-| Package001_Geography | Geography | Prepared for first release upload |
+| Package001_Geography | Geography | Released v1.0.0 |
 | Package002_Education | Education | Empty placeholder |
 | Package003_Healthcare | Healthcare | Empty placeholder |
 | Package004_Industries | Industries | Empty placeholder |

@@ -1,0 +1,14 @@
+dataset_id,dataset_name,package,layer,status,mode_used,records_tg,records_ap,confidence_score,depends_on,referenced_by,import_order,version,last_updated,next_scheduled_review
+DS-001,state,Package 001 - Geography Foundation,Layer I,Completed (Needs Review),ACQUIRE,1,1,82.5,(none),district;government_scheme,1,1.0.0-draft,2026-07-18,On LGD/GDP field confirmation
+DS-002,district,Package 001 - Geography Foundation,Layer I,Completed (Needs Review) - AP below quality threshold,ACQUIRE,33,28,"TG:88 / AP:73.75",state,revenue_division;mandal;industrial_cluster;institution;factory;company,2,1.0.0-draft,2026-07-18,On AP gazette + LGD confirmation
+DS-003,revenue_division,Package 001 - Geography Foundation,Layer I,TG Completed (Needs Review) / AP Blocked,ACQUIRE (TG) / BLOCKED (AP),75,0,"TG:82-90 / AP:N/A",state;district,mandal,3,1.0.0-draft,2026-07-19,AP: on gazette notification retrieval; TG: on Suryapet count confirmation
+DS-004,mandal,Package 001 - Geography Foundation,Layer I,Blocked - schema complete data pending,BLOCKED,0,0,N/A (schema:95),state;district;revenue_division,village;heritage_craft;artisan,4,0.1.0-schema-only,2026-07-18,Immediately on source unblock
+DS-005,village,Package 001 - Geography Foundation,Layer I,Blocked - depends on mandal,BLOCKED,0,0,N/A,mandal,heritage_craft;artisan,5,not started,2026-07-19,After mandal is populated
+DS-006,municipal_corporation_municipality_nagar_panchayat,Package 001 - Geography Foundation,Layer I,Planned - next in queue,not started,0,0,N/A,state;district,factory;company (urban-located),6,not started,2026-07-19,Next data-factory run
+DS-007,industrial_park_industrial_area_sez,Package 001 - Geography Foundation,Layer I,Planned - entity already modeled,not started,0,0,N/A,state;district,factory;company,7,not started,2026-07-19,After ULB dataset
+DS-008,road_network,Package 001 - Geography Foundation,Layer I,Planned,not started,0,0,N/A,state;district,logistics;industrial_park,8,not started,2026-07-19,After Industrial Park dataset
+DS-009,railways,Package 001 - Geography Foundation,Layer I,Planned,not started,0,0,N/A,state;district,logistics,9,not started,2026-07-19,After Road Network dataset
+DS-010,airports,Package 001 - Geography Foundation,Layer I,Planned,not started,0,0,N/A,state;district,logistics,10,not started,2026-07-19,After Railways dataset
+DS-011,ports_inland_waterways,Package 001 - Geography Foundation,Layer I,Planned,not started,0,0,N/A,state;district,logistics,11,not started,2026-07-19,After Airports dataset
+DS-012,water_resources_rivers_reservoirs,Package 001 - Geography Foundation,Layer I,Planned,not started,0,0,N/A,state;district,factory,12,not started,2026-07-19,After Ports/Waterways dataset
+DS-013,natural_resources,Package 001 - Geography Foundation,Layer I,Planned,not started,0,0,N/A,state;district,raw_material,13,not started,2026-07-19,After Water Resources dataset

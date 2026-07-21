@@ -1,0 +1,33 @@
+{
+  "import_manifest_version": "1.0",
+  "batch_id": "vw-batch-2026-07-18-mandal-schema-only",
+  "target_database": "ValueWeave Supabase (Postgres) \u2014 Layer I: District Intelligent Digital Infrastructure",
+  "dataset_version": "0.1.0-schema-only",
+  "approval_status": "NOT APPLICABLE \u2014 zero data rows; this manifest documents the SCHEMA import only (safe to run \u2014 creates/validates the empty table structure) so downstream systems can begin referencing mandal_id as a future FK target",
+  "import_order": [
+    {
+      "step": 1,
+      "file": "csv/mandal.csv",
+      "target_table": "mandal",
+      "row_count": 0,
+      "action": "Create/validate table schema only \u2014 no rows to insert",
+      "depends_on": ["state table populated", "district table populated"]
+    }
+  ],
+  "expected_record_count": {
+    "current": 0,
+    "target": "~1290-1300 once Collection Report \u00a77 next steps are actioned"
+  },
+  "foreign_key_checks": [
+    "dist_id must resolve to district.dist_id once real rows are inserted \u2014 not testable with zero rows"
+  ],
+  "lookup_validation": "N/A \u2014 mandal.csv does not consume any lookup table",
+  "data_quality_threshold": "\u226585 (Tier 1) required before any batch of mandal rows may be promoted past VST-NEEDS_REVIEW, per the Data Collection & Governance Framework Part 3.3",
+  "rollback_plan": "N/A \u2014 no data imported this run",
+  "post_import_actions_required": [
+    "Resolve the LGD/Census/Statistical-Abstract access blockers documented in collection_report.md",
+    "Populate mandal.csv with verified rows once a usable source is obtained",
+    "Resolve the Telangana 612-vs-614 and Medak 20-vs-21 count conflicts against a primary source before finalizing row counts",
+    "Update dataset_registry.csv status from 'Blocked' to 'In Progress' once a data source is unblocked, and to 'Completed' once populated and reviewed"
+  ]
+}

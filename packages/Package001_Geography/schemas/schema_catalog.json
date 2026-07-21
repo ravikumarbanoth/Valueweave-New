@@ -1,0 +1,85 @@
+{
+  "schema_catalog_version": "1.0.0",
+  "package": "Package001_Geography",
+  "generated_at": "2026-07-19T00:00:00Z",
+  "note": "This file is the single canonical source for primary keys, foreign keys, lookup usage, relationships, and validation rules across every Package 001 dataset. It supersedes and merges the per-dataset integration_map.json files previously produced separately for revenue_division and mandal (see PACKAGE_001_INVENTORY.md, Duplicate Finding #5).",
+  "datasets": [
+    {
+      "dataset_name": "state",
+      "file": "datasets/state.csv",
+      "primary_key": "st_id",
+      "foreign_keys": [],
+      "lookup_tables_used": [],
+      "relationships": [
+        {"edge": "(:State)-[:HAS_DISTRICT]->(:District)", "target": "district"}
+      ],
+      "recommended_indexes": ["UNIQUE(st_ref)", "INDEX(state_code)"],
+      "expected_record_count": {"current": 2, "eventual_all_india": 36},
+      "validation_rules": ["st_ref unique", "state_code is 2 uppercase letters, unique"]
+    },
+    {
+      "dataset_name": "district",
+      "file": "datasets/district.csv",
+      "primary_key": "dist_id",
+      "foreign_keys": [{"column": "st_id", "references": "state.st_id"}],
+      "lookup_tables_used": [],
+      "relationships": [
+        {"edge": "(:District)-[:PART_OF]->(:State)", "target": "state"},
+        {"edge": "(:District)-[:HAS_REVENUE_DIVISION]->(:RevenueDivision)", "target": "revenue_division"},
+        {"edge": "(:District)-[:HAS_MANDAL]->(:Mandal)", "target": "mandal", "status": "planned, 0 rows yet"}
+      ],
+      "recommended_indexes": ["UNIQUE(dist_ref)", "INDEX(st_id)", "INDEX(district_name)"],
+      "expected_record_count": {"current": 61, "eventual_all_india": 766},
+      "validation_rules": [
+        "dist_ref unique",
+        "st_id must resolve to an existing state.st_id",
+        "district_name unique within st_id"
+      ],
+      "known_quality_issue": "Andhra Pradesh rows (28) average 73.75 confidence, below the 85 Tier-1 threshold — see reports/state_district.collection_report.md"
+    },
+    {
+      "dataset_name": "revenue_division",
+      "file": "datasets/revenue_division_telangana.csv + datasets/revenue_division_andhra_pradesh.csv",
+      "primary_key": "revenue_division_id",
+      "foreign_keys": [{"column": "dist_ref", "references": "district.dist_ref"}],
+      "lookup_tables_used": [],
+      "relationships": [
+        {"edge": "(:RevenueDivision)-[:PART_OF]->(:District)", "target": "district"},
+        {"edge": "(:Mandal)-[:PART_OF]->(:RevenueDivision)", "target": "mandal", "status": "planned — activates once mandal.csv is populated with revenue_division_id"}
+      ],
+      "recommended_indexes": ["UNIQUE(revenue_division_ref)", "INDEX(dist_ref)"],
+      "expected_record_count": {"current_tg": 75, "current_ap": 0, "eventual_ap": "79-82 pending gazette confirmation"},
+      "validation_rules": [
+        "revenue_division_ref unique",
+        "dist_ref must resolve to an existing district.dist_ref",
+        "revenue_division_name unique within dist_ref",
+        "Row-level per-district division counts must sum to the source document's own stated state total before any batch is accepted — this specific rule was added as a direct result of the Andhra Pradesh blocking finding this run"
+      ],
+      "known_quality_issue": "Andhra Pradesh: 0 rows — source rejected as internally inconsistent (row sum 82 vs. stated total 79, and a confirmed missing division). Telangana: 1 documented correction applied (Suryapet 2\u21923 divisions)."
+    },
+    {
+      "dataset_name": "mandal",
+      "file": "datasets/mandal.csv",
+      "primary_key": "mandal_id",
+      "foreign_keys": [{"column": "dist_id", "references": "district.dist_id"}],
+      "lookup_tables_used": [],
+      "relationships": [
+        {"edge": "(:Mandal)-[:PART_OF]->(:District)", "target": "district"},
+        {"edge": "(:Mandal)-[:PART_OF_REVENUE_DIVISION]->(:RevenueDivision)", "target": "revenue_division", "status": "planned — column exists (revenue_division_name) but not yet keyed to revenue_division_id"},
+        {"edge": "(:Village)-[:PART_OF]->(:Mandal)", "target": "village", "status": "planned, dataset not started"}
+      ],
+      "recommended_indexes": ["UNIQUE(mandal_ref)", "INDEX(dist_id)", "COMPOSITE_UNIQUE(dist_id, mandal_name)"],
+      "expected_record_count": {"current": 0, "eventual_tg": "612-614 (unresolved source conflict) or 75-derived-consistent count pending primary confirmation", "eventual_ap": 685},
+      "validation_rules": [
+        "mandal_ref unique",
+        "dist_id must resolve to an existing district.dist_id",
+        "(dist_id, mandal_name) composite unique — fuzzy-match check recommended as a secondary pass"
+      ],
+      "known_quality_issue": "0 rows — every primary source attempted was either robots.txt-blocked or failed; see reports/mandal.collection_report.md"
+    }
+  ],
+  "package_wide_notes": [
+    "No lookup tables (from the 61-table Master Lookup Tables document) are consumed by any Package 001 Geography Foundation dataset — Geography entities are structurally self-contained (state/district/revenue_division/mandal reference only each other), which is why every dataset above shows an empty lookup_tables_used array.",
+    "All foreign keys in this package chain to a single root: state.st_id. Codex should create tables in the order state \u2192 district \u2192 revenue_division \u2192 mandal, matching imports/import_sequence.json exactly."
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "import_manifest_version": "1.0",
+  "batch_id": "vw-batch-2026-07-18-state-district-tg-ap",
+  "target_database": "ValueWeave Supabase (Postgres) — Layer I: District Intelligent Digital Infrastructure",
+  "collection_date": "2026-07-18",
+  "prepared_by": "ValueWeave Data Collection Engine (AI-assisted)",
+  "approval_status": "NOT APPROVED FOR PUBLICATION — per governance workflow (Part 4 of the Data Collection & Governance Framework), this batch requires Data Steward triage and Reviewer sign-off before an Approver may publish it. Recommended status on import: verification_status = VST-NEEDS_REVIEW (already set in the CSVs), NOT VST-VERIFIED.",
+  "import_order": [
+    {
+      "step": 1,
+      "file": "state.csv",
+      "target_table": "state",
+      "row_count": 2,
+      "primary_key": "st_id",
+      "on_conflict": "upsert on st_ref (natural key)",
+      "pre_import_checks": [
+        "Confirm st_ref values (TG, AP) do not already exist in target table",
+        "Confirm lookup FK columns (none for this table) — N/A"
+      ]
+    },
+    {
+      "step": 2,
+      "file": "district.csv",
+      "target_table": "district",
+      "row_count": 61,
+      "primary_key": "dist_id",
+      "depends_on": [
+        "state.csv must be imported first — st_id is a foreign key"
+      ],
+      "on_conflict": "upsert on dist_ref (natural key)",
+      "pre_import_checks": [
+        "Confirm every st_id value resolves to a row already present in the state table (referential integrity)",
+        "Confirm all 61 dist_ref values are unique (validated pre-export: PASS)",
+        "Confirm no PENDING_VERIFICATION or PENDING_GEOCODING sentinel values are misread as literal data by the target system — these must map to NULL or a flagged staging state, not be imported as text"
+      ]
+    }
+  ],
+  "post_import_actions_required": [
+    "Route both tables through the Correction/Verification workflow (Governance Framework Part 4.2) before promoting verification_status from VST-NEEDS_REVIEW to VST-VERIFIED",
+    "Schedule a dedicated LGD bulk-download task to populate lgd_state_code and lgd_district_code (currently 100% PENDING_VERIFICATION)",
+    "Schedule a batch geocoding task (e.g., via OpenStreetMap Nominatim or Bhuvan) to populate latitude/longitude (currently 100% PENDING_GEOCODING)",
+    "Directly fetch the AP government gazette/district notification to (a) confirm the Anakapalli/Ananthapuramu code resolution and (b) obtain area/population for Polavaram and Markapuram districts",
+    "Do NOT populate district_readiness_score at this stage — that field belongs to the AI Intelligence Layer's own derived-data pipeline (Profile P5), not this collection batch"
+  ],
+  "rollback_plan": "This is an initial batch (no prior version exists for state/district tables), so rollback = drop/truncate the two tables and re-import from the prior CSV version if a critical error is found post-import; no in-place data existed to preserve.",
+  "error_reporting": "Any row failing FK/uniqueness validation at import time should be written to a companion `district_import_errors.csv` (row content + failed rule) rather than silently skipped, per the Data Quality Framework's validation rules."
+}

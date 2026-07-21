@@ -1,0 +1,34 @@
+{
+  "data_package_name": "valueweave-tg-ap-mandal-v0",
+  "title": "ValueWeave.in \u2014 Mandal (Revenue Sub-District) Master Data \u2014 SCHEMA ONLY",
+  "version": "0.1.0-schema-only",
+  "collection_date": "2026-07-18",
+  "profile": "P1 \u2014 Government Registry & Statistical Source",
+  "layer": "Layer I \u2014 District Intelligent Digital Infrastructure",
+  "status": "SCHEMA_COMPLETE_DATA_PENDING",
+  "record_count": 0,
+  "expected_record_count": {
+    "telangana": "612 or 614 (source conflict, unresolved \u2014 see collection_report.md \u00a75, Conflict 2)",
+    "andhra_pradesh": "685 (per prior District dataset's mandal_count column sums, pending independent confirmation)",
+    "total_expected": "~1290\u20131300"
+  },
+  "resource": {
+    "name": "mandal",
+    "path": "csv/mandal.csv",
+    "primary_key": "mandal_id",
+    "foreign_keys": [
+      {"column": "dist_id", "references": "district.dist_id"}
+    ],
+    "lookup_tables_used": [],
+    "depends_on": ["state", "district"],
+    "referenced_by_planned": ["village", "heritage_craft", "artisan"]
+  },
+  "blocking_issues": [
+    "Census 2011 Part-I State Administrative Divisions PDF \u2014 robots.txt disallow",
+    "Telangana State Statistical Abstract 2022 PDF \u2014 server error on fetch",
+    "medak.telangana.gov.in district portal \u2014 robots.txt disallow",
+    "Wikipedia 'List of mandals in Telangana' \u2014 retrieved but table structure collapsed on extraction, unsafe for automated per-row district attribution"
+  ],
+  "recommended_unblock": "Manual download of the LGD sub-district export or the Census/Statistical Abstract PDF, then upload to this session for direct parsing (file upload bypasses the fetch/robots.txt restriction).",
+  "generated_at": "2026-07-18T00:00:00Z"
+}

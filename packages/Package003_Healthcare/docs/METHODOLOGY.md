@@ -1,4 +1,9 @@
-# Package003_Healthcare v1.0.0-RC1 — Methodology
+# Package003_Healthcare v1.0.0-RC2 — Methodology
+
+**RC2 update note:** WebFetch to `.gov.in`/`.ac.in`/Wikipedia domains was re-tested live immediately
+before the RC2 enrichment pass began (2026-07-22) and remained blocked (HTTP 403), identical to RC1.
+All RC2 enrichment therefore used the same WebSearch-only methodology described below. See
+`reports/rc1_vs_rc2_comparison.md` for the full RC1→RC2 diff.
 
 ## Collection Approach
 

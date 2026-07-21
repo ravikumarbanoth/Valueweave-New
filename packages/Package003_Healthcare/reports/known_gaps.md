@@ -1,19 +1,18 @@
-# Package003_Healthcare v1.0.0-RC1 — Known Gaps
+# Package003_Healthcare v1.0.0-RC2 — Known Gaps
 
-See `acquisition_backlog.json` for the full structured list (29 domain-level gaps + 3 dataset-specific gaps). Summary:
+See `acquisition_backlog.json` for the full structured list. Summary:
 
-## Domain-level (36 of 40 briefed domains not researched)
-PHCs, CHCs, and Urban Health Centres are BLOCKED (scale exceeds per-institution search-snippet verification). The remaining 26 domains (private hospitals in general, specialty hospitals of every kind, diagnostic centres, blood banks, dialysis/organ-donation/ambulance/trauma/mental-health/rehab centres, telemedicine, public health labs, helplines, vaccination, disease surveillance, public health campaigns, broader national health programmes, pharma support services, health NGOs, and all non-TG/AP states) are QUEUED.
+## Domain-level (36 of 40 briefed domains not researched — unchanged from RC1)
+RC2 was an enrichment pass on the existing 4 domains, not an expansion. PHCs, CHCs, and Urban Health Centres remain BLOCKED; the remaining 26 domains remain QUEUED.
 
-## Dataset-specific gaps
-- **Government hospitals**: TVVP/APVVP's own master hospital lists exist but their tabular content did not surface in WebSearch snippets — only aggregate counts (~175 TVVP, ~228 APVVP) were found. This dataset's 49 rows are a verified subset, not the full state rosters. Several 2022-reorganization districts in both states have no verified row.
-- **Medical colleges**: ~17-19 of Telangana's newer (2022-2023) government colleges and several more Andhra Pradesh colleges were excluded rather than guessed.
-- **Health insurance schemes**: AP EHS's exact coverage ceiling, ECHS contribution amounts, current hospital-network counts, and CGHS beneficiary count (sources disagreed 42-50 lakh) are PENDING_VERIFICATION.
+## Dataset-specific gaps (as of RC2)
+- **Government hospitals**: TVVP/APVVP's master hospital-list pages still never surfaced in WebSearch snippets — the biggest structural gap, unresolved after 2 collection passes. 6 new gap-district hospitals were added, but several districts remain unrepresented. 6 bed-count/address conflicts remain disclosed rather than resolved (one, Kakinada, got MORE conflicting with additional sources rather than resolving).
+- **Medical colleges**: 4 new colleges added (GMC Sangareddy, GMC Kamareddy, GMC Ramagundam, AIIMS Mangalagiri); ~13-15 more newer Telangana government colleges remain unrepresented. 11 rows still lack a confirmed official website; 46 lack a verifiable college-specific email; 32 lack a named department list; 24 lack scheme-coverage confirmation.
+- **Regulatory bodies & schemes**: CDSCO's precise founding year and both states' NHM-unit establishment years remain genuinely unverifiable after 2 passes. CGHS beneficiary count (42-50 lakh range) still not fully resolved despite a narrower 47.44 lakh figure found in RC2.
 
 ## Field-level gaps
-- `bed_capacity` and `contact_number` are PENDING_VERIFICATION for many government hospital rows (130 of 1,029 total fields in that dataset).
-- `mbbs_seats` is PENDING_VERIFICATION for most medical college rows (current-year intake figures were not independently confirmable this session).
-- No row across any dataset has latitude/longitude, Google Maps links, ICU availability, dialysis availability, working hours, or email — these fields from the original brief's ~30-field list were descoped for RC1; see docs/METHODOLOGY.md 'Field-Depth Scope Reduction'.
+- New RC2 columns are unevenly filled: government_scheme_coverage_summary is deliberately conservative (only ~10-34 of ~55-58 rows per dataset) since empanelment claims require a specific confirming source, not a generic assumption.
+- No row across any dataset has latitude/longitude, Google Maps links, ICU availability flag, dialysis availability flag, or working hours — still descoped as of RC2.
 
 ## Environment constraint
-WebFetch to .gov.in/.ac.in/Wikipedia domains was blocked all session; all data is WebSearch-snippet-sourced with confidence capped at 88. See docs/METHODOLOGY.md.
+WebFetch to .gov.in/.ac.in/Wikipedia domains was re-confirmed blocked immediately before RC2 enrichment began, same as RC1. All data remains WebSearch-snippet-sourced with confidence capped at 88.

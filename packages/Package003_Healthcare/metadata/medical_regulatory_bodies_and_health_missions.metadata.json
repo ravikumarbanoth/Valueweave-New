@@ -2,12 +2,12 @@
   "dataset_name": "medical_regulatory_bodies_and_health_missions",
   "title": "Medical Regulatory Bodies & Health Missions",
   "package": "Package003_Healthcare",
-  "version": "1.0.0-RC1",
+  "version": "1.0.0-RC2",
   "description": "National medical regulatory/standards bodies and health missions plus Telangana and Andhra Pradesh state medical councils, health service parastatals, and state health missions.",
-  "scope_note": "Covers bodies that regulate, accredit, or administer public health delivery infrastructure. Does not cover individual hospitals or schemes (see other datasets).",
+  "scope_note": "Covers bodies that regulate, accredit, or administer public health delivery infrastructure.",
   "file": "datasets/medical_regulatory_bodies_and_health_missions.csv",
   "primary_key": "id",
-  "record_count": 23,
+  "record_count": 24,
   "column_count": 16,
   "columns": [
     "id",
@@ -28,27 +28,25 @@
     "notes"
   ],
   "jurisdiction_breakdown": {
-    "National": 11,
+    "National": 12,
     "Telangana": 6,
     "Andhra Pradesh": 6
   },
   "provenance": {
-    "collection_date": "2026-07-21",
-    "collection_method": "WebSearch-based knowledge engineering research. Direct WebFetch to .gov.in/.ac.in/Wikipedia domains was blocked by this session's organizational egress policy (confirmed HTTP 403 policy denial, re-tested live before collection began) \u2014 same constraint documented in Package001_Geography and Package002_Education. Every fact is a cited search result; none fabricated.",
+    "collection_date_range": "2026-07-21 (RC1) to 2026-07-22 (RC2 enrichment)",
+    "collection_method": "WebSearch-based knowledge engineering research. Direct WebFetch to .gov.in/.ac.in/.edu.in/Wikipedia domains remained blocked by this session's organizational egress policy during RC2 as well (re-confirmed HTTP 403 live before enrichment began).",
     "confidence_score_range": [
-      80,
-      85
+      81,
+      88
     ],
-    "confidence_score_average": 82.3,
-    "confidence_calibration_note": "Capped at 88 max (no row claims a 90+ 'direct official fetch' score) since no primary source page could be directly fetched and re-read for confirmation this session.",
-    "verification_status_breakdown": {
-      "VST-NEEDS_REVIEW": 23
-    },
-    "distinct_source_urls": 23,
-    "pending_verification_field_count": 7,
-    "total_fields": 368,
-    "pending_verification_rate_pct": 1.9
+    "confidence_score_average": 84.1,
+    "confidence_calibration_note": "RC2 raised confidence modestly (max +8/row) where stronger multi-source corroboration was found, capped at 88 \u2014 still below a 90+ 'direct official source' band, since WebFetch access was not restored.",
+    "distinct_source_urls": 24,
+    "pending_verification_field_count": 3,
+    "total_fields": 384,
+    "pending_verification_rate_pct": 0.78
   },
   "license": "Compiled from public government, institutional, and reputable healthcare-journalism sources for ValueWeave internal knowledge-graph use; per-row source attribution preserved in source_url.",
-  "collection_report_reference": "reports/medical_regulatory_bodies_and_health_missions.collection_report.md"
+  "collection_report_reference": "reports/medical_regulatory_bodies_and_health_missions.collection_report.md",
+  "rc2_enrichment_report_reference": "reports/regulatory_bodies_and_schemes.rc2_enrichment_report.md"
 }

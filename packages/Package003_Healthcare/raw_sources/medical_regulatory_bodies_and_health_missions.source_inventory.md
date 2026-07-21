@@ -1,8 +1,8 @@
 # Raw Source Inventory — medical_regulatory_bodies_and_health_missions
 
-Total distinct sources cited across 23 rows: **23**
+Total distinct sources cited across 24 rows: **24**
 
-All sources were accessed via the WebSearch tool (result snippets), not direct page fetch — see `evidence/medical_regulatory_bodies_and_health_missions.evidence_manifest.json` for the full policy note.
+All sources were accessed via the WebSearch tool (result snippets), not direct page fetch (re-confirmed blocked in RC2) — see `evidence/medical_regulatory_bodies_and_health_missions.evidence_manifest.json`.
 
 | Data Source Label | URL |
 |---|---|
@@ -20,12 +20,13 @@ All sources were accessed via the WebSearch tool (result snippets), not direct p
 | WebSearch | https://onlinetsmc.in/; https://onlinetsmc.in/about-us/our-history/ |
 | WebSearch | https://vvp.telangana.gov.in/; https://en.wikipedia.org/wiki/Telangana_Vaidya_Vidhana_Parishad |
 | WebSearch | https://chfw.telangana.gov.in/; https://nhm.gov.in/index4.php?lang=1&level=0&linkid=60&lid=73; https://nhsrcindia.org/state/telangana |
-| WebSearch | https://pharmacycouncil.telangana.gov.in/; https://pci.gov.in/en/all-state-pharma-council/telangana-state-pharmacy-council/ |
+| WebSearch | https://pharmacycouncil.telangana.gov.in/site/aboutus; https://pci.gov.in/en/all-state-pharma-council/telangana-state-pharmacy-council/; https://www.thehansindia.com/posts/index/Telangana/2018-07-06/TS-State-Pharmacy-Council-constituted/395865 |
 | WebSearch | https://hmis.telangana.gov.in/; https://hmis.telangana.gov.in/APNMC/links.html |
-| WebSearch | https://rajivaarogyasri.telangana.gov.in/ASRI2.0/ |
+| WebSearch | https://rajivaarogyasri.telangana.gov.in/ASRI2.0/; https://reports.aarogyasri.telangana.gov.in/ |
 | WebSearch | https://apmc.ap.gov.in/about.html; https://apmc.ap.gov.in/ |
 | WebSearch | https://apvvp.ap.gov.in/; https://en.wikipedia.org/wiki/Andhra_Pradesh_Vaidya_Vidhana_Parishad; https://hmfw.ap.gov.in/apvvp-org.aspx |
 | WebSearch | https://hmfw.ap.gov.in/nhm-org.aspx; https://nhm.gov.in/index4.php?lang=1&level=0&linkid=52&lid=65; https://spsnellore.ap.gov.in/national-health-mission-nhm/ |
-| WebSearch | https://appharmacycouncil.gov.in/site/aboutus; https://pci.gov.in/en/all-state-pharma-council/andhra-pradesh/ |
-| WebSearch | https://nmcouncil.ap.nic.in/; https://hmis.ap.nic.in/; https://hrstride.com/andhra-pradesh-nursing-council/ |
+| WebSearch | https://appharmacycouncil.gov.in/site/history; https://appharmacycouncil.gov.in/site/aboutus; https://pci.gov.in/en/all-state-pharma-council/andhra-pradesh/ |
+| WebSearch | https://hmis.ap.nic.in/APNMC/contact.html; https://hmis.ap.nic.in/; https://nmcouncil.ap.nic.in/; https://hrstride.com/andhra-pradesh-nursing-council/ |
 | WebSearch | https://www.ysraarogyasri.ap.gov.in/; https://drntrvaidyaseva.ap.gov.in/about-us-dr.ysr-aarogyasri-health-care-trust; https://kakinada.ap.gov.in/departments/dr-ysr-aarogyasri-health-care-trust/ |
+| WebSearch | https://natboard.edu.in/; https://en.wikipedia.org/wiki/National_Board_of_Examinations_in_Medical_Sciences |

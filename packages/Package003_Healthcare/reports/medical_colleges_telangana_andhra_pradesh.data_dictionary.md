@@ -1,6 +1,6 @@
-# Data Dictionary — medical_colleges_telangana_andhra_pradesh (v1.0.0-RC1)
+# Data Dictionary — medical_colleges_telangana_andhra_pradesh (v1.0.0-RC2)
 
-Records: 54
+Records: 58
 
 | Column | Type | Description |
 |---|---|---|
@@ -13,8 +13,11 @@ Records: 54
 | state | enum | Allowed values: Telangana, Andhra Pradesh. |
 | city | string |  |
 | official_website | string |  |
+| email | string | Added in RC2. Official college/admissions email if publicly listed, else PENDING_VERIFICATION |
 | mbbs_seats | string | Annual MBBS intake if verifiable, else PENDING_VERIFICATION |
 | attached_teaching_hospital | string | Free-text cross-reference; not an enforced FK into government_hospitals_telangana_andhra_pradesh |
+| departments_summary | string | Added in RC2. Brief factual list of major clinical departments/specialties, else PENDING_VERIFICATION |
+| government_scheme_coverage_summary | string | Added in RC2. Whether the attached teaching hospital accepts government health schemes, else PENDING_VERIFICATION |
 | data_source | string |  |
 | source_url | string |  |
 | collection_date | date |  |

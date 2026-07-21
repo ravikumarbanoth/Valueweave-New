@@ -1,9 +1,9 @@
 {
   "dataset_name": "government_health_insurance_schemes",
   "package": "Package003_Healthcare",
-  "version": "1.0.0-RC1",
+  "version": "1.0.0-RC2",
   "file": "datasets/government_health_insurance_schemes.csv",
-  "record_count": 8,
+  "record_count": 9,
   "primary_key": "id",
   "foreign_keys": [],
   "validation_checks": [

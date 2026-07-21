@@ -1,11 +1,11 @@
 {
   "dataset_name": "government_hospitals_telangana_andhra_pradesh",
   "package": "Package003_Healthcare",
-  "version": "1.0.0-RC1",
+  "version": "1.0.0-RC2",
   "fetch_method": "WebSearch tool result snippets only (WebFetch blocked \u2014 see note)",
-  "webfetch_blocked_note": "This session's organizational egress proxy returned HTTP 403 (policy denial, confirmed via the proxy status endpoint and a live re-test immediately before collection began) for every direct WebFetch attempt against .gov.in, .ac.in, .edu.in, and Wikipedia domains during data collection. This is a fixed org-level policy, not a retriable client error. As a result, no source page in this dataset was directly fetched and re-read; every fact was instead sourced from WebSearch tool result snippets, each cited by URL. Confidence scores were capped at 88 accordingly (see metadata/*.metadata.json confidence_calibration_note).",
-  "distinct_sources_cited": 43,
-  "total_rows": 49,
+  "webfetch_blocked_note": "This session's organizational egress proxy returned HTTP 403 (policy denial) for direct WebFetch to .gov.in, .ac.in, .edu.in, and Wikipedia domains during both the RC1 collection pass (2026-07-21) and the RC2 enrichment pass (2026-07-22) \u2014 re-confirmed via a live test fetch each time, not a transient or client-side failure. No source page in this dataset was ever directly fetched and re-read; every fact is WebSearch-snippet-sourced and cited by URL.",
+  "distinct_sources_cited": 49,
+  "total_rows": 55,
   "sources": [
     {
       "source_url": "https://en.wikipedia.org/wiki/Osmania_General_Hospital ; https://www.medindia.net/directories/hospitals/osmania-general-hospital-hyderabad-telangana-65904.htm",
@@ -178,7 +178,32 @@
     {
       "source_url": "https://chittoor.ap.gov.in/public-utility-category/hospitals/",
       "data_source": "chittoor.ap.gov.in; Mappls; Medindia (via WebSearch snippets)"
+    },
+    {
+      "source_url": "https://wanaparthy.telangana.gov.in/government-general-hospital/ ; https://medicalneetug.com/college/government-medical-college-wanaparthy",
+      "data_source": "wanaparthy.telangana.gov.in; medicalneetug.com; edufever.com (WebSearch snippets only, no direct fetch)"
+    },
+    {
+      "source_url": "https://gmcrajannasircilla.org/contact ; https://targetstudy.com/institute/101367/government-medical-college-hospital-gmc-rajanna-sircilla/",
+      "data_source": "gmcrajannasircilla.org; targetstudy.com; studentkhabri.com (WebSearch snippets only, no direct fetch)"
+    },
+    {
+      "source_url": "https://www.gmcnandyal-ap-gov.com/hospital-information/ ; https://gmcnandyalaap-govt.in/contact-us/",
+      "data_source": "gmcnandyal-ap-gov.com; gmcnandyalaap-govt.in; nyraeducation.in (WebSearch snippets only, no direct fetch)"
+    },
+    {
+      "source_url": "https://bapatla.ap.gov.in/public-utility/area-hospital-bapatla/",
+      "data_source": "bapatla.ap.gov.in; Medindia (WebSearch snippets only, no direct fetch)"
+    },
+    {
+      "source_url": "https://peddapalli.telangana.gov.in/public-utility-category/hospitals/ ; https://www.thehansindia.com/telangana/peddapalli-hospital-tops-in-aarogyasri-bags-multiple-awards-1063940",
+      "data_source": "peddapalli.telangana.gov.in; thehansindia.com (WebSearch snippets only, no direct fetch)"
+    },
+    {
+      "source_url": "https://neetsupport.com/college/government-medical-college-medak-comprehensive-guide-for-2026 ; https://medak.telangana.gov.in/public-utility-category/hospitals/",
+      "data_source": "neetsupport.com; rmgoe.org; medak.telangana.gov.in (WebSearch snippets only, no direct fetch)"
     }
   ],
-  "collection_report_reference": "reports/government_hospitals_telangana_andhra_pradesh.collection_report.md"
+  "collection_report_reference": "reports/government_hospitals_telangana_andhra_pradesh.collection_report.md",
+  "rc2_enrichment_report_reference": "reports/government_hospitals_telangana_andhra_pradesh.rc2_enrichment_report.md"
 }

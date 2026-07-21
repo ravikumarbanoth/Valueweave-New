@@ -1,8 +1,8 @@
-# Quality Report — medical_colleges_telangana_andhra_pradesh (v1.0.0-RC1)
+# Quality Report — medical_colleges_telangana_andhra_pradesh (v1.0.0-RC2)
 
-- Total records: 54
-- Confidence score range: 73–88
-- Confidence score average: 84.0
+- Total records: 58
+- Confidence score range: 80–88
+- Confidence score average: 87.1
 - Verification status: 100% VST-NEEDS_REVIEW
 - Duplicate name values: None found
 
@@ -10,6 +10,7 @@
 
 | Column | Count |
 |---|---|
-| mbbs_seats | 47 |
-| official_website | 29 |
-| established_year | 2 |
+| email | 46 |
+| departments_summary | 32 |
+| government_scheme_coverage_summary | 24 |
+| official_website | 11 |

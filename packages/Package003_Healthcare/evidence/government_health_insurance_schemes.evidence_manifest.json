@@ -1,14 +1,14 @@
 {
   "dataset_name": "government_health_insurance_schemes",
   "package": "Package003_Healthcare",
-  "version": "1.0.0-RC1",
+  "version": "1.0.0-RC2",
   "fetch_method": "WebSearch tool result snippets only (WebFetch blocked \u2014 see note)",
-  "webfetch_blocked_note": "This session's organizational egress proxy returned HTTP 403 (policy denial, confirmed via the proxy status endpoint and a live re-test immediately before collection began) for every direct WebFetch attempt against .gov.in, .ac.in, .edu.in, and Wikipedia domains during data collection. This is a fixed org-level policy, not a retriable client error. As a result, no source page in this dataset was directly fetched and re-read; every fact was instead sourced from WebSearch tool result snippets, each cited by URL. Confidence scores were capped at 88 accordingly (see metadata/*.metadata.json confidence_calibration_note).",
-  "distinct_sources_cited": 8,
-  "total_rows": 8,
+  "webfetch_blocked_note": "This session's organizational egress proxy returned HTTP 403 (policy denial) for direct WebFetch to .gov.in, .ac.in, .edu.in, and Wikipedia domains during both the RC1 collection pass (2026-07-21) and the RC2 enrichment pass (2026-07-22) \u2014 re-confirmed via a live test fetch each time, not a transient or client-side failure. No source page in this dataset was ever directly fetched and re-read; every fact is WebSearch-snippet-sourced and cited by URL.",
+  "distinct_sources_cited": 9,
+  "total_rows": 9,
   "sources": [
     {
-      "source_url": "https://www.mohfw.gov.in/?q=en/pressrelease/update-ayushman-bharat-pradhan-mantri-jan-arogya-yojana-ab-pm-jay ; https://schemesinindia.in/central/ayushman-bharat-yojana ; https://www.ibef.org/government-schemes/ayushman-bharat",
+      "source_url": "https://www.mohfw.gov.in/?q=en/pressrelease/update-ayushman-bharat-pradhan-mantri-jan-arogya-yojana-ab-pm-jay ; https://schemesinindia.in/central/ayushman-bharat-yojana ; https://www.ibef.org/government-schemes/ayushman-bharat ; https://smcinsurance.com/health-insurance/articles/ayushman-bharat-hospital-list ; https://www.bajajfinserv.in/insurance/ayushman-bharat-hospital-list",
       "data_source": "WebSearch aggregation (NHA/MoHFW press material summarized by secondary sources; no direct .gov.in fetch this session)"
     },
     {
@@ -20,11 +20,11 @@
       "data_source": "WebSearch aggregation summarizing ESIC official material via secondary sources"
     },
     {
-      "source_url": "https://www.desw.gov.in/about-echs ; https://schemesinindia.in/central/echs-ex-servicemen-health-scheme",
+      "source_url": "https://www.desw.gov.in/about-echs ; https://schemesinindia.in/central/echs-ex-servicemen-health-scheme ; https://navpen.indiannavy.gov.in/sites/default/files/WhatsNewFiles/Revised%20Rates%20of%20ECHS%20Contribution.pdf",
       "data_source": "WebSearch aggregation summarizing DESW/ECHS official material via secondary sources"
     },
     {
-      "source_url": "https://aarogyasri.telangana.gov.in/ ; https://www.policybazaar.com/health-insurance/govt-scheme/rajiv-aarogyasri-scheme-telangana/ ; https://en.wikipedia.org/wiki/Revanth_Reddy (referenced only, not fetched)",
+      "source_url": "https://aarogyasri.telangana.gov.in/ ; https://www.policybazaar.com/health-insurance/govt-scheme/rajiv-aarogyasri-scheme-telangana/ ; https://en.wikipedia.org/wiki/Revanth_Reddy (referenced only, not fetched) ; https://telanganaweb.com/rajiv-aarogyasri-scheme-telangana/ ; https://joinditto.in/articles/health-insurance/rajiv-aarogyasri/",
       "data_source": "WebSearch aggregation summarizing Telangana govt announcements via news and secondary sources"
     },
     {
@@ -32,13 +32,18 @@
       "data_source": "WebSearch aggregation of contemporaneous news coverage (launch-week reporting)"
     },
     {
-      "source_url": "https://drntrvaidyaseva.ap.gov.in/ ; http://hmfw.ap.gov.in/ntr-aarogyaseva-org.aspx ; https://thesouthfirst.com/andhrapradesh/here-is-all-you-need-to-know-about-the-revamped-ysr-aarogyasri-scheme/",
+      "source_url": "https://drntrvaidyaseva.ap.gov.in/ ; http://hmfw.ap.gov.in/ntr-aarogyaseva-org.aspx ; https://thesouthfirst.com/andhrapradesh/here-is-all-you-need-to-know-about-the-revamped-ysr-aarogyasri-scheme/ ; https://medicaldialogues.in/news/health/hospital-diagnostics/ap-disburses-rs-919-crore-to-hospitals-empanelled-under-ntr-vaidya-seva-scheme-171137",
       "data_source": "WebSearch aggregation summarizing AP govt/health department material via secondary sources"
     },
     {
-      "source_url": "https://www.adityabirlacapital.com/abc-of-money/employee-health-scheme-government-andhra-pradesh ; https://www.acko.com/health-insurance/employee-health-scheme-government-andhra-pradesh/ ; https://ehs.ap.gov.in/",
+      "source_url": "https://www.adityabirlacapital.com/abc-of-money/employee-health-scheme-government-andhra-pradesh ; https://www.acko.com/health-insurance/employee-health-scheme-government-andhra-pradesh/ ; https://ehs.ap.gov.in/ ; https://www.bajajfinserv.in/insurance/employee-health-scheme-government-andhra-pradesh",
       "data_source": "WebSearch aggregation summarizing secondary/aggregator sources; several aggregator sites still reference the pre-2024 trust name"
+    },
+    {
+      "source_url": "https://main.mohfw.gov.in/major-programmes/poor-patients-financial-assistance/rashtriya-arogya-nidhi ; https://mohfw.gov.in/sites/default/files/7845192051425018860%20(1).pdf ; https://ies.gov.in/arthapedia/concept/rashtriya-arogya-nidhi-ran ; https://www.policybazaar.com/health-insurance/govt-scheme/rashtriya-arogya-nidhi/",
+      "data_source": "WebSearch aggregation summarizing MoHFW official material and secondary/aggregator sources"
     }
   ],
-  "collection_report_reference": "reports/government_health_insurance_schemes.collection_report.md"
+  "collection_report_reference": "reports/government_health_insurance_schemes.collection_report.md",
+  "rc2_enrichment_report_reference": "reports/regulatory_bodies_and_schemes.rc2_enrichment_report.md"
 }

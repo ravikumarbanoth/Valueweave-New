@@ -1,8 +1,8 @@
-# Quality Report — medical_regulatory_bodies_and_health_missions (v1.0.0-RC1)
+# Quality Report — medical_regulatory_bodies_and_health_missions (v1.0.0-RC2)
 
-- Total records: 23
-- Confidence score range: 80–85
-- Confidence score average: 82.3
+- Total records: 24
+- Confidence score range: 81–88
+- Confidence score average: 84.1
 - Verification status: 100% VST-NEEDS_REVIEW
 - Duplicate name values: None found
 
@@ -10,5 +10,4 @@
 
 | Column | Count |
 |---|---|
-| established_year | 6 |
-| headquarters_city | 1 |
+| established_year | 3 |

@@ -1,8 +1,8 @@
-# Quality Report — government_hospitals_telangana_andhra_pradesh (v1.0.0-RC1)
+# Quality Report — government_hospitals_telangana_andhra_pradesh (v1.0.0-RC2)
 
-- Total records: 49
-- Confidence score range: 78–85
-- Confidence score average: 82.0
+- Total records: 55
+- Confidence score range: 78–88
+- Confidence score average: 85.1
 - Verification status: 100% VST-NEEDS_REVIEW
 - Duplicate name values: None found
 
@@ -10,8 +10,12 @@
 
 | Column | Count |
 |---|---|
-| contact_number | 42 |
-| emergency_services | 38 |
-| official_website | 22 |
-| address | 16 |
-| bed_capacity | 12 |
+| government_scheme_coverage_summary | 45 |
+| email | 38 |
+| specialties_summary | 38 |
+| emergency_services | 37 |
+| contact_number | 32 |
+| available_services_summary | 30 |
+| official_website | 24 |
+| bed_capacity | 8 |
+| address | 6 |

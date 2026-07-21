@@ -2,13 +2,13 @@
   "dataset_name": "medical_colleges_telangana_andhra_pradesh",
   "title": "Medical Colleges (Telangana & Andhra Pradesh)",
   "package": "Package003_Healthcare",
-  "version": "1.0.0-RC1",
+  "version": "1.0.0-RC2",
   "description": "Government and private MBBS-granting medical colleges located in Telangana and Andhra Pradesh.",
-  "scope_note": "Covers degree-granting medical colleges only. mbbs_seats is PENDING_VERIFICATION for most rows since current-year intake figures were not independently confirmable this session. ~17-19 newer (2022-2023) government colleges were excluded rather than guessed \u2014 see acquisition_backlog.json.",
+  "scope_note": "As of RC2, includes email, departments_summary, and government_scheme_coverage_summary columns.",
   "file": "datasets/medical_colleges_telangana_andhra_pradesh.csv",
   "primary_key": "id",
-  "record_count": 54,
-  "column_count": 17,
+  "record_count": 58,
+  "column_count": 20,
   "columns": [
     "id",
     "name",
@@ -19,8 +19,11 @@
     "state",
     "city",
     "official_website",
+    "email",
     "mbbs_seats",
     "attached_teaching_hospital",
+    "departments_summary",
+    "government_scheme_coverage_summary",
     "data_source",
     "source_url",
     "collection_date",
@@ -29,26 +32,24 @@
     "notes"
   ],
   "jurisdiction_breakdown": {
-    "Telangana": 29,
-    "Andhra Pradesh": 25
+    "Telangana": 32,
+    "Andhra Pradesh": 26
   },
   "provenance": {
-    "collection_date": "2026-07-21",
-    "collection_method": "WebSearch-based knowledge engineering research. Direct WebFetch to .gov.in/.ac.in/Wikipedia domains was blocked by this session's organizational egress policy (confirmed HTTP 403 policy denial, re-tested live before collection began) \u2014 same constraint documented in Package001_Geography and Package002_Education. Every fact is a cited search result; none fabricated.",
+    "collection_date_range": "2026-07-21 (RC1) to 2026-07-22 (RC2 enrichment)",
+    "collection_method": "WebSearch-based knowledge engineering research. Direct WebFetch to .gov.in/.ac.in/.edu.in/Wikipedia domains remained blocked by this session's organizational egress policy during RC2 as well (re-confirmed HTTP 403 live before enrichment began).",
     "confidence_score_range": [
-      73,
+      80,
       88
     ],
-    "confidence_score_average": 84.0,
-    "confidence_calibration_note": "Capped at 88 max (no row claims a 90+ 'direct official fetch' score) since no primary source page could be directly fetched and re-read for confirmation this session.",
-    "verification_status_breakdown": {
-      "VST-NEEDS_REVIEW": 54
-    },
-    "distinct_source_urls": 54,
-    "pending_verification_field_count": 78,
-    "total_fields": 918,
-    "pending_verification_rate_pct": 8.5
+    "confidence_score_average": 87.1,
+    "confidence_calibration_note": "RC2 raised confidence modestly (max +8/row) where stronger multi-source corroboration was found, capped at 88 \u2014 still below a 90+ 'direct official source' band, since WebFetch access was not restored.",
+    "distinct_source_urls": 58,
+    "pending_verification_field_count": 113,
+    "total_fields": 1160,
+    "pending_verification_rate_pct": 9.74
   },
   "license": "Compiled from public government, institutional, and reputable healthcare-journalism sources for ValueWeave internal knowledge-graph use; per-row source attribution preserved in source_url.",
-  "collection_report_reference": "reports/medical_colleges_telangana_andhra_pradesh.collection_report.md"
+  "collection_report_reference": "reports/medical_colleges_telangana_andhra_pradesh.collection_report.md",
+  "rc2_enrichment_report_reference": "reports/medical_colleges_telangana_andhra_pradesh.rc2_enrichment_report.md"
 }

@@ -1,14 +1,15 @@
 # Raw Source Inventory — medical_colleges_telangana_andhra_pradesh
 
-Total distinct sources cited across 54 rows: **54**
+Total distinct sources cited across 58 rows: **58**
 
-All sources were accessed via the WebSearch tool (result snippets), not direct page fetch — see `evidence/medical_colleges_telangana_andhra_pradesh.evidence_manifest.json` for the full policy note.
+All sources were accessed via the WebSearch tool (result snippets), not direct page fetch (re-confirmed blocked in RC2) — see `evidence/medical_colleges_telangana_andhra_pradesh.evidence_manifest.json`.
 
 | Data Source Label | URL |
 |---|---|
 | Aggregator search snippets (banodoctor.com, targetneet.com) | https://www.banodoctor.com/college/fathima-institute-of-medical-scienceskadapa-andhra-pradesh |
 | Aggregator search snippets (blog.rmgoe.org, medicalneetug.com) | https://blog.rmgoe.org/government-medical-college-nagarkurnool/ |
 | Aggregator search snippets (careers360.com) | https://www.careers360.com/colleges/great-eastern-medical-school-and-hospital-srikakulam/compare |
+| Aggregator search snippets (edufever, careermarg, moksh16) | https://www.edufever.com/government-medical-college-kamareddy/ ; https://www.careermarg.com/college/government-medical-college-kamareddy |
 | Aggregator search snippets (edufever, collegedunia) | https://www.edufever.com/aiims-bibinagar/ |
 | Aggregator search snippets (edufever, collegedunia) | https://www.edufever.com/svsmc-mahbubnagar/ |
 | Aggregator search snippets (edufever, collegedunia) | https://www.edufever.com/rgims-ongole/ |
@@ -19,10 +20,12 @@ All sources were accessed via the WebSearch tool (result snippets), not direct p
 | Aggregator search snippets (neetadmission.in) | https://neetadmission.in/PG/college/529/gitam-institute-of-medical-sciences-and-research,-visakhapatnam |
 | Aggregator search snippets (thecareerassistance.com, getmyuniversity.com) | https://thecareerassistance.com/konaseema-institute-of-medical-sciences-and-research-foundation-amalapuram/ |
 | Aggregator search snippets (zynerd.com, edufever.com) | https://www.zynerd.com/institutes/maharajah-institute-of-medical-sciences-vizianagaram-2670 |
+| Aggregator search snippets; Deccan Herald news coverage | https://www.gmcramagundam.in/ ; https://www.deccanherald.com/india/classes-begin-at-eight-new-medical-colleges-in-telangana-1162664.html |
 | Aggregator search snippets; Krishna district government portal | https://krishna.ap.gov.in/public-utility/dr-pinnamaneni-siddhartha-institute-of-medical-sciences-research-centre/ |
 | Aggregator search snippets; institution group website | https://prathimaeducation.org/ ; https://careermarg.com/college/prathima-institute-of-medical-sciences |
 | Careers360 / aggregator search snippets | https://medicine.careers360.com/colleges/list-of-government-medical-colleges-in-telangana |
 | Official ESIC college website | https://mchyderabad.esic.gov.in/medical-about-us ; https://mchyderabad.esic.gov.in/ |
+| Official college website (aiimsmangalagiri.edu.in); aggregator cross-check | https://www.aiimsmangalagiri.edu.in/ ; https://bodmaseducation.com/aiims-mangalagiri ; https://www.aiimsmangalagiri.edu.in/wp-content/uploads/2025/07/MBBS-Prospectus-2025-26.pdf |
 | Official college website (caims.in); aggregator cross-check | https://www.caims.in/ ; https://www.careers360.com/colleges/chalmeda-ananda-rao-institute-of-medical-sciences-karimnagar |
 | Official college website (gmcjagtial.com) | http://gmcjagtial.com/ |
 | Official college website (gmcknr.com); aggregator corroboration | https://www.gmcknr.com/about-us.html ; https://www.gmcknr.com/ |
@@ -60,3 +63,4 @@ All sources were accessed via the WebSearch tool (result snippets), not direct p
 | Wikipedia; official college website (kmcwgl.com) | https://en.wikipedia.org/wiki/Kakatiya_Medical_College ; https://www.kmcwgl.com/ |
 | Wikipedia; official college website (smcvja.in) | https://en.wikipedia.org/wiki/Siddhartha_Medical_College ; https://smcvja.in/about |
 | Wikipedia; official college website; Nizamabad district government portal | https://en.wikipedia.org/wiki/Government_Medical_College,_Nizamabad ; https://www.gmcnzb.org/ ; https://nizamabad.telangana.gov.in/public-utility/govt-medical-college/ |
+| Wikipedia; official college website; aggregator cross-check | https://en.wikipedia.org/wiki/Government_Medical_College,_Sangareddy ; https://gmcsangareddy.org/ ; https://gmcsangareddy.org/contact-us/ |

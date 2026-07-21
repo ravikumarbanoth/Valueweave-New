@@ -1,8 +1,9 @@
 # Package 003 — Healthcare Foundation
-### ValueWeave.in Data Factory · Release v1.0.0-RC1 (NOT YET MERGED TO MAIN)
+### ValueWeave.in Data Factory · Release v1.0.0-RC2 (NOT YET MERGED TO MAIN)
 
-**This is Release Candidate 1**, submitted for review before any decision to promote this package to
-canonical/merge to `main`, per explicit instruction. See `CHANGELOG.md` for the full itemized history.
+**This is Release Candidate 2** — an enrichment pass on RC1 (2026-07-21), submitted for review before
+any decision to promote this package to canonical/merge to `main`, per explicit instruction. See
+`reports/rc1_vs_rc2_comparison.md` for the full diff and `CHANGELOG.md` for the itemized history.
 
 ## Purpose of This Package
 
@@ -60,12 +61,13 @@ Package003_Healthcare/
 
 | Dataset | Records | Jurisdictions | Verification Status |
 |---|---|---|---|
-| Medical Regulatory Bodies & Health Missions | 23 | National (11), Telangana (6), Andhra Pradesh (6) | Needs Review |
-| Medical Colleges (Telangana & AP) | 54 | Telangana (29), Andhra Pradesh (25) | Needs Review |
-| Government Hospitals (Telangana & AP) | 49 | Telangana (28), Andhra Pradesh (21) | Needs Review |
-| Government Health Insurance Schemes | 8 | National (4), Telangana (2), Andhra Pradesh (2) | Needs Review |
+| Medical Regulatory Bodies & Health Missions | 24 | National (12), Telangana (6), Andhra Pradesh (6) | Needs Review |
+| Medical Colleges (Telangana & AP) | 58 | Telangana (32), Andhra Pradesh (26) | Needs Review |
+| Government Hospitals (Telangana & AP) | 55 | Telangana (32), Andhra Pradesh (23) | Needs Review |
+| Government Health Insurance Schemes | 9 | National (5), Telangana (2), Andhra Pradesh (2) | Needs Review |
 
-**Total: 134 records across 4 datasets.**
+**Total: 146 records across 4 datasets** (grew from 134 at RC1 through the RC2 enrichment pass — see
+`reports/rc1_vs_rc2_comparison.md`).
 
 ## Import Instructions
 

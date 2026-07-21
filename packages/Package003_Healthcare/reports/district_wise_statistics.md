@@ -1,20 +1,20 @@
-# Package003_Healthcare v1.0.0-RC1 — District-wise Statistics
+# Package003_Healthcare v1.0.0-RC2 — District-wise Statistics
 
 ## medical_colleges_telangana_andhra_pradesh
 
-Districts with at least one verified record: 35
+Districts with at least one verified record: 37
 
 | District | Count |
 |---|---|
 | Hyderabad | 4 |
+| Guntur | 4 |
 | Karimnagar | 3 |
-| Guntur | 3 |
+| Sangareddy | 3 |
 | Medchal-Malkajgiri | 2 |
 | Mahabubnagar | 2 |
 | Nalgonda | 2 |
 | Khammam | 2 |
 | Ranga Reddy | 2 |
-| Sangareddy | 2 |
 | Visakhapatnam | 2 |
 | NTR (Krishna) | 2 |
 | Tirupati | 2 |
@@ -41,10 +41,12 @@ Districts with at least one verified record: 35
 | Nandyal | 1 |
 | Vizianagaram | 1 |
 | Chittoor | 1 |
+| Kamareddy | 1 |
+| Peddapalli | 1 |
 
 ## government_hospitals_telangana_andhra_pradesh
 
-Districts with at least one verified record: 38
+Districts with at least one verified record: 44
 
 | District | Count |
 |---|---|
@@ -86,5 +88,11 @@ Districts with at least one verified record: 38
 | Eluru | 1 |
 | Prakasam | 1 |
 | Chittoor | 1 |
+| Wanaparthy | 1 |
+| Rajanna Sircilla | 1 |
+| Nandyal | 1 |
+| Bapatla | 1 |
+| Peddapalli | 1 |
+| Medak | 1 |
 
-Districts and states without a verified row in the above tables are not covered in this release — see `acquisition_backlog.json` known_dataset_specific_gaps for the districts explicitly identified as gaps during collection.
+Districts and states without a verified row above are not covered in this release — see `acquisition_backlog.json` known_dataset_specific_gaps.

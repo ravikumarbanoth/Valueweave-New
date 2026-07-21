@@ -1,4 +1,4 @@
-# Package003_Healthcare v1.0.0-RC1 — Usage Guide
+# Package003_Healthcare v1.0.0-RC2 — Usage Guide
 
 ## What's in this package
 
@@ -7,10 +7,15 @@ this release, though two datasets carry free-text cross-references to each other
 
 | File | Rows | Covers |
 |---|---|---|
-| `medical_regulatory_bodies_and_health_missions.csv` | 23 | National + Telangana + Andhra Pradesh medical regulators, standards bodies, and health missions |
-| `medical_colleges_telangana_andhra_pradesh.csv` | 54 | Government + private MBBS colleges in Telangana & AP |
-| `government_hospitals_telangana_andhra_pradesh.csv` | 49 | District/Area/Teaching Hospitals run by the Telangana & AP state governments |
-| `government_health_insurance_schemes.csv` | 8 | Central + Telangana/AP health insurance schemes |
+| `medical_regulatory_bodies_and_health_missions.csv` | 24 | National + Telangana + Andhra Pradesh medical regulators, standards bodies, and health missions (as of RC2: +1 row — NBEMS) |
+| `medical_colleges_telangana_andhra_pradesh.csv` | 58 | Government + private MBBS colleges in Telangana & AP (as of RC2: +4 rows, +3 columns vs RC1) |
+| `government_hospitals_telangana_andhra_pradesh.csv` | 55 | District/Area/Teaching Hospitals run by the Telangana & AP state governments (as of RC2: +6 rows, +4 columns vs RC1) |
+| `government_health_insurance_schemes.csv` | 9 | Central + Telangana/AP health insurance schemes (as of RC2: +1 row — Rashtriya Arogya Nidhi) |
+
+RC2 added `email`, `specialties_summary`, `available_services_summary`, and
+`government_scheme_coverage_summary` to the hospitals dataset, and `email`, `departments_summary`,
+and `government_scheme_coverage_summary` to the colleges dataset. Fill rates are partial and
+deliberately conservative — see `reports/rc1_vs_rc2_comparison.md`.
 
 ## Before treating any row as fact-checked
 

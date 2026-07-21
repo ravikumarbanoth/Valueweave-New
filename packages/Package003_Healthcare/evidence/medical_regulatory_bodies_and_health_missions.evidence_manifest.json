@@ -1,11 +1,11 @@
 {
   "dataset_name": "medical_regulatory_bodies_and_health_missions",
   "package": "Package003_Healthcare",
-  "version": "1.0.0-RC1",
+  "version": "1.0.0-RC2",
   "fetch_method": "WebSearch tool result snippets only (WebFetch blocked \u2014 see note)",
-  "webfetch_blocked_note": "This session's organizational egress proxy returned HTTP 403 (policy denial, confirmed via the proxy status endpoint and a live re-test immediately before collection began) for every direct WebFetch attempt against .gov.in, .ac.in, .edu.in, and Wikipedia domains during data collection. This is a fixed org-level policy, not a retriable client error. As a result, no source page in this dataset was directly fetched and re-read; every fact was instead sourced from WebSearch tool result snippets, each cited by URL. Confidence scores were capped at 88 accordingly (see metadata/*.metadata.json confidence_calibration_note).",
-  "distinct_sources_cited": 23,
-  "total_rows": 23,
+  "webfetch_blocked_note": "This session's organizational egress proxy returned HTTP 403 (policy denial) for direct WebFetch to .gov.in, .ac.in, .edu.in, and Wikipedia domains during both the RC1 collection pass (2026-07-21) and the RC2 enrichment pass (2026-07-22) \u2014 re-confirmed via a live test fetch each time, not a transient or client-side failure. No source page in this dataset was ever directly fetched and re-read; every fact is WebSearch-snippet-sourced and cited by URL.",
+  "distinct_sources_cited": 24,
+  "total_rows": 24,
   "sources": [
     {
       "source_url": "https://www.nmc.org.in/; https://en.wikipedia.org/wiki/National_Medical_Commission",
@@ -64,7 +64,7 @@
       "data_source": "WebSearch"
     },
     {
-      "source_url": "https://pharmacycouncil.telangana.gov.in/; https://pci.gov.in/en/all-state-pharma-council/telangana-state-pharmacy-council/",
+      "source_url": "https://pharmacycouncil.telangana.gov.in/site/aboutus; https://pci.gov.in/en/all-state-pharma-council/telangana-state-pharmacy-council/; https://www.thehansindia.com/posts/index/Telangana/2018-07-06/TS-State-Pharmacy-Council-constituted/395865",
       "data_source": "WebSearch"
     },
     {
@@ -72,7 +72,7 @@
       "data_source": "WebSearch"
     },
     {
-      "source_url": "https://rajivaarogyasri.telangana.gov.in/ASRI2.0/",
+      "source_url": "https://rajivaarogyasri.telangana.gov.in/ASRI2.0/; https://reports.aarogyasri.telangana.gov.in/",
       "data_source": "WebSearch"
     },
     {
@@ -88,17 +88,22 @@
       "data_source": "WebSearch"
     },
     {
-      "source_url": "https://appharmacycouncil.gov.in/site/aboutus; https://pci.gov.in/en/all-state-pharma-council/andhra-pradesh/",
+      "source_url": "https://appharmacycouncil.gov.in/site/history; https://appharmacycouncil.gov.in/site/aboutus; https://pci.gov.in/en/all-state-pharma-council/andhra-pradesh/",
       "data_source": "WebSearch"
     },
     {
-      "source_url": "https://nmcouncil.ap.nic.in/; https://hmis.ap.nic.in/; https://hrstride.com/andhra-pradesh-nursing-council/",
+      "source_url": "https://hmis.ap.nic.in/APNMC/contact.html; https://hmis.ap.nic.in/; https://nmcouncil.ap.nic.in/; https://hrstride.com/andhra-pradesh-nursing-council/",
       "data_source": "WebSearch"
     },
     {
       "source_url": "https://www.ysraarogyasri.ap.gov.in/; https://drntrvaidyaseva.ap.gov.in/about-us-dr.ysr-aarogyasri-health-care-trust; https://kakinada.ap.gov.in/departments/dr-ysr-aarogyasri-health-care-trust/",
       "data_source": "WebSearch"
+    },
+    {
+      "source_url": "https://natboard.edu.in/; https://en.wikipedia.org/wiki/National_Board_of_Examinations_in_Medical_Sciences",
+      "data_source": "WebSearch"
     }
   ],
-  "collection_report_reference": "reports/medical_regulatory_bodies_and_health_missions.collection_report.md"
+  "collection_report_reference": "reports/medical_regulatory_bodies_and_health_missions.collection_report.md",
+  "rc2_enrichment_report_reference": "reports/regulatory_bodies_and_schemes.rc2_enrichment_report.md"
 }

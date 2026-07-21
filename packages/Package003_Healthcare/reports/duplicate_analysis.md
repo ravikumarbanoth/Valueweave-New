@@ -1,4 +1,4 @@
-# Package003_Healthcare v1.0.0-RC1 — Duplicate Analysis
+# Package003_Healthcare v1.0.0-RC2 — Duplicate Analysis
 
 ## medical_regulatory_bodies_and_health_missions
 
@@ -22,4 +22,4 @@
 
 ## Cross-dataset ID collisions: 0
 
-No duplicate primary keys or duplicate entity names were found within or across any of the 4 released datasets.
+No duplicate primary keys or duplicate entity names were found within or across any of the 4 datasets, including the 12 new rows added in RC2.

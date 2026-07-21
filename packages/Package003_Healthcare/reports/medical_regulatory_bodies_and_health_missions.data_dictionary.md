@@ -1,6 +1,6 @@
-# Data Dictionary — medical_regulatory_bodies_and_health_missions (v1.0.0-RC1)
+# Data Dictionary — medical_regulatory_bodies_and_health_missions (v1.0.0-RC2)
 
-Records: 23
+Records: 24
 
 | Column | Type | Description |
 |---|---|---|

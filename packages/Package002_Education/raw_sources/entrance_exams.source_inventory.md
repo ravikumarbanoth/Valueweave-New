@@ -1,8 +1,8 @@
 # Raw Source Inventory — entrance_exams
 
-Total distinct sources cited across 28 rows: **28**
+Total distinct sources cited across 29 rows: **29**
 
-All sources were accessed via the WebSearch tool (result snippets), not direct page fetch — see `evidence/entrance_exams.evidence_manifest.json` for the full policy note.
+All sources were accessed via the WebSearch tool (result snippets), not direct page fetch — see `evidence/entrance_exams.evidence_manifest.json` for the full policy note (re-confirmed blocked in RC2).
 
 | Data Source Label | URL |
 |---|---|
@@ -13,13 +13,13 @@ All sources were accessed via the WebSearch tool (result snippets), not direct p
 | Cross-checked via Shiksha and Findmycollege (application portal lawcet.tgche.ac.in) | https://www.shiksha.com/law/ts-pglcet-exam |
 | Cross-checked via Shiksha, Careers360 Law and Indcareer (application portal cets.apsche.ap.gov.in/LAWCET) | https://law.careers360.com/exams/ap-pglcet |
 | Cross-checked via Toprankers, Shiksha and Careers360 Law (application portal lawcet.tgche.ac.in) | https://law.careers360.com/articles/ts-lawcet |
-| Cross-checked via multiple education portals (Shiksha, CollegeDekho, Careers360); official 2027 notification not yet published as of collection date | https://engineering.careers360.com/articles/which-iit-will-conduct-gate-2027-check-official-details |
 | Official APSCHE CETS EAPCET portal cross-checked via Testbook and Collegedunia | https://cets.apsche.ap.gov.in/EAPCET/ |
 | Official APSCHE CETS LAWCET portal cross-checked via Shiksha and Collegedunia | https://cets.apsche.ap.gov.in/LAWCET/ |
 | Official CAT portal (iimcat.ac.in) cross-checked via MBAUniverse and Careers360 | https://iimcat.ac.in/ |
 | Official CBSE CTET portal | https://ctet.nic.in/ |
 | Official Consortium of NLUs website cross-checked via Careers360 Law and Shiksha | https://www.shiksha.com/law/articles/consortiumofnlus-ac-in-clat-official-website-blogId-188634 |
 | Official JEE Advanced portal (jeeadv.ac.in) and Information Brochure PDF | https://jeeadv.ac.in/eligibility.html |
+| Official NBEMS NEET-SS exam portal cross-checked via Doctutorials, Shiksha and Careers360 Medicine | https://natboard.edu.in/viewnbeexam?exam=neetss |
 | Official NBEMS portal (natboard.edu.in) cross-checked via Careers360 news | https://natboard.edu.in/viewnbeexam?exam=gpat |
 | Official NBEMS/NBE portals (natboard.edu.in / nbe.edu.in) cross-checked via Testbook and Careers360 news coverage | https://natboard.edu.in/ |
 | Official NTA CUET(PG) exam portal | https://exams.nta.nic.in/cuet-pg/ |
@@ -34,3 +34,4 @@ All sources were accessed via the WebSearch tool (result snippets), not direct p
 | Official TGCHE ICET portal cross-checked via Shiksha and MBAUniverse | https://icet.tgche.ac.in/ |
 | Official TGCHE PGECET portal cross-checked via Careerpower and Sarvgyan | https://pgecet.tgche.ac.in/ |
 | Official XAT portal (xatonline.in) cross-checked via InsideIIM and Shiksha | https://xatonline.in/ |
+| RESOLVED in RC2 enrichment: official GATE 2027 notification released by IIT Madras on 20 July 2026 at gate2027.iitm.ac.in, cross-checked via Testbook and PW Live news coverage of the same notification | https://testbook.com/news/gate-2027-official-website/ |

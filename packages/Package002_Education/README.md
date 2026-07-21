@@ -1,5 +1,10 @@
 # Package 002 — Education Foundation
-### ValueWeave.in Data Factory · Release v1.0.0
+### ValueWeave.in Data Factory · Release v1.0.0-RC2 (NOT YET MERGED TO MAIN)
+
+**This is Release Candidate 2.** RC1 (2026-07-21) was the initial collection; RC2 (2026-07-22) is a
+data-quality enrichment pass on the same 4 datasets, done at explicit request before any decision to
+promote this package to canonical/merge to `main`. See `reports/rc1_vs_rc2_comparison.md` for the full
+diff and `CHANGELOG.md` for the itemized changes.
 
 ## Purpose of This Package
 
@@ -56,11 +61,14 @@ Package002_Education/
 | Dataset | Records | Jurisdictions | Verification Status |
 |---|---|---|---|
 | Educational Boards & Regulatory Bodies | 21 | National (13), Telangana (4), Andhra Pradesh (4) | Needs Review |
-| Universities (Telangana & AP) | 61 | Telangana (29), Andhra Pradesh (32) | Needs Review |
-| Entrance Exams | 28 | National (14), Telangana (7), Andhra Pradesh (7) | Needs Review |
+| Universities (Telangana & AP) | 66 | Telangana (29), Andhra Pradesh (37) | Needs Review |
+| Entrance Exams | 29 | National (15), Telangana (7), Andhra Pradesh (7) | Needs Review |
 | Scholarships | 25 | National (15), Telangana (5), Andhra Pradesh (5) | Needs Review |
 
-**Total: 135 records across 4 datasets.**
+**Total: 141 records across 4 datasets** (RC1 was 135; +6 in RC2 — see `reports/rc1_vs_rc2_comparison.md`).
+
+As of RC2, the universities dataset also carries three new columns: `ownership` (100% filled),
+`contact_details` (5/66 filled), and `student_services_summary` (5/66 filled).
 
 ## Import Instructions
 

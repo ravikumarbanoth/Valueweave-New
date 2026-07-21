@@ -1,8 +1,8 @@
 dataset_name,package,file_path,record_count,status,mode_used,jurisdiction_coverage,confidence_min,confidence_max,confidence_avg,verification_status,last_updated
-education_boards_regulatory_bodies,Package002_Education,datasets/education_boards_regulatory_bodies.csv,21,RELEASED,WebSearch-only (WebFetch blocked by org policy),National;Telangana;Andhra Pradesh,58,85,74.6,VST-NEEDS_REVIEW,2026-07-21
-universities_telangana_andhra_pradesh,Package002_Education,datasets/universities_telangana_andhra_pradesh.csv,61,RELEASED,WebSearch-only (WebFetch blocked by org policy),Telangana;Andhra Pradesh,58,75,68.9,VST-NEEDS_REVIEW,2026-07-21
-entrance_exams,Package002_Education,datasets/entrance_exams.csv,28,RELEASED,WebSearch-only (WebFetch blocked by org policy),National;Telangana;Andhra Pradesh,72,92,84.6,VST-NEEDS_REVIEW,2026-07-21
-scholarships,Package002_Education,datasets/scholarships.csv,25,RELEASED,WebSearch-only (WebFetch blocked by org policy),National;Telangana;Andhra Pradesh,60,80,72.0,VST-NEEDS_REVIEW,2026-07-21
+education_boards_regulatory_bodies,Package002_Education,datasets/education_boards_regulatory_bodies.csv,21,RELEASED_RC2,WebSearch-only (WebFetch blocked by org policy),Andhra Pradesh;National;Telangana,63,88,79.1,VST-NEEDS_REVIEW,2026-07-22
+universities_telangana_andhra_pradesh,Package002_Education,datasets/universities_telangana_andhra_pradesh.csv,66,RELEASED_RC2,WebSearch-only (WebFetch blocked by org policy),Andhra Pradesh;Telangana,58,82,74.8,VST-NEEDS_REVIEW,2026-07-22
+entrance_exams,Package002_Education,datasets/entrance_exams.csv,29,RELEASED_RC2,WebSearch-only (WebFetch blocked by org policy),Andhra Pradesh;National;Telangana,78,92,85,VST-NEEDS_REVIEW,2026-07-22
+scholarships,Package002_Education,datasets/scholarships.csv,25,RELEASED_RC2,WebSearch-only (WebFetch blocked by org policy),Andhra Pradesh;National;Telangana,60,88,76.8,VST-NEEDS_REVIEW,2026-07-22
 schools_government,Package002_Education,BLOCKED,0,BLOCKED,N/A,Telangana;Andhra Pradesh,,,,,
 schools_private,Package002_Education,BLOCKED,0,BLOCKED,N/A,Telangana;Andhra Pradesh,,,,,
 schools_residential_kv_navodaya_sainik_gurukul,Package002_Education,BLOCKED,0,BLOCKED,N/A,Telangana;Andhra Pradesh,,,,,
@@ -18,10 +18,10 @@ online_education_platforms_mooc,Package002_Education,QUEUED,0,QUEUED,N/A,Nationa
 coaching_competitive_exam_institutes,Package002_Education,QUEUED,0,QUEUED,N/A,Telangana;Andhra Pradesh,,,,,
 digital_ai_learning_platforms,Package002_Education,QUEUED,0,QUEUED,N/A,National,,,,,
 fellowships,Package002_Education,QUEUED,0,QUEUED,N/A,National,,,,,
-rankings_nirf_naac_nba_detail,Package002_Education,QUEUED,0,QUEUED,N/A,National,,,,,
+rankings_nirf_naac_nba_detail,Package002_Education,PARTIALLY_ADDRESSED,0,QUEUED,N/A,National,,,,,
 research_institutions,Package002_Education,QUEUED,0,QUEUED,N/A,Telangana;Andhra Pradesh,,,,,
 libraries,Package002_Education,QUEUED,0,QUEUED,N/A,Telangana;Andhra Pradesh,,,,,
-hostels_student_services,Package002_Education,QUEUED,0,QUEUED,N/A,Telangana;Andhra Pradesh,,,,,
+hostels_student_services,Package002_Education,PARTIALLY_ADDRESSED,0,QUEUED,N/A,Telangana;Andhra Pradesh,,,,,
 career_guidance_placement_cells,Package002_Education,QUEUED,0,QUEUED,N/A,Telangana;Andhra Pradesh,,,,,
 innovation_incubation_startup_cells,Package002_Education,QUEUED,0,QUEUED,N/A,Telangana;Andhra Pradesh,,,,,
 internship_apprenticeship_portals,Package002_Education,QUEUED,0,QUEUED,N/A,National,,,,,

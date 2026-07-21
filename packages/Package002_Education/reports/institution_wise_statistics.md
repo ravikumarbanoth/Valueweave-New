@@ -1,4 +1,4 @@
-# Package002_Education v1.0.0 — Institution/Entity-wise Statistics
+# Package002_Education v1.0.0-RC2 — Institution/Entity-wise Statistics
 
 ## education_boards_regulatory_bodies (by type)
 
@@ -21,10 +21,10 @@
 
 | university_type | Count |
 |---|---|
-| State University | 36 |
+| State University | 40 |
 | Private University | 8 |
 | Deemed University | 7 |
-| Central University | 5 |
+| Central University | 6 |
 | Institute of National Importance | 5 |
 
 ## entrance_exams (by exam_level)
@@ -33,8 +33,8 @@
 |---|---|
 | Postgraduate | 13 |
 | Undergraduate | 12 |
+| Doctoral/Fellowship | 2 |
 | Diploma/Polytechnic | 2 |
-| Doctoral/Fellowship | 1 |
 
 ## scholarships (by scheme_type)
 
@@ -43,3 +43,10 @@
 | Central Scheme | 15 |
 | State Scheme | 10 |
 
+## universities_telangana_andhra_pradesh (by ownership — new in RC2)
+
+| ownership | Count |
+|---|---|
+| State Government | 40 |
+| Private Trust/Society | 15 |
+| Central Government | 11 |

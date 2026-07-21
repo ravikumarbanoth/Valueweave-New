@@ -2,7 +2,7 @@
 
 Total distinct sources cited across 21 rows: **21**
 
-All sources were accessed via the WebSearch tool (result snippets), not direct page fetch — see `evidence/education_boards_regulatory_bodies.evidence_manifest.json` for the full policy note.
+All sources were accessed via the WebSearch tool (result snippets), not direct page fetch — see `evidence/education_boards_regulatory_bodies.evidence_manifest.json` for the full policy note (re-confirmed blocked in RC2).
 
 | Data Source Label | URL |
 |---|---|

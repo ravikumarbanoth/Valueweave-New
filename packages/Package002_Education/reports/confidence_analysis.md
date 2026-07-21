@@ -1,14 +1,14 @@
-# Package002_Education v1.0.0 — Confidence Analysis
+# Package002_Education v1.0.0-RC2 — Confidence Analysis
 
-All confidence scores in this release were capped below the 85-95 'direct official source' band used in Package001_Geography, because WebFetch (direct page retrieval) was unavailable this session — see `source_analysis.md`. Scores instead reflect WebSearch-snippet corroboration strength.
+RC2 raised confidence scores modestly across most previously-collected rows via stronger multi-source corroboration (max +10/row for universities, +8/row for boards/exams/scholarships), capped at 82 (universities) / 88 (others) — still below the 85-95 'direct official source' band, since WebFetch remained unavailable.
 
-| Dataset | Min | Max | Average |
-|---|---|---|---|
-| education_boards_regulatory_bodies | 58 | 85 | 74.6 |
-| universities_telangana_andhra_pradesh | 58 | 75 | 68.9 |
-| entrance_exams | 72 | 92 | 84.6 |
-| scholarships | 60 | 80 | 72.0 |
+| Dataset | Min | Max | Average | RC1 Average |
+|---|---|---|---|---|
+| education_boards_regulatory_bodies | 63 | 88 | 79.1 | 74.6 |
+| universities_telangana_andhra_pradesh | 58 | 82 | 74.8 | 68.9 |
+| entrance_exams | 78 | 92 | 85.0 | 84.6 |
+| scholarships | 60 | 88 | 76.8 | 72.0 |
 
 ## Interpretation
 
-No row in this package carries a confidence score above 92, and no row should be treated as `VST-VERIFIED` — every row starts at `VST-NEEDS_REVIEW` per package policy, and promotion to verified is a governance action (Data Steward + Reviewer sign-off against a directly-fetched primary source), not an automatic result of collection.
+No row in this package carries a confidence score above 92 (entrance_exams' pre-existing ceiling), and no row should be treated as `VST-VERIFIED` — every row remains `VST-NEEDS_REVIEW`.

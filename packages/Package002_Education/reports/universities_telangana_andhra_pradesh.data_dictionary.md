@@ -1,6 +1,6 @@
-# Data Dictionary — universities_telangana_andhra_pradesh
+# Data Dictionary — universities_telangana_andhra_pradesh (v1.0.0-RC2)
 
-Records: 61
+Records: 66
 
 | Column | Type | Description |
 |---|---|---|
@@ -16,7 +16,10 @@ Records: 61
 | naac_grade | string | NAAC accreditation grade, or PENDING_VERIFICATION |
 | nirf_rank | string | NIRF rank/band, or PENDING_VERIFICATION |
 | courses_offered_summary | string |  |
-| vice_chancellor | string | Left PENDING_VERIFICATION package-wide due to appointment volatility |
+| vice_chancellor | string | Filled for 49/66 rows as of RC2 where a clearly-dated appointment source was found; remainder PENDING_VERIFICATION |
+| ownership | enum | Added in RC2. Populated for all 66 rows — determinable from existing type/governance facts. Allowed values: State Government, Central Government, Private Trust/Society, Government-Aided. |
+| contact_details | string | Added in RC2. Official phone/email if publicly listed; populated for 5 flagship rows only as of RC2, PENDING_VERIFICATION elsewhere. |
+| student_services_summary | string | Added in RC2. Brief factual note on hostel/library/sports-complex presence; populated for 5 flagship rows only as of RC2, PENDING_VERIFICATION elsewhere. |
 | data_source | string |  |
 | source_url | string |  |
 | collection_date | date |  |

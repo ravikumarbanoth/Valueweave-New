@@ -2,7 +2,7 @@
   "dataset_name": "education_boards_regulatory_bodies",
   "title": "Educational Boards & Regulatory Bodies",
   "package": "Package002_Education",
-  "version": "1.0.0",
+  "version": "1.0.0-RC2",
   "description": "National education regulatory/accreditation/curriculum bodies plus Telangana and Andhra Pradesh state boards for secondary, intermediate, and curriculum governance.",
   "scope_note": "Covers bodies that regulate, accredit, rank, or set curriculum for Indian education. Does not cover individual institutions.",
   "file": "datasets/education_boards_regulatory_bodies.csv",
@@ -33,22 +33,20 @@
     "Andhra Pradesh": 4
   },
   "provenance": {
-    "collection_date": "2026-07-21",
-    "collection_method": "WebSearch-based knowledge engineering research (direct WebFetch to .gov.in / .ac.in / Wikipedia domains was blocked by this session's organizational egress policy \u2014 a policy-level 403, not a retriable client error). Every fact is sourced from a cited search result; none are fabricated or inferred.",
+    "collection_date_range": "2026-07-21 (RC1) to 2026-07-22 (RC2 enrichment)",
+    "collection_method": "WebSearch-based knowledge engineering research. Direct WebFetch to .gov.in/.ac.in/.edu.in/Wikipedia domains remained blocked by this session's organizational egress policy during RC2 as well (re-confirmed HTTP 403). All facts are cited search results; none fabricated.",
     "confidence_score_range": [
-      58,
-      85
+      63,
+      88
     ],
-    "confidence_score_average": 74.6,
-    "confidence_calibration_note": "Because no primary source page could be directly fetched and re-read for confirmation, confidence scores are capped below the 85-95 'direct official source' band used in Package001_Geography where WebFetch was available; scores here instead sit in the 58-92 range reflecting single/multi-search-result corroboration.",
-    "verification_status_breakdown": {
-      "VST-NEEDS_REVIEW": 21
-    },
+    "confidence_score_average": 79.1,
+    "confidence_calibration_note": "RC2 raised confidence modestly (max +10/row for universities, +8/row for boards/exams/scholarships) where stronger multi-source corroboration was found, capped at 82 (universities) / 88 (others) \u2014 still below the 85-95 'direct official source' band, since WebFetch access was not restored.",
     "distinct_source_urls": 21,
-    "pending_verification_field_count": 1,
+    "pending_verification_field_count": 0,
     "total_fields": 336,
-    "pending_verification_rate_pct": 0.3
+    "pending_verification_rate_pct": 0.0
   },
-  "license": "Compiled from public government and institutional sources for ValueWeave internal knowledge-graph use; individual source attribution is preserved per-row in source_url.",
-  "collection_report_reference": "reports/education_boards_regulatory_bodies.collection_report.md"
+  "license": "Compiled from public government and institutional sources for ValueWeave internal knowledge-graph use; per-row source attribution preserved in source_url.",
+  "collection_report_reference": "reports/education_boards_regulatory_bodies.collection_report.md",
+  "rc2_enrichment_report_reference": "reports/boards_exams_scholarships.rc2_enrichment_report.md"
 }

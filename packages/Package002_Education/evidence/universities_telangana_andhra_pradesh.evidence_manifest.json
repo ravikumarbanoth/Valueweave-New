@@ -1,11 +1,11 @@
 {
   "dataset_name": "universities_telangana_andhra_pradesh",
   "package": "Package002_Education",
-  "version": "1.0.0",
+  "version": "1.0.0-RC2",
   "fetch_method": "WebSearch tool result snippets only (WebFetch blocked \u2014 see note)",
-  "webfetch_blocked_note": "This session's organizational egress proxy returned HTTP 403 (policy denial, confirmed via the proxy status endpoint) for every direct WebFetch attempt against .gov.in, .ac.in, .edu.in, and Wikipedia domains during data collection. This is a fixed org-level policy, not a retriable client error, and was not routed around. As a result, no source page in this dataset was directly fetched and re-read for confirmation; every fact was instead sourced from WebSearch tool result snippets, each cited by URL in the dataset's source_url column. Confidence scores were capped accordingly (see metadata/*.metadata.json confidence_calibration_note).",
-  "distinct_sources_cited": 61,
-  "total_rows": 61,
+  "webfetch_blocked_note": "This session's organizational egress proxy returned HTTP 403 (policy denial) for direct WebFetch to .gov.in, .ac.in, .edu.in, and Wikipedia domains during both the RC1 collection pass (2026-07-21) and the RC2 enrichment pass (2026-07-22) \u2014 re-confirmed via the proxy status endpoint each time, not a transient or client-side failure. No source page in this dataset was ever directly fetched and re-read; every fact is WebSearch-snippet-sourced and cited by URL. Confidence scores reflect this throughout (see metadata/*.metadata.json confidence_calibration_note).",
+  "distinct_sources_cited": 66,
+  "total_rows": 66,
   "sources": [
     {
       "source_url": "https://en.wikipedia.org/wiki/Osmania_University; https://telanganatoday.com/osmania-improves-nit-warangal-and-uoh-slip-in-nirf-rankings-2025",
@@ -250,7 +250,28 @@
     {
       "source_url": "https://en.wikipedia.org/wiki/Central_Tribal_University_of_Andhra_Pradesh; https://www.ctuap.ac.in/about-us/",
       "data_source": "WebSearch aggregation (secondary/portal cross-check; official site inaccessible via WebFetch this session)"
+    },
+    {
+      "source_url": "https://nsktu.ac.in/; https://en.wikipedia.org/wiki/National_Sanskrit_University",
+      "data_source": "WebSearch aggregation (secondary/portal cross-check; official site inaccessible via WebFetch this session)"
+    },
+    {
+      "source_url": "https://svimstpt.ap.nic.in/; https://en.wikipedia.org/wiki/Sri_Venkateswara_Institute_of_Medical_Sciences",
+      "data_source": "WebSearch aggregation (secondary/portal cross-check; official site inaccessible via WebFetch this session)"
+    },
+    {
+      "source_url": "https://www.rguktrkv.ac.in/; https://rgukt.in/about/",
+      "data_source": "WebSearch aggregation (secondary/portal cross-check; official site inaccessible via WebFetch this session)"
+    },
+    {
+      "source_url": "https://rguktsklm.ac.in/; https://rgukt.in/about/",
+      "data_source": "WebSearch aggregation (secondary/portal cross-check; official site inaccessible via WebFetch this session)"
+    },
+    {
+      "source_url": "https://rguktong.ac.in/; https://rgukt.in/about/",
+      "data_source": "WebSearch aggregation (secondary/portal cross-check; official site inaccessible via WebFetch this session)"
     }
   ],
-  "collection_report_reference": "reports/universities_telangana_andhra_pradesh.collection_report.md"
+  "collection_report_reference": "reports/universities_telangana_andhra_pradesh.collection_report.md",
+  "rc2_enrichment_report_reference": "reports/universities_telangana_andhra_pradesh.rc2_enrichment_report.md"
 }

@@ -1,6 +1,6 @@
-# Data Dictionary — entrance_exams
+# Data Dictionary — entrance_exams (v1.0.0-RC2)
 
-Records: 28
+Records: 29
 
 | Column | Type | Description |
 |---|---|---|

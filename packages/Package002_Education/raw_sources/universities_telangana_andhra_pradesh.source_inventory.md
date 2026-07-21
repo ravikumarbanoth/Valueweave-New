@@ -1,8 +1,8 @@
 # Raw Source Inventory — universities_telangana_andhra_pradesh
 
-Total distinct sources cited across 61 rows: **61**
+Total distinct sources cited across 66 rows: **66**
 
-All sources were accessed via the WebSearch tool (result snippets), not direct page fetch — see `evidence/universities_telangana_andhra_pradesh.evidence_manifest.json` for the full policy note.
+All sources were accessed via the WebSearch tool (result snippets), not direct page fetch — see `evidence/universities_telangana_andhra_pradesh.evidence_manifest.json` for the full policy note (re-confirmed blocked in RC2).
 
 | Data Source Label | URL |
 |---|---|
@@ -67,3 +67,8 @@ All sources were accessed via the WebSearch tool (result snippets), not direct p
 | WebSearch aggregation (secondary/portal cross-check; official site inaccessible via WebFetch this session) | https://en.wikipedia.org/wiki/Central_University_of_Andhra_Pradesh; https://cuap.ac.in/about-us/ |
 | WebSearch aggregation (secondary/portal cross-check; official site inaccessible via WebFetch this session) | https://en.wikipedia.org/wiki/Rajiv_Gandhi_University_of_Knowledge_Technologies,_Nuzvid; https://rgukt.in/about/ |
 | WebSearch aggregation (secondary/portal cross-check; official site inaccessible via WebFetch this session) | https://en.wikipedia.org/wiki/Central_Tribal_University_of_Andhra_Pradesh; https://www.ctuap.ac.in/about-us/ |
+| WebSearch aggregation (secondary/portal cross-check; official site inaccessible via WebFetch this session) | https://nsktu.ac.in/; https://en.wikipedia.org/wiki/National_Sanskrit_University |
+| WebSearch aggregation (secondary/portal cross-check; official site inaccessible via WebFetch this session) | https://svimstpt.ap.nic.in/; https://en.wikipedia.org/wiki/Sri_Venkateswara_Institute_of_Medical_Sciences |
+| WebSearch aggregation (secondary/portal cross-check; official site inaccessible via WebFetch this session) | https://www.rguktrkv.ac.in/; https://rgukt.in/about/ |
+| WebSearch aggregation (secondary/portal cross-check; official site inaccessible via WebFetch this session) | https://rguktsklm.ac.in/; https://rgukt.in/about/ |
+| WebSearch aggregation (secondary/portal cross-check; official site inaccessible via WebFetch this session) | https://rguktong.ac.in/; https://rgukt.in/about/ |

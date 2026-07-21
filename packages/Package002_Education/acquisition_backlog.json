@@ -1,34 +1,167 @@
 {
   "package": "Package002_Education",
-  "version": "1.0.0",
-  "description": "Every education data domain not shipped with real data in v1.0.0, with the reason and what would unblock it. Mirrors Package001_Geography's acquisition_backlog.json convention: no domain ships guessed or placeholder rows just to appear complete.",
-  "environment_blocker_affecting_all_items": "This session's organizational egress policy blocked direct WebFetch to .gov.in/.ac.in/.edu.in/Wikipedia domains (confirmed HTTP 403 policy denial). All v1.0.0 datasets were collected via WebSearch snippets only as a result. A future session with WebFetch access to these domains would allow re-verification at higher confidence and would very likely unblock more of the domains below.",
+  "version": "1.0.0-RC2",
+  "description": "Every education data domain not shipped with real data in this release, with the reason and what would unblock it. Mirrors Package001_Geography's acquisition_backlog.json convention: no domain ships guessed or placeholder rows just to appear complete.",
+  "environment_blocker_affecting_all_items": "This session's organizational egress policy blocked direct WebFetch to .gov.in/.ac.in/.edu.in/Wikipedia domains in both RC1 (2026-07-21) and RC2 (2026-07-22) \u2014 re-confirmed HTTP 403 policy denial via a live test fetch on both occasions, not a one-off failure. All datasets were collected via WebSearch snippets only as a result. A future session with WebFetch access to these domains would allow re-verification at higher confidence and would very likely unblock more of the domains below.",
+  "rc2_progress_note": "RC2 was an enrichment pass on the 4 already-shipped datasets, not an expansion into new domains. Two entries below (rankings_nirf_naac_nba_detail, hostels_student_services) received partial progress as a side effect of enriching the universities dataset \u2014 see status PARTIALLY_ADDRESSED and the note field on each \u2014 but neither is complete as a standalone domain.",
   "blocked_or_queued_domains": [
-    {"domain": "Schools (Government)", "status": "BLOCKED", "reason": "State-wide government school directories run into the tens of thousands of individual schools; per-school verification at the field depth requested (fees, hostel, lab, NAAC-equivalent, lat/long) is not feasible via search-snippet research alone.", "unblock_requires": "Bulk structured data export (e.g. UDISE+ dataset access) rather than per-institution web research."},
-    {"domain": "Schools (Private)", "status": "BLOCKED", "reason": "Same scale problem as government schools; no authoritative bulk private-school directory was accessible this session.", "unblock_requires": "UDISE+ or state education department bulk export."},
-    {"domain": "Schools (Residential / KV / Navodaya / Sainik / Gurukul / Tribal & BC & Minority & Social Welfare)", "status": "BLOCKED", "reason": "Each sub-category has its own directory (KVS, NVS, Sainik Schools Society, TG/AP Gurukul societies) that would need separate bulk-list acquisition; not attempted in this release to keep v1.0.0 scope achievable at real-data quality.", "unblock_requires": "Per-society official directory export (KVS, NVS, Sainik Schools Society, Telangana/AP Gurukulam societies)."},
-    {"domain": "Junior Colleges", "status": "QUEUED", "reason": "Not researched in v1.0.0; out of scope to keep first release tractable.", "unblock_requires": "Dedicated research pass, likely via state Intermediate Board affiliated-institution lists."},
-    {"domain": "Degree Colleges", "status": "QUEUED", "reason": "Not researched in v1.0.0.", "unblock_requires": "Dedicated research pass via UGC/state college affiliation lists."},
-    {"domain": "Engineering Colleges", "status": "QUEUED", "reason": "Not researched in v1.0.0 (Universities dataset covers university-level institutions only, not their affiliated engineering colleges).", "unblock_requires": "Dedicated research pass via AICTE-approved institution lists for TG/AP."},
-    {"domain": "Medical Colleges", "status": "QUEUED", "reason": "Not researched in v1.0.0.", "unblock_requires": "Dedicated research pass via National Medical Commission college list for TG/AP."},
-    {"domain": "Polytechnic Colleges", "status": "QUEUED", "reason": "Not researched in v1.0.0.", "unblock_requires": "Dedicated research pass via State Board of Technical Education lists."},
-    {"domain": "ITI", "status": "QUEUED", "reason": "Not researched in v1.0.0.", "unblock_requires": "Dedicated research pass via DGT/state Directorate of Employment & Training lists."},
-    {"domain": "Skill Development Institutes", "status": "QUEUED", "reason": "Not researched in v1.0.0.", "unblock_requires": "Dedicated research pass via NCVET/state skill mission lists."},
-    {"domain": "Open Universities / Distance Education", "status": "QUEUED", "reason": "Not researched in v1.0.0.", "unblock_requires": "Dedicated research pass; UGC-DEB approved institution list."},
-    {"domain": "Online Education Platforms / Digital & AI Learning Platforms / MOOCs", "status": "QUEUED", "reason": "Not researched in v1.0.0; commercial platform data changes rapidly and needs a distinct verification approach (company registration + course catalog) from the government-source model used for the other 4 datasets.", "unblock_requires": "Dedicated research pass with a commercial-source verification methodology."},
-    {"domain": "Coaching Institutes / Competitive Exam Institutes", "status": "QUEUED", "reason": "Not researched in v1.0.0; highly fragmented, no authoritative government registry.", "unblock_requires": "Dedicated research pass; likely lower achievable confidence given lack of an official registry."},
-    {"domain": "Fellowships", "status": "QUEUED", "reason": "Not researched in v1.0.0 (Scholarships dataset covers scholarships only).", "unblock_requires": "Dedicated research pass via UGC/CSIR/DST fellowship program lists."},
-    {"domain": "Accreditation / Rankings (institution-level NAAC/NBA/NIRF detail)", "status": "QUEUED", "reason": "v1.0.0's Boards dataset covers NAAC/NBA/NIRF as regulatory bodies, but does not carry their full per-institution rating/ranking datasets.", "unblock_requires": "Dedicated research pass or bulk NIRF/NAAC public data export."},
-    {"domain": "Research Institutions", "status": "QUEUED", "reason": "Not researched in v1.0.0.", "unblock_requires": "Dedicated research pass via DST/ICMR/CSIR institution lists for TG/AP."},
-    {"domain": "Libraries", "status": "QUEUED", "reason": "Not researched in v1.0.0.", "unblock_requires": "Dedicated research pass."},
-    {"domain": "Hostels / Student Services", "status": "QUEUED", "reason": "Not researched in v1.0.0 as a standalone dataset (some university-level hostel facts may exist informally in source snippets but were not systematically captured).", "unblock_requires": "Dedicated research pass."},
-    {"domain": "Career Guidance / Placement Cells", "status": "QUEUED", "reason": "Not researched in v1.0.0.", "unblock_requires": "Dedicated research pass, likely per-institution rather than a standalone directory."},
-    {"domain": "Innovation Centers / Incubation Centres / Startup Cells", "status": "QUEUED", "reason": "Not researched in v1.0.0.", "unblock_requires": "Dedicated research pass via Startup India / state innovation cell registries."},
-    {"domain": "Internship Portals / Apprenticeships", "status": "QUEUED", "reason": "Not researched in v1.0.0.", "unblock_requires": "Dedicated research pass via NAPS/PM Internship Scheme official sources."},
-    {"domain": "Educational Policies", "status": "QUEUED", "reason": "Not researched in v1.0.0 as a structured dataset (NEP 2020 and related policy context appear informally in board mandate summaries but were not systematically catalogued).", "unblock_requires": "Dedicated research pass."},
-    {"domain": "Educational Schemes (beyond Scholarships)", "status": "QUEUED", "reason": "v1.0.0's Scholarships dataset covers scholarship schemes only, not the broader universe of educational schemes (infrastructure grants, teacher training programs, etc.).", "unblock_requires": "Dedicated research pass."},
-    {"domain": "Educational Statistics (AISHE detail)", "status": "QUEUED", "reason": "v1.0.0's Boards dataset lists AISHE as a body but does not carry its underlying statistical tables.", "unblock_requires": "AISHE bulk report/data acquisition."},
-    {"domain": "Educational Technology (vendor/product landscape)", "status": "QUEUED", "reason": "Not researched in v1.0.0.", "unblock_requires": "Dedicated research pass with a commercial-source verification methodology."},
-    {"domain": "All domains above, for states/UTs other than Telangana & Andhra Pradesh", "status": "QUEUED", "reason": "v1.0.0 deliberately scoped to the package brief's 'Special Priority' states only, per an explicit narrow-and-deep scoping decision made with the requester before starting collection.", "unblock_requires": "State-by-state research passes for each remaining state/UT."}
+    {
+      "domain": "Schools (Government)",
+      "status": "BLOCKED",
+      "reason": "State-wide government school directories run into the tens of thousands of individual schools; per-school verification at the field depth requested (fees, hostel, lab, NAAC-equivalent, lat/long) is not feasible via search-snippet research alone.",
+      "unblock_requires": "Bulk structured data export (e.g. UDISE+ dataset access) rather than per-institution web research."
+    },
+    {
+      "domain": "Schools (Private)",
+      "status": "BLOCKED",
+      "reason": "Same scale problem as government schools; no authoritative bulk private-school directory was accessible this session.",
+      "unblock_requires": "UDISE+ or state education department bulk export."
+    },
+    {
+      "domain": "Schools (Residential / KV / Navodaya / Sainik / Gurukul / Tribal & BC & Minority & Social Welfare)",
+      "status": "BLOCKED",
+      "reason": "Each sub-category has its own directory (KVS, NVS, Sainik Schools Society, TG/AP Gurukul societies) that would need separate bulk-list acquisition; not attempted in this release to keep v1.0.0 scope achievable at real-data quality.",
+      "unblock_requires": "Per-society official directory export (KVS, NVS, Sainik Schools Society, Telangana/AP Gurukulam societies)."
+    },
+    {
+      "domain": "Junior Colleges",
+      "status": "QUEUED",
+      "reason": "Not researched in v1.0.0; out of scope to keep first release tractable.",
+      "unblock_requires": "Dedicated research pass, likely via state Intermediate Board affiliated-institution lists."
+    },
+    {
+      "domain": "Degree Colleges",
+      "status": "QUEUED",
+      "reason": "Not researched in v1.0.0.",
+      "unblock_requires": "Dedicated research pass via UGC/state college affiliation lists."
+    },
+    {
+      "domain": "Engineering Colleges",
+      "status": "QUEUED",
+      "reason": "Not researched in v1.0.0 (Universities dataset covers university-level institutions only, not their affiliated engineering colleges).",
+      "unblock_requires": "Dedicated research pass via AICTE-approved institution lists for TG/AP."
+    },
+    {
+      "domain": "Medical Colleges",
+      "status": "QUEUED",
+      "reason": "Not researched in v1.0.0.",
+      "unblock_requires": "Dedicated research pass via National Medical Commission college list for TG/AP."
+    },
+    {
+      "domain": "Polytechnic Colleges",
+      "status": "QUEUED",
+      "reason": "Not researched in v1.0.0.",
+      "unblock_requires": "Dedicated research pass via State Board of Technical Education lists."
+    },
+    {
+      "domain": "ITI",
+      "status": "QUEUED",
+      "reason": "Not researched in v1.0.0.",
+      "unblock_requires": "Dedicated research pass via DGT/state Directorate of Employment & Training lists."
+    },
+    {
+      "domain": "Skill Development Institutes",
+      "status": "QUEUED",
+      "reason": "Not researched in v1.0.0.",
+      "unblock_requires": "Dedicated research pass via NCVET/state skill mission lists."
+    },
+    {
+      "domain": "Open Universities / Distance Education",
+      "status": "QUEUED",
+      "reason": "Not researched in v1.0.0.",
+      "unblock_requires": "Dedicated research pass; UGC-DEB approved institution list."
+    },
+    {
+      "domain": "Online Education Platforms / Digital & AI Learning Platforms / MOOCs",
+      "status": "QUEUED",
+      "reason": "Not researched in v1.0.0; commercial platform data changes rapidly and needs a distinct verification approach (company registration + course catalog) from the government-source model used for the other 4 datasets.",
+      "unblock_requires": "Dedicated research pass with a commercial-source verification methodology."
+    },
+    {
+      "domain": "Coaching Institutes / Competitive Exam Institutes",
+      "status": "QUEUED",
+      "reason": "Not researched in v1.0.0; highly fragmented, no authoritative government registry.",
+      "unblock_requires": "Dedicated research pass; likely lower achievable confidence given lack of an official registry."
+    },
+    {
+      "domain": "Fellowships",
+      "status": "QUEUED",
+      "reason": "Not researched in v1.0.0 (Scholarships dataset covers scholarships only).",
+      "unblock_requires": "Dedicated research pass via UGC/CSIR/DST fellowship program lists."
+    },
+    {
+      "domain": "Accreditation / Rankings (institution-level NAAC/NBA/NIRF detail)",
+      "status": "PARTIALLY_ADDRESSED",
+      "reason": "v1.0.0's Boards dataset covers NAAC/NBA/NIRF as regulatory bodies, but does not carry their full per-institution rating/ranking datasets.",
+      "unblock_requires": "Dedicated research pass or bulk NIRF/NAAC public data export.",
+      "note": "RC2 populated naac_grade for 30 additional university rows and nirf_rank for 11 additional rows (universities dataset only). No standalone institution-level NAAC/NBA/NIRF rating dataset exists yet, and NBA/AISHE detail remains fully unaddressed."
+    },
+    {
+      "domain": "Research Institutions",
+      "status": "QUEUED",
+      "reason": "Not researched in v1.0.0.",
+      "unblock_requires": "Dedicated research pass via DST/ICMR/CSIR institution lists for TG/AP."
+    },
+    {
+      "domain": "Libraries",
+      "status": "QUEUED",
+      "reason": "Not researched in v1.0.0.",
+      "unblock_requires": "Dedicated research pass."
+    },
+    {
+      "domain": "Hostels / Student Services",
+      "status": "PARTIALLY_ADDRESSED",
+      "reason": "Not researched in v1.0.0 as a standalone dataset (some university-level hostel facts may exist informally in source snippets but were not systematically captured).",
+      "unblock_requires": "Dedicated research pass.",
+      "note": "RC2 added a student_services_summary field to the universities dataset, populated for 5 flagship universities only (Osmania, University of Hyderabad, IIT Hyderabad, Andhra University, NIT Warangal). The other 61 university rows and all other institution types remain PENDING_VERIFICATION/unaddressed."
+    },
+    {
+      "domain": "Career Guidance / Placement Cells",
+      "status": "QUEUED",
+      "reason": "Not researched in v1.0.0.",
+      "unblock_requires": "Dedicated research pass, likely per-institution rather than a standalone directory."
+    },
+    {
+      "domain": "Innovation Centers / Incubation Centres / Startup Cells",
+      "status": "QUEUED",
+      "reason": "Not researched in v1.0.0.",
+      "unblock_requires": "Dedicated research pass via Startup India / state innovation cell registries."
+    },
+    {
+      "domain": "Internship Portals / Apprenticeships",
+      "status": "QUEUED",
+      "reason": "Not researched in v1.0.0.",
+      "unblock_requires": "Dedicated research pass via NAPS/PM Internship Scheme official sources."
+    },
+    {
+      "domain": "Educational Policies",
+      "status": "QUEUED",
+      "reason": "Not researched in v1.0.0 as a structured dataset (NEP 2020 and related policy context appear informally in board mandate summaries but were not systematically catalogued).",
+      "unblock_requires": "Dedicated research pass."
+    },
+    {
+      "domain": "Educational Schemes (beyond Scholarships)",
+      "status": "QUEUED",
+      "reason": "v1.0.0's Scholarships dataset covers scholarship schemes only, not the broader universe of educational schemes (infrastructure grants, teacher training programs, etc.).",
+      "unblock_requires": "Dedicated research pass."
+    },
+    {
+      "domain": "Educational Statistics (AISHE detail)",
+      "status": "QUEUED",
+      "reason": "v1.0.0's Boards dataset lists AISHE as a body but does not carry its underlying statistical tables.",
+      "unblock_requires": "AISHE bulk report/data acquisition."
+    },
+    {
+      "domain": "Educational Technology (vendor/product landscape)",
+      "status": "QUEUED",
+      "reason": "Not researched in v1.0.0.",
+      "unblock_requires": "Dedicated research pass with a commercial-source verification methodology."
+    },
+    {
+      "domain": "All domains above, for states/UTs other than Telangana & Andhra Pradesh",
+      "status": "QUEUED",
+      "reason": "v1.0.0 deliberately scoped to the package brief's 'Special Priority' states only, per an explicit narrow-and-deep scoping decision made with the requester before starting collection.",
+      "unblock_requires": "State-by-state research passes for each remaining state/UT."
+    }
   ]
 }

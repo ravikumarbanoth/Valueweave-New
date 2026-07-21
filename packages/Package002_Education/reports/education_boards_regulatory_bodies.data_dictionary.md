@@ -1,4 +1,4 @@
-# Data Dictionary — education_boards_regulatory_bodies
+# Data Dictionary — education_boards_regulatory_bodies (v1.0.0-RC2)
 
 Records: 21
 

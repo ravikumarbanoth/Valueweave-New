@@ -2,7 +2,7 @@
 
 Total distinct sources cited across 25 rows: **25**
 
-All sources were accessed via the WebSearch tool (result snippets), not direct page fetch — see `evidence/scholarships.evidence_manifest.json` for the full policy note.
+All sources were accessed via the WebSearch tool (result snippets), not direct page fetch — see `evidence/scholarships.evidence_manifest.json` for the full policy note (re-confirmed blocked in RC2).
 
 | Data Source Label | URL |
 |---|---|

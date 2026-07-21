@@ -1,6 +1,60 @@
 # CHANGELOG — Package002_Education
 
-## [1.0.0] — 2026-07-21
+## [1.0.0-RC2] — 2026-07-22 — NOT MERGED TO MAIN
+
+Enrichment pass on the RC1 datasets below, per an explicit instruction to treat the prior release as
+Release Candidate 1 and improve data quality before any promotion decision. This is a data-quality
+release, not a domain-expansion release — still 4 of the 40 briefed domains.
+
+### Added
+- 6 new verified records: 5 universities (National Sanskrit University Tirupati, SVIMS Tirupati,
+  RGUKT RK Valley, RGUKT Srikakulam, RGUKT Ongole — the RGUKT campuses were explicitly named as gaps
+  in the RC1 collection report) and 1 entrance exam (NEET SS, excluded from RC1 only for row-count
+  reasons).
+- 3 new columns on `universities_telangana_andhra_pradesh.csv`: `ownership` (filled for all 66 rows),
+  `contact_details` (filled for 5 flagship universities), `student_services_summary` (filled for the
+  same 5 flagship universities).
+- `reports/universities_telangana_andhra_pradesh.rc2_enrichment_report.md`,
+  `reports/boards_exams_scholarships.rc2_enrichment_report.md`, and
+  `reports/rc1_vs_rc2_comparison.md` — full enrichment methodology and RC1-vs-RC2 diff.
+
+### Improved
+- Confidence scores raised via stronger multi-source WebSearch corroboration (package overall average
+  75.0 → 77.9); still capped below the 85-95 "direct fetch" band since WebFetch to `.gov.in`/`.ac.in`/
+  Wikipedia domains was re-confirmed blocked (HTTP 403) before this pass began.
+- `vice_chancellor` filled for 49 of RC1's 61 university rows (was 0), `naac_grade` for 30 additional
+  rows, `nirf_rank` for 11 additional rows.
+- APSCHE `headquarters_city` (the sole RC1 PENDING_VERIFICATION field outside universities) resolved
+  to Mangalagiri, Guntur District.
+
+### Corrected / Resolved
+- GATE 2027 host institute confirmed (IIT Madras, official notification 20-Jul-2026).
+- AP ICET conducting body/domain corroborated.
+- NOS overseas maintenance figures, NFST JRF/SRF stipend rate confirmed; NFSC/NFST/NFPwD stipend
+  "inconsistency" identified as three genuinely different current pay scales rather than stale data.
+- Telangana overseas scholarships' ₹5L ceiling and AP NTR Videshi Vidyadharana's ₹6L ceiling confirmed.
+- Kakatiya University NAAC grade (A → A+), BRAOU NAAC grade (A/3.12), Sri Venkateswara University VC
+  vacancy (Dr. Tata Narasinga Rao appointed) — all resolved with multi-source corroboration.
+
+### Disclosed, Not Resolved (left PENDING_VERIFICATION rather than guessed)
+- BSEAP founding year (1953 vs 1969), AP Ambedkar Overseas Vidya Nidhi and NTR Vidyonnathi income
+  ceilings, Krishna University NAAC grade (A++ vs B), Acharya Nagarjuna University and NIT Andhra
+  Pradesh leadership (a likely search conflation with IIT Hyderabad's director was explicitly
+  identified and rejected rather than adopted).
+- **KL University integrity note**: its Vice-Chancellor was reportedly arrested in a CBI probe into
+  alleged NAAC-inspector bribery. NAAC grade retained (not removed on the basis of an unrelated
+  controversy) but flagged in `notes`; confidence raised only modestly.
+
+### Known Issues (see `reports/rc1_vs_rc2_comparison.md` for full detail)
+- `contact_details`/`student_services_summary` remain PENDING_VERIFICATION for 61 of 66 university
+  rows.
+- Package health/AI-readiness score is unchanged at 59/100 — the scoring rubric measures
+  provenance/identifiers/geo/cross-gov-ID/FK-integrity, none of which this enrichment pass targeted;
+  see `package_health_report.md` for why the real quality gains above don't move that number.
+- Still 0 of 141 rows promoted to `VST-VERIFIED`.
+- Still 36 of 40 briefed domains un-researched.
+
+## [1.0.0] — 2026-07-21 (retroactively RC1)
 
 ### Added
 - `education_boards_regulatory_bodies.csv` — 21 rows: 13 national bodies (UGC, AICTE, NCTE, NCVET, NCERT, NIOS, CBSE, CISCE, NTA, NAAC, NBA, NIRF, AISHE) + 4 Telangana bodies (SCERT-TG, BSE Telangana, TSBIE, TSCHE) + 4 Andhra Pradesh bodies (SCERT-AP, BSEAP, BIEAP, APSCHE)

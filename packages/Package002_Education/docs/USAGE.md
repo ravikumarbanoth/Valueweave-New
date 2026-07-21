@@ -1,4 +1,4 @@
-# Package002_Education v1.0.0 — Usage Guide
+# Package002_Education v1.0.0-RC2 — Usage Guide
 
 ## What's in this package
 
@@ -8,9 +8,13 @@ this release):
 | File | Rows | Covers |
 |---|---|---|
 | `education_boards_regulatory_bodies.csv` | 21 | National + Telangana + Andhra Pradesh education boards/regulators |
-| `universities_telangana_andhra_pradesh.csv` | 61 | State/central/deemed/private/INI universities in Telangana & AP |
-| `entrance_exams.csv` | 28 | National + Telangana/AP entrance exams |
+| `universities_telangana_andhra_pradesh.csv` | 66 | State/central/deemed/private/INI universities in Telangana & AP (as of RC2: +5 rows, +3 columns vs RC1) |
+| `entrance_exams.csv` | 29 | National + Telangana/AP entrance exams (as of RC2: +1 row vs RC1) |
 | `scholarships.csv` | 25 | Central + Telangana/AP scholarship schemes |
+
+RC2 added `ownership`, `contact_details`, and `student_services_summary` columns to the universities
+dataset. Only `ownership` is fully populated (66/66); the other two are populated for 5 flagship
+universities only — see `reports/rc1_vs_rc2_comparison.md`.
 
 ## Before treating any row as fact-checked
 

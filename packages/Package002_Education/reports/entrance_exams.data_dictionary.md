@@ -1,4 +1,4 @@
-# Data Dictionary — entrance_exams (v1.0.0-RC2)
+# Data Dictionary — entrance_exams (v1.0.0)
 
 Records: 29
 

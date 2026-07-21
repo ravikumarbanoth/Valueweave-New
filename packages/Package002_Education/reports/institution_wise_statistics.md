@@ -1,4 +1,4 @@
-# Package002_Education v1.0.0-RC2 — Institution/Entity-wise Statistics
+# Package002_Education v1.0.0 — Institution/Entity-wise Statistics
 
 ## education_boards_regulatory_bodies (by type)
 

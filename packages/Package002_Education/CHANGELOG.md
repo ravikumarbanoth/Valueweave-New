@@ -1,5 +1,28 @@
 # CHANGELOG — Package002_Education
 
+## [1.0.0] — 2026-07-22 — STABLE, canonical release
+
+Promoted RC2 to the final stable release, approved for merge to `main`. No dataset, schema, or
+content changes beyond RC2 — this is a packaging finalization only (version strings bumped from
+`1.0.0-RC2` to `1.0.0` across `VERSION`, `package_manifest.json`, `schema_catalog.json`,
+`acquisition_backlog.json`, and all per-dataset `metadata/`, `evidence/`, and `imports/` files;
+`registry/dataset_registry.csv` status values changed from `RELEASED_RC2` to `RELEASED`), per the
+same convention Package001_Geography used for its RC1→1.0.0 promotion.
+
+### Fixed
+- Corrected a data-entry bug in `registry/dataset_registry.csv` introduced during RC2 generation: two
+  rows (`rankings_nirf_naac_nba_detail`, `hostels_student_services`) had `PARTIALLY_ADDRESSED`
+  erroneously placed in the `file_path` column instead of `status`. Found and fixed during final
+  pre-merge integrity verification.
+
+### Verified before promotion
+- All 56 package files present per the documented folder structure.
+- All 16 JSON files parse as valid JSON.
+- All 4 CSV datasets have consistent column counts and unique primary keys (141 rows total, 0
+  duplicate IDs within or across datasets).
+- All cross-references (metadata/evidence `*_reference` fields, registry `file_path` column, import
+  manifest `file` fields, CSV headers vs. `schema_catalog.json` column order) resolve correctly.
+
 ## [1.0.0-RC2] — 2026-07-22 — NOT MERGED TO MAIN
 
 Enrichment pass on the RC1 datasets below, per an explicit instruction to treat the prior release as

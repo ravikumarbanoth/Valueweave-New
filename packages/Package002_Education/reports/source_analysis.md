@@ -1,4 +1,4 @@
-# Package002_Education v1.0.0-RC2 — Source Analysis
+# Package002_Education v1.0.0 — Source Analysis
 
 ## Collection Method
 

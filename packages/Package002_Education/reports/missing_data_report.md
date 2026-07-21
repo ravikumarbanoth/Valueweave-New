@@ -1,4 +1,4 @@
-# Package002_Education v1.0.0-RC2 — Missing Data Report
+# Package002_Education v1.0.0 — Missing Data Report
 
 ## education_boards_regulatory_bodies
 

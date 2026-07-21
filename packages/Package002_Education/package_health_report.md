@@ -1,4 +1,4 @@
-# Package Health Report — Package002_Education v1.0.0-RC2
+# Package Health Report — Package002_Education v1.0.0
 
 ## Scoring Methodology (mirrors Package001_Geography, unchanged from RC1)
 
@@ -78,7 +78,7 @@ mechanically adds ~122 new PENDING_VERIFICATION cells even as existing fields go
 
 ## Comparison to Package001_Geography (health score 58/100)
 
-Package002_Education RC2's 59/100 remains at parity with Package001_Geography's 58/100 on this
+Package002_Education's final 59/100 remains at parity with Package001_Geography's 58/100 on this
 rubric — both share the same geo-precision and cross-government-ID gaps as primary weaknesses. RC2's
 real quality gains (confidence, fill-rate, new fields) are documented in
 `reports/rc1_vs_rc2_comparison.md` and are genuine improvements not captured by this specific scoring

@@ -1,4 +1,4 @@
-# Data Dictionary — scholarships (v1.0.0-RC2)
+# Data Dictionary — scholarships (v1.0.0)
 
 Records: 25
 

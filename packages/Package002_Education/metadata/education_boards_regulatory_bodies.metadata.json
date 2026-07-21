@@ -2,7 +2,7 @@
   "dataset_name": "education_boards_regulatory_bodies",
   "title": "Educational Boards & Regulatory Bodies",
   "package": "Package002_Education",
-  "version": "1.0.0-RC2",
+  "version": "1.0.0",
   "description": "National education regulatory/accreditation/curriculum bodies plus Telangana and Andhra Pradesh state boards for secondary, intermediate, and curriculum governance.",
   "scope_note": "Covers bodies that regulate, accredit, rank, or set curriculum for Indian education. Does not cover individual institutions.",
   "file": "datasets/education_boards_regulatory_bodies.csv",

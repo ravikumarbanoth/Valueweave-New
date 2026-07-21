@@ -1,6 +1,6 @@
 {
   "package": "Package002_Education",
-  "version": "1.0.0-RC2",
+  "version": "1.0.0",
   "description": "Every education data domain not shipped with real data in this release, with the reason and what would unblock it. Mirrors Package001_Geography's acquisition_backlog.json convention: no domain ships guessed or placeholder rows just to appear complete.",
   "environment_blocker_affecting_all_items": "This session's organizational egress policy blocked direct WebFetch to .gov.in/.ac.in/.edu.in/Wikipedia domains in both RC1 (2026-07-21) and RC2 (2026-07-22) \u2014 re-confirmed HTTP 403 policy denial via a live test fetch on both occasions, not a one-off failure. All datasets were collected via WebSearch snippets only as a result. A future session with WebFetch access to these domains would allow re-verification at higher confidence and would very likely unblock more of the domains below.",
   "rc2_progress_note": "RC2 was an enrichment pass on the 4 already-shipped datasets, not an expansion into new domains. Two entries below (rankings_nirf_naac_nba_detail, hostels_student_services) received partial progress as a side effect of enriching the universities dataset \u2014 see status PARTIALLY_ADDRESSED and the note field on each \u2014 but neither is complete as a standalone domain.",

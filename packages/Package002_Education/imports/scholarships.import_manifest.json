@@ -1,7 +1,7 @@
 {
   "dataset_name": "scholarships",
   "package": "Package002_Education",
-  "version": "1.0.0-RC2",
+  "version": "1.0.0",
   "file": "datasets/scholarships.csv",
   "record_count": 25,
   "primary_key": "id",

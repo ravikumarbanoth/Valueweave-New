@@ -2,7 +2,7 @@
   "dataset_name": "scholarships",
   "title": "Scholarships",
   "package": "Package002_Education",
-  "version": "1.0.0-RC2",
+  "version": "1.0.0",
   "description": "Major active central government scholarship schemes plus Telangana and Andhra Pradesh state scholarship schemes.",
   "scope_note": "Scheme names reflect current official branding; several Andhra Pradesh schemes were renamed in a June 2024 government transition, cross-referenced in notes.",
   "file": "datasets/scholarships.csv",

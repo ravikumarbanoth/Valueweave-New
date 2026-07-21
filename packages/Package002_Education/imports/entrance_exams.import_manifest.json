@@ -1,7 +1,7 @@
 {
   "dataset_name": "entrance_exams",
   "package": "Package002_Education",
-  "version": "1.0.0-RC2",
+  "version": "1.0.0",
   "file": "datasets/entrance_exams.csv",
   "record_count": 29,
   "primary_key": "id",

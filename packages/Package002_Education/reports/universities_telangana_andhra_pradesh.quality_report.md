@@ -1,4 +1,4 @@
-# Quality Report — universities_telangana_andhra_pradesh (v1.0.0-RC2)
+# Quality Report — universities_telangana_andhra_pradesh (v1.0.0)
 
 - Total records: 66
 - Confidence score range: 58–82

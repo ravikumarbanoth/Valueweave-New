@@ -1,4 +1,4 @@
-# Quality Report — education_boards_regulatory_bodies (v1.0.0-RC2)
+# Quality Report — education_boards_regulatory_bodies (v1.0.0)
 
 - Total records: 21
 - Confidence score range: 63–88

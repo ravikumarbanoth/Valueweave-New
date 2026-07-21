@@ -1,7 +1,7 @@
 {
   "dataset_name": "universities_telangana_andhra_pradesh",
   "package": "Package002_Education",
-  "version": "1.0.0-RC2",
+  "version": "1.0.0",
   "file": "datasets/universities_telangana_andhra_pradesh.csv",
   "record_count": 66,
   "primary_key": "id",

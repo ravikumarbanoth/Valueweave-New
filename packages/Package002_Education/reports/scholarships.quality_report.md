@@ -1,4 +1,4 @@
-# Quality Report — scholarships (v1.0.0-RC2)
+# Quality Report — scholarships (v1.0.0)
 
 - Total records: 25
 - Confidence score range: 60–88

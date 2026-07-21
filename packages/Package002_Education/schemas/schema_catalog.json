@@ -1,8 +1,8 @@
 {
   "package": "Package002_Education",
-  "version": "1.0.0-RC2",
-  "description": "Canonical PK/FK/relationship reference for all datasets in Package002_Education v1.0.0-RC2.",
-  "relationship_to_package001": "No hard foreign keys into Package001_Geography exist yet in v1.0.0 — state/jurisdiction fields here are free-text values ('Telangana', 'Andhra Pradesh', 'National') rather than district_id references, because per-row district-level attribution was not independently verifiable for most entities in this release. Wiring these fields to Package001_Geography's state.csv / district.csv primary keys is tracked as future work (see acquisition_backlog.json).",
+  "version": "1.0.0",
+  "description": "Canonical PK/FK/relationship reference for all datasets in Package002_Education v1.0.0.",
+  "relationship_to_package001": "No hard foreign keys into Package001_Geography exist yet in v1.0.0 \u2014 state/jurisdiction fields here are free-text values ('Telangana', 'Andhra Pradesh', 'National') rather than district_id references, because per-row district-level attribution was not independently verifiable for most entities in this release. Wiring these fields to Package001_Geography's state.csv / district.csv primary keys is tracked as future work (see acquisition_backlog.json).",
   "datasets": [
     {
       "dataset_name": "education_boards_regulatory_bodies",
@@ -10,22 +10,93 @@
       "primary_key": "id",
       "foreign_keys": [],
       "columns": [
-        {"name": "id", "type": "uuid", "description": "Unique row identifier (UUIDv4)"},
-        {"name": "name", "type": "string", "description": "Official name of the board/regulatory body"},
-        {"name": "type", "type": "string", "description": "Category, e.g. Central Regulatory Body, State Board - Secondary, Accreditation Body"},
-        {"name": "jurisdiction", "type": "enum", "values": ["National", "Telangana", "Andhra Pradesh"], "description": "Scope of authority"},
-        {"name": "parent_ministry_or_department", "type": "string", "description": "Governing ministry/department, if applicable"},
-        {"name": "established_year", "type": "string", "description": "Year established (or PENDING_VERIFICATION)"},
-        {"name": "official_website", "type": "string", "description": "Official website URL"},
-        {"name": "headquarters_city", "type": "string"},
-        {"name": "headquarters_state", "type": "string"},
-        {"name": "mandate_summary", "type": "string", "description": "Brief factual description of the body's mandate"},
-        {"name": "data_source", "type": "string", "description": "Human-readable source label"},
-        {"name": "source_url", "type": "string", "description": "URL of the specific source used"},
-        {"name": "collection_date", "type": "date"},
-        {"name": "confidence_score", "type": "integer", "range": [0, 100]},
-        {"name": "verification_status", "type": "enum", "values": ["VST-NEEDS_REVIEW", "VST-VERIFIED"]},
-        {"name": "notes", "type": "string"}
+        {
+          "name": "id",
+          "type": "uuid",
+          "description": "Unique row identifier (UUIDv4)"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "description": "Official name of the board/regulatory body"
+        },
+        {
+          "name": "type",
+          "type": "string",
+          "description": "Category, e.g. Central Regulatory Body, State Board - Secondary, Accreditation Body"
+        },
+        {
+          "name": "jurisdiction",
+          "type": "enum",
+          "values": [
+            "National",
+            "Telangana",
+            "Andhra Pradesh"
+          ],
+          "description": "Scope of authority"
+        },
+        {
+          "name": "parent_ministry_or_department",
+          "type": "string",
+          "description": "Governing ministry/department, if applicable"
+        },
+        {
+          "name": "established_year",
+          "type": "string",
+          "description": "Year established (or PENDING_VERIFICATION)"
+        },
+        {
+          "name": "official_website",
+          "type": "string",
+          "description": "Official website URL"
+        },
+        {
+          "name": "headquarters_city",
+          "type": "string"
+        },
+        {
+          "name": "headquarters_state",
+          "type": "string"
+        },
+        {
+          "name": "mandate_summary",
+          "type": "string",
+          "description": "Brief factual description of the body's mandate"
+        },
+        {
+          "name": "data_source",
+          "type": "string",
+          "description": "Human-readable source label"
+        },
+        {
+          "name": "source_url",
+          "type": "string",
+          "description": "URL of the specific source used"
+        },
+        {
+          "name": "collection_date",
+          "type": "date"
+        },
+        {
+          "name": "confidence_score",
+          "type": "integer",
+          "range": [
+            0,
+            100
+          ]
+        },
+        {
+          "name": "verification_status",
+          "type": "enum",
+          "values": [
+            "VST-NEEDS_REVIEW",
+            "VST-VERIFIED"
+          ]
+        },
+        {
+          "name": "notes",
+          "type": "string"
+        }
       ]
     },
     {
@@ -34,28 +105,125 @@
       "primary_key": "id",
       "foreign_keys": [],
       "columns": [
-        {"name": "id", "type": "uuid"},
-        {"name": "name", "type": "string"},
-        {"name": "university_type", "type": "enum", "values": ["State University", "Central University", "Deemed University", "Institute of National Importance", "Private University"]},
-        {"name": "state", "type": "enum", "values": ["Telangana", "Andhra Pradesh"]},
-        {"name": "district", "type": "string"},
-        {"name": "city", "type": "string"},
-        {"name": "affiliation", "type": "string"},
-        {"name": "established_year", "type": "string"},
-        {"name": "official_website", "type": "string"},
-        {"name": "naac_grade", "type": "string", "description": "NAAC accreditation grade, or PENDING_VERIFICATION"},
-        {"name": "nirf_rank", "type": "string", "description": "NIRF rank/band, or PENDING_VERIFICATION"},
-        {"name": "courses_offered_summary", "type": "string"},
-        {"name": "vice_chancellor", "type": "string", "description": "Filled for 49/66 rows as of RC2 where a clearly-dated appointment source was found; remainder PENDING_VERIFICATION"},
-        {"name": "ownership", "type": "enum", "values": ["State Government", "Central Government", "Private Trust/Society", "Government-Aided"], "description": "Added in RC2. Populated for all 66 rows — determinable from existing type/governance facts."},
-        {"name": "contact_details", "type": "string", "description": "Added in RC2. Official phone/email if publicly listed; populated for 5 flagship rows only as of RC2, PENDING_VERIFICATION elsewhere."},
-        {"name": "student_services_summary", "type": "string", "description": "Added in RC2. Brief factual note on hostel/library/sports-complex presence; populated for 5 flagship rows only as of RC2, PENDING_VERIFICATION elsewhere."},
-        {"name": "data_source", "type": "string"},
-        {"name": "source_url", "type": "string"},
-        {"name": "collection_date", "type": "date"},
-        {"name": "confidence_score", "type": "integer", "range": [0, 100]},
-        {"name": "verification_status", "type": "enum", "values": ["VST-NEEDS_REVIEW", "VST-VERIFIED"]},
-        {"name": "notes", "type": "string"}
+        {
+          "name": "id",
+          "type": "uuid"
+        },
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "university_type",
+          "type": "enum",
+          "values": [
+            "State University",
+            "Central University",
+            "Deemed University",
+            "Institute of National Importance",
+            "Private University"
+          ]
+        },
+        {
+          "name": "state",
+          "type": "enum",
+          "values": [
+            "Telangana",
+            "Andhra Pradesh"
+          ]
+        },
+        {
+          "name": "district",
+          "type": "string"
+        },
+        {
+          "name": "city",
+          "type": "string"
+        },
+        {
+          "name": "affiliation",
+          "type": "string"
+        },
+        {
+          "name": "established_year",
+          "type": "string"
+        },
+        {
+          "name": "official_website",
+          "type": "string"
+        },
+        {
+          "name": "naac_grade",
+          "type": "string",
+          "description": "NAAC accreditation grade, or PENDING_VERIFICATION"
+        },
+        {
+          "name": "nirf_rank",
+          "type": "string",
+          "description": "NIRF rank/band, or PENDING_VERIFICATION"
+        },
+        {
+          "name": "courses_offered_summary",
+          "type": "string"
+        },
+        {
+          "name": "vice_chancellor",
+          "type": "string",
+          "description": "Filled for 49/66 rows as of RC2 where a clearly-dated appointment source was found; remainder PENDING_VERIFICATION"
+        },
+        {
+          "name": "ownership",
+          "type": "enum",
+          "values": [
+            "State Government",
+            "Central Government",
+            "Private Trust/Society",
+            "Government-Aided"
+          ],
+          "description": "Added in RC2. Populated for all 66 rows \u2014 determinable from existing type/governance facts."
+        },
+        {
+          "name": "contact_details",
+          "type": "string",
+          "description": "Added in RC2. Official phone/email if publicly listed; populated for 5 flagship rows only as of RC2, PENDING_VERIFICATION elsewhere."
+        },
+        {
+          "name": "student_services_summary",
+          "type": "string",
+          "description": "Added in RC2. Brief factual note on hostel/library/sports-complex presence; populated for 5 flagship rows only as of RC2, PENDING_VERIFICATION elsewhere."
+        },
+        {
+          "name": "data_source",
+          "type": "string"
+        },
+        {
+          "name": "source_url",
+          "type": "string"
+        },
+        {
+          "name": "collection_date",
+          "type": "date"
+        },
+        {
+          "name": "confidence_score",
+          "type": "integer",
+          "range": [
+            0,
+            100
+          ]
+        },
+        {
+          "name": "verification_status",
+          "type": "enum",
+          "values": [
+            "VST-NEEDS_REVIEW",
+            "VST-VERIFIED"
+          ]
+        },
+        {
+          "name": "notes",
+          "type": "string"
+        }
       ]
     },
     {
@@ -64,21 +232,85 @@
       "primary_key": "id",
       "foreign_keys": [],
       "columns": [
-        {"name": "id", "type": "uuid"},
-        {"name": "exam_name", "type": "string"},
-        {"name": "exam_level", "type": "enum", "values": ["Undergraduate", "Postgraduate", "Diploma/Polytechnic", "Doctoral/Fellowship"]},
-        {"name": "jurisdiction", "type": "enum", "values": ["National", "Telangana", "Andhra Pradesh"]},
-        {"name": "conducting_body", "type": "string"},
-        {"name": "frequency_per_year", "type": "string"},
-        {"name": "purpose", "type": "string"},
-        {"name": "official_website", "type": "string"},
-        {"name": "eligibility_summary", "type": "string"},
-        {"name": "data_source", "type": "string"},
-        {"name": "source_url", "type": "string"},
-        {"name": "collection_date", "type": "date"},
-        {"name": "confidence_score", "type": "integer", "range": [0, 100]},
-        {"name": "verification_status", "type": "enum", "values": ["VST-NEEDS_REVIEW", "VST-VERIFIED"]},
-        {"name": "notes", "type": "string"}
+        {
+          "name": "id",
+          "type": "uuid"
+        },
+        {
+          "name": "exam_name",
+          "type": "string"
+        },
+        {
+          "name": "exam_level",
+          "type": "enum",
+          "values": [
+            "Undergraduate",
+            "Postgraduate",
+            "Diploma/Polytechnic",
+            "Doctoral/Fellowship"
+          ]
+        },
+        {
+          "name": "jurisdiction",
+          "type": "enum",
+          "values": [
+            "National",
+            "Telangana",
+            "Andhra Pradesh"
+          ]
+        },
+        {
+          "name": "conducting_body",
+          "type": "string"
+        },
+        {
+          "name": "frequency_per_year",
+          "type": "string"
+        },
+        {
+          "name": "purpose",
+          "type": "string"
+        },
+        {
+          "name": "official_website",
+          "type": "string"
+        },
+        {
+          "name": "eligibility_summary",
+          "type": "string"
+        },
+        {
+          "name": "data_source",
+          "type": "string"
+        },
+        {
+          "name": "source_url",
+          "type": "string"
+        },
+        {
+          "name": "collection_date",
+          "type": "date"
+        },
+        {
+          "name": "confidence_score",
+          "type": "integer",
+          "range": [
+            0,
+            100
+          ]
+        },
+        {
+          "name": "verification_status",
+          "type": "enum",
+          "values": [
+            "VST-NEEDS_REVIEW",
+            "VST-VERIFIED"
+          ]
+        },
+        {
+          "name": "notes",
+          "type": "string"
+        }
       ]
     },
     {
@@ -87,22 +319,88 @@
       "primary_key": "id",
       "foreign_keys": [],
       "columns": [
-        {"name": "id", "type": "uuid"},
-        {"name": "scheme_name", "type": "string", "description": "Current official scheme name at collection time; superseded names cross-referenced in notes"},
-        {"name": "scheme_type", "type": "enum", "values": ["Central Scheme", "State Scheme"]},
-        {"name": "jurisdiction", "type": "enum", "values": ["National", "Telangana", "Andhra Pradesh"]},
-        {"name": "administering_body", "type": "string"},
-        {"name": "target_beneficiaries", "type": "string"},
-        {"name": "eligibility_summary", "type": "string"},
-        {"name": "funding_benefit_summary", "type": "string"},
-        {"name": "application_portal", "type": "string"},
-        {"name": "official_website", "type": "string"},
-        {"name": "data_source", "type": "string"},
-        {"name": "source_url", "type": "string"},
-        {"name": "collection_date", "type": "date"},
-        {"name": "confidence_score", "type": "integer", "range": [0, 100]},
-        {"name": "verification_status", "type": "enum", "values": ["VST-NEEDS_REVIEW", "VST-VERIFIED"]},
-        {"name": "notes", "type": "string"}
+        {
+          "name": "id",
+          "type": "uuid"
+        },
+        {
+          "name": "scheme_name",
+          "type": "string",
+          "description": "Current official scheme name at collection time; superseded names cross-referenced in notes"
+        },
+        {
+          "name": "scheme_type",
+          "type": "enum",
+          "values": [
+            "Central Scheme",
+            "State Scheme"
+          ]
+        },
+        {
+          "name": "jurisdiction",
+          "type": "enum",
+          "values": [
+            "National",
+            "Telangana",
+            "Andhra Pradesh"
+          ]
+        },
+        {
+          "name": "administering_body",
+          "type": "string"
+        },
+        {
+          "name": "target_beneficiaries",
+          "type": "string"
+        },
+        {
+          "name": "eligibility_summary",
+          "type": "string"
+        },
+        {
+          "name": "funding_benefit_summary",
+          "type": "string"
+        },
+        {
+          "name": "application_portal",
+          "type": "string"
+        },
+        {
+          "name": "official_website",
+          "type": "string"
+        },
+        {
+          "name": "data_source",
+          "type": "string"
+        },
+        {
+          "name": "source_url",
+          "type": "string"
+        },
+        {
+          "name": "collection_date",
+          "type": "date"
+        },
+        {
+          "name": "confidence_score",
+          "type": "integer",
+          "range": [
+            0,
+            100
+          ]
+        },
+        {
+          "name": "verification_status",
+          "type": "enum",
+          "values": [
+            "VST-NEEDS_REVIEW",
+            "VST-VERIFIED"
+          ]
+        },
+        {
+          "name": "notes",
+          "type": "string"
+        }
       ]
     }
   ]

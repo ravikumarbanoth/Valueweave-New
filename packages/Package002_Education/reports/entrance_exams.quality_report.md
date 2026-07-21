@@ -1,4 +1,4 @@
-# Quality Report — entrance_exams (v1.0.0-RC2)
+# Quality Report — entrance_exams (v1.0.0)
 
 - Total records: 29
 - Confidence score range: 78–92

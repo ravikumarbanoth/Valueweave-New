@@ -1,6 +1,6 @@
 {
   "package": "Package002_Education",
-  "version": "1.0.0-RC2",
+  "version": "1.0.0",
   "import_order": [
     "education_boards_regulatory_bodies",
     "universities_telangana_andhra_pradesh",

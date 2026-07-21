@@ -1,7 +1,7 @@
 {
   "dataset_name": "education_boards_regulatory_bodies",
   "package": "Package002_Education",
-  "version": "1.0.0-RC2",
+  "version": "1.0.0",
   "file": "datasets/education_boards_regulatory_bodies.csv",
   "record_count": 21,
   "primary_key": "id",

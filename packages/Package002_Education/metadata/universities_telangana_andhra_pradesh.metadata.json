@@ -2,7 +2,7 @@
   "dataset_name": "universities_telangana_andhra_pradesh",
   "title": "Universities (Telangana & Andhra Pradesh)",
   "package": "Package002_Education",
-  "version": "1.0.0-RC2",
+  "version": "1.0.0",
   "description": "State, central, deemed, private, and Institute-of-National-Importance universities located in Telangana and Andhra Pradesh.",
   "scope_note": "Covers degree-granting apex university bodies only, not their affiliated colleges. As of RC2, includes ownership, contact_details, and student_services_summary columns; contact_details/student_services_summary populated for 5 flagship rows only.",
   "file": "datasets/universities_telangana_andhra_pradesh.csv",

@@ -1,4 +1,4 @@
-# Package002_Education v1.0.0-RC2 — Confidence Analysis
+# Package002_Education v1.0.0 — Confidence Analysis
 
 RC2 raised confidence scores modestly across most previously-collected rows via stronger multi-source corroboration (max +10/row for universities, +8/row for boards/exams/scholarships), capped at 82 (universities) / 88 (others) — still below the 85-95 'direct official source' band, since WebFetch remained unavailable.
 

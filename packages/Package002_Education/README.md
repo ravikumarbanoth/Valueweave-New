@@ -1,10 +1,10 @@
 # Package 002 — Education Foundation
-### ValueWeave.in Data Factory · Release v1.0.0-RC2 (NOT YET MERGED TO MAIN)
+### ValueWeave.in Data Factory · Release v1.0.0 (Stable)
 
-**This is Release Candidate 2.** RC1 (2026-07-21) was the initial collection; RC2 (2026-07-22) is a
-data-quality enrichment pass on the same 4 datasets, done at explicit request before any decision to
-promote this package to canonical/merge to `main`. See `reports/rc1_vs_rc2_comparison.md` for the full
-diff and `CHANGELOG.md` for the itemized changes.
+**This is the final stable release**, promoted from RC1 (2026-07-21, initial collection) through RC2
+(2026-07-22, a data-quality enrichment pass on the same 4 datasets) to this canonical 1.0.0. See
+`reports/rc1_vs_rc2_comparison.md` for the RC1→RC2 diff and `CHANGELOG.md` for the full itemized
+history.
 
 ## Purpose of This Package
 
@@ -65,10 +65,11 @@ Package002_Education/
 | Entrance Exams | 29 | National (15), Telangana (7), Andhra Pradesh (7) | Needs Review |
 | Scholarships | 25 | National (15), Telangana (5), Andhra Pradesh (5) | Needs Review |
 
-**Total: 141 records across 4 datasets** (RC1 was 135; +6 in RC2 — see `reports/rc1_vs_rc2_comparison.md`).
+**Total: 141 records across 4 datasets** (grew from 135 at RC1 through the RC2 enrichment pass — see
+`reports/rc1_vs_rc2_comparison.md`).
 
-As of RC2, the universities dataset also carries three new columns: `ownership` (100% filled),
-`contact_details` (5/66 filled), and `student_services_summary` (5/66 filled).
+The universities dataset also carries three columns added during enrichment: `ownership` (100%
+filled), `contact_details` (5/66 filled), and `student_services_summary` (5/66 filled).
 
 ## Import Instructions
 

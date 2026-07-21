@@ -1,4 +1,4 @@
-# Package002_Education v1.0.0-RC2 — Coverage Report
+# Package002_Education v1.0.0 — Coverage Report
 
 ## Datasets Released
 
@@ -9,7 +9,7 @@
 | entrance_exams | 29 | Andhra Pradesh, National, Telangana |
 | scholarships | 25 | Andhra Pradesh, National, Telangana |
 
-**Total records released in v1.0.0-RC2: 141** (RC1 was 135; +6 records added in RC2 enrichment)
+**Total records released in v1.0.0: 141** (RC1 was 135; +6 records added in RC2 enrichment)
 
 ## Domains Released vs. Full Task Scope
 

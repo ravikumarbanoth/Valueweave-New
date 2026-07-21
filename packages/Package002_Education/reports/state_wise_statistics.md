@@ -1,4 +1,4 @@
-# Package002_Education v1.0.0-RC2 — State-wise Statistics
+# Package002_Education v1.0.0 — State-wise Statistics
 
 ## education_boards_regulatory_bodies
 

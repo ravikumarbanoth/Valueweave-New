@@ -1,4 +1,4 @@
-# Data Dictionary — medical_colleges_telangana_andhra_pradesh (v1.0.0-RC2)
+# Data Dictionary — medical_colleges_telangana_andhra_pradesh (v1.0.0)
 
 Records: 58
 

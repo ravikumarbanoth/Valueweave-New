@@ -1,4 +1,4 @@
-# Package003_Healthcare v1.0.0-RC2 — Confidence Analysis
+# Package003_Healthcare v1.0.0 — Confidence Analysis
 
 RC2 raised confidence scores modestly across most previously-collected rows via stronger multi-source corroboration (max +8/row), capped at 88 — still below a 90+ 'direct official source' band, since WebFetch remained unavailable (re-confirmed live before enrichment began).
 

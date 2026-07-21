@@ -1,4 +1,4 @@
-# Quality Report — medical_regulatory_bodies_and_health_missions (v1.0.0-RC2)
+# Quality Report — medical_regulatory_bodies_and_health_missions (v1.0.0)
 
 - Total records: 24
 - Confidence score range: 81–88

@@ -1,9 +1,10 @@
 # Package 003 — Healthcare Foundation
-### ValueWeave.in Data Factory · Release v1.0.0-RC2 (NOT YET MERGED TO MAIN)
+### ValueWeave.in Data Factory · Release v1.0.0 (Stable)
 
-**This is Release Candidate 2** — an enrichment pass on RC1 (2026-07-21), submitted for review before
-any decision to promote this package to canonical/merge to `main`, per explicit instruction. See
-`reports/rc1_vs_rc2_comparison.md` for the full diff and `CHANGELOG.md` for the itemized history.
+**This is the final stable release**, promoted from RC1 (2026-07-21, initial collection) through RC2
+(2026-07-22, a data-quality enrichment pass on the same 4 datasets) to this canonical 1.0.0. See
+`reports/rc1_vs_rc2_comparison.md` for the RC1→RC2 diff and `CHANGELOG.md` for the full itemized
+history.
 
 ## Purpose of This Package
 
@@ -107,6 +108,6 @@ directly re-verify sources at higher confidence.
 
 ## Release Status
 
-**RC1 — awaiting review.** Per instruction, this package will NOT be merged to `main` automatically.
-See `reports/coverage_report.md`, `reports/known_gaps.md`, and this README's stats above for what to
-review before a promotion decision.
+**STABLE — merged to main.** Approved for release after an RC1 → RC2 review cycle. See
+`reports/coverage_report.md`, `reports/known_gaps.md`, and `reports/rc1_vs_rc2_comparison.md` for the
+full history behind this release.

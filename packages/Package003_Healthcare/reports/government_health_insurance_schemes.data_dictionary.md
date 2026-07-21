@@ -1,4 +1,4 @@
-# Data Dictionary — government_health_insurance_schemes (v1.0.0-RC2)
+# Data Dictionary — government_health_insurance_schemes (v1.0.0)
 
 Records: 9
 

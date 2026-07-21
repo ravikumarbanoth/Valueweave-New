@@ -1,4 +1,4 @@
-# Package003_Healthcare v1.0.0-RC2 — Duplicate Analysis
+# Package003_Healthcare v1.0.0 — Duplicate Analysis
 
 ## medical_regulatory_bodies_and_health_missions
 

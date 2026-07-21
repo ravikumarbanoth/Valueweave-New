@@ -1,8 +1,8 @@
 dataset_name,package,file_path,record_count,status,mode_used,jurisdiction_coverage,confidence_min,confidence_max,confidence_avg,verification_status,last_updated
-medical_regulatory_bodies_and_health_missions,Package003_Healthcare,datasets/medical_regulatory_bodies_and_health_missions.csv,24,RELEASED_RC2,WebSearch-only (WebFetch blocked by org policy),Andhra Pradesh;National;Telangana,81,88,84.1,VST-NEEDS_REVIEW,2026-07-22
-medical_colleges_telangana_andhra_pradesh,Package003_Healthcare,datasets/medical_colleges_telangana_andhra_pradesh.csv,58,RELEASED_RC2,WebSearch-only (WebFetch blocked by org policy),Andhra Pradesh;Telangana,80,88,87.1,VST-NEEDS_REVIEW,2026-07-22
-government_hospitals_telangana_andhra_pradesh,Package003_Healthcare,datasets/government_hospitals_telangana_andhra_pradesh.csv,55,RELEASED_RC2,WebSearch-only (WebFetch blocked by org policy),Andhra Pradesh;Telangana,78,88,85.1,VST-NEEDS_REVIEW,2026-07-22
-government_health_insurance_schemes,Package003_Healthcare,datasets/government_health_insurance_schemes.csv,9,RELEASED_RC2,WebSearch-only (WebFetch blocked by org policy),Andhra Pradesh;National;Telangana,82,88,85.6,VST-NEEDS_REVIEW,2026-07-22
+medical_regulatory_bodies_and_health_missions,Package003_Healthcare,datasets/medical_regulatory_bodies_and_health_missions.csv,24,RELEASED,WebSearch-only (WebFetch blocked by org policy),Andhra Pradesh;National;Telangana,81,88,84.1,VST-NEEDS_REVIEW,2026-07-22
+medical_colleges_telangana_andhra_pradesh,Package003_Healthcare,datasets/medical_colleges_telangana_andhra_pradesh.csv,58,RELEASED,WebSearch-only (WebFetch blocked by org policy),Andhra Pradesh;Telangana,80,88,87.1,VST-NEEDS_REVIEW,2026-07-22
+government_hospitals_telangana_andhra_pradesh,Package003_Healthcare,datasets/government_hospitals_telangana_andhra_pradesh.csv,55,RELEASED,WebSearch-only (WebFetch blocked by org policy),Andhra Pradesh;Telangana,78,88,85.1,VST-NEEDS_REVIEW,2026-07-22
+government_health_insurance_schemes,Package003_Healthcare,datasets/government_health_insurance_schemes.csv,9,RELEASED,WebSearch-only (WebFetch blocked by org policy),Andhra Pradesh;National;Telangana,82,88,85.6,VST-NEEDS_REVIEW,2026-07-22
 primary_health_centres_phc,Package003_Healthcare,BLOCKED,0,BLOCKED,N/A,Telangana;Andhra Pradesh,,,,,
 community_health_centres_chc,Package003_Healthcare,BLOCKED,0,BLOCKED,N/A,Telangana;Andhra Pradesh,,,,,
 urban_health_centres,Package003_Healthcare,BLOCKED,0,BLOCKED,N/A,Telangana;Andhra Pradesh,,,,,

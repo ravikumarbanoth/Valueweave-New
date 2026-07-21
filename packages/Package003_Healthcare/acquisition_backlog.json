@@ -1,6 +1,6 @@
 {
   "package": "Package003_Healthcare",
-  "version": "1.0.0-RC2",
+  "version": "1.0.0",
   "description": "Every healthcare data domain not shipped with real data in this release, with the reason and what would unblock it. Mirrors Package001_Geography and Package002_Education's acquisition_backlog.json convention: no domain ships guessed or placeholder rows just to appear complete.",
   "environment_blocker_affecting_all_items": "This session's organizational egress policy blocked direct WebFetch to .gov.in/.ac.in/.edu.in/Wikipedia domains in both RC1 (2026-07-21) and RC2 (2026-07-22) -- re-confirmed HTTP 403 policy denial via a live test fetch on both occasions. All datasets were collected via WebSearch snippets only. TVVP/APVVP master hospital-list pages remain the clearest example of a gap that would likely close with restored WebFetch access.",
   "blocked_or_queued_domains": [

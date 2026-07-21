@@ -1,4 +1,4 @@
-# Package003_Healthcare v1.0.0-RC2 — Top-Level Validation Summary
+# Package003_Healthcare v1.0.0 — Top-Level Validation Summary
 
 This is the package-level validation summary; the detailed per-dataset breakdown lives at
 `reports/validation_report.md`.

@@ -1,4 +1,4 @@
-# Quality Report — government_health_insurance_schemes (v1.0.0-RC2)
+# Quality Report — government_health_insurance_schemes (v1.0.0)
 
 - Total records: 9
 - Confidence score range: 82–88

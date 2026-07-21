@@ -1,4 +1,4 @@
-# Package003_Healthcare v1.0.0-RC2 — Validation Report
+# Package003_Healthcare v1.0.0 — Validation Report
 
 ## medical_regulatory_bodies_and_health_missions
 

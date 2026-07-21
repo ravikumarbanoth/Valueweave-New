@@ -1,4 +1,4 @@
-# Package003_Healthcare v1.0.0-RC2 — District-wise Statistics
+# Package003_Healthcare v1.0.0 — District-wise Statistics
 
 ## medical_colleges_telangana_andhra_pradesh
 

@@ -2,15 +2,53 @@
   "package_name": "Package003_Healthcare",
   "package_id": "PKG-003",
   "package_title": "ValueWeave.in Healthcare Foundation",
-  "version": "1.0.0-RC2",
+  "version": "1.0.0",
   "release_date": "2026-07-22",
-  "release_status": "Release Candidate 2 (RC2) — NOT yet merged to main. RC1 (2026-07-21) is the prior candidate; this is an enrichment pass on the same 4 datasets, pending a merge decision.",
+  "release_status": "STABLE \u2014 canonical release, merged to main. Promoted from RC1 (2026-07-21, initial collection) through RC2 (2026-07-22, enrichment pass) to this final 1.0.0 stable release. See CHANGELOG.md and reports/rc1_vs_rc2_comparison.md for the full history.",
   "scope": "Medical Regulatory Bodies & Health Missions, Medical Colleges, Government Hospitals, and Government Health Insurance Schemes for Telangana & Andhra Pradesh plus genuinely national-level entities (architected to extend to all 40 briefed healthcare domains and all Indian states without schema change)",
   "datasets_included": [
-    {"name": "medical_regulatory_bodies_and_health_missions", "records": 24, "jurisdictions_covered": ["National (12)", "Telangana (6)", "Andhra Pradesh (6)"], "confidence_score_range": "81-88", "verification_status": "VST-NEEDS_REVIEW"},
-    {"name": "medical_colleges_telangana_andhra_pradesh", "records": 58, "jurisdictions_covered": ["Telangana (32)", "Andhra Pradesh (26)"], "confidence_score_range": "80-88", "verification_status": "VST-NEEDS_REVIEW"},
-    {"name": "government_hospitals_telangana_andhra_pradesh", "records": 55, "jurisdictions_covered": ["Telangana (32)", "Andhra Pradesh (23)"], "confidence_score_range": "78-88", "verification_status": "VST-NEEDS_REVIEW"},
-    {"name": "government_health_insurance_schemes", "records": 9, "jurisdictions_covered": ["National (5)", "Telangana (2)", "Andhra Pradesh (2)"], "confidence_score_range": "82-88", "verification_status": "VST-NEEDS_REVIEW"}
+    {
+      "name": "medical_regulatory_bodies_and_health_missions",
+      "records": 24,
+      "jurisdictions_covered": [
+        "National (12)",
+        "Telangana (6)",
+        "Andhra Pradesh (6)"
+      ],
+      "confidence_score_range": "81-88",
+      "verification_status": "VST-NEEDS_REVIEW"
+    },
+    {
+      "name": "medical_colleges_telangana_andhra_pradesh",
+      "records": 58,
+      "jurisdictions_covered": [
+        "Telangana (32)",
+        "Andhra Pradesh (26)"
+      ],
+      "confidence_score_range": "80-88",
+      "verification_status": "VST-NEEDS_REVIEW"
+    },
+    {
+      "name": "government_hospitals_telangana_andhra_pradesh",
+      "records": 55,
+      "jurisdictions_covered": [
+        "Telangana (32)",
+        "Andhra Pradesh (23)"
+      ],
+      "confidence_score_range": "78-88",
+      "verification_status": "VST-NEEDS_REVIEW"
+    },
+    {
+      "name": "government_health_insurance_schemes",
+      "records": 9,
+      "jurisdictions_covered": [
+        "National (5)",
+        "Telangana (2)",
+        "Andhra Pradesh (2)"
+      ],
+      "confidence_score_range": "82-88",
+      "verification_status": "VST-NEEDS_REVIEW"
+    }
   ],
   "total_records": 146,
   "rc1_vs_rc2_comparison": {
@@ -51,22 +89,58 @@
     "comparison_report_reference": "reports/rc1_vs_rc2_comparison.md"
   },
   "datasets_blocked": [
-    {"name": "Primary Health Centres (PHC)", "reason": "Telangana and Andhra Pradesh each run several hundred PHCs; per-facility verification exceeds what search-snippet research can do at any meaningful field depth", "unblock_requires": "Bulk structured data export (e.g. HMIS/NHM facility registry) rather than per-institution web research"},
-    {"name": "Community Health Centres (CHC)", "reason": "Same scale problem as PHCs", "unblock_requires": "HMIS/NHM facility registry bulk export"},
-    {"name": "Urban Health Centres", "reason": "Same scale problem", "unblock_requires": "State urban health mission bulk facility list"}
+    {
+      "name": "Primary Health Centres (PHC)",
+      "reason": "Telangana and Andhra Pradesh each run several hundred PHCs; per-facility verification exceeds what search-snippet research can do at any meaningful field depth",
+      "unblock_requires": "Bulk structured data export (e.g. HMIS/NHM facility registry) rather than per-institution web research"
+    },
+    {
+      "name": "Community Health Centres (CHC)",
+      "reason": "Same scale problem as PHCs",
+      "unblock_requires": "HMIS/NHM facility registry bulk export"
+    },
+    {
+      "name": "Urban Health Centres",
+      "reason": "Same scale problem",
+      "unblock_requires": "State urban health mission bulk facility list"
+    }
   ],
   "datasets_queued": [
-    "private_hospitals_general", "super_specialty_hospitals", "childrens_hospitals", "maternity_hospitals",
-    "cancer_hospitals", "eye_hospitals", "dental_hospitals", "diagnostic_centres", "blood_banks",
-    "organ_donation_centres", "dialysis_centres", "ambulance_services", "emergency_services_general",
-    "trauma_centres", "mental_health_centres", "rehabilitation_centres", "telemedicine_services",
-    "public_health_laboratories", "health_helplines", "vaccination_programmes", "disease_surveillance",
-    "public_health_campaigns", "national_health_programmes_beyond_insurance",
-    "pharmaceutical_support_services", "health_ngos", "all_domains_for_remaining_states_and_uts"
+    "private_hospitals_general",
+    "super_specialty_hospitals",
+    "childrens_hospitals",
+    "maternity_hospitals",
+    "cancer_hospitals",
+    "eye_hospitals",
+    "dental_hospitals",
+    "diagnostic_centres",
+    "blood_banks",
+    "organ_donation_centres",
+    "dialysis_centres",
+    "ambulance_services",
+    "emergency_services_general",
+    "trauma_centres",
+    "mental_health_centres",
+    "rehabilitation_centres",
+    "telemedicine_services",
+    "public_health_laboratories",
+    "health_helplines",
+    "vaccination_programmes",
+    "disease_surveillance",
+    "public_health_campaigns",
+    "national_health_programmes_beyond_insurance",
+    "pharmaceutical_support_services",
+    "health_ngos",
+    "all_domains_for_remaining_states_and_uts"
   ],
   "environment_constraint": "Direct WebFetch to .gov.in/.ac.in/.edu.in/Wikipedia domains was blocked by this session's organizational egress policy in both RC1 (2026-07-21) and RC2 (2026-07-22) -- re-confirmed HTTP 403 policy denial each time via a live test fetch. All data collected via WebSearch result snippets only; confidence scores capped at 88. See docs/METHODOLOGY.md.",
-  "dependencies": "No hard foreign-key dependency on Package001_Geography in RC2 -- state/district fields are free-text values, not district_id references. medical_colleges_telangana_andhra_pradesh.attached_teaching_hospital and government_hospitals_telangana_andhra_pradesh.medical_college_affiliation are free-text cross-references to each other within this package, not enforced FKs. No relationship to Package002_Education in this release.",
-  "import_order": ["medical_regulatory_bodies_and_health_missions", "medical_colleges_telangana_andhra_pradesh", "government_hospitals_telangana_andhra_pradesh", "government_health_insurance_schemes"],
+  "dependencies": "No hard foreign-key dependency on Package001_Geography in this release -- state/district fields are free-text values, not district_id references. medical_colleges_telangana_andhra_pradesh.attached_teaching_hospital and government_hospitals_telangana_andhra_pradesh.medical_college_affiliation are free-text cross-references to each other within this package, not enforced FKs. No relationship to Package002_Education in this release.",
+  "import_order": [
+    "medical_regulatory_bodies_and_health_missions",
+    "medical_colleges_telangana_andhra_pradesh",
+    "government_hospitals_telangana_andhra_pradesh",
+    "government_health_insurance_schemes"
+  ],
   "data_statistics": {
     "total_datasets_released": 4,
     "total_records": 146,
@@ -76,8 +150,15 @@
   },
   "source_statistics": {
     "total_distinct_source_urls": 140,
-    "source_tiers_used": ["Tier 1 (Government/official)", "Tier 3 (Trusted healthcare directories, cross-check)", "Tier 4 (Trusted news, for time-sensitive scheme-rename and regulatory-transition verification)"],
-    "source_tiers_not_used": ["Tier 2 (Official social media -- not needed this release)", "Tier 5 (Community sources -- excluded per package policy for factual data)"]
+    "source_tiers_used": [
+      "Tier 1 (Government/official)",
+      "Tier 3 (Trusted healthcare directories, cross-check)",
+      "Tier 4 (Trusted news, for time-sensitive scheme-rename and regulatory-transition verification)"
+    ],
+    "source_tiers_not_used": [
+      "Tier 2 (Official social media -- not needed this release)",
+      "Tier 5 (Community sources -- excluded per package policy for factual data)"
+    ]
   },
   "confidence_statistics": {
     "overall_range": "78-88",

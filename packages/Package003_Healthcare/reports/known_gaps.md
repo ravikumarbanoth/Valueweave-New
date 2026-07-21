@@ -1,4 +1,4 @@
-# Package003_Healthcare v1.0.0-RC2 — Known Gaps
+# Package003_Healthcare v1.0.0 — Known Gaps
 
 See `acquisition_backlog.json` for the full structured list. Summary:
 

@@ -1,7 +1,7 @@
 {
   "dataset_name": "medical_regulatory_bodies_and_health_missions",
   "package": "Package003_Healthcare",
-  "version": "1.0.0-RC2",
+  "version": "1.0.0",
   "fetch_method": "WebSearch tool result snippets only (WebFetch blocked \u2014 see note)",
   "webfetch_blocked_note": "This session's organizational egress proxy returned HTTP 403 (policy denial) for direct WebFetch to .gov.in, .ac.in, .edu.in, and Wikipedia domains during both the RC1 collection pass (2026-07-21) and the RC2 enrichment pass (2026-07-22) \u2014 re-confirmed via a live test fetch each time, not a transient or client-side failure. No source page in this dataset was ever directly fetched and re-read; every fact is WebSearch-snippet-sourced and cited by URL.",
   "distinct_sources_cited": 24,

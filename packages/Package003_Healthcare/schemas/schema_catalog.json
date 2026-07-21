@@ -1,9 +1,9 @@
 {
   "package": "Package003_Healthcare",
-  "version": "1.0.0-RC2",
-  "description": "Canonical PK/FK/relationship reference for all datasets in Package003_Healthcare v1.0.0-RC2.",
-  "relationship_to_package001": "No hard foreign keys into Package001_Geography exist yet — state/district fields are free-text values ('Telangana', 'Andhra Pradesh', district names) rather than district_id references, because per-row district-level attribution was not independently verifiable for every entity in this release. Wiring these fields to Package001_Geography's state.csv/district.csv primary keys is tracked as future work (see acquisition_backlog.json).",
-  "relationship_to_package002": "medical_colleges_telangana_andhra_pradesh.attached_teaching_hospital and government_hospitals_telangana_andhra_pradesh.medical_college_affiliation are free-text cross-references to each other (both within this package), not enforced foreign keys — a name may not match exactly between the two datasets since they were collected independently. No relationship to Package002_Education's data in this release.",
+  "version": "1.0.0",
+  "description": "Canonical PK/FK/relationship reference for all datasets in Package003_Healthcare v1.0.0.",
+  "relationship_to_package001": "No hard foreign keys into Package001_Geography exist yet \u2014 state/district fields are free-text values ('Telangana', 'Andhra Pradesh', district names) rather than district_id references, because per-row district-level attribution was not independently verifiable for every entity in this release. Wiring these fields to Package001_Geography's state.csv/district.csv primary keys is tracked as future work (see acquisition_backlog.json).",
+  "relationship_to_package002": "medical_colleges_telangana_andhra_pradesh.attached_teaching_hospital and government_hospitals_telangana_andhra_pradesh.medical_college_affiliation are free-text cross-references to each other (both within this package), not enforced foreign keys \u2014 a name may not match exactly between the two datasets since they were collected independently. No relationship to Package002_Education's data in this release.",
   "datasets": [
     {
       "dataset_name": "medical_regulatory_bodies_and_health_missions",
@@ -11,22 +11,87 @@
       "primary_key": "id",
       "foreign_keys": [],
       "columns": [
-        {"name": "id", "type": "uuid", "description": "Unique row identifier (UUIDv4)"},
-        {"name": "name", "type": "string", "description": "Official name of the regulatory body/mission"},
-        {"name": "type", "type": "string", "description": "e.g. Central Regulatory Body, State Medical Council, National Health Program, State Health Mission, Standards/Accreditation Body"},
-        {"name": "jurisdiction", "type": "enum", "values": ["National", "Telangana", "Andhra Pradesh"]},
-        {"name": "parent_ministry_or_department", "type": "string"},
-        {"name": "established_year", "type": "string", "description": "Year established, or PENDING_VERIFICATION"},
-        {"name": "official_website", "type": "string"},
-        {"name": "headquarters_city", "type": "string"},
-        {"name": "headquarters_state", "type": "string"},
-        {"name": "mandate_summary", "type": "string"},
-        {"name": "data_source", "type": "string"},
-        {"name": "source_url", "type": "string"},
-        {"name": "collection_date", "type": "date"},
-        {"name": "confidence_score", "type": "integer", "range": [0, 100]},
-        {"name": "verification_status", "type": "enum", "values": ["VST-NEEDS_REVIEW", "VST-VERIFIED"]},
-        {"name": "notes", "type": "string"}
+        {
+          "name": "id",
+          "type": "uuid",
+          "description": "Unique row identifier (UUIDv4)"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "description": "Official name of the regulatory body/mission"
+        },
+        {
+          "name": "type",
+          "type": "string",
+          "description": "e.g. Central Regulatory Body, State Medical Council, National Health Program, State Health Mission, Standards/Accreditation Body"
+        },
+        {
+          "name": "jurisdiction",
+          "type": "enum",
+          "values": [
+            "National",
+            "Telangana",
+            "Andhra Pradesh"
+          ]
+        },
+        {
+          "name": "parent_ministry_or_department",
+          "type": "string"
+        },
+        {
+          "name": "established_year",
+          "type": "string",
+          "description": "Year established, or PENDING_VERIFICATION"
+        },
+        {
+          "name": "official_website",
+          "type": "string"
+        },
+        {
+          "name": "headquarters_city",
+          "type": "string"
+        },
+        {
+          "name": "headquarters_state",
+          "type": "string"
+        },
+        {
+          "name": "mandate_summary",
+          "type": "string"
+        },
+        {
+          "name": "data_source",
+          "type": "string"
+        },
+        {
+          "name": "source_url",
+          "type": "string"
+        },
+        {
+          "name": "collection_date",
+          "type": "date"
+        },
+        {
+          "name": "confidence_score",
+          "type": "integer",
+          "range": [
+            0,
+            100
+          ]
+        },
+        {
+          "name": "verification_status",
+          "type": "enum",
+          "values": [
+            "VST-NEEDS_REVIEW",
+            "VST-VERIFIED"
+          ]
+        },
+        {
+          "name": "notes",
+          "type": "string"
+        }
       ]
     },
     {
@@ -35,26 +100,109 @@
       "primary_key": "id",
       "foreign_keys": [],
       "columns": [
-        {"name": "id", "type": "uuid"},
-        {"name": "name", "type": "string"},
-        {"name": "ownership", "type": "enum", "values": ["Government", "Private"], "description": "3 rows carry a qualified label (ESIC-central, AIIMS-autonomous, deemed-university-private) noted in `notes` rather than forced into a plain binary"},
-        {"name": "affiliation", "type": "string", "description": "Health sciences university affiliation"},
-        {"name": "established_year", "type": "string"},
-        {"name": "district", "type": "string"},
-        {"name": "state", "type": "enum", "values": ["Telangana", "Andhra Pradesh"]},
-        {"name": "city", "type": "string"},
-        {"name": "official_website", "type": "string"},
-        {"name": "email", "type": "string", "description": "Added in RC2. Official college/admissions email if publicly listed, else PENDING_VERIFICATION"},
-        {"name": "mbbs_seats", "type": "string", "description": "Annual MBBS intake if verifiable, else PENDING_VERIFICATION"},
-        {"name": "attached_teaching_hospital", "type": "string", "description": "Free-text cross-reference; not an enforced FK into government_hospitals_telangana_andhra_pradesh"},
-        {"name": "departments_summary", "type": "string", "description": "Added in RC2. Brief factual list of major clinical departments/specialties, else PENDING_VERIFICATION"},
-        {"name": "government_scheme_coverage_summary", "type": "string", "description": "Added in RC2. Whether the attached teaching hospital accepts government health schemes, else PENDING_VERIFICATION"},
-        {"name": "data_source", "type": "string"},
-        {"name": "source_url", "type": "string"},
-        {"name": "collection_date", "type": "date"},
-        {"name": "confidence_score", "type": "integer", "range": [0, 100]},
-        {"name": "verification_status", "type": "enum", "values": ["VST-NEEDS_REVIEW", "VST-VERIFIED"]},
-        {"name": "notes", "type": "string"}
+        {
+          "name": "id",
+          "type": "uuid"
+        },
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "ownership",
+          "type": "enum",
+          "values": [
+            "Government",
+            "Private"
+          ],
+          "description": "3 rows carry a qualified label (ESIC-central, AIIMS-autonomous, deemed-university-private) noted in `notes` rather than forced into a plain binary"
+        },
+        {
+          "name": "affiliation",
+          "type": "string",
+          "description": "Health sciences university affiliation"
+        },
+        {
+          "name": "established_year",
+          "type": "string"
+        },
+        {
+          "name": "district",
+          "type": "string"
+        },
+        {
+          "name": "state",
+          "type": "enum",
+          "values": [
+            "Telangana",
+            "Andhra Pradesh"
+          ]
+        },
+        {
+          "name": "city",
+          "type": "string"
+        },
+        {
+          "name": "official_website",
+          "type": "string"
+        },
+        {
+          "name": "email",
+          "type": "string",
+          "description": "Added in RC2. Official college/admissions email if publicly listed, else PENDING_VERIFICATION"
+        },
+        {
+          "name": "mbbs_seats",
+          "type": "string",
+          "description": "Annual MBBS intake if verifiable, else PENDING_VERIFICATION"
+        },
+        {
+          "name": "attached_teaching_hospital",
+          "type": "string",
+          "description": "Free-text cross-reference; not an enforced FK into government_hospitals_telangana_andhra_pradesh"
+        },
+        {
+          "name": "departments_summary",
+          "type": "string",
+          "description": "Added in RC2. Brief factual list of major clinical departments/specialties, else PENDING_VERIFICATION"
+        },
+        {
+          "name": "government_scheme_coverage_summary",
+          "type": "string",
+          "description": "Added in RC2. Whether the attached teaching hospital accepts government health schemes, else PENDING_VERIFICATION"
+        },
+        {
+          "name": "data_source",
+          "type": "string"
+        },
+        {
+          "name": "source_url",
+          "type": "string"
+        },
+        {
+          "name": "collection_date",
+          "type": "date"
+        },
+        {
+          "name": "confidence_score",
+          "type": "integer",
+          "range": [
+            0,
+            100
+          ]
+        },
+        {
+          "name": "verification_status",
+          "type": "enum",
+          "values": [
+            "VST-NEEDS_REVIEW",
+            "VST-VERIFIED"
+          ]
+        },
+        {
+          "name": "notes",
+          "type": "string"
+        }
       ]
     },
     {
@@ -63,31 +211,137 @@
       "primary_key": "id",
       "foreign_keys": [],
       "columns": [
-        {"name": "id", "type": "uuid"},
-        {"name": "name", "type": "string"},
-        {"name": "category", "type": "enum", "values": ["District Hospital", "Area Hospital", "Teaching Hospital"]},
-        {"name": "ownership", "type": "string", "description": "All rows are State Government by scope"},
-        {"name": "managing_organization", "type": "string"},
-        {"name": "district", "type": "string"},
-        {"name": "state", "type": "enum", "values": ["Telangana", "Andhra Pradesh"]},
-        {"name": "city", "type": "string"},
-        {"name": "address", "type": "string", "description": "PENDING_VERIFICATION for many rows"},
-        {"name": "official_website", "type": "string"},
-        {"name": "contact_number", "type": "string", "description": "PENDING_VERIFICATION for many rows"},
-        {"name": "email", "type": "string", "description": "Added in RC2. Official hospital email if publicly listed, else PENDING_VERIFICATION"},
-        {"name": "bed_capacity", "type": "string", "description": "PENDING_VERIFICATION where sources conflicted or none found; ranges recorded in notes where sources disagreed"},
-        {"name": "medical_college_affiliation", "type": "string", "description": "Free-text cross-reference; not an enforced FK into medical_colleges_telangana_andhra_pradesh"},
-        {"name": "teaching_status", "type": "enum", "values": ["Teaching", "Non-Teaching"]},
-        {"name": "specialties_summary", "type": "string", "description": "Added in RC2. Brief factual list of medical specialties/departments, else PENDING_VERIFICATION"},
-        {"name": "available_services_summary", "type": "string", "description": "Added in RC2. Brief factual note on key services, else PENDING_VERIFICATION"},
-        {"name": "government_scheme_coverage_summary", "type": "string", "description": "Added in RC2. Which government health insurance schemes this hospital accepts, else PENDING_VERIFICATION"},
-        {"name": "emergency_services", "type": "string", "description": "\"Yes\" only where a specific confirming source was found, else PENDING_VERIFICATION"},
-        {"name": "data_source", "type": "string"},
-        {"name": "source_url", "type": "string"},
-        {"name": "collection_date", "type": "date"},
-        {"name": "confidence_score", "type": "integer", "range": [0, 100]},
-        {"name": "verification_status", "type": "enum", "values": ["VST-NEEDS_REVIEW", "VST-VERIFIED"]},
-        {"name": "notes", "type": "string"}
+        {
+          "name": "id",
+          "type": "uuid"
+        },
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "category",
+          "type": "enum",
+          "values": [
+            "District Hospital",
+            "Area Hospital",
+            "Teaching Hospital"
+          ]
+        },
+        {
+          "name": "ownership",
+          "type": "string",
+          "description": "All rows are State Government by scope"
+        },
+        {
+          "name": "managing_organization",
+          "type": "string"
+        },
+        {
+          "name": "district",
+          "type": "string"
+        },
+        {
+          "name": "state",
+          "type": "enum",
+          "values": [
+            "Telangana",
+            "Andhra Pradesh"
+          ]
+        },
+        {
+          "name": "city",
+          "type": "string"
+        },
+        {
+          "name": "address",
+          "type": "string",
+          "description": "PENDING_VERIFICATION for many rows"
+        },
+        {
+          "name": "official_website",
+          "type": "string"
+        },
+        {
+          "name": "contact_number",
+          "type": "string",
+          "description": "PENDING_VERIFICATION for many rows"
+        },
+        {
+          "name": "email",
+          "type": "string",
+          "description": "Added in RC2. Official hospital email if publicly listed, else PENDING_VERIFICATION"
+        },
+        {
+          "name": "bed_capacity",
+          "type": "string",
+          "description": "PENDING_VERIFICATION where sources conflicted or none found; ranges recorded in notes where sources disagreed"
+        },
+        {
+          "name": "medical_college_affiliation",
+          "type": "string",
+          "description": "Free-text cross-reference; not an enforced FK into medical_colleges_telangana_andhra_pradesh"
+        },
+        {
+          "name": "teaching_status",
+          "type": "enum",
+          "values": [
+            "Teaching",
+            "Non-Teaching"
+          ]
+        },
+        {
+          "name": "specialties_summary",
+          "type": "string",
+          "description": "Added in RC2. Brief factual list of medical specialties/departments, else PENDING_VERIFICATION"
+        },
+        {
+          "name": "available_services_summary",
+          "type": "string",
+          "description": "Added in RC2. Brief factual note on key services, else PENDING_VERIFICATION"
+        },
+        {
+          "name": "government_scheme_coverage_summary",
+          "type": "string",
+          "description": "Added in RC2. Which government health insurance schemes this hospital accepts, else PENDING_VERIFICATION"
+        },
+        {
+          "name": "emergency_services",
+          "type": "string",
+          "description": "\"Yes\" only where a specific confirming source was found, else PENDING_VERIFICATION"
+        },
+        {
+          "name": "data_source",
+          "type": "string"
+        },
+        {
+          "name": "source_url",
+          "type": "string"
+        },
+        {
+          "name": "collection_date",
+          "type": "date"
+        },
+        {
+          "name": "confidence_score",
+          "type": "integer",
+          "range": [
+            0,
+            100
+          ]
+        },
+        {
+          "name": "verification_status",
+          "type": "enum",
+          "values": [
+            "VST-NEEDS_REVIEW",
+            "VST-VERIFIED"
+          ]
+        },
+        {
+          "name": "notes",
+          "type": "string"
+        }
       ]
     },
     {
@@ -96,22 +350,88 @@
       "primary_key": "id",
       "foreign_keys": [],
       "columns": [
-        {"name": "id", "type": "uuid"},
-        {"name": "scheme_name", "type": "string", "description": "Current official scheme name at collection time; superseded names cross-referenced in notes"},
-        {"name": "scheme_type", "type": "enum", "values": ["Central Scheme", "State Scheme"]},
-        {"name": "jurisdiction", "type": "enum", "values": ["National", "Telangana", "Andhra Pradesh"]},
-        {"name": "administering_body", "type": "string"},
-        {"name": "target_beneficiaries", "type": "string"},
-        {"name": "coverage_amount_summary", "type": "string"},
-        {"name": "empanelled_hospitals_summary", "type": "string"},
-        {"name": "application_portal", "type": "string"},
-        {"name": "official_website", "type": "string"},
-        {"name": "data_source", "type": "string"},
-        {"name": "source_url", "type": "string"},
-        {"name": "collection_date", "type": "date"},
-        {"name": "confidence_score", "type": "integer", "range": [0, 100]},
-        {"name": "verification_status", "type": "enum", "values": ["VST-NEEDS_REVIEW", "VST-VERIFIED"]},
-        {"name": "notes", "type": "string"}
+        {
+          "name": "id",
+          "type": "uuid"
+        },
+        {
+          "name": "scheme_name",
+          "type": "string",
+          "description": "Current official scheme name at collection time; superseded names cross-referenced in notes"
+        },
+        {
+          "name": "scheme_type",
+          "type": "enum",
+          "values": [
+            "Central Scheme",
+            "State Scheme"
+          ]
+        },
+        {
+          "name": "jurisdiction",
+          "type": "enum",
+          "values": [
+            "National",
+            "Telangana",
+            "Andhra Pradesh"
+          ]
+        },
+        {
+          "name": "administering_body",
+          "type": "string"
+        },
+        {
+          "name": "target_beneficiaries",
+          "type": "string"
+        },
+        {
+          "name": "coverage_amount_summary",
+          "type": "string"
+        },
+        {
+          "name": "empanelled_hospitals_summary",
+          "type": "string"
+        },
+        {
+          "name": "application_portal",
+          "type": "string"
+        },
+        {
+          "name": "official_website",
+          "type": "string"
+        },
+        {
+          "name": "data_source",
+          "type": "string"
+        },
+        {
+          "name": "source_url",
+          "type": "string"
+        },
+        {
+          "name": "collection_date",
+          "type": "date"
+        },
+        {
+          "name": "confidence_score",
+          "type": "integer",
+          "range": [
+            0,
+            100
+          ]
+        },
+        {
+          "name": "verification_status",
+          "type": "enum",
+          "values": [
+            "VST-NEEDS_REVIEW",
+            "VST-VERIFIED"
+          ]
+        },
+        {
+          "name": "notes",
+          "type": "string"
+        }
       ]
     }
   ]

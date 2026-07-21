@@ -1,4 +1,4 @@
-# Package003_Healthcare v1.0.0-RC2 — Methodology
+# Package003_Healthcare v1.0.0 — Methodology
 
 **RC2 update note:** WebFetch to `.gov.in`/`.ac.in`/Wikipedia domains was re-tested live immediately
 before the RC2 enrichment pass began (2026-07-22) and remained blocked (HTTP 403), identical to RC1.
@@ -56,7 +56,7 @@ colleges; coverage/beneficiaries for schemes).
 This reduction was a deliberate quality tradeoff: search-snippet-only research could not reliably
 surface facility-level details (ICU beds, working hours, exact contact numbers) for dozens of
 institutions without either extensive per-institution deep dives or a real risk of guessing. Rather
-than fabricate or leave 15+ additional columns mostly `PENDING_VERIFICATION` across 134 rows, the
+than fabricate or leave 15+ additional columns mostly `PENDING_VERIFICATION` across 146 rows, the
 schema itself was narrowed to what could be populated with genuine confidence. Latitude/longitude and
 Google Maps links are 0% populated in this release — the same known gap documented in
 Package001_Geography and Package002_Education for the same underlying reason.

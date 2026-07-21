@@ -1,7 +1,7 @@
 {
   "dataset_name": "government_hospitals_telangana_andhra_pradesh",
   "package": "Package003_Healthcare",
-  "version": "1.0.0-RC2",
+  "version": "1.0.0",
   "file": "datasets/government_hospitals_telangana_andhra_pradesh.csv",
   "record_count": 55,
   "primary_key": "id",

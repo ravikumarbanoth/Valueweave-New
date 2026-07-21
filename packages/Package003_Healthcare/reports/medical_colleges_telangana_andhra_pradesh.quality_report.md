@@ -1,4 +1,4 @@
-# Quality Report — medical_colleges_telangana_andhra_pradesh (v1.0.0-RC2)
+# Quality Report — medical_colleges_telangana_andhra_pradesh (v1.0.0)
 
 - Total records: 58
 - Confidence score range: 80–88

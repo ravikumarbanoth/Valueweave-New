@@ -1,4 +1,4 @@
-# Package003_Healthcare v1.0.0-RC2 — Source Analysis
+# Package003_Healthcare v1.0.0 — Source Analysis
 
 ## Collection Method
 

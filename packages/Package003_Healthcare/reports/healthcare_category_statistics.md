@@ -1,4 +1,4 @@
-# Package003_Healthcare v1.0.0-RC2 — Healthcare Category Statistics
+# Package003_Healthcare v1.0.0 — Healthcare Category Statistics
 
 ## medical_regulatory_bodies_and_health_missions (by type)
 

@@ -1,4 +1,4 @@
-# Quality Report — government_hospitals_telangana_andhra_pradesh (v1.0.0-RC2)
+# Quality Report — government_hospitals_telangana_andhra_pradesh (v1.0.0)
 
 - Total records: 55
 - Confidence score range: 78–88

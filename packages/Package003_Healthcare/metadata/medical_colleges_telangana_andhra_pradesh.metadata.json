@@ -2,7 +2,7 @@
   "dataset_name": "medical_colleges_telangana_andhra_pradesh",
   "title": "Medical Colleges (Telangana & Andhra Pradesh)",
   "package": "Package003_Healthcare",
-  "version": "1.0.0-RC2",
+  "version": "1.0.0",
   "description": "Government and private MBBS-granting medical colleges located in Telangana and Andhra Pradesh.",
   "scope_note": "As of RC2, includes email, departments_summary, and government_scheme_coverage_summary columns.",
   "file": "datasets/medical_colleges_telangana_andhra_pradesh.csv",

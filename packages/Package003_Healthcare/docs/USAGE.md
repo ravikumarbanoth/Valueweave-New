@@ -1,4 +1,4 @@
-# Package003_Healthcare v1.0.0-RC2 — Usage Guide
+# Package003_Healthcare v1.0.0 — Usage Guide
 
 ## What's in this package
 

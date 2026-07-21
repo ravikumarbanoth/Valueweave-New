@@ -1,5 +1,82 @@
 # CHANGELOG — Package003_Healthcare
 
+## [1.0.0] — 2026-07-22 — STABLE, canonical release
+
+Promoted RC2 to the final stable release, approved for merge to `main`. No dataset, schema, or
+content changes beyond RC2 — this is a packaging finalization only (version strings bumped from
+`1.0.0-RC2` to `1.0.0` across `VERSION`, `package_manifest.json`, `schema_catalog.json`,
+`acquisition_backlog.json`, and all per-dataset `metadata/`, `evidence/`, and `imports/` files;
+`registry/dataset_registry.csv` status values changed from `RELEASED_RC2` to `RELEASED`), per the
+same convention used for Package001_Geography and Package002_Education's RC-to-stable promotions.
+
+### Verified before promotion
+- All 60 package files present per the documented folder structure.
+- All JSON files parse as valid JSON.
+- All 4 CSV datasets have consistent column counts, unique primary keys, and CSV column order
+  matching `schema_catalog.json` (146 rows total, 0 duplicate IDs within or across datasets).
+- All cross-references (metadata/evidence `*_reference` fields, registry `file_path` column, import
+  manifest `file` fields) resolve correctly.
+- Fixed 2 stale RC1 record-count mentions found during final review (`codex_handoff.md`,
+  `docs/METHODOLOGY.md`) that had not been updated to RC2's 146-row total.
+
+## [1.0.0-RC2] — 2026-07-22 — NOT MERGED TO MAIN
+
+Enrichment pass on the RC1 datasets below, per explicit instruction to improve completeness,
+confidence, and practical usefulness without sacrificing accuracy.
+
+### Added
+- 12 new verified records: National Board of Examinations in Medical Sciences (NBEMS), Rashtriya
+  Arogya Nidhi (RAN), 4 medical colleges (GMC Sangareddy, GMC Kamareddy, GMC Ramagundam, AIIMS
+  Mangalagiri), and 6 government hospitals (GGH Wanaparthy, GMC Rajanna Sircilla, GMC Nandyal, Area
+  Hospital Bapatla, District Hospital Peddapalli, GMC Medak) — all explicitly flagged as RC1 gaps.
+- 4 new columns on `government_hospitals_telangana_andhra_pradesh.csv`: `email`,
+  `specialties_summary`, `available_services_summary`, `government_scheme_coverage_summary`.
+- 3 new columns on `medical_colleges_telangana_andhra_pradesh.csv`: `email`, `departments_summary`,
+  `government_scheme_coverage_summary`.
+- `reports/rc1_vs_rc2_comparison.md` and 3 enrichment reports (`government_hospitals_*`,
+  `medical_colleges_*`, `regulatory_bodies_and_schemes.rc2_enrichment_report.md`).
+
+### Improved
+- Confidence scores raised via stronger multi-source WebSearch corroboration (package overall
+  average 82.9 → 85.8); still capped at 88 since WebFetch to `.gov.in`/`.ac.in`/Wikipedia domains was
+  re-confirmed blocked (HTTP 403) live immediately before this pass began.
+- 5 of 7 regulatory-body PENDING_VERIFICATION fields filled; `mbbs_seats` effectively fully filled
+  for medical colleges via 2025-26 NEET-counselling data; 33 fields filled on government hospitals
+  (address, contact_number, bed_capacity, emergency_services).
+
+### Corrected / Resolved
+- AP university naming split ("Dr NTR vs Dr YSR UHS") explained by a real 2019→2024
+  rename-and-revert history.
+- SVS Medical College affiliation corrected to KNRUHS (Telangana), fixing a real aggregator error.
+- Katuri Medical College established_year (1997→2002) and Konaseema IMS&RF established_year (2005)
+  resolved with stronger corroboration.
+- National Dental Commission confirmed operationally active as of mid-July 2026.
+- AP EHS coverage ceiling filled (Rs 2 lakh/episode).
+
+### Notable Updates Found (developments since RC1, not corrections of RC1 errors)
+- West Bengal became the 36th/final state to adopt PM-JAY — nationwide completion.
+- APNMC's portal was found to be permanently migrated to a centralized INC system (NRTS), not merely
+  suspended as RC1 had recorded.
+
+### Disclosed, Not Resolved (left PENDING_VERIFICATION or flagged rather than guessed)
+- TVVP/APVVP master hospital-list pages still did not surface their tabular content in WebSearch
+  snippets after 2 collection passes — the single biggest structural gap in the package.
+- 6 government hospital bed-count/address conflicts remain disclosed; one (Kakinada) grew more
+  conflicting with additional sources rather than resolving.
+- CDSCO's precise founding year and both states' NHM-unit establishment years remain unverifiable.
+- CGHS beneficiary count narrowed to 47.44 lakh cited, but the underlying 42-50 lakh cross-source
+  disagreement was not fully resolved.
+
+### Known Issues
+- `government_scheme_coverage_summary` remains PENDING_VERIFICATION for the majority of rows in both
+  institution datasets (deliberately conservative fill — empanelment claims require a specific
+  confirming source per institution).
+- Package health/AI-readiness score is unchanged at 59/100 — the scoring rubric measures
+  provenance/identifiers/geo/cross-gov-ID/FK-integrity, none of which this enrichment pass targeted;
+  see `package_health_report.md`.
+- Still 0 of 146 rows promoted to `VST-VERIFIED`.
+- Still 36 of 40 briefed domains un-researched.
+
 ## [1.0.0-RC1] — 2026-07-21 — NOT MERGED TO MAIN
 
 ### Added

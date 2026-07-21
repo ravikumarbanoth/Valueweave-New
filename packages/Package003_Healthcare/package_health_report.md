@@ -1,4 +1,4 @@
-# Package Health Report — Package003_Healthcare v1.0.0-RC2
+# Package Health Report — Package003_Healthcare v1.0.0
 
 ## Scoring Methodology (mirrors Package001_Geography and Package002_Education, unchanged from RC1)
 
@@ -74,7 +74,7 @@ existing fields got filled. See `reports/rc1_vs_rc2_comparison.md` for exact per
 
 ## Comparison to Package001_Geography (58/100) and Package002_Education (59/100)
 
-Package003_Healthcare RC2's 59/100 remains at parity with both prior packages on this rubric — all
-three share the same geo-precision and cross-government-ID gaps as primary weaknesses. RC2's real
+Package003_Healthcare's final 59/100 remains at parity with both prior packages on this rubric — all
+three share the same geo-precision and cross-government-ID gaps as primary weaknesses. The RC1→RC2
 quality gains are documented in `reports/rc1_vs_rc2_comparison.md` and are genuine improvements not
 captured by this specific scoring formula.

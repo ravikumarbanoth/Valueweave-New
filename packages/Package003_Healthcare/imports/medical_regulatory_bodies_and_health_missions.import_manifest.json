@@ -1,7 +1,7 @@
 {
   "dataset_name": "medical_regulatory_bodies_and_health_missions",
   "package": "Package003_Healthcare",
-  "version": "1.0.0-RC2",
+  "version": "1.0.0",
   "file": "datasets/medical_regulatory_bodies_and_health_missions.csv",
   "record_count": 24,
   "primary_key": "id",

@@ -1,4 +1,4 @@
-# Package003_Healthcare v1.0.0-RC2 — Government vs Private Distribution
+# Package003_Healthcare v1.0.0 — Government vs Private Distribution
 
 ## Medical Colleges
 

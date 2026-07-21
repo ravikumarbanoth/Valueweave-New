@@ -2,7 +2,7 @@
   "dataset_name": "government_health_insurance_schemes",
   "title": "Government Health Insurance Schemes",
   "package": "Package003_Healthcare",
-  "version": "1.0.0-RC2",
+  "version": "1.0.0",
   "description": "Major active central government health insurance schemes plus Telangana and Andhra Pradesh state health insurance schemes.",
   "scope_note": "As of RC2, includes Rashtriya Arogya Nidhi (RAN), a MoHFW financial-assistance scheme missed in RC1.",
   "file": "datasets/government_health_insurance_schemes.csv",

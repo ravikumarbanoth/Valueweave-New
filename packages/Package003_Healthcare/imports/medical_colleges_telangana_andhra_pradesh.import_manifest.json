@@ -1,7 +1,7 @@
 {
   "dataset_name": "medical_colleges_telangana_andhra_pradesh",
   "package": "Package003_Healthcare",
-  "version": "1.0.0-RC2",
+  "version": "1.0.0",
   "file": "datasets/medical_colleges_telangana_andhra_pradesh.csv",
   "record_count": 58,
   "primary_key": "id",

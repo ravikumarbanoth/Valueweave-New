@@ -1,4 +1,4 @@
-# Package003_Healthcare v1.0.0-RC2 — Coverage Report
+# Package003_Healthcare v1.0.0 — Coverage Report
 
 ## Datasets Released
 
@@ -9,7 +9,7 @@
 | government_hospitals_telangana_andhra_pradesh | 55 | Andhra Pradesh, Telangana |
 | government_health_insurance_schemes | 9 | Andhra Pradesh, National, Telangana |
 
-**Total records released in v1.0.0-RC2: 146** (RC1 was 134; +12 records added in the RC2 enrichment pass)
+**Total records released in v1.0.0: 146** (RC1 was 134; +12 records added in the RC2 enrichment pass)
 
 ## Domains Released vs. Full Task Scope
 

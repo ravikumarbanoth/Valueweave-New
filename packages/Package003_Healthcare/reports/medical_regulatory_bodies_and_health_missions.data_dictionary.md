@@ -1,4 +1,4 @@
-# Data Dictionary — medical_regulatory_bodies_and_health_missions (v1.0.0-RC2)
+# Data Dictionary — medical_regulatory_bodies_and_health_missions (v1.0.0)
 
 Records: 24
 

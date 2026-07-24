@@ -1,7 +1,7 @@
 {
   "dataset_name": "construction_skilled_trade_services",
   "package": "Package004_Industries_and_Livelihoods",
-  "version": "1.0.0-RC1",
+  "version": "1.0.0",
   "file": "datasets/construction_skilled_trade_services.csv",
   "record_count": 11,
   "primary_key": "id",

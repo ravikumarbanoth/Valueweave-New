@@ -1,6 +1,13 @@
 # Raw Source Inventory — food_agro_processing_micro_enterprises
 
-Total distinct sources cited across 13 rows: **13**
+**Note (v1.0.0):** this inventory reflects the RC1 collection pass (2026-07-22). The v2
+deep-enrichment pass (2026-07-24) added substantially more cited sources directly into the CSV's
+`source_url` column (semicolon-separated per row) — this file was not regenerated line-by-line for
+those. Treat `datasets/food_agro_processing_micro_enterprises.csv` itself and
+`reports/food_agro_processing_micro_enterprises.enrichment_v2_report.md` as canonical for the full
+post-enrichment source list; this file remains accurate for the original RC1-era sources below.
+
+Total distinct sources cited across 13 rows at RC1 (2026-07-22): **13**
 
 All sources were accessed via the WebSearch tool (result snippets), not direct page fetch — see `evidence/food_agro_processing_micro_enterprises.evidence_manifest.json`.
 

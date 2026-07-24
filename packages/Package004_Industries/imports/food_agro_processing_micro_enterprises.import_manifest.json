@@ -1,7 +1,7 @@
 {
   "dataset_name": "food_agro_processing_micro_enterprises",
   "package": "Package004_Industries_and_Livelihoods",
-  "version": "1.0.0-RC1",
+  "version": "1.0.0",
   "file": "datasets/food_agro_processing_micro_enterprises.csv",
   "record_count": 13,
   "primary_key": "id",

@@ -2,7 +2,7 @@
   "dataset_name": "msme_entrepreneurship_support_schemes",
   "title": "MSME & Entrepreneurship Support Schemes",
   "package": "Package004_Industries_and_Livelihoods",
-  "version": "1.0.0-RC1",
+  "version": "1.0.0",
   "description": "National, Telangana, and Andhra Pradesh government schemes, corporations, and support bodies for MSMEs and entrepreneurs.",
   "scope_note": "Covers schemes/bodies as entities, not individual beneficiary businesses.",
   "file": "datasets/msme_entrepreneurship_support_schemes.csv",

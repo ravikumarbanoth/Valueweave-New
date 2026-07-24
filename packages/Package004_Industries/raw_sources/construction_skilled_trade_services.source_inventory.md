@@ -1,6 +1,13 @@
 # Raw Source Inventory — construction_skilled_trade_services
 
-Total distinct sources cited across 11 rows: **11**
+**Note (v1.0.0):** this inventory reflects the RC1 collection pass (2026-07-22). The v2
+deep-enrichment pass (2026-07-24) added substantially more cited sources directly into the CSV's
+`source_url` column (semicolon-separated per row) — this file was not regenerated line-by-line for
+those. Treat `datasets/construction_skilled_trade_services.csv` itself and
+`reports/construction_skilled_trade_services.enrichment_v2_report.md` as canonical for the full post-
+enrichment source list; this file remains accurate for the original RC1-era sources below.
+
+Total distinct sources cited across 11 rows at RC1 (2026-07-22): **11**
 
 All sources were accessed via the WebSearch tool (result snippets), not direct page fetch — see `evidence/construction_skilled_trade_services.evidence_manifest.json`.
 

@@ -1,7 +1,7 @@
 {
   "dataset_name": "msme_entrepreneurship_support_schemes",
   "package": "Package004_Industries_and_Livelihoods",
-  "version": "1.0.0-RC1",
+  "version": "1.0.0",
   "file": "datasets/msme_entrepreneurship_support_schemes.csv",
   "record_count": 18,
   "primary_key": "id",

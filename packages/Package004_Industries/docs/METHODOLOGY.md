@@ -1,4 +1,11 @@
-# Package004_Industries_and_Livelihoods v1.0.0-RC1 — Methodology
+# Package004_Industries_and_Livelihoods v1.0.0 — Methodology
+
+**This package went through two collection passes.** RC1 (2026-07-22) shipped 5 datasets at
+"Industry Classification" depth (18 columns per opportunity). This v1.0.0 release adds a v2
+deep-enrichment pass (2026-07-24) that expanded 4 of those 5 datasets to a 36-column "Business
+Opportunity Knowledge Base" schema — see "The v2 Deep-Enrichment Pass" below for what changed and why.
+Everything below this point describes the original RC1 methodology, which the v2 pass extended rather
+than replaced (same sourcing discipline, same PENDING_VERIFICATION rule, same WebFetch constraint).
 
 ## What Kind of Package This Is
 
@@ -97,3 +104,52 @@ Adapted Opportunities) scoped to Telangana and Andhra Pradesh — mirroring Pack
 of shipping a narrow, real, well-documented slice rather than a broad but unverifiable one. The
 remaining ~145 sub-categories and all other states/UTs are catalogued in `acquisition_backlog.json`
 and `registry/dataset_registry.csv` as `BLOCKED` or `QUEUED`, not silently omitted.
+
+## The v2 Deep-Enrichment Pass — From Industry Classification to Business Opportunity Knowledge Base
+
+After RC1 shipped, the explicit instruction changed the package's target shape: rather than adding
+more industry categories, enrich each existing opportunity with the practical entrepreneurship
+information a student, job seeker, self-employed professional, woman entrepreneur, MSME, rural
+entrepreneur, investor, or local business would actually need to act on it — the kind of detail that
+lets a user answer "What business can I start in my district? How much investment is needed? Where
+can I get training? Which government schemes support it? Who are the suppliers? Who buys the
+products? What machinery is required? Which AI tools can help? Which successful businesses already
+exist nearby?"
+
+**What was added**: `food_agro_processing_micro_enterprises`, `construction_skilled_trade_services`,
+and `digital_technology_livelihoods` each grew from 18 to 36 columns; `china_inspired_adapted_opportunities`
+grew from 15 to 36 columns. The 24 new fields per row are listed in
+`reports/business_opportunity_enrichment_summary.md`, along with the exact per-field fill rate.
+
+**What stayed the same**: the sourcing discipline. Every new field followed the identical rule as
+RC1's `typical_investment_range_summary` — a claim is only written as fact if traced to a specific,
+citable source; otherwise the cell is the bare `PENDING_VERIFICATION` sentinel, with any researcher
+context moved to `notes`. The WebFetch-to-.gov.in-domains block remained in effect for this pass too
+(re-confirmed live before enrichment began), so all new facts are WebSearch-snippet-sourced, same as
+RC1.
+
+**What's genuinely new in the source strategy**: `china_inspired_adapted_opportunities.csv` was
+explicitly permitted to use Tier-5 sources (founder interviews, business communities, entrepreneur
+forums, Reddit, YouTube creators) for qualitative color — this is the one dataset in the package where
+that tier is used, and every row/field drawing on it is flagged explicitly in `notes` and confidence-
+capped below the government/news-corroborated majority of that dataset. No other dataset in this
+release uses Tier-5 sourcing for any field.
+
+**Why msme_entrepreneurship_support_schemes was left alone**: it catalogues schemes and support
+bodies, not things a person starts — the 36-column Business Opportunity shape (machinery, raw
+materials, minimum investment, customer segments) does not describe a scheme meaningfully. Forcing it
+into that shape would mean either 20+ empty columns per row or fabricating opportunity-shaped facts
+about a scheme. It remains the support-layer reference the other 4 datasets' `government_schemes_summary`
+fields point back to conceptually.
+
+**Confidence-score discipline during enrichment**: a row's score could rise by at most +8 over its
+RC1 value, and only when a genuinely new, stronger corroborating source was found for a previously
+thin field — never simply because more columns were now populated. No score was ever lowered.
+Package-wide average rose from 70.5 (RC1) to 74.4 (v1.0.0); see `reports/confidence_analysis.md`.
+
+**A recurring bug and its fix**: across both RC1 and the v2 pass, individual research agents
+repeatedly wrote `PENDING_VERIFICATION - <explanation>` inline instead of the bare sentinel with the
+explanation in `notes`. This was caught and normalized via a validation script before every commit —
+20 fields in RC1, and 198 more (26 in food_agro, 89 in construction, 83 in digital_technology) during
+the v2 drafts — see `reports/business_opportunity_enrichment_summary.md` and
+`reports/validation_report.md` for the exact counts per dataset.

@@ -1,5 +1,67 @@
 # CHANGELOG — Package004_Industries_and_Livelihoods
 
+## [1.0.0] — 2026-07-24 — Stable, merged to main
+
+### Evolved: Industry Classification Package → Business Opportunity Knowledge Base
+
+Per explicit instruction, this release deep-enriches the package rather than adding more categories.
+4 of the 5 RC1 datasets (`food_agro_processing_micro_enterprises`, `construction_skilled_trade_services`,
+`digital_technology_livelihoods`, `china_inspired_adapted_opportunities`) were expanded from an 18/15-
+column "industry classification" schema to a 36-column "Business Opportunity" schema, adding: ideal
+target audience, minimum investment, working capital, machinery/equipment, raw materials, supplier
+ecosystem, customer segments, training providers, marketing channels, online selling options,
+estimated setup time, typical risks, seasonal factors, AI tools, automation opportunities,
+sustainability, future demand, related businesses, district suitability, and success stories. Row
+identities (`id`, names, categories, descriptions) and row counts (63 total) are unchanged.
+
+`msme_entrepreneurship_support_schemes` was deliberately left at its original 15-column schema — it
+characterizes support infrastructure (schemes/bodies), not opportunities a person starts. See
+`docs/METHODOLOGY.md` for the rationale.
+
+### Added
+- 24 new columns each in `food_agro_processing_micro_enterprises.csv`,
+  `construction_skilled_trade_services.csv`, and `digital_technology_livelihoods.csv`; 22 new columns
+  (plus 2 renamed/restructured identity columns) in `china_inspired_adapted_opportunities.csv`.
+- `reports/*.enrichment_v2_report.md` — one per enriched dataset, documenting field-by-field sourcing.
+- `reports/business_opportunity_enrichment_summary.md` — package-wide enrichment summary and the
+  full per-field fill-rate table.
+- `key_platforms_or_channels` retained and `skills_needed_summary` added to
+  `china_inspired_adapted_opportunities.csv` in place of `skill_level`.
+
+### Changed
+- `schemas/schema_catalog.json`, `registry/dataset_registry.csv`, `package_manifest.json`,
+  `metadata/*.metadata.json`, `package_health_report.md`, `validation_report.md` (both top-level and
+  `reports/`), `reports/coverage_report.md`, `reports/known_gaps.md`, `reports/confidence_analysis.md`,
+  `docs/METHODOLOGY.md`, `docs/USAGE.md`, `acquisition_backlog.json`, `codex_handoff.md`,
+  `integration_checklist.md`, `README.md` all updated to reflect the 36-column schema, revised
+  confidence statistics (range 55-85, average 74.4, up from RC1's 48-82 / 70.5), and Stable release
+  status.
+- `evidence/*.evidence_manifest.json` and `imports/*.import_manifest.json` version-bumped to 1.0.0.
+
+### Confidence & Sourcing Discipline
+- Confidence scores could rise by at most +8 over RC1 values during enrichment, only when genuinely
+  new corroborating sources were found; no score was ever lowered. Package-wide average rose from
+  70.5 to 74.4.
+- Tier-5 qualitative sourcing (founder interviews, forums, YouTube creators) was used, for the first
+  time in this package, in `china_inspired_adapted_opportunities.csv` only — explicitly flagged in
+  `notes` and confidence-capped below government/news-corroborated rows in the same dataset.
+- A recurring `PENDING_VERIFICATION - <explanation>` sentinel-format bug (agents appending an
+  explanation inline instead of using the bare sentinel with the explanation in `notes`) was found and
+  fixed via a validation script before every commit: 198 violations across the v2 enrichment drafts
+  (26 food_agro, 89 construction, 83 digital_technology; china_inspired's draft had 0), on top of the
+  20 found during RC1 assembly.
+
+### Known Issues
+- 320 of 1,890 fields (16.93%) across the 4 enriched datasets remain `PENDING_VERIFICATION` —
+  concentrated in `minimum_investment`, `estimated_setup_time_summary`, `seasonal_factors_summary`,
+  `working_capital_summary`, `sustainability_summary`, and `ai_tools_summary`. See
+  `reports/business_opportunity_enrichment_summary.md` for the exact per-field table.
+- Estimated Monthly Revenue Range remains dropped from the schema entirely — no reliable public
+  source exists.
+- No row in this release has been promoted to `VST-VERIFIED`.
+- ~145 of ~150 briefed sub-categories remain BLOCKED/QUEUED — this release added field depth, not new
+  domains. See `acquisition_backlog.json`.
+
 ## [1.0.0-RC1] — 2026-07-22 — NOT MERGED TO MAIN
 
 ### Added

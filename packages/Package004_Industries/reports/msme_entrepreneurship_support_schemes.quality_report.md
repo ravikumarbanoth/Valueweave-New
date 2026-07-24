@@ -1,4 +1,4 @@
-# Quality Report — msme_entrepreneurship_support_schemes (v1.0.0-RC1)
+# Quality Report — msme_entrepreneurship_support_schemes (v1.0.0, unchanged from RC1)
 
 - Total records: 18
 - Confidence score range: 70–82

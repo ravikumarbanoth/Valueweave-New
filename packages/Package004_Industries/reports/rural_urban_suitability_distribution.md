@@ -1,4 +1,7 @@
-# Package004_Industries_and_Livelihoods v1.0.0-RC1 — Rural/Urban Suitability Distribution
+# Package004_Industries_and_Livelihoods v1.0.0 — Rural/Urban Suitability Distribution
+
+Unchanged from RC1 — the v2 enrichment pass (2026-07-24) did not alter `rural_urban_suitability`
+values in any row.
 
 ## food_agro_processing_micro_enterprises
 

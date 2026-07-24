@@ -1,6 +1,14 @@
 # Raw Source Inventory — china_inspired_adapted_opportunities
 
-Total distinct sources cited across 9 rows: **9**
+**Note (v1.0.0):** this inventory reflects the RC1 collection pass (2026-07-22). The v2
+deep-enrichment pass (2026-07-24) added substantially more cited sources (including disclosed Tier-5
+qualitative sources) directly into the CSV's `source_url` column (semicolon-separated per row) — this
+file was not regenerated line-by-line for those. Treat
+`datasets/china_inspired_adapted_opportunities.csv` itself and
+`reports/china_inspired_adapted_opportunities.enrichment_v2_report.md` as canonical for the full
+post-enrichment source list; this file remains accurate for the original RC1-era sources below.
+
+Total distinct sources cited across 9 rows at RC1 (2026-07-22): **9**
 
 All sources were accessed via the WebSearch tool (result snippets), not direct page fetch — see `evidence/china_inspired_adapted_opportunities.evidence_manifest.json`.
 

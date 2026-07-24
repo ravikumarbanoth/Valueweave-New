@@ -1,6 +1,6 @@
 {
   "package": "Package004_Industries_and_Livelihoods",
-  "version": "1.0.0-RC1",
+  "version": "1.0.0",
   "import_order": [
     "msme_entrepreneurship_support_schemes",
     "food_agro_processing_micro_enterprises",

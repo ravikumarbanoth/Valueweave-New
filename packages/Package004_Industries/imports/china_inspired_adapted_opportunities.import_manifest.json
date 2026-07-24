@@ -1,7 +1,7 @@
 {
   "dataset_name": "china_inspired_adapted_opportunities",
   "package": "Package004_Industries_and_Livelihoods",
-  "version": "1.0.0-RC1",
+  "version": "1.0.0",
   "file": "datasets/china_inspired_adapted_opportunities.csv",
   "record_count": 9,
   "primary_key": "id",

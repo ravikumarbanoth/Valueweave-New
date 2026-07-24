@@ -1,4 +1,7 @@
-# Package004_Industries_and_Livelihoods v1.0.0-RC1 — Duplicate Analysis
+# Package004_Industries_and_Livelihoods v1.0.0 — Duplicate Analysis
+
+Re-verified after the v2 deep-enrichment pass — row identities (`id` values) were preserved unchanged
+across enrichment in all 4 opportunity datasets, so this analysis still holds.
 
 ## msme_entrepreneurship_support_schemes
 

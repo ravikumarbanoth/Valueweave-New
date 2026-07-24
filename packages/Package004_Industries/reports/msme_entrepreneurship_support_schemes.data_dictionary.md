@@ -1,4 +1,4 @@
-# Data Dictionary — msme_entrepreneurship_support_schemes (v1.0.0-RC1)
+# Data Dictionary — msme_entrepreneurship_support_schemes (v1.0.0, unchanged from RC1)
 
 Records: 18
 

@@ -1,4 +1,7 @@
-# Package004_Industries_and_Livelihoods v1.0.0-RC1 — Category & Sub-Category Statistics
+# Package004_Industries_and_Livelihoods v1.0.0 — Category & Sub-Category Statistics
+
+Unchanged from RC1 — the v2 enrichment pass (2026-07-24) added fields per row, not new
+categories/sub-categories or rows.
 
 ## msme_entrepreneurship_support_schemes (by type)
 

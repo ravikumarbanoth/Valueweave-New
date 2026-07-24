@@ -88,7 +88,7 @@ When adding a new package:
 | Package001_Geography | Geography | Released v1.0.0 |
 | Package002_Education | Education | Released v1.0.0 (partial scope — see package acquisition_backlog.json) |
 | Package003_Healthcare | Healthcare | Released v1.0.0 (partial scope — see package acquisition_backlog.json) |
-| Package004_Industries | Industries & Livelihoods | RC1 under review — not yet merged to main (see package acquisition_backlog.json) |
+| Package004_Industries | Industries & Livelihoods | Released v1.0.0 (Business Opportunity Knowledge Base — partial scope, see package acquisition_backlog.json) |
 | Package005_Agriculture | Agriculture | Empty placeholder |
 | Package006_Skills | Skills | Empty placeholder |
 | Package007_Government_Schemes | Government Schemes | Empty placeholder |

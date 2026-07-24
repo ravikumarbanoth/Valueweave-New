@@ -1,0 +1,64 @@
+{
+  "dataset_name": "food_agro_processing_micro_enterprises",
+  "package": "Package004_Industries_and_Livelihoods",
+  "version": "1.0.0",
+  "fetch_method": "WebSearch tool result snippets only (WebFetch blocked -- see note)",
+  "webfetch_blocked_note": "This session's organizational egress proxy returned HTTP 403 (policy denial, confirmed via a live test fetch immediately before collection began) for every direct WebFetch attempt against .gov.in, .ac.in, .nic.in, and similar domains. All facts were sourced from WebSearch tool result snippets, each cited by URL. Confidence scores were capped accordingly, and no numeric investment/revenue figure was accepted without a specific citable source -- generic blog/portal estimates are described qualitatively rather than presented as verified figures.",
+  "distinct_sources_cited": 13,
+  "total_rows": 13,
+  "sources": [
+    {
+      "source_url": "https://msmedihyderabad.gov.in/ ; https://www.kviconline.gov.in/pmegpeportal/dashboard/notification/PMEGP_Guidelines_Certified_2022_3.pdf ; https://pmfme.mofpi.gov.in/ ; https://www.apexports.ap.gov.in/assets/gallery/AP%20Food%20Processing%20Policy%20(4.0)%20%202024-29.pdf",
+      "data_source": "MSME-DI Hyderabad District Industrial Profile; KVIC/PMEGP guidelines (kviconline.gov.in); PMFME scheme portal (pmfme.mofpi.gov.in); Government of Telangana MSME Policy Order; AP Food Processing Policy 4.0"
+    },
+    {
+      "source_url": "https://niftem.ac.in/newsite/pmfme/wp-content/uploads/2022/07/maizedpr.pdf ; https://pmfmersamb.rajasthan.gov.in/writereaddata/News/02012023122336PMModel%20DPR%20-%20Wheat%20flour%20mill.pdf",
+      "data_source": "PMFME Model DPR - Maize Flour Mill Unit (NIFTEM, hosted under MoFPI's PMFME scheme); PMFME Model DPR - Wheat Flour Mill Unit (Rajasthan PMFME SNA hosting the same central model DPR)"
+    },
+    {
+      "source_url": "https://www.kviconline.gov.in/pmegp/pmegpweb/docs/commonprojectprofile/SpiceGrindingUnit.pdf ; https://www.kviconline.gov.in/pmegp/pmegpweb/docs/commonprojectprofile/cuminpowderfinal.pdf ; https://msmedihyderabad.gov.in/",
+      "data_source": "KVIC/PMEGP common project profiles (kviconline.gov.in): Masala Making Unit, Spice Grinding Unit, Cumin Powder; MSME-DI Hyderabad Brief Industrial Profile (turmeric-producer fact)"
+    },
+    {
+      "source_url": "https://www.kviconline.gov.in/pmegp/pmegpweb/docs/commonprojectprofile/ChilliPowder.pdf ; https://niftem.ac.in/newsite/pmfme/wp-content/uploads/2022/08/byadgichillidpr.pdf ; https://www.apexports.ap.gov.in/assets/gallery/AP%20Food%20Processing%20Policy%20(4.0)%20%202024-29.pdf",
+      "data_source": "KVIC/PMEGP project profile 'Red Chilli Powder Production Unit' (kviconline.gov.in); PMFME Model DPR - Byadgi Chilli Processing Unit (NIFTEM); MSME-DI Hyderabad Brief Industrial Profile"
+    },
+    {
+      "source_url": "https://www.kviconline.gov.in/pmegp/pmegpweb/docs/commonprojectprofile/MASALA%20MAKING%20UNIT%20(SMALL).pdf",
+      "data_source": "KVIC (Khadi and Village Industries Commission) / PMEGP official common project profile: 'MASALA MAKING UNIT (SMALL)'"
+    },
+    {
+      "source_url": "https://www.kviconline.gov.in/pmegp/pmegpweb/docs/commonprojectprofile/MASALA%20MAKING%20UNIT%20(MEDIUM).pdf",
+      "data_source": "KVIC (Khadi and Village Industries Commission) / PMEGP official common project profile: 'MASALA MAKING UNIT (MEDIUM)'"
+    },
+    {
+      "source_url": "https://www.kviconline.gov.in/pmegp/pmegpweb/docs/commonprojectprofile/HandmadePickle.pdf ; https://www.kviconline.gov.in/pmegp/pmegpweb/docs/commonprojectprofile/LimePickle.pdf ; https://www.kviconline.gov.in/pmegp/pmegpweb/docs/commonprojectprofile/PROJECT%20PROFILE%20ON%20TOMATO%20PRODUCTS%20AND%20PICKLES.pdf",
+      "data_source": "KVIC/PMEGP common project profiles: Handmade Pickle, Lime Pickle, Tomato Products and Pickles (kviconline.gov.in); RSETI training press coverage; AP Food Processing Policy 4.0"
+    },
+    {
+      "source_url": "https://www.kviconline.gov.in/pmegp/pmegpweb/docs/commonprojectprofile/HandmadePickle.pdf ; https://www.kviconline.gov.in/pmegp/pmegpweb/docs/commonprojectprofile/LimePickle.pdf",
+      "data_source": "KVIC/PMEGP common project profiles: Handmade Pickle, Lime Pickle (kviconline.gov.in); Government of Telangana MSME Policy Order"
+    },
+    {
+      "source_url": "https://www.kviconline.gov.in/pmegp/pmegpweb/docs/commonprojectprofile/PROJECT%20PROFILE%20ON%20GROUNDNUT%20OIL%20AND%20OIL%20CAKE%20MANUAFCURING.pdf",
+      "data_source": "KVIC (Khadi and Village Industries Commission) / PMEGP official common project profile: 'PROJECT PROFILE ON GROUNDNUT OIL AND OIL CAKE MANUFACTURING'"
+    },
+    {
+      "source_url": "https://www.apexports.ap.gov.in/assets/gallery/AP%20Food%20Processing%20Policy%20(4.0)%20%202024-29.pdf",
+      "data_source": "Generic PMFME/AP Food Processing Policy scheme facts (see other rows); no coconut-oil-specific government project profile confirmed this session"
+    },
+    {
+      "source_url": "https://www.pib.gov.in/PressReleaseIframePage.aspx?PRID=1947884 ; https://agrospectrumindia.com/2023/09/17/telangana-inaugurates-the-first-of-its-kind-millet-incubation-centre-at-hyderabad.html ; https://telanganatoday.com/telangana-bhupalpally-swears-by-millets-as-farmers-turn-to-cereal-grains",
+      "data_source": "PMFME Model DPR - Ragi/Small Millets Processing Unit (hosted on state PMFME portals); PIB/Agro Spectrum India coverage of Telangana's PJTSAU Millet Incubation Centre; Telangana Today news report on Chelpur unit; IIMR FPO-support data"
+    },
+    {
+      "source_url": "https://www.pib.gov.in/PressReleaseIframePage.aspx?PRID=1947884",
+      "data_source": "PIB press release on IIMR's millet-promotion/FPO-support activities"
+    },
+    {
+      "source_url": "https://shm.tg.nic.in/Scheme.html ; https://tssoca.telangana.gov.in/indian-seed-processing-units/ ; https://seednet.gov.in/material/prog-schemes.htm",
+      "data_source": "Government of Telangana Horticulture/MIDH scheme page (shm.tg.nic.in); TSSOCA (Telangana State Seed & Organic Certification Authority); seednet.gov.in (Dept. of Agriculture & Farmers Welfare seed schemes portal)"
+    }
+  ],
+  "collection_report_reference": "reports/food_agro_processing_micro_enterprises.collection_report.md"
+}

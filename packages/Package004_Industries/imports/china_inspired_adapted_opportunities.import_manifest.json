@@ -1,0 +1,16 @@
+{
+  "dataset_name": "china_inspired_adapted_opportunities",
+  "package": "Package004_Industries_and_Livelihoods",
+  "version": "1.0.0",
+  "file": "datasets/china_inspired_adapted_opportunities.csv",
+  "record_count": 9,
+  "primary_key": "id",
+  "foreign_keys": [],
+  "validation_checks": [
+    "primary key (id) uniqueness \u2014 100% pass, verified at build time",
+    "column count matches schema_catalog.json \u2014 100% pass",
+    "verification_status defaults to VST-NEEDS_REVIEW on import \u2014 enforced",
+    "no fabricated numeric investment/revenue figures \u2014 PENDING_VERIFICATION sentinel used wherever a fact could not be sourced to a specific government/authoritative document"
+  ],
+  "rollback_strategy": "Dataset is a standalone CSV with no downstream foreign keys in this release; rollback is a straight file revert with no cascading cleanup required."
+}

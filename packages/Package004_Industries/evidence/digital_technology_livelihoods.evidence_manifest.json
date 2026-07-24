@@ -1,0 +1,56 @@
+{
+  "dataset_name": "digital_technology_livelihoods",
+  "package": "Package004_Industries_and_Livelihoods",
+  "version": "1.0.0",
+  "fetch_method": "WebSearch tool result snippets only (WebFetch blocked -- see note)",
+  "webfetch_blocked_note": "This session's organizational egress proxy returned HTTP 403 (policy denial, confirmed via a live test fetch immediately before collection began) for every direct WebFetch attempt against .gov.in, .ac.in, .nic.in, and similar domains. All facts were sourced from WebSearch tool result snippets, each cited by URL. Confidence scores were capped accordingly, and no numeric investment/revenue figure was accepted without a specific citable source -- generic blog/portal estimates are described qualitatively rather than presented as verified figures.",
+  "distinct_sources_cited": 11,
+  "total_rows": 12,
+  "sources": [
+    {
+      "source_url": "https://it.telangana.gov.in/initiatives/t-hub/ | https://www.startupindia.gov.in | https://it.telangana.gov.in/initiatives/task/ | https://www.futureskillsprime.in/",
+      "data_source": "WebSearch (secondary aggregation of government portals, industry/NASSCOM sources, and portal blogs); direct WebFetch to .gov.in domains blocked by session egress policy"
+    },
+    {
+      "source_url": "https://it.telangana.gov.in/initiatives/t-hub/ | https://apit.ap.gov.in/?page_id=1762 | https://www.startupindia.gov.in",
+      "data_source": "WebSearch (secondary aggregation of government portals, industry/NASSCOM sources, and portal blogs); direct WebFetch to .gov.in domains blocked by session egress policy"
+    },
+    {
+      "source_url": "https://www.skillindiadigital.gov.in/free-online-courses/ | https://it.telangana.gov.in/initiatives/task/",
+      "data_source": "WebSearch (secondary aggregation of government portals, industry/NASSCOM sources, and portal blogs); direct WebFetch to .gov.in domains blocked by session egress policy"
+    },
+    {
+      "source_url": "https://it.telangana.gov.in/initiatives/t-hub/ | https://apit.ap.gov.in/?page_id=1762",
+      "data_source": "WebSearch (secondary aggregation of government portals, industry/NASSCOM sources, and portal blogs); direct WebFetch to .gov.in domains blocked by session egress policy"
+    },
+    {
+      "source_url": "https://programs.t-hub.co/rubrix-cohort-4/ | https://wehub.telangana.gov.in/ | https://www.futureskillsprime.in/",
+      "data_source": "WebSearch (secondary aggregation of government portals, industry/NASSCOM sources, and portal blogs); direct WebFetch to .gov.in domains blocked by session egress policy"
+    },
+    {
+      "source_url": "https://wehub.telangana.gov.in/ | https://www.skillindiadigital.gov.in/free-online-courses/",
+      "data_source": "WebSearch (secondary aggregation of government portals, industry/NASSCOM sources, and portal blogs); direct WebFetch to .gov.in domains blocked by session egress policy"
+    },
+    {
+      "source_url": "https://www.skillindiadigital.gov.in/free-online-courses/ | https://wehub.telangana.gov.in/",
+      "data_source": "WebSearch (secondary aggregation of government portals, industry/NASSCOM sources, and portal blogs); direct WebFetch to .gov.in domains blocked by session egress policy"
+    },
+    {
+      "source_url": "https://programs.t-hub.co/rubrix-cohort-4/ | https://www.futureskillsprime.in/ | https://it.telangana.gov.in/initiatives/task/",
+      "data_source": "WebSearch (secondary aggregation of government portals, industry/NASSCOM sources, and portal blogs); direct WebFetch to .gov.in domains blocked by session egress policy"
+    },
+    {
+      "source_url": "https://programs.t-hub.co/rubrix-cohort-4/ | https://www.skillindiadigital.gov.in/free-online-courses/",
+      "data_source": "WebSearch (secondary aggregation of government portals, industry/NASSCOM sources, and portal blogs); direct WebFetch to .gov.in domains blocked by session egress policy"
+    },
+    {
+      "source_url": "https://it.telangana.gov.in/initiatives/task/ | https://www.futureskillsprime.in/",
+      "data_source": "WebSearch (secondary aggregation of government portals, industry/NASSCOM sources, and portal blogs); direct WebFetch to .gov.in domains blocked by session egress policy"
+    },
+    {
+      "source_url": "https://missiontelangana.com/telangana-governments-it-towers-propelling-it-growth-in-tier-ii-cities/ | https://invest.telangana.gov.in/wp-content/uploads/2024/07/Telangana-ICT-Policy-Framework-2016-1.pdf | https://it.telangana.gov.in/initiatives/task/",
+      "data_source": "WebSearch (secondary aggregation of government portals, industry/NASSCOM sources, and portal blogs); direct WebFetch to .gov.in domains blocked by session egress policy"
+    }
+  ],
+  "collection_report_reference": "reports/digital_technology_livelihoods.collection_report.md"
+}

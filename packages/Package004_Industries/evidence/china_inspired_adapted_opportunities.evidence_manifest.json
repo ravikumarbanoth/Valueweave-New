@@ -1,0 +1,48 @@
+{
+  "dataset_name": "china_inspired_adapted_opportunities",
+  "package": "Package004_Industries_and_Livelihoods",
+  "version": "1.0.0",
+  "fetch_method": "WebSearch tool result snippets only (WebFetch blocked -- see note)",
+  "webfetch_blocked_note": "This session's organizational egress proxy returned HTTP 403 (policy denial, confirmed via a live test fetch immediately before collection began) for every direct WebFetch attempt against .gov.in, .ac.in, .nic.in, and similar domains. All facts were sourced from WebSearch tool result snippets, each cited by URL. Confidence scores were capped accordingly, and no numeric investment/revenue figure was accepted without a specific citable source -- generic blog/portal estimates are described qualitatively rather than presented as verified figures.",
+  "distinct_sources_cited": 9,
+  "total_rows": 9,
+  "sources": [
+    {
+      "source_url": "https://www.icarry.in/pages/blog/meesho-seller-guide.html; https://www.fretron.com/guides/sell-on-flipkart/; https://sell.amazon.in/sell-online/seller-registration-guide; https://nealschaffer.com/instagram-shopping-features/",
+      "data_source": "WebSearch aggregation of seller-guide and platform documentation sources"
+    },
+    {
+      "source_url": "https://creatorflow.so/blog/instagram-live-shopping/; https://support.google.com/youtube/answer/12257682; https://www.businesstoday.in/technology/news/story/youtube-shopping-now-in-india-affiliate-program-to-expand-creator-revenue-streams-451645-2024-10-26; https://www.ceoinsightsindia.com/news/meesho-s-new-platform-enhances-shopping-experience-with-influencerled-content-nwid-20063.html",
+      "data_source": "WebSearch aggregation of platform and industry-blog sources"
+    },
+    {
+      "source_url": "https://www.sulekha.com/lehenga-on-rent/hyderabad; https://www.sulekha.com/lehenga-on-rent/visakhapatnam; https://www.sulekha.com/bridal-wear-on-rent/vijayawada; https://sanafabrics.in/sarees-that-define-telanganas-style-legacy; https://www.iifl.com/blogs/business-loan/pmegp-vs-mudra-loan",
+      "data_source": "WebSearch aggregation of business directories and industry articles"
+    },
+    {
+      "source_url": "https://www.messagecentral.com/blog/whatsapp-business-api-complete-guide; https://inc42.com/startups/how-dukaans-mobile-first-approach-led-to-building-a-shopify-rival-for-indian-smbs/; https://mydukaan.io/; https://www.cbinsights.com/compare/dukaan-vs-instamojo",
+      "data_source": "WebSearch aggregation of platform/industry sources"
+    },
+    {
+      "source_url": "https://enam.gov.in/web/resources/registration-guideline; https://sfacindia.com/PDFs/List-of-FPO%20identified-by-NONSFAC/List%20of%20FPOs%20in%20the%20State%20of%20Telangana.pdf; https://unicommerce.com/blog/what-is-ondc/; https://thebetterindia.com/252185/ahmednagar-maharashtra-farmer-kisankonnect-farm-to-door-fresh-vegetable-agriculture-hygiene-health-lockdown-business-earns-lakhs-him16/",
+      "data_source": "WebSearch aggregation of government-scheme-adjacent secondary sources (direct .gov.in fetch blocked this session)"
+    },
+    {
+      "source_url": "https://tourism.telangana.gov.in/storage/app/media/HOMESTAY%20GUDELINES.pdf; https://www.travelandtourworld.com/news/article/telangana-government-launches-game-changing-homestay-scheme-to-promote-authentic-regional-stays-boost-rural-tourism-and-provide-unforgettable-local-experiences/; https://www.yovizag.com/visakhapatnam-locals-can-now-register-their-homes-as-homestays-tourism-dept/",
+      "data_source": "WebSearch aggregation of state tourism department announcements and news coverage"
+    },
+    {
+      "source_url": "https://www.indianretailer.com/article/retail-business/retail-trends/how-whatsapp-commerce-fuelling-direct-consumer-sales-india; https://watease.com/whatsapp-commerce-india",
+      "data_source": "WebSearch aggregation of industry/commerce blog sources"
+    },
+    {
+      "source_url": "https://joinbrands.com/blog/instagram-shop-2026/; https://www.businesstoday.in/technology/news/story/youtube-shopping-now-in-india-affiliate-program-to-expand-creator-revenue-streams-451645-2024-10-26; https://www.buzzincontent.com/insight/indian-influencers-earn-35-more-from-product-sales-in-2026-12148882",
+      "data_source": "WebSearch aggregation of platform/industry-trend sources"
+    },
+    {
+      "source_url": "https://www.impriindia.com/insights/common-services-centres-scheme-india/; https://csc.gov.in/vle; https://tsfps.telangana.gov.in/pmfme/one-district-one-product-approach/; https://www.pmfmeap.org/content-page/one-district-one-product",
+      "data_source": "WebSearch aggregation of policy-analysis and scheme-portal sources"
+    }
+  ],
+  "collection_report_reference": "reports/china_inspired_adapted_opportunities.collection_report.md"
+}

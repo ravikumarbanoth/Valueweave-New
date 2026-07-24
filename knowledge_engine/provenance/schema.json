@@ -1,0 +1,55 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ValueWeave ProvenanceRecord",
+  "description": "The canonical 8-field provenance model shared by every ValueWeave package since Package001_Geography. Mirrors knowledge_engine/core/provenance.py's ProvenanceRecord dataclass.",
+  "type": "object",
+  "required": ["source", "source_url", "collection_date", "collector", "confidence", "verification_status"],
+  "properties": {
+    "source": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Human-readable description of the source, e.g. 'data.gov.in Open Government Data Platform'."
+    },
+    "source_url": {
+      "type": "array",
+      "items": { "type": "string", "format": "uri" },
+      "minItems": 1,
+      "description": "One or more URLs the fact was drawn from."
+    },
+    "collection_date": {
+      "type": "string",
+      "format": "date",
+      "description": "The date this fact was first collected (ISO 8601)."
+    },
+    "last_verified": {
+      "type": ["string", "null"],
+      "format": "date",
+      "description": "The date this fact was last re-checked against its source. Equals collection_date until a re-verification pass updates it."
+    },
+    "collector": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The name and version of the Collector/Parser pipeline that produced this record, e.g. 'csv_collector.CSVCollector/0.1.0'."
+    },
+    "confidence": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Confidence score calibrated per core.types.ConfidenceTier: 70-100 government-grade, 55-69 portal/news, 0-54 community/qualitative."
+    },
+    "verification_status": {
+      "type": "string",
+      "enum": ["VST-NEEDS_REVIEW", "VST-VERIFIED", "VST-REJECTED"],
+      "description": "Every record is created at VST-NEEDS_REVIEW. Promotion to VST-VERIFIED is a governance action, never automatic."
+    },
+    "package_version": {
+      "type": ["string", "null"],
+      "description": "The semantic version of the package this record was collected for/into. Null while still in staging."
+    },
+    "notes": {
+      "type": "string",
+      "description": "Free-text context. Required whenever any field on the parent record holds the PENDING_VERIFICATION sentinel, formatted '[field_name]: explanation'."
+    }
+  },
+  "additionalProperties": false
+}

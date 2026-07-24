@@ -1,0 +1,36 @@
+{
+  "_comment": "Example Knowledge Engine configuration. Not loaded automatically by any module in this release — this documents the shape a future config-loader (ROADMAP.md Phase 1+) would read, and doubles as a reference for how to wire collectors/validation/package-builder settings together by hand today.",
+  "collectors": {
+    "msme_schemes_csv": {
+      "type": "csv_collector",
+      "source": "https://example.gov.in/open-data/msme-schemes.csv",
+      "encoding": "utf-8"
+    },
+    "scheme_updates_rss": {
+      "type": "rss_collector",
+      "source": "https://example.gov.in/press-releases/feed.rss"
+    }
+  },
+  "validation_rulesets": {
+    "business_opportunity_dataset": [
+      { "rule": "required_fields", "fields": ["id", "name", "data_source", "source_url", "collection_date", "confidence_score", "verification_status"] },
+      { "rule": "duplicate_detection", "key_fields": ["id"] },
+      { "rule": "source_validation", "allow_local_paths": false },
+      { "rule": "confidence_scoring", "max_score": 85 },
+      { "rule": "data_freshness", "max_age_days": 365, "date_field": "last_verified" }
+    ]
+  },
+  "package_defaults": {
+    "release_status_rc": "Release Candidate — awaiting review before promotion to Stable.",
+    "release_status_stable": "Stable — merged to main.",
+    "confidence_cap_default": 85
+  },
+  "update_engine": {
+    "cadence_days": {
+      "msme_schemes_csv": 30,
+      "scheme_updates_rss": 7
+    },
+    "auto_advance_to": "PENDING_HUMAN_APPROVAL",
+    "auto_advance_past_approval": false
+  }
+}

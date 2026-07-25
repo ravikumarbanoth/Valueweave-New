@@ -1,0 +1,20 @@
+entity_type,entity_type_slug,owner_package,description,entity_count
+District,district,Package001_Geography,Administrative district; the finest geographic unit in the graph,61
+State,state,Package001_Geography,Indian state or union territory,2
+Country,country,Package001_Geography,"Sovereign country, including India and export destinations",1
+Institution,institution,Package002_Education,Degree-granting or research institution,66
+Skill,skill,Package006_Skills_and_Training,A discrete employable skill,45
+Certification,certification,Package006_Skills_and_Training,A named certification or qualification pack,30
+TrainingProvider,trainingprovider,Package006_Skills_and_Training,An organisation or network that delivers training,25
+Industry,industry,Package004_Industries,An industry or livelihood sector classification,78
+BusinessOpportunity,businessopportunity,Package004_Industries,A characterised business opportunity,45
+MSME,msme,Package008_MSME,An MSME business opportunity profile,40
+GovernmentScheme,governmentscheme,Package007_Government_Schemes,"A government scheme, programme or entitlement",40
+Crop,crop,Package005_Agriculture,An agricultural crop,45
+Soil,soil,Package005_Agriculture,A soil classification,10
+ClimateZone,climatezone,Package005_Agriculture,An agro-climatic zone,8
+Machinery,machinery,Package005_Agriculture,"A machine, equipment class or plant item",69
+RawMaterial,rawmaterial,Package008_MSME,A production input that is not itself a crop entity,21
+Market,market,Package008_MSME,A sales or distribution channel,11
+ExportCountry,exportcountry,Package001_Geography,A country appearing as an export destination,29
+FinancialInstitution,financialinstitution,Package007_Government_Schemes,"A bank, development financial institution or fund",21

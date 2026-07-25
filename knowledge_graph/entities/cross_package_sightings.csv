@@ -1,0 +1,10 @@
+global_entity_id,entity_type,canonical_name,owner_package,also_seen_in,also_seen_local_id
+vw:industry:manufacturing,Industry,Manufacturing,Package004_Industries,Package008_MSME,mc-001
+vw:industry:agriculture-and-allied,Industry,Agriculture and Allied,Package004_Industries,Package008_MSME,mc-007
+vw:industry:tourism-and-hospitality,Industry,Tourism and Hospitality,Package004_Industries,Package008_MSME,mc-021
+vw:financialinstitution:regional-rural-banks,FinancialInstitution,Regional Rural Banks,Package007_Government_Schemes,Package008_MSME,fin-002
+vw:financialinstitution:sidbi,FinancialInstitution,SIDBI,Package007_Government_Schemes,Package008_MSME,fin-003
+vw:financialinstitution:nabard,FinancialInstitution,NABARD,Package007_Government_Schemes,Package008_MSME,fin-004
+vw:industry:renewable-energy,Industry,Renewable Energy,Package008_MSME,Package004_Industries,p006:renewable-energy
+vw:industry:renewable-energy,Industry,Renewable Energy,Package008_MSME,Package004_Industries,p006:renewable-energy
+vw:industry:textiles-and-apparel,Industry,Textiles & Apparel,Package008_MSME,Package004_Industries,p006:textiles-and-apparel

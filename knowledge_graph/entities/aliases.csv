@@ -1,0 +1,151 @@
+alias_id,global_entity_id,alias,alias_type,source_package
+vwa:country:india:bharat,vw:country:india,Bharat,VARIANT,Package001_Geography
+vwa:country:india:in,vw:country:india,IN,SHORT_FORM,Package001_Geography
+vwa:state:telangana:tg,vw:state:telangana,TG,SHORT_FORM,Package001_Geography
+vwa:state:telangana:tg,vw:state:telangana,TG,SHORT_FORM,Package001_Geography
+vwa:state:andhra-pradesh:ap,vw:state:andhra-pradesh,AP,SHORT_FORM,Package001_Geography
+vwa:state:andhra-pradesh:ap,vw:state:andhra-pradesh,AP,SHORT_FORM,Package001_Geography
+vwa:district:adilabad:tg-adb,vw:district:adilabad,TG-ADB,SHORT_FORM,Package001_Geography
+vwa:district:kumuram-bheem-asifabad:tg-kba,vw:district:kumuram-bheem-asifabad,TG-KBA,SHORT_FORM,Package001_Geography
+vwa:district:mancherial:tg-mcl,vw:district:mancherial,TG-MCL,SHORT_FORM,Package001_Geography
+vwa:district:nirmal:tg-nrm,vw:district:nirmal,TG-NRM,VARIANT,Package001_Geography
+vwa:district:nizamabad:tg-nzb,vw:district:nizamabad,TG-NZB,SHORT_FORM,Package001_Geography
+vwa:district:jagtial:tg-jgt,vw:district:jagtial,TG-JGT,SHORT_FORM,Package001_Geography
+vwa:district:peddapalli:tg-pdp,vw:district:peddapalli,TG-PDP,SHORT_FORM,Package001_Geography
+vwa:district:kamareddy:tg-kmr,vw:district:kamareddy,TG-KMR,SHORT_FORM,Package001_Geography
+vwa:district:rajanna-sircilla:tg-rsl,vw:district:rajanna-sircilla,TG-RSL,SHORT_FORM,Package001_Geography
+vwa:district:karimnagar:tg-krm,vw:district:karimnagar,TG-KRM,SHORT_FORM,Package001_Geography
+vwa:district:jayashankar-bhupalpally:tg-jsb,vw:district:jayashankar-bhupalpally,TG-JSB,SHORT_FORM,Package001_Geography
+vwa:district:sangareddy:tg-sng,vw:district:sangareddy,TG-SNG,SHORT_FORM,Package001_Geography
+vwa:district:medak:tg-mdk,vw:district:medak,TG-MDK,VARIANT,Package001_Geography
+vwa:district:siddipet:tg-sdp,vw:district:siddipet,TG-SDP,SHORT_FORM,Package001_Geography
+vwa:district:jangaon:tg-jng,vw:district:jangaon,TG-JNG,SHORT_FORM,Package001_Geography
+vwa:district:hanumakonda:tg-hnk,vw:district:hanumakonda,TG-HNK,SHORT_FORM,Package001_Geography
+vwa:district:warangal:tg-wgl,vw:district:warangal,TG-WGL,SHORT_FORM,Package001_Geography
+vwa:district:mulugu:tg-mlg,vw:district:mulugu,TG-MLG,VARIANT,Package001_Geography
+vwa:district:bhadradri-kothagudem:tg-bkg,vw:district:bhadradri-kothagudem,TG-BKG,SHORT_FORM,Package001_Geography
+vwa:district:khammam:tg-khm,vw:district:khammam,TG-KHM,SHORT_FORM,Package001_Geography
+vwa:district:mahabubabad:tg-mbd,vw:district:mahabubabad,TG-MBD,SHORT_FORM,Package001_Geography
+vwa:district:suryapet:tg-sry,vw:district:suryapet,TG-SRY,SHORT_FORM,Package001_Geography
+vwa:district:nalgonda:tg-nlg,vw:district:nalgonda,TG-NLG,SHORT_FORM,Package001_Geography
+vwa:district:yadadri-bhuvanagiri:tg-ydb,vw:district:yadadri-bhuvanagiri,TG-YDB,SHORT_FORM,Package001_Geography
+vwa:district:medchal-malkajgiri:tg-mcg,vw:district:medchal-malkajgiri,TG-MCG,SHORT_FORM,Package001_Geography
+vwa:district:hyderabad:tg-hyd,vw:district:hyderabad,TG-HYD,SHORT_FORM,Package001_Geography
+vwa:district:ranga-reddy:tg-rrd,vw:district:ranga-reddy,TG-RRD,SHORT_FORM,Package001_Geography
+vwa:district:vikarabad:tg-vkb,vw:district:vikarabad,TG-VKB,SHORT_FORM,Package001_Geography
+vwa:district:narayanpet:tg-nrp,vw:district:narayanpet,TG-NRP,SHORT_FORM,Package001_Geography
+vwa:district:mahabubnagar:tg-mbn,vw:district:mahabubnagar,TG-MBN,SHORT_FORM,Package001_Geography
+vwa:district:nagarkurnool:tg-ngk,vw:district:nagarkurnool,TG-NGK,SHORT_FORM,Package001_Geography
+vwa:district:wanaparthy:tg-wnp,vw:district:wanaparthy,TG-WNP,SHORT_FORM,Package001_Geography
+vwa:district:jogulamba-gadwal:tg-jgd,vw:district:jogulamba-gadwal,TG-JGD,SHORT_FORM,Package001_Geography
+vwa:district:srikakulam:ap-sri,vw:district:srikakulam,AP-SRI,SHORT_FORM,Package001_Geography
+vwa:district:parvathipuram-manyam:ap-par,vw:district:parvathipuram-manyam,AP-PAR,SHORT_FORM,Package001_Geography
+vwa:district:vizianagaram:ap-viz,vw:district:vizianagaram,AP-VIZ,SHORT_FORM,Package001_Geography
+vwa:district:visakhapatnam:ap-vis,vw:district:visakhapatnam,AP-VIS,SHORT_FORM,Package001_Geography
+vwa:district:alluri-sitharama-raju:ap-all,vw:district:alluri-sitharama-raju,AP-ALL,SHORT_FORM,Package001_Geography
+vwa:district:anakapalli:ap-ank,vw:district:anakapalli,AP-ANK,SHORT_FORM,Package001_Geography
+vwa:district:polavaram:ap-pol,vw:district:polavaram,AP-POL,SHORT_FORM,Package001_Geography
+vwa:district:kakinada:ap-kak,vw:district:kakinada,AP-KAK,SHORT_FORM,Package001_Geography
+vwa:district:east-godavari:ap-eas,vw:district:east-godavari,AP-EAS,SHORT_FORM,Package001_Geography
+vwa:district:dr-b-r-ambedkar-konaseema:ap-kon,vw:district:dr-b-r-ambedkar-konaseema,AP-KON,SHORT_FORM,Package001_Geography
+vwa:district:eluru:ap-elu,vw:district:eluru,AP-ELU,VARIANT,Package001_Geography
+vwa:district:west-godavari:ap-wes,vw:district:west-godavari,AP-WES,SHORT_FORM,Package001_Geography
+vwa:district:ntr:ap-ntr,vw:district:ntr,AP-NTR,VARIANT,Package001_Geography
+vwa:district:krishna:ap-kri,vw:district:krishna,AP-KRI,SHORT_FORM,Package001_Geography
+vwa:district:palnadu:ap-pal,vw:district:palnadu,AP-PAL,SHORT_FORM,Package001_Geography
+vwa:district:guntur:ap-gun,vw:district:guntur,AP-GUN,VARIANT,Package001_Geography
+vwa:district:bapatla:ap-bap,vw:district:bapatla,AP-BAP,SHORT_FORM,Package001_Geography
+vwa:district:prakasam:ap-pra,vw:district:prakasam,AP-PRA,SHORT_FORM,Package001_Geography
+vwa:district:markapuram:ap-mar,vw:district:markapuram,AP-MAR,SHORT_FORM,Package001_Geography
+vwa:district:sri-potti-sriramulu-nellore:ap-nel,vw:district:sri-potti-sriramulu-nellore,AP-NEL,SHORT_FORM,Package001_Geography
+vwa:district:kurnool:ap-kur,vw:district:kurnool,AP-KUR,SHORT_FORM,Package001_Geography
+vwa:district:nandyal:ap-nan,vw:district:nandyal,AP-NAN,SHORT_FORM,Package001_Geography
+vwa:district:ananthapuramu:ap-atp,vw:district:ananthapuramu,AP-ATP,SHORT_FORM,Package001_Geography
+vwa:district:sri-sathya-sai:ap-sss,vw:district:sri-sathya-sai,AP-SSS,SHORT_FORM,Package001_Geography
+vwa:district:ysr-kadapa:ap-cud,vw:district:ysr-kadapa,AP-CUD,SHORT_FORM,Package001_Geography
+vwa:district:annamayya:ap-ann,vw:district:annamayya,AP-ANN,SHORT_FORM,Package001_Geography
+vwa:district:tirupati:ap-tir,vw:district:tirupati,AP-TIR,SHORT_FORM,Package001_Geography
+vwa:district:chittoor:ap-chi,vw:district:chittoor,AP-CHI,SHORT_FORM,Package001_Geography
+vwa:crop:rice:oryza-sativa,vw:crop:rice,Oryza sativa,VARIANT,Package005_Agriculture
+vwa:crop:wheat:triticum-aestivum,vw:crop:wheat,Triticum aestivum,VARIANT,Package005_Agriculture
+vwa:crop:maize:zea-mays,vw:crop:maize,Zea mays,VARIANT,Package005_Agriculture
+vwa:crop:barley:hordeum-vulgare,vw:crop:barley,Hordeum vulgare,VARIANT,Package005_Agriculture
+vwa:crop:pearl-millet:pennisetum-glaucum,vw:crop:pearl-millet,Pennisetum glaucum,VARIANT,Package005_Agriculture
+vwa:crop:sorghum:sorghum-bicolor,vw:crop:sorghum,Sorghum bicolor,VARIANT,Package005_Agriculture
+vwa:crop:finger-millet:eleusine-coracana,vw:crop:finger-millet,Eleusine coracana,VARIANT,Package005_Agriculture
+vwa:crop:foxtail-millet:setaria-italica,vw:crop:foxtail-millet,Setaria italica,VARIANT,Package005_Agriculture
+vwa:crop:chickpea:cicer-arietinum,vw:crop:chickpea,Cicer arietinum,VARIANT,Package005_Agriculture
+vwa:crop:pigeon-pea:cajanus-cajan,vw:crop:pigeon-pea,Cajanus cajan,VARIANT,Package005_Agriculture
+vwa:crop:moong-green-gram:vigna-radiata,vw:crop:moong-green-gram,Vigna radiata,SHORT_FORM,Package005_Agriculture
+vwa:crop:urad-black-gram:vigna-mungo,vw:crop:urad-black-gram,Vigna mungo,SHORT_FORM,Package005_Agriculture
+vwa:crop:lentil:lens-culinaris,vw:crop:lentil,Lens culinaris,VARIANT,Package005_Agriculture
+vwa:crop:groundnut:arachis-hypogaea,vw:crop:groundnut,Arachis hypogaea,VARIANT,Package005_Agriculture
+vwa:crop:soybean:glycine-max,vw:crop:soybean,Glycine max,VARIANT,Package005_Agriculture
+vwa:crop:sunflower:helianthus-annuus,vw:crop:sunflower,Helianthus annuus,VARIANT,Package005_Agriculture
+vwa:crop:safflower:carthamus-tinctorius,vw:crop:safflower,Carthamus tinctorius,VARIANT,Package005_Agriculture
+vwa:crop:mustard:brassica-juncea,vw:crop:mustard,Brassica juncea,VARIANT,Package005_Agriculture
+vwa:crop:sugarcane:saccharum-officinarum,vw:crop:sugarcane,Saccharum officinarum,VARIANT,Package005_Agriculture
+vwa:crop:cotton:gossypium-hirsutum,vw:crop:cotton,Gossypium hirsutum,VARIANT,Package005_Agriculture
+vwa:crop:tobacco:nicotiana-tabacum,vw:crop:tobacco,Nicotiana tabacum,VARIANT,Package005_Agriculture
+vwa:crop:jute:corchorus-olitorius,vw:crop:jute,Corchorus olitorius,VARIANT,Package005_Agriculture
+vwa:crop:tomato:solanum-lycopersicum,vw:crop:tomato,Solanum lycopersicum,VARIANT,Package005_Agriculture
+vwa:crop:potato:solanum-tuberosum,vw:crop:potato,Solanum tuberosum,VARIANT,Package005_Agriculture
+vwa:crop:onion:allium-cepa,vw:crop:onion,Allium cepa,VARIANT,Package005_Agriculture
+vwa:crop:brinjal:solanum-melongena,vw:crop:brinjal,Solanum melongena,VARIANT,Package005_Agriculture
+vwa:crop:okra-lady-finger:abelmoschus-esculentus,vw:crop:okra-lady-finger,Abelmoschus esculentus,VARIANT,Package005_Agriculture
+vwa:crop:cabbage:brassica-oleracea-var-capitata,vw:crop:cabbage,Brassica oleracea var. capitata,VARIANT,Package005_Agriculture
+vwa:crop:mango:mangifera-indica,vw:crop:mango,Mangifera indica,VARIANT,Package005_Agriculture
+vwa:crop:banana:musa-paradisiaca,vw:crop:banana,Musa paradisiaca,VARIANT,Package005_Agriculture
+vwa:crop:citrus-sweet-orange:citrus-sinensis,vw:crop:citrus-sweet-orange,Citrus sinensis,SHORT_FORM,Package005_Agriculture
+vwa:crop:grapes:vitis-vinifera,vw:crop:grapes,Vitis vinifera,VARIANT,Package005_Agriculture
+vwa:crop:guava:psidium-guajava,vw:crop:guava,Psidium guajava,VARIANT,Package005_Agriculture
+vwa:crop:pomegranate:punica-granatum,vw:crop:pomegranate,Punica granatum,VARIANT,Package005_Agriculture
+vwa:crop:turmeric:curcuma-longa,vw:crop:turmeric,Curcuma longa,VARIANT,Package005_Agriculture
+vwa:crop:chilli:capsicum-annuum,vw:crop:chilli,Capsicum annuum,VARIANT,Package005_Agriculture
+vwa:crop:black-pepper:piper-nigrum,vw:crop:black-pepper,Piper nigrum,VARIANT,Package005_Agriculture
+vwa:crop:cardamom:elettaria-cardamomum,vw:crop:cardamom,Elettaria cardamomum,VARIANT,Package005_Agriculture
+vwa:crop:coriander:coriandrum-sativum,vw:crop:coriander,Coriandrum sativum,VARIANT,Package005_Agriculture
+vwa:crop:cumin:cuminum-cyminum,vw:crop:cumin,Cuminum cyminum,VARIANT,Package005_Agriculture
+vwa:crop:ginger:zingiber-officinale,vw:crop:ginger,Zingiber officinale,VARIANT,Package005_Agriculture
+vwa:crop:ashwagandha:withania-somnifera,vw:crop:ashwagandha,Withania somnifera,VARIANT,Package005_Agriculture
+vwa:crop:tulsi-holy-basil:ocimum-sanctum,vw:crop:tulsi-holy-basil,Ocimum sanctum,SHORT_FORM,Package005_Agriculture
+vwa:crop:coconut:cocos-nucifera,vw:crop:coconut,Cocos nucifera,VARIANT,Package005_Agriculture
+vwa:crop:cashew:anacardium-occidentale,vw:crop:cashew,Anacardium occidentale,VARIANT,Package005_Agriculture
+vwa:governmentscheme:pradhan-mantri-jan-dhan-yojana:pmjdy,vw:governmentscheme:pradhan-mantri-jan-dhan-yojana,PMJDY,SHORT_FORM,Package007_Government_Schemes
+vwa:governmentscheme:pradhan-mantri-suraksha-bima-yojana:pmsby,vw:governmentscheme:pradhan-mantri-suraksha-bima-yojana,PMSBY,SHORT_FORM,Package007_Government_Schemes
+vwa:governmentscheme:pradhan-mantri-jeevan-jyoti-bima-yojana:pmjjby,vw:governmentscheme:pradhan-mantri-jeevan-jyoti-bima-yojana,PMJJBY,SHORT_FORM,Package007_Government_Schemes
+vwa:governmentscheme:atal-pension-yojana:apy,vw:governmentscheme:atal-pension-yojana,APY,SHORT_FORM,Package007_Government_Schemes
+vwa:governmentscheme:pradhan-mantri-kisan-samman-nidhi:pm-kisan,vw:governmentscheme:pradhan-mantri-kisan-samman-nidhi,PM-KISAN,SHORT_FORM,Package007_Government_Schemes
+vwa:governmentscheme:pradhan-mantri-fasal-bima-yojana:pmfby,vw:governmentscheme:pradhan-mantri-fasal-bima-yojana,PMFBY,SHORT_FORM,Package007_Government_Schemes
+vwa:governmentscheme:kisan-credit-card:kcc,vw:governmentscheme:kisan-credit-card,KCC,SHORT_FORM,Package007_Government_Schemes
+vwa:governmentscheme:pradhan-mantri-krishi-sinchayee-yojana:pmksy,vw:governmentscheme:pradhan-mantri-krishi-sinchayee-yojana,PMKSY,SHORT_FORM,Package007_Government_Schemes
+vwa:governmentscheme:sub-mission-on-agricultural-mechanization:smam,vw:governmentscheme:sub-mission-on-agricultural-mechanization,SMAM,SHORT_FORM,Package007_Government_Schemes
+vwa:governmentscheme:paramparagat-krishi-vikas-yojana:pkvy,vw:governmentscheme:paramparagat-krishi-vikas-yojana,PKVY,SHORT_FORM,Package007_Government_Schemes
+vwa:governmentscheme:soil-health-card-scheme:shc,vw:governmentscheme:soil-health-card-scheme,SHC,SHORT_FORM,Package007_Government_Schemes
+vwa:governmentscheme:agriculture-infrastructure-fund:aif,vw:governmentscheme:agriculture-infrastructure-fund,AIF,SHORT_FORM,Package007_Government_Schemes
+vwa:governmentscheme:pradhan-mantri-kisan-urja-suraksha-evam-utthaan-mahabhiyan:pm-kusum,vw:governmentscheme:pradhan-mantri-kisan-urja-suraksha-evam-utthaan-mahabhiyan,PM-KUSUM,SHORT_FORM,Package007_Government_Schemes
+vwa:governmentscheme:prime-minister-s-employment-generation-programme:pmegp,vw:governmentscheme:prime-minister-s-employment-generation-programme,PMEGP,SHORT_FORM,Package007_Government_Schemes
+vwa:governmentscheme:pradhan-mantri-mudra-yojana:pmmy,vw:governmentscheme:pradhan-mantri-mudra-yojana,PMMY,SHORT_FORM,Package007_Government_Schemes
+vwa:governmentscheme:stand-up-india-scheme:stand-up-india,vw:governmentscheme:stand-up-india-scheme,Stand-Up India,SHORT_FORM,Package007_Government_Schemes
+vwa:governmentscheme:credit-guarantee-fund-trust-for-micro-and-small-enterprises:cgtmse,vw:governmentscheme:credit-guarantee-fund-trust-for-micro-and-small-enterprises,CGTMSE,SHORT_FORM,Package007_Government_Schemes
+vwa:governmentscheme:pm-formalisation-of-micro-food-processing-enterprises:pmfme,vw:governmentscheme:pm-formalisation-of-micro-food-processing-enterprises,PMFME,SHORT_FORM,Package007_Government_Schemes
+vwa:governmentscheme:startup-india-seed-fund-scheme:sisfs,vw:governmentscheme:startup-india-seed-fund-scheme,SISFS,SHORT_FORM,Package007_Government_Schemes
+vwa:governmentscheme:pradhan-mantri-kaushal-vikas-yojana-4-0:pmkvy-4-0,vw:governmentscheme:pradhan-mantri-kaushal-vikas-yojana-4-0,PMKVY 4.0,SHORT_FORM,Package007_Government_Schemes
+vwa:governmentscheme:pradhan-mantri-national-apprenticeship-promotion-scheme:pm-naps,vw:governmentscheme:pradhan-mantri-national-apprenticeship-promotion-scheme,PM-NAPS,SHORT_FORM,Package007_Government_Schemes
+vwa:governmentscheme:deen-dayal-upadhyaya-grameen-kaushalya-yojana:ddu-gky,vw:governmentscheme:deen-dayal-upadhyaya-grameen-kaushalya-yojana,DDU-GKY,SHORT_FORM,Package007_Government_Schemes
+vwa:governmentscheme:skill-loan-scheme:skill-loan,vw:governmentscheme:skill-loan-scheme,Skill Loan,SHORT_FORM,Package007_Government_Schemes
+vwa:governmentscheme:national-means-cum-merit-scholarship-scheme:nmmss,vw:governmentscheme:national-means-cum-merit-scholarship-scheme,NMMSS,SHORT_FORM,Package007_Government_Schemes
+vwa:governmentscheme:central-sector-scheme-of-scholarships-for-college-and-university-students:csss,vw:governmentscheme:central-sector-scheme-of-scholarships-for-college-and-university-students,CSSS,SHORT_FORM,Package007_Government_Schemes
+vwa:governmentscheme:pm-young-achievers-scholarship-award-scheme-for-vibrant-india:pm-yasasvi,vw:governmentscheme:pm-young-achievers-scholarship-award-scheme-for-vibrant-india,PM-YASASVI,SHORT_FORM,Package007_Government_Schemes
+vwa:governmentscheme:post-matric-scholarship-for-scheduled-caste-students:pms-sc,vw:governmentscheme:post-matric-scholarship-for-scheduled-caste-students,PMS-SC,SHORT_FORM,Package007_Government_Schemes
+vwa:governmentscheme:pm-poshan-shakti-nirman:pm-poshan,vw:governmentscheme:pm-poshan-shakti-nirman,PM POSHAN,SHORT_FORM,Package007_Government_Schemes
+vwa:governmentscheme:ayushman-bharat-pradhan-mantri-jan-arogya-yojana:ab-pm-jay,vw:governmentscheme:ayushman-bharat-pradhan-mantri-jan-arogya-yojana,AB PM-JAY,SHORT_FORM,Package007_Government_Schemes
+vwa:governmentscheme:ayushman-bharat-health-and-wellness-centres:ab-hwc,vw:governmentscheme:ayushman-bharat-health-and-wellness-centres,AB-HWC,SHORT_FORM,Package007_Government_Schemes
+vwa:governmentscheme:pradhan-mantri-matru-vandana-yojana:pmmvy,vw:governmentscheme:pradhan-mantri-matru-vandana-yojana,PMMVY,SHORT_FORM,Package007_Government_Schemes
+vwa:governmentscheme:mahatma-gandhi-national-rural-employment-guarantee-scheme:mgnregs,vw:governmentscheme:mahatma-gandhi-national-rural-employment-guarantee-scheme,MGNREGS,SHORT_FORM,Package007_Government_Schemes
+vwa:governmentscheme:deendayal-antyodaya-yojana-national-rural-livelihoods-mission:day-nrlm,vw:governmentscheme:deendayal-antyodaya-yojana-national-rural-livelihoods-mission,DAY-NRLM,SHORT_FORM,Package007_Government_Schemes
+vwa:governmentscheme:pradhan-mantri-awas-yojana-gramin:pmay-g,vw:governmentscheme:pradhan-mantri-awas-yojana-gramin,PMAY-G,SHORT_FORM,Package007_Government_Schemes
+vwa:governmentscheme:pradhan-mantri-awas-yojana-urban:pmay-u,vw:governmentscheme:pradhan-mantri-awas-yojana-urban,PMAY-U,SHORT_FORM,Package007_Government_Schemes
+vwa:governmentscheme:national-social-assistance-programme:nsap,vw:governmentscheme:national-social-assistance-programme,NSAP,SHORT_FORM,Package007_Government_Schemes
+vwa:governmentscheme:national-food-security-act-entitlements-public-distribution-system:nfsa-pds,vw:governmentscheme:national-food-security-act-entitlements-public-distribution-system,NFSA/PDS,SHORT_FORM,Package007_Government_Schemes
+vwa:governmentscheme:pm-surya-ghar-muft-bijli-yojana:pm-surya-ghar,vw:governmentscheme:pm-surya-ghar-muft-bijli-yojana,PM Surya Ghar,SHORT_FORM,Package007_Government_Schemes

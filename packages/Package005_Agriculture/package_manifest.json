@@ -1,0 +1,246 @@
+{
+  "package_name": "Package005_Agriculture",
+  "package_id": "PKG-005",
+  "package_title": "ValueWeave.in Agriculture Intelligence and Agri-Business Knowledge Base",
+  "version": "1.0.0",
+  "release_date": "2026-07-24",
+  "release_status": "Stable v1.0.0",
+  "scope": "Sixteen interlinked datasets modelling Indian agriculture end to end: crop taxonomy and agronomic profiles, soil and agro-climatic references with scored suitability mappings, farm machinery and capital, value-add processing, producer institutions, training and extension, government schemes, crop protection, market access, export markets, AI and precision-agriculture readiness, and a cross-package spine binding crops to business opportunities and skills. Crop selection is weighted to national significance plus Telangana and Andhra Pradesh relevance, consistent with the wider knowledge base, and the schema extends to all states without change.",
+  "knowledge_graph": "Geography -> Climate -> Soil -> Crop -> Farmer Institution -> Machinery -> Technology -> Processing -> Market -> Export -> Business -> Scheme -> Skill -> AI Readiness",
+  "datasets_included": [
+    {
+      "name": "crop_categories",
+      "layer": "1 - Reference Taxonomy",
+      "records": 24,
+      "columns": 13,
+      "primary_key": "category_id",
+      "confidence_score_range": "57-78",
+      "confidence_avg": 72.1,
+      "verification_status": "VST-NEEDS_REVIEW"
+    },
+    {
+      "name": "soil_types",
+      "layer": "1 - Reference Taxonomy",
+      "records": 10,
+      "columns": 15,
+      "primary_key": "soil_id",
+      "confidence_score_range": "72-78",
+      "confidence_avg": 75.5,
+      "verification_status": "VST-NEEDS_REVIEW"
+    },
+    {
+      "name": "climate_zones",
+      "layer": "1 - Reference Taxonomy",
+      "records": 8,
+      "columns": 16,
+      "primary_key": "climate_zone_id",
+      "confidence_score_range": "72-77",
+      "confidence_avg": 74.9,
+      "verification_status": "VST-NEEDS_REVIEW"
+    },
+    {
+      "name": "crops",
+      "layer": "2 - Core Entity",
+      "records": 45,
+      "columns": 25,
+      "primary_key": "crop_id",
+      "confidence_score_range": "66-78",
+      "confidence_avg": 74.4,
+      "verification_status": "VST-NEEDS_REVIEW"
+    },
+    {
+      "name": "crop_soil_mapping",
+      "layer": "3 - Relational Mapping",
+      "records": 90,
+      "columns": 13,
+      "primary_key": "mapping_id",
+      "confidence_score_range": "65-78",
+      "confidence_avg": 73.5,
+      "verification_status": "VST-NEEDS_REVIEW"
+    },
+    {
+      "name": "crop_climate_mapping",
+      "layer": "3 - Relational Mapping",
+      "records": 90,
+      "columns": 15,
+      "primary_key": "mapping_id",
+      "confidence_score_range": "65-78",
+      "confidence_avg": 73.4,
+      "verification_status": "VST-NEEDS_REVIEW"
+    },
+    {
+      "name": "farm_machinery",
+      "layer": "4 - Capital and Technology",
+      "records": 16,
+      "columns": 18,
+      "primary_key": "machinery_id",
+      "confidence_score_range": "62-72",
+      "confidence_avg": 67.9,
+      "verification_status": "VST-NEEDS_REVIEW"
+    },
+    {
+      "name": "agri_processing_opportunities",
+      "layer": "5 - Value Addition",
+      "records": 17,
+      "columns": 18,
+      "primary_key": "opportunity_id",
+      "confidence_score_range": "62-70",
+      "confidence_avg": 66.9,
+      "verification_status": "VST-NEEDS_REVIEW"
+    },
+    {
+      "name": "farmer_producer_organizations",
+      "layer": "6 - Institutions",
+      "records": 5,
+      "columns": 12,
+      "primary_key": "fpo_id",
+      "confidence_score_range": "68-75",
+      "confidence_avg": 71.6,
+      "verification_status": "VST-NEEDS_REVIEW"
+    },
+    {
+      "name": "agriculture_training",
+      "layer": "6 - Institutions",
+      "records": 7,
+      "columns": 13,
+      "primary_key": "training_id",
+      "confidence_score_range": "64-77",
+      "confidence_avg": 71.1,
+      "verification_status": "VST-NEEDS_REVIEW"
+    },
+    {
+      "name": "agriculture_schemes",
+      "layer": "7 - Government Support",
+      "records": 12,
+      "columns": 13,
+      "primary_key": "scheme_id",
+      "confidence_score_range": "69-78",
+      "confidence_avg": 73.2,
+      "verification_status": "VST-NEEDS_REVIEW"
+    },
+    {
+      "name": "crop_disease_management",
+      "layer": "8 - Crop Protection",
+      "records": 10,
+      "columns": 14,
+      "primary_key": "disease_id",
+      "confidence_score_range": "65-76",
+      "confidence_avg": 72.4,
+      "verification_status": "VST-NEEDS_REVIEW"
+    },
+    {
+      "name": "market_linkages",
+      "layer": "9 - Market Access",
+      "records": 6,
+      "columns": 12,
+      "primary_key": "linkage_id",
+      "confidence_score_range": "66-76",
+      "confidence_avg": 70.0,
+      "verification_status": "VST-NEEDS_REVIEW"
+    },
+    {
+      "name": "export_opportunities",
+      "layer": "10 - Export",
+      "records": 8,
+      "columns": 13,
+      "primary_key": "opportunity_id",
+      "confidence_score_range": "71-77",
+      "confidence_avg": 74.1,
+      "verification_status": "VST-NEEDS_REVIEW"
+    },
+    {
+      "name": "ai_precision_agriculture",
+      "layer": "11 - AI and Technology Readiness",
+      "records": 10,
+      "columns": 16,
+      "primary_key": "technology_id",
+      "confidence_score_range": "50-66",
+      "confidence_avg": 58.2,
+      "verification_status": "VST-NEEDS_REVIEW"
+    },
+    {
+      "name": "agri_business_mapping",
+      "layer": "12 - Cross-Package Spine",
+      "records": 30,
+      "columns": 15,
+      "primary_key": "mapping_id",
+      "confidence_score_range": "62-74",
+      "confidence_avg": 69.0,
+      "verification_status": "VST-NEEDS_REVIEW"
+    }
+  ],
+  "total_datasets": 16,
+  "total_records": 388,
+  "import_order": [
+    "crop_categories",
+    "soil_types",
+    "climate_zones",
+    "crops",
+    "crop_soil_mapping",
+    "crop_climate_mapping",
+    "farm_machinery",
+    "agri_processing_opportunities",
+    "farmer_producer_organizations",
+    "agriculture_training",
+    "agriculture_schemes",
+    "crop_disease_management",
+    "market_linkages",
+    "export_opportunities",
+    "ai_precision_agriculture",
+    "agri_business_mapping"
+  ],
+  "import_order_rationale": "Reference taxonomies first (crop_categories, soil_types, climate_zones), then the core crops entity, then the mapping tables that depend on all four, then the independent domain layers, and agri_business_mapping last because it depends on crops, agri_processing_opportunities and two external packages.",
+  "data_statistics": {
+    "total_datasets": 16,
+    "total_records": 388,
+    "total_cells": 6062,
+    "pending_verification_cells": 132,
+    "pending_verification_rate_pct": 2.18
+  },
+  "confidence_statistics": {
+    "overall_range": "50-78",
+    "ceiling_policy": 85,
+    "note": "The ceiling reflects that no row rests on a primary-source page read; WebFetch to government domains is blocked in this environment. The floor of 50 occurs only in ai_precision_agriculture, where rows describe research-stage technology and the low score is the honest signal, not a defect."
+  },
+  "cross_package_integration": {
+    "Package001_Geography": "Soft link only. crops.major_districts carries district names as free text where publicly attributable; no dist_id foreign key is asserted because per-district attribution is incomplete.",
+    "Package004_Industries": "Hard foreign key. 17 of 30 agri_business_mapping rows resolve to real Package004 opportunity names; 13 carry the bare sentinel where Package004 v1.0.0 has no counterpart.",
+    "Package006_Skills_and_Training": "Hard foreign key. All 30 agri_business_mapping rows carry real Package006 skill_id UUIDs across 4 distinct skills.",
+    "Package007_Government_Schemes": "Planned. agriculture_schemes.csv is the agriculture slice and will be reconciled against Package007 when released.",
+    "Package008_MSME": "Planned. agri_processing_opportunities.csv is the intended join surface."
+  },
+  "environment_constraint": "Direct WebFetch to .gov.in / .nic.in / .ac.in domains is blocked by this session's organizational egress policy, as it was for Package004 and Package006. Every row is attributed to the authoritative body that governs the fact, and confidence is capped at 85 to record that no primary page was read. Where a specific figure would have required primary-source confirmation - equipment prices, processing investment bands, precision-agriculture costs - the bare PENDING_VERIFICATION sentinel is written instead of an estimate. See docs/METHODOLOGY.md.",
+  "validation": {
+    "checks_run": [
+      "V1 structural column count",
+      "V2 primary-key uniqueness",
+      "V3 mandatory provenance columns",
+      "V4 confidence integer/range/ceiling",
+      "V5 bare-sentinel discipline",
+      "V6 verification_status enum",
+      "V7 uniform collection_date",
+      "V8 in-package foreign keys and denormalised names",
+      "V9 cross-package foreign keys (Package004, Package006)",
+      "V10 no blank cells"
+    ],
+    "violations": 0,
+    "result": "PASS",
+    "validator": "validate.py (in-package, re-runnable)"
+  },
+  "known_limitations": [
+    "No cost or investment figure is asserted for farm machinery, processing units or precision-agriculture technology; those fields are the bare sentinel throughout.",
+    "Yield figures are indicative national averages and are not comparable across crops with different harvested products.",
+    "Scheme benefit amounts and eligibility change by budget cycle and state top-up; re-verify before relying on them.",
+    "Chemical treatments in crop_disease_management are named actives, not dose recommendations, and are subject to current CIB&RC label approval.",
+    "The eight-zone climate model is a screening tool, not the 127-zone NARP classification.",
+    "Livestock, poultry, dairy, fisheries, sericulture, apiculture and mushroom appear as categories in crop_categories.csv but have no dedicated entity datasets in v1.0.0."
+  ],
+  "planned_next_release": {
+    "v1.1.0": [
+      "Dedicated entity datasets for the allied categories (livestock, poultry, dairy, fisheries, sericulture, apiculture, mushroom)",
+      "Populate the 13 sentinel Package004 opportunity links as Package004 expands",
+      "Package007_Government_Schemes and Package008_MSME foreign keys",
+      "District-level crop attribution as a hard Package001 dist_id foreign key"
+    ]
+  }
+}

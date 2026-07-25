@@ -1,0 +1,91 @@
+mapping_id,crop_id,crop_name,soil_id,soil_name,suitability_score,suitability_level,data_source,source_url,collection_date,confidence_score,verification_status,notes
+csm-001,crop-001,Rice,st-003,Alluvial,95,Optimal,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,78,VST-NEEDS_REVIEW,Puddled alluvial lowland is the classic rice situation
+csm-002,crop-001,Rice,st-007,Clay,82,Suitable,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,75,VST-NEEDS_REVIEW,High water retention suits transplanted rice
+csm-003,crop-002,Wheat,st-003,Alluvial,93,Optimal,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,78,VST-NEEDS_REVIEW,Indo-Gangetic alluvium is the principal wheat base
+csm-004,crop-002,Wheat,st-006,Loamy,85,Optimal,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,76,VST-NEEDS_REVIEW,Well-drained loam performs comparably under irrigation
+csm-005,crop-003,Maize,st-006,Loamy,90,Optimal,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,77,VST-NEEDS_REVIEW,Free-draining loam avoids waterlogging sensitivity
+csm-006,crop-003,Maize,st-002,Red Soil,74,Suitable,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,74,VST-NEEDS_REVIEW,Workable with organic matter and fertiliser correction
+csm-007,crop-004,Barley,st-006,Loamy,86,Optimal,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,73,VST-NEEDS_REVIEW,Tolerates lighter soils than wheat
+csm-008,crop-004,Barley,st-010,Alkaline,66,Marginal,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,70,VST-NEEDS_REVIEW,Comparatively tolerant of mild alkalinity
+csm-009,crop-005,Pearl Millet,st-005,Sandy,88,Optimal,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,76,VST-NEEDS_REVIEW,Sandy light soils suit the crop's drought strategy
+csm-010,crop-005,Pearl Millet,st-002,Red Soil,76,Suitable,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,74,VST-NEEDS_REVIEW,Common on shallow red soils in rainfed tracts
+csm-011,crop-006,Sorghum,st-001,Black Soil,88,Optimal,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,76,VST-NEEDS_REVIEW,Deep black soils supply the stored moisture the crop needs
+csm-012,crop-006,Sorghum,st-002,Red Soil,74,Suitable,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,74,VST-NEEDS_REVIEW,Rainfed red-soil tracts of the Deccan
+csm-013,crop-007,Finger Millet,st-002,Red Soil,86,Optimal,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,74,VST-NEEDS_REVIEW,Traditional red-soil crop of the southern plateau
+csm-014,crop-007,Finger Millet,st-004,Laterite,70,Suitable,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,71,VST-NEEDS_REVIEW,Grown on lateritic uplands with amendment
+csm-015,crop-008,Foxtail Millet,st-002,Red Soil,85,Optimal,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,70,VST-NEEDS_REVIEW,Shallow red soils of the rainfed south
+csm-016,crop-008,Foxtail Millet,st-005,Sandy,74,Suitable,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,69,VST-NEEDS_REVIEW,Tolerates light textures on low fertility
+csm-017,crop-009,Chickpea,st-001,Black Soil,92,Optimal,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,77,VST-NEEDS_REVIEW,Residual-moisture rabi crop on deep black soils
+csm-018,crop-009,Chickpea,st-006,Loamy,78,Suitable,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,75,VST-NEEDS_REVIEW,Requires assured drainage to avoid wilt
+csm-019,crop-010,Pigeon Pea,st-001,Black Soil,90,Optimal,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,76,VST-NEEDS_REVIEW,Deep soils accommodate the long taproot
+csm-020,crop-010,Pigeon Pea,st-002,Red Soil,74,Suitable,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,74,VST-NEEDS_REVIEW,Widely intercropped on red soils
+csm-021,crop-011,Moong (Green Gram),st-006,Loamy,85,Optimal,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,75,VST-NEEDS_REVIEW,Short duration; needs free drainage
+csm-022,crop-011,Moong (Green Gram),st-005,Sandy,74,Suitable,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,73,VST-NEEDS_REVIEW,Suits light soils in summer catch-crop slots
+csm-023,crop-012,Urad (Black Gram),st-006,Loamy,85,Optimal,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,75,VST-NEEDS_REVIEW,Standard kharif situation
+csm-024,crop-012,Urad (Black Gram),st-007,Clay,68,Marginal,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,72,VST-NEEDS_REVIEW,Tolerates heavier soils better than moong
+csm-025,crop-013,Lentil,st-006,Loamy,88,Optimal,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,75,VST-NEEDS_REVIEW,Cool-season crop on well-drained loam
+csm-026,crop-013,Lentil,st-003,Alluvial,84,Suitable,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,74,VST-NEEDS_REVIEW,Grown widely on Indo-Gangetic alluvium
+csm-027,crop-014,Groundnut,st-005,Sandy,90,Optimal,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,77,VST-NEEDS_REVIEW,Light soils allow pod development and easy harvest
+csm-028,crop-014,Groundnut,st-002,Red Soil,78,Suitable,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,75,VST-NEEDS_REVIEW,Anantapur red sandy loam tract
+csm-029,crop-015,Soybean,st-001,Black Soil,90,Optimal,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,76,VST-NEEDS_REVIEW,Malwa plateau black soils dominate acreage
+csm-030,crop-015,Soybean,st-006,Loamy,78,Suitable,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,74,VST-NEEDS_REVIEW,Performs on loam with assured drainage
+csm-031,crop-016,Sunflower,st-006,Loamy,87,Optimal,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,75,VST-NEEDS_REVIEW,Well-drained loam under rabi irrigation
+csm-032,crop-016,Sunflower,st-001,Black Soil,76,Suitable,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,74,VST-NEEDS_REVIEW,Grown on black soils in the Deccan rabi season
+csm-033,crop-017,Safflower,st-001,Black Soil,90,Optimal,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,71,VST-NEEDS_REVIEW,Residual-moisture crop; needs deep black soil
+csm-034,crop-017,Safflower,st-002,Red Soil,62,Marginal,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,68,VST-NEEDS_REVIEW,Shallow red soils give materially lower yield
+csm-035,crop-018,Mustard,st-006,Loamy,88,Optimal,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,75,VST-NEEDS_REVIEW,Standard rabi oilseed situation
+csm-036,crop-018,Mustard,st-003,Alluvial,84,Suitable,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,74,VST-NEEDS_REVIEW,Northern alluvial belt
+csm-037,crop-019,Sugarcane,st-003,Alluvial,94,Optimal,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,77,VST-NEEDS_REVIEW,Deep alluvium with assured irrigation
+csm-038,crop-019,Sugarcane,st-001,Black Soil,82,Suitable,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,75,VST-NEEDS_REVIEW,Grown on black soils with adequate irrigation
+csm-039,crop-020,Cotton,st-001,Black Soil,93,Optimal,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,77,VST-NEEDS_REVIEW,Black cotton soil is the definitive situation
+csm-040,crop-020,Cotton,st-002,Red Soil,72,Suitable,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,74,VST-NEEDS_REVIEW,Rainfed red-soil cotton with lower yield
+csm-041,crop-021,Tobacco,st-006,Loamy,86,Optimal,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,72,VST-NEEDS_REVIEW,Light loam supports leaf quality
+csm-042,crop-021,Tobacco,st-002,Red Soil,74,Suitable,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,70,VST-NEEDS_REVIEW,Southern light-soil tobacco tracts
+csm-043,crop-022,Jute,st-003,Alluvial,92,Optimal,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,70,VST-NEEDS_REVIEW,Lower Ganga alluvial floodplain
+csm-044,crop-022,Jute,st-007,Clay,72,Suitable,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,68,VST-NEEDS_REVIEW,Tolerates heavy soils under high rainfall
+csm-045,crop-023,Tomato,st-006,Loamy,90,Optimal,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,76,VST-NEEDS_REVIEW,Free drainage is critical for root health
+csm-046,crop-023,Tomato,st-002,Red Soil,76,Suitable,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,74,VST-NEEDS_REVIEW,Widely grown on red soils in the south
+csm-047,crop-024,Potato,st-005,Sandy,90,Optimal,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,77,VST-NEEDS_REVIEW,Loose light soils permit tuber expansion
+csm-048,crop-024,Potato,st-006,Loamy,84,Suitable,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,76,VST-NEEDS_REVIEW,Sandy loam is the preferred texture
+csm-049,crop-025,Onion,st-006,Loamy,88,Optimal,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,76,VST-NEEDS_REVIEW,Well-drained loam for bulb development
+csm-050,crop-025,Onion,st-002,Red Soil,76,Suitable,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,74,VST-NEEDS_REVIEW,Kurnool and Chittoor red-soil onion tracts
+csm-051,crop-026,Brinjal,st-006,Loamy,86,Optimal,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,73,VST-NEEDS_REVIEW,Long-duration vegetable on fertile loam
+csm-052,crop-026,Brinjal,st-003,Alluvial,82,Suitable,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,72,VST-NEEDS_REVIEW,Alluvial vegetable belts
+csm-053,crop-027,Okra (Lady Finger),st-006,Loamy,86,Optimal,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,73,VST-NEEDS_REVIEW,Standard kharif vegetable situation
+csm-054,crop-027,Okra (Lady Finger),st-003,Alluvial,80,Suitable,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,72,VST-NEEDS_REVIEW,Alluvial peri-urban belts
+csm-055,crop-028,Cabbage,st-006,Loamy,87,Optimal,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,73,VST-NEEDS_REVIEW,Cool-season crop on fertile loam
+csm-056,crop-028,Cabbage,st-003,Alluvial,80,Suitable,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,72,VST-NEEDS_REVIEW,Alluvial vegetable belts
+csm-057,crop-029,Mango,st-003,Alluvial,88,Optimal,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,77,VST-NEEDS_REVIEW,Deep well-drained alluvium for orchard establishment
+csm-058,crop-029,Mango,st-002,Red Soil,80,Suitable,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,75,VST-NEEDS_REVIEW,Krishna and Chittoor red-soil mango belts
+csm-059,crop-030,Banana,st-003,Alluvial,92,Optimal,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,76,VST-NEEDS_REVIEW,Deep fertile alluvium with high water availability
+csm-060,crop-030,Banana,st-006,Loamy,82,Suitable,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,74,VST-NEEDS_REVIEW,Requires assured irrigation and drainage
+csm-061,crop-031,Citrus (Sweet Orange),st-006,Loamy,88,Optimal,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,75,VST-NEEDS_REVIEW,Deep well-drained soil; citrus is drainage-sensitive
+csm-062,crop-031,Citrus (Sweet Orange),st-002,Red Soil,78,Suitable,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,74,VST-NEEDS_REVIEW,Nalgonda sweet orange tract
+csm-063,crop-032,Grapes,st-001,Black Soil,86,Optimal,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,75,VST-NEEDS_REVIEW,Deccan black-soil vineyards
+csm-064,crop-032,Grapes,st-006,Loamy,82,Suitable,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,74,VST-NEEDS_REVIEW,Well-drained loam with trellis systems
+csm-065,crop-033,Guava,st-006,Loamy,86,Optimal,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,73,VST-NEEDS_REVIEW,Hardy; tolerates a wide texture range
+csm-066,crop-033,Guava,st-002,Red Soil,80,Suitable,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,72,VST-NEEDS_REVIEW,Common on red soils across the south
+csm-067,crop-034,Pomegranate,st-006,Loamy,86,Optimal,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,73,VST-NEEDS_REVIEW,Free drainage reduces bacterial blight pressure
+csm-068,crop-034,Pomegranate,st-005,Sandy,78,Suitable,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,72,VST-NEEDS_REVIEW,Light soils in the arid and semi-arid belt
+csm-069,crop-035,Turmeric,st-002,Red Soil,90,Optimal,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,77,VST-NEEDS_REVIEW,Nizamabad and Duggirala red-soil turmeric tracts
+csm-070,crop-035,Turmeric,st-006,Loamy,84,Suitable,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,76,VST-NEEDS_REVIEW,Rich well-drained loam for rhizome development
+csm-071,crop-036,Chilli,st-001,Black Soil,90,Optimal,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,77,VST-NEEDS_REVIEW,Guntur black-soil chilli belt
+csm-072,crop-036,Chilli,st-002,Red Soil,78,Suitable,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,75,VST-NEEDS_REVIEW,Rainfed red-soil chilli in Telangana
+csm-073,crop-037,Black Pepper,st-004,Laterite,90,Optimal,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,74,VST-NEEDS_REVIEW,Lateritic Western Ghats plantation soils
+csm-074,crop-037,Black Pepper,st-002,Red Soil,76,Suitable,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,72,VST-NEEDS_REVIEW,Grown on red soils in transitional tracts
+csm-075,crop-038,Cardamom,st-004,Laterite,88,Optimal,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,72,VST-NEEDS_REVIEW,Shade-grown on lateritic hill soils
+csm-076,crop-038,Cardamom,st-009,Acidic,76,Suitable,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,70,VST-NEEDS_REVIEW,Tolerates the acidity typical of its habitat
+csm-077,crop-039,Coriander,st-001,Black Soil,86,Optimal,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,73,VST-NEEDS_REVIEW,Rabi seed-spice crop on black soils
+csm-078,crop-039,Coriander,st-006,Loamy,82,Suitable,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,72,VST-NEEDS_REVIEW,Loam suits leafy coriander production
+csm-079,crop-040,Cumin,st-005,Sandy,88,Optimal,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,73,VST-NEEDS_REVIEW,Light sandy loam of the arid rabi belt
+csm-080,crop-040,Cumin,st-006,Loamy,76,Suitable,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,71,VST-NEEDS_REVIEW,Requires very good drainage
+csm-081,crop-041,Ginger,st-006,Loamy,88,Optimal,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,73,VST-NEEDS_REVIEW,Rich friable loam for rhizome expansion
+csm-082,crop-041,Ginger,st-004,Laterite,76,Suitable,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,71,VST-NEEDS_REVIEW,Lateritic tracts of Kerala and the Northeast
+csm-083,crop-042,Ashwagandha,st-005,Sandy,88,Optimal,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,70,VST-NEEDS_REVIEW,Light dry soils suit root development
+csm-084,crop-042,Ashwagandha,st-002,Red Soil,74,Suitable,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,68,VST-NEEDS_REVIEW,Grown on red soils under rainfed conditions
+csm-085,crop-043,Tulsi (Holy Basil),st-006,Loamy,86,Optimal,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,66,VST-NEEDS_REVIEW,General-purpose loam; widely adaptable
+csm-086,crop-043,Tulsi (Holy Basil),st-002,Red Soil,76,Suitable,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,65,VST-NEEDS_REVIEW,Adaptable to red soils
+csm-087,crop-044,Coconut,st-005,Sandy,90,Optimal,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,74,VST-NEEDS_REVIEW,Coastal sandy soils are the classic situation
+csm-088,crop-044,Coconut,st-003,Alluvial,82,Suitable,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,73,VST-NEEDS_REVIEW,Coastal deltaic alluvium of the Godavari belt
+csm-089,crop-045,Cashew,st-004,Laterite,88,Optimal,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,73,VST-NEEDS_REVIEW,Lateritic coastal uplands
+csm-090,crop-045,Cashew,st-002,Red Soil,78,Suitable,ICAR; Ministry of Agriculture & Farmers Welfare,https://icar.org.in/,2026-07-24,72,VST-NEEDS_REVIEW,Srikakulam and Vizianagaram red-soil tracts

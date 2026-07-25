@@ -1,0 +1,52 @@
+{
+  "dataset_name": "crop_soil_mapping",
+  "package": "Package005_Agriculture",
+  "package_version": "1.0.0",
+  "file": "datasets/crop_soil_mapping.csv",
+  "layer": "3 - Relational Mapping",
+  "purpose": "Crop-to-soil suitability with a 0-100 score and an ICAR-style suitability band.",
+  "primary_key": "mapping_id",
+  "record_count": 90,
+  "column_count": 13,
+  "columns": [
+    "mapping_id",
+    "crop_id",
+    "crop_name",
+    "soil_id",
+    "soil_name",
+    "suitability_score",
+    "suitability_level",
+    "data_source",
+    "source_url",
+    "collection_date",
+    "confidence_score",
+    "verification_status",
+    "notes"
+  ],
+  "foreign_keys": [
+    {
+      "column": "crop_id",
+      "references_dataset": "crops.csv",
+      "references_column": "crop_id"
+    },
+    {
+      "column": "soil_id",
+      "references_dataset": "soil_types.csv",
+      "references_column": "soil_id"
+    }
+  ],
+  "collection_date": "2026-07-24",
+  "collection_mode": "Knowledge synthesis from documented public sources (WebFetch to government domains blocked by environment egress policy)",
+  "source_tier": "Tier 1 (ICAR package-of-practices; soil-crop compatibility literature)",
+  "methodology": "Every one of the 45 crops carries two rows: its optimal soil and a documented alternative, giving 90 mappings. Scores are a relative ordinal rating anchored to ICAR guidance (85+ optimal, 70-84 suitable, 55-69 marginal), not a measured yield ratio.",
+  "confidence_score_min": 65,
+  "confidence_score_max": 78,
+  "confidence_score_avg": 73.5,
+  "confidence_ceiling_policy": 85,
+  "verification_status": "VST-NEEDS_REVIEW",
+  "pending_verification_cells": 0,
+  "pending_verification_rate_pct": 0.0,
+  "pending_verification_columns": {},
+  "known_limitations": "suitability_score is ordinal and comparable only within a crop, not across crops. Absence of a crop-soil pair is not a statement that the combination fails.",
+  "release_status": "RELEASED in v1.0.0"
+}

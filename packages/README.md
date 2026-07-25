@@ -89,7 +89,7 @@ When adding a new package:
 | Package002_Education | Education | Released v1.0.0 (partial scope — see package acquisition_backlog.json) |
 | Package003_Healthcare | Healthcare | Released v1.0.0 (partial scope — see package acquisition_backlog.json) |
 | Package004_Industries | Industries & Livelihoods | Released v1.0.0 (Business Opportunity Knowledge Base — partial scope, see package acquisition_backlog.json) |
-| Package005_Agriculture | Agriculture | Empty placeholder |
-| Package006_Skills | Skills | Empty placeholder |
+| Package005_Agriculture | Agriculture | Released v1.0.0 (Agriculture Intelligence & Agri-Business Knowledge Base — 16 datasets, 388 records; allied categories deferred to v1.1.0, see package CHANGELOG.md) |
+| Package006_Skills | Skills | Empty placeholder (superseded by Package006_Skills_and_Training) |
 | Package007_Government_Schemes | Government Schemes | Empty placeholder |
 | Package008_MSME | MSME | Empty placeholder |

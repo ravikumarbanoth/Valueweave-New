@@ -1,0 +1,203 @@
+{
+  "package": "Package005_Agriculture",
+  "version": "1.0.0",
+  "validated_at_collection_date": "2026-07-24",
+  "datasets": 16,
+  "total_records": 388,
+  "total_cells": 6062,
+  "pending_verification_cells": 132,
+  "pending_verification_rate_pct": 2.18,
+  "confidence_min": 50,
+  "confidence_max": 78,
+  "confidence_ceiling_policy": 85,
+  "cross_package_fk": {
+    "package006_skill_id": {
+      "resolved": 30,
+      "sentinel": 0
+    },
+    "package004_opportunity_name": {
+      "resolved": 17,
+      "sentinel": 13
+    }
+  },
+  "violations": 0,
+  "result": "PASS",
+  "per_dataset": {
+    "agri_business_mapping.csv": {
+      "records": 30,
+      "columns": 15,
+      "primary_key": "mapping_id",
+      "pending_verification_cells": 13,
+      "total_cells": 450,
+      "pending_verification_rate_pct": 2.89,
+      "confidence_min": 62,
+      "confidence_max": 74,
+      "confidence_avg": 69.0
+    },
+    "agri_processing_opportunities.csv": {
+      "records": 17,
+      "columns": 18,
+      "primary_key": "opportunity_id",
+      "pending_verification_cells": 34,
+      "total_cells": 306,
+      "pending_verification_rate_pct": 11.11,
+      "confidence_min": 62,
+      "confidence_max": 70,
+      "confidence_avg": 66.9
+    },
+    "agriculture_schemes.csv": {
+      "records": 12,
+      "columns": 13,
+      "primary_key": "scheme_id",
+      "pending_verification_cells": 0,
+      "total_cells": 156,
+      "pending_verification_rate_pct": 0.0,
+      "confidence_min": 69,
+      "confidence_max": 78,
+      "confidence_avg": 73.2
+    },
+    "agriculture_training.csv": {
+      "records": 7,
+      "columns": 13,
+      "primary_key": "training_id",
+      "pending_verification_cells": 0,
+      "total_cells": 91,
+      "pending_verification_rate_pct": 0.0,
+      "confidence_min": 64,
+      "confidence_max": 77,
+      "confidence_avg": 71.1
+    },
+    "ai_precision_agriculture.csv": {
+      "records": 10,
+      "columns": 16,
+      "primary_key": "technology_id",
+      "pending_verification_cells": 10,
+      "total_cells": 160,
+      "pending_verification_rate_pct": 6.25,
+      "confidence_min": 50,
+      "confidence_max": 66,
+      "confidence_avg": 58.2
+    },
+    "climate_zones.csv": {
+      "records": 8,
+      "columns": 16,
+      "primary_key": "climate_zone_id",
+      "pending_verification_cells": 0,
+      "total_cells": 128,
+      "pending_verification_rate_pct": 0.0,
+      "confidence_min": 72,
+      "confidence_max": 77,
+      "confidence_avg": 74.9
+    },
+    "crop_categories.csv": {
+      "records": 24,
+      "columns": 13,
+      "primary_key": "category_id",
+      "pending_verification_cells": 0,
+      "total_cells": 312,
+      "pending_verification_rate_pct": 0.0,
+      "confidence_min": 57,
+      "confidence_max": 78,
+      "confidence_avg": 72.1
+    },
+    "crop_climate_mapping.csv": {
+      "records": 90,
+      "columns": 15,
+      "primary_key": "mapping_id",
+      "pending_verification_cells": 0,
+      "total_cells": 1350,
+      "pending_verification_rate_pct": 0.0,
+      "confidence_min": 65,
+      "confidence_max": 78,
+      "confidence_avg": 73.4
+    },
+    "crop_disease_management.csv": {
+      "records": 10,
+      "columns": 14,
+      "primary_key": "disease_id",
+      "pending_verification_cells": 0,
+      "total_cells": 140,
+      "pending_verification_rate_pct": 0.0,
+      "confidence_min": 65,
+      "confidence_max": 76,
+      "confidence_avg": 72.4
+    },
+    "crop_soil_mapping.csv": {
+      "records": 90,
+      "columns": 13,
+      "primary_key": "mapping_id",
+      "pending_verification_cells": 0,
+      "total_cells": 1170,
+      "pending_verification_rate_pct": 0.0,
+      "confidence_min": 65,
+      "confidence_max": 78,
+      "confidence_avg": 73.5
+    },
+    "crops.csv": {
+      "records": 45,
+      "columns": 25,
+      "primary_key": "crop_id",
+      "pending_verification_cells": 25,
+      "total_cells": 1125,
+      "pending_verification_rate_pct": 2.22,
+      "confidence_min": 66,
+      "confidence_max": 78,
+      "confidence_avg": 74.4
+    },
+    "export_opportunities.csv": {
+      "records": 8,
+      "columns": 13,
+      "primary_key": "opportunity_id",
+      "pending_verification_cells": 0,
+      "total_cells": 104,
+      "pending_verification_rate_pct": 0.0,
+      "confidence_min": 71,
+      "confidence_max": 77,
+      "confidence_avg": 74.1
+    },
+    "farm_machinery.csv": {
+      "records": 16,
+      "columns": 18,
+      "primary_key": "machinery_id",
+      "pending_verification_cells": 50,
+      "total_cells": 288,
+      "pending_verification_rate_pct": 17.36,
+      "confidence_min": 62,
+      "confidence_max": 72,
+      "confidence_avg": 67.9
+    },
+    "farmer_producer_organizations.csv": {
+      "records": 5,
+      "columns": 12,
+      "primary_key": "fpo_id",
+      "pending_verification_cells": 0,
+      "total_cells": 60,
+      "pending_verification_rate_pct": 0.0,
+      "confidence_min": 68,
+      "confidence_max": 75,
+      "confidence_avg": 71.6
+    },
+    "market_linkages.csv": {
+      "records": 6,
+      "columns": 12,
+      "primary_key": "linkage_id",
+      "pending_verification_cells": 0,
+      "total_cells": 72,
+      "pending_verification_rate_pct": 0.0,
+      "confidence_min": 66,
+      "confidence_max": 76,
+      "confidence_avg": 70.0
+    },
+    "soil_types.csv": {
+      "records": 10,
+      "columns": 15,
+      "primary_key": "soil_id",
+      "pending_verification_cells": 0,
+      "total_cells": 150,
+      "pending_verification_rate_pct": 0.0,
+      "confidence_min": 72,
+      "confidence_max": 78,
+      "confidence_avg": 75.5
+    }
+  }
+}

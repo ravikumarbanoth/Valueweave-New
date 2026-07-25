@@ -1,0 +1,282 @@
+{
+  "package_name": "Package007_Government_Schemes",
+  "package_id": "PKG-007",
+  "package_title": "ValueWeave.in Government Scheme Intelligence Knowledge Base",
+  "version": "1.0.0",
+  "release_date": "2026-07-25",
+  "release_status": "Stable v1.0.0",
+  "scope": "Fifteen interlinked datasets forming a Policy Intelligence Graph: a canonical registry of 40 government schemes with decomposed eligibility logic, benefits, application workflow, required documents, implementing agencies and financial institutions, bound outward by five cross-package mapping datasets to Geography, Education, Agriculture, Skills and Industries, and upward into a profile-based recommendation layer.",
+  "knowledge_graph": "Citizen -> Profile -> Eligibility -> Government Scheme -> Benefits -> {Education, Healthcare, Agriculture, Skills, Industry, MSME} -> Finance -> Employment -> Future Growth",
+  "canonical_registry_role": "Five already-released packages carry domain scheme slices: Package002 (25 scholarships), Package003 (9 health insurance schemes), Package004 (18 MSME support schemes), Package005 (12 agriculture schemes) and Package006 (15 skill schemes). Package007 is the canonical cross-domain registry and does not silently duplicate them: government_schemes.also_in_package names every package that already holds the scheme, so the overlap is explicit. Where a scheme is held in a domain package, the corresponding *_scheme_mapping dataset carries a hard foreign key to that package's record.",
+  "datasets_included": [
+    {
+      "name": "scheme_categories",
+      "layer": "1 - Reference Taxonomy",
+      "records": 24,
+      "columns": 12,
+      "primary_key": "category_id",
+      "confidence_score_range": "72-78",
+      "confidence_avg": 75.3,
+      "verification_status": "VST-NEEDS_REVIEW"
+    },
+    {
+      "name": "required_documents",
+      "layer": "1 - Reference Taxonomy",
+      "records": 15,
+      "columns": 13,
+      "primary_key": "document_id",
+      "confidence_score_range": "68-78",
+      "confidence_avg": 72.9,
+      "verification_status": "VST-NEEDS_REVIEW"
+    },
+    {
+      "name": "implementing_agencies",
+      "layer": "5 - Institutions",
+      "records": 20,
+      "columns": 14,
+      "primary_key": "agency_id",
+      "confidence_score_range": "68-78",
+      "confidence_avg": 73.8,
+      "verification_status": "VST-NEEDS_REVIEW"
+    },
+    {
+      "name": "financial_institutions",
+      "layer": "5 - Institutions",
+      "records": 12,
+      "columns": 14,
+      "primary_key": "institution_id",
+      "confidence_score_range": "68-76",
+      "confidence_avg": 72.7,
+      "verification_status": "VST-NEEDS_REVIEW"
+    },
+    {
+      "name": "scheme_application_status",
+      "layer": "4 - Process",
+      "records": 8,
+      "columns": 15,
+      "primary_key": "status_id",
+      "confidence_score_range": "69-72",
+      "confidence_avg": 70.9,
+      "verification_status": "VST-NEEDS_REVIEW"
+    },
+    {
+      "name": "government_schemes",
+      "layer": "2 - Core Entity",
+      "records": 40,
+      "columns": 25,
+      "primary_key": "scheme_id",
+      "confidence_score_range": "70-78",
+      "confidence_avg": 74.3,
+      "verification_status": "VST-NEEDS_REVIEW"
+    },
+    {
+      "name": "eligibility_criteria",
+      "layer": "3 - Eligibility Logic",
+      "records": 55,
+      "columns": 13,
+      "primary_key": "criterion_id",
+      "confidence_score_range": "70-76",
+      "confidence_avg": 72.7,
+      "verification_status": "VST-NEEDS_REVIEW"
+    },
+    {
+      "name": "scheme_benefits",
+      "layer": "6 - Benefits",
+      "records": 51,
+      "columns": 14,
+      "primary_key": "benefit_id",
+      "confidence_score_range": "69-76",
+      "confidence_avg": 72.4,
+      "verification_status": "VST-NEEDS_REVIEW"
+    },
+    {
+      "name": "application_process",
+      "layer": "4 - Process",
+      "records": 43,
+      "columns": 16,
+      "primary_key": "step_id",
+      "confidence_score_range": "68-74",
+      "confidence_avg": 72.1,
+      "verification_status": "VST-NEEDS_REVIEW"
+    },
+    {
+      "name": "education_scheme_mapping",
+      "layer": "7 - Cross-Package Mapping",
+      "records": 7,
+      "columns": 15,
+      "primary_key": "mapping_id",
+      "confidence_score_range": "68-76",
+      "confidence_avg": 71.6,
+      "verification_status": "VST-NEEDS_REVIEW"
+    },
+    {
+      "name": "agriculture_scheme_mapping",
+      "layer": "7 - Cross-Package Mapping",
+      "records": 14,
+      "columns": 15,
+      "primary_key": "mapping_id",
+      "confidence_score_range": "68-76",
+      "confidence_avg": 71.9,
+      "verification_status": "VST-NEEDS_REVIEW"
+    },
+    {
+      "name": "skill_scheme_mapping",
+      "layer": "7 - Cross-Package Mapping",
+      "records": 12,
+      "columns": 17,
+      "primary_key": "mapping_id",
+      "confidence_score_range": "62-73",
+      "confidence_avg": 69.7,
+      "verification_status": "VST-NEEDS_REVIEW"
+    },
+    {
+      "name": "industry_scheme_mapping",
+      "layer": "7 - Cross-Package Mapping",
+      "records": 12,
+      "columns": 14,
+      "primary_key": "mapping_id",
+      "confidence_score_range": "68-73",
+      "confidence_avg": 71.1,
+      "verification_status": "VST-NEEDS_REVIEW"
+    },
+    {
+      "name": "district_scheme_mapping",
+      "layer": "7 - Cross-Package Mapping",
+      "records": 305,
+      "columns": 16,
+      "primary_key": "mapping_id",
+      "confidence_score_range": "71-73",
+      "confidence_avg": 71.8,
+      "verification_status": "VST-NEEDS_REVIEW"
+    },
+    {
+      "name": "scheme_ai_recommendations",
+      "layer": "8 - Recommendation Layer",
+      "records": 37,
+      "columns": 18,
+      "primary_key": "recommendation_id",
+      "confidence_score_range": "60-60",
+      "confidence_avg": 60.0,
+      "verification_status": "VST-NEEDS_REVIEW"
+    }
+  ],
+  "total_datasets": 15,
+  "total_records": 655,
+  "schemes_registered": 40,
+  "import_order": [
+    "scheme_categories",
+    "required_documents",
+    "implementing_agencies",
+    "financial_institutions",
+    "scheme_application_status",
+    "government_schemes",
+    "eligibility_criteria",
+    "scheme_benefits",
+    "application_process",
+    "education_scheme_mapping",
+    "agriculture_scheme_mapping",
+    "skill_scheme_mapping",
+    "industry_scheme_mapping",
+    "district_scheme_mapping",
+    "scheme_ai_recommendations"
+  ],
+  "import_order_rationale": "Reference taxonomies first (categories, documents, agencies, institutions, statuses), then the canonical government_schemes registry, then its dependent child datasets (eligibility, benefits, process), then the five cross-package mappings, and scheme_ai_recommendations last because it references government_schemes three times including a semicolon-delimited multi-value column.",
+  "data_statistics": {
+    "total_datasets": 15,
+    "total_records": 655,
+    "total_cells": 10401,
+    "pending_verification_cells": 534,
+    "pending_verification_rate_pct": 5.13
+  },
+  "confidence_statistics": {
+    "overall_range": "60-78",
+    "ceiling_policy": 85,
+    "note": "The ceiling reflects that no row rests on a primary-source page read. The floor of 60 is confined to scheme_ai_recommendations, where priority_score is a designed heuristic rather than an empirical measure; the low score is the honest signal."
+  },
+  "cross_package_integration": {
+    "Package001_Geography": "district_scheme_mapping.package001_dist_id -> district.dist_id (305 rows, all resolve)",
+    "Package002_Education": "education_scheme_mapping.package002_record_id -> scholarships.id (4 resolve, 3 sentinel)",
+    "Package003_Healthcare": "No hard FK. government_schemes.also_in_package names Package003 for AB PM-JAY; a health_scheme_mapping dataset is deferred to v1.1.0.",
+    "Package004_Industries": "industry_scheme_mapping.package004_opportunity_name -> name/scheme_name/adapted_indian_concept (12 resolve, 0 sentinel)",
+    "Package005_Agriculture": "agriculture_scheme_mapping.package005_scheme_id -> agriculture_schemes.scheme_id and .package005_crop_id -> crops.crop_id (12 resolve each)",
+    "Package006_Skills_and_Training": "skill_scheme_mapping carries four FKs: scheme_id, skill_id, certification_id, provider_id (9, 11, 4, 3 resolved)",
+    "Package008_MSME": "Planned. industry_scheme_mapping is the intended join surface once Package008 releases."
+  },
+  "cross_package_fk_resolution": {
+    "Package001 district": {
+      "resolved": 305,
+      "sentinel": 0
+    },
+    "Package002 scholarship": {
+      "resolved": 4,
+      "sentinel": 3
+    },
+    "Package005 scheme": {
+      "resolved": 12,
+      "sentinel": 2
+    },
+    "Package005 crop": {
+      "resolved": 12,
+      "sentinel": 2
+    },
+    "Package006 scheme": {
+      "resolved": 9,
+      "sentinel": 3
+    },
+    "Package006 skill": {
+      "resolved": 11,
+      "sentinel": 1
+    },
+    "Package006 certification": {
+      "resolved": 4,
+      "sentinel": 8
+    },
+    "Package006 provider": {
+      "resolved": 3,
+      "sentinel": 9
+    },
+    "Package004 opportunity": {
+      "resolved": 12,
+      "sentinel": 0
+    }
+  },
+  "environment_constraint": "Direct WebFetch to .gov.in / .nic.in / .ac.in domains is blocked by this session's organizational egress policy, as it was for Package004, Package005 and Package006. Every row is attributed to the scheme portal or ministry that governs it, and confidence is capped at 85. Where a figure would have required primary-source confirmation - scheme amounts, premium rates, loan ceilings, subsidy percentages, processing timelines - the bare PENDING_VERIFICATION sentinel is written instead of an estimate. See docs/METHODOLOGY.md.",
+  "validation": {
+    "checks_run": [
+      "V1 structural column count",
+      "V2 primary-key uniqueness",
+      "V3 mandatory provenance columns",
+      "V4 confidence integer/range/ceiling",
+      "V5 bare-sentinel discipline",
+      "V6 verification_status enum",
+      "V7 uniform collection_date",
+      "V8 in-package foreign keys and denormalised names",
+      "V9 cross-package foreign keys (Package001/002/004/005/006)",
+      "V10 no blank cells",
+      "V11 scheme coverage (every scheme has eligibility and benefit rows)",
+      "V12 closed enum domains"
+    ],
+    "violations": 0,
+    "result": "PASS",
+    "validator": "validate.py (in-package, re-runnable)"
+  },
+  "known_limitations": [
+    "No monetary amount is asserted anywhere: scheme benefit quantum, premium rates, loan ceilings and subsidy percentages are the bare sentinel because they are revised by notification and budget cycle.",
+    "No processing timeline is asserted: application_process.typical_timeline is the sentinel on all 43 rows, since no published service standard was confirmable.",
+    "district_specific_variation is the sentinel on all 305 district mapping rows; district-level differences in benefit or capacity were not confirmable per district.",
+    "Only 8 of 40 schemes have modelled application workflows; only 5 of 40 have a district-mediated application step.",
+    "State-specific schemes are largely out of scope: 40 of 40 registry rows are Central. Package002, Package003 and Package004 already carry Telangana and Andhra Pradesh state scheme slices.",
+    "scheme_ai_recommendations priority_score is a designed heuristic with no empirical calibration; it is a rule-engine seed, not evidence.",
+    "No hard foreign key into Package003_Healthcare; a health_scheme_mapping dataset is deferred to v1.1.0."
+  ],
+  "planned_next_release": {
+    "v1.1.0": [
+      "health_scheme_mapping.csv giving Package003 a hard foreign key",
+      "State scheme registry for Telangana and Andhra Pradesh, reconciled against the state slices already in Package002, Package003 and Package004",
+      "Package008_MSME foreign keys via industry_scheme_mapping",
+      "Monetary quantum and processing timelines, contingent on primary-source access",
+      "Application workflows for the remaining 32 schemes",
+      "Human data-steward review to move rows from VST-NEEDS_REVIEW to VST-VERIFIED"
+    ]
+  }
+}

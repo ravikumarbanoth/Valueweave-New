@@ -1,0 +1,64 @@
+{
+  "dataset_name": "scheme_ai_recommendations",
+  "package": "Package007_Government_Schemes",
+  "package_version": "1.0.0",
+  "file": "datasets/scheme_ai_recommendations.csv",
+  "layer": "8 - Recommendation Layer",
+  "purpose": "Citizen profile archetypes mapped to ranked scheme recommendations with priority score, basis, next scheme and related schemes.",
+  "primary_key": "recommendation_id",
+  "record_count": 37,
+  "column_count": 18,
+  "columns": [
+    "recommendation_id",
+    "profile_code",
+    "profile_description",
+    "profile_attributes",
+    "scheme_id",
+    "scheme_short_name",
+    "priority_score",
+    "priority_rank",
+    "recommendation_basis",
+    "suggested_next_scheme_id",
+    "related_scheme_ids",
+    "future_opportunity",
+    "data_source",
+    "source_url",
+    "collection_date",
+    "confidence_score",
+    "verification_status",
+    "notes"
+  ],
+  "foreign_keys": [
+    {
+      "column": "scheme_id",
+      "references_dataset": "government_schemes.csv",
+      "references_column": "scheme_id"
+    },
+    {
+      "column": "suggested_next_scheme_id",
+      "references_dataset": "government_schemes.csv",
+      "references_column": "scheme_id"
+    },
+    {
+      "column": "related_scheme_ids",
+      "references_dataset": "government_schemes.csv",
+      "references_column": "scheme_id (semicolon-delimited)"
+    }
+  ],
+  "collection_date": "2026-07-25",
+  "collection_mode": "Knowledge synthesis from documented public sources (WebFetch to government domains blocked by environment egress policy)",
+  "source_tier": "Tier 3 (rule-based synthesis over this package's own eligibility_criteria.csv)",
+  "methodology": "Ten profile archetypes covering the citizen journeys in the specification, each with a ranked recommendation set. priority_score is a deterministic function of eligibility overlap, benefit magnitude and sequencing logic, intended as a rule-engine input. recommendation_basis states in one sentence why the scheme fits, which makes the score auditable rather than opaque. suggested_next_scheme_id encodes sequencing: PMJDY before any DBT scheme, PM-KISAN before KCC, basic training before advanced.",
+  "confidence_score_min": 60,
+  "confidence_score_max": 60,
+  "confidence_score_avg": 60.0,
+  "confidence_ceiling_policy": 85,
+  "verification_status": "VST-NEEDS_REVIEW",
+  "pending_verification_cells": 12,
+  "pending_verification_rate_pct": 1.8,
+  "pending_verification_columns": {
+    "suggested_next_scheme_id": 12
+  },
+  "known_limitations": "Confidence is 60 on every row, the lowest in the package, and deliberately so. priority_score is a designed heuristic, not an empirical outcome measure: no uptake, approval-rate or benefit-realisation data was available to calibrate it. Profiles are archetypes, not real users, and a production recommender must validate against actual eligibility determination rather than trusting these scores. Treat this dataset as a rule-engine seed, not as evidence.",
+  "release_status": "RELEASED in v1.0.0"
+}

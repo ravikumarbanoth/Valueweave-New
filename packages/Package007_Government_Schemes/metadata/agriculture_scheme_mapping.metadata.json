@@ -1,0 +1,64 @@
+{
+  "dataset_name": "agriculture_scheme_mapping",
+  "package": "Package007_Government_Schemes",
+  "package_version": "1.0.0",
+  "file": "datasets/agriculture_scheme_mapping.csv",
+  "layer": "7 - Cross-Package Mapping",
+  "purpose": "Agriculture schemes mapped to Package005 scheme and crop records, farmer category and farm activity.",
+  "primary_key": "mapping_id",
+  "record_count": 14,
+  "column_count": 15,
+  "columns": [
+    "mapping_id",
+    "scheme_id",
+    "scheme_short_name",
+    "package005_scheme_id",
+    "package005_scheme_name",
+    "package005_crop_id",
+    "package005_crop_name",
+    "farmer_category",
+    "farm_activity",
+    "data_source",
+    "source_url",
+    "collection_date",
+    "confidence_score",
+    "verification_status",
+    "notes"
+  ],
+  "foreign_keys": [
+    {
+      "column": "scheme_id",
+      "references_dataset": "government_schemes.csv",
+      "references_column": "scheme_id"
+    },
+    {
+      "column": "package005_scheme_id",
+      "references_dataset": "Package005_Agriculture (cross-package)",
+      "references_column": "agriculture_schemes.scheme_id"
+    },
+    {
+      "column": "package005_crop_id",
+      "references_dataset": "Package005_Agriculture (cross-package)",
+      "references_column": "crops.crop_id"
+    }
+  ],
+  "collection_date": "2026-07-25",
+  "collection_mode": "Knowledge synthesis from documented public sources (WebFetch to government domains blocked by environment egress policy)",
+  "source_tier": "Tier 1 (Ministry of Agriculture; Package005 reconciliation)",
+  "methodology": "Both Package005 sides were resolved against the released CSVs at generation time. Crop-specific rows were created only where the crop genuinely changes the scheme's relevance, for example chilli's high input cost driving KCC demand, or sugarcane's water intensity making it a PMKSY priority.",
+  "confidence_score_min": 68,
+  "confidence_score_max": 76,
+  "confidence_score_avg": 71.9,
+  "confidence_ceiling_policy": 85,
+  "verification_status": "VST-NEEDS_REVIEW",
+  "pending_verification_cells": 8,
+  "pending_verification_rate_pct": 3.81,
+  "pending_verification_columns": {
+    "package005_crop_id": 2,
+    "package005_crop_name": 2,
+    "package005_scheme_id": 2,
+    "package005_scheme_name": 2
+  },
+  "known_limitations": "12 of 14 rows resolve on both sides. Crop-agnostic schemes (PM-KISAN, Soil Health Card) carry the crop sentinel deliberately, because support is per landholding not per crop. PM-KUSUM and PMFME are not in Package005 v1.0.0, so their scheme-side links are sentinelled.",
+  "release_status": "RELEASED in v1.0.0"
+}

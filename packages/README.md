@@ -91,5 +91,5 @@ When adding a new package:
 | Package004_Industries | Industries & Livelihoods | Released v1.0.0 (Business Opportunity Knowledge Base — partial scope, see package acquisition_backlog.json) |
 | Package005_Agriculture | Agriculture | Released v1.0.0 (Agriculture Intelligence & Agri-Business Knowledge Base — 16 datasets, 388 records; allied categories deferred to v1.1.0, see package CHANGELOG.md) |
 | Package006_Skills | Skills | Empty placeholder (superseded by Package006_Skills_and_Training) |
-| Package007_Government_Schemes | Government Schemes | Empty placeholder |
+| Package007_Government_Schemes | Government Schemes | Released v1.0.0 (Policy Intelligence Graph — 15 datasets, 655 records, 40 schemes; Central schemes only, state registry deferred to v1.1.0, see package CHANGELOG.md) |
 | Package008_MSME | MSME | Empty placeholder |

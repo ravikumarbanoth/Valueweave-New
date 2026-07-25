@@ -1,0 +1,52 @@
+{
+  "dataset_name": "application_process",
+  "package": "Package007_Government_Schemes",
+  "package_version": "1.0.0",
+  "file": "datasets/application_process.csv",
+  "layer": "4 - Process",
+  "purpose": "Ordered step-by-step application workflow per scheme with channel, responsible actor and step output.",
+  "primary_key": "step_id",
+  "record_count": 43,
+  "column_count": 16,
+  "columns": [
+    "step_id",
+    "scheme_id",
+    "scheme_short_name",
+    "step_number",
+    "step_name",
+    "step_description",
+    "channel",
+    "responsible_actor",
+    "typical_timeline",
+    "output_of_step",
+    "data_source",
+    "source_url",
+    "collection_date",
+    "confidence_score",
+    "verification_status",
+    "notes"
+  ],
+  "foreign_keys": [
+    {
+      "column": "scheme_id",
+      "references_dataset": "government_schemes.csv",
+      "references_column": "scheme_id"
+    }
+  ],
+  "collection_date": "2026-07-25",
+  "collection_mode": "Knowledge synthesis from documented public sources (WebFetch to government domains blocked by environment egress policy)",
+  "source_tier": "Tier 1-3 (scheme portals; operational guidelines)",
+  "methodology": "Eight schemes with well-documented multi-stage processes were modelled end to end, one row per step, ordered by step_number. output_of_step names the artifact or state change each step produces, which is what makes the workflow actionable rather than descriptive. responsible_actor distinguishes steps the citizen must act on from steps that happen inside the administration.",
+  "confidence_score_min": 68,
+  "confidence_score_max": 74,
+  "confidence_score_avg": 72.1,
+  "confidence_ceiling_policy": 85,
+  "verification_status": "VST-NEEDS_REVIEW",
+  "pending_verification_cells": 39,
+  "pending_verification_rate_pct": 5.67,
+  "pending_verification_columns": {
+    "typical_timeline": 39
+  },
+  "known_limitations": "typical_timeline is the bare sentinel on every row. Except for MGNREGA's statutory work-allocation period, no published service standard was confirmable without a primary-source read; inventing plausible durations would be fabrication in the field applicants care most about. Only 8 of 40 schemes have process rows; the rest are single-step or lack documented multi-stage workflows.",
+  "release_status": "RELEASED in v1.0.0"
+}

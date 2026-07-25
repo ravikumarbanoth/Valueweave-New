@@ -1,0 +1,57 @@
+{
+  "dataset_name": "district_scheme_mapping",
+  "package": "Package007_Government_Schemes",
+  "package_version": "1.0.0",
+  "file": "datasets/district_scheme_mapping.csv",
+  "layer": "7 - Cross-Package Mapping",
+  "purpose": "District-delivered schemes mapped to all 61 Package001 districts with the district-level agency and application channel.",
+  "primary_key": "mapping_id",
+  "record_count": 305,
+  "column_count": 16,
+  "columns": [
+    "mapping_id",
+    "scheme_id",
+    "scheme_short_name",
+    "package001_dist_id",
+    "dist_ref",
+    "district_name",
+    "state_scope",
+    "district_level_agency",
+    "application_channel",
+    "district_specific_variation",
+    "data_source",
+    "source_url",
+    "collection_date",
+    "confidence_score",
+    "verification_status",
+    "notes"
+  ],
+  "foreign_keys": [
+    {
+      "column": "scheme_id",
+      "references_dataset": "government_schemes.csv",
+      "references_column": "scheme_id"
+    },
+    {
+      "column": "package001_dist_id",
+      "references_dataset": "Package001_Geography (cross-package)",
+      "references_column": "district.dist_id"
+    }
+  ],
+  "collection_date": "2026-07-25",
+  "collection_mode": "Knowledge synthesis from documented public sources (WebFetch to government domains blocked by environment egress policy)",
+  "source_tier": "Tier 1 (Package001 district master; scheme guidelines)",
+  "methodology": "Five schemes whose application is genuinely mediated by a district-level institution were mapped across all 61 Telangana and Andhra Pradesh districts, giving 305 rows with every dist_id resolving. The insight this encodes is that central schemes are nationally uniform in coverage but not in access route: what varies by district is which office you approach.",
+  "confidence_score_min": 71,
+  "confidence_score_max": 73,
+  "confidence_score_avg": 71.8,
+  "confidence_ceiling_policy": 85,
+  "verification_status": "VST-NEEDS_REVIEW",
+  "pending_verification_cells": 305,
+  "pending_verification_rate_pct": 6.25,
+  "pending_verification_columns": {
+    "district_specific_variation": 305
+  },
+  "known_limitations": "district_specific_variation is the bare sentinel on all 305 rows. District-level variation in benefit quantum, empanelled hospital availability or DIC processing capacity is real but was not confirmable per district without primary-source access. Only 5 of 40 schemes appear here: the remaining 35 are nationally administered with no district-mediated application step, and padding them across 61 districts would assert a district dimension that does not exist.",
+  "release_status": "RELEASED in v1.0.0"
+}

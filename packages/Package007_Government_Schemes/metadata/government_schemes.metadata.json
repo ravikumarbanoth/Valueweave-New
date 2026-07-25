@@ -1,0 +1,62 @@
+{
+  "dataset_name": "government_schemes",
+  "package": "Package007_Government_Schemes",
+  "package_version": "1.0.0",
+  "file": "datasets/government_schemes.csv",
+  "layer": "2 - Core Entity",
+  "purpose": "Canonical registry of 40 government schemes with ministry, objective, benefit summary, coverage, application mode and portal.",
+  "primary_key": "scheme_id",
+  "record_count": 40,
+  "column_count": 25,
+  "columns": [
+    "scheme_id",
+    "scheme_name",
+    "short_name",
+    "category_id",
+    "category_name",
+    "ministry",
+    "department",
+    "government_level",
+    "launch_year",
+    "objective",
+    "benefit_summary",
+    "financial_assistance",
+    "subsidy_component",
+    "loan_support",
+    "coverage",
+    "application_mode",
+    "official_portal",
+    "status",
+    "also_in_package",
+    "data_source",
+    "source_url",
+    "collection_date",
+    "confidence_score",
+    "verification_status",
+    "notes"
+  ],
+  "foreign_keys": [
+    {
+      "column": "category_id",
+      "references_dataset": "scheme_categories.csv",
+      "references_column": "category_id"
+    }
+  ],
+  "collection_date": "2026-07-25",
+  "collection_mode": "Knowledge synthesis from documented public sources (WebFetch to government domains blocked by environment egress policy)",
+  "source_tier": "Tier 1 (each scheme's own portal and administering ministry)",
+  "methodology": "Schemes were selected for national reach and for relevance to the citizen journeys this package is built to answer: student, farmer, worker, entrepreneur, and vulnerable household. Every row is attributed to the scheme's own portal rather than to an aggregator. The also_in_package column records where a scheme is already released in a domain package, so the overlap with Package002, Package003, Package004, Package005 and Package006 is explicit and reconcilable rather than a hidden fork.",
+  "confidence_score_min": 70,
+  "confidence_score_max": 78,
+  "confidence_score_avg": 74.3,
+  "confidence_ceiling_policy": 85,
+  "verification_status": "VST-NEEDS_REVIEW",
+  "pending_verification_cells": 53,
+  "pending_verification_rate_pct": 5.3,
+  "pending_verification_columns": {
+    "financial_assistance": 35,
+    "also_in_package": 18
+  },
+  "known_limitations": "financial_assistance is the bare sentinel on almost every row. Scheme amounts, premium rates, loan ceilings and subsidy percentages are revised by notification and budget cycle; stating a figure without a primary-source read would date badly and mislead. Amounts must be re-verified at the official_portal before use. launch_year is the year of launch, not of the current version: PMKVY has run through four versions and PMS-SC dates to 1944 in its earliest form.",
+  "release_status": "RELEASED in v1.0.0"
+}

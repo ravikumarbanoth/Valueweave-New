@@ -1,0 +1,259 @@
+{
+  "package": "Package008_MSME",
+  "version": "1.0.0",
+  "collection_date": "2026-07-25",
+  "datasets": 18,
+  "total_records": 477,
+  "total_cells": 7770,
+  "businesses_catalogued": 40,
+  "pending_verification_cells": 289,
+  "pending_verification_rate_pct": 3.72,
+  "confidence_min": 57,
+  "confidence_max": 78,
+  "confidence_ceiling_policy": 85,
+  "cross_package_fk": {
+    "Package001 district": {
+      "resolved": 32,
+      "sentinel": 0
+    },
+    "Package002 institution": {
+      "resolved": 4,
+      "sentinel": 9
+    },
+    "Package005 crop (raw material)": {
+      "resolved": 12,
+      "sentinel": 21
+    },
+    "Package005 crop (agri business)": {
+      "resolved": 10,
+      "sentinel": 4
+    },
+    "Package005 machinery": {
+      "resolved": 10,
+      "sentinel": 54
+    },
+    "Package005 processing": {
+      "resolved": 14,
+      "sentinel": 0
+    },
+    "Package006 skill": {
+      "resolved": 46,
+      "sentinel": 7
+    },
+    "Package006 provider": {
+      "resolved": 9,
+      "sentinel": 4
+    },
+    "Package007 scheme": {
+      "resolved": 57,
+      "sentinel": 0
+    },
+    "Package004 opportunity": {
+      "resolved": 19,
+      "sentinel": 0
+    }
+  },
+  "normalization_check": "V13 PASS",
+  "violations": 0,
+  "result": "PASS",
+  "per_dataset": {
+    "agriculture_business_mapping.csv": {
+      "records": 14,
+      "columns": 14,
+      "primary_key": "mapping_id",
+      "pending_verification_cells": 8,
+      "total_cells": 196,
+      "pending_verification_rate_pct": 4.08,
+      "confidence_min": 58,
+      "confidence_max": 74,
+      "confidence_avg": 70.0
+    },
+    "ai_business_tools.csv": {
+      "records": 12,
+      "columns": 15,
+      "primary_key": "tool_id",
+      "pending_verification_cells": 0,
+      "total_cells": 180,
+      "pending_verification_rate_pct": 0.0,
+      "confidence_min": 57,
+      "confidence_max": 72,
+      "confidence_avg": 63.1
+    },
+    "business_models.csv": {
+      "records": 15,
+      "columns": 14,
+      "primary_key": "business_model_id",
+      "pending_verification_cells": 15,
+      "total_cells": 210,
+      "pending_verification_rate_pct": 7.14,
+      "confidence_min": 64,
+      "confidence_max": 76,
+      "confidence_avg": 70.7
+    },
+    "district_business_mapping.csv": {
+      "records": 32,
+      "columns": 16,
+      "primary_key": "mapping_id",
+      "pending_verification_cells": 0,
+      "total_cells": 512,
+      "pending_verification_rate_pct": 0.0,
+      "confidence_min": 62,
+      "confidence_max": 74,
+      "confidence_avg": 67.9
+    },
+    "education_support_mapping.csv": {
+      "records": 13,
+      "columns": 15,
+      "primary_key": "mapping_id",
+      "pending_verification_cells": 26,
+      "total_cells": 195,
+      "pending_verification_rate_pct": 13.33,
+      "confidence_min": 64,
+      "confidence_max": 70,
+      "confidence_avg": 67.4
+    },
+    "export_opportunities.csv": {
+      "records": 12,
+      "columns": 15,
+      "primary_key": "opportunity_id",
+      "pending_verification_cells": 0,
+      "total_cells": 180,
+      "pending_verification_rate_pct": 0.0,
+      "confidence_min": 60,
+      "confidence_max": 72,
+      "confidence_avg": 66.2
+    },
+    "financial_support.csv": {
+      "records": 12,
+      "columns": 15,
+      "primary_key": "finance_id",
+      "pending_verification_cells": 8,
+      "total_cells": 180,
+      "pending_verification_rate_pct": 4.44,
+      "confidence_min": 62,
+      "confidence_max": 76,
+      "confidence_avg": 71.2
+    },
+    "industry_mapping.csv": {
+      "records": 19,
+      "columns": 13,
+      "primary_key": "mapping_id",
+      "pending_verification_cells": 0,
+      "total_cells": 247,
+      "pending_verification_rate_pct": 0.0,
+      "confidence_min": 60,
+      "confidence_max": 74,
+      "confidence_avg": 68.6
+    },
+    "investment_intelligence.csv": {
+      "records": 40,
+      "columns": 20,
+      "primary_key": "intelligence_id",
+      "pending_verification_cells": 0,
+      "total_cells": 800,
+      "pending_verification_rate_pct": 0.0,
+      "confidence_min": 61,
+      "confidence_max": 72,
+      "confidence_avg": 67.0
+    },
+    "license_compliance.csv": {
+      "records": 14,
+      "columns": 16,
+      "primary_key": "license_id",
+      "pending_verification_cells": 6,
+      "total_cells": 224,
+      "pending_verification_rate_pct": 2.68,
+      "confidence_min": 66,
+      "confidence_max": 78,
+      "confidence_avg": 71.4
+    },
+    "machinery_mapping.csv": {
+      "records": 64,
+      "columns": 16,
+      "primary_key": "mapping_id",
+      "pending_verification_cells": 108,
+      "total_cells": 1024,
+      "pending_verification_rate_pct": 10.55,
+      "confidence_min": 61,
+      "confidence_max": 72,
+      "confidence_avg": 66.8
+    },
+    "market_channels.csv": {
+      "records": 11,
+      "columns": 15,
+      "primary_key": "channel_id",
+      "pending_verification_cells": 19,
+      "total_cells": 165,
+      "pending_verification_rate_pct": 11.52,
+      "confidence_min": 62,
+      "confidence_max": 74,
+      "confidence_avg": 68.5
+    },
+    "msme_businesses.csv": {
+      "records": 40,
+      "columns": 26,
+      "primary_key": "business_id",
+      "pending_verification_cells": 40,
+      "total_cells": 1040,
+      "pending_verification_rate_pct": 3.85,
+      "confidence_min": 63,
+      "confidence_max": 74,
+      "confidence_avg": 69.0
+    },
+    "msme_categories.csv": {
+      "records": 24,
+      "columns": 14,
+      "primary_key": "category_id",
+      "pending_verification_cells": 0,
+      "total_cells": 336,
+      "pending_verification_rate_pct": 0.0,
+      "confidence_min": 58,
+      "confidence_max": 78,
+      "confidence_avg": 70.6
+    },
+    "raw_material_mapping.csv": {
+      "records": 33,
+      "columns": 17,
+      "primary_key": "mapping_id",
+      "pending_verification_cells": 42,
+      "total_cells": 561,
+      "pending_verification_rate_pct": 7.49,
+      "confidence_min": 60,
+      "confidence_max": 72,
+      "confidence_avg": 66.5
+    },
+    "scheme_mapping.csv": {
+      "records": 57,
+      "columns": 14,
+      "primary_key": "mapping_id",
+      "pending_verification_cells": 0,
+      "total_cells": 798,
+      "pending_verification_rate_pct": 0.0,
+      "confidence_min": 61,
+      "confidence_max": 73,
+      "confidence_avg": 67.8
+    },
+    "skill_mapping.csv": {
+      "records": 53,
+      "columns": 14,
+      "primary_key": "mapping_id",
+      "pending_verification_cells": 14,
+      "total_cells": 742,
+      "pending_verification_rate_pct": 1.89,
+      "confidence_min": 57,
+      "confidence_max": 72,
+      "confidence_avg": 66.4
+    },
+    "startup_ecosystem.csv": {
+      "records": 12,
+      "columns": 15,
+      "primary_key": "ecosystem_id",
+      "pending_verification_cells": 3,
+      "total_cells": 180,
+      "pending_verification_rate_pct": 1.67,
+      "confidence_min": 66,
+      "confidence_max": 76,
+      "confidence_avg": 70.2
+    }
+  }
+}

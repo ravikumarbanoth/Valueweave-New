@@ -92,4 +92,4 @@ When adding a new package:
 | Package005_Agriculture | Agriculture | Released v1.0.0 (Agriculture Intelligence & Agri-Business Knowledge Base — 16 datasets, 388 records; allied categories deferred to v1.1.0, see package CHANGELOG.md) |
 | Package006_Skills | Skills | Empty placeholder (superseded by Package006_Skills_and_Training) |
 | Package007_Government_Schemes | Government Schemes | Released v1.0.0 (Policy Intelligence Graph — 15 datasets, 655 records, 40 schemes; Central schemes only, state registry deferred to v1.1.0, see package CHANGELOG.md) |
-| Package008_MSME | MSME | Empty placeholder |
+| Package008_MSME | MSME | Released v1.0.0 (MSME & Entrepreneurship Intelligence Knowledge Base — 18 datasets, 477 records, 40 businesses; the Business Intelligence Layer, referencing 6 upstream packages with non-duplication enforced by validation check V13, see package CHANGELOG.md) |

@@ -1,0 +1,56 @@
+{
+  "dataset_name": "skill_mapping",
+  "package": "Package008_MSME",
+  "package_version": "1.0.0",
+  "file": "datasets/skill_mapping.csv",
+  "layer": "6 - Cross-Package Mapping",
+  "purpose": "Which skills each business requires, in what role, at what criticality, and for whom.",
+  "primary_key": "mapping_id",
+  "record_count": 53,
+  "column_count": 14,
+  "columns": [
+    "mapping_id",
+    "business_id",
+    "business_name",
+    "package006_skill_id",
+    "package006_skill_name",
+    "skill_role",
+    "criticality",
+    "who_needs_it",
+    "data_source",
+    "source_url",
+    "collection_date",
+    "confidence_score",
+    "verification_status",
+    "notes"
+  ],
+  "foreign_keys": [
+    {
+      "column": "business_id",
+      "references_dataset": "msme_businesses.csv",
+      "references_column": "business_id"
+    },
+    {
+      "column": "package006_skill_id",
+      "references_dataset": "Package006_Skills_and_Training (cross-package)",
+      "references_column": "skills.skill_id"
+    }
+  ],
+  "collection_date": "2026-07-25",
+  "collection_mode": "Knowledge synthesis from documented public sources (WebFetch to government domains blocked by environment egress policy)",
+  "source_tier": "Tier 1 (Package006 reconciliation)",
+  "methodology": "Every business carries at least one skill row, enforced by V11. 46 of 53 rows resolve to a real Package006 skill_id. who_needs_it distinguishes owner-level from operator-level requirements, which changes hiring strategy. Skill detail -- NSQF level, learning duration, training route -- stays in Package006.",
+  "confidence_score_min": 57,
+  "confidence_score_max": 72,
+  "confidence_score_avg": 66.4,
+  "confidence_ceiling_policy": 85,
+  "verification_status": "VST-NEEDS_REVIEW",
+  "pending_verification_cells": 14,
+  "pending_verification_rate_pct": 1.89,
+  "pending_verification_columns": {
+    "package006_skill_id": 7,
+    "package006_skill_name": 7
+  },
+  "known_limitations": "Seven rows carry the sentinel because Package006 v1.0.0 has no matching skill record: foundry casting, handloom weaving, corrugation machine operation, plastic reprocessing, chemical formulation, data entry and training delivery. Those are real gaps in Package006's coverage, recorded here as explicit sentinel rows with the requirement described in skill_role, rather than being pointed at an approximate skill. criticality is a judgement, not a job specification.",
+  "release_status": "RELEASED in v1.0.0"
+}

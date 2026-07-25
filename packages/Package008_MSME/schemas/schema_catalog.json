@@ -1,0 +1,1637 @@
+{
+  "package": "Package008_MSME",
+  "version": "1.0.0",
+  "description": "Canonical primary-key, foreign-key and column reference for all 18 datasets in Package008_MSME v1.0.0. Package008 is the Business Intelligence Layer of the knowledge base: a catalogue of MSME business opportunities surrounded by their input requirements, compliance obligations, finance sources, market and export routes, technology adoption profile and investment characteristics -- bound outward to six released packages by reference rather than by duplication.",
+  "graph_spine": "msme_categories + business_models -> msme_businesses -> {machinery_mapping, raw_material_mapping, scheme_mapping, skill_mapping, industry_mapping, agriculture_business_mapping, district_business_mapping, export_opportunities} -> investment_intelligence",
+  "normalization_rule": "The package brief makes non-duplication a hard requirement: Package008 SHALL NOT duplicate government schemes, skills, industries, geography, education or agriculture. This is enforced mechanically by validation check V13, not merely documented. V13 fails the build if any Package008 column name collides with an attribute owned by an upstream entity -- a scheme's benefit or ministry, a skill's NSQF level, a crop's season or yield, a district's population. Package008 stores the RELATIONSHIP between a business and an upstream entity, plus attributes of that relationship, and nothing more.",
+  "cross_package_foreign_keys": {
+    "Package001_Geography": "district_business_mapping.package001_dist_id -> district.dist_id (32 rows, all resolve)",
+    "Package002_Education": "education_support_mapping.package002_institution_id -> universities.id (4 resolve, 9 sentinel)",
+    "Package004_Industries": "industry_mapping.package004_opportunity_id -> id across 4 datasets (19 resolve, 0 sentinel)",
+    "Package005_Agriculture": "Three FK sets: raw_material_mapping.package005_crop_id and agriculture_business_mapping.package005_crop_id -> crops.crop_id; machinery_mapping.package005_machinery_id -> farm_machinery.machinery_id; agriculture_business_mapping.package005_processing_opportunity_id -> agri_processing_opportunities.opportunity_id",
+    "Package006_Skills_and_Training": "skill_mapping.package006_skill_id -> skills.skill_id (46 resolve, 7 sentinel); education_support_mapping.package006_provider_id -> training_providers.provider_id (9 resolve, 4 sentinel)",
+    "Package007_Government_Schemes": "scheme_mapping.package007_scheme_id -> government_schemes.scheme_id (57 rows, all resolve, 0 sentinel)",
+    "Package003_Healthcare": "No foreign key. Healthcare appears as an MSME category (mc-008) but Package003 holds institutions and insurance schemes, not enterprise opportunities, so there is no counterpart record to reference."
+  },
+  "sentinel_policy": "PENDING_VERIFICATION appears only as a complete, bare cell value. In this package the sentinel is concentrated in monetary and duration fields -- investment range, machinery cost, payment cycle, lead time to revenue -- because those depend on capacity, location and operator, and no official public benchmark exists per business. A sentinel in a cross-package id column means the upstream package has no counterpart record, not that the relationship is unknown.",
+  "confidence_policy": {
+    "ceiling": 85,
+    "reason": "Direct WebFetch to .gov.in / .nic.in / .ac.in domains is blocked by this environment's egress policy, so no row rests on a primary-source page read. Carried forward from Package004 through Package007.",
+    "bands": {
+      "70-85": "Tier 1 - Ministry of MSME, Udyam portal, SIDBI, NABARD, NSIC, KVIC, DPIIT, GeM, MSME-DIs",
+      "62-69": "Tier 2 - government reports and programme literature",
+      "56-61": "Tier 3 - industry associations (CII, FICCI, ASSOCHAM, NASSCOM)",
+      "45-55": "Tier 4 - official sector reports and derived aggregates"
+    },
+    "observed_range": "57-78"
+  },
+  "datasets": [
+    {
+      "dataset_name": "msme_categories",
+      "file": "datasets/msme_categories.csv",
+      "layer": "1 - Reference Taxonomy",
+      "purpose": "MSME sector classification across primary groups, manufacturing sub-sectors, service sub-sectors and emerging sectors.",
+      "primary_key": "category_id",
+      "record_count": 24,
+      "column_count": 14,
+      "foreign_keys": [],
+      "source_tier": "Tier 1 (Ministry of MSME; sector ministries)",
+      "confidence_range": "58-78",
+      "confidence_avg": 70.6,
+      "pending_verification_cells": 0,
+      "pending_verification_columns": {},
+      "columns": [
+        {
+          "name": "category_id",
+          "description": ""
+        },
+        {
+          "name": "category_name",
+          "description": ""
+        },
+        {
+          "name": "category_group",
+          "description": ""
+        },
+        {
+          "name": "description",
+          "description": ""
+        },
+        {
+          "name": "nic_section_hint",
+          "description": ""
+        },
+        {
+          "name": "capital_intensity",
+          "description": ""
+        },
+        {
+          "name": "skill_intensity",
+          "description": ""
+        },
+        {
+          "name": "typical_udyam_class",
+          "description": ""
+        },
+        {
+          "name": "data_source",
+          "description": "Authoritative body the row is attributed to"
+        },
+        {
+          "name": "source_url",
+          "description": "Public URL for that body"
+        },
+        {
+          "name": "collection_date",
+          "description": "Collection date; uniform 2026-07-25 across the package"
+        },
+        {
+          "name": "confidence_score",
+          "description": "Integer 0-100, capped at the 85 package policy ceiling"
+        },
+        {
+          "name": "verification_status",
+          "description": "VST-NEEDS_REVIEW pending human data-steward sign-off"
+        },
+        {
+          "name": "notes",
+          "description": "Caveats, qualifications and sourcing remarks"
+        }
+      ],
+      "known_limitations": "capital_intensity and skill_intensity are ordinal judgements, not measured ratios. typical_udyam_class indicates where most units in the category fall, not a constraint. NIC hints are section or division level, not the full five-digit code."
+    },
+    {
+      "dataset_name": "business_models",
+      "file": "datasets/business_models.csv",
+      "layer": "1 - Reference Taxonomy",
+      "purpose": "The delivery models an MSME can adopt, classified by what the model actually depends on.",
+      "primary_key": "business_model_id",
+      "record_count": 15,
+      "column_count": 14,
+      "foreign_keys": [],
+      "source_tier": "Tier 1 (MSME-DI project profiles; Ministry of MSME)",
+      "confidence_range": "64-76",
+      "confidence_avg": 70.7,
+      "pending_verification_cells": 15,
+      "pending_verification_columns": {
+        "typical_lead_time_to_revenue": 15
+      },
+      "columns": [
+        {
+          "name": "business_model_id",
+          "description": ""
+        },
+        {
+          "name": "business_model_name",
+          "description": ""
+        },
+        {
+          "name": "model_type",
+          "description": ""
+        },
+        {
+          "name": "description",
+          "description": ""
+        },
+        {
+          "name": "revenue_pattern",
+          "description": ""
+        },
+        {
+          "name": "asset_intensity",
+          "description": ""
+        },
+        {
+          "name": "typical_lead_time_to_revenue",
+          "description": ""
+        },
+        {
+          "name": "primary_risk",
+          "description": ""
+        },
+        {
+          "name": "data_source",
+          "description": "Authoritative body the row is attributed to"
+        },
+        {
+          "name": "source_url",
+          "description": "Public URL for that body"
+        },
+        {
+          "name": "collection_date",
+          "description": "Collection date; uniform 2026-07-25 across the package"
+        },
+        {
+          "name": "confidence_score",
+          "description": "Integer 0-100, capped at the 85 package policy ceiling"
+        },
+        {
+          "name": "verification_status",
+          "description": "VST-NEEDS_REVIEW pending human data-steward sign-off"
+        },
+        {
+          "name": "notes",
+          "description": "Caveats, qualifications and sourcing remarks"
+        }
+      ],
+      "known_limitations": "typical_lead_time_to_revenue is the bare sentinel throughout: no published benchmark exists and the figure varies more by operator than by model. revenue_pattern and asset_intensity are qualitative."
+    },
+    {
+      "dataset_name": "license_compliance",
+      "file": "datasets/license_compliance.csv",
+      "layer": "4 - Compliance",
+      "purpose": "Licences, registrations and clearances with issuing authority, jurisdiction, applicability and renewal cycle.",
+      "primary_key": "license_id",
+      "record_count": 14,
+      "column_count": 16,
+      "foreign_keys": [],
+      "source_tier": "Tier 1 (issuing authorities: Ministry of MSME, GSTN, FSSAI, CPCB, BIS, CDSCO, DGFT)",
+      "confidence_range": "66-78",
+      "confidence_avg": 71.4,
+      "pending_verification_cells": 6,
+      "pending_verification_columns": {
+        "official_portal": 6
+      },
+      "columns": [
+        {
+          "name": "license_id",
+          "description": ""
+        },
+        {
+          "name": "license_name",
+          "description": ""
+        },
+        {
+          "name": "license_type",
+          "description": ""
+        },
+        {
+          "name": "issuing_authority",
+          "description": ""
+        },
+        {
+          "name": "jurisdiction",
+          "description": ""
+        },
+        {
+          "name": "applicability",
+          "description": ""
+        },
+        {
+          "name": "is_mandatory_when_applicable",
+          "description": ""
+        },
+        {
+          "name": "renewal_cycle",
+          "description": ""
+        },
+        {
+          "name": "online_application",
+          "description": ""
+        },
+        {
+          "name": "official_portal",
+          "description": ""
+        },
+        {
+          "name": "data_source",
+          "description": "Authoritative body the row is attributed to"
+        },
+        {
+          "name": "source_url",
+          "description": "Public URL for that body"
+        },
+        {
+          "name": "collection_date",
+          "description": "Collection date; uniform 2026-07-25 across the package"
+        },
+        {
+          "name": "confidence_score",
+          "description": "Integer 0-100, capped at the 85 package policy ceiling"
+        },
+        {
+          "name": "verification_status",
+          "description": "VST-NEEDS_REVIEW pending human data-steward sign-off"
+        },
+        {
+          "name": "notes",
+          "description": "Caveats, qualifications and sourcing remarks"
+        }
+      ],
+      "known_limitations": "State-administered licences (Factory Licence, Trade Licence, Fire NOC, Electrical Inspectorate, Shops and Establishments) sentinel official_portal because there is no single national portal; the route differs by state and often by local body. Thresholds are described qualitatively because they are revised by notification. ISO certification is included but is not a government licence -- the ISO row records that distinction explicitly."
+    },
+    {
+      "dataset_name": "financial_support",
+      "file": "datasets/financial_support.csv",
+      "layer": "5 - Finance",
+      "purpose": "Finance sources with instrument, typical use, collateral requirement and the Package007 scheme each is linked to.",
+      "primary_key": "finance_id",
+      "record_count": 12,
+      "column_count": 15,
+      "foreign_keys": [],
+      "source_tier": "Tier 1 (RBI; SIDBI; NABARD; NSIC; Department of Financial Services)",
+      "confidence_range": "62-76",
+      "confidence_avg": 71.2,
+      "pending_verification_cells": 8,
+      "pending_verification_columns": {
+        "official_website": 4,
+        "linked_package007_scheme_short_name": 4
+      },
+      "columns": [
+        {
+          "name": "finance_id",
+          "description": ""
+        },
+        {
+          "name": "finance_source_name",
+          "description": ""
+        },
+        {
+          "name": "source_type",
+          "description": ""
+        },
+        {
+          "name": "institution_type",
+          "description": ""
+        },
+        {
+          "name": "instrument",
+          "description": ""
+        },
+        {
+          "name": "typical_use",
+          "description": ""
+        },
+        {
+          "name": "collateral_requirement",
+          "description": ""
+        },
+        {
+          "name": "linked_package007_scheme_short_name",
+          "description": ""
+        },
+        {
+          "name": "official_website",
+          "description": ""
+        },
+        {
+          "name": "data_source",
+          "description": "Authoritative body the row is attributed to"
+        },
+        {
+          "name": "source_url",
+          "description": "Public URL for that body"
+        },
+        {
+          "name": "collection_date",
+          "description": "Collection date; uniform 2026-07-25 across the package"
+        },
+        {
+          "name": "confidence_score",
+          "description": "Integer 0-100, capped at the 85 package policy ceiling"
+        },
+        {
+          "name": "verification_status",
+          "description": "VST-NEEDS_REVIEW pending human data-steward sign-off"
+        },
+        {
+          "name": "notes",
+          "description": "Caveats, qualifications and sourcing remarks"
+        }
+      ],
+      "known_limitations": "No interest rate, loan ceiling or subsidy percentage is asserted -- those live in Package007 for scheme-linked instruments and change by notification. Institution-type rows (Regional Rural Banks, State Finance Corporations, Small Finance Banks) describe categories, not named entities, and sentinel official_website. Equity sources are relevant to a narrow slice of MSMEs and the rows say so."
+    },
+    {
+      "dataset_name": "market_channels",
+      "file": "datasets/market_channels.csv",
+      "layer": "7 - Market Access",
+      "purpose": "Sales channels with buyer type, entry barrier, digital intensity and payment cycle.",
+      "primary_key": "channel_id",
+      "record_count": 11,
+      "column_count": 15,
+      "foreign_keys": [],
+      "source_tier": "Tier 1-2 (Ministry of MSME; GeM; DPIIT/ONDC; Ministry of Commerce)",
+      "confidence_range": "62-74",
+      "confidence_avg": 68.5,
+      "pending_verification_cells": 19,
+      "pending_verification_columns": {
+        "typical_payment_cycle": 11,
+        "official_portal": 8
+      },
+      "columns": [
+        {
+          "name": "channel_id",
+          "description": ""
+        },
+        {
+          "name": "channel_name",
+          "description": ""
+        },
+        {
+          "name": "channel_type",
+          "description": ""
+        },
+        {
+          "name": "buyer_type",
+          "description": ""
+        },
+        {
+          "name": "description",
+          "description": ""
+        },
+        {
+          "name": "typical_payment_cycle",
+          "description": ""
+        },
+        {
+          "name": "entry_barrier",
+          "description": ""
+        },
+        {
+          "name": "digital_intensity",
+          "description": ""
+        },
+        {
+          "name": "official_portal",
+          "description": ""
+        },
+        {
+          "name": "data_source",
+          "description": "Authoritative body the row is attributed to"
+        },
+        {
+          "name": "source_url",
+          "description": "Public URL for that body"
+        },
+        {
+          "name": "collection_date",
+          "description": "Collection date; uniform 2026-07-25 across the package"
+        },
+        {
+          "name": "confidence_score",
+          "description": "Integer 0-100, capped at the 85 package policy ceiling"
+        },
+        {
+          "name": "verification_status",
+          "description": "VST-NEEDS_REVIEW pending human data-steward sign-off"
+        },
+        {
+          "name": "notes",
+          "description": "Caveats, qualifications and sourcing remarks"
+        }
+      ],
+      "known_limitations": "typical_payment_cycle is the bare sentinel on every row: payment terms are negotiated per buyer and vary by orders of magnitude between B2C marketplace settlement and government tender payment. Marketplace rows sentinel official_portal because platform seller-onboarding URLs change; the platform name is the durable identifier. Commission structures are described qualitatively in notes, never as percentages."
+    },
+    {
+      "dataset_name": "ai_business_tools",
+      "file": "datasets/ai_business_tools.csv",
+      "layer": "9 - Technology Adoption",
+      "purpose": "AI and software tool classes with MSME relevance, Indian adoption maturity and implementation complexity.",
+      "primary_key": "tool_id",
+      "record_count": 12,
+      "column_count": 15,
+      "foreign_keys": [],
+      "source_tier": "Tier 2-3 (MeitY; NASSCOM; industry reporting)",
+      "confidence_range": "57-72",
+      "confidence_avg": 63.1,
+      "pending_verification_cells": 0,
+      "pending_verification_columns": {},
+      "columns": [
+        {
+          "name": "tool_id",
+          "description": ""
+        },
+        {
+          "name": "tool_class",
+          "description": ""
+        },
+        {
+          "name": "function_area",
+          "description": ""
+        },
+        {
+          "name": "description",
+          "description": ""
+        },
+        {
+          "name": "msme_relevance",
+          "description": ""
+        },
+        {
+          "name": "adoption_maturity_india",
+          "description": ""
+        },
+        {
+          "name": "implementation_complexity",
+          "description": ""
+        },
+        {
+          "name": "typical_deployment",
+          "description": ""
+        },
+        {
+          "name": "expected_benefit",
+          "description": ""
+        },
+        {
+          "name": "data_source",
+          "description": "Authoritative body the row is attributed to"
+        },
+        {
+          "name": "source_url",
+          "description": "Public URL for that body"
+        },
+        {
+          "name": "collection_date",
+          "description": "Collection date; uniform 2026-07-25 across the package"
+        },
+        {
+          "name": "confidence_score",
+          "description": "Integer 0-100, capped at the 85 package policy ceiling"
+        },
+        {
+          "name": "verification_status",
+          "description": "VST-NEEDS_REVIEW pending human data-steward sign-off"
+        },
+        {
+          "name": "notes",
+          "description": "Caveats, qualifications and sourcing remarks"
+        }
+      ],
+      "known_limitations": "No cost is asserted. adoption_maturity_india is an ordinal judgement from industry reporting, not a measured penetration rate, and carries the lowest confidence in the package alongside the emerging-technology rows. Generative AI is rated the lowest-friction entry point, which reflects current tooling and may date quickly."
+    },
+    {
+      "dataset_name": "startup_ecosystem",
+      "file": "datasets/startup_ecosystem.csv",
+      "layer": "10 - Support Ecosystem",
+      "purpose": "Incubators, accelerators, government institutes and trade bodies that support MSME and startup formation.",
+      "primary_key": "ecosystem_id",
+      "record_count": 12,
+      "column_count": 15,
+      "foreign_keys": [],
+      "source_tier": "Tier 1 (DPIIT; Atal Innovation Mission; Ministry of MSME; state governments)",
+      "confidence_range": "66-76",
+      "confidence_avg": 70.2,
+      "pending_verification_cells": 3,
+      "pending_verification_columns": {
+        "official_website": 3
+      },
+      "columns": [
+        {
+          "name": "ecosystem_id",
+          "description": ""
+        },
+        {
+          "name": "entity_name",
+          "description": ""
+        },
+        {
+          "name": "entity_type",
+          "description": ""
+        },
+        {
+          "name": "sponsoring_body",
+          "description": ""
+        },
+        {
+          "name": "jurisdiction",
+          "description": ""
+        },
+        {
+          "name": "services_offered",
+          "description": ""
+        },
+        {
+          "name": "target_stage",
+          "description": ""
+        },
+        {
+          "name": "sector_focus",
+          "description": ""
+        },
+        {
+          "name": "official_website",
+          "description": ""
+        },
+        {
+          "name": "data_source",
+          "description": "Authoritative body the row is attributed to"
+        },
+        {
+          "name": "source_url",
+          "description": "Public URL for that body"
+        },
+        {
+          "name": "collection_date",
+          "description": "Collection date; uniform 2026-07-25 across the package"
+        },
+        {
+          "name": "confidence_score",
+          "description": "Integer 0-100, capped at the 85 package policy ceiling"
+        },
+        {
+          "name": "verification_status",
+          "description": "VST-NEEDS_REVIEW pending human data-steward sign-off"
+        },
+        {
+          "name": "notes",
+          "description": "Caveats, qualifications and sourcing remarks"
+        }
+      ],
+      "known_limitations": "District-level and network entries (DIC, Rural Business Incubators, RSETI, Export Promotion Councils) describe entity types present across many locations, not named offices, and sentinel official_website where no single national URL exists. The two Telangana-specific facilities (T-Hub, WE-HUB) are named because they are single-site institutions; Andhra Pradesh's counterpart is recorded at programme level. No count of incubatees, funding deployed or success rate is asserted."
+    },
+    {
+      "dataset_name": "msme_businesses",
+      "file": "datasets/msme_businesses.csv",
+      "layer": "2 - Core Entity",
+      "purpose": "Forty MSME business opportunities profiled on classification, difficulty, risk, technology, market and geography.",
+      "primary_key": "business_id",
+      "record_count": 40,
+      "column_count": 26,
+      "foreign_keys": [
+        {
+          "column": "category_id",
+          "references_dataset": "msme_categories.csv",
+          "references_column": "category_id"
+        },
+        {
+          "column": "business_model_id",
+          "references_dataset": "business_models.csv",
+          "references_column": "business_model_id"
+        }
+      ],
+      "source_tier": "Tier 1-3 (MSME-DI project profiles; sector ministries; industry associations)",
+      "confidence_range": "63-74",
+      "confidence_avg": 69.0,
+      "pending_verification_cells": 40,
+      "pending_verification_columns": {
+        "investment_range": 40
+      },
+      "columns": [
+        {
+          "name": "business_id",
+          "description": ""
+        },
+        {
+          "name": "business_name",
+          "description": ""
+        },
+        {
+          "name": "category_id",
+          "description": ""
+        },
+        {
+          "name": "category_name",
+          "description": ""
+        },
+        {
+          "name": "business_model_id",
+          "description": ""
+        },
+        {
+          "name": "business_model_name",
+          "description": ""
+        },
+        {
+          "name": "description",
+          "description": ""
+        },
+        {
+          "name": "udyam_classification",
+          "description": ""
+        },
+        {
+          "name": "investment_range",
+          "description": ""
+        },
+        {
+          "name": "working_capital_need",
+          "description": ""
+        },
+        {
+          "name": "employment_generation",
+          "description": ""
+        },
+        {
+          "name": "difficulty",
+          "description": ""
+        },
+        {
+          "name": "risk_level",
+          "description": ""
+        },
+        {
+          "name": "technology_level",
+          "description": ""
+        },
+        {
+          "name": "automation_level",
+          "description": ""
+        },
+        {
+          "name": "ai_readiness",
+          "description": ""
+        },
+        {
+          "name": "market_demand",
+          "description": ""
+        },
+        {
+          "name": "export_potential",
+          "description": ""
+        },
+        {
+          "name": "profitability_outlook",
+          "description": ""
+        },
+        {
+          "name": "district_suitability",
+          "description": ""
+        },
+        {
+          "name": "data_source",
+          "description": "Authoritative body the row is attributed to"
+        },
+        {
+          "name": "source_url",
+          "description": "Public URL for that body"
+        },
+        {
+          "name": "collection_date",
+          "description": "Collection date; uniform 2026-07-25 across the package"
+        },
+        {
+          "name": "confidence_score",
+          "description": "Integer 0-100, capped at the 85 package policy ceiling"
+        },
+        {
+          "name": "verification_status",
+          "description": "VST-NEEDS_REVIEW pending human data-steward sign-off"
+        },
+        {
+          "name": "notes",
+          "description": "Caveats, qualifications and sourcing remarks"
+        }
+      ],
+      "known_limitations": "investment_range is the bare sentinel on all 40 rows. The MSMED Act thresholds that define Micro, Small and Medium are official, but a per-business rupee requirement is not: it depends on capacity, location, degree of automation and whether premises are owned or rented. udyam_classification carries the classification signal instead. employment_generation is an indicative band, not a projection. profitability_outlook is a directional judgement, never a margin figure."
+    },
+    {
+      "dataset_name": "machinery_mapping",
+      "file": "datasets/machinery_mapping.csv",
+      "layer": "3 - Input Requirements",
+      "purpose": "Machinery required per business, with role, investment category, automation level and whether it is essential.",
+      "primary_key": "mapping_id",
+      "record_count": 64,
+      "column_count": 16,
+      "foreign_keys": [
+        {
+          "column": "business_id",
+          "references_dataset": "msme_businesses.csv",
+          "references_column": "business_id"
+        },
+        {
+          "column": "package005_machinery_id",
+          "references_dataset": "Package005_Agriculture (cross-package)",
+          "references_column": "farm_machinery.machinery_id"
+        }
+      ],
+      "source_tier": "Tier 1-2 (MSME-DI project profiles; DC-MSME)",
+      "confidence_range": "61-72",
+      "confidence_avg": 66.8,
+      "pending_verification_cells": 108,
+      "pending_verification_columns": {
+        "package005_machinery_id": 54,
+        "package005_machinery_name": 54
+      },
+      "columns": [
+        {
+          "name": "mapping_id",
+          "description": ""
+        },
+        {
+          "name": "business_id",
+          "description": ""
+        },
+        {
+          "name": "business_name",
+          "description": ""
+        },
+        {
+          "name": "machinery_name",
+          "description": ""
+        },
+        {
+          "name": "machinery_role",
+          "description": ""
+        },
+        {
+          "name": "package005_machinery_id",
+          "description": ""
+        },
+        {
+          "name": "package005_machinery_name",
+          "description": ""
+        },
+        {
+          "name": "investment_category",
+          "description": ""
+        },
+        {
+          "name": "automation_level",
+          "description": ""
+        },
+        {
+          "name": "is_essential",
+          "description": ""
+        },
+        {
+          "name": "data_source",
+          "description": "Authoritative body the row is attributed to"
+        },
+        {
+          "name": "source_url",
+          "description": "Public URL for that body"
+        },
+        {
+          "name": "collection_date",
+          "description": "Collection date; uniform 2026-07-25 across the package"
+        },
+        {
+          "name": "confidence_score",
+          "description": "Integer 0-100, capped at the 85 package policy ceiling"
+        },
+        {
+          "name": "verification_status",
+          "description": "VST-NEEDS_REVIEW pending human data-steward sign-off"
+        },
+        {
+          "name": "notes",
+          "description": "Caveats, qualifications and sourcing remarks"
+        }
+      ],
+      "known_limitations": "No machinery cost is asserted: investment_category gives an ordinal band (Core Plant, Ancillary, Tooling, IT Infrastructure, Premises) instead. Machine names outside the Package005 scope carry the sentinel in package005_machinery_id, which means only that Package005 does not hold that machine, not that it is unimportant. Machinery lists are indicative of a typical configuration, not an exhaustive bill of plant."
+    },
+    {
+      "dataset_name": "raw_material_mapping",
+      "file": "datasets/raw_material_mapping.csv",
+      "layer": "3 - Input Requirements",
+      "purpose": "Raw materials per business with supplier type, availability, seasonality and price volatility.",
+      "primary_key": "mapping_id",
+      "record_count": 33,
+      "column_count": 17,
+      "foreign_keys": [
+        {
+          "column": "business_id",
+          "references_dataset": "msme_businesses.csv",
+          "references_column": "business_id"
+        },
+        {
+          "column": "package005_crop_id",
+          "references_dataset": "Package005_Agriculture (cross-package)",
+          "references_column": "crops.crop_id"
+        }
+      ],
+      "source_tier": "Tier 1-2 (MSME-DI project profiles; commodity boards)",
+      "confidence_range": "60-72",
+      "confidence_avg": 66.5,
+      "pending_verification_cells": 42,
+      "pending_verification_columns": {
+        "package005_crop_id": 21,
+        "package005_crop_name": 21
+      },
+      "columns": [
+        {
+          "name": "mapping_id",
+          "description": ""
+        },
+        {
+          "name": "business_id",
+          "description": ""
+        },
+        {
+          "name": "business_name",
+          "description": ""
+        },
+        {
+          "name": "raw_material_name",
+          "description": ""
+        },
+        {
+          "name": "material_class",
+          "description": ""
+        },
+        {
+          "name": "package005_crop_id",
+          "description": ""
+        },
+        {
+          "name": "package005_crop_name",
+          "description": ""
+        },
+        {
+          "name": "supplier_type",
+          "description": ""
+        },
+        {
+          "name": "availability",
+          "description": ""
+        },
+        {
+          "name": "seasonality",
+          "description": ""
+        },
+        {
+          "name": "price_volatility",
+          "description": ""
+        },
+        {
+          "name": "data_source",
+          "description": "Authoritative body the row is attributed to"
+        },
+        {
+          "name": "source_url",
+          "description": "Public URL for that body"
+        },
+        {
+          "name": "collection_date",
+          "description": "Collection date; uniform 2026-07-25 across the package"
+        },
+        {
+          "name": "confidence_score",
+          "description": "Integer 0-100, capped at the 85 package policy ceiling"
+        },
+        {
+          "name": "verification_status",
+          "description": "VST-NEEDS_REVIEW pending human data-steward sign-off"
+        },
+        {
+          "name": "notes",
+          "description": "Caveats, qualifications and sourcing remarks"
+        }
+      ],
+      "known_limitations": "No price is asserted anywhere; price_volatility is an ordinal rating. availability is a national-level judgement and can differ sharply by district. Non-crop inputs carry the crop sentinel, which records that the input is not agricultural rather than that data is missing."
+    },
+    {
+      "dataset_name": "scheme_mapping",
+      "file": "datasets/scheme_mapping.csv",
+      "layer": "6 - Cross-Package Mapping",
+      "purpose": "Which government schemes support which MSME business, at which stage, and in what form.",
+      "primary_key": "mapping_id",
+      "record_count": 57,
+      "column_count": 14,
+      "foreign_keys": [
+        {
+          "column": "business_id",
+          "references_dataset": "msme_businesses.csv",
+          "references_column": "business_id"
+        },
+        {
+          "column": "package007_scheme_id",
+          "references_dataset": "Package007_Government_Schemes (cross-package)",
+          "references_column": "government_schemes.scheme_id"
+        }
+      ],
+      "source_tier": "Tier 1 (Package007 reconciliation)",
+      "confidence_range": "61-73",
+      "confidence_avg": 67.8,
+      "pending_verification_cells": 0,
+      "pending_verification_columns": {},
+      "columns": [
+        {
+          "name": "mapping_id",
+          "description": ""
+        },
+        {
+          "name": "business_id",
+          "description": ""
+        },
+        {
+          "name": "business_name",
+          "description": ""
+        },
+        {
+          "name": "package007_scheme_id",
+          "description": ""
+        },
+        {
+          "name": "package007_scheme_short_name",
+          "description": ""
+        },
+        {
+          "name": "relevance",
+          "description": ""
+        },
+        {
+          "name": "applicable_stage",
+          "description": ""
+        },
+        {
+          "name": "support_nature",
+          "description": ""
+        },
+        {
+          "name": "data_source",
+          "description": "Authoritative body the row is attributed to"
+        },
+        {
+          "name": "source_url",
+          "description": "Public URL for that body"
+        },
+        {
+          "name": "collection_date",
+          "description": "Collection date; uniform 2026-07-25 across the package"
+        },
+        {
+          "name": "confidence_score",
+          "description": "Integer 0-100, capped at the 85 package policy ceiling"
+        },
+        {
+          "name": "verification_status",
+          "description": "VST-NEEDS_REVIEW pending human data-steward sign-off"
+        },
+        {
+          "name": "notes",
+          "description": "Caveats, qualifications and sourcing remarks"
+        }
+      ],
+      "known_limitations": "relevance (Primary or Secondary) is a judgement about fit, not an eligibility determination: a business appearing against a scheme does not mean any given operator qualifies. Package007's own caveat applies transitively -- no scheme amount is asserted anywhere in either package."
+    },
+    {
+      "dataset_name": "skill_mapping",
+      "file": "datasets/skill_mapping.csv",
+      "layer": "6 - Cross-Package Mapping",
+      "purpose": "Which skills each business requires, in what role, at what criticality, and for whom.",
+      "primary_key": "mapping_id",
+      "record_count": 53,
+      "column_count": 14,
+      "foreign_keys": [
+        {
+          "column": "business_id",
+          "references_dataset": "msme_businesses.csv",
+          "references_column": "business_id"
+        },
+        {
+          "column": "package006_skill_id",
+          "references_dataset": "Package006_Skills_and_Training (cross-package)",
+          "references_column": "skills.skill_id"
+        }
+      ],
+      "source_tier": "Tier 1 (Package006 reconciliation)",
+      "confidence_range": "57-72",
+      "confidence_avg": 66.4,
+      "pending_verification_cells": 14,
+      "pending_verification_columns": {
+        "package006_skill_id": 7,
+        "package006_skill_name": 7
+      },
+      "columns": [
+        {
+          "name": "mapping_id",
+          "description": ""
+        },
+        {
+          "name": "business_id",
+          "description": ""
+        },
+        {
+          "name": "business_name",
+          "description": ""
+        },
+        {
+          "name": "package006_skill_id",
+          "description": ""
+        },
+        {
+          "name": "package006_skill_name",
+          "description": ""
+        },
+        {
+          "name": "skill_role",
+          "description": ""
+        },
+        {
+          "name": "criticality",
+          "description": ""
+        },
+        {
+          "name": "who_needs_it",
+          "description": ""
+        },
+        {
+          "name": "data_source",
+          "description": "Authoritative body the row is attributed to"
+        },
+        {
+          "name": "source_url",
+          "description": "Public URL for that body"
+        },
+        {
+          "name": "collection_date",
+          "description": "Collection date; uniform 2026-07-25 across the package"
+        },
+        {
+          "name": "confidence_score",
+          "description": "Integer 0-100, capped at the 85 package policy ceiling"
+        },
+        {
+          "name": "verification_status",
+          "description": "VST-NEEDS_REVIEW pending human data-steward sign-off"
+        },
+        {
+          "name": "notes",
+          "description": "Caveats, qualifications and sourcing remarks"
+        }
+      ],
+      "known_limitations": "Seven rows carry the sentinel because Package006 v1.0.0 has no matching skill record: foundry casting, handloom weaving, corrugation machine operation, plastic reprocessing, chemical formulation, data entry and training delivery. Those are real gaps in Package006's coverage, recorded here as explicit sentinel rows with the requirement described in skill_role, rather than being pointed at an approximate skill. criticality is a judgement, not a job specification."
+    },
+    {
+      "dataset_name": "industry_mapping",
+      "file": "datasets/industry_mapping.csv",
+      "layer": "6 - Cross-Package Mapping",
+      "purpose": "How each MSME business relates to a Package004 business opportunity record.",
+      "primary_key": "mapping_id",
+      "record_count": 19,
+      "column_count": 13,
+      "foreign_keys": [
+        {
+          "column": "business_id",
+          "references_dataset": "msme_businesses.csv",
+          "references_column": "business_id"
+        },
+        {
+          "column": "package004_opportunity_id",
+          "references_dataset": "Package004_Industries (cross-package)",
+          "references_column": "id"
+        }
+      ],
+      "source_tier": "Tier 1 (Package004 reconciliation)",
+      "confidence_range": "60-74",
+      "confidence_avg": 68.6,
+      "pending_verification_cells": 0,
+      "pending_verification_columns": {},
+      "columns": [
+        {
+          "name": "mapping_id",
+          "description": ""
+        },
+        {
+          "name": "business_id",
+          "description": ""
+        },
+        {
+          "name": "business_name",
+          "description": ""
+        },
+        {
+          "name": "package004_dataset",
+          "description": ""
+        },
+        {
+          "name": "package004_opportunity_id",
+          "description": ""
+        },
+        {
+          "name": "package004_opportunity_name",
+          "description": ""
+        },
+        {
+          "name": "relationship",
+          "description": ""
+        },
+        {
+          "name": "data_source",
+          "description": "Authoritative body the row is attributed to"
+        },
+        {
+          "name": "source_url",
+          "description": "Public URL for that body"
+        },
+        {
+          "name": "collection_date",
+          "description": "Collection date; uniform 2026-07-25 across the package"
+        },
+        {
+          "name": "confidence_score",
+          "description": "Integer 0-100, capped at the 85 package policy ceiling"
+        },
+        {
+          "name": "verification_status",
+          "description": "VST-NEEDS_REVIEW pending human data-steward sign-off"
+        },
+        {
+          "name": "notes",
+          "description": "Caveats, qualifications and sourcing remarks"
+        }
+      ],
+      "known_limitations": "Coverage is 19 rows across 40 businesses. The remaining 21 have no Package004 counterpart, and no row was fabricated to close the gap. Package004's investment and machinery detail is the authoritative source for the opportunities that do match -- Package008 deliberately does not restate it."
+    },
+    {
+      "dataset_name": "agriculture_business_mapping",
+      "file": "datasets/agriculture_business_mapping.csv",
+      "layer": "6 - Cross-Package Mapping",
+      "purpose": "Agro-based MSME businesses linked to Package005 crops and processing opportunities.",
+      "primary_key": "mapping_id",
+      "record_count": 14,
+      "column_count": 14,
+      "foreign_keys": [
+        {
+          "column": "business_id",
+          "references_dataset": "msme_businesses.csv",
+          "references_column": "business_id"
+        },
+        {
+          "column": "package005_crop_id",
+          "references_dataset": "Package005_Agriculture (cross-package)",
+          "references_column": "crops.crop_id"
+        },
+        {
+          "column": "package005_processing_opportunity_id",
+          "references_dataset": "Package005_Agriculture (cross-package)",
+          "references_column": "agri_processing_opportunities.opportunity_id"
+        }
+      ],
+      "source_tier": "Tier 1 (Package005 reconciliation)",
+      "confidence_range": "58-74",
+      "confidence_avg": 70.0,
+      "pending_verification_cells": 8,
+      "pending_verification_columns": {
+        "package005_crop_id": 4,
+        "package005_crop_name": 4
+      },
+      "columns": [
+        {
+          "name": "mapping_id",
+          "description": ""
+        },
+        {
+          "name": "business_id",
+          "description": ""
+        },
+        {
+          "name": "business_name",
+          "description": ""
+        },
+        {
+          "name": "package005_crop_id",
+          "description": ""
+        },
+        {
+          "name": "package005_crop_name",
+          "description": ""
+        },
+        {
+          "name": "package005_processing_opportunity_id",
+          "description": ""
+        },
+        {
+          "name": "package005_processing_opportunity_name",
+          "description": ""
+        },
+        {
+          "name": "value_add_stage",
+          "description": ""
+        },
+        {
+          "name": "data_source",
+          "description": "Authoritative body the row is attributed to"
+        },
+        {
+          "name": "source_url",
+          "description": "Public URL for that body"
+        },
+        {
+          "name": "collection_date",
+          "description": "Collection date; uniform 2026-07-25 across the package"
+        },
+        {
+          "name": "confidence_score",
+          "description": "Integer 0-100, capped at the 85 package policy ceiling"
+        },
+        {
+          "name": "verification_status",
+          "description": "VST-NEEDS_REVIEW pending human data-steward sign-off"
+        },
+        {
+          "name": "notes",
+          "description": "Caveats, qualifications and sourcing remarks"
+        }
+      ],
+      "known_limitations": "One row (drone services against rice milling) is a deliberately weak link retained at confidence 58 to record the agriculture adjacency; the notes column says so explicitly rather than presenting it as a strong relationship. Crop agronomy and processing economics stay in Package005."
+    },
+    {
+      "dataset_name": "education_support_mapping",
+      "file": "datasets/education_support_mapping.csv",
+      "layer": "6 - Cross-Package Mapping",
+      "purpose": "Educational and skilling institutions that supply talent to MSME categories.",
+      "primary_key": "mapping_id",
+      "record_count": 13,
+      "column_count": 15,
+      "foreign_keys": [
+        {
+          "column": "package002_institution_id",
+          "references_dataset": "Package002_Education (cross-package)",
+          "references_column": "universities_telangana_andhra_pradesh.id"
+        },
+        {
+          "column": "package006_provider_id",
+          "references_dataset": "Package006_Skills_and_Training (cross-package)",
+          "references_column": "training_providers.provider_id"
+        }
+      ],
+      "source_tier": "Tier 1-2 (Package002 and Package006 reconciliation)",
+      "confidence_range": "64-70",
+      "confidence_avg": 67.4,
+      "pending_verification_cells": 26,
+      "pending_verification_columns": {
+        "package002_institution_id": 9,
+        "package002_institution_name": 9,
+        "package006_provider_id": 4,
+        "package006_provider_name": 4
+      },
+      "columns": [
+        {
+          "name": "mapping_id",
+          "description": ""
+        },
+        {
+          "name": "support_entity_type",
+          "description": ""
+        },
+        {
+          "name": "entity_name",
+          "description": ""
+        },
+        {
+          "name": "package002_institution_id",
+          "description": ""
+        },
+        {
+          "name": "package002_institution_name",
+          "description": ""
+        },
+        {
+          "name": "package006_provider_id",
+          "description": ""
+        },
+        {
+          "name": "package006_provider_name",
+          "description": ""
+        },
+        {
+          "name": "supports_business_categories",
+          "description": ""
+        },
+        {
+          "name": "support_nature",
+          "description": ""
+        },
+        {
+          "name": "data_source",
+          "description": "Authoritative body the row is attributed to"
+        },
+        {
+          "name": "source_url",
+          "description": "Public URL for that body"
+        },
+        {
+          "name": "collection_date",
+          "description": "Collection date; uniform 2026-07-25 across the package"
+        },
+        {
+          "name": "confidence_score",
+          "description": "Integer 0-100, capped at the 85 package policy ceiling"
+        },
+        {
+          "name": "verification_status",
+          "description": "VST-NEEDS_REVIEW pending human data-steward sign-off"
+        },
+        {
+          "name": "notes",
+          "description": "Caveats, qualifications and sourcing remarks"
+        }
+      ],
+      "known_limitations": "Nine of 13 rows sentinel the Package002 id and four sentinel the Package006 id, because most rows legitimately belong to one package or the other, not both. Incubation and innovation-cell activity is noted in support_nature but is not separately catalogued -- startup_ecosystem.csv holds incubators. This is the only dataset in the package with no business_id: it maps institutions to categories, not to individual businesses."
+    },
+    {
+      "dataset_name": "district_business_mapping",
+      "file": "datasets/district_business_mapping.csv",
+      "layer": "6 - Cross-Package Mapping",
+      "purpose": "District-to-business suitability, each row grounded in a named district characteristic.",
+      "primary_key": "mapping_id",
+      "record_count": 32,
+      "column_count": 16,
+      "foreign_keys": [
+        {
+          "column": "business_id",
+          "references_dataset": "msme_businesses.csv",
+          "references_column": "business_id"
+        },
+        {
+          "column": "package001_dist_id",
+          "references_dataset": "Package001_Geography (cross-package)",
+          "references_column": "district.dist_id"
+        }
+      ],
+      "source_tier": "Tier 1 (Package001 district master; Package005 crop district attribution)",
+      "confidence_range": "62-74",
+      "confidence_avg": 67.9,
+      "pending_verification_cells": 0,
+      "pending_verification_columns": {},
+      "columns": [
+        {
+          "name": "mapping_id",
+          "description": ""
+        },
+        {
+          "name": "package001_dist_id",
+          "description": ""
+        },
+        {
+          "name": "dist_ref",
+          "description": ""
+        },
+        {
+          "name": "district_name",
+          "description": ""
+        },
+        {
+          "name": "state",
+          "description": ""
+        },
+        {
+          "name": "business_id",
+          "description": ""
+        },
+        {
+          "name": "business_name",
+          "description": ""
+        },
+        {
+          "name": "suitability_basis",
+          "description": ""
+        },
+        {
+          "name": "resource_strength",
+          "description": ""
+        },
+        {
+          "name": "market_access_score",
+          "description": ""
+        },
+        {
+          "name": "data_source",
+          "description": "Authoritative body the row is attributed to"
+        },
+        {
+          "name": "source_url",
+          "description": "Public URL for that body"
+        },
+        {
+          "name": "collection_date",
+          "description": "Collection date; uniform 2026-07-25 across the package"
+        },
+        {
+          "name": "confidence_score",
+          "description": "Integer 0-100, capped at the 85 package policy ceiling"
+        },
+        {
+          "name": "verification_status",
+          "description": "VST-NEEDS_REVIEW pending human data-steward sign-off"
+        },
+        {
+          "name": "notes",
+          "description": "Caveats, qualifications and sourcing remarks"
+        }
+      ],
+      "known_limitations": "32 rows across 61 districts and 40 businesses is deliberately sparse: a full cross-product would be 2,440 rows of mostly unfounded assertion. Absence of a district-business pair is not evidence the business is unsuitable there, only that no specific documented basis was found. resource_strength and market_access_score are ordinal ratings, not indices."
+    },
+    {
+      "dataset_name": "export_opportunities",
+      "file": "datasets/export_opportunities.csv",
+      "layer": "8 - Export",
+      "purpose": "Export-capable businesses with destination markets, required certifications, standards and the binding readiness barrier.",
+      "primary_key": "opportunity_id",
+      "record_count": 12,
+      "column_count": 15,
+      "foreign_keys": [
+        {
+          "column": "business_id",
+          "references_dataset": "msme_businesses.csv",
+          "references_column": "business_id"
+        }
+      ],
+      "source_tier": "Tier 1 (DGFT; APEDA; Spices Board; Export Promotion Councils)",
+      "confidence_range": "60-72",
+      "confidence_avg": 66.2,
+      "pending_verification_cells": 0,
+      "pending_verification_columns": {},
+      "columns": [
+        {
+          "name": "opportunity_id",
+          "description": ""
+        },
+        {
+          "name": "business_id",
+          "description": ""
+        },
+        {
+          "name": "business_name",
+          "description": ""
+        },
+        {
+          "name": "export_product",
+          "description": ""
+        },
+        {
+          "name": "destination_markets",
+          "description": ""
+        },
+        {
+          "name": "required_certifications",
+          "description": ""
+        },
+        {
+          "name": "applicable_standards",
+          "description": ""
+        },
+        {
+          "name": "export_readiness_barrier",
+          "description": ""
+        },
+        {
+          "name": "promotion_body",
+          "description": ""
+        },
+        {
+          "name": "data_source",
+          "description": "Authoritative body the row is attributed to"
+        },
+        {
+          "name": "source_url",
+          "description": "Public URL for that body"
+        },
+        {
+          "name": "collection_date",
+          "description": "Collection date; uniform 2026-07-25 across the package"
+        },
+        {
+          "name": "confidence_score",
+          "description": "Integer 0-100, capped at the 85 package policy ceiling"
+        },
+        {
+          "name": "verification_status",
+          "description": "VST-NEEDS_REVIEW pending human data-steward sign-off"
+        },
+        {
+          "name": "notes",
+          "description": "Caveats, qualifications and sourcing remarks"
+        }
+      ],
+      "known_limitations": "No export price, volume or realisation is asserted. Destination markets are the established ones for each category, not an exhaustive list. Certification requirements change with importing-country regulation -- the EU AI Act row is explicitly flagged as an emerging obligation. Only 12 of 40 businesses appear; the rest are domestic-market propositions and were not padded into this dataset."
+    },
+    {
+      "dataset_name": "investment_intelligence",
+      "file": "datasets/investment_intelligence.csv",
+      "layer": "11 - Investment Intelligence",
+      "purpose": "One investment profile per business: capex and working capital intensity, ROI and payback category, scalability, risk and outlook.",
+      "primary_key": "intelligence_id",
+      "record_count": 40,
+      "column_count": 20,
+      "foreign_keys": [
+        {
+          "column": "business_id",
+          "references_dataset": "msme_businesses.csv",
+          "references_column": "business_id"
+        }
+      ],
+      "source_tier": "Tier 1-3 (derived from msme_businesses.csv; MSME-DI project profile framing)",
+      "confidence_range": "61-72",
+      "confidence_avg": 67.0,
+      "pending_verification_cells": 0,
+      "pending_verification_columns": {},
+      "columns": [
+        {
+          "name": "intelligence_id",
+          "description": ""
+        },
+        {
+          "name": "business_id",
+          "description": ""
+        },
+        {
+          "name": "business_name",
+          "description": ""
+        },
+        {
+          "name": "investment_band",
+          "description": ""
+        },
+        {
+          "name": "capex_intensity",
+          "description": ""
+        },
+        {
+          "name": "working_capital_intensity",
+          "description": ""
+        },
+        {
+          "name": "roi_category",
+          "description": ""
+        },
+        {
+          "name": "payback_category",
+          "description": ""
+        },
+        {
+          "name": "scalability",
+          "description": ""
+        },
+        {
+          "name": "technology_adoption_requirement",
+          "description": ""
+        },
+        {
+          "name": "composite_risk",
+          "description": ""
+        },
+        {
+          "name": "growth_potential",
+          "description": ""
+        },
+        {
+          "name": "future_outlook",
+          "description": ""
+        },
+        {
+          "name": "key_success_factor",
+          "description": ""
+        },
+        {
+          "name": "data_source",
+          "description": "Authoritative body the row is attributed to"
+        },
+        {
+          "name": "source_url",
+          "description": "Public URL for that body"
+        },
+        {
+          "name": "collection_date",
+          "description": "Collection date; uniform 2026-07-25 across the package"
+        },
+        {
+          "name": "confidence_score",
+          "description": "Integer 0-100, capped at the 85 package policy ceiling"
+        },
+        {
+          "name": "verification_status",
+          "description": "VST-NEEDS_REVIEW pending human data-steward sign-off"
+        },
+        {
+          "name": "notes",
+          "description": "Caveats, qualifications and sourcing remarks"
+        }
+      ],
+      "known_limitations": "Every field is ordinal. roi_category, payback_category and scalability are judgements, not computed returns -- there is no rupee figure, no percentage and no payback period anywhere in this dataset, because computing any of them would require the investment and revenue figures this package deliberately does not assert. future_outlook is a directional 2026 view and is the field most likely to age. Use this dataset to compare businesses against each other, never to underwrite a decision."
+    }
+  ]
+}

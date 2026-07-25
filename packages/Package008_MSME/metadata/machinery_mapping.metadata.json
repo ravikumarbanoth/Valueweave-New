@@ -1,0 +1,58 @@
+{
+  "dataset_name": "machinery_mapping",
+  "package": "Package008_MSME",
+  "package_version": "1.0.0",
+  "file": "datasets/machinery_mapping.csv",
+  "layer": "3 - Input Requirements",
+  "purpose": "Machinery required per business, with role, investment category, automation level and whether it is essential.",
+  "primary_key": "mapping_id",
+  "record_count": 64,
+  "column_count": 16,
+  "columns": [
+    "mapping_id",
+    "business_id",
+    "business_name",
+    "machinery_name",
+    "machinery_role",
+    "package005_machinery_id",
+    "package005_machinery_name",
+    "investment_category",
+    "automation_level",
+    "is_essential",
+    "data_source",
+    "source_url",
+    "collection_date",
+    "confidence_score",
+    "verification_status",
+    "notes"
+  ],
+  "foreign_keys": [
+    {
+      "column": "business_id",
+      "references_dataset": "msme_businesses.csv",
+      "references_column": "business_id"
+    },
+    {
+      "column": "package005_machinery_id",
+      "references_dataset": "Package005_Agriculture (cross-package)",
+      "references_column": "farm_machinery.machinery_id"
+    }
+  ],
+  "collection_date": "2026-07-25",
+  "collection_mode": "Knowledge synthesis from documented public sources (WebFetch to government domains blocked by environment egress policy)",
+  "source_tier": "Tier 1-2 (MSME-DI project profiles; DC-MSME)",
+  "methodology": "Every business carries at least one machinery row, enforced by V11, including the asset-light ones where the requirement is IT infrastructure rather than plant. Where the machine already exists in Package005's farm_machinery dataset -- rice mill, dal mill, oil expeller, cold storage, solar dryer, packaging machine, cold chain, agricultural drone -- it is referenced by machinery_id rather than restated. That is the normalization rule applied at row level.",
+  "confidence_score_min": 61,
+  "confidence_score_max": 72,
+  "confidence_score_avg": 66.8,
+  "confidence_ceiling_policy": 85,
+  "verification_status": "VST-NEEDS_REVIEW",
+  "pending_verification_cells": 108,
+  "pending_verification_rate_pct": 10.55,
+  "pending_verification_columns": {
+    "package005_machinery_id": 54,
+    "package005_machinery_name": 54
+  },
+  "known_limitations": "No machinery cost is asserted: investment_category gives an ordinal band (Core Plant, Ancillary, Tooling, IT Infrastructure, Premises) instead. Machine names outside the Package005 scope carry the sentinel in package005_machinery_id, which means only that Package005 does not hold that machine, not that it is unimportant. Machinery lists are indicative of a typical configuration, not an exhaustive bill of plant.",
+  "release_status": "RELEASED in v1.0.0"
+}

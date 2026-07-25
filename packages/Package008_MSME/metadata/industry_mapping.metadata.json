@@ -1,0 +1,52 @@
+{
+  "dataset_name": "industry_mapping",
+  "package": "Package008_MSME",
+  "package_version": "1.0.0",
+  "file": "datasets/industry_mapping.csv",
+  "layer": "6 - Cross-Package Mapping",
+  "purpose": "How each MSME business relates to a Package004 business opportunity record.",
+  "primary_key": "mapping_id",
+  "record_count": 19,
+  "column_count": 13,
+  "columns": [
+    "mapping_id",
+    "business_id",
+    "business_name",
+    "package004_dataset",
+    "package004_opportunity_id",
+    "package004_opportunity_name",
+    "relationship",
+    "data_source",
+    "source_url",
+    "collection_date",
+    "confidence_score",
+    "verification_status",
+    "notes"
+  ],
+  "foreign_keys": [
+    {
+      "column": "business_id",
+      "references_dataset": "msme_businesses.csv",
+      "references_column": "business_id"
+    },
+    {
+      "column": "package004_opportunity_id",
+      "references_dataset": "Package004_Industries (cross-package)",
+      "references_column": "id"
+    }
+  ],
+  "collection_date": "2026-07-25",
+  "collection_mode": "Knowledge synthesis from documented public sources (WebFetch to government domains blocked by environment egress policy)",
+  "source_tier": "Tier 1 (Package004 reconciliation)",
+  "methodology": "All 19 rows resolve to a real Package004 opportunity id with zero sentinels. The relationship column is the honest part: it distinguishes Same opportunity (a genuine one-to-one match), Adjacent (closest counterpart but not identical), Broader Package004 record (this business sits inside a wider Package004 scope) and Channel counterpart (Package004 records the sales channel rather than the enterprise). Without that distinction the mapping would overstate how well the two packages align.",
+  "confidence_score_min": 60,
+  "confidence_score_max": 74,
+  "confidence_score_avg": 68.6,
+  "confidence_ceiling_policy": 85,
+  "verification_status": "VST-NEEDS_REVIEW",
+  "pending_verification_cells": 0,
+  "pending_verification_rate_pct": 0.0,
+  "pending_verification_columns": {},
+  "known_limitations": "Coverage is 19 rows across 40 businesses. The remaining 21 have no Package004 counterpart, and no row was fabricated to close the gap. Package004's investment and machinery detail is the authoritative source for the opportunities that do match -- Package008 deliberately does not restate it.",
+  "release_status": "RELEASED in v1.0.0"
+}

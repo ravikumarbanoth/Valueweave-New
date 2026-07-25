@@ -1,0 +1,67 @@
+{
+  "dataset_name": "msme_businesses",
+  "package": "Package008_MSME",
+  "package_version": "1.0.0",
+  "file": "datasets/msme_businesses.csv",
+  "layer": "2 - Core Entity",
+  "purpose": "Forty MSME business opportunities profiled on classification, difficulty, risk, technology, market and geography.",
+  "primary_key": "business_id",
+  "record_count": 40,
+  "column_count": 26,
+  "columns": [
+    "business_id",
+    "business_name",
+    "category_id",
+    "category_name",
+    "business_model_id",
+    "business_model_name",
+    "description",
+    "udyam_classification",
+    "investment_range",
+    "working_capital_need",
+    "employment_generation",
+    "difficulty",
+    "risk_level",
+    "technology_level",
+    "automation_level",
+    "ai_readiness",
+    "market_demand",
+    "export_potential",
+    "profitability_outlook",
+    "district_suitability",
+    "data_source",
+    "source_url",
+    "collection_date",
+    "confidence_score",
+    "verification_status",
+    "notes"
+  ],
+  "foreign_keys": [
+    {
+      "column": "category_id",
+      "references_dataset": "msme_categories.csv",
+      "references_column": "category_id"
+    },
+    {
+      "column": "business_model_id",
+      "references_dataset": "business_models.csv",
+      "references_column": "business_model_id"
+    }
+  ],
+  "collection_date": "2026-07-25",
+  "collection_mode": "Knowledge synthesis from documented public sources (WebFetch to government domains blocked by environment egress policy)",
+  "source_tier": "Tier 1-3 (MSME-DI project profiles; sector ministries; industry associations)",
+  "methodology": "Businesses were selected to span all four category groups and to be realistically startable at MSME scale, weighted to Telangana and Andhra Pradesh relevance. udyam_classification uses the statutory Micro/Small/Medium categories from the MSMED Act rather than inventing bands. Every attribute column is an ordinal judgement with a closed domain, enforced by validation check V12, so the dataset is machine-filterable rather than free text.",
+  "confidence_score_min": 63,
+  "confidence_score_max": 74,
+  "confidence_score_avg": 69.0,
+  "confidence_ceiling_policy": 85,
+  "verification_status": "VST-NEEDS_REVIEW",
+  "pending_verification_cells": 40,
+  "pending_verification_rate_pct": 3.85,
+  "pending_verification_columns": {
+    "investment_range": 40
+  },
+  "known_limitations": "investment_range is the bare sentinel on all 40 rows. The MSMED Act thresholds that define Micro, Small and Medium are official, but a per-business rupee requirement is not: it depends on capacity, location, degree of automation and whether premises are owned or rented. udyam_classification carries the classification signal instead. employment_generation is an indicative band, not a projection. profitability_outlook is a directional judgement, never a margin figure.",
+  "release_status": "RELEASED in v1.0.0"
+}

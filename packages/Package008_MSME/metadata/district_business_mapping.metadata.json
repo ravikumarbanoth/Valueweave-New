@@ -1,0 +1,55 @@
+{
+  "dataset_name": "district_business_mapping",
+  "package": "Package008_MSME",
+  "package_version": "1.0.0",
+  "file": "datasets/district_business_mapping.csv",
+  "layer": "6 - Cross-Package Mapping",
+  "purpose": "District-to-business suitability, each row grounded in a named district characteristic.",
+  "primary_key": "mapping_id",
+  "record_count": 32,
+  "column_count": 16,
+  "columns": [
+    "mapping_id",
+    "package001_dist_id",
+    "dist_ref",
+    "district_name",
+    "state",
+    "business_id",
+    "business_name",
+    "suitability_basis",
+    "resource_strength",
+    "market_access_score",
+    "data_source",
+    "source_url",
+    "collection_date",
+    "confidence_score",
+    "verification_status",
+    "notes"
+  ],
+  "foreign_keys": [
+    {
+      "column": "business_id",
+      "references_dataset": "msme_businesses.csv",
+      "references_column": "business_id"
+    },
+    {
+      "column": "package001_dist_id",
+      "references_dataset": "Package001_Geography (cross-package)",
+      "references_column": "district.dist_id"
+    }
+  ],
+  "collection_date": "2026-07-25",
+  "collection_mode": "Knowledge synthesis from documented public sources (WebFetch to government domains blocked by environment egress policy)",
+  "source_tier": "Tier 1 (Package001 district master; Package005 crop district attribution)",
+  "methodology": "Suitability is asserted ONLY where a documented district characteristic drives it, and every row names that characteristic in suitability_basis -- Nizamabad's turmeric market yard, Guntur's chilli yard, Anantapur's groundnut area, Hyderabad's IT concentration. All 32 dist_id values resolve against Package001. No blanket district-by-business cross-product was generated.",
+  "confidence_score_min": 62,
+  "confidence_score_max": 74,
+  "confidence_score_avg": 67.9,
+  "confidence_ceiling_policy": 85,
+  "verification_status": "VST-NEEDS_REVIEW",
+  "pending_verification_cells": 0,
+  "pending_verification_rate_pct": 0.0,
+  "pending_verification_columns": {},
+  "known_limitations": "32 rows across 61 districts and 40 businesses is deliberately sparse: a full cross-product would be 2,440 rows of mostly unfounded assertion. Absence of a district-business pair is not evidence the business is unsuitable there, only that no specific documented basis was found. resource_strength and market_access_score are ordinal ratings, not indices.",
+  "release_status": "RELEASED in v1.0.0"
+}

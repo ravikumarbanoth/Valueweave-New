@@ -1,0 +1,59 @@
+{
+  "dataset_name": "raw_material_mapping",
+  "package": "Package008_MSME",
+  "package_version": "1.0.0",
+  "file": "datasets/raw_material_mapping.csv",
+  "layer": "3 - Input Requirements",
+  "purpose": "Raw materials per business with supplier type, availability, seasonality and price volatility.",
+  "primary_key": "mapping_id",
+  "record_count": 33,
+  "column_count": 17,
+  "columns": [
+    "mapping_id",
+    "business_id",
+    "business_name",
+    "raw_material_name",
+    "material_class",
+    "package005_crop_id",
+    "package005_crop_name",
+    "supplier_type",
+    "availability",
+    "seasonality",
+    "price_volatility",
+    "data_source",
+    "source_url",
+    "collection_date",
+    "confidence_score",
+    "verification_status",
+    "notes"
+  ],
+  "foreign_keys": [
+    {
+      "column": "business_id",
+      "references_dataset": "msme_businesses.csv",
+      "references_column": "business_id"
+    },
+    {
+      "column": "package005_crop_id",
+      "references_dataset": "Package005_Agriculture (cross-package)",
+      "references_column": "crops.crop_id"
+    }
+  ],
+  "collection_date": "2026-07-25",
+  "collection_mode": "Knowledge synthesis from documented public sources (WebFetch to government domains blocked by environment egress policy)",
+  "source_tier": "Tier 1-2 (MSME-DI project profiles; commodity boards)",
+  "methodology": "Where an input is an agricultural crop, it is referenced by Package005 crop_id rather than restated, so the crop's season, yield and district footprint remain reachable by join without being copied. seasonality and price_volatility were prioritised because they are what determine working capital need, which is the field entrepreneurs most often underestimate.",
+  "confidence_score_min": 60,
+  "confidence_score_max": 72,
+  "confidence_score_avg": 66.5,
+  "confidence_ceiling_policy": 85,
+  "verification_status": "VST-NEEDS_REVIEW",
+  "pending_verification_cells": 42,
+  "pending_verification_rate_pct": 7.49,
+  "pending_verification_columns": {
+    "package005_crop_id": 21,
+    "package005_crop_name": 21
+  },
+  "known_limitations": "No price is asserted anywhere; price_volatility is an ordinal rating. availability is a national-level judgement and can differ sharply by district. Non-crop inputs carry the crop sentinel, which records that the input is not agricultural rather than that data is missing.",
+  "release_status": "RELEASED in v1.0.0"
+}

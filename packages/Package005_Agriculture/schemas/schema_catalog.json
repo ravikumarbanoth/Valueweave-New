@@ -1,0 +1,1342 @@
+{
+  "package": "Package005_Agriculture",
+  "version": "1.0.0",
+  "description": "Canonical primary-key, foreign-key and column reference for all 16 datasets in Package005_Agriculture v1.0.0. The package models agriculture as a connected graph: reference taxonomies (category, soil, climate) feed a core crop entity, which is joined to soil and climate by scored mapping tables, then extended through capital, value addition, institutions, government support, crop protection, market access, export and AI-readiness layers, and finally bound to the wider knowledge base by a cross-package spine dataset.",
+  "graph_spine": "crop_categories -> crops -> {crop_soil_mapping -> soil_types, crop_climate_mapping -> climate_zones} -> agri_processing_opportunities -> agri_business_mapping -> {Package004_Industries opportunity, Package006_Skills_and_Training skill}",
+  "relationship_to_package001": "No hard foreign key into Package001_Geography. crops.major_districts holds district names as free text where a district is publicly and specifically associated with the crop, but it is not a dist_id reference: per-district crop attribution could not be verified for every crop in this release, and a partial FK would imply completeness the data does not have. Joining to Package001 by district_name is possible but is a consumer-side decision.",
+  "relationship_to_package004": "agri_business_mapping.package004_opportunity_name is a real cross-package foreign key, matched against the name and adapted_indian_concept columns of the released Package004_Industries datasets. 17 of 30 rows resolve; the remaining 13 carry the bare sentinel because Package004 v1.0.0 has no counterpart opportunity.",
+  "relationship_to_package006": "agri_business_mapping.package006_skill_id is a real cross-package foreign key holding actual skill_id UUIDs from the released Package006_Skills_and_Training skills.csv. All 30 rows resolve. Four distinct skills are referenced: Food Processing & Preservation, Organic Farming, Precision Agriculture & IoT, and Modern Farming Techniques.",
+  "relationship_to_package007_package008": "agriculture_schemes.csv is the agriculture slice of government support and is expected to be superseded by, or reconciled against, Package007_Government_Schemes. agri_processing_opportunities.csv is the natural join surface for Package008_MSME. Neither link is asserted in v1.0.0 because neither package has been released.",
+  "sentinel_policy": "PENDING_VERIFICATION appears only as a complete, bare cell value. It is never appended to or embedded in other text, and never substitutes for a numeric confidence_score. A cell carrying the sentinel means no public source was found for that specific fact; it does not mean the fact is unknowable.",
+  "confidence_policy": {
+    "ceiling": 85,
+    "reason": "Direct WebFetch to .gov.in / .nic.in / .ac.in domains is blocked by this environment's egress policy, so no row in this package rests on a primary-source page read. The ceiling is a standing acknowledgement of that limitation, carried forward from Package004 and Package006.",
+    "bands": {
+      "70-85": "Tier 1 - ICAR institutes, Ministry of Agriculture, statutory commodity boards, named scheme portals",
+      "60-69": "Tier 2 - state departments, NABARD, MoFPI programme literature",
+      "55-59": "Tier 3 - sector associations, published research aggregates",
+      "50-54": "Tier 4 - forward-looking technology assessment (ai_precision_agriculture only, disclosed in-row)"
+    },
+    "observed_range": "50-78"
+  },
+  "datasets": [
+    {
+      "dataset_name": "crop_categories",
+      "file": "datasets/crop_categories.csv",
+      "layer": "1 - Reference Taxonomy",
+      "purpose": "Top-level agriculture classification covering field crops, horticulture, plantation, production systems and allied activities.",
+      "primary_key": "category_id",
+      "record_count": 24,
+      "column_count": 13,
+      "foreign_keys": [],
+      "source_tier": "Tier 1 (ICAR; commodity boards; Ministry of Agriculture)",
+      "confidence_range": "57-78",
+      "confidence_avg": 72.1,
+      "pending_verification_cells": 0,
+      "pending_verification_columns": {},
+      "columns": [
+        {
+          "name": "category_id",
+          "description": ""
+        },
+        {
+          "name": "category_name",
+          "description": ""
+        },
+        {
+          "name": "category_group",
+          "description": ""
+        },
+        {
+          "name": "description",
+          "description": ""
+        },
+        {
+          "name": "typical_crops_examples",
+          "description": ""
+        },
+        {
+          "name": "cultivation_mode",
+          "description": ""
+        },
+        {
+          "name": "value_add_potential",
+          "description": ""
+        },
+        {
+          "name": "data_source",
+          "description": "Authoritative body the row was attributed to"
+        },
+        {
+          "name": "source_url",
+          "description": "Public URL for that body or scheme"
+        },
+        {
+          "name": "collection_date",
+          "description": "Collection date; uniform 2026-07-24 across the package"
+        },
+        {
+          "name": "confidence_score",
+          "description": "Integer 0-100, capped at the 85 package policy ceiling"
+        },
+        {
+          "name": "verification_status",
+          "description": "VST-NEEDS_REVIEW pending human data-steward sign-off"
+        },
+        {
+          "name": "notes",
+          "description": "Caveats, qualifications and sourcing remarks"
+        }
+      ],
+      "known_limitations": "category_group distinguishes botanical groupings from production systems and allied activities; consumers filtering for crops only should restrict to Field Crops, Horticulture and Plantation."
+    },
+    {
+      "dataset_name": "soil_types",
+      "file": "datasets/soil_types.csv",
+      "layer": "1 - Reference Taxonomy",
+      "purpose": "Soil classification with pH band, texture, state distribution and crop suitability.",
+      "primary_key": "soil_id",
+      "record_count": 10,
+      "column_count": 15,
+      "foreign_keys": [],
+      "source_tier": "Tier 1 (ICAR-NBSS&LUP; Soil Health Card programme)",
+      "confidence_range": "72-78",
+      "confidence_avg": 75.5,
+      "pending_verification_cells": 0,
+      "pending_verification_columns": {},
+      "columns": [
+        {
+          "name": "soil_id",
+          "description": ""
+        },
+        {
+          "name": "soil_name",
+          "description": ""
+        },
+        {
+          "name": "description",
+          "description": ""
+        },
+        {
+          "name": "pH_range_min",
+          "description": ""
+        },
+        {
+          "name": "pH_range_max",
+          "description": ""
+        },
+        {
+          "name": "soil_color",
+          "description": ""
+        },
+        {
+          "name": "texture",
+          "description": ""
+        },
+        {
+          "name": "major_states",
+          "description": ""
+        },
+        {
+          "name": "crop_suitability",
+          "description": ""
+        },
+        {
+          "name": "data_source",
+          "description": "Authoritative body the row was attributed to"
+        },
+        {
+          "name": "source_url",
+          "description": "Public URL for that body or scheme"
+        },
+        {
+          "name": "collection_date",
+          "description": "Collection date; uniform 2026-07-24 across the package"
+        },
+        {
+          "name": "confidence_score",
+          "description": "Integer 0-100, capped at the 85 package policy ceiling"
+        },
+        {
+          "name": "verification_status",
+          "description": "VST-NEEDS_REVIEW pending human data-steward sign-off"
+        },
+        {
+          "name": "notes",
+          "description": "Caveats, qualifications and sourcing remarks"
+        }
+      ],
+      "known_limitations": "pH bands are typical ranges, not guarantees; field pH varies within a single parcel. Composite textures used in crops.soil_type_preferred (for example sandy loam) are deliberately not separate soil_id rows."
+    },
+    {
+      "dataset_name": "climate_zones",
+      "file": "datasets/climate_zones.csv",
+      "layer": "1 - Reference Taxonomy",
+      "purpose": "Agro-climatic zone reference with rainfall, temperature, humidity and growing-season counts.",
+      "primary_key": "climate_zone_id",
+      "record_count": 8,
+      "column_count": 16,
+      "foreign_keys": [],
+      "source_tier": "Tier 1 (ICAR-CRIDA; India Meteorological Department)",
+      "confidence_range": "72-77",
+      "confidence_avg": 74.9,
+      "pending_verification_cells": 0,
+      "pending_verification_columns": {},
+      "columns": [
+        {
+          "name": "climate_zone_id",
+          "description": ""
+        },
+        {
+          "name": "zone_name",
+          "description": ""
+        },
+        {
+          "name": "description",
+          "description": ""
+        },
+        {
+          "name": "rainfall_mm_min",
+          "description": ""
+        },
+        {
+          "name": "rainfall_mm_max",
+          "description": ""
+        },
+        {
+          "name": "temperature_min_c",
+          "description": ""
+        },
+        {
+          "name": "temperature_max_c",
+          "description": ""
+        },
+        {
+          "name": "humidity_percent",
+          "description": ""
+        },
+        {
+          "name": "growing_seasons",
+          "description": ""
+        },
+        {
+          "name": "major_states",
+          "description": ""
+        },
+        {
+          "name": "data_source",
+          "description": "Authoritative body the row was attributed to"
+        },
+        {
+          "name": "source_url",
+          "description": "Public URL for that body or scheme"
+        },
+        {
+          "name": "collection_date",
+          "description": "Collection date; uniform 2026-07-24 across the package"
+        },
+        {
+          "name": "confidence_score",
+          "description": "Integer 0-100, capped at the 85 package policy ceiling"
+        },
+        {
+          "name": "verification_status",
+          "description": "VST-NEEDS_REVIEW pending human data-steward sign-off"
+        },
+        {
+          "name": "notes",
+          "description": "Caveats, qualifications and sourcing remarks"
+        }
+      ],
+      "known_limitations": "This is a simplified eight-zone model, not the 127-zone NARP agro-ecological classification; use it for crop-suitability screening, not for site-specific recommendation."
+    },
+    {
+      "dataset_name": "crops",
+      "file": "datasets/crops.csv",
+      "layer": "2 - Core Entity",
+      "purpose": "Agronomic and commercial profile for 45 crops spanning all 12 crop-bearing categories.",
+      "primary_key": "crop_id",
+      "record_count": 45,
+      "column_count": 25,
+      "foreign_keys": [
+        {
+          "column": "category_id",
+          "references_dataset": "crop_categories.csv",
+          "references_column": "category_id"
+        }
+      ],
+      "source_tier": "Tier 1 (ICAR crop-specific institutes; commodity boards)",
+      "confidence_range": "66-78",
+      "confidence_avg": 74.4,
+      "pending_verification_cells": 25,
+      "pending_verification_columns": {
+        "major_districts": 14,
+        "duration_days": 9,
+        "avg_yield_tons_per_ha": 2
+      },
+      "columns": [
+        {
+          "name": "crop_id",
+          "description": ""
+        },
+        {
+          "name": "crop_name",
+          "description": ""
+        },
+        {
+          "name": "scientific_name",
+          "description": ""
+        },
+        {
+          "name": "category_id",
+          "description": ""
+        },
+        {
+          "name": "category_name",
+          "description": ""
+        },
+        {
+          "name": "season",
+          "description": ""
+        },
+        {
+          "name": "duration_days",
+          "description": ""
+        },
+        {
+          "name": "water_requirement_mm",
+          "description": ""
+        },
+        {
+          "name": "soil_type_preferred",
+          "description": ""
+        },
+        {
+          "name": "rainfall_mm",
+          "description": ""
+        },
+        {
+          "name": "temperature_min_c",
+          "description": ""
+        },
+        {
+          "name": "temperature_max_c",
+          "description": ""
+        },
+        {
+          "name": "avg_yield_tons_per_ha",
+          "description": ""
+        },
+        {
+          "name": "major_states",
+          "description": ""
+        },
+        {
+          "name": "major_districts",
+          "description": ""
+        },
+        {
+          "name": "organic_possible",
+          "description": ""
+        },
+        {
+          "name": "export_potential",
+          "description": ""
+        },
+        {
+          "name": "processing_potential",
+          "description": ""
+        },
+        {
+          "name": "mechanization_level",
+          "description": ""
+        },
+        {
+          "name": "data_source",
+          "description": "Authoritative body the row was attributed to"
+        },
+        {
+          "name": "source_url",
+          "description": "Public URL for that body or scheme"
+        },
+        {
+          "name": "collection_date",
+          "description": "Collection date; uniform 2026-07-24 across the package"
+        },
+        {
+          "name": "confidence_score",
+          "description": "Integer 0-100, capped at the 85 package policy ceiling"
+        },
+        {
+          "name": "verification_status",
+          "description": "VST-NEEDS_REVIEW pending human data-steward sign-off"
+        },
+        {
+          "name": "notes",
+          "description": "Caveats, qualifications and sourcing remarks"
+        }
+      ],
+      "known_limitations": "avg_yield_tons_per_ha is an indicative national average, not a district figure, and is not comparable across crops with different harvested products (lint vs seed cotton, dry vs fresh rhizome, nuts per palm for coconut). duration_days is the bare sentinel for perennials where the concept does not apply."
+    },
+    {
+      "dataset_name": "crop_soil_mapping",
+      "file": "datasets/crop_soil_mapping.csv",
+      "layer": "3 - Relational Mapping",
+      "purpose": "Crop-to-soil suitability with a 0-100 score and an ICAR-style suitability band.",
+      "primary_key": "mapping_id",
+      "record_count": 90,
+      "column_count": 13,
+      "foreign_keys": [
+        {
+          "column": "crop_id",
+          "references_dataset": "crops.csv",
+          "references_column": "crop_id"
+        },
+        {
+          "column": "soil_id",
+          "references_dataset": "soil_types.csv",
+          "references_column": "soil_id"
+        }
+      ],
+      "source_tier": "Tier 1 (ICAR package-of-practices; soil-crop compatibility literature)",
+      "confidence_range": "65-78",
+      "confidence_avg": 73.5,
+      "pending_verification_cells": 0,
+      "pending_verification_columns": {},
+      "columns": [
+        {
+          "name": "mapping_id",
+          "description": ""
+        },
+        {
+          "name": "crop_id",
+          "description": ""
+        },
+        {
+          "name": "crop_name",
+          "description": ""
+        },
+        {
+          "name": "soil_id",
+          "description": ""
+        },
+        {
+          "name": "soil_name",
+          "description": ""
+        },
+        {
+          "name": "suitability_score",
+          "description": ""
+        },
+        {
+          "name": "suitability_level",
+          "description": ""
+        },
+        {
+          "name": "data_source",
+          "description": "Authoritative body the row was attributed to"
+        },
+        {
+          "name": "source_url",
+          "description": "Public URL for that body or scheme"
+        },
+        {
+          "name": "collection_date",
+          "description": "Collection date; uniform 2026-07-24 across the package"
+        },
+        {
+          "name": "confidence_score",
+          "description": "Integer 0-100, capped at the 85 package policy ceiling"
+        },
+        {
+          "name": "verification_status",
+          "description": "VST-NEEDS_REVIEW pending human data-steward sign-off"
+        },
+        {
+          "name": "notes",
+          "description": "Caveats, qualifications and sourcing remarks"
+        }
+      ],
+      "known_limitations": "suitability_score is ordinal and comparable only within a crop, not across crops. Absence of a crop-soil pair is not a statement that the combination fails."
+    },
+    {
+      "dataset_name": "crop_climate_mapping",
+      "file": "datasets/crop_climate_mapping.csv",
+      "layer": "3 - Relational Mapping",
+      "purpose": "Crop-to-climate-zone yield potential, risk level and the dominant climatic risk.",
+      "primary_key": "mapping_id",
+      "record_count": 90,
+      "column_count": 15,
+      "foreign_keys": [
+        {
+          "column": "crop_id",
+          "references_dataset": "crops.csv",
+          "references_column": "crop_id"
+        },
+        {
+          "column": "climate_zone_id",
+          "references_dataset": "climate_zones.csv",
+          "references_column": "climate_zone_id"
+        }
+      ],
+      "source_tier": "Tier 1 (ICAR; IMD agro-advisory framing)",
+      "confidence_range": "65-78",
+      "confidence_avg": 73.4,
+      "pending_verification_cells": 0,
+      "pending_verification_columns": {},
+      "columns": [
+        {
+          "name": "mapping_id",
+          "description": ""
+        },
+        {
+          "name": "crop_id",
+          "description": ""
+        },
+        {
+          "name": "crop_name",
+          "description": ""
+        },
+        {
+          "name": "climate_zone_id",
+          "description": ""
+        },
+        {
+          "name": "climate_zone_name",
+          "description": ""
+        },
+        {
+          "name": "season",
+          "description": ""
+        },
+        {
+          "name": "yield_potential",
+          "description": ""
+        },
+        {
+          "name": "risk_level",
+          "description": ""
+        },
+        {
+          "name": "primary_climatic_risk",
+          "description": ""
+        },
+        {
+          "name": "data_source",
+          "description": "Authoritative body the row was attributed to"
+        },
+        {
+          "name": "source_url",
+          "description": "Public URL for that body or scheme"
+        },
+        {
+          "name": "collection_date",
+          "description": "Collection date; uniform 2026-07-24 across the package"
+        },
+        {
+          "name": "confidence_score",
+          "description": "Integer 0-100, capped at the 85 package policy ceiling"
+        },
+        {
+          "name": "verification_status",
+          "description": "VST-NEEDS_REVIEW pending human data-steward sign-off"
+        },
+        {
+          "name": "notes",
+          "description": "Caveats, qualifications and sourcing remarks"
+        }
+      ],
+      "known_limitations": "yield_potential is a relative agro-climatic rating (Optimal/Good/Marginal), deliberately not a tonnage, because zone-level tonnage cannot be asserted from public sources without district qualification."
+    },
+    {
+      "dataset_name": "farm_machinery",
+      "file": "datasets/farm_machinery.csv",
+      "layer": "4 - Capital and Technology",
+      "purpose": "Farm machinery and post-harvest equipment with power class, automation level, AI readiness and the subsidy scheme that applies.",
+      "primary_key": "machinery_id",
+      "record_count": 16,
+      "column_count": 18,
+      "foreign_keys": [],
+      "source_tier": "Tier 1 (SMAM; MoFPI; PMKSY scheme documents)",
+      "confidence_range": "62-72",
+      "confidence_avg": 67.9,
+      "pending_verification_cells": 50,
+      "pending_verification_columns": {
+        "investment_inr": 16,
+        "annual_maintenance_inr": 16,
+        "power_hp": 10,
+        "capacity": 7,
+        "subsidy_scheme": 1
+      },
+      "columns": [
+        {
+          "name": "machinery_id",
+          "description": ""
+        },
+        {
+          "name": "machinery_name",
+          "description": ""
+        },
+        {
+          "name": "machinery_type",
+          "description": ""
+        },
+        {
+          "name": "function",
+          "description": ""
+        },
+        {
+          "name": "investment_inr",
+          "description": ""
+        },
+        {
+          "name": "fuel_type",
+          "description": ""
+        },
+        {
+          "name": "capacity",
+          "description": ""
+        },
+        {
+          "name": "power_hp",
+          "description": ""
+        },
+        {
+          "name": "annual_maintenance_inr",
+          "description": ""
+        },
+        {
+          "name": "automation_level",
+          "description": ""
+        },
+        {
+          "name": "ai_readiness",
+          "description": ""
+        },
+        {
+          "name": "subsidy_scheme",
+          "description": ""
+        },
+        {
+          "name": "data_source",
+          "description": "Authoritative body the row was attributed to"
+        },
+        {
+          "name": "source_url",
+          "description": "Public URL for that body or scheme"
+        },
+        {
+          "name": "collection_date",
+          "description": "Collection date; uniform 2026-07-24 across the package"
+        },
+        {
+          "name": "confidence_score",
+          "description": "Integer 0-100, capped at the 85 package policy ceiling"
+        },
+        {
+          "name": "verification_status",
+          "description": "VST-NEEDS_REVIEW pending human data-steward sign-off"
+        },
+        {
+          "name": "notes",
+          "description": "Caveats, qualifications and sourcing remarks"
+        }
+      ],
+      "known_limitations": "investment_inr, annual_maintenance_inr and most capacity figures are the bare sentinel throughout. Equipment prices are set by manufacturer and model and no single official public figure exists; a plausible number here would be fabrication. Consumers needing costs must obtain current DIC or dealer quotations."
+    },
+    {
+      "dataset_name": "agri_processing_opportunities",
+      "file": "datasets/agri_processing_opportunities.csv",
+      "layer": "5 - Value Addition",
+      "purpose": "Value-add processing enterprise types with input crop, finished product, licence requirements and linked scheme.",
+      "primary_key": "opportunity_id",
+      "record_count": 17,
+      "column_count": 18,
+      "foreign_keys": [],
+      "source_tier": "Tier 1 (MoFPI/PMFME; Spices Board; National Bee Board; NMPB)",
+      "confidence_range": "62-70",
+      "confidence_avg": 66.9,
+      "pending_verification_cells": 34,
+      "pending_verification_columns": {
+        "investment_band": 17,
+        "capacity_indicative": 17
+      },
+      "columns": [
+        {
+          "name": "opportunity_id",
+          "description": ""
+        },
+        {
+          "name": "opportunity_name",
+          "description": ""
+        },
+        {
+          "name": "opportunity_type",
+          "description": ""
+        },
+        {
+          "name": "input_crop",
+          "description": ""
+        },
+        {
+          "name": "finished_product",
+          "description": ""
+        },
+        {
+          "name": "investment_band",
+          "description": ""
+        },
+        {
+          "name": "capacity_indicative",
+          "description": ""
+        },
+        {
+          "name": "skill_requirement",
+          "description": ""
+        },
+        {
+          "name": "market_demand",
+          "description": ""
+        },
+        {
+          "name": "value_add_potential",
+          "description": ""
+        },
+        {
+          "name": "licenses_required",
+          "description": ""
+        },
+        {
+          "name": "linked_scheme",
+          "description": ""
+        },
+        {
+          "name": "data_source",
+          "description": "Authoritative body the row was attributed to"
+        },
+        {
+          "name": "source_url",
+          "description": "Public URL for that body or scheme"
+        },
+        {
+          "name": "collection_date",
+          "description": "Collection date; uniform 2026-07-24 across the package"
+        },
+        {
+          "name": "confidence_score",
+          "description": "Integer 0-100, capped at the 85 package policy ceiling"
+        },
+        {
+          "name": "verification_status",
+          "description": "VST-NEEDS_REVIEW pending human data-steward sign-off"
+        },
+        {
+          "name": "notes",
+          "description": "Caveats, qualifications and sourcing remarks"
+        }
+      ],
+      "known_limitations": "investment_band and capacity_indicative are the bare sentinel. Package004_Industries already carries sourced investment and machinery detail for the overlapping food-processing opportunities; this dataset intentionally does not duplicate or approximate those figures."
+    },
+    {
+      "dataset_name": "farmer_producer_organizations",
+      "file": "datasets/farmer_producer_organizations.csv",
+      "layer": "6 - Institutions",
+      "purpose": "Collective organisation models available to farmers for aggregation, input purchase and market access.",
+      "primary_key": "fpo_id",
+      "record_count": 5,
+      "column_count": 12,
+      "foreign_keys": [],
+      "source_tier": "Tier 1-2 (Ministry of Agriculture FPO programme; NABARD; MCA; NRLM)",
+      "confidence_range": "68-75",
+      "confidence_avg": 71.6,
+      "pending_verification_cells": 0,
+      "pending_verification_columns": {},
+      "columns": [
+        {
+          "name": "fpo_id",
+          "description": ""
+        },
+        {
+          "name": "organization_type",
+          "description": ""
+        },
+        {
+          "name": "description",
+          "description": ""
+        },
+        {
+          "name": "typical_size_members",
+          "description": ""
+        },
+        {
+          "name": "services_offered",
+          "description": ""
+        },
+        {
+          "name": "major_states",
+          "description": ""
+        },
+        {
+          "name": "data_source",
+          "description": "Authoritative body the row was attributed to"
+        },
+        {
+          "name": "source_url",
+          "description": "Public URL for that body or scheme"
+        },
+        {
+          "name": "collection_date",
+          "description": "Collection date; uniform 2026-07-24 across the package"
+        },
+        {
+          "name": "confidence_score",
+          "description": "Integer 0-100, capped at the 85 package policy ceiling"
+        },
+        {
+          "name": "verification_status",
+          "description": "VST-NEEDS_REVIEW pending human data-steward sign-off"
+        },
+        {
+          "name": "notes",
+          "description": "Caveats, qualifications and sourcing remarks"
+        }
+      ],
+      "known_limitations": "Describes organisation types, not a registry of named FPOs. typical_size_members is an indicative band."
+    },
+    {
+      "dataset_name": "agriculture_training",
+      "file": "datasets/agriculture_training.csv",
+      "layer": "6 - Institutions",
+      "purpose": "Agricultural training and extension provider categories with coverage and course focus.",
+      "primary_key": "training_id",
+      "record_count": 7,
+      "column_count": 13,
+      "foreign_keys": [],
+      "source_tier": "Tier 1-2 (ICAR KVK network; state agriculture departments; NPTEL)",
+      "confidence_range": "64-77",
+      "confidence_avg": 71.1,
+      "pending_verification_cells": 0,
+      "pending_verification_columns": {},
+      "columns": [
+        {
+          "name": "training_id",
+          "description": ""
+        },
+        {
+          "name": "training_provider",
+          "description": ""
+        },
+        {
+          "name": "provider_type",
+          "description": ""
+        },
+        {
+          "name": "services",
+          "description": ""
+        },
+        {
+          "name": "typical_duration",
+          "description": ""
+        },
+        {
+          "name": "course_focus",
+          "description": ""
+        },
+        {
+          "name": "state_coverage",
+          "description": ""
+        },
+        {
+          "name": "data_source",
+          "description": "Authoritative body the row was attributed to"
+        },
+        {
+          "name": "source_url",
+          "description": "Public URL for that body or scheme"
+        },
+        {
+          "name": "collection_date",
+          "description": "Collection date; uniform 2026-07-24 across the package"
+        },
+        {
+          "name": "confidence_score",
+          "description": "Integer 0-100, capped at the 85 package policy ceiling"
+        },
+        {
+          "name": "verification_status",
+          "description": "VST-NEEDS_REVIEW pending human data-steward sign-off"
+        },
+        {
+          "name": "notes",
+          "description": "Caveats, qualifications and sourcing remarks"
+        }
+      ],
+      "known_limitations": "Describes provider categories, not named institutions. Package006_Skills_and_Training carries the named-provider and named-centre datasets; this is the agriculture-specific extension layer, not a duplicate of it."
+    },
+    {
+      "dataset_name": "agriculture_schemes",
+      "file": "datasets/agriculture_schemes.csv",
+      "layer": "7 - Government Support",
+      "purpose": "Central government agriculture support schemes with objective, eligibility, benefit and application level.",
+      "primary_key": "scheme_id",
+      "record_count": 12,
+      "column_count": 13,
+      "foreign_keys": [],
+      "source_tier": "Tier 1 (scheme portals; Ministry of Agriculture; NABARD)",
+      "confidence_range": "69-78",
+      "confidence_avg": 73.2,
+      "pending_verification_cells": 0,
+      "pending_verification_columns": {},
+      "columns": [
+        {
+          "name": "scheme_id",
+          "description": ""
+        },
+        {
+          "name": "scheme_name",
+          "description": ""
+        },
+        {
+          "name": "scheme_type",
+          "description": ""
+        },
+        {
+          "name": "objective",
+          "description": ""
+        },
+        {
+          "name": "beneficiary_eligibility",
+          "description": ""
+        },
+        {
+          "name": "benefit_amount_inr",
+          "description": ""
+        },
+        {
+          "name": "application_level",
+          "description": ""
+        },
+        {
+          "name": "data_source",
+          "description": "Authoritative body the row was attributed to"
+        },
+        {
+          "name": "source_url",
+          "description": "Public URL for that body or scheme"
+        },
+        {
+          "name": "collection_date",
+          "description": "Collection date; uniform 2026-07-24 across the package"
+        },
+        {
+          "name": "confidence_score",
+          "description": "Integer 0-100, capped at the 85 package policy ceiling"
+        },
+        {
+          "name": "verification_status",
+          "description": "VST-NEEDS_REVIEW pending human data-steward sign-off"
+        },
+        {
+          "name": "notes",
+          "description": "Caveats, qualifications and sourcing remarks"
+        }
+      ],
+      "known_limitations": "Benefit amounts and eligibility rules change by budget cycle and differ by state top-up. Treat every figure as requiring re-verification against the scheme portal before it is relied on. This dataset is the agriculture slice; Package007_Government_Schemes will hold the comprehensive scheme registry."
+    },
+    {
+      "dataset_name": "crop_disease_management",
+      "file": "datasets/crop_disease_management.csv",
+      "layer": "8 - Crop Protection",
+      "purpose": "Major crop diseases and pests with symptoms, chemical and biological control, and AI-detection feasibility.",
+      "primary_key": "disease_id",
+      "record_count": 10,
+      "column_count": 14,
+      "foreign_keys": [],
+      "source_tier": "Tier 1 (ICAR crop-protection institutes; IPM guidance)",
+      "confidence_range": "65-76",
+      "confidence_avg": 72.4,
+      "pending_verification_cells": 0,
+      "pending_verification_columns": {},
+      "columns": [
+        {
+          "name": "disease_id",
+          "description": ""
+        },
+        {
+          "name": "disease_name",
+          "description": ""
+        },
+        {
+          "name": "affected_crops",
+          "description": ""
+        },
+        {
+          "name": "symptom_description",
+          "description": ""
+        },
+        {
+          "name": "disease_type",
+          "description": ""
+        },
+        {
+          "name": "chemical_treatment",
+          "description": ""
+        },
+        {
+          "name": "biological_treatment",
+          "description": ""
+        },
+        {
+          "name": "ai_detection_possible",
+          "description": ""
+        },
+        {
+          "name": "data_source",
+          "description": "Authoritative body the row was attributed to"
+        },
+        {
+          "name": "source_url",
+          "description": "Public URL for that body or scheme"
+        },
+        {
+          "name": "collection_date",
+          "description": "Collection date; uniform 2026-07-24 across the package"
+        },
+        {
+          "name": "confidence_score",
+          "description": "Integer 0-100, capped at the 85 package policy ceiling"
+        },
+        {
+          "name": "verification_status",
+          "description": "VST-NEEDS_REVIEW pending human data-steward sign-off"
+        },
+        {
+          "name": "notes",
+          "description": "Caveats, qualifications and sourcing remarks"
+        }
+      ],
+      "known_limitations": "Chemical treatments are named actives, not dose recommendations, and are not a prescription; pesticide legality and dosage are governed by CIB&RC labels and change over time. Always confirm current label approval before use."
+    },
+    {
+      "dataset_name": "market_linkages",
+      "file": "datasets/market_linkages.csv",
+      "layer": "9 - Market Access",
+      "purpose": "Market channel types available to producers, from regulated mandis to digital platforms and export routes.",
+      "primary_key": "linkage_id",
+      "record_count": 6,
+      "column_count": 12,
+      "foreign_keys": [],
+      "source_tier": "Tier 1-2 (Ministry of Agriculture; eNAM; APEDA; MoFPI)",
+      "confidence_range": "66-76",
+      "confidence_avg": 70.0,
+      "pending_verification_cells": 0,
+      "pending_verification_columns": {},
+      "columns": [
+        {
+          "name": "linkage_id",
+          "description": ""
+        },
+        {
+          "name": "market_type",
+          "description": ""
+        },
+        {
+          "name": "market_infrastructure",
+          "description": ""
+        },
+        {
+          "name": "description",
+          "description": ""
+        },
+        {
+          "name": "commodities_traded",
+          "description": ""
+        },
+        {
+          "name": "major_locations",
+          "description": ""
+        },
+        {
+          "name": "data_source",
+          "description": "Authoritative body the row was attributed to"
+        },
+        {
+          "name": "source_url",
+          "description": "Public URL for that body or scheme"
+        },
+        {
+          "name": "collection_date",
+          "description": "Collection date; uniform 2026-07-24 across the package"
+        },
+        {
+          "name": "confidence_score",
+          "description": "Integer 0-100, capped at the 85 package policy ceiling"
+        },
+        {
+          "name": "verification_status",
+          "description": "VST-NEEDS_REVIEW pending human data-steward sign-off"
+        },
+        {
+          "name": "notes",
+          "description": "Caveats, qualifications and sourcing remarks"
+        }
+      ],
+      "known_limitations": "Describes channel types, not named mandis or buyers. Counts such as APMC and integrated-mandi numbers move over time and should be re-verified."
+    },
+    {
+      "dataset_name": "export_opportunities",
+      "file": "datasets/export_opportunities.csv",
+      "layer": "10 - Export",
+      "purpose": "Export market segments with destination countries, quality requirements and certifications needed.",
+      "primary_key": "opportunity_id",
+      "record_count": 8,
+      "column_count": 13,
+      "foreign_keys": [],
+      "source_tier": "Tier 1 (APEDA; Spices Board; Tea Board; Coffee Board)",
+      "confidence_range": "71-77",
+      "confidence_avg": 74.1,
+      "pending_verification_cells": 0,
+      "pending_verification_columns": {},
+      "columns": [
+        {
+          "name": "opportunity_id",
+          "description": ""
+        },
+        {
+          "name": "crop_product",
+          "description": ""
+        },
+        {
+          "name": "destination_countries",
+          "description": ""
+        },
+        {
+          "name": "avg_export_price_usd_per_unit",
+          "description": ""
+        },
+        {
+          "name": "volume_opportunity_tons_annual",
+          "description": ""
+        },
+        {
+          "name": "quality_requirements",
+          "description": ""
+        },
+        {
+          "name": "certifications_needed",
+          "description": ""
+        },
+        {
+          "name": "data_source",
+          "description": "Authoritative body the row was attributed to"
+        },
+        {
+          "name": "source_url",
+          "description": "Public URL for that body or scheme"
+        },
+        {
+          "name": "collection_date",
+          "description": "Collection date; uniform 2026-07-24 across the package"
+        },
+        {
+          "name": "confidence_score",
+          "description": "Integer 0-100, capped at the 85 package policy ceiling"
+        },
+        {
+          "name": "verification_status",
+          "description": "VST-NEEDS_REVIEW pending human data-steward sign-off"
+        },
+        {
+          "name": "notes",
+          "description": "Caveats, qualifications and sourcing remarks"
+        }
+      ],
+      "known_limitations": "Export prices and annual volumes fluctuate with global markets, exchange rates and policy (export bans and MEP changes). Price and volume fields are indicative orders of magnitude only, not quotable figures."
+    },
+    {
+      "dataset_name": "ai_precision_agriculture",
+      "file": "datasets/ai_precision_agriculture.csv",
+      "layer": "11 - AI and Technology Readiness",
+      "purpose": "Precision-agriculture and AI technology readiness with adoption level, ROI potential and the binding constraint.",
+      "primary_key": "technology_id",
+      "record_count": 10,
+      "column_count": 16,
+      "foreign_keys": [],
+      "source_tier": "Tier 1-4 (ICAR/ISRO/IMD for deployed systems; research and pilot reporting for emerging ones)",
+      "confidence_range": "50-66",
+      "confidence_avg": 58.2,
+      "pending_verification_cells": 10,
+      "pending_verification_columns": {
+        "approximate_cost_inr": 10
+      },
+      "columns": [
+        {
+          "name": "technology_id",
+          "description": ""
+        },
+        {
+          "name": "technology_name",
+          "description": ""
+        },
+        {
+          "name": "technology_type",
+          "description": ""
+        },
+        {
+          "name": "application",
+          "description": ""
+        },
+        {
+          "name": "crop_suitability",
+          "description": ""
+        },
+        {
+          "name": "current_adoption_india",
+          "description": ""
+        },
+        {
+          "name": "ai_readiness_level",
+          "description": ""
+        },
+        {
+          "name": "approximate_cost_inr",
+          "description": ""
+        },
+        {
+          "name": "roi_potential",
+          "description": ""
+        },
+        {
+          "name": "primary_constraint",
+          "description": ""
+        },
+        {
+          "name": "data_source",
+          "description": "Authoritative body the row was attributed to"
+        },
+        {
+          "name": "source_url",
+          "description": "Public URL for that body or scheme"
+        },
+        {
+          "name": "collection_date",
+          "description": "Collection date; uniform 2026-07-24 across the package"
+        },
+        {
+          "name": "confidence_score",
+          "description": "Integer 0-100, capped at the 85 package policy ceiling"
+        },
+        {
+          "name": "verification_status",
+          "description": "VST-NEEDS_REVIEW pending human data-steward sign-off"
+        },
+        {
+          "name": "notes",
+          "description": "Caveats, qualifications and sourcing remarks"
+        }
+      ],
+      "known_limitations": "approximate_cost_inr is the bare sentinel on every row: no official public cost benchmark exists for any of these technologies in India. current_adoption_india is an ordinal band, not a measured penetration rate. Rows for farm robotics, autonomous tractors and digital twins describe research and pilot stages, not commercially available offerings."
+    },
+    {
+      "dataset_name": "agri_business_mapping",
+      "file": "datasets/agri_business_mapping.csv",
+      "layer": "12 - Cross-Package Spine",
+      "purpose": "The integration spine: crop to processing opportunity to Package004 business opportunity to Package006 skill.",
+      "primary_key": "mapping_id",
+      "record_count": 30,
+      "column_count": 15,
+      "foreign_keys": [
+        {
+          "column": "crop_id",
+          "references_dataset": "crops.csv",
+          "references_column": "crop_id"
+        },
+        {
+          "column": "processing_opportunity_id",
+          "references_dataset": "agri_processing_opportunities.csv",
+          "references_column": "opportunity_id"
+        },
+        {
+          "column": "package004_opportunity_name",
+          "references_dataset": "Package004_Industries (cross-package)",
+          "references_column": "name / adapted_indian_concept"
+        },
+        {
+          "column": "package006_skill_id",
+          "references_dataset": "Package006_Skills_and_Training (cross-package)",
+          "references_column": "skill_id"
+        }
+      ],
+      "source_tier": "Tier 1-2 (MoFPI; Spices Board; internal cross-package reconciliation)",
+      "confidence_range": "62-74",
+      "confidence_avg": 69.0,
+      "pending_verification_cells": 13,
+      "pending_verification_columns": {
+        "package004_opportunity_name": 13
+      },
+      "columns": [
+        {
+          "name": "mapping_id",
+          "description": ""
+        },
+        {
+          "name": "crop_id",
+          "description": ""
+        },
+        {
+          "name": "crop_name",
+          "description": ""
+        },
+        {
+          "name": "processing_opportunity_id",
+          "description": ""
+        },
+        {
+          "name": "processing_opportunity_name",
+          "description": ""
+        },
+        {
+          "name": "package004_opportunity_name",
+          "description": ""
+        },
+        {
+          "name": "package006_skill_id",
+          "description": ""
+        },
+        {
+          "name": "package006_skill_name",
+          "description": ""
+        },
+        {
+          "name": "value_add_stage",
+          "description": ""
+        },
+        {
+          "name": "data_source",
+          "description": "Authoritative body the row was attributed to"
+        },
+        {
+          "name": "source_url",
+          "description": "Public URL for that body or scheme"
+        },
+        {
+          "name": "collection_date",
+          "description": "Collection date; uniform 2026-07-24 across the package"
+        },
+        {
+          "name": "confidence_score",
+          "description": "Integer 0-100, capped at the 85 package policy ceiling"
+        },
+        {
+          "name": "verification_status",
+          "description": "VST-NEEDS_REVIEW pending human data-steward sign-off"
+        },
+        {
+          "name": "notes",
+          "description": "Caveats, qualifications and sourcing remarks"
+        }
+      ],
+      "known_limitations": "Thirteen of thirty rows carry the bare sentinel for package004_opportunity_name: Package004 v1.0.0 has no counterpart for rice milling, dal milling, jaggery, cold storage, essential-oil distillation, animal feed, vermicompost or cashew shelling. Those links become populatable when Package004 expands, and are left unasserted rather than approximated. value_add_stage is a qualitative stage label; no value-add percentage is asserted anywhere in this release."
+    }
+  ]
+}

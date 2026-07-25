@@ -1,0 +1,63 @@
+{
+  "dataset_name": "crops",
+  "package": "Package005_Agriculture",
+  "package_version": "1.0.0",
+  "file": "datasets/crops.csv",
+  "layer": "2 - Core Entity",
+  "purpose": "Agronomic and commercial profile for 45 crops spanning all 12 crop-bearing categories.",
+  "primary_key": "crop_id",
+  "record_count": 45,
+  "column_count": 25,
+  "columns": [
+    "crop_id",
+    "crop_name",
+    "scientific_name",
+    "category_id",
+    "category_name",
+    "season",
+    "duration_days",
+    "water_requirement_mm",
+    "soil_type_preferred",
+    "rainfall_mm",
+    "temperature_min_c",
+    "temperature_max_c",
+    "avg_yield_tons_per_ha",
+    "major_states",
+    "major_districts",
+    "organic_possible",
+    "export_potential",
+    "processing_potential",
+    "mechanization_level",
+    "data_source",
+    "source_url",
+    "collection_date",
+    "confidence_score",
+    "verification_status",
+    "notes"
+  ],
+  "foreign_keys": [
+    {
+      "column": "category_id",
+      "references_dataset": "crop_categories.csv",
+      "references_column": "category_id"
+    }
+  ],
+  "collection_date": "2026-07-24",
+  "collection_mode": "Knowledge synthesis from documented public sources (WebFetch to government domains blocked by environment egress policy)",
+  "source_tier": "Tier 1 (ICAR crop-specific institutes; commodity boards)",
+  "methodology": "Crops were selected for national acreage significance plus Telangana/Andhra Pradesh relevance, since those two states are the geographic spine of the wider knowledge base. Agronomic fields (season, duration, water requirement, temperature range, indicative yield) follow ICAR package-of-practices conventions. major_districts was populated only where a district is publicly and specifically associated with the crop; for crops with no TG/AP footprint the field is the bare sentinel rather than an invented list.",
+  "confidence_score_min": 66,
+  "confidence_score_max": 78,
+  "confidence_score_avg": 74.4,
+  "confidence_ceiling_policy": 85,
+  "verification_status": "VST-NEEDS_REVIEW",
+  "pending_verification_cells": 25,
+  "pending_verification_rate_pct": 2.22,
+  "pending_verification_columns": {
+    "major_districts": 14,
+    "duration_days": 9,
+    "avg_yield_tons_per_ha": 2
+  },
+  "known_limitations": "avg_yield_tons_per_ha is an indicative national average, not a district figure, and is not comparable across crops with different harvested products (lint vs seed cotton, dry vs fresh rhizome, nuts per palm for coconut). duration_days is the bare sentinel for perennials where the concept does not apply.",
+  "release_status": "RELEASED in v1.0.0"
+}

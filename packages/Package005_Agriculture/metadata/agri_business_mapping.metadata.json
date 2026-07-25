@@ -1,0 +1,66 @@
+{
+  "dataset_name": "agri_business_mapping",
+  "package": "Package005_Agriculture",
+  "package_version": "1.0.0",
+  "file": "datasets/agri_business_mapping.csv",
+  "layer": "12 - Cross-Package Spine",
+  "purpose": "The integration spine: crop to processing opportunity to Package004 business opportunity to Package006 skill.",
+  "primary_key": "mapping_id",
+  "record_count": 30,
+  "column_count": 15,
+  "columns": [
+    "mapping_id",
+    "crop_id",
+    "crop_name",
+    "processing_opportunity_id",
+    "processing_opportunity_name",
+    "package004_opportunity_name",
+    "package006_skill_id",
+    "package006_skill_name",
+    "value_add_stage",
+    "data_source",
+    "source_url",
+    "collection_date",
+    "confidence_score",
+    "verification_status",
+    "notes"
+  ],
+  "foreign_keys": [
+    {
+      "column": "crop_id",
+      "references_dataset": "crops.csv",
+      "references_column": "crop_id"
+    },
+    {
+      "column": "processing_opportunity_id",
+      "references_dataset": "agri_processing_opportunities.csv",
+      "references_column": "opportunity_id"
+    },
+    {
+      "column": "package004_opportunity_name",
+      "references_dataset": "Package004_Industries (cross-package)",
+      "references_column": "name / adapted_indian_concept"
+    },
+    {
+      "column": "package006_skill_id",
+      "references_dataset": "Package006_Skills_and_Training (cross-package)",
+      "references_column": "skill_id"
+    }
+  ],
+  "collection_date": "2026-07-24",
+  "collection_mode": "Knowledge synthesis from documented public sources (WebFetch to government domains blocked by environment egress policy)",
+  "source_tier": "Tier 1-2 (MoFPI; Spices Board; internal cross-package reconciliation)",
+  "methodology": "Thirty mappings trace a crop through a processing route to a named business opportunity and the skill required to run it. Package004 opportunity names were matched by reading the released Package004 CSVs directly, and Package006 skill_id values are the actual UUIDs from the released skills.csv, so both sides are verifiable foreign keys rather than descriptive text.",
+  "confidence_score_min": 62,
+  "confidence_score_max": 74,
+  "confidence_score_avg": 69.0,
+  "confidence_ceiling_policy": 85,
+  "verification_status": "VST-NEEDS_REVIEW",
+  "pending_verification_cells": 13,
+  "pending_verification_rate_pct": 2.89,
+  "pending_verification_columns": {
+    "package004_opportunity_name": 13
+  },
+  "known_limitations": "Thirteen of thirty rows carry the bare sentinel for package004_opportunity_name: Package004 v1.0.0 has no counterpart for rice milling, dal milling, jaggery, cold storage, essential-oil distillation, animal feed, vermicompost or cashew shelling. Those links become populatable when Package004 expands, and are left unasserted rather than approximated. value_add_stage is a qualitative stage label; no value-add percentage is asserted anywhere in this release.",
+  "release_status": "RELEASED in v1.0.0"
+}

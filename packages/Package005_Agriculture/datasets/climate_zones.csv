@@ -1,0 +1,9 @@
+climate_zone_id,zone_name,description,rainfall_mm_min,rainfall_mm_max,temperature_min_c,temperature_max_c,humidity_percent,growing_seasons,major_states,data_source,source_url,collection_date,confidence_score,verification_status,notes
+cz-001,Tropical,"High rainfall, year-round growing season",2000,3500,20,35,70,3,"Kerala, Tamil Nadu, Goa, Northeast",ICAR-CRIDA,https://icar.org.in/,2026-07-24,77,VST-NEEDS_REVIEW,Southwest monsoon dependent
+cz-002,Sub-tropical,"Moderate rainfall, two distinct seasons",1200,2000,15,32,65,2,"Gujarat, Maharashtra, AP, Rajasthan",ICAR-CRIDA,https://icar.org.in/,2026-07-24,76,VST-NEEDS_REVIEW,Winter rabi; summer kharif
+cz-003,Temperate,"Cool winters, moderate rainfall",1000,1500,5,25,60,1.5,"Himachal Pradesh, J&K, Uttarakhand",ICAR,https://icar.org.in/,2026-07-24,75,VST-NEEDS_REVIEW,Snow-affected areas
+cz-004,Arid,"Very low rainfall, high evaporation",200,500,15,38,40,0.5,Rajasthan (Western),ICAR-CAZRI,https://icar.org.in/,2026-07-24,74,VST-NEEDS_REVIEW,Desert adaptation required
+cz-005,Semi-arid,"Low rainfall, one monsoon season",500,1000,15,32,45,1,"Rajasthan, Parts of MP, Karnataka",ICAR-CRIDA,https://icar.org.in/,2026-07-24,75,VST-NEEDS_REVIEW,Drought risk; millet-based
+cz-006,Dry,"Low rainfall, high variation",600,1200,18,32,50,1.5,"Gujarat, Maharashtra, Karnataka, Telangana",ICAR-CRIDA,https://icar.org.in/,2026-07-24,74,VST-NEEDS_REVIEW,Pulses & oilseeds adaptation
+cz-007,Wet,"High rainfall, monsoon dependent",2200,3500,22,32,75,2.5,"Assam, Meghalaya, Tripura, West Bengal",ICAR,https://icar.org.in/,2026-07-24,76,VST-NEEDS_REVIEW,Flood-prone areas
+cz-008,Highland,"Cool temperatures, variable rainfall",1000,2500,8,20,65,1,"Himalayas, Nilgiris, Western Ghats",ICAR,https://icar.org.in/,2026-07-24,72,VST-NEEDS_REVIEW,Altitude-dependent; specific crops

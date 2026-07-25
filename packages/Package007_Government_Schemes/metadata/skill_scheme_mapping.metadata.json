@@ -1,0 +1,80 @@
+{
+  "dataset_name": "skill_scheme_mapping",
+  "package": "Package007_Government_Schemes",
+  "package_version": "1.0.0",
+  "file": "datasets/skill_scheme_mapping.csv",
+  "layer": "7 - Cross-Package Mapping",
+  "purpose": "Skill schemes mapped to Package006 scheme, skill, certification and training provider records.",
+  "primary_key": "mapping_id",
+  "record_count": 12,
+  "column_count": 17,
+  "columns": [
+    "mapping_id",
+    "scheme_id",
+    "scheme_short_name",
+    "package006_scheme_id",
+    "package006_scheme_name",
+    "package006_skill_id",
+    "package006_skill_name",
+    "package006_certification_id",
+    "package006_certification_name",
+    "package006_provider_id",
+    "package006_provider_name",
+    "data_source",
+    "source_url",
+    "collection_date",
+    "confidence_score",
+    "verification_status",
+    "notes"
+  ],
+  "foreign_keys": [
+    {
+      "column": "scheme_id",
+      "references_dataset": "government_schemes.csv",
+      "references_column": "scheme_id"
+    },
+    {
+      "column": "package006_scheme_id",
+      "references_dataset": "Package006_Skills_and_Training (cross-package)",
+      "references_column": "government_skill_schemes.scheme_id"
+    },
+    {
+      "column": "package006_skill_id",
+      "references_dataset": "Package006_Skills_and_Training (cross-package)",
+      "references_column": "skills.skill_id"
+    },
+    {
+      "column": "package006_certification_id",
+      "references_dataset": "Package006_Skills_and_Training (cross-package)",
+      "references_column": "certifications.certification_id"
+    },
+    {
+      "column": "package006_provider_id",
+      "references_dataset": "Package006_Skills_and_Training (cross-package)",
+      "references_column": "training_providers.provider_id"
+    }
+  ],
+  "collection_date": "2026-07-25",
+  "collection_mode": "Knowledge synthesis from documented public sources (WebFetch to government domains blocked by environment egress policy)",
+  "source_tier": "Tier 1 (MSDE; Package006 reconciliation)",
+  "methodology": "Four separate Package006 foreign keys per row, all resolved against the released CSVs at generation time. This is the widest cross-package surface in the package and the strictest: the generator aborts rather than writing an unresolvable id.",
+  "confidence_score_min": 62,
+  "confidence_score_max": 73,
+  "confidence_score_avg": 69.7,
+  "confidence_ceiling_policy": 85,
+  "verification_status": "VST-NEEDS_REVIEW",
+  "pending_verification_cells": 42,
+  "pending_verification_rate_pct": 20.59,
+  "pending_verification_columns": {
+    "package006_provider_id": 9,
+    "package006_provider_name": 9,
+    "package006_certification_id": 8,
+    "package006_certification_name": 8,
+    "package006_scheme_id": 3,
+    "package006_scheme_name": 3,
+    "package006_skill_id": 1,
+    "package006_skill_name": 1
+  },
+  "known_limitations": "Certification and provider links are sparse (4 and 3 resolved of 12) because most scheme-to-skill relationships do not run through one named certificate or one named provider. PM Vishwakarma and PMEGP have no Package006 scheme counterpart. One row (PMEGP) carries the sentinel on all four Package006 columns: Package006 v1.0.0 has no entrepreneurship skill record, which validation surfaced when an assumed link failed to resolve.",
+  "release_status": "RELEASED in v1.0.0"
+}

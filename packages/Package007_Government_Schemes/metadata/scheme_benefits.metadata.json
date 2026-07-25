@@ -1,0 +1,50 @@
+{
+  "dataset_name": "scheme_benefits",
+  "package": "Package007_Government_Schemes",
+  "package_version": "1.0.0",
+  "file": "datasets/scheme_benefits.csv",
+  "layer": "6 - Benefits",
+  "purpose": "Benefits decomposed by type, disbursement mode and frequency, one row per distinct benefit.",
+  "primary_key": "benefit_id",
+  "record_count": 51,
+  "column_count": 14,
+  "columns": [
+    "benefit_id",
+    "scheme_id",
+    "scheme_short_name",
+    "benefit_type",
+    "benefit_description",
+    "benefit_quantum",
+    "disbursement_mode",
+    "frequency",
+    "data_source",
+    "source_url",
+    "collection_date",
+    "confidence_score",
+    "verification_status",
+    "notes"
+  ],
+  "foreign_keys": [
+    {
+      "column": "scheme_id",
+      "references_dataset": "government_schemes.csv",
+      "references_column": "scheme_id"
+    }
+  ],
+  "collection_date": "2026-07-25",
+  "collection_mode": "Knowledge synthesis from documented public sources (WebFetch to government domains blocked by environment egress policy)",
+  "source_tier": "Tier 1 (scheme portals and guidelines)",
+  "methodology": "Multi-component schemes carry multiple rows, which is the point: PM Vishwakarma delivers training, a toolkit and credit, and collapsing those into one benefit field would lose the structure a recommendation engine needs. benefit_type uses the vocabulary from the specification (Grant, Subsidy, Loan, Interest Subvention, Insurance, Training, Infrastructure, Scholarship, Equipment Support, Pension). Every scheme has at least one benefit row, enforced by V11.",
+  "confidence_score_min": 69,
+  "confidence_score_max": 76,
+  "confidence_score_avg": 72.4,
+  "confidence_ceiling_policy": 85,
+  "verification_status": "VST-NEEDS_REVIEW",
+  "pending_verification_cells": 45,
+  "pending_verification_rate_pct": 6.3,
+  "pending_verification_columns": {
+    "benefit_quantum": 45
+  },
+  "known_limitations": "benefit_quantum is the bare sentinel on nearly every row, for the same reason as government_schemes.financial_assistance: amounts are notification-driven. disbursement_mode and frequency are the durable, decision-relevant fields and are populated throughout.",
+  "release_status": "RELEASED in v1.0.0"
+}

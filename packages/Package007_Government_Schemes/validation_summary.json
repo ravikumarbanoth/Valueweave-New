@@ -1,0 +1,221 @@
+{
+  "package": "Package007_Government_Schemes",
+  "version": "1.0.0",
+  "collection_date": "2026-07-25",
+  "datasets": 15,
+  "total_records": 655,
+  "total_cells": 10401,
+  "pending_verification_cells": 534,
+  "pending_verification_rate_pct": 5.13,
+  "confidence_min": 60,
+  "confidence_max": 78,
+  "confidence_ceiling_policy": 85,
+  "schemes_registered": 40,
+  "cross_package_fk": {
+    "Package001 district": {
+      "resolved": 305,
+      "sentinel": 0
+    },
+    "Package002 scholarship": {
+      "resolved": 4,
+      "sentinel": 3
+    },
+    "Package005 scheme": {
+      "resolved": 12,
+      "sentinel": 2
+    },
+    "Package005 crop": {
+      "resolved": 12,
+      "sentinel": 2
+    },
+    "Package006 scheme": {
+      "resolved": 9,
+      "sentinel": 3
+    },
+    "Package006 skill": {
+      "resolved": 11,
+      "sentinel": 1
+    },
+    "Package006 certification": {
+      "resolved": 4,
+      "sentinel": 8
+    },
+    "Package006 provider": {
+      "resolved": 3,
+      "sentinel": 9
+    },
+    "Package004 opportunity": {
+      "resolved": 12,
+      "sentinel": 0
+    }
+  },
+  "violations": 0,
+  "result": "PASS",
+  "per_dataset": {
+    "agriculture_scheme_mapping.csv": {
+      "records": 14,
+      "columns": 15,
+      "primary_key": "mapping_id",
+      "pending_verification_cells": 8,
+      "total_cells": 210,
+      "pending_verification_rate_pct": 3.81,
+      "confidence_min": 68,
+      "confidence_max": 76,
+      "confidence_avg": 71.9
+    },
+    "application_process.csv": {
+      "records": 43,
+      "columns": 16,
+      "primary_key": "step_id",
+      "pending_verification_cells": 39,
+      "total_cells": 688,
+      "pending_verification_rate_pct": 5.67,
+      "confidence_min": 68,
+      "confidence_max": 74,
+      "confidence_avg": 72.1
+    },
+    "district_scheme_mapping.csv": {
+      "records": 305,
+      "columns": 16,
+      "primary_key": "mapping_id",
+      "pending_verification_cells": 305,
+      "total_cells": 4880,
+      "pending_verification_rate_pct": 6.25,
+      "confidence_min": 71,
+      "confidence_max": 73,
+      "confidence_avg": 71.8
+    },
+    "education_scheme_mapping.csv": {
+      "records": 7,
+      "columns": 15,
+      "primary_key": "mapping_id",
+      "pending_verification_cells": 9,
+      "total_cells": 105,
+      "pending_verification_rate_pct": 8.57,
+      "confidence_min": 68,
+      "confidence_max": 76,
+      "confidence_avg": 71.6
+    },
+    "eligibility_criteria.csv": {
+      "records": 55,
+      "columns": 13,
+      "primary_key": "criterion_id",
+      "pending_verification_cells": 11,
+      "total_cells": 715,
+      "pending_verification_rate_pct": 1.54,
+      "confidence_min": 70,
+      "confidence_max": 76,
+      "confidence_avg": 72.7
+    },
+    "financial_institutions.csv": {
+      "records": 12,
+      "columns": 14,
+      "primary_key": "institution_id",
+      "pending_verification_cells": 4,
+      "total_cells": 168,
+      "pending_verification_rate_pct": 2.38,
+      "confidence_min": 68,
+      "confidence_max": 76,
+      "confidence_avg": 72.7
+    },
+    "government_schemes.csv": {
+      "records": 40,
+      "columns": 25,
+      "primary_key": "scheme_id",
+      "pending_verification_cells": 53,
+      "total_cells": 1000,
+      "pending_verification_rate_pct": 5.3,
+      "confidence_min": 70,
+      "confidence_max": 78,
+      "confidence_avg": 74.3
+    },
+    "implementing_agencies.csv": {
+      "records": 20,
+      "columns": 14,
+      "primary_key": "agency_id",
+      "pending_verification_cells": 6,
+      "total_cells": 280,
+      "pending_verification_rate_pct": 2.14,
+      "confidence_min": 68,
+      "confidence_max": 78,
+      "confidence_avg": 73.8
+    },
+    "industry_scheme_mapping.csv": {
+      "records": 12,
+      "columns": 14,
+      "primary_key": "mapping_id",
+      "pending_verification_cells": 0,
+      "total_cells": 168,
+      "pending_verification_rate_pct": 0.0,
+      "confidence_min": 68,
+      "confidence_max": 73,
+      "confidence_avg": 71.1
+    },
+    "required_documents.csv": {
+      "records": 15,
+      "columns": 13,
+      "primary_key": "document_id",
+      "pending_verification_cells": 0,
+      "total_cells": 195,
+      "pending_verification_rate_pct": 0.0,
+      "confidence_min": 68,
+      "confidence_max": 78,
+      "confidence_avg": 72.9
+    },
+    "scheme_ai_recommendations.csv": {
+      "records": 37,
+      "columns": 18,
+      "primary_key": "recommendation_id",
+      "pending_verification_cells": 12,
+      "total_cells": 666,
+      "pending_verification_rate_pct": 1.8,
+      "confidence_min": 60,
+      "confidence_max": 60,
+      "confidence_avg": 60.0
+    },
+    "scheme_application_status.csv": {
+      "records": 8,
+      "columns": 15,
+      "primary_key": "status_id",
+      "pending_verification_cells": 0,
+      "total_cells": 120,
+      "pending_verification_rate_pct": 0.0,
+      "confidence_min": 69,
+      "confidence_max": 72,
+      "confidence_avg": 70.9
+    },
+    "scheme_benefits.csv": {
+      "records": 51,
+      "columns": 14,
+      "primary_key": "benefit_id",
+      "pending_verification_cells": 45,
+      "total_cells": 714,
+      "pending_verification_rate_pct": 6.3,
+      "confidence_min": 69,
+      "confidence_max": 76,
+      "confidence_avg": 72.4
+    },
+    "scheme_categories.csv": {
+      "records": 24,
+      "columns": 12,
+      "primary_key": "category_id",
+      "pending_verification_cells": 0,
+      "total_cells": 288,
+      "pending_verification_rate_pct": 0.0,
+      "confidence_min": 72,
+      "confidence_max": 78,
+      "confidence_avg": 75.3
+    },
+    "skill_scheme_mapping.csv": {
+      "records": 12,
+      "columns": 17,
+      "primary_key": "mapping_id",
+      "pending_verification_cells": 42,
+      "total_cells": 204,
+      "pending_verification_rate_pct": 20.59,
+      "confidence_min": 62,
+      "confidence_max": 73,
+      "confidence_avg": 69.7
+    }
+  }
+}

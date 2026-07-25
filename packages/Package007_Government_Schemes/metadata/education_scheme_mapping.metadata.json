@@ -1,0 +1,58 @@
+{
+  "dataset_name": "education_scheme_mapping",
+  "package": "Package007_Government_Schemes",
+  "package_version": "1.0.0",
+  "file": "datasets/education_scheme_mapping.csv",
+  "layer": "7 - Cross-Package Mapping",
+  "purpose": "Education schemes mapped to Package002 records, student category, education stage and institution type.",
+  "primary_key": "mapping_id",
+  "record_count": 7,
+  "column_count": 15,
+  "columns": [
+    "mapping_id",
+    "scheme_id",
+    "scheme_short_name",
+    "package002_dataset",
+    "package002_record_id",
+    "package002_record_name",
+    "student_category",
+    "education_stage",
+    "institution_type",
+    "data_source",
+    "source_url",
+    "collection_date",
+    "confidence_score",
+    "verification_status",
+    "notes"
+  ],
+  "foreign_keys": [
+    {
+      "column": "scheme_id",
+      "references_dataset": "government_schemes.csv",
+      "references_column": "scheme_id"
+    },
+    {
+      "column": "package002_record_id",
+      "references_dataset": "Package002_Education (cross-package)",
+      "references_column": "scholarships.id"
+    }
+  ],
+  "collection_date": "2026-07-25",
+  "collection_mode": "Knowledge synthesis from documented public sources (WebFetch to government domains blocked by environment egress policy)",
+  "source_tier": "Tier 1 (National Scholarship Portal; Package002 reconciliation)",
+  "methodology": "Package002 scholarship UUIDs were resolved by reading the released scholarships.csv at generation time, so a link either matches a real record or is not asserted.",
+  "confidence_score_min": 68,
+  "confidence_score_max": 76,
+  "confidence_score_avg": 71.6,
+  "confidence_ceiling_policy": 85,
+  "verification_status": "VST-NEEDS_REVIEW",
+  "pending_verification_cells": 9,
+  "pending_verification_rate_pct": 8.57,
+  "pending_verification_columns": {
+    "package002_dataset": 3,
+    "package002_record_id": 3,
+    "package002_record_name": 3
+  },
+  "known_limitations": "4 of 7 rows resolve. Three carry the sentinel: Samagra Shiksha and PM POSHAN are institutional and entitlement schemes with no Package002 counterpart record, and Skill Loan is education financing while Package002 covers scholarships only.",
+  "release_status": "RELEASED in v1.0.0"
+}

@@ -1,0 +1,53 @@
+{
+  "dataset_name": "industry_scheme_mapping",
+  "package": "Package007_Government_Schemes",
+  "package_version": "1.0.0",
+  "file": "datasets/industry_scheme_mapping.csv",
+  "layer": "7 - Cross-Package Mapping",
+  "purpose": "Enterprise schemes mapped to Package004 business opportunities, industry sector, investment stage and enterprise size.",
+  "primary_key": "mapping_id",
+  "record_count": 12,
+  "column_count": 14,
+  "columns": [
+    "mapping_id",
+    "scheme_id",
+    "scheme_short_name",
+    "package004_dataset",
+    "package004_opportunity_name",
+    "industry_sector",
+    "investment_stage",
+    "enterprise_size",
+    "data_source",
+    "source_url",
+    "collection_date",
+    "confidence_score",
+    "verification_status",
+    "notes"
+  ],
+  "foreign_keys": [
+    {
+      "column": "scheme_id",
+      "references_dataset": "government_schemes.csv",
+      "references_column": "scheme_id"
+    },
+    {
+      "column": "package004_opportunity_name",
+      "references_dataset": "Package004_Industries (cross-package)",
+      "references_column": "name / scheme_name / adapted_indian_concept"
+    }
+  ],
+  "collection_date": "2026-07-25",
+  "collection_mode": "Knowledge synthesis from documented public sources (WebFetch to government domains blocked by environment egress policy)",
+  "source_tier": "Tier 1 (Ministry of MSME; Package004 reconciliation)",
+  "methodology": "Opportunity names were matched against the released Package004 CSVs at generation time. investment_stage was included because scheme fit is stage-dependent: PMEGP suits greenfield, CGTMSE suits collateral-constrained growth, and SISFS suits pre-revenue ideation.",
+  "confidence_score_min": 68,
+  "confidence_score_max": 73,
+  "confidence_score_avg": 71.1,
+  "confidence_ceiling_policy": 85,
+  "verification_status": "VST-NEEDS_REVIEW",
+  "pending_verification_cells": 0,
+  "pending_verification_rate_pct": 0.0,
+  "pending_verification_columns": {},
+  "known_limitations": "All 12 rows resolve, with zero sentinels. Coverage is limited to the 12 clearest scheme-to-opportunity fits rather than an exhaustive cross-product, which would assert relevance that has not been checked.",
+  "release_status": "RELEASED in v1.0.0"
+}

@@ -1,0 +1,54 @@
+{
+  "dataset_name": "eligibility_criteria",
+  "package": "Package007_Government_Schemes",
+  "package_version": "1.0.0",
+  "file": "datasets/eligibility_criteria.csv",
+  "layer": "3 - Eligibility Logic",
+  "purpose": "Decomposed eligibility conditions per scheme, typed by criterion and flagged mandatory or not.",
+  "primary_key": "criterion_id",
+  "record_count": 55,
+  "column_count": 13,
+  "columns": [
+    "criterion_id",
+    "scheme_id",
+    "scheme_short_name",
+    "criterion_type",
+    "criterion_value",
+    "is_mandatory",
+    "verification_document_hint",
+    "data_source",
+    "source_url",
+    "collection_date",
+    "confidence_score",
+    "verification_status",
+    "notes"
+  ],
+  "foreign_keys": [
+    {
+      "column": "scheme_id",
+      "references_dataset": "government_schemes.csv",
+      "references_column": "scheme_id"
+    },
+    {
+      "column": "verification_document_hint",
+      "references_dataset": "required_documents.csv",
+      "references_column": "document_name"
+    }
+  ],
+  "collection_date": "2026-07-25",
+  "collection_mode": "Knowledge synthesis from documented public sources (WebFetch to government domains blocked by environment egress policy)",
+  "source_tier": "Tier 1 (scheme guidelines via MyScheme and scheme portals)",
+  "methodology": "Eligibility was decomposed into one row per condition rather than held as prose, because that is what makes machine eligibility matching possible. criterion_type uses a closed vocabulary (Age, Gender, Income, Category, Occupation, Education, Land Holding, Business Size, Citizenship, Banking, Other, Exclusion) matching the axes named in the specification. Every scheme carries at least one criterion row, enforced by validation check V11; for universal schemes the row states the universality explicitly rather than being absent.",
+  "confidence_score_min": 70,
+  "confidence_score_max": 76,
+  "confidence_score_avg": 72.7,
+  "confidence_ceiling_policy": 85,
+  "verification_status": "VST-NEEDS_REVIEW",
+  "pending_verification_cells": 11,
+  "pending_verification_rate_pct": 1.54,
+  "pending_verification_columns": {
+    "verification_document_hint": 11
+  },
+  "known_limitations": "criterion_value describes the condition qualitatively. Numeric thresholds (income ceilings, age bands, land limits) are stated as 'below the prescribed ceiling' rather than as figures, because those thresholds are revised by notification. is_mandatory distinguishes hard gates from criteria that only affect benefit quantum, for example category affecting SMAM subsidy percentage without affecting eligibility.",
+  "release_status": "RELEASED in v1.0.0"
+}

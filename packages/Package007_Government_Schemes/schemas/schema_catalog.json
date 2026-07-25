@@ -1,0 +1,1379 @@
+{
+  "package": "Package007_Government_Schemes",
+  "version": "1.0.0",
+  "description": "Canonical primary-key, foreign-key and column reference for all 15 datasets in Package007_Government_Schemes v1.0.0. The package is the Policy Intelligence Graph of the knowledge base: a canonical scheme registry surrounded by decomposed eligibility logic, benefits, application process and institutions, then bound outward to five released domain packages and upward into a recommendation layer.",
+  "graph_spine": "scheme_categories -> government_schemes -> {eligibility_criteria -> required_documents, scheme_benefits, application_process -> scheme_application_status} -> {education/agriculture/skill/industry/district}_scheme_mapping -> scheme_ai_recommendations",
+  "canonical_registry_role": "Five already-released packages carry domain scheme slices: Package002 (25 scholarships), Package003 (9 health insurance schemes), Package004 (18 MSME support schemes), Package005 (12 agriculture schemes) and Package006 (15 skill schemes). Package007 is the canonical cross-domain registry and does not silently duplicate them: government_schemes.also_in_package names every package that already holds the scheme, so the overlap is explicit. Where a scheme is held in a domain package, the corresponding *_scheme_mapping dataset carries a hard foreign key to that package's record.",
+  "cross_package_foreign_keys": {
+    "Package001_Geography": "district_scheme_mapping.package001_dist_id -> district.dist_id (305 rows, all resolve)",
+    "Package002_Education": "education_scheme_mapping.package002_record_id -> scholarships.id (4 resolve, 3 sentinel)",
+    "Package003_Healthcare": "No hard FK. government_schemes.also_in_package names Package003 for AB PM-JAY; a health_scheme_mapping dataset is deferred to v1.1.0.",
+    "Package004_Industries": "industry_scheme_mapping.package004_opportunity_name -> name/scheme_name/adapted_indian_concept (12 resolve, 0 sentinel)",
+    "Package005_Agriculture": "agriculture_scheme_mapping.package005_scheme_id -> agriculture_schemes.scheme_id and .package005_crop_id -> crops.crop_id (12 resolve each)",
+    "Package006_Skills_and_Training": "skill_scheme_mapping carries four FKs: scheme_id, skill_id, certification_id, provider_id (9, 11, 4, 3 resolved)",
+    "Package008_MSME": "Planned. industry_scheme_mapping is the intended join surface once Package008 releases."
+  },
+  "sentinel_policy": "PENDING_VERIFICATION appears only as a complete, bare cell value. It is never appended to or embedded in other text, and never substitutes for a numeric confidence_score. In this package the sentinel is concentrated in monetary quantum and timeline fields, because scheme amounts and service standards are revised by notification and could not be confirmed without a primary-source page read.",
+  "confidence_policy": {
+    "ceiling": 85,
+    "reason": "Direct WebFetch to .gov.in / .nic.in / .ac.in domains is blocked by this environment's egress policy, so no row rests on a primary-source page read. The ceiling is carried forward from Package004, Package005 and Package006.",
+    "bands": {
+      "70-85": "Tier 1 - the scheme's own portal and administering ministry",
+      "62-69": "Tier 2 - government notification and gazette references",
+      "56-61": "Tier 3 - official scheme guidelines and operational manuals",
+      "45-55": "Tier 4 - ministry annual reports and derived aggregates"
+    },
+    "observed_range": "60-78"
+  },
+  "datasets": [
+    {
+      "dataset_name": "scheme_categories",
+      "file": "datasets/scheme_categories.csv",
+      "layer": "1 - Reference Taxonomy",
+      "purpose": "Scheme classification across sector, beneficiary-group and instrument axes.",
+      "primary_key": "category_id",
+      "record_count": 24,
+      "column_count": 12,
+      "foreign_keys": [],
+      "source_tier": "Tier 1 (administering ministries; India.gov.in; MyScheme)",
+      "confidence_range": "72-78",
+      "confidence_avg": 75.3,
+      "pending_verification_cells": 0,
+      "pending_verification_columns": {},
+      "columns": [
+        {
+          "name": "category_id",
+          "description": ""
+        },
+        {
+          "name": "category_name",
+          "description": ""
+        },
+        {
+          "name": "category_group",
+          "description": ""
+        },
+        {
+          "name": "description",
+          "description": ""
+        },
+        {
+          "name": "primary_beneficiary",
+          "description": ""
+        },
+        {
+          "name": "typical_benefit_type",
+          "description": ""
+        },
+        {
+          "name": "data_source",
+          "description": "Authoritative body the row is attributed to"
+        },
+        {
+          "name": "source_url",
+          "description": "Public URL for that body, scheme or portal"
+        },
+        {
+          "name": "collection_date",
+          "description": "Collection date; uniform 2026-07-25 across the package"
+        },
+        {
+          "name": "confidence_score",
+          "description": "Integer 0-100, capped at the 85 package policy ceiling"
+        },
+        {
+          "name": "verification_status",
+          "description": "VST-NEEDS_REVIEW pending human data-steward sign-off"
+        },
+        {
+          "name": "notes",
+          "description": "Caveats, qualifications and sourcing remarks"
+        }
+      ],
+      "known_limitations": "Categories are not mutually exclusive: a women's MSME scheme is legitimately both cat-005 and cat-006. government_schemes.csv assigns each scheme its single dominant category, so counting schemes per category understates cross-cutting reach."
+    },
+    {
+      "dataset_name": "required_documents",
+      "file": "datasets/required_documents.csv",
+      "layer": "1 - Reference Taxonomy",
+      "purpose": "Document catalogue with issuing authority, typical use and digital availability.",
+      "primary_key": "document_id",
+      "record_count": 15,
+      "column_count": 13,
+      "foreign_keys": [],
+      "source_tier": "Tier 1 (issuing authorities: UIDAI, Income Tax Department, state revenue departments, GSTN, Ministry of MSME)",
+      "confidence_range": "68-78",
+      "confidence_avg": 72.9,
+      "pending_verification_cells": 0,
+      "pending_verification_columns": {},
+      "columns": [
+        {
+          "name": "document_id",
+          "description": ""
+        },
+        {
+          "name": "document_name",
+          "description": ""
+        },
+        {
+          "name": "document_type",
+          "description": ""
+        },
+        {
+          "name": "issuing_authority",
+          "description": ""
+        },
+        {
+          "name": "typical_use",
+          "description": ""
+        },
+        {
+          "name": "is_digital_available",
+          "description": ""
+        },
+        {
+          "name": "digilocker_available",
+          "description": ""
+        },
+        {
+          "name": "data_source",
+          "description": "Authoritative body the row is attributed to"
+        },
+        {
+          "name": "source_url",
+          "description": "Public URL for that body, scheme or portal"
+        },
+        {
+          "name": "collection_date",
+          "description": "Collection date; uniform 2026-07-25 across the package"
+        },
+        {
+          "name": "confidence_score",
+          "description": "Integer 0-100, capped at the 85 package policy ceiling"
+        },
+        {
+          "name": "verification_status",
+          "description": "VST-NEEDS_REVIEW pending human data-steward sign-off"
+        },
+        {
+          "name": "notes",
+          "description": "Caveats, qualifications and sourcing remarks"
+        }
+      ],
+      "known_limitations": "Certificate validity periods, issuing officer rank and application routes differ by state and are not asserted per state here. Land records digitisation is uneven and tenant farmers frequently cannot produce the documentation that agriculture schemes assume, which is a real access barrier this dataset records but does not resolve."
+    },
+    {
+      "dataset_name": "implementing_agencies",
+      "file": "datasets/implementing_agencies.csv",
+      "layer": "5 - Institutions",
+      "purpose": "Agencies that design, fund and deliver schemes, from central ministries to Gram Panchayats.",
+      "primary_key": "agency_id",
+      "record_count": 20,
+      "column_count": 14,
+      "foreign_keys": [],
+      "source_tier": "Tier 1 (agency official websites and enabling ministries)",
+      "confidence_range": "68-78",
+      "confidence_avg": 73.8,
+      "pending_verification_cells": 6,
+      "pending_verification_columns": {
+        "official_website": 6
+      },
+      "columns": [
+        {
+          "name": "agency_id",
+          "description": ""
+        },
+        {
+          "name": "agency_name",
+          "description": ""
+        },
+        {
+          "name": "agency_type",
+          "description": ""
+        },
+        {
+          "name": "government_level",
+          "description": ""
+        },
+        {
+          "name": "jurisdiction",
+          "description": ""
+        },
+        {
+          "name": "primary_role",
+          "description": ""
+        },
+        {
+          "name": "sectors_covered",
+          "description": ""
+        },
+        {
+          "name": "official_website",
+          "description": ""
+        },
+        {
+          "name": "data_source",
+          "description": "Authoritative body the row is attributed to"
+        },
+        {
+          "name": "source_url",
+          "description": "Public URL for that body, scheme or portal"
+        },
+        {
+          "name": "collection_date",
+          "description": "Collection date; uniform 2026-07-25 across the package"
+        },
+        {
+          "name": "confidence_score",
+          "description": "Integer 0-100, capped at the 85 package policy ceiling"
+        },
+        {
+          "name": "verification_status",
+          "description": "VST-NEEDS_REVIEW pending human data-steward sign-off"
+        },
+        {
+          "name": "notes",
+          "description": "Caveats, qualifications and sourcing remarks"
+        }
+      ],
+      "known_limitations": "District and state-level entries (DIC, District Collector, state departments, Gram Panchayat) describe agency types that exist in every district, not named offices; official_website is the sentinel for those. No named district office is asserted."
+    },
+    {
+      "dataset_name": "financial_institutions",
+      "file": "datasets/financial_institutions.csv",
+      "layer": "5 - Institutions",
+      "purpose": "Banks and development financial institutions that deliver credit-linked schemes.",
+      "primary_key": "institution_id",
+      "record_count": 12,
+      "column_count": 14,
+      "foreign_keys": [],
+      "source_tier": "Tier 1 (RBI; institution websites; NABARD; SIDBI)",
+      "confidence_range": "68-76",
+      "confidence_avg": 72.7,
+      "pending_verification_cells": 4,
+      "pending_verification_columns": {
+        "official_website": 4
+      },
+      "columns": [
+        {
+          "name": "institution_id",
+          "description": ""
+        },
+        {
+          "name": "institution_name",
+          "description": ""
+        },
+        {
+          "name": "institution_type",
+          "description": ""
+        },
+        {
+          "name": "ownership",
+          "description": ""
+        },
+        {
+          "name": "government_level",
+          "description": ""
+        },
+        {
+          "name": "scheme_roles",
+          "description": ""
+        },
+        {
+          "name": "priority_sector_lending",
+          "description": ""
+        },
+        {
+          "name": "official_website",
+          "description": ""
+        },
+        {
+          "name": "data_source",
+          "description": "Authoritative body the row is attributed to"
+        },
+        {
+          "name": "source_url",
+          "description": "Public URL for that body, scheme or portal"
+        },
+        {
+          "name": "collection_date",
+          "description": "Collection date; uniform 2026-07-25 across the package"
+        },
+        {
+          "name": "confidence_score",
+          "description": "Integer 0-100, capped at the 85 package policy ceiling"
+        },
+        {
+          "name": "verification_status",
+          "description": "VST-NEEDS_REVIEW pending human data-steward sign-off"
+        },
+        {
+          "name": "notes",
+          "description": "Caveats, qualifications and sourcing remarks"
+        }
+      ],
+      "known_limitations": "Institution-type entries (Regional Rural Banks, District Central Cooperative Banks, PACS, Small Finance Banks) describe categories, not named institutions; official_website is the sentinel for those. No branch-level or district-level lead-bank data is asserted."
+    },
+    {
+      "dataset_name": "scheme_application_status",
+      "file": "datasets/scheme_application_status.csv",
+      "layer": "4 - Process",
+      "purpose": "Generic application status workflow with ordering, terminality and whether citizen action is required.",
+      "primary_key": "status_id",
+      "record_count": 8,
+      "column_count": 15,
+      "foreign_keys": [],
+      "source_tier": "Tier 3 (observed common workflow across scheme portals)",
+      "confidence_range": "69-72",
+      "confidence_avg": 70.9,
+      "pending_verification_cells": 0,
+      "pending_verification_columns": {},
+      "columns": [
+        {
+          "name": "status_id",
+          "description": ""
+        },
+        {
+          "name": "status_code",
+          "description": ""
+        },
+        {
+          "name": "status_name",
+          "description": ""
+        },
+        {
+          "name": "status_order",
+          "description": ""
+        },
+        {
+          "name": "status_group",
+          "description": ""
+        },
+        {
+          "name": "description",
+          "description": ""
+        },
+        {
+          "name": "typical_next_status",
+          "description": ""
+        },
+        {
+          "name": "is_terminal",
+          "description": ""
+        },
+        {
+          "name": "citizen_action_required",
+          "description": ""
+        },
+        {
+          "name": "data_source",
+          "description": "Authoritative body the row is attributed to"
+        },
+        {
+          "name": "source_url",
+          "description": "Public URL for that body, scheme or portal"
+        },
+        {
+          "name": "collection_date",
+          "description": "Collection date; uniform 2026-07-25 across the package"
+        },
+        {
+          "name": "confidence_score",
+          "description": "Integer 0-100, capped at the 85 package policy ceiling"
+        },
+        {
+          "name": "verification_status",
+          "description": "VST-NEEDS_REVIEW pending human data-steward sign-off"
+        },
+        {
+          "name": "notes",
+          "description": "Caveats, qualifications and sourcing remarks"
+        }
+      ],
+      "known_limitations": "This is a generic reference workflow, not any one portal's state machine. Individual portals use different status labels and some add scheme-specific states. Consumers should map portal-specific statuses onto these codes rather than expecting an exact match."
+    },
+    {
+      "dataset_name": "government_schemes",
+      "file": "datasets/government_schemes.csv",
+      "layer": "2 - Core Entity",
+      "purpose": "Canonical registry of 40 government schemes with ministry, objective, benefit summary, coverage, application mode and portal.",
+      "primary_key": "scheme_id",
+      "record_count": 40,
+      "column_count": 25,
+      "foreign_keys": [
+        {
+          "column": "category_id",
+          "references_dataset": "scheme_categories.csv",
+          "references_column": "category_id"
+        }
+      ],
+      "source_tier": "Tier 1 (each scheme's own portal and administering ministry)",
+      "confidence_range": "70-78",
+      "confidence_avg": 74.3,
+      "pending_verification_cells": 53,
+      "pending_verification_columns": {
+        "financial_assistance": 35,
+        "also_in_package": 18
+      },
+      "columns": [
+        {
+          "name": "scheme_id",
+          "description": ""
+        },
+        {
+          "name": "scheme_name",
+          "description": ""
+        },
+        {
+          "name": "short_name",
+          "description": ""
+        },
+        {
+          "name": "category_id",
+          "description": ""
+        },
+        {
+          "name": "category_name",
+          "description": ""
+        },
+        {
+          "name": "ministry",
+          "description": ""
+        },
+        {
+          "name": "department",
+          "description": ""
+        },
+        {
+          "name": "government_level",
+          "description": ""
+        },
+        {
+          "name": "launch_year",
+          "description": ""
+        },
+        {
+          "name": "objective",
+          "description": ""
+        },
+        {
+          "name": "benefit_summary",
+          "description": ""
+        },
+        {
+          "name": "financial_assistance",
+          "description": ""
+        },
+        {
+          "name": "subsidy_component",
+          "description": ""
+        },
+        {
+          "name": "loan_support",
+          "description": ""
+        },
+        {
+          "name": "coverage",
+          "description": ""
+        },
+        {
+          "name": "application_mode",
+          "description": ""
+        },
+        {
+          "name": "official_portal",
+          "description": ""
+        },
+        {
+          "name": "status",
+          "description": ""
+        },
+        {
+          "name": "also_in_package",
+          "description": ""
+        },
+        {
+          "name": "data_source",
+          "description": "Authoritative body the row is attributed to"
+        },
+        {
+          "name": "source_url",
+          "description": "Public URL for that body, scheme or portal"
+        },
+        {
+          "name": "collection_date",
+          "description": "Collection date; uniform 2026-07-25 across the package"
+        },
+        {
+          "name": "confidence_score",
+          "description": "Integer 0-100, capped at the 85 package policy ceiling"
+        },
+        {
+          "name": "verification_status",
+          "description": "VST-NEEDS_REVIEW pending human data-steward sign-off"
+        },
+        {
+          "name": "notes",
+          "description": "Caveats, qualifications and sourcing remarks"
+        }
+      ],
+      "known_limitations": "financial_assistance is the bare sentinel on almost every row. Scheme amounts, premium rates, loan ceilings and subsidy percentages are revised by notification and budget cycle; stating a figure without a primary-source read would date badly and mislead. Amounts must be re-verified at the official_portal before use. launch_year is the year of launch, not of the current version: PMKVY has run through four versions and PMS-SC dates to 1944 in its earliest form."
+    },
+    {
+      "dataset_name": "eligibility_criteria",
+      "file": "datasets/eligibility_criteria.csv",
+      "layer": "3 - Eligibility Logic",
+      "purpose": "Decomposed eligibility conditions per scheme, typed by criterion and flagged mandatory or not.",
+      "primary_key": "criterion_id",
+      "record_count": 55,
+      "column_count": 13,
+      "foreign_keys": [
+        {
+          "column": "scheme_id",
+          "references_dataset": "government_schemes.csv",
+          "references_column": "scheme_id"
+        },
+        {
+          "column": "verification_document_hint",
+          "references_dataset": "required_documents.csv",
+          "references_column": "document_name"
+        }
+      ],
+      "source_tier": "Tier 1 (scheme guidelines via MyScheme and scheme portals)",
+      "confidence_range": "70-76",
+      "confidence_avg": 72.7,
+      "pending_verification_cells": 11,
+      "pending_verification_columns": {
+        "verification_document_hint": 11
+      },
+      "columns": [
+        {
+          "name": "criterion_id",
+          "description": ""
+        },
+        {
+          "name": "scheme_id",
+          "description": ""
+        },
+        {
+          "name": "scheme_short_name",
+          "description": ""
+        },
+        {
+          "name": "criterion_type",
+          "description": ""
+        },
+        {
+          "name": "criterion_value",
+          "description": ""
+        },
+        {
+          "name": "is_mandatory",
+          "description": ""
+        },
+        {
+          "name": "verification_document_hint",
+          "description": ""
+        },
+        {
+          "name": "data_source",
+          "description": "Authoritative body the row is attributed to"
+        },
+        {
+          "name": "source_url",
+          "description": "Public URL for that body, scheme or portal"
+        },
+        {
+          "name": "collection_date",
+          "description": "Collection date; uniform 2026-07-25 across the package"
+        },
+        {
+          "name": "confidence_score",
+          "description": "Integer 0-100, capped at the 85 package policy ceiling"
+        },
+        {
+          "name": "verification_status",
+          "description": "VST-NEEDS_REVIEW pending human data-steward sign-off"
+        },
+        {
+          "name": "notes",
+          "description": "Caveats, qualifications and sourcing remarks"
+        }
+      ],
+      "known_limitations": "criterion_value describes the condition qualitatively. Numeric thresholds (income ceilings, age bands, land limits) are stated as 'below the prescribed ceiling' rather than as figures, because those thresholds are revised by notification. is_mandatory distinguishes hard gates from criteria that only affect benefit quantum, for example category affecting SMAM subsidy percentage without affecting eligibility."
+    },
+    {
+      "dataset_name": "scheme_benefits",
+      "file": "datasets/scheme_benefits.csv",
+      "layer": "6 - Benefits",
+      "purpose": "Benefits decomposed by type, disbursement mode and frequency, one row per distinct benefit.",
+      "primary_key": "benefit_id",
+      "record_count": 51,
+      "column_count": 14,
+      "foreign_keys": [
+        {
+          "column": "scheme_id",
+          "references_dataset": "government_schemes.csv",
+          "references_column": "scheme_id"
+        }
+      ],
+      "source_tier": "Tier 1 (scheme portals and guidelines)",
+      "confidence_range": "69-76",
+      "confidence_avg": 72.4,
+      "pending_verification_cells": 45,
+      "pending_verification_columns": {
+        "benefit_quantum": 45
+      },
+      "columns": [
+        {
+          "name": "benefit_id",
+          "description": ""
+        },
+        {
+          "name": "scheme_id",
+          "description": ""
+        },
+        {
+          "name": "scheme_short_name",
+          "description": ""
+        },
+        {
+          "name": "benefit_type",
+          "description": ""
+        },
+        {
+          "name": "benefit_description",
+          "description": ""
+        },
+        {
+          "name": "benefit_quantum",
+          "description": ""
+        },
+        {
+          "name": "disbursement_mode",
+          "description": ""
+        },
+        {
+          "name": "frequency",
+          "description": ""
+        },
+        {
+          "name": "data_source",
+          "description": "Authoritative body the row is attributed to"
+        },
+        {
+          "name": "source_url",
+          "description": "Public URL for that body, scheme or portal"
+        },
+        {
+          "name": "collection_date",
+          "description": "Collection date; uniform 2026-07-25 across the package"
+        },
+        {
+          "name": "confidence_score",
+          "description": "Integer 0-100, capped at the 85 package policy ceiling"
+        },
+        {
+          "name": "verification_status",
+          "description": "VST-NEEDS_REVIEW pending human data-steward sign-off"
+        },
+        {
+          "name": "notes",
+          "description": "Caveats, qualifications and sourcing remarks"
+        }
+      ],
+      "known_limitations": "benefit_quantum is the bare sentinel on nearly every row, for the same reason as government_schemes.financial_assistance: amounts are notification-driven. disbursement_mode and frequency are the durable, decision-relevant fields and are populated throughout."
+    },
+    {
+      "dataset_name": "application_process",
+      "file": "datasets/application_process.csv",
+      "layer": "4 - Process",
+      "purpose": "Ordered step-by-step application workflow per scheme with channel, responsible actor and step output.",
+      "primary_key": "step_id",
+      "record_count": 43,
+      "column_count": 16,
+      "foreign_keys": [
+        {
+          "column": "scheme_id",
+          "references_dataset": "government_schemes.csv",
+          "references_column": "scheme_id"
+        }
+      ],
+      "source_tier": "Tier 1-3 (scheme portals; operational guidelines)",
+      "confidence_range": "68-74",
+      "confidence_avg": 72.1,
+      "pending_verification_cells": 39,
+      "pending_verification_columns": {
+        "typical_timeline": 39
+      },
+      "columns": [
+        {
+          "name": "step_id",
+          "description": ""
+        },
+        {
+          "name": "scheme_id",
+          "description": ""
+        },
+        {
+          "name": "scheme_short_name",
+          "description": ""
+        },
+        {
+          "name": "step_number",
+          "description": ""
+        },
+        {
+          "name": "step_name",
+          "description": ""
+        },
+        {
+          "name": "step_description",
+          "description": ""
+        },
+        {
+          "name": "channel",
+          "description": ""
+        },
+        {
+          "name": "responsible_actor",
+          "description": ""
+        },
+        {
+          "name": "typical_timeline",
+          "description": ""
+        },
+        {
+          "name": "output_of_step",
+          "description": ""
+        },
+        {
+          "name": "data_source",
+          "description": "Authoritative body the row is attributed to"
+        },
+        {
+          "name": "source_url",
+          "description": "Public URL for that body, scheme or portal"
+        },
+        {
+          "name": "collection_date",
+          "description": "Collection date; uniform 2026-07-25 across the package"
+        },
+        {
+          "name": "confidence_score",
+          "description": "Integer 0-100, capped at the 85 package policy ceiling"
+        },
+        {
+          "name": "verification_status",
+          "description": "VST-NEEDS_REVIEW pending human data-steward sign-off"
+        },
+        {
+          "name": "notes",
+          "description": "Caveats, qualifications and sourcing remarks"
+        }
+      ],
+      "known_limitations": "typical_timeline is the bare sentinel on every row. Except for MGNREGA's statutory work-allocation period, no published service standard was confirmable without a primary-source read; inventing plausible durations would be fabrication in the field applicants care most about. Only 8 of 40 schemes have process rows; the rest are single-step or lack documented multi-stage workflows."
+    },
+    {
+      "dataset_name": "education_scheme_mapping",
+      "file": "datasets/education_scheme_mapping.csv",
+      "layer": "7 - Cross-Package Mapping",
+      "purpose": "Education schemes mapped to Package002 records, student category, education stage and institution type.",
+      "primary_key": "mapping_id",
+      "record_count": 7,
+      "column_count": 15,
+      "foreign_keys": [
+        {
+          "column": "scheme_id",
+          "references_dataset": "government_schemes.csv",
+          "references_column": "scheme_id"
+        },
+        {
+          "column": "package002_record_id",
+          "references_dataset": "Package002_Education (cross-package)",
+          "references_column": "scholarships.id"
+        }
+      ],
+      "source_tier": "Tier 1 (National Scholarship Portal; Package002 reconciliation)",
+      "confidence_range": "68-76",
+      "confidence_avg": 71.6,
+      "pending_verification_cells": 9,
+      "pending_verification_columns": {
+        "package002_dataset": 3,
+        "package002_record_id": 3,
+        "package002_record_name": 3
+      },
+      "columns": [
+        {
+          "name": "mapping_id",
+          "description": ""
+        },
+        {
+          "name": "scheme_id",
+          "description": ""
+        },
+        {
+          "name": "scheme_short_name",
+          "description": ""
+        },
+        {
+          "name": "package002_dataset",
+          "description": ""
+        },
+        {
+          "name": "package002_record_id",
+          "description": ""
+        },
+        {
+          "name": "package002_record_name",
+          "description": ""
+        },
+        {
+          "name": "student_category",
+          "description": ""
+        },
+        {
+          "name": "education_stage",
+          "description": ""
+        },
+        {
+          "name": "institution_type",
+          "description": ""
+        },
+        {
+          "name": "data_source",
+          "description": "Authoritative body the row is attributed to"
+        },
+        {
+          "name": "source_url",
+          "description": "Public URL for that body, scheme or portal"
+        },
+        {
+          "name": "collection_date",
+          "description": "Collection date; uniform 2026-07-25 across the package"
+        },
+        {
+          "name": "confidence_score",
+          "description": "Integer 0-100, capped at the 85 package policy ceiling"
+        },
+        {
+          "name": "verification_status",
+          "description": "VST-NEEDS_REVIEW pending human data-steward sign-off"
+        },
+        {
+          "name": "notes",
+          "description": "Caveats, qualifications and sourcing remarks"
+        }
+      ],
+      "known_limitations": "4 of 7 rows resolve. Three carry the sentinel: Samagra Shiksha and PM POSHAN are institutional and entitlement schemes with no Package002 counterpart record, and Skill Loan is education financing while Package002 covers scholarships only."
+    },
+    {
+      "dataset_name": "agriculture_scheme_mapping",
+      "file": "datasets/agriculture_scheme_mapping.csv",
+      "layer": "7 - Cross-Package Mapping",
+      "purpose": "Agriculture schemes mapped to Package005 scheme and crop records, farmer category and farm activity.",
+      "primary_key": "mapping_id",
+      "record_count": 14,
+      "column_count": 15,
+      "foreign_keys": [
+        {
+          "column": "scheme_id",
+          "references_dataset": "government_schemes.csv",
+          "references_column": "scheme_id"
+        },
+        {
+          "column": "package005_scheme_id",
+          "references_dataset": "Package005_Agriculture (cross-package)",
+          "references_column": "agriculture_schemes.scheme_id"
+        },
+        {
+          "column": "package005_crop_id",
+          "references_dataset": "Package005_Agriculture (cross-package)",
+          "references_column": "crops.crop_id"
+        }
+      ],
+      "source_tier": "Tier 1 (Ministry of Agriculture; Package005 reconciliation)",
+      "confidence_range": "68-76",
+      "confidence_avg": 71.9,
+      "pending_verification_cells": 8,
+      "pending_verification_columns": {
+        "package005_crop_id": 2,
+        "package005_crop_name": 2,
+        "package005_scheme_id": 2,
+        "package005_scheme_name": 2
+      },
+      "columns": [
+        {
+          "name": "mapping_id",
+          "description": ""
+        },
+        {
+          "name": "scheme_id",
+          "description": ""
+        },
+        {
+          "name": "scheme_short_name",
+          "description": ""
+        },
+        {
+          "name": "package005_scheme_id",
+          "description": ""
+        },
+        {
+          "name": "package005_scheme_name",
+          "description": ""
+        },
+        {
+          "name": "package005_crop_id",
+          "description": ""
+        },
+        {
+          "name": "package005_crop_name",
+          "description": ""
+        },
+        {
+          "name": "farmer_category",
+          "description": ""
+        },
+        {
+          "name": "farm_activity",
+          "description": ""
+        },
+        {
+          "name": "data_source",
+          "description": "Authoritative body the row is attributed to"
+        },
+        {
+          "name": "source_url",
+          "description": "Public URL for that body, scheme or portal"
+        },
+        {
+          "name": "collection_date",
+          "description": "Collection date; uniform 2026-07-25 across the package"
+        },
+        {
+          "name": "confidence_score",
+          "description": "Integer 0-100, capped at the 85 package policy ceiling"
+        },
+        {
+          "name": "verification_status",
+          "description": "VST-NEEDS_REVIEW pending human data-steward sign-off"
+        },
+        {
+          "name": "notes",
+          "description": "Caveats, qualifications and sourcing remarks"
+        }
+      ],
+      "known_limitations": "12 of 14 rows resolve on both sides. Crop-agnostic schemes (PM-KISAN, Soil Health Card) carry the crop sentinel deliberately, because support is per landholding not per crop. PM-KUSUM and PMFME are not in Package005 v1.0.0, so their scheme-side links are sentinelled."
+    },
+    {
+      "dataset_name": "skill_scheme_mapping",
+      "file": "datasets/skill_scheme_mapping.csv",
+      "layer": "7 - Cross-Package Mapping",
+      "purpose": "Skill schemes mapped to Package006 scheme, skill, certification and training provider records.",
+      "primary_key": "mapping_id",
+      "record_count": 12,
+      "column_count": 17,
+      "foreign_keys": [
+        {
+          "column": "scheme_id",
+          "references_dataset": "government_schemes.csv",
+          "references_column": "scheme_id"
+        },
+        {
+          "column": "package006_scheme_id",
+          "references_dataset": "Package006_Skills_and_Training (cross-package)",
+          "references_column": "government_skill_schemes.scheme_id"
+        },
+        {
+          "column": "package006_skill_id",
+          "references_dataset": "Package006_Skills_and_Training (cross-package)",
+          "references_column": "skills.skill_id"
+        },
+        {
+          "column": "package006_certification_id",
+          "references_dataset": "Package006_Skills_and_Training (cross-package)",
+          "references_column": "certifications.certification_id"
+        },
+        {
+          "column": "package006_provider_id",
+          "references_dataset": "Package006_Skills_and_Training (cross-package)",
+          "references_column": "training_providers.provider_id"
+        }
+      ],
+      "source_tier": "Tier 1 (MSDE; Package006 reconciliation)",
+      "confidence_range": "62-73",
+      "confidence_avg": 69.7,
+      "pending_verification_cells": 42,
+      "pending_verification_columns": {
+        "package006_provider_id": 9,
+        "package006_provider_name": 9,
+        "package006_certification_id": 8,
+        "package006_certification_name": 8,
+        "package006_scheme_id": 3,
+        "package006_scheme_name": 3,
+        "package006_skill_id": 1,
+        "package006_skill_name": 1
+      },
+      "columns": [
+        {
+          "name": "mapping_id",
+          "description": ""
+        },
+        {
+          "name": "scheme_id",
+          "description": ""
+        },
+        {
+          "name": "scheme_short_name",
+          "description": ""
+        },
+        {
+          "name": "package006_scheme_id",
+          "description": ""
+        },
+        {
+          "name": "package006_scheme_name",
+          "description": ""
+        },
+        {
+          "name": "package006_skill_id",
+          "description": ""
+        },
+        {
+          "name": "package006_skill_name",
+          "description": ""
+        },
+        {
+          "name": "package006_certification_id",
+          "description": ""
+        },
+        {
+          "name": "package006_certification_name",
+          "description": ""
+        },
+        {
+          "name": "package006_provider_id",
+          "description": ""
+        },
+        {
+          "name": "package006_provider_name",
+          "description": ""
+        },
+        {
+          "name": "data_source",
+          "description": "Authoritative body the row is attributed to"
+        },
+        {
+          "name": "source_url",
+          "description": "Public URL for that body, scheme or portal"
+        },
+        {
+          "name": "collection_date",
+          "description": "Collection date; uniform 2026-07-25 across the package"
+        },
+        {
+          "name": "confidence_score",
+          "description": "Integer 0-100, capped at the 85 package policy ceiling"
+        },
+        {
+          "name": "verification_status",
+          "description": "VST-NEEDS_REVIEW pending human data-steward sign-off"
+        },
+        {
+          "name": "notes",
+          "description": "Caveats, qualifications and sourcing remarks"
+        }
+      ],
+      "known_limitations": "Certification and provider links are sparse (4 and 3 resolved of 12) because most scheme-to-skill relationships do not run through one named certificate or one named provider. PM Vishwakarma and PMEGP have no Package006 scheme counterpart. One row (PMEGP) carries the sentinel on all four Package006 columns: Package006 v1.0.0 has no entrepreneurship skill record, which validation surfaced when an assumed link failed to resolve."
+    },
+    {
+      "dataset_name": "industry_scheme_mapping",
+      "file": "datasets/industry_scheme_mapping.csv",
+      "layer": "7 - Cross-Package Mapping",
+      "purpose": "Enterprise schemes mapped to Package004 business opportunities, industry sector, investment stage and enterprise size.",
+      "primary_key": "mapping_id",
+      "record_count": 12,
+      "column_count": 14,
+      "foreign_keys": [
+        {
+          "column": "scheme_id",
+          "references_dataset": "government_schemes.csv",
+          "references_column": "scheme_id"
+        },
+        {
+          "column": "package004_opportunity_name",
+          "references_dataset": "Package004_Industries (cross-package)",
+          "references_column": "name / scheme_name / adapted_indian_concept"
+        }
+      ],
+      "source_tier": "Tier 1 (Ministry of MSME; Package004 reconciliation)",
+      "confidence_range": "68-73",
+      "confidence_avg": 71.1,
+      "pending_verification_cells": 0,
+      "pending_verification_columns": {},
+      "columns": [
+        {
+          "name": "mapping_id",
+          "description": ""
+        },
+        {
+          "name": "scheme_id",
+          "description": ""
+        },
+        {
+          "name": "scheme_short_name",
+          "description": ""
+        },
+        {
+          "name": "package004_dataset",
+          "description": ""
+        },
+        {
+          "name": "package004_opportunity_name",
+          "description": ""
+        },
+        {
+          "name": "industry_sector",
+          "description": ""
+        },
+        {
+          "name": "investment_stage",
+          "description": ""
+        },
+        {
+          "name": "enterprise_size",
+          "description": ""
+        },
+        {
+          "name": "data_source",
+          "description": "Authoritative body the row is attributed to"
+        },
+        {
+          "name": "source_url",
+          "description": "Public URL for that body, scheme or portal"
+        },
+        {
+          "name": "collection_date",
+          "description": "Collection date; uniform 2026-07-25 across the package"
+        },
+        {
+          "name": "confidence_score",
+          "description": "Integer 0-100, capped at the 85 package policy ceiling"
+        },
+        {
+          "name": "verification_status",
+          "description": "VST-NEEDS_REVIEW pending human data-steward sign-off"
+        },
+        {
+          "name": "notes",
+          "description": "Caveats, qualifications and sourcing remarks"
+        }
+      ],
+      "known_limitations": "All 12 rows resolve, with zero sentinels. Coverage is limited to the 12 clearest scheme-to-opportunity fits rather than an exhaustive cross-product, which would assert relevance that has not been checked."
+    },
+    {
+      "dataset_name": "district_scheme_mapping",
+      "file": "datasets/district_scheme_mapping.csv",
+      "layer": "7 - Cross-Package Mapping",
+      "purpose": "District-delivered schemes mapped to all 61 Package001 districts with the district-level agency and application channel.",
+      "primary_key": "mapping_id",
+      "record_count": 305,
+      "column_count": 16,
+      "foreign_keys": [
+        {
+          "column": "scheme_id",
+          "references_dataset": "government_schemes.csv",
+          "references_column": "scheme_id"
+        },
+        {
+          "column": "package001_dist_id",
+          "references_dataset": "Package001_Geography (cross-package)",
+          "references_column": "district.dist_id"
+        }
+      ],
+      "source_tier": "Tier 1 (Package001 district master; scheme guidelines)",
+      "confidence_range": "71-73",
+      "confidence_avg": 71.8,
+      "pending_verification_cells": 305,
+      "pending_verification_columns": {
+        "district_specific_variation": 305
+      },
+      "columns": [
+        {
+          "name": "mapping_id",
+          "description": ""
+        },
+        {
+          "name": "scheme_id",
+          "description": ""
+        },
+        {
+          "name": "scheme_short_name",
+          "description": ""
+        },
+        {
+          "name": "package001_dist_id",
+          "description": ""
+        },
+        {
+          "name": "dist_ref",
+          "description": ""
+        },
+        {
+          "name": "district_name",
+          "description": ""
+        },
+        {
+          "name": "state_scope",
+          "description": ""
+        },
+        {
+          "name": "district_level_agency",
+          "description": ""
+        },
+        {
+          "name": "application_channel",
+          "description": ""
+        },
+        {
+          "name": "district_specific_variation",
+          "description": ""
+        },
+        {
+          "name": "data_source",
+          "description": "Authoritative body the row is attributed to"
+        },
+        {
+          "name": "source_url",
+          "description": "Public URL for that body, scheme or portal"
+        },
+        {
+          "name": "collection_date",
+          "description": "Collection date; uniform 2026-07-25 across the package"
+        },
+        {
+          "name": "confidence_score",
+          "description": "Integer 0-100, capped at the 85 package policy ceiling"
+        },
+        {
+          "name": "verification_status",
+          "description": "VST-NEEDS_REVIEW pending human data-steward sign-off"
+        },
+        {
+          "name": "notes",
+          "description": "Caveats, qualifications and sourcing remarks"
+        }
+      ],
+      "known_limitations": "district_specific_variation is the bare sentinel on all 305 rows. District-level variation in benefit quantum, empanelled hospital availability or DIC processing capacity is real but was not confirmable per district without primary-source access. Only 5 of 40 schemes appear here: the remaining 35 are nationally administered with no district-mediated application step, and padding them across 61 districts would assert a district dimension that does not exist."
+    },
+    {
+      "dataset_name": "scheme_ai_recommendations",
+      "file": "datasets/scheme_ai_recommendations.csv",
+      "layer": "8 - Recommendation Layer",
+      "purpose": "Citizen profile archetypes mapped to ranked scheme recommendations with priority score, basis, next scheme and related schemes.",
+      "primary_key": "recommendation_id",
+      "record_count": 37,
+      "column_count": 18,
+      "foreign_keys": [
+        {
+          "column": "scheme_id",
+          "references_dataset": "government_schemes.csv",
+          "references_column": "scheme_id"
+        },
+        {
+          "column": "suggested_next_scheme_id",
+          "references_dataset": "government_schemes.csv",
+          "references_column": "scheme_id"
+        },
+        {
+          "column": "related_scheme_ids",
+          "references_dataset": "government_schemes.csv",
+          "references_column": "scheme_id (semicolon-delimited)"
+        }
+      ],
+      "source_tier": "Tier 3 (rule-based synthesis over this package's own eligibility_criteria.csv)",
+      "confidence_range": "60-60",
+      "confidence_avg": 60.0,
+      "pending_verification_cells": 12,
+      "pending_verification_columns": {
+        "suggested_next_scheme_id": 12
+      },
+      "columns": [
+        {
+          "name": "recommendation_id",
+          "description": ""
+        },
+        {
+          "name": "profile_code",
+          "description": ""
+        },
+        {
+          "name": "profile_description",
+          "description": ""
+        },
+        {
+          "name": "profile_attributes",
+          "description": ""
+        },
+        {
+          "name": "scheme_id",
+          "description": ""
+        },
+        {
+          "name": "scheme_short_name",
+          "description": ""
+        },
+        {
+          "name": "priority_score",
+          "description": ""
+        },
+        {
+          "name": "priority_rank",
+          "description": ""
+        },
+        {
+          "name": "recommendation_basis",
+          "description": ""
+        },
+        {
+          "name": "suggested_next_scheme_id",
+          "description": ""
+        },
+        {
+          "name": "related_scheme_ids",
+          "description": ""
+        },
+        {
+          "name": "future_opportunity",
+          "description": ""
+        },
+        {
+          "name": "data_source",
+          "description": "Authoritative body the row is attributed to"
+        },
+        {
+          "name": "source_url",
+          "description": "Public URL for that body, scheme or portal"
+        },
+        {
+          "name": "collection_date",
+          "description": "Collection date; uniform 2026-07-25 across the package"
+        },
+        {
+          "name": "confidence_score",
+          "description": "Integer 0-100, capped at the 85 package policy ceiling"
+        },
+        {
+          "name": "verification_status",
+          "description": "VST-NEEDS_REVIEW pending human data-steward sign-off"
+        },
+        {
+          "name": "notes",
+          "description": "Caveats, qualifications and sourcing remarks"
+        }
+      ],
+      "known_limitations": "Confidence is 60 on every row, the lowest in the package, and deliberately so. priority_score is a designed heuristic, not an empirical outcome measure: no uptake, approval-rate or benefit-realisation data was available to calibrate it. Profiles are archetypes, not real users, and a production recommender must validate against actual eligibility determination rather than trusting these scores. Treat this dataset as a rule-engine seed, not as evidence."
+    }
+  ]
+}

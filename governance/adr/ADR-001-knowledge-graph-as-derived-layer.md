@@ -45,7 +45,7 @@ add it to the owning package and rebuild.
 
 **Negative**
 
-- The graph inherits every package gap. 142 of 650 entities have no relationships, not
+- The graph inherits every package gap. 142 of 647 entities have no relationships, not
   because the relationships do not exist in reality but because no package records them.
   This is visible and honest rather than papered over.
 - Relationship types can be registered with zero edges. `CERTIFIED_BY`, `SUCCESSOR_OF`

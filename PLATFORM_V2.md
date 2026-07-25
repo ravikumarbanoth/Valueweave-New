@@ -7,9 +7,9 @@ domain knowledge and owns no facts.
 
 | | |
 |---|---|
-| Entities | 650 across 19 types |
+| Entities | 647 across 19 types |
 | Relationships | 865 across 15 populated types |
-| Connectivity | 77.85% (142 orphans, all traceable to upstream gaps) |
+| Connectivity | 78.05% (142 orphans, all traceable to upstream gaps) |
 | Sources tracked | 605 URLs across 469 organisations |
 | Ownership | 19 owned types, 99 enforceable attributes, 5 declared overlaps |
 | ADRs | 6 (2 open) |
@@ -64,7 +64,7 @@ docs/architecture/     10 architecture documents
 owning package and rebuild. Every entity and edge traces to a specific package row, and
 check G4 verifies those references actually resolve.
 
-**2. Nothing has been human-reviewed.** All 650 entities and all 2,269 underlying package
+**2. Nothing has been human-reviewed.** All 647 entities and all 2,269 underlying package
 rows carry `VST-NEEDS_REVIEW`. Machine validation confirms structure, references,
 provenance and ownership — it confirms no fact. This is the largest gap in the platform
 and no amount of further engineering closes it.

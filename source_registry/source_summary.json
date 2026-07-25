@@ -1,0 +1,73 @@
+{
+  "built_at": "2026-07-25",
+  "distinct_sources": 605,
+  "distinct_organisations": 469,
+  "total_rows_citing_a_source": 2269,
+  "by_frequency": {
+    "ANNUAL": 541,
+    "QUARTERLY": 49,
+    "SEMI_ANNUAL": 15
+  },
+  "by_trust_score": {
+    "85": 268,
+    "82": 4,
+    "80": 2,
+    "75": 25,
+    "62": 6,
+    "55": 208,
+    "45": 92
+  },
+  "collector_parser_status": "PENDING_IMPLEMENTATION on every source: knowledge_engine/ contains no tracked source files in this repository, so no collector or parser module exists to name. See governance/adr/ADR-006.",
+  "top_sources_by_usage": [
+    {
+      "organisation": "Package001_Geography district master; scheme guidelines",
+      "url": "https://www.myscheme.gov.in/",
+      "rows_citing": 556
+    },
+    {
+      "organisation": "ICAR; Ministry of Agriculture & Farmers Welfare",
+      "url": "https://icar.org.in/",
+      "rows_citing": 262
+    },
+    {
+      "organisation": "Office of Development Commissioner (MSME); MSME-DI project profiles",
+      "url": "https://msme.gov.in/",
+      "rows_citing": 246
+    },
+    {
+      "organisation": "Wikipedia 'List of revenue divisions in Telangana', compiling: Telangana State Portal (State Profile), Chief Commissioner of Land Administration (ccla.telangana.gov.in), and individual District Revenue Department notifications",
+      "url": "https://en.wikipedia.org/wiki/List_of_revenue_divisions_in_Telangana",
+      "rows_citing": 75
+    },
+    {
+      "organisation": "Package006_Skills_and_Training reconciliation",
+      "url": "https://msde.gov.in/",
+      "rows_citing": 69
+    },
+    {
+      "organisation": "Ministry of Agriculture & Farmers Welfare",
+      "url": "https://agricoop.gov.in/",
+      "rows_citing": 54
+    },
+    {
+      "organisation": "WEF Future of Jobs Report 2025, McKinsey Global Institute, NASSCOM AI Adoption Index",
+      "url": "https://www.weforum.org/publications/future-of-jobs-report-2025/",
+      "rows_citing": 45
+    },
+    {
+      "organisation": "NASSCOM Industry Skills Mapping, LinkedIn Jobs Report",
+      "url": "https://www.nasscom.in/knowledge-center",
+      "rows_citing": 40
+    },
+    {
+      "organisation": "Ministry of Food Processing Industries (MoFPI)",
+      "url": "https://mofpi.gov.in/",
+      "rows_citing": 39
+    },
+    {
+      "organisation": "Telangana State Portal (telangana.gov.in/about/districts) for district list/HQ; Census of India 2011 for population/literacy/urban%/sex ratio (both via Wikipedia's compiled, footnoted table)",
+      "url": "https://en.wikipedia.org/wiki/List_of_districts_of_Telangana",
+      "rows_citing": 33
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+relationship_type,expected_from_types,expected_to_types,semantics,edge_count
+REQUIRES_SKILL,MSME|BusinessOpportunity|Industry,Skill,The subject cannot be operated without the object skill,86
+SUPPORTED_BY_SCHEME,MSME|Crop|Skill|BusinessOpportunity,GovernmentScheme,A government scheme provides support to the subject,92
+LOCATED_IN,District|State|Institution|MSME,State|District|Country,Geographic containment or siting,121
+TRAINED_BY,Skill,TrainingProvider,The object provider delivers training for the subject skill,3
+STUDIED_AT,Skill|Certification,Institution,The subject is studied at the object institution,0
+USES_MACHINERY,MSME|Crop,Machinery,The subject requires the object machine to operate,64
+USES_RAW_MATERIAL,MSME,RawMaterial|Crop,The subject consumes the object as a production input,33
+PROCESSES,MSME,Crop,The subject transforms the object crop into a product,10
+SELLS_TO,MSME,Market,The subject reaches buyers through the object channel,12
+EXPORTS_TO,MSME|Crop,ExportCountry,The subject is exported to the object country,68
+FUNDED_BY,MSME|GovernmentScheme,FinancialInstitution,The object institution provides finance for the subject,12
+CERTIFIED_BY,Skill,Certification,Competence in the subject is evidenced by the object certification,0
+RELATED_TO,*,*,A documented association that no more specific type captures,190
+PART_OF,*,*,Taxonomic or compositional containment,90
+SUCCESSOR_OF,*,*,"The subject replaced the object (scheme renames, policy versions)",0
+PREDECESSOR_OF,*,*,Inverse of SUCCESSOR_OF,0
+GENERATES_EMPLOYMENT,MSME|BusinessOpportunity,District|State,The subject creates employment in the object geography,32
+SUPPORTED_BY_BANK,MSME,FinancialInstitution,A bank or DFI is a named delivery channel for the subject,36
+USES_AI,MSME|Crop|Industry,*,The subject has a documented AI or automation application,16

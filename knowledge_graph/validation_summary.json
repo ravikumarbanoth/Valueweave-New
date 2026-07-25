@@ -1,0 +1,29 @@
+{
+  "graph_version": "2.0.0",
+  "entities": 647,
+  "relationships": 865,
+  "entity_types_registered": 19,
+  "entity_types_populated": 19,
+  "relationship_types_registered": 19,
+  "relationship_types_populated": 15,
+  "connected_entities": 505,
+  "orphan_entities": 142,
+  "connectivity_pct": 78.05,
+  "package_csvs_checked_for_ownership": 77,
+  "enforceable_owned_attributes": 87,
+  "checks_run": [
+    "G1-IDENTITY",
+    "G2-COMPLETENESS",
+    "G3-TYPE",
+    "G4-PROVENANCE",
+    "G5-EDGE_INTEGRITY",
+    "G6-EDGE_TYPE",
+    "G7-OWNERSHIP",
+    "G8-LIFECYCLE",
+    "G9-CONFIDENCE",
+    "G10-ORPHANS"
+  ],
+  "violations": 0,
+  "warnings": 1,
+  "result": "PASS"
+}

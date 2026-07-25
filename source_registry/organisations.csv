@@ -1,0 +1,470 @@
+organisation,distinct_urls,consuming_packages,rows_citing,trust_score
+Package001_Geography district master; scheme guidelines,1,Package007_Government_Schemes;Package008_MSME,556,85
+ICAR; Ministry of Agriculture & Farmers Welfare,1,Package005_Agriculture,262,80
+Office of Development Commissioner (MSME); MSME-DI project profiles,1,Package007_Government_Schemes;Package008_MSME,246,85
+"Wikipedia 'List of revenue divisions in Telangana', compiling: Telangana State Portal (State Profile), Chief Commissioner of Land Administration (ccla.telangana.gov.in), and individual District Revenue Department notifications",1,Package001_Geography,75,45
+Package006_Skills_and_Training reconciliation,1,Package007_Government_Schemes;Package008_MSME,69,85
+WebSearch aggregation (secondary/portal cross-check; official site inaccessible via WebFetch this session),66,Package002_Education,66,85
+Ministry of Agriculture & Farmers Welfare,1,Package005_Agriculture;Package007_Government_Schemes;Package008_MSME,54,85
+"WEF Future of Jobs Report 2025, McKinsey Global Institute, NASSCOM AI Adoption Index",1,Package006_Skills_and_Training,45,62
+"NASSCOM Industry Skills Mapping, LinkedIn Jobs Report",1,Package006_Skills_and_Training,40,62
+Ministry of Food Processing Industries (MoFPI),1,Package005_Agriculture;Package008_MSME,39,85
+"Telangana State Portal (telangana.gov.in/about/districts) for district list/HQ; Census of India 2011 for population/literacy/urban%/sex ratio (both via Wikipedia's compiled, footnoted table)",1,Package001_Geography,33,45
+"AP Districts (Formation) Act notifications (2022 and Dec-2025 amendments) for district list/codes/HQ; AP Directorate of Economics & Statistics Socio-Economic Survey 2022-23 for population/area (both via Wikipedia's compiled, footnoted table)",1,Package001_Geography,29,45
+WebSearch,24,Package003_Healthcare,24,85
+NASSCOM,2,Package005_Agriculture;Package006_Skills_and_Training;Package008_MSME,24,62
+NCVET National Skills Qualification Framework (NSQF) overview; ValueWeave editorial grouping,1,Package006_Skills_and_Training,24,85
+Ministry of Agriculture,11,Package005_Agriculture;Package006_Skills_and_Training;Package007_Government_Schemes,20,85
+Package002_Education and Package006 reconciliation,1,Package007_Government_Schemes;Package008_MSME,19,85
+ICAR-IISR; Spices Board of India,1,Package005_Agriculture;Package008_MSME,16,80
+Ministry of Commerce and Industry,1,Package005_Agriculture;Package008_MSME,13,85
+"WebSearch (secondary aggregation of government/NASSCOM sources, industry AI-adoption and market reports, freelance-marketplace/gig-economy data, and portal blogs); direct WebFetch to .gov.in domains blocked by session egress policy",12,Package004_Industries,12,85
+DGT,1,Package006_Skills_and_Training,9,85
+Reserve Bank of India,1,Package007_Government_Schemes;Package008_MSME,9,82
+Official college website; aggregator cross-check,8,Package003_Healthcare,8,55
+APEDA (Agricultural and Processed Food Products Export Development Authority),1,Package005_Agriculture;Package008_MSME,8,85
+Wikipedia; official college website,8,Package003_Healthcare,8,45
+National Scholarship Portal; Package002_Education reconciliation,1,Package007_Government_Schemes,8,85
+NABARD,1,Package005_Agriculture;Package007_Government_Schemes;Package008_MSME,8,82
+National Medicinal Plants Board,1,Package005_Agriculture,7,85
+Ministry of Textiles,1,Package008_MSME,7,85
+MeitY; industry associations,1,Package007_Government_Schemes;Package008_MSME,7,85
+Ministry of Rural Development,2,Package005_Agriculture;Package007_Government_Schemes;Package008_MSME,6,85
+Central Pollution Control Board,1,Package008_MSME,5,85
+Department of Animal Husbandry & Dairying,1,Package005_Agriculture,5,85
+Department of Financial Services,1,Package007_Government_Schemes,5,85
+Ministry of New and Renewable Energy,1,Package007_Government_Schemes;Package008_MSME,5,85
+Ministry of Health and Family Welfare,2,Package007_Government_Schemes;Package008_MSME,5,85
+Ministry of Social Justice and Empowerment,1,Package007_Government_Schemes,5,85
+Wikipedia,4,Package003_Healthcare,4,45
+kothagudem.telangana.gov.in (via WebSearch snippet),1,Package003_Healthcare,4,85
+State revenue departments; MeeSeva,1,Package007_Government_Schemes,4,85
+"Ministry of Micro, Small and Medium Enterprises",2,Package007_Government_Schemes;Package008_MSME,4,85
+westgodavari.ap.gov.in (via WebSearch snippet),1,Package003_Healthcare,4,85
+SIDBI,1,Package007_Government_Schemes;Package008_MSME,4,82
+Ministry of Heavy Industries,1,Package008_MSME,3,85
+Ministry of Animal Husbandry,2,Package005_Agriculture,3,85
+Ministry of Jal Shakti,1,Package005_Agriculture;Package007_Government_Schemes,3,85
+"Aggregator search snippets (edufever, collegedunia)",3,Package003_Healthcare,3,55
+FSSAI,2,Package006_Skills_and_Training;Package008_MSME,3,85
+GSTN,1,Package007_Government_Schemes;Package008_MSME,3,85
+ICSDC,1,Package006_Skills_and_Training,3,55
+DPIIT; Startup India,1,Package008_MSME,3,85
+Central Drugs Standard Control Organisation,1,Package008_MSME,2,85
+Directorate of Cashewnut and Cocoa Development,1,Package005_Agriculture,2,85
+Department of Food and Public Distribution,1,Package007_Government_Schemes,2,85
+Department of Empowerment of Persons with Disabilities,2,Package007_Government_Schemes,2,85
+"Multiple college-listing aggregator sites (tabindia.org, careermarg.com, moksh16.com) via WebSearch snippets",1,Package003_Healthcare,2,45
+adilabad.telangana.gov.in; Wikipedia; rimsadilabad.org (via WebSearch snippet),1,Package003_Healthcare,2,45
+rmckakinada.com; Wikipedia (via WebSearch snippets),1,Package003_Healthcare,2,45
+Jan Suraksha portal; Department of Financial Services,1,Package007_Government_Schemes,2,85
+"Ministry of Environment, Forest and Climate Change",1,Package008_MSME,2,85
+National Bee Board,1,Package005_Agriculture,2,85
+NPTEL official site; SWAYAM NPTEL certification page,1,Package006_Skills_and_Training,2,75
+MGNREGA portal; Ministry of Rural Development,1,Package007_Government_Schemes,2,85
+Government of Telangana,2,Package008_MSME,2,85
+"WebSearch cross-check (telanganaepass.cgg.gov.in listed among results; corroborated by teachersbadi.in, buddy4study.com, leverageedu.com)",1,Package002_Education,2,85
+Ministry of Tourism,1,Package008_MSME,2,85
+CGTMSE,1,Package007_Government_Schemes;Package008_MSME,2,55
+Ministry of Civil Aviation (DGCA); Ministry of Agriculture,1,Package008_MSME,2,85
+Directorate General of Foreign Trade,1,Package008_MSME,2,85
+IHM,1,Package006_Skills_and_Training,2,75
+PMEGP e-portal; KVIC,1,Package007_Government_Schemes;Package008_MSME,2,85
+MUDRA; Department of Financial Services,1,Package007_Government_Schemes;Package008_MSME,2,55
+Stand-Up India portal,1,Package007_Government_Schemes;Package008_MSME,2,55
+Official college website (gmcjagtial.com),1,Package003_Healthcare,1,55
+gmcmancherial.org; Grokipedia (via WebSearch snippet),1,Package003_Healthcare,1,55
+"WebSearch aggregated (tssdc.in, NSDC state list page, Telangana IT&EC department page)",1,Package006_Skills_and_Training,1,55
+WebSearch aggregation summarizing Telangana govt announcements via news and secondary sources,1,Package003_Healthcare,1,85
+National Health Mission; Ministry of Health and Family Welfare,1,Package007_Government_Schemes,1,85
+State Agriculture Departments,1,Package005_Agriculture,1,85
+Agriculture Infrastructure Fund portal,1,Package007_Government_Schemes,1,85
+Farm Mechanization portal; Department of Agriculture,1,Package007_Government_Schemes,1,85
+"Atal Innovation Mission, NITI Aayog",1,Package008_MSME,1,85
+AISHE Official Website,1,Package002_Education,1,85
+"WebSearch aggregated (APIIC official site, Wikipedia via search summary, Business Standard, Dhruva Industrial Consultants)",1,Package004_Industries,1,55
+"WebSearch aggregated (APIS official site, IndiaFilings, StartupIndia state policy page, StartupFlora, StartupGrantsIndia)",1,Package004_Industries,1,85
+ABB Robotics India course booking page; ABB global Customer Certification page,1,Package006_Skills_and_Training,1,55
+WebSearch cross-check (multiple secondary sources),1,Package002_Education,1,85
+AWS,1,Package006_Skills_and_Training,1,55
+"bapatla.ap.gov.in; Medindia (WebSearch snippets only, no direct fetch)",1,Package003_Healthcare,1,85
+ISRO/NRSC Bhuvan; ICAR,1,Package005_Agriculture,1,85
+"Aggregator search snippets (blog.rmgoe.org, medicalneetug.com)",1,Package003_Healthcare,1,55
+WebSearch cross-check (multiple secondary education portals),1,Package002_Education,1,85
+CADD Centre official corporate website and network page,1,Package006_Skills_and_Training,1,55
+Secondary reporting on AP POLYCET 2026 counselling data; CollegeDekho/Collegedunia aggregation,1,Package006_Skills_and_Training,1,55
+Healthcare Sector Skill Council (HSSC) General Duty Assistant Qualification Pack (HSS/Q5101); CBSE vocational curriculum documentation of the GDA job role,1,Package006_Skills_and_Training,1,85
+Certiport official Autodesk certification page; CAD training cost guide,1,Package006_Skills_and_Training,1,55
+Certiport official program page; aggregator discussion of India pricing,1,Package006_Skills_and_Training,1,55
+Official APSCHE CETS EAPCET portal cross-checked via Testbook and Collegedunia,1,Package002_Education,1,85
+Official APSCHE CETS LAWCET portal cross-checked via Shiksha and Collegedunia,1,Package002_Education,1,85
+WebSearch aggregation summarizing MoHFW/CGHS material via secondary sources,1,Package003_Healthcare,1,85
+chittoor.ap.gov.in; Mappls; Medindia (via WebSearch snippets),1,Package003_Healthcare,1,85
+Coconut Development Board,1,Package005_Agriculture,1,85
+"ICAR, Ministry of Agriculture",1,Package005_Agriculture,1,85
+"WebSearch aggregation of platform and industry-blog sources; WebSearch aggregation of live-commerce, video-editing-AI and market-size sources (2026-07-24 pass)",1,Package004_Industries,1,55
+Central Silk Board; Ministry of Textiles,1,Package005_Agriculture,1,85
+CSC e-Governance Services India Limited,1,Package007_Government_Schemes,1,85
+Official CBSE CTET portal,1,Package002_Education,1,85
+Official NTA CUET(UG) portal,1,Package002_Education,1,85
+"WebSearch aggregated (dcmsme.gov.in course/scheme PDFs, Grainmart News, IndiaFilings)",1,Package006_Skills_and_Training,1,85
+DDU-GKY portal; Ministry of Rural Development,1,Package007_Government_Schemes,1,85
+WebSearch cross-check (depwd.gov.in listed among results; corroborated by depwd.maharashtra.gov.in mirror),1,Package002_Education,1,85
+Google,1,Package006_Skills_and_Training,1,55
+"WebSearch aggregation: iti.directory listing and DGE (Directorate General of Employment, Govt. of India) district employment exchange node",1,Package006_Skills_and_Training,1,85
+"WebSearch aggregation: iti.directory Nalgonda listing; DGE (Directorate General of Employment, Govt. of India) district employment exchange node for the adjoining Govt. ITI (Girls) campus",1,Package006_Skills_and_Training,1,85
+"WebSearch aggregation: DGE (Directorate General of Employment, Govt. of India) district employment exchange node; iti.telangana.gov.in Annexure-I ITI list (surfaced in search, not directly fetched)",1,Package006_Skills_and_Training,1,85
+"WebSearch aggregation: DGE (Directorate General of Employment, Govt. of India) district employment exchange node; Justdial listing",1,Package006_Skills_and_Training,1,85
+"WebSearch aggregated (DGT official site, National Skill Training Institute pages, Wikipedia summary via search)",1,Package006_Skills_and_Training,1,85
+"WebSearch aggregated (DGT official site, World Bank project page, Karnataka/Maharashtra state skill department pages)",1,Package006_Skills_and_Training,1,85
+DGT and NSTI institutional websites (via search snippets); cross-referenced against NSTI Hyderabad campus pages,1,Package006_Skills_and_Training,1,85
+DGT/NCVT Fitter CTS 2.0 Qualification File; DGT presentation on apprenticeship progression options,1,Package006_Skills_and_Training,1,85
+DGT/NCVT Welder (Fabrication & Fitting) CTS 2.0 Qualification File; ITI trade guides describing self-employment outcomes,1,Package006_Skills_and_Training,1,85
+"State land records portals (Dharani, Webland)",1,Package007_Government_Schemes,1,85
+WebSearch aggregate summary referencing dme.telangana.gov.in hospital list,1,Package003_Healthcare,1,85
+DPIIT; Department of Science and Technology,1,Package007_Government_Schemes,1,85
+WebSearch aggregation summarizing AP govt/health department material via secondary sources,1,Package003_Healthcare,1,85
+Department of Science and Technology,1,Package008_MSME,1,85
+"WebSearch aggregation: dte.telangana.gov.in college-information listing snippet (id=628), Shiksha, Careers360",1,Package006_Skills_and_Training,1,85
+Official TGCHE EAPCET portal cross-checked via Testbook and Careers360,1,Package002_Education,1,75
+Official TGCHE EdCET portal cross-checked via Careers360 news,1,Package002_Education,1,75
+Vikaspedia best-practices profile of TASK; Telangana IT Department (it.telangana.gov.in) initiative page; Telangana Web Directory,1,Package006_Skills_and_Training,1,55
+Wikipedia; neetadmission.in,1,Package003_Healthcare,1,45
+WebSearch cross-check (Wikipedia and secondary education portals - conflicting dates found),1,Package002_Education,1,45
+"WebSearch cross-check (schools360.in office-relocation report, Wikipedia)",1,Package002_Education,1,45
+"WebSearch cross-check (CISCE self-description, secondary sources)",1,Package002_Education,1,45
+"WebSearch aggregated (Wikipedia summary via search, apnaafatehpur.in, bharatmadad.com, projectsarthi.com)",1,Package006_Skills_and_Training,1,45
+HexaHealth; ZoomInfo; Wikipedia; gmcsecunderabad.org (via search snippet),1,Package003_Healthcare,1,45
+"Wikipedia (Government General Hospital, Nizamabad); gmcnzb.org",1,Package003_Healthcare,1,45
+Wikipedia; Anantapur district government portal,1,Package003_Healthcare,1,45
+gmcatp.edu.in; Wikipedia (via WebSearch snippets),1,Package003_Healthcare,1,45
+rims-kadapa.in; Wikipedia (via WebSearch snippets),1,Package003_Healthcare,1,45
+Wikipedia; official college website; Nizamabad district government portal,1,Package003_Healthcare,1,45
+Aggregator college-listing sites via WebSearch snippets,1,Package003_Healthcare,1,45
+Wikipedia; official college website; aggregator cross-check,1,Package003_Healthcare,1,45
+Wikipedia; indcareer.com,1,Package003_Healthcare,1,45
+Wikipedia; official college website (kmcwgl.com),1,Package003_Healthcare,1,45
+amc.edu.in; visakhapatnam.ap.gov.in; Wikipedia (via WebSearch snippets),1,Package003_Healthcare,1,45
+Wikipedia; justmbbs.com,1,Package003_Healthcare,1,45
+kurnoolmedicalcollege.ac.in; Wikipedia; kurnool.ap.gov.in (via WebSearch snippets),1,Package003_Healthcare,1,45
+Wikipedia; institution group website,1,Package003_Healthcare,1,45
+Wikipedia profile of National Academy of Construction; Shiksha institutional listing; nacbocwb.cgg.gov.in (AP/Telangana Building & Other Construction Workers Welfare Board-linked domain),1,Package006_Skills_and_Training,1,45
+Mappls; multiple hospital directories; Wikipedia,1,Package003_Healthcare,1,45
+"Wikipedia; Medindia; Yappe; hospital directories (WebSearch snippets only, no direct fetch)",1,Package003_Healthcare,1,45
+HexaHealth; Medindia; Wikipedia (Siddhartha Medical College) via WebSearch snippets,1,Package003_Healthcare,1,45
+Wikipedia; official college website (smcvja.in),1,Package003_Healthcare,1,45
+Wikipedia (Sri_Venkateswara_Medical_College),1,Package003_Healthcare,1,45
+Wikipedia; tirupati.ap.gov.in (via WebSearch snippets),1,Package003_Healthcare,1,45
+"WebSearch aggregation of government-scheme-adjacent secondary sources (direct .gov.in fetch blocked this session); WebSearch aggregation of FPO-registration, ICAR AI-advisory and ONDC-growth sources (2026-07-24 pass)",1,Package004_Industries,1,85
+"Cross-checked via Careers360, Collegedekho and Manabadi; conducting body confirmed via apsbtet.ap.gov.in",1,Package002_Education,1,55
+"Aggregated secondary reporting (Careers360, JNTU Fast Result, SmartUpdate24) citing SBTET Telangana POLYCET participating-college data",1,Package006_Skills_and_Training,1,55
+"Cross-checked via Careers360, Shiksha and Collegedekho (application portal cets.apsche.ap.gov.in)",1,Package002_Education,1,55
+WebSearch aggregation summarizing ESIC official material via secondary sources,1,Package003_Healthcare,1,85
+NTA Official Website,1,Package002_Education,1,85
+Official NTA CUET(PG) exam portal,1,Package002_Education,1,85
+Official NTA ICAR exam portal,1,Package002_Education,1,85
+WebSearch cross-check (fellowship.tribal.gov.in and tribal.nic.in listed among results; scholarships.gov.in PDF guideline also found),1,Package002_Education,1,85
+Government e-Marketplace,1,Package008_MSME,1,85
+gmceluru.ap.gov.in; Medindia (via WebSearch snippets),1,Package003_Healthcare,1,85
+gmckhammam.org (via WebSearch snippet),1,Package003_Healthcare,1,55
+gmckothagudem.org (via WebSearch snippet); collnod.com,1,Package003_Healthcare,1,55
+gmcnagarkurnool.org (via WebSearch snippet),1,Package003_Healthcare,1,55
+gmcrajamahendravaram.ap.gov.in; mbbscouncil.com (via WebSearch snippets),1,Package003_Healthcare,1,85
+"gmcrajannasircilla.org; targetstudy.com; studentkhabri.com (WebSearch snippets only, no direct fetch)",1,Package003_Healthcare,1,55
+gmcsiddipet.org (via WebSearch snippet),1,Package003_Healthcare,1,55
+gmcvikarabad.ac.in (via WebSearch snippet),1,Package003_Healthcare,1,75
+"gmcvizianagaram.ap.gov.in (via WebSearch snippet, including official hospital profile PDF found in results)",1,Package003_Healthcare,1,85
+gmcyadadri.org (via WebSearch snippet),1,Package003_Healthcare,1,55
+WebSearch aggregation: institution's own domain (govtpolykalikiri.ac.in) surfaced in results; corroborated by list.polytechniccolleges.in,1,Package006_Skills_and_Training,1,75
+"Institution's official Telangana DTE-hosted website (via search snippet); corroborated by Wikipedia and education-portal listings (CollegeDekho, UniversityKart)",1,Package006_Skills_and_Training,1,85
+gunturmedicalcollege.edu.in; Wikipedia; Medindia (via WebSearch snippets),1,Package003_Healthcare,1,55
+Hugging Face,1,Package006_Skills_and_Training,1,55
+Official TGCHE ICET portal cross-checked via Shiksha and MBAUniverse,1,Package002_Education,1,75
+Official CAT portal (iimcat.ac.in) cross-checked via MBAUniverse and Careers360,1,Package002_Education,1,75
+Indian Spices Board,1,Package005_Agriculture,1,85
+"WebSearch aggregated (IndiaFilings, Wikipedia via search summary, HMDA, Directorate of Town and Country Planning Telangana)",1,Package004_Industries,1,85
+WebSearch aggregation: iti.directory Adilabad listing,1,Package006_Skills_and_Training,1,55
+WebSearch aggregation: iti.directory Karimnagar listing,1,Package006_Skills_and_Training,1,55
+WebSearch aggregation: iti.directory Khammam-region listing (institute located in Kothagudem town),1,Package006_Skills_and_Training,1,55
+WebSearch aggregation: iti.directory Kurnool listing; universitydunia.com listing,1,Package006_Skills_and_Training,1,55
+WebSearch aggregation: iti.directory Mahbubnagar-region listing (established 01-Jan-1986 per source),1,Package006_Skills_and_Training,1,55
+"WebSearch aggregation: targetstudy.com, iti.directory (NTR district), ampletrails.com vocational-training-provider listing",1,Package006_Skills_and_Training,1,55
+WebSearch aggregation: iti.directory Adilabad listing; universitydunia.com listing,1,Package006_Skills_and_Training,1,55
+WebSearch aggregation: iti.directory Karimnagar-region listing (institute located in Peddapalli town),1,Package006_Skills_and_Training,1,55
+"Telangana State ITI Admissions Prospectus 2025, Government of Telangana",1,Package006_Skills_and_Training,1,85
+jangaon.telangana.gov.in (via WebSearch snippet),1,Package003_Healthcare,1,85
+Official JEE Advanced portal (jeeadv.ac.in) and Information Brochure PDF,1,Package002_Education,1,75
+Official NTA portal; cross-checked via Careers360 and CollegeSearch,1,Package002_Education,1,85
+"WebSearch cross-check (jnanabhumi.ap.gov.in UPSC empanelment form found directly; corroborated by indiascholarships.in, cleartax.in, rtiwala.com, sarkariyojana.com)",1,Package002_Education,1,85
+"WebSearch cross-check (jnboverseas1.apcfss.in listed among results as the dedicated official portal; corroborated by wemakescholars.com, studentcover.in, fly.finance)",1,Package002_Education,1,55
+WebSearch aggregation of platform/industry-trend sources; WebSearch aggregation of creator-success-story and video-editing-AI sources (2026-07-24 pass),1,Package004_Industries,1,55
+WebSearch aggregate summary referencing Kamareddy district facilities,1,Package003_Healthcare,1,85
+kamareddy.telangana.gov.in (via WebSearch snippet),1,Package003_Healthcare,1,85
+karimnagar.telangana.gov.in (via WebSearch snippet),1,Package003_Healthcare,1,85
+"WebSearch aggregated (KIP Financial Consultancy, Unique Group, eUdyamAadhar)",1,Package004_Industries,1,55
+"WebSearch aggregated (KP IAS Academy, TGFPS, Dhruva Industrial Consultants, India SME Forum)",1,Package004_Industries,1,55
+"WebSearch aggregated (KP IAS Academy, MSME Council, Dhruva Industrial Consultants)",1,Package004_Industries,1,55
+krishna.ap.gov.in; gmcmachilipatnam-ap-gov.com (via WebSearch snippets),1,Package003_Healthcare,1,85
+Aggregator search snippets; Krishna district government portal,1,Package003_Healthcare,1,85
+Ministry of Labour and Employment,1,Package007_Government_Schemes,1,85
+"Cross-checked via Toprankers, Shiksha and Careers360 Law (application portal lawcet.tgche.ac.in)",1,Package002_Education,1,55
+"Cross-checked via Shiksha, Careers360 Law and Indcareer (application portal cets.apsche.ap.gov.in/LAWCET)",1,Package002_Education,1,55
+Google Digital Garage program; third-party course review aggregator,1,Package006_Skills_and_Training,1,55
+mahabubabad.telangana.gov.in (via WebSearch snippet),1,Package003_Healthcare,1,85
+WebSearch aggregation summarizing MoHFW official material and secondary/aggregator sources,1,Package003_Healthcare,1,85
+India Meteorological Department; Gramin Krishi Mausam Sewa,1,Package005_Agriculture,1,85
+"Aggregator search snippets (edufever, mbbscouncil)",1,Package003_Healthcare,1,55
+"WebSearch aggregation: institution's own domain (mbtsgovtpolyguntur.ac.in) surfaced in results; corroborated by Shikshan.org, Shiksha, StudyGuideIndia",1,Package006_Skills_and_Training,1,75
+Official ESIC college website,1,Package003_Healthcare,1,85
+"Aggregator search snippets (medicalneetpg.com, medicalneetug.com)",1,Package003_Healthcare,1,55
+Careers360 / aggregator search snippets,1,Package003_Healthcare,1,55
+Ministry of Information and Broadcasting,1,Package008_MSME,1,85
+Ministry of Minority Affairs,1,Package007_Government_Schemes,1,85
+MNRE,1,Package006_Skills_and_Training,1,85
+Food Processing Board,1,Package005_Agriculture,1,85
+Ministry of Housing and Urban Affairs,1,Package007_Government_Schemes,1,85
+MSME-DI Hyderabad District Industrial Profile; KVIC/PMEGP guidelines (kviconline.gov.in); PMFME scheme portal (pmfme.mofpi.gov.in); Government of Telangana MSME Policy Order; AP Food Processing Policy 4.0; ASVR Engineering and SFT Machinery (namkeen/snack machinery suppliers); Institute for Industrial Development (IID) namkeen course listing; Mondaq coverage of FSSAI's Oct 2025 spice-manufacturing enforcement sweep; DigitalDawn.in e-commerce-platform comparison (2026),1,Package004_Industries,1,85
+International Organization for Standardization; NABCB,1,Package008_MSME,1,55
+ESDM,1,Package006_Skills_and_Training,1,62
+Official NBEMS/NBE portals (natboard.edu.in / nbe.edu.in) cross-checked via Testbook and Careers360 news coverage,1,Package002_Education,1,55
+Official NBEMS portal (natboard.edu.in) cross-checked via Careers360 news,1,Package002_Education,1,55
+"Official NBEMS NEET-SS exam portal cross-checked via Doctutorials, Shiksha and Careers360 Medicine",1,Package002_Education,1,55
+AICTE official website; National Skills Network summary of AICTE skill-development initiatives; Assam Engineering Institute scheme page as illustrative implementation,1,Package006_Skills_and_Training,1,55
+NCERT Official Website,1,Package002_Education,1,85
+NCTE Official Website,1,Package002_Education,1,85
+NCVET Official Website,1,Package002_Education,1,85
+"Retailers Association's Skill Council of India (RASCI) Qualification Packs, adopted by NCVET (Office Order: Adoption of 20 Qualifications of RASCI)",1,Package006_Skills_and_Training,1,85
+"NCVET Final RPL Guidelines, 2023",1,Package006_Skills_and_Training,1,85
+Official NTA NEET portal,1,Package002_Education,1,85
+Aggregator search snippets (neetadmission.in),1,Package003_Healthcare,1,55
+"neetsupport.com; rmgoe.org; medak.telangana.gov.in (WebSearch snippets only, no direct fetch)",1,Package003_Healthcare,1,55
+Careers360 news reporting on AP government's Rs 100 crore ITI/polytechnic/skill-college modernization announcement (Nov 2023) and AP PM-SETU/Vizag ITI Cluster coverage (2026),1,Package006_Skills_and_Training,1,55
+"WebSearch cross-check (multiple secondary aggregators: buddy4study.com, vajiramandravi.com, careers360.com)",1,Package002_Education,1,55
+"WebSearch aggregated (Careers360, TMS, sarkariyojana.com, Uttarakhand Skill Development Dept portal, PIB)",1,Package006_Skills_and_Training,1,55
+"WebSearch cross-check (careers360.com news article, buddy4study.com, schemesinindia.in - consistent figures)",1,Package002_Education,1,55
+"PMFME Model DPR - Maize Flour Mill Unit (NIFTEM, hosted under MoFPI's PMFME scheme); PMFME Model DPR - Wheat Flour Mill Unit (Rajasthan PMFME SNA hosting the same central model DPR); IndiaMART flour-mill/atta-chakki machinery supplier directory listings; PMFME Rajasthan SNA food-processing machinery supplier list",1,Package004_Industries,1,75
+NIOS Official Website (cross-checked with WebSearch summary),1,Package002_Education,1,75
+NPTEL,1,Package006_Skills_and_Training,1,75
+ICAR-NPTEL,1,Package005_Agriculture,1,75
+NSDC/Skill India Digital Hub course listings; Media & Entertainment Skills Council (MESC) Digital Marketing Manager Qualification File and Model Curriculum,1,Package006_Skills_and_Training,1,85
+Apparel Made-ups & Home Furnishing Sector Skill Council (AMHSSC) Self Employed Tailor NSQF Qualification File,1,Package006_Skills_and_Training,1,85
+Tourism and Hospitality Skill Council (THSC) Qualification Packs for Food & Beverage Service roles,1,Package006_Skills_and_Training,1,85
+NSAP portal; Ministry of Rural Development,1,Package007_Government_Schemes,1,85
+Ministry of Skill Development and Entrepreneurship,1,Package007_Government_Schemes,1,55
+"NSDC PMKVY course page; DGT/NCVT syllabus; Telangana State Electrical Licensing Regulations 2018 summaries (Electrical4u, Indiankanoon); PIB PM Vishwakarma trade list; Barefoot College institutional profile (Grokipedia, Emotive Program); EV charging market reports (Forvis Mazars, IBEF, Elektree); BEE Star Rating programme materials; Urban Company earnings data (Indeed.com, Al Jazeera); rooftop solar PV installer training providers (ERC India, TPSDI, kWatt Solutions)",1,Package004_Industries,1,55
+NSDC job role listing; Careers360 course listing,1,Package006_Skills_and_Training,1,55
+NSDC job role listing; Capital Goods Skill Council Qualification Pack,1,Package006_Skills_and_Training,1,55
+NSDC job role listing; National Qualification Register (NQR) Qualification File,1,Package006_Skills_and_Training,1,55
+NSDC job role listing; Healthcare Sector Skill Council Qualification Pack,1,Package006_Skills_and_Training,1,55
+NSDC official website - National Occupational Standards and Model Curriculum listings,1,Package006_Skills_and_Training,1,55
+"NSDC/PMKVY course pages; DGT/NCVT ITI syllabus portals; PMMY official guidance; PM Vishwakarma official trade list (PIB); Sulekha/Justdial/Urban Company platform descriptions; Urban Company IPO earnings disclosures (Outlook Business, Indeed.com); Al Jazeera investigative report on Urban Company gig economics; India Construction Industry Report 2025 (Businesswire/ResearchAndMarkets); Knight Frank Skilled Employment in Construction report; RO Care India company materials",1,Package004_Industries,1,55
+"NSDC official website (nsdcindia.org/training-partner-0, nsdcindia.org/partners); Wikipedia profile of National Skill Development Corporation",1,Package006_Skills_and_Training,1,55
+"PMEGP/KVIC project-profile case summary; NSDC PMKVY course page; DGT/NCVT ITI syllabus; APSSDC course listing; Ador Welding company materials; peer-reviewed occupational-health studies on Indian welders (PMC); CNC/laser-cutting service providers (Fast Cutting India, Weldarc India, Cyclotron Industries)",1,Package004_Industries,1,55
+"DGT and NSTI institutional websites (nstiwhyderabad.dgt.gov.in, nstihyderabad2.dgt.gov.in, dgt.gov.in) via search snippets",1,Package006_Skills_and_Training,1,85
+DPIIT; ONDC,1,Package008_MSME,1,55
+Ministry of Panchayati Raj,1,Package007_Government_Schemes,1,85
+"peddapalli.telangana.gov.in; thehansindia.com (WebSearch snippets only, no direct fetch)",1,Package003_Healthcare,1,85
+Official TGCHE PGECET portal cross-checked via Careerpower and Sarvgyan,1,Package002_Education,1,75
+PMAY-U portal; Ministry of Housing and Urban Affairs,1,Package007_Government_Schemes,1,85
+PMAY-G portal; Ministry of Rural Development,1,Package007_Government_Schemes,1,85
+PMFME portal; Ministry of Food Processing Industries,1,Package007_Government_Schemes,1,85
+National Health Authority; PM-JAY portal,1,Package007_Government_Schemes,1,85
+PMJDY scheme portal; Department of Financial Services,1,Package007_Government_Schemes,1,85
+PM-KUSUM portal; Ministry of New and Renewable Energy,1,Package007_Government_Schemes,1,85
+PMMVY portal; Ministry of Women and Child Development,1,Package007_Government_Schemes,1,85
+PM POSHAN portal; Ministry of Education,1,Package007_Government_Schemes,1,85
+PM Surya Ghar portal; Ministry of New and Renewable Energy,1,Package007_Government_Schemes,1,85
+PM Vishwakarma portal,1,Package007_Government_Schemes,1,85
+Official SBTET Telangana POLYCET portal cross-checked via Sakshi Education and Collegedunia,1,Package002_Education,1,85
+Aggregator search snippets; institution group website,1,Package003_Healthcare,1,55
+Siemens official press release on India skill-upgradation initiatives,1,Package006_Skills_and_Training,1,55
+Spoken Tutorial official process/verification pages,1,Package006_Skills_and_Training,1,55
+IT-ITeS Sector Skill Council (NASSCOM) Technical Support Executive/Engineer Qualification Packs; MeitY-cleared cloud computing Qualification Packs referenced in IT-ITeS SSC emerging-technology offerings,1,Package006_Skills_and_Training,1,55
+IT-ITeS Sector Skill Council (NASSCOM) Technical Support Executive and Technical Support Engineer Qualification Packs and Participant Handbooks,1,Package006_Skills_and_Training,1,55
+"WebSearch aggregated (rural.gov.in press release, PIB press release, DD India feature)",1,Package006_Skills_and_Training,1,85
+Samagra Shiksha portal; Ministry of Education,1,Package007_Government_Schemes,1,85
+SCERT AP Portal / secondary news source on 2025 office relocation,1,Package002_Education,1,85
+SCERT Telangana Portal (via WebSearch cross-check),1,Package002_Education,1,85
+WebSearch aggregated (multiple scheme-tracker sites; original launch Sept 17 2023),1,Package004_Industries,1,55
+Startup India Seed Fund portal,1,Package007_Government_Schemes,1,85
+"WebSearch aggregation: Shikshan.org, Youth4work, IndiaCollegesHub",1,Package006_Skills_and_Training,1,55
+Government of Telangana Horticulture/MIDH scheme page (shm.tg.nic.in); TSSOCA (Telangana State Seed & Organic Certification Authority); seednet.gov.in (Dept. of Agriculture & Farmers Welfare seed schemes portal); TradeIndia (Prince Agro Industries seed cleaning/grading plant listing); Agro Asian Industries seed-processing-plant product page; TSSDCL (Telangana State Seeds Development Corporation Ltd) official 'about' page,1,Package004_Industries,1,85
+Ministry of Skills,1,Package005_Agriculture,1,85
+"WebSearch aggregated (Ministry of Social Justice and Empowerment PDF, Drishti IAS, Sanskriti IAS, schemesinindia.in)",1,Package006_Skills_and_Training,1,85
+WebSearch cross-check (socialjustice.gov.in generic pre-matric scheme description; jnanabhumi.ap.gov.in and teachersbadi.in for AP-specific application details),1,Package002_Education,1,85
+"WebSearch cross-check (socialjustice.gov.in, tcs.dosje.gov.in, india.gov.in listed among results; corroborated by buddy4study.com, indiascholarships.in)",1,Package002_Education,1,85
+"WebSearch cross-check (nosmsje.gov.in and socialjustice.gov.in listed among results; corroborated by buddy4study.com, gyandhan.com, wemakescholars.com)",1,Package002_Education,1,85
+"WebSearch cross-check (socialjustice.gov.in and nsfdc.nic.in listed among results; corroborated by buddy4study.com, schemesinindia.in)",1,Package002_Education,1,85
+Soil Health Card portal,1,Package007_Government_Schemes,1,85
+spsnellore.ap.gov.in; mbbscouncil.com (via WebSearch snippets),1,Package003_Healthcare,1,85
+srikakulam.ap.gov.in (via WebSearch snippet),1,Package003_Healthcare,1,85
+"WebSearch aggregated (Delhi State Urban Livelihoods Mission, FICSI, ASCI, NULM training module PDF)",1,Package006_Skills_and_Training,1,85
+National Institute of Solar Energy (NISE) Suryamitra Skill Development Programme; Ministry of New and Renewable Energy (MNRE) Skill Development Programme page; NSDC Solar PV Installer (Suryamitra) listing,1,Package006_Skills_and_Training,1,55
+suryapet.telangana.gov.in (via WebSearch snippet),1,Package003_Healthcare,1,85
+Suryapet district government portal; aggregator snippets,1,Package003_Healthcare,1,85
+SWAYAM official portal; SWAYAM exam process guide,1,Package006_Skills_and_Training,1,85
+"ITI 'Pump Operator cum Mechanic' course-detail aggregator pages citing DGT/NCVT CTS structure; Kirloskar/Texmo/CRI dealer listings (IndiaMART, Motors and Motor); PM-KUSUM official scheme materials (PIB, MNRE-linked guides)",1,Package004_Industries,1,55
+Tea Board of India,1,Package005_Agriculture,1,85
+"WebSearch cross-check (studentcover.in, teachersbadi.in describing this as the BC-category successor naming after 2024 rebrand)",1,Package002_Education,1,55
+"WebSearch cross-check (telanganaepass.cgg.gov.in listed among results; corroborated by teachersbadi.in, collegemanzil.com, indiascholarships.in)",1,Package002_Education,1,55
+WebSearch cross-check (telanganaepass.cgg.gov.in referenced; corroborated by teachersbadi.in listing of the three TG overseas schemes by name),1,Package002_Education,1,55
+"RESOLVED in RC2 enrichment: official GATE 2027 notification released by IIT Madras on 20 July 2026 at gate2027.iitm.ac.in, cross-checked via Testbook and PW Live news coverage of the same notification",1,Package002_Education,1,55
+TSCHE Official Website (History page),1,Package002_Education,1,75
+"Aggregator search snippets (thecareerassistance.com, getmyuniversity.com)",1,Package003_Healthcare,1,55
+Third-party certification cost aggregators referencing AWS/Pearson VUE pricing,1,Package006_Skills_and_Training,1,55
+APSSDC official/district government page; National Skills Network article on APSSDC-NSDA NSQF workshop,1,Package006_Skills_and_Training,1,85
+Tobacco Board of India,1,Package005_Agriculture,1,85
+WebSearch aggregation of state tourism department announcements and news coverage; WebSearch aggregation of Telangana rural-tourism-project sources (2026-07-24 pass),1,Package004_Industries,1,85
+Ministry of Tribal Affairs,1,Package007_Government_Schemes,1,85
+"WebSearch cross-check (tribal.nic.in and pib.gov.in listed among results; corroborated by galaxyeduworld.com, scholarshipsinindia.com)",1,Package002_Education,1,85
+TRIFED; Ministry of Tribal Affairs; State Forest Departments,1,Package005_Agriculture,1,85
+TSBIE Official Website (via WebSearch cross-check),1,Package002_Education,1,85
+Official NTA UGC-NET portal,1,Package002_Education,1,85
+UIDAI,1,Package007_Government_Schemes,1,85
+"WebSearch aggregated (Vajiram & Ravi, BankBazaar, National Skills Network, Indian Bank)",1,Package006_Skills_and_Training,1,55
+"wanaparthy.telangana.gov.in; medicalneetug.com; edufever.com (WebSearch snippets only, no direct fetch)",1,Package003_Healthcare,1,85
+Wanaparthy district government portal; aggregator snippets,1,Package003_Healthcare,1,85
+Ministry of Women and Child Development,1,Package007_Government_Schemes,1,85
+"WebSearch aggregated (WE-HUB official site, KP IAS Academy, News on Air)",1,Package004_Industries,1,85
+westgodavari.ap.gov.in; Mappls; ayushmancardhospitals.com (via WebSearch snippets),1,Package003_Healthcare,1,85
+WebSearch aggregation summarizing secondary/aggregator sources; several aggregator sites still reference the pre-2024 trust name,1,Package003_Healthcare,1,55
+AICTE Official Website,1,Package002_Education,1,55
+AICTE official SWAYAM bureau page; SWAYAM official website,1,Package006_Skills_and_Training,1,55
+Official college website (aiimsmangalagiri.edu.in); aggregator cross-check,1,Package003_Healthcare,1,55
+Generic PMFME/AP Food Processing Policy scheme facts (see other rows); Coconut Board of India coconut-scenario article; India Stat Districts coconut production data (East Godavari); ResearchGate economic-analysis paper on West Godavari coconut cultivation; Entrepreneur India (Coco Soul/ITC D2C reporting); Svaadh Foods coconut-oil-brands comparison article,1,Package004_Industries,1,85
+Apprenticeship India portal; DGT,1,Package007_Government_Schemes,1,85
+APSSDC official website (via search snippet); Government of Andhra Pradesh district portal (tirupati.ap.gov.in/apssdc); India.gov.in National Portal service listing,1,Package006_Skills_and_Training,1,55
+Arduino,1,Package006_Skills_and_Training,1,55
+ARM,1,Package006_Skills_and_Training,1,55
+Autodesk,1,Package006_Skills_and_Training,1,55
+"WebSearch aggregated (schemesinindia.in, Bajaj Finserv, alp.consulting, govtschemesindia.com)",1,Package006_Skills_and_Training,1,55
+"WebSearch cross-check (bajajfinserv.in, nsphelp.in, yojanagyan.in, anantamias.com - multiple aggregators consistent)",1,Package002_Education,1,55
+"Aggregator search snippets (banodoctor.com, targetneet.com)",1,Package003_Healthcare,1,55
+Bureau of Indian Standards,1,Package008_MSME,1,85
+WebSearch aggregation: britishschooloflanguages.com and Justdial business listings referencing this PMKK,1,Package006_Skills_and_Training,1,55
+"WebSearch cross-check (buddy4study.com, teachersbadi.in, schemesinindia.in, mahadevmaitri.org)",1,Package002_Education,1,55
+"WebSearch cross-check (buddy4study.com, indiascholarships.in, multiple aggregators consistent on Rs 50,000 figure)",1,Package002_Education,1,55
+Official college website (caims.in); aggregator cross-check,1,Package003_Healthcare,1,55
+"WebSearch aggregation: Shikshan.org, Careers360, Collegedunia listings",1,Package006_Skills_and_Training,1,55
+Aggregator search snippets (careers360.com),1,Package003_Healthcare,1,55
+WebSearch aggregation: careers360.com listing title only; full course/address detail not retrieved before this session's WebSearch quota was exhausted,1,Package006_Skills_and_Training,1,55
+"WebSearch aggregated (Cashfree, Sarkari Yojana, HDFC Bank, District Industries Centre Puducherry)",1,Package004_Industries,1,55
+CBSE Official Website,1,Package002_Education,1,85
+"WebSearch aggregated (CGTMSE official site, Vajiram & Ravi, BankBazaar, Ministry of MSME PDF)",1,Package004_Industries,1,55
+Coursera / Google Career Certificates official program pages,1,Package006_Skills_and_Training,1,55
+"CSDCI/NSDC Tile Mason qualification pack and NQR qualification file; Kajaria Ceramics and Gresbond company/product materials; Somany Tile Master CSR programme documentation (CSRBox, India Masons); tile-laying-machine/robot industry-technology sources",1,Package004_Industries,1,55
+CSDCI/NSDC Assistant False Ceiling and Drywall Installer and Foreman qualification packs; Saint-Gobain Gyproc company and product materials; Startuppedia profile of Ceiling Banao/Manoj Kumar Mishra; Bangalore Insider profile of MyCeiling Pvt Ltd,1,Package004_Industries,1,55
+Databricks,1,Package006_Skills_and_Training,1,55
+WebSearch cross-check (jnanabhumi.ap.gov.in referenced across many results; renaming confirmed via GO No. 4 dated 18-Jun-2024 per Deccan Chronicle and other news coverage),1,Package002_Education,1,55
+WebSearch cross-check (telanganaepass.cgg.gov.in referenced; corroborated by deccanchronicle.com news article and teachersbadi.in),1,Package002_Education,1,55
+WebSearch aggregation summarizing DESW/ECHS official material via secondary sources,1,Package003_Healthcare,1,85
+"WebSearch aggregated (Devdiscourse, IndiaFilings, Vikaspedia, PIB)",1,Package006_Skills_and_Training,1,55
+DGCA,1,Package006_Skills_and_Training,1,85
+National Academic Depository; DigiLocker,1,Package007_Government_Schemes,1,85
+"WebSearch aggregated (Drishti IAS, Insights on India, Delhi govt district portal, World Bank press release)",1,Package006_Skills_and_Training,1,55
+EC-Council,1,Package006_Skills_and_Training,1,55
+"WebSearch cross-check (education.gov.in, myscheme.gov.in listed among results; content summarized via secondary aggregators buddy4study.com and sabscholarship.com)",1,Package002_Education,1,85
+"Aggregator search snippets (edufever, careermarg, moksh16)",1,Package003_Healthcare,1,55
+"SBTET/Telangana Electrical Licensing Board procedure summaries (Electrical4u, Wikiprocedure); Telangana State Electrical Licensing Regulations, 2018 (secondary summary); EV charging market reports (IBEF, Elektree); Knight Frank Skilled Employment in Construction report; BEE Star Rating programme materials",1,Package004_Industries,1,55
+ESSCI Qualification Pack; NSDC job role listing,1,Package006_Skills_and_Training,1,55
+FANUC,1,Package006_Skills_and_Training,1,55
+FANUC America CERT program page; FANUC India Academy page,1,Package006_Skills_and_Training,1,55
+Food Industry Capacity & Skill Initiative (FICSI) Multi-Skill Technician (Food Processing) NCVET-approved Qualification File; NABARD paper on Farmer Producer Organisations (Status & Issues),1,Package006_Skills_and_Training,1,55
+"FutureSkills Prime official website (About Us, Govt of India Incentives pages); Digital India (MeitY) initiative page; NIELIT official reference",1,Package006_Skills_and_Training,1,55
+Official college website (gmcknr.com); aggregator corroboration,1,Package003_Healthcare,1,55
+"gmcnandyal-ap-gov.com; gmcnandyalaap-govt.in; nyraeducation.in (WebSearch snippets only, no direct fetch)",1,Package003_Healthcare,1,55
+gmcongole.org (via WebSearch snippet),1,Package003_Healthcare,1,55
+Aggregator search snippets; Deccan Herald news coverage,1,Package003_Healthcare,1,55
+"WebSearch aggregation: institution's own domain (govtpolyvisakhapatnam.in) surfaced in results; corroborated by Shikshan.org, Kollegeapply, TestPrepKart",1,Package006_Skills_and_Training,1,55
+"WebSearch aggregated (Legal Service India, IBEF, IIFL, News on Air)",1,Package004_Industries,1,55
+"WebSearch aggregation of seller-guide and platform documentation sources; WebSearch aggregation of seller-earnings, AI-tooling, GST-compliance and market-size sources (2026-07-24 pass)",1,Package004_Industries,1,55
+WebSearch aggregation of policy-analysis and scheme-portal sources; WebSearch aggregation of CSC-VLE income/success-story and ODOP district-product sources (2026-07-24 pass),1,Package004_Industries,1,55
+Income Tax Department,1,Package007_Government_Schemes,1,85
+State governments,1,Package007_Government_Schemes,1,85
+"Aggregator search snippets (indiaccess.com, careers360)",1,Package003_Healthcare,1,55
+"Telangana Water, Land and Trees Act, 2002 (India Code, secondary summary); Wikiprocedure Telangana borewell-registration summary; CGWA guidance; commercial rig-pricing listings (TradeIndia, IndiaMART, Ganesh Drillers Hyderabad); groundwater-depletion research (MDPI Bengaluru case study, Deccan Herald Karnataka reporting); Jal Sanchay Jan Bhagidari and Atal Bhujal Yojana government initiatives (PIB/SANDRP)",1,Package004_Industries,1,85
+WebSearch aggregation of industry/commerce blog sources; WebSearch aggregation of WhatsApp-commerce and kirana-automation sources (2026-07-24 pass),1,Package004_Industries,1,55
+IREDA,1,Package006_Skills_and_Training,1,55
+Indian Banks' Association model scheme; Department of Financial Services,1,Package007_Government_Schemes,1,55
+kmcwgl.com; Mappls; thewarangal.com (via WebSearch snippets),1,Package003_Healthcare,1,55
+Third-party certification cost aggregators referencing Microsoft/Pearson VUE pricing,1,Package006_Skills_and_Training,1,55
+Ministry of MSME,1,Package007_Government_Schemes,1,85
+"KVIC/PMEGP project profile 'Red Chilli Powder Production Unit' (kviconline.gov.in); PMFME Model DPR - Byadgi Chilli Processing Unit (NIFTEM); MSME-DI Hyderabad Brief Industrial Profile; ThePrint reporting on Guntur chilli exports and China trade; gunturmirchi.in market-yard data; PMFME Telangana Common Infrastructure page (Chilli Incubation Centre, RARS Warangal); organicmandya.com and Tribune India coverage of chilli-powder adulteration/recalls",1,Package004_Industries,1,85
+"KVIC/PMEGP common project profiles: Handmade Pickle, Lime Pickle (kviconline.gov.in); Government of Telangana MSME Policy Order; e-commerce-seller market commentary on regional packaged foods (2026)",1,Package004_Industries,1,85
+"KVIC/PMEGP common project profiles: Handmade Pickle, Lime Pickle, Tomato Products and Pickles (kviconline.gov.in); RSETI training press coverage; AP Food Processing Policy 4.0; 30stades.com (Bhogaraju Foods success story); ffreedom.com pickle-business course listing; e-commerce-seller market commentary on regional packaged foods (2026)",1,Package004_Industries,1,85
+KVIC (Khadi and Village Industries Commission) / PMEGP official common project profile: 'MASALA MAKING UNIT (MEDIUM)'; Brandz Magazine (Badshah Masala success story); IIFL Finance spice-business start-up guide; IndiaMART (Confider Industries LLP pulverizer listing); Udyogwardhini spice-processing course listing,1,Package004_Industries,1,85
+"KVIC (Khadi and Village Industries Commission) / PMEGP official common project profile: 'MASALA MAKING UNIT (SMALL)'; Brandz Magazine (Badshah Masala success story); IIFL Finance spice-business start-up guide; IndiaMART (Kumawat Engineering Works pulveriser listing); Udyogwardhini spice-processing course listing; YouTube (home-based masala/spice-business tutorials, titles cited in field)",1,Package004_Industries,1,85
+"KVIC (Khadi and Village Industries Commission) / PMEGP official common project profile: 'PROJECT PROFILE ON GROUNDNUT OIL AND OIL CAKE MANUFACTURING'; Tata Simply Better, Earthen Story, Little Farmer India, KachiGhaani.com, Avitus Foods (D2C brand websites); SiliconIndia '10 Best Cold Pressed Oil Brand Startups' ranking; Deccan Chronicle (Anantapur groundnut decline reporting); PMC/NCBI review on cold-pressed oilseed cakes",1,Package004_Industries,1,85
+"KVIC/PMEGP common project profiles (kviconline.gov.in): Masala Making Unit, Spice Grinding Unit, Cumin Powder; MSME-DI Hyderabad Brief Industrial Profile (turmeric-producer fact); PIB/DD News/Agro Spectrum India coverage of the National Turmeric Board inauguration (July 2025); Swarajya Mag and related coverage on spice adulteration; Investing.com/Kedia Advisory turmeric price-seasonality reporting; IndiaMART turmeric-processing-machine listings; Udyogwardhini spice-processing course listing",1,Package004_Industries,1,85
+"WebSearch aggregated (Legal Service India, myHQ, Vakilsearch, RegisterKaro, Patron Accounting)",1,Package004_Industries,1,55
+DGCA drone licensing process as described by industry RPTO training providers (primary DGCA/eGCA government pages could not be directly fetched due to access restrictions on .gov.in domains),1,Package006_Skills_and_Training,1,55
+Cross-checked via Manabadi and Shiksha; convenor contact confirms Acharya Nagarjuna University as conducting institution,1,Package002_Education,1,55
+Maruti Suzuki official CSR/ITI-upgradation page; CSRBox news coverage of the ASEC initiative,1,Package006_Skills_and_Training,1,55
+Maruti Suzuki official corporate website; Youth4work institutional profile,1,Package006_Skills_and_Training,1,55
+Ministry of Corporate Affairs,1,Package005_Agriculture,1,85
+McKinsey,1,Package006_Skills_and_Training,1,62
+"WebSearch aggregation of platform/industry sources; WebSearch aggregation of Dukaan seller-story, Meta AI-tooling and market-size sources (2026-07-24 pass)",1,Package004_Industries,1,55
+"WebSearch cross-check (minorityaffairs.gov.in and indiascienceandtechnology.gov.in listed among results; corroborated by buddy4study.com, india.gov.in)",1,Package002_Education,1,85
+"WebSearch cross-check (minorityaffairs.gov.in and indiascienceandtechnology.gov.in listed among results; corroborated by testbook.com, mahadevmaitri.org, indiascholarships.in)",1,Package002_Education,1,85
+WebSearch aggregation (NHA/MoHFW press material summarized by secondary sources; no direct .gov.in fetch this session),1,Package003_Healthcare,1,85
+"Aggregator college-listing sites (moksh16.com, careers360.com) via WebSearch snippets",1,Package003_Healthcare,1,55
+"Aggregator search snippets (moksh16.com, rmgoe.org)",1,Package003_Healthcare,1,55
+MSDE official PMKK scheme page; IMPRI India policy-update brief on PMKKs (2025); YouthPower India institutional listing for Hyderabad PMKK,1,Package006_Skills_and_Training,1,85
+"WebSearch aggregated (MSDE official site, PIB, MyScheme, YouthPower India, YuvaSathi)",1,Package006_Skills_and_Training,1,85
+MSDE PMKVY 4.0 Guidelines; myScheme government scheme portal,1,Package006_Skills_and_Training,1,85
+MSME-DI Thrissur project profile on Aluminium Fabrication; KVIC PMEGP common project profile documents (search-snippet level); Jindal Aluminium and Hindalco company materials; Entrepreneur Street profile of Aluguard Systems; NIIR aluminium-fabrication business-idea industry summary,1,Package004_Industries,1,85
+WebSearch cross-check (NBA official site + Ministry of Education page),1,Package002_Education,1,55
+NDDB; Department of Animal Husbandry & Dairying,1,Package005_Agriculture,1,55
+MoHFW,1,Package006_Skills_and_Training,1,85
+NIELIT official website (Hyderabad centre page),1,Package006_Skills_and_Training,1,85
+NIELIT official 'A' Level page; NIELIT NSQF-aligned courses annexure,1,Package006_Skills_and_Training,1,55
+NIELIT official course page; NIELIT exam FAQ aggregator,1,Package006_Skills_and_Training,1,55
+NIELIT official 'O' Level page; National Qualification Register (NQR),1,Package006_Skills_and_Training,1,55
+NIIT official corporate website; NIIT Foundation official website,1,Package006_Skills_and_Training,1,55
+DGT/NCVT Turner and Machinist CTS Qualification Files; CNC Machinist 3-Axis Short-Term Course Qualification File; Bharat Skills CITS Machinist & Operator Advance Machine Tool curriculum,1,Package006_Skills_and_Training,1,55
+NIRF Official Website,1,Package002_Education,1,55
+DGT/NCVT Plumber CTS and ATS Qualification Files (multiple curriculum versions at different NSQF levels),1,Package006_Skills_and_Training,1,85
+National Qualification Register (NQR) Qualification File; B&WSSC official site,1,Package006_Skills_and_Training,1,85
+DGT/NCVET Electrician CTS 2.0 Qualification File; DGT apprenticeship (NAPS) framework; IASC Sector Skill Council PLC Technician QP; ESSCI Qualification Packs,1,Package006_Skills_and_Training,1,85
+"WebSearch aggregated (NSDC official site, Vajiram & Ravi, BankBazaar, Newkerala)",1,Package004_Industries,1,55
+"NSDC 'Construction Painter and Decorator' participant handbook/QP; National Qualifications Register (NQR) qualification file; Asian Paints dealership-model and app materials (Khatabook, StartupTalky, Asian Paints official app-store listings); paint-industry seasonal-demand analysis (Adgully, DKSH Insights, Business Standard)",1,Package004_Industries,1,55
+"WebSearch cross-check (dst.gov.in and indiascienceandtechnology.gov.in listed among results; corroborated by buddy4study.com, sabscholarship.com)",1,Package002_Education,1,85
+Oracle,1,Package006_Skills_and_Training,1,55
+PFRDA; NPS Trust,1,Package007_Government_Schemes,1,55
+PMFME Model DPR - Ragi/Small Millets Processing Unit (hosted on state PMFME portals); PIB/Agro Spectrum India coverage of Telangana's PJTSAU Millet Incubation Centre; Telangana Today news report on Chelpur unit; IIMR FPO-support data; The Better India (Troo Good and Health Sutra founder profiles); Future Market Insights / 6Wresearch / Ken Research millet-market-size reporting; OpenPR India millets-production data,1,Package004_Industries,1,85
+PIB press release on IIMR's millet-promotion/FPO-support activities; ICAR official feature on the Dhimsa FPO/Killoguda Custom Hiring Centre; Krishi Jagran coverage of ICAR-IIMR millet-processing-unit rollout for FPOs; millets.res.in IIMR FPO Profiles document,1,Package004_Industries,1,85
+PIB press release on PM Vishwakarma Yojana; DGT/NCVT ITI Carpenter syllabus (Bharat Skills/NSQF); KVIC PMEGP Wooden Furniture project profile; YourStory profile of Priti Ajay Hinge; Umaboy CNC router company materials; Archidply Industries company materials; Knight Frank Skilled Employment in Construction report,1,Package004_Industries,1,85
+PIB (Press Information Bureau) official press release on Skill India Digital Hub; India.gov.in National Portal service listing,1,Package006_Skills_and_Training,1,85
+"Cross-checked via PW Live, Apollo University blog and AP Teachers portal (application portal cets.apsche.ap.gov.in/ICET)",1,Package002_Education,1,55
+Red Hat official NSDC training and certification partnership page,1,Package006_Skills_and_Training,1,55
+"WebSearch aggregation: institution's own domain (sdivisakh.in) surfaced in results; corroborated by nationalskillsnetwork.in, Ministry of Petroleum & Natural Gas refining/skill-development page, Devex",1,Package006_Skills_and_Training,1,55
+Schneider Electric India EcoXpert partner program pages,1,Package006_Skills_and_Training,1,55
+Official Consortium of NLUs website cross-checked via Careers360 Law and Shiksha,1,Package002_Education,1,55
+Cross-checked via Shiksha and Findmycollege (application portal lawcet.tgche.ac.in),1,Package002_Education,1,55
+SIAM,1,Package006_Skills_and_Training,1,55
+WebSearch aggregation of contemporaneous news coverage (launch-week reporting),1,Package003_Healthcare,1,55
+Siemens,1,Package006_Skills_and_Training,1,55
+Siemens official SITRAIN SMSCP program page,1,Package006_Skills_and_Training,1,55
+MSDE; NSDC; Skill India Digital,1,Package007_Government_Schemes,1,85
+"WebSearch aggregated (SMFG India Credit, Paisabazaar, Credlix, Bajaj Finserv, AP district portals)",1,Package004_Industries,1,55
+"WebSearch aggregated (Sarkari Yojana, Stashfin, Matribhumi Samachar, Yojana Vichar)",1,Package004_Industries,1,55
+"WebSearch aggregation of business directories and industry articles; WebSearch aggregation of rental-platform, wedding-market-size and circular-fashion sources (2026-07-24 pass)",1,Package004_Industries,1,55
+Tally Academy authorized certification page; course-fee aggregator,1,Package006_Skills_and_Training,1,55
+"WebSearch aggregation: targetadmission.com, list.polytechniccolleges.in",1,Package006_Skills_and_Training,1,55
+"TASK official website; Department of IT, Electronics & Communications, Government of Telangana",1,Package006_Skills_and_Training,1,85
+"WebSearch aggregated (TASK official site, Telangana Web Directory, engineering college portals)",1,Package004_Industries,1,85
+Telangana State Portal (telangana.gov.in); cross-referenced via Wikipedia compilation citing the State Portal,1,Package001_Geography,1,85
+Telangana State Portal press releases (2024); The South First and Deccan Chronicle news coverage of the enabling Assembly bill,1,Package006_Skills_and_Training,1,85
+"WebSearch aggregated (Telangana State Portal, Business Standard, BankExamsToday, News on Air)",1,Package004_Industries,1,85
+CGTC,1,Package006_Skills_and_Training,1,85
+"WebSearch aggregated (TGIIC official site, Telangana Web Directory, The South First, Wikipedia via search summary)",1,Package004_Industries,1,85
+"WebSearch aggregated (The Hans India, aimindia.in, tirupati.ap.gov.in district portal, CBInsights)",1,Package006_Skills_and_Training,1,55
+Aggregator college-listing sites (via WebSearch snippets),1,Package003_Healthcare,1,55
+UGC Official Website (NAAC page) / WebSearch cross-check,1,Package002_Education,1,85
+UGC Official Website,1,Package002_Education,1,85
+"Third-party certification cost aggregators (uninets, networkershome) referencing Cisco/Pearson VUE pricing",1,Package006_Skills_and_Training,1,55
+upGrad official website and About Us page,1,Package006_Skills_and_Training,1,55
+YouTube,1,Package006_Skills_and_Training,1,55
+"Aggregator search snippets (zynerd.com, edufever.com)",1,Package003_Healthcare,1,55
+Official XAT portal (xatonline.in) cross-checked via InsideIIM and Shiksha,1,Package002_Education,1,55
+Ministry of Youth Affairs and Sports,1,Package007_Government_Schemes,1,85

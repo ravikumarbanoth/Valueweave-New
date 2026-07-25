@@ -1,0 +1,2 @@
+entity_a,name_a,package_a,entity_b,name_b,package_b,entity_type,similarity,shared_tokens,distinguishing_tokens,cross_package,recommendation,decision
+vw:industry:healthcare,Healthcare,Package008_MSME,vw:industry:healthcare-services,Healthcare Services,Package004_Industries,Industry,0.8759,healthcare,,True,REVIEW,PENDING_STEWARD_REVIEW

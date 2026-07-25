@@ -1,0 +1,59 @@
+{
+  "dataset_name": "education_support_mapping",
+  "package": "Package008_MSME",
+  "package_version": "1.0.0",
+  "file": "datasets/education_support_mapping.csv",
+  "layer": "6 - Cross-Package Mapping",
+  "purpose": "Educational and skilling institutions that supply talent to MSME categories.",
+  "primary_key": "mapping_id",
+  "record_count": 13,
+  "column_count": 15,
+  "columns": [
+    "mapping_id",
+    "support_entity_type",
+    "entity_name",
+    "package002_institution_id",
+    "package002_institution_name",
+    "package006_provider_id",
+    "package006_provider_name",
+    "supports_business_categories",
+    "support_nature",
+    "data_source",
+    "source_url",
+    "collection_date",
+    "confidence_score",
+    "verification_status",
+    "notes"
+  ],
+  "foreign_keys": [
+    {
+      "column": "package002_institution_id",
+      "references_dataset": "Package002_Education (cross-package)",
+      "references_column": "universities_telangana_andhra_pradesh.id"
+    },
+    {
+      "column": "package006_provider_id",
+      "references_dataset": "Package006_Skills_and_Training (cross-package)",
+      "references_column": "training_providers.provider_id"
+    }
+  ],
+  "collection_date": "2026-07-25",
+  "collection_mode": "Knowledge synthesis from documented public sources (WebFetch to government domains blocked by environment egress policy)",
+  "source_tier": "Tier 1-2 (Package002 and Package006 reconciliation)",
+  "methodology": "Two upstream packages, referenced by whichever holds the institution: degree-granting universities from Package002, and ITI, polytechnic, skill-mission and sector-academy networks from Package006. Each row states which MSME categories it feeds and the nature of the support, so the dataset answers 'where does my workforce come from' rather than just listing institutions.",
+  "confidence_score_min": 64,
+  "confidence_score_max": 70,
+  "confidence_score_avg": 67.4,
+  "confidence_ceiling_policy": 85,
+  "verification_status": "VST-NEEDS_REVIEW",
+  "pending_verification_cells": 26,
+  "pending_verification_rate_pct": 13.33,
+  "pending_verification_columns": {
+    "package002_institution_id": 9,
+    "package002_institution_name": 9,
+    "package006_provider_id": 4,
+    "package006_provider_name": 4
+  },
+  "known_limitations": "Nine of 13 rows sentinel the Package002 id and four sentinel the Package006 id, because most rows legitimately belong to one package or the other, not both. Incubation and innovation-cell activity is noted in support_nature but is not separately catalogued -- startup_ecosystem.csv holds incubators. This is the only dataset in the package with no business_id: it maps institutions to categories, not to individual businesses.",
+  "release_status": "RELEASED in v1.0.0"
+}

@@ -1,0 +1,49 @@
+{
+  "dataset_name": "export_opportunities",
+  "package": "Package008_MSME",
+  "package_version": "1.0.0",
+  "file": "datasets/export_opportunities.csv",
+  "layer": "8 - Export",
+  "purpose": "Export-capable businesses with destination markets, required certifications, standards and the binding readiness barrier.",
+  "primary_key": "opportunity_id",
+  "record_count": 12,
+  "column_count": 15,
+  "columns": [
+    "opportunity_id",
+    "business_id",
+    "business_name",
+    "export_product",
+    "destination_markets",
+    "required_certifications",
+    "applicable_standards",
+    "export_readiness_barrier",
+    "promotion_body",
+    "data_source",
+    "source_url",
+    "collection_date",
+    "confidence_score",
+    "verification_status",
+    "notes"
+  ],
+  "foreign_keys": [
+    {
+      "column": "business_id",
+      "references_dataset": "msme_businesses.csv",
+      "references_column": "business_id"
+    }
+  ],
+  "collection_date": "2026-07-25",
+  "collection_mode": "Knowledge synthesis from documented public sources (WebFetch to government domains blocked by environment egress policy)",
+  "source_tier": "Tier 1 (DGFT; APEDA; Spices Board; Export Promotion Councils)",
+  "methodology": "Twelve businesses with realistic export potential. export_readiness_barrier is the most useful field and is stated per row: for garments it is social compliance audit readiness rather than product quality; for spices it is residue testing capability; for software it is data-protection compliance rather than any physical certification. Naming the actual blocker is more actionable than listing certifications alone.",
+  "confidence_score_min": 60,
+  "confidence_score_max": 72,
+  "confidence_score_avg": 66.2,
+  "confidence_ceiling_policy": 85,
+  "verification_status": "VST-NEEDS_REVIEW",
+  "pending_verification_cells": 0,
+  "pending_verification_rate_pct": 0.0,
+  "pending_verification_columns": {},
+  "known_limitations": "No export price, volume or realisation is asserted. Destination markets are the established ones for each category, not an exhaustive list. Certification requirements change with importing-country regulation -- the EU AI Act row is explicitly flagged as an emerging obligation. Only 12 of 40 businesses appear; the rest are domestic-market propositions and were not padded into this dataset.",
+  "release_status": "RELEASED in v1.0.0"
+}

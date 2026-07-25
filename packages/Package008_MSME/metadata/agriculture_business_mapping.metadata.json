@@ -1,0 +1,61 @@
+{
+  "dataset_name": "agriculture_business_mapping",
+  "package": "Package008_MSME",
+  "package_version": "1.0.0",
+  "file": "datasets/agriculture_business_mapping.csv",
+  "layer": "6 - Cross-Package Mapping",
+  "purpose": "Agro-based MSME businesses linked to Package005 crops and processing opportunities.",
+  "primary_key": "mapping_id",
+  "record_count": 14,
+  "column_count": 14,
+  "columns": [
+    "mapping_id",
+    "business_id",
+    "business_name",
+    "package005_crop_id",
+    "package005_crop_name",
+    "package005_processing_opportunity_id",
+    "package005_processing_opportunity_name",
+    "value_add_stage",
+    "data_source",
+    "source_url",
+    "collection_date",
+    "confidence_score",
+    "verification_status",
+    "notes"
+  ],
+  "foreign_keys": [
+    {
+      "column": "business_id",
+      "references_dataset": "msme_businesses.csv",
+      "references_column": "business_id"
+    },
+    {
+      "column": "package005_crop_id",
+      "references_dataset": "Package005_Agriculture (cross-package)",
+      "references_column": "crops.crop_id"
+    },
+    {
+      "column": "package005_processing_opportunity_id",
+      "references_dataset": "Package005_Agriculture (cross-package)",
+      "references_column": "agri_processing_opportunities.opportunity_id"
+    }
+  ],
+  "collection_date": "2026-07-25",
+  "collection_mode": "Knowledge synthesis from documented public sources (WebFetch to government domains blocked by environment egress policy)",
+  "source_tier": "Tier 1 (Package005 reconciliation)",
+  "methodology": "Two Package005 foreign keys per row. All 14 processing-side links resolve; 10 of 14 crop-side links resolve, with crop-agnostic businesses (cold storage, packaging, vermicompost) carrying the crop sentinel deliberately because they serve multiple crops.",
+  "confidence_score_min": 58,
+  "confidence_score_max": 74,
+  "confidence_score_avg": 70.0,
+  "confidence_ceiling_policy": 85,
+  "verification_status": "VST-NEEDS_REVIEW",
+  "pending_verification_cells": 8,
+  "pending_verification_rate_pct": 4.08,
+  "pending_verification_columns": {
+    "package005_crop_id": 4,
+    "package005_crop_name": 4
+  },
+  "known_limitations": "One row (drone services against rice milling) is a deliberately weak link retained at confidence 58 to record the agriculture adjacency; the notes column says so explicitly rather than presenting it as a strong relationship. Crop agronomy and processing economics stay in Package005.",
+  "release_status": "RELEASED in v1.0.0"
+}

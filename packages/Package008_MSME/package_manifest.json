@@ -1,0 +1,322 @@
+{
+  "package_name": "Package008_MSME",
+  "package_id": "PKG-008",
+  "package_title": "ValueWeave.in MSME and Entrepreneurship Intelligence Knowledge Base",
+  "version": "1.0.0",
+  "release_date": "2026-07-25",
+  "release_status": "Stable v1.0.0",
+  "scope": "Eighteen interlinked datasets forming the Business Intelligence Layer: 40 MSME business opportunities profiled across classification, difficulty, risk, technology and market, surrounded by machinery and raw material requirements, licence and compliance obligations, finance sources, market and export channels, AI tool adoption, startup ecosystem support and per-business investment intelligence -- bound to six released packages by reference rather than duplication.",
+  "knowledge_graph": "Entrepreneur -> Business Idea -> Skills -> Education -> Industry -> Agriculture -> Machinery -> Finance -> Government Scheme -> Production -> Market -> Export -> AI -> Growth -> Investment",
+  "normalization_rule": "The package brief makes non-duplication a hard requirement: Package008 SHALL NOT duplicate government schemes, skills, industries, geography, education or agriculture. This is enforced mechanically by validation check V13, not merely documented. V13 fails the build if any Package008 column name collides with an attribute owned by an upstream entity -- a scheme's benefit or ministry, a skill's NSQF level, a crop's season or yield, a district's population. Package008 stores the RELATIONSHIP between a business and an upstream entity, plus attributes of that relationship, and nothing more.",
+  "datasets_included": [
+    {
+      "name": "msme_categories",
+      "layer": "1 - Reference Taxonomy",
+      "records": 24,
+      "columns": 14,
+      "primary_key": "category_id",
+      "confidence_score_range": "58-78",
+      "confidence_avg": 70.6,
+      "verification_status": "VST-NEEDS_REVIEW"
+    },
+    {
+      "name": "business_models",
+      "layer": "1 - Reference Taxonomy",
+      "records": 15,
+      "columns": 14,
+      "primary_key": "business_model_id",
+      "confidence_score_range": "64-76",
+      "confidence_avg": 70.7,
+      "verification_status": "VST-NEEDS_REVIEW"
+    },
+    {
+      "name": "license_compliance",
+      "layer": "4 - Compliance",
+      "records": 14,
+      "columns": 16,
+      "primary_key": "license_id",
+      "confidence_score_range": "66-78",
+      "confidence_avg": 71.4,
+      "verification_status": "VST-NEEDS_REVIEW"
+    },
+    {
+      "name": "financial_support",
+      "layer": "5 - Finance",
+      "records": 12,
+      "columns": 15,
+      "primary_key": "finance_id",
+      "confidence_score_range": "62-76",
+      "confidence_avg": 71.2,
+      "verification_status": "VST-NEEDS_REVIEW"
+    },
+    {
+      "name": "market_channels",
+      "layer": "7 - Market Access",
+      "records": 11,
+      "columns": 15,
+      "primary_key": "channel_id",
+      "confidence_score_range": "62-74",
+      "confidence_avg": 68.5,
+      "verification_status": "VST-NEEDS_REVIEW"
+    },
+    {
+      "name": "ai_business_tools",
+      "layer": "9 - Technology Adoption",
+      "records": 12,
+      "columns": 15,
+      "primary_key": "tool_id",
+      "confidence_score_range": "57-72",
+      "confidence_avg": 63.1,
+      "verification_status": "VST-NEEDS_REVIEW"
+    },
+    {
+      "name": "startup_ecosystem",
+      "layer": "10 - Support Ecosystem",
+      "records": 12,
+      "columns": 15,
+      "primary_key": "ecosystem_id",
+      "confidence_score_range": "66-76",
+      "confidence_avg": 70.2,
+      "verification_status": "VST-NEEDS_REVIEW"
+    },
+    {
+      "name": "msme_businesses",
+      "layer": "2 - Core Entity",
+      "records": 40,
+      "columns": 26,
+      "primary_key": "business_id",
+      "confidence_score_range": "63-74",
+      "confidence_avg": 69.0,
+      "verification_status": "VST-NEEDS_REVIEW"
+    },
+    {
+      "name": "machinery_mapping",
+      "layer": "3 - Input Requirements",
+      "records": 64,
+      "columns": 16,
+      "primary_key": "mapping_id",
+      "confidence_score_range": "61-72",
+      "confidence_avg": 66.8,
+      "verification_status": "VST-NEEDS_REVIEW"
+    },
+    {
+      "name": "raw_material_mapping",
+      "layer": "3 - Input Requirements",
+      "records": 33,
+      "columns": 17,
+      "primary_key": "mapping_id",
+      "confidence_score_range": "60-72",
+      "confidence_avg": 66.5,
+      "verification_status": "VST-NEEDS_REVIEW"
+    },
+    {
+      "name": "scheme_mapping",
+      "layer": "6 - Cross-Package Mapping",
+      "records": 57,
+      "columns": 14,
+      "primary_key": "mapping_id",
+      "confidence_score_range": "61-73",
+      "confidence_avg": 67.8,
+      "verification_status": "VST-NEEDS_REVIEW"
+    },
+    {
+      "name": "skill_mapping",
+      "layer": "6 - Cross-Package Mapping",
+      "records": 53,
+      "columns": 14,
+      "primary_key": "mapping_id",
+      "confidence_score_range": "57-72",
+      "confidence_avg": 66.4,
+      "verification_status": "VST-NEEDS_REVIEW"
+    },
+    {
+      "name": "industry_mapping",
+      "layer": "6 - Cross-Package Mapping",
+      "records": 19,
+      "columns": 13,
+      "primary_key": "mapping_id",
+      "confidence_score_range": "60-74",
+      "confidence_avg": 68.6,
+      "verification_status": "VST-NEEDS_REVIEW"
+    },
+    {
+      "name": "agriculture_business_mapping",
+      "layer": "6 - Cross-Package Mapping",
+      "records": 14,
+      "columns": 14,
+      "primary_key": "mapping_id",
+      "confidence_score_range": "58-74",
+      "confidence_avg": 70.0,
+      "verification_status": "VST-NEEDS_REVIEW"
+    },
+    {
+      "name": "education_support_mapping",
+      "layer": "6 - Cross-Package Mapping",
+      "records": 13,
+      "columns": 15,
+      "primary_key": "mapping_id",
+      "confidence_score_range": "64-70",
+      "confidence_avg": 67.4,
+      "verification_status": "VST-NEEDS_REVIEW"
+    },
+    {
+      "name": "district_business_mapping",
+      "layer": "6 - Cross-Package Mapping",
+      "records": 32,
+      "columns": 16,
+      "primary_key": "mapping_id",
+      "confidence_score_range": "62-74",
+      "confidence_avg": 67.9,
+      "verification_status": "VST-NEEDS_REVIEW"
+    },
+    {
+      "name": "export_opportunities",
+      "layer": "8 - Export",
+      "records": 12,
+      "columns": 15,
+      "primary_key": "opportunity_id",
+      "confidence_score_range": "60-72",
+      "confidence_avg": 66.2,
+      "verification_status": "VST-NEEDS_REVIEW"
+    },
+    {
+      "name": "investment_intelligence",
+      "layer": "11 - Investment Intelligence",
+      "records": 40,
+      "columns": 20,
+      "primary_key": "intelligence_id",
+      "confidence_score_range": "61-72",
+      "confidence_avg": 67.0,
+      "verification_status": "VST-NEEDS_REVIEW"
+    }
+  ],
+  "total_datasets": 18,
+  "total_records": 477,
+  "businesses_catalogued": 40,
+  "import_order": [
+    "msme_categories",
+    "business_models",
+    "license_compliance",
+    "financial_support",
+    "market_channels",
+    "ai_business_tools",
+    "startup_ecosystem",
+    "msme_businesses",
+    "machinery_mapping",
+    "raw_material_mapping",
+    "scheme_mapping",
+    "skill_mapping",
+    "industry_mapping",
+    "agriculture_business_mapping",
+    "education_support_mapping",
+    "district_business_mapping",
+    "export_opportunities",
+    "investment_intelligence"
+  ],
+  "import_order_rationale": "Independent reference taxonomies first (categories, models, licences, finance, channels, AI tools, ecosystem), then msme_businesses which depends on categories and models, then the eight mapping datasets that depend on msme_businesses plus upstream packages, and investment_intelligence last since it derives from the business record.",
+  "data_statistics": {
+    "total_datasets": 18,
+    "total_records": 477,
+    "total_cells": 7770,
+    "pending_verification_cells": 289,
+    "pending_verification_rate_pct": 3.72
+  },
+  "confidence_statistics": {
+    "overall_range": "57-78",
+    "ceiling_policy": 85,
+    "note": "The ceiling reflects that no row rests on a primary-source page read. The floor of 57 occurs on rows recording a genuine upstream absence (a required skill with no Package006 record) and on emerging-technology assessments -- in both cases the low score is the honest signal."
+  },
+  "cross_package_integration": {
+    "Package001_Geography": "district_business_mapping.package001_dist_id -> district.dist_id (32 rows, all resolve)",
+    "Package002_Education": "education_support_mapping.package002_institution_id -> universities.id (4 resolve, 9 sentinel)",
+    "Package004_Industries": "industry_mapping.package004_opportunity_id -> id across 4 datasets (19 resolve, 0 sentinel)",
+    "Package005_Agriculture": "Three FK sets: raw_material_mapping.package005_crop_id and agriculture_business_mapping.package005_crop_id -> crops.crop_id; machinery_mapping.package005_machinery_id -> farm_machinery.machinery_id; agriculture_business_mapping.package005_processing_opportunity_id -> agri_processing_opportunities.opportunity_id",
+    "Package006_Skills_and_Training": "skill_mapping.package006_skill_id -> skills.skill_id (46 resolve, 7 sentinel); education_support_mapping.package006_provider_id -> training_providers.provider_id (9 resolve, 4 sentinel)",
+    "Package007_Government_Schemes": "scheme_mapping.package007_scheme_id -> government_schemes.scheme_id (57 rows, all resolve, 0 sentinel)",
+    "Package003_Healthcare": "No foreign key. Healthcare appears as an MSME category (mc-008) but Package003 holds institutions and insurance schemes, not enterprise opportunities, so there is no counterpart record to reference."
+  },
+  "cross_package_fk_resolution": {
+    "Package001 district": {
+      "resolved": 32,
+      "sentinel": 0
+    },
+    "Package002 institution": {
+      "resolved": 4,
+      "sentinel": 9
+    },
+    "Package005 crop (raw material)": {
+      "resolved": 12,
+      "sentinel": 21
+    },
+    "Package005 crop (agri business)": {
+      "resolved": 10,
+      "sentinel": 4
+    },
+    "Package005 machinery": {
+      "resolved": 10,
+      "sentinel": 54
+    },
+    "Package005 processing": {
+      "resolved": 14,
+      "sentinel": 0
+    },
+    "Package006 skill": {
+      "resolved": 46,
+      "sentinel": 7
+    },
+    "Package006 provider": {
+      "resolved": 9,
+      "sentinel": 4
+    },
+    "Package007 scheme": {
+      "resolved": 57,
+      "sentinel": 0
+    },
+    "Package004 opportunity": {
+      "resolved": 19,
+      "sentinel": 0
+    }
+  },
+  "environment_constraint": "Direct WebFetch to .gov.in / .nic.in / .ac.in domains is blocked by this session's organizational egress policy, as it was for Package004 through Package007. Every row is attributed to the ministry, authority or association that governs it, and confidence is capped at 85. Where a figure would have required primary-source confirmation -- investment requirement, machinery cost, payment cycle, lead time to revenue -- the bare PENDING_VERIFICATION sentinel is written instead of an estimate. See docs/METHODOLOGY.md.",
+  "validation": {
+    "checks_run": [
+      "V1 structural column count",
+      "V2 primary-key uniqueness",
+      "V3 mandatory provenance columns",
+      "V4 confidence integer/range/ceiling",
+      "V5 bare-sentinel discipline",
+      "V6 verification_status enum",
+      "V7 uniform collection_date",
+      "V8 in-package foreign keys and denormalised names",
+      "V9 cross-package foreign keys (Package001/002/004/005/006/007)",
+      "V10 no blank cells",
+      "V11 business coverage (scheme, skill, machinery, investment per business)",
+      "V12 closed enum domains",
+      "V13 NORMALIZATION - mechanically enforces the non-duplication rule"
+    ],
+    "violations": 0,
+    "result": "PASS",
+    "normalization_check": "V13 PASS",
+    "validator": "validate.py (in-package, re-runnable)"
+  },
+  "known_limitations": [
+    "No rupee investment figure is asserted for any business. udyam_classification carries the statutory Micro/Small/Medium signal instead; investment_range is the sentinel on all 40 rows.",
+    "No machinery cost, payment cycle or lead-time-to-revenue is asserted.",
+    "investment_intelligence contains no computed return, percentage or payback period -- every field is ordinal, because computing any of them would need the figures the package does not assert.",
+    "district_business_mapping is deliberately sparse (32 rows): suitability is asserted only where a documented district characteristic drives it.",
+    "industry_mapping covers 19 of 40 businesses; the rest have no Package004 counterpart.",
+    "Seven skill_mapping rows sentinel the Package006 id because Package006 v1.0.0 has no matching skill record -- a real upstream coverage gap, recorded rather than papered over.",
+    "No foreign key into Package003_Healthcare: healthcare appears as an MSME category but Package003 holds institutions and insurance schemes, not enterprise opportunities.",
+    "State-specific MSME incentive policies are not catalogued; Package004 holds the Telangana and Andhra Pradesh policy records."
+  ],
+  "planned_next_release": {
+    "v1.1.0": [
+      "Investment and machinery cost bands sourced from DIC and MSME-DI project profiles -- would clear the largest sentinel cluster and is the main blocker to entrepreneur-facing use",
+      "Expand msme_businesses beyond 40 toward full category coverage (semiconductors, robotics and creative industries are thinly represented)",
+      "State MSME incentive mapping, reconciled against the Package004 policy records",
+      "Package005 farm_machinery expansion so more non-agricultural machinery can be referenced rather than named as free text (54 of 64 machinery rows currently sentinel it)",
+      "Feed the seven unmatched skill requirements back into Package006 as a coverage request",
+      "Human data-steward review to move rows from VST-NEEDS_REVIEW to VST-VERIFIED"
+    ]
+  }
+}

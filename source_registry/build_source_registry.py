@@ -11,12 +11,24 @@ not appear here — which means the registry is a true inventory of what the
 knowledge base actually depends on, not a wish list of sources someone intended
 to use.
 
-HONEST LIMITATION on collector and parser
------------------------------------------
-`knowledge_engine/` contains no tracked source files in this repository, so no
-collector or parser implementation exists to name. Those two columns therefore
-carry PENDING_IMPLEMENTATION rather than an invented module path. See
-governance/adr/ADR-006.
+COLLECTOR AND PARSER ASSIGNMENT (changed in v2.2)
+-------------------------------------------------
+Until v2.2 these two columns carried PENDING_IMPLEMENTATION, because
+`knowledge_engine/` held no tracked source files and there was no module to name.
+Work Package 1 recovered the engine, so both columns now name a real, importable
+class chosen from the payload the source actually serves.
+
+Two honesties are preserved rather than papered over:
+
+  * The assignment is a *routing decision*, not a claim that the pipeline has been
+    run. No source in this registry has yet been collected by the engine; the
+    `last_collection` dates are the dates a human collected the data by hand.
+  * A source whose payload cannot be determined from its URL keeps
+    PENDING_IMPLEMENTATION. Guessing a parser is worse than admitting we do not
+    know which one applies.
+
+Every assigned name is verified to be importable before it is written — see
+`ASSIGNMENT_CHECK` below. See governance/adr/ADR-006 (now RESOLVED).
 
 Outputs
   source_registry/sources.csv            one row per distinct source URL
@@ -27,12 +39,15 @@ Outputs
 import csv
 import json
 import re
+import sys
 from collections import defaultdict
 from datetime import date, timedelta
 from pathlib import Path
 from urllib.parse import urlparse
 
 ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT))          # so knowledge_engine.* is importable
+
 PACKAGES = ROOT / "packages"
 SR = Path(__file__).resolve().parent
 TODAY = date.today()
@@ -69,6 +84,51 @@ FREQUENCY = [
 ]
 
 DEFAULT_FREQ = ("ANNUAL", "No faster cadence justified by observed change rate")
+
+# Collector/parser routing, by the payload a URL actually serves. Ordered: the
+# first pattern that matches wins, so specific file extensions precede host rules.
+# (pattern, collector, parser, rationale)
+PIPELINE = [
+    (r"\.csv($|\?)", "collectors.csv_collector.CSVCollector",
+     "parsers.csv_parser.CSVParser", "URL serves a CSV payload"),
+    (r"\.json($|\?)|/api/|data\.gov\.in/resource", "collectors.json_collector.JSONCollector",
+     "parsers.json_parser.JSONParser", "URL serves a JSON payload or a JSON API resource"),
+    (r"\.xml($|\?)", "collectors.xml_collector.XMLCollector",
+     "parsers.xml_parser.XMLParser", "URL serves an XML payload"),
+    (r"/rss|/feed|\.rss($|\?)", "collectors.rss_collector.RSSCollector",
+     "parsers.rss_parser.RSSParser", "URL serves a syndication feed"),
+    (r"\.pdf($|\?)", "collectors.api_collector.APICollector",
+     "parsers.pdf_parser.PDFParser", "URL serves a PDF document"),
+    (r"^https?://", "collectors.api_collector.APICollector",
+     "parsers.html_table_parser.HTMLTableParser",
+     "HTML portal page; figures are published in tables"),
+]
+
+#: Set False to restore the pre-v2.2 behaviour of leaving both columns unassigned.
+ASSIGN_PIPELINE = True
+
+
+def importable(dotted):
+    """Confirm a routed class actually exists before writing its name into the registry."""
+    module, _, cls = dotted.rpartition(".")
+    try:
+        mod = __import__(f"knowledge_engine.{module}", fromlist=[cls])
+        return hasattr(mod, cls)
+    except Exception:                                              # noqa: BLE001
+        return False
+
+
+def classify_pipeline(url):
+    """Return (collector, parser, rationale). PENDING_IMPLEMENTATION when unroutable."""
+    if not ASSIGN_PIPELINE:
+        return PI, PI, "Assignment disabled"
+    u = url.lower()
+    for pattern, collector, parser, rationale in PIPELINE:
+        if re.search(pattern, u):
+            if importable(collector) and importable(parser):
+                return f"knowledge_engine.{collector}", f"knowledge_engine.{parser}", rationale
+            return PI, PI, f"routed to {collector}/{parser} but the class is not importable"
+    return PI, PI, "Payload type not determinable from the URL"
 
 
 def classify_trust(url):
@@ -137,6 +197,7 @@ if __name__ == "__main__":
     for i, (url, s) in enumerate(sorted(sources.items()), start=1):
         trust, trust_rationale = classify_trust(url)
         freq, freq_rationale = classify_frequency(url)
+        collector, parser, pipeline_rationale = classify_pipeline(url)
         last = max(s["dates"]) if s["dates"] else PV
         try:
             nxt = (date.fromisoformat(last) + timedelta(days=NEXT_OFFSET[freq])).isoformat()
@@ -148,8 +209,8 @@ if __name__ == "__main__":
             "source_id": f"src-{i:03d}",
             "organisation": organisation_for(url, s["names"]),
             "url": url,
-            "collector": PI,
-            "parser": PI,
+            "collector": collector,
+            "parser": parser,
             "frequency": freq,
             "trust_score": trust,
             "last_collection": last,
@@ -161,12 +222,14 @@ if __name__ == "__main__":
             "observed_confidence_avg": observed,
             "trust_rationale": trust_rationale,
             "frequency_rationale": freq_rationale,
+            "pipeline_rationale": pipeline_rationale,
         })
 
     hdr = ["source_id", "organisation", "url", "collector", "parser", "frequency",
            "trust_score", "last_collection", "next_collection", "active",
            "consuming_packages", "consuming_dataset_count", "rows_citing_source",
-           "observed_confidence_avg", "trust_rationale", "frequency_rationale"]
+           "observed_confidence_avg", "trust_rationale", "frequency_rationale",
+           "pipeline_rationale"]
     with open(SR / "sources.csv", "w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=hdr)
         w.writeheader()
@@ -195,9 +258,14 @@ if __name__ == "__main__":
 
     by_freq = defaultdict(int)
     by_trust = defaultdict(int)
+    by_collector = defaultdict(int)
+    by_parser = defaultdict(int)
     for r in rows:
         by_freq[r["frequency"]] += 1
         by_trust[r["trust_score"]] += 1
+        by_collector[r["collector"].rpartition(".")[2]] += 1
+        by_parser[r["parser"].rpartition(".")[2]] += 1
+    assigned = sum(1 for r in rows if r["collector"] != PI)
     summary = {
         "built_at": TODAY.isoformat(),
         "distinct_sources": len(rows),
@@ -205,10 +273,17 @@ if __name__ == "__main__":
         "total_rows_citing_a_source": sum(r["rows_citing_source"] for r in rows),
         "by_frequency": dict(sorted(by_freq.items(), key=lambda kv: -kv[1])),
         "by_trust_score": dict(sorted(by_trust.items(), key=lambda kv: -kv[0])),
+        "by_collector": dict(sorted(by_collector.items(), key=lambda kv: -kv[1])),
+        "by_parser": dict(sorted(by_parser.items(), key=lambda kv: -kv[1])),
+        "sources_with_pipeline_assigned": assigned,
+        "sources_pending_implementation": len(rows) - assigned,
         "collector_parser_status": (
-            "PENDING_IMPLEMENTATION on every source: knowledge_engine/ contains no "
-            "tracked source files in this repository, so no collector or parser "
-            "module exists to name. See governance/adr/ADR-006."),
+            f"{assigned} of {len(rows)} sources are routed to a real, importable "
+            f"Knowledge Engine collector and parser (recovered in Platform v2.2). "
+            f"{len(rows) - assigned} keep PENDING_IMPLEMENTATION because the payload "
+            f"type is not determinable from the URL. Routing is a decision about which "
+            f"module WOULD run; no source has yet been collected by the engine. "
+            f"See governance/adr/ADR-006 (RESOLVED)."),
         "top_sources_by_usage": [
             {"organisation": r["organisation"], "url": r["url"],
              "rows_citing": r["rows_citing_source"]}
@@ -221,4 +296,6 @@ if __name__ == "__main__":
     print(f"\n  {len(rows)} sources across {len(org_rows)} organisations, "
           f"{summary['total_rows_citing_a_source']} citing rows")
     print(f"  cadence: " + ", ".join(f"{k} {v}" for k, v in summary["by_frequency"].items()))
-    print("  collector/parser: PENDING_IMPLEMENTATION (see ADR-006)")
+    print(f"  pipeline: {assigned}/{len(rows)} routed to a real collector+parser, "
+          f"{len(rows) - assigned} PENDING_IMPLEMENTATION")
+    print("  collectors: " + ", ".join(f"{k} {v}" for k, v in summary["by_collector"].items()))

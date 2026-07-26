@@ -1,8 +1,22 @@
 # ADR-006: The Knowledge Engine Is Absent From This Repository
 
-**Status:** Accepted — issue recorded, action required
+**Status:** RESOLVED — superseded by Platform v2.2, Work Package 1
 **Date:** 2026-07-25
-**Severity:** High
+**Date resolved:** 2026-07-26
+**Severity:** High (at the time of writing)
+
+> **Resolution.** The premise of this ADR was correct — the engine was absent from `main` —
+> but its conclusion was reached without knowing where the engine had gone. The v2.1 audit
+> located it at commit `71ac7e1` on `claude/knowledge-engine-foundation`, complete, with
+> zero merge-conflict markers against the merge base. Platform v2.2 recovered it by
+> **merging that branch**, which preserves the original commit history of all 62 files
+> rather than re-adding them as new work.
+>
+> Everything below is retained as the record of what was believed on 2026-07-25. Two
+> things it says are no longer true: `git ls-files knowledge_engine` now returns 62, and
+> the source registry's `collector` / `parser` columns no longer have to say
+> `PENDING_IMPLEMENTATION` for want of a module to name. See `docs/KNOWLEDGE_ENGINE.md`
+> and `docs/MIGRATION_GUIDE.md`.
 
 ## Context
 

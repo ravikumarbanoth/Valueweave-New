@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-07-25",
+  "built_at": "2026-07-26",
   "distinct_sources": 605,
   "distinct_organisations": 469,
   "total_rows_citing_a_source": 2269,
@@ -17,7 +17,18 @@
     "55": 208,
     "45": 92
   },
-  "collector_parser_status": "PENDING_IMPLEMENTATION on every source: knowledge_engine/ contains no tracked source files in this repository, so no collector or parser module exists to name. See governance/adr/ADR-006.",
+  "by_collector": {
+    "APICollector": 604,
+    "RSSCollector": 1
+  },
+  "by_parser": {
+    "HTMLTableParser": 583,
+    "PDFParser": 21,
+    "RSSParser": 1
+  },
+  "sources_with_pipeline_assigned": 605,
+  "sources_pending_implementation": 0,
+  "collector_parser_status": "605 of 605 sources are routed to a real, importable Knowledge Engine collector and parser (recovered in Platform v2.2). 0 keep PENDING_IMPLEMENTATION because the payload type is not determinable from the URL. Routing is a decision about which module WOULD run; no source has yet been collected by the engine. See governance/adr/ADR-006 (RESOLVED).",
   "top_sources_by_usage": [
     {
       "organisation": "Package001_Geography district master; scheme guidelines",

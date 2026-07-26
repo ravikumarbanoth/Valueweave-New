@@ -1,0 +1,38 @@
+{
+  "canonical_package": "Package007_Government_Schemes",
+  "canonical_scheme_count": 40,
+  "domain_scheme_rows": 79,
+  "matched_to_canonical": 21,
+  "domain_canonical_unmatched": 58,
+  "distinct_canonical_schemes_referenced": 21,
+  "by_match_method": {
+    "NO_MATCH": 58,
+    "EXACT_NAME": 16,
+    "ACRONYM": 3,
+    "PORTAL": 2
+  },
+  "by_package": {
+    "Package002_Education": {
+      "rows": 25,
+      "matched": 3
+    },
+    "Package003_Healthcare": {
+      "rows": 9,
+      "matched": 1
+    },
+    "Package004_Industries": {
+      "rows": 18,
+      "matched": 5
+    },
+    "Package005_Agriculture": {
+      "rows": 12,
+      "matched": 8
+    },
+    "Package006_Skills_and_Training": {
+      "rows": 15,
+      "matched": 4
+    }
+  },
+  "fuzzy_threshold": 0.88,
+  "total_scheme_rows_platform_wide": 119
+}

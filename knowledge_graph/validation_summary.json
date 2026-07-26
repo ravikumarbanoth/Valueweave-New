@@ -11,6 +11,8 @@
   "connectivity_pct": 78.05,
   "package_csvs_checked_for_ownership": 77,
   "enforceable_owned_attributes": 87,
+  "domain_scheme_rows_governed": 79,
+  "domain_scheme_rows_deprecated_reference": 21,
   "checks_run": [
     "G1-IDENTITY",
     "G2-COMPLETENESS",
@@ -21,7 +23,8 @@
     "G7-OWNERSHIP",
     "G8-LIFECYCLE",
     "G9-CONFIDENCE",
-    "G10-ORPHANS"
+    "G10-ORPHANS",
+    "G11-SCHEME_OWNERSHIP"
   ],
   "violations": 0,
   "warnings": 1,

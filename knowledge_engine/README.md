@@ -1,7 +1,31 @@
 # ValueWeave Knowledge Engine (VKE)
 
 **Version:** 0.1.0 (Foundation)
-**Status:** New infrastructure — does not replace or modify Package001–Package004.
+**Status:** Recovered into `main` in Platform v2.2 · **COMPATIBLE** with Platform v2 (9/9 checks)
+
+> ### Recovery note (Platform v2.2, 2026-07-26)
+>
+> This engine was committed on `claude/knowledge-engine-foundation` at `71ac7e1` and was
+> never merged, so `main` carried none of it. ADR-006 recorded the absence; the v2.1
+> audit found the branch; Work Package 1 of v2.2 recovered it **by merging that branch**,
+> which preserves the original commit history of all 62 files rather than re-adding them
+> as new work.
+>
+> Compatibility with Platform v2 is verified, not assumed:
+>
+> ```bash
+> python3 knowledge_engine/check_compatibility.py   # 9 checks against the real packages
+> python3 -m unittest discover -s knowledge_engine/tests -t .   # 117 unit tests
+> ```
+>
+> Two consequences of recovery are already in effect: `source_registry/sources.csv` now
+> names real, importable collectors and parsers instead of `PENDING_IMPLEMENTATION`, and
+> `Package001_Geography` gained the `notes` column it was missing (compatibility check
+> C4). See `docs/KNOWLEDGE_ENGINE.md` and `docs/MIGRATION_GUIDE.md`.
+>
+> **What recovery did not do:** no source has yet been collected by this engine. Every
+> row in the knowledge base was gathered by hand. Routing a URL to a collector is a
+> decision about which module *would* run, not a claim that it has.
 
 The ValueWeave Knowledge Engine is the reusable backend that will collect, validate, version, and
 package every future ValueWeave knowledge domain (Agriculture, Skills, Government Schemes, MSME, and

@@ -1,0 +1,7 @@
+# The ValueWeave Knowledge Engine's runtime code (collectors/, parsers/, validation/, provenance/,
+# package_builder/, versioning/, update_engine/, rule_engine/) depends on the Python standard
+# library only — no third-party runtime dependency is required, by design, so this foundation can be
+# reviewed and run without provisioning anything.
+#
+# The lines below are for running the test suite only.
+pytest>=8.0.0

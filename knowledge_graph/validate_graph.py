@@ -18,6 +18,8 @@ Checks enforced before the graph is considered releasable:
   G8  Lifecycle           lifecycle_state is a registered state
   G9  Confidence          integer 0-100 on every entity and edge
   G10 Orphans             report entities with no edges (a warning, not a failure)
+  G11 Scheme ownership    ADR-003: one owner per type; every domain scheme row
+                          declares its relationship to the Package007 canonical row
 
 Exit code 0 = clean, 1 = violations found.
 
@@ -38,6 +40,8 @@ PACKAGES = ROOT / "packages"
 
 LIFECYCLE_STATES = ["DRAFT", "COLLECTED", "VALIDATED", "REVIEWED",
                     "APPROVED", "PUBLISHED", "ARCHIVED"]
+
+PV = "PENDING_VERIFICATION"
 
 violations = []
 warnings_ = []
@@ -249,6 +253,65 @@ if orphans:
          + ", ".join(f"{k} {v}" for k, v in sorted(orphans_by_type.items(),
                                                    key=lambda kv: -kv[1])))
 
+# ------------------------------------------------------------------------ G11
+# ADR-003 is decided: Package007 is the authoritative owner of GovernmentScheme.
+# A decision written only in a document decays. This check makes it mechanical.
+#
+# Three things must hold, and each fails the build:
+#   a) every entity type has exactly one owner in the registry
+#   b) every domain scheme row carries both governance columns
+#   c) every non-sentinel package007_scheme_id resolves to a real Package007 scheme
+SCHEME_OWNER = "Package007_Government_Schemes"
+SCHEME_GOVERNANCE_COLUMNS = ("package007_scheme_id", "scheme_ownership")
+SCHEME_OWNERSHIP_VALUES = {"DEPRECATED_REFERENCE", "DOMAIN_CANONICAL"}
+DOMAIN_SCHEME_DATASETS = {
+    "Package002_Education": "scholarships.csv",
+    "Package003_Healthcare": "government_health_insurance_schemes.csv",
+    "Package004_Industries": "msme_entrepreneurship_support_schemes.csv",
+    "Package005_Agriculture": "agriculture_schemes.csv",
+    "Package006_Skills_and_Training": "government_skill_schemes.csv",
+}
+
+owners_per_type = defaultdict(set)
+for row in read(KG / "ownership" / "ownership_registry.csv"):
+    owners_per_type[row["entity_type"]].add(row["owner_package"])
+for etype, owners in sorted(owners_per_type.items()):
+    if len(owners) > 1:
+        vio("G11-SCHEME_OWNERSHIP",
+            f"{etype} has {len(owners)} owners in the registry: {', '.join(sorted(owners))}")
+
+canonical_scheme_ids = {r["scheme_id"] for r in
+                        read(PACKAGES / SCHEME_OWNER / "datasets" / "government_schemes.csv")}
+g11_rows = g11_deprecated = 0
+for pkg, dataset in sorted(DOMAIN_SCHEME_DATASETS.items()):
+    path = PACKAGES / pkg / "datasets" / dataset
+    if not path.exists():
+        vio("G11-SCHEME_OWNERSHIP", f"{pkg}/{dataset} is missing")
+        continue
+    rows = read(path)
+    missing = [c for c in SCHEME_GOVERNANCE_COLUMNS if rows and c not in rows[0]]
+    if missing:
+        vio("G11-SCHEME_OWNERSHIP",
+            f"{pkg}/{dataset} lacks ADR-003 governance column(s): {', '.join(missing)}")
+        continue
+    for i, r in enumerate(rows, start=2):
+        g11_rows += 1
+        own, ref = r["scheme_ownership"], r["package007_scheme_id"]
+        if own not in SCHEME_OWNERSHIP_VALUES:
+            vio("G11-SCHEME_OWNERSHIP",
+                f"{pkg}/{dataset}:{i} scheme_ownership {own!r} is not one of "
+                f"{sorted(SCHEME_OWNERSHIP_VALUES)}")
+        elif own == "DEPRECATED_REFERENCE":
+            g11_deprecated += 1
+            if ref not in canonical_scheme_ids:
+                vio("G11-SCHEME_OWNERSHIP",
+                    f"{pkg}/{dataset}:{i} is DEPRECATED_REFERENCE but package007_scheme_id "
+                    f"{ref!r} is not a Package007 scheme")
+        elif ref != PV:
+            vio("G11-SCHEME_OWNERSHIP",
+                f"{pkg}/{dataset}:{i} is DOMAIN_CANONICAL but carries "
+                f"package007_scheme_id {ref!r}; expected the bare sentinel")
+
 # ------------------------------------------------------------------ reporting
 by_type = defaultdict(int)
 for e in entities:
@@ -271,9 +334,12 @@ summary = {
     "connectivity_pct": round(100 * connected / len(entities), 2) if entities else 0.0,
     "package_csvs_checked_for_ownership": g7_checked,
     "enforceable_owned_attributes": len(OWNED),
+    "domain_scheme_rows_governed": g11_rows,
+    "domain_scheme_rows_deprecated_reference": g11_deprecated,
     "checks_run": ["G1-IDENTITY", "G2-COMPLETENESS", "G3-TYPE", "G4-PROVENANCE",
                    "G5-EDGE_INTEGRITY", "G6-EDGE_TYPE", "G7-OWNERSHIP",
-                   "G8-LIFECYCLE", "G9-CONFIDENCE", "G10-ORPHANS"],
+                   "G8-LIFECYCLE", "G9-CONFIDENCE", "G10-ORPHANS",
+                   "G11-SCHEME_OWNERSHIP"],
     "violations": len(violations),
     "warnings": len(warnings_),
     "result": "PASS" if not violations else "FAIL",
@@ -286,6 +352,7 @@ print(f"  entity types ............. {len(by_type)} populated / {len(REGISTERED_
 print(f"  relationship types ....... {len(by_rel)} populated / {len(REGISTERED_RELS)} registered")
 print(f"  connectivity ............. {connected}/{len(entities)} ({summary['connectivity_pct']}%)")
 print(f"  package CSVs ownership-checked  {g7_checked}")
+print(f"  domain scheme rows governed  {g11_rows} ({g11_deprecated} DEPRECATED_REFERENCE, {g11_rows - g11_deprecated} DOMAIN_CANONICAL)")
 print()
 
 if warnings_:

@@ -1,0 +1,91 @@
+{
+  "checked_at": "2026-07-26",
+  "engine_version": "0.1.0",
+  "platform_version": "2.2.0",
+  "checks": [
+    {
+      "check": "C1",
+      "title": "Import surface",
+      "status": "PASS",
+      "detail": "10 modules, 49 exported symbols, 0 failures"
+    },
+    {
+      "check": "C2",
+      "title": "Sentinel agreement",
+      "status": "PASS",
+      "detail": "2456 cells hold the bare sentinel 'PENDING_VERIFICATION'; 0 non-bare occurrences in the six provenance columns",
+      "warning": "41 prose cells outside `notes` embed the sentinel in a sentence (Package002_Education 7, Package003_Healthcare 4, Package004_Industries 30). These predate the bare-sentinel discipline introduced in Package005 and are honest prose, not fabrication. The engine reads them correctly, so this is a data-remediation item, not an incompatibility."
+    },
+    {
+      "check": "C3",
+      "title": "Verification enum",
+      "status": "PASS",
+      "detail": "packages use ['VST-NEEDS_REVIEW']; engine defines ['VST-NEEDS_REVIEW', 'VST-REJECTED', 'VST-VERIFIED']; 0 unrepresented"
+    },
+    {
+      "check": "C4",
+      "title": "Provenance columns",
+      "status": "PASS",
+      "detail": "engine emits ['collection_date', 'confidence_score', 'data_source', 'notes', 'source_url', 'verification_status']; 77/77 package datasets carry all six",
+      "warning": "2 dataset(s) are header-only and hold no rows: Package001_Geography/mandal.csv, Package001_Geography/revenue_division_andhra_pradesh.csv. The columns are declared, so the engine can write into them; there is simply nothing there yet."
+    },
+    {
+      "check": "C5",
+      "title": "Confidence bands",
+      "status": "PASS",
+      "detail": "2299 scored cells, range 50-92, 38 distinct values, 0 unclassifiable"
+    },
+    {
+      "check": "C6",
+      "title": "Validation rules",
+      "status": "PASS",
+      "detail": "2 rules over 40 rows of government_schemes.csv: 0 violations"
+    },
+    {
+      "check": "C7",
+      "title": "Lifecycle vocabulary",
+      "status": "PASS",
+      "detail": "11 workflow states map onto 6 of 7 record lifecycle states; APPROVED is reached only by a steward, never by the engine"
+    },
+    {
+      "check": "C8",
+      "title": "Rule engine",
+      "status": "PASS",
+      "detail": "RuleQuery over 40 Package008 businesses returned 3 rows with risk_level == 'Low'"
+    },
+    {
+      "check": "C9",
+      "title": "Collector/parser availability",
+      "status": "PASS",
+      "detail": "5 collectors, 6 parsers are now nameable by the source registry (ADR-006 resolved)"
+    }
+  ],
+  "passed": 9,
+  "failed": 0,
+  "result": "COMPATIBLE",
+  "workflow_to_lifecycle_mapping": {
+    "CHECKING_SOURCE": "COLLECTED",
+    "DETECTING_CHANGES": "COLLECTED",
+    "VALIDATING": "VALIDATED",
+    "UPDATING_DATABASE": "VALIDATED",
+    "GENERATING_DRAFT": "DRAFT",
+    "PENDING_HUMAN_APPROVAL": "REVIEWED",
+    "STABLE_RELEASE": "PUBLISHED",
+    "REJECTED": "ARCHIVED"
+  },
+  "collectors": [
+    "api_collector",
+    "csv_collector",
+    "json_collector",
+    "rss_collector",
+    "xml_collector"
+  ],
+  "parsers": [
+    "CSVParser",
+    "JSONParser",
+    "XMLParser",
+    "RSSParser",
+    "HTMLTableParser",
+    "PDFParser"
+  ]
+}

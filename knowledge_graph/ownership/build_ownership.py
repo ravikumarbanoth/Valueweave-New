@@ -65,8 +65,8 @@ OWNERSHIP = [
      "Package008 is the Business Intelligence Layer; no other package models MSME opportunities."),
     ("GovernmentScheme", "Package007_Government_Schemes",
      "scheme_name;ministry;objective;benefit_summary;financial_assistance;eligibility;application_mode;official_portal;launch_year",
-     "scheme_id as a foreign key; relationship qualifiers such as relevance and applicable_stage",
-     "CONTESTED: five packages carry domain scheme slices predating Package007. See known_overlaps.csv and ADR-003."),
+     "package007_scheme_id as a foreign key; scheme_ownership declaring DEPRECATED_REFERENCE or DOMAIN_CANONICAL; relationship qualifiers such as relevance and applicable_stage",
+     "RESOLVED (ADR-003, v2.2): Package007 is authoritative. The 21 domain scheme rows with a Package007 counterpart carry package007_scheme_id and are marked DEPRECATED_REFERENCE; the 58 without one are DOMAIN_CANONICAL and remain owned by their domain package until promoted. See governance/ownership/scheme_crosswalk.csv."),
     ("Crop", "Package005_Agriculture",
      "crop_name;scientific_name;season;duration_days;water_requirement_mm;soil_type_preferred;rainfall_mm;avg_yield_tons_per_ha;major_states;major_districts",
      "crop_id as a foreign key",
@@ -104,8 +104,12 @@ OVERLAPS = [
      "Package002_Education;Package003_Healthcare;Package004_Industries;Package005_Agriculture;Package006_Skills_and_Training",
      "79 scheme rows exist across five domain packages, predating Package007. Package007 "
      "government_schemes.also_in_package declares every overlap.",
-     "UNRESOLVED", "ADR-003",
-     "Highest-priority governance decision in the platform. Three options are set out in ADR-003."),
+     "RESOLVED", "ADR-003",
+     "Resolved in Platform v2.2 by ADR-003 Option 1. Package007 is the authoritative owner. "
+     "Every one of the 79 domain rows now carries package007_scheme_id and scheme_ownership: "
+     "21 are DEPRECATED_REFERENCE pointing at a canonical Package007 scheme, 58 are "
+     "DOMAIN_CANONICAL because no Package007 counterpart exists. The crosswalk and its "
+     "match evidence are in governance/ownership/scheme_crosswalk.csv."),
     ("Industry", "Package004_Industries",
      "Package005_Agriculture;Package006_Skills_and_Training;Package008_MSME",
      "Four packages maintain independent sector taxonomies with overlapping labels "

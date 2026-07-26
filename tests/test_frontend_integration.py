@@ -273,6 +273,9 @@ class AdditiveTest(unittest.TestCase):
         "frontend/components/platform/KnowledgeSearch.jsx",
     ]
 
+    STEP_COMMIT_SUBJECT = ("Platform v3.0 Step 2: end-to-end application "
+                           "integration")
+
     def test_no_page_lost_more_than_a_handful_of_lines(self):
         """
         Integration should add, not rewrite.
@@ -280,24 +283,43 @@ class AdditiveTest(unittest.TestCase):
         A deletion here is not automatically wrong — a query gains a column, a
         function becomes async — but a large one means a page was reimplemented,
         which the brief rules out.
+
+        Measured against Step 2's own commit rather than `main...HEAD`. A branch
+        diff is empty once the branch merges, so the test would then pass by
+        examining nothing — which is worse than having no test, because it reports
+        confidence it never earned. The step's commit is fixed in history, so the
+        claim keeps being checked for as long as the repository exists.
         """
-        # Committed diff first; fall back to the working tree so this is meaningful
-        # before the branch is committed as well as after.
-        out = subprocess.run(["git", "diff", "--numstat", "main...HEAD", "--"]
-                             + self.TOUCHED, cwd=ROOT,
-                             capture_output=True, text=True).stdout
-        if not out.strip():
+        out = self._numstat_for_step_commit()
+        if out is None:
+            # Before the step is committed there is no commit to point at, so fall
+            # back to the working tree. This branch is the only one that can go
+            # unmeasured, and only while the work is uncommitted.
             out = subprocess.run(["git", "diff", "--numstat", "main", "--"]
                                  + self.TOUCHED, cwd=ROOT,
                                  capture_output=True, text=True).stdout
         if not out.strip():
-            self.skipTest("no diff against main in either the index or the tree")
+            self.fail("no diff found for Step 2 in either its commit or the working "
+                      "tree — this test cannot verify anything and must not pass")
         for line in out.strip().splitlines():
             added, removed, path = line.split("\t")
             with self.subTest(file=path):
                 self.assertLess(int(removed), 12,
                                 f"{path} removed {removed} lines — that is a rewrite, "
                                 f"not an integration")
+
+    def _numstat_for_step_commit(self):
+        """`--numstat` for the touched files in Step 2's commit, or None if absent."""
+        log = subprocess.run(["git", "log", "--all", "--format=%H%x09%s"],
+                             cwd=ROOT, capture_output=True, text=True).stdout
+        sha = next((line.split("\t", 1)[0] for line in log.splitlines()
+                    if line.split("\t", 1)[-1].strip() == self.STEP_COMMIT_SUBJECT),
+                   None)
+        if sha is None:
+            return None
+        return subprocess.run(["git", "diff", "--numstat", f"{sha}^", sha, "--"]
+                              + self.TOUCHED, cwd=ROOT,
+                              capture_output=True, text=True).stdout
 
     def test_existing_default_exports_survive(self):
         for rel in self.TOUCHED:

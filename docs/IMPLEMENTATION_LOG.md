@@ -158,10 +158,31 @@ claim needs the seven lines.
 `tests/test_frontend_integration.py` enforces the shape of this — no page may lose
 more than a handful of lines, and `package.json` must be byte-identical.
 
-That test had a real bug: it compared `main...HEAD`, which is empty while nothing is
-committed, so it passed by measuring nothing. Fixed with a working-tree fallback
-(`git diff --numstat main --`). **A test that passes because it examined an empty
-diff is worse than no test**, since it reports confidence it never earned.
+### The branch-diff bug, which turned out to be three tests
+
+`AdditiveTest` measured `main...HEAD`. That is empty while nothing is committed, so
+it passed by measuring nothing. The first fix added a working-tree fallback — which
+handled the pre-commit case and left the more dangerous one: **after the branch
+merges, `main...HEAD` is empty again**, and the test would have gone on passing
+against nothing for the rest of the repository's life.
+
+The same pattern was in two earlier steps' scope tests, and they are what exposed it.
+`test_no_package_or_frontend_file_is_modified_by_this_step` (Step 1.5) and
+`test_no_application_code_is_touched_by_this_step` (Step 0) both failed the moment
+Step 2 was committed — because a branch diff attributed *Step 2's* page edits to
+*their* step. They were correct to fire; they were measuring the wrong range.
+
+All three now diff **the step's own delivering commit against its parent**, located
+by commit subject. A step's scope is a claim about that step's commit, and once
+committed it is fixed in history: no later work can invalidate it, and there is no
+point at which the diff becomes empty. Verified non-vacuous — Step 0's commit touches
+exactly one frontend file (its own migration), Step 1.5's touches no protected path,
+and Step 2's reports all six files with their real counts. `AdditiveTest` now
+**fails** rather than skips if it finds no diff at all.
+
+**A test that passes because it examined an empty diff is worse than no test**, since
+it reports confidence it never earned — and a `skipTest` in a green run is how that
+goes unnoticed.
 
 ---
 

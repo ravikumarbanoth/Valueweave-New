@@ -1,0 +1,3514 @@
+{
+  "phase1_repository_health": {
+    "duplicate_entity_ids": [],
+    "duplicate_entity_names_same_type": [],
+    "near_duplicate_entities_pending_review": [
+      {
+        "a": "Healthcare",
+        "b": "Healthcare Services",
+        "type": "Industry",
+        "similarity": "0.8759",
+        "cross_package": "True",
+        "recommendation": "REVIEW"
+      }
+    ],
+    "duplicate_edge_triples": [],
+    "entity_pairs_with_multiple_edge_types": [
+      {
+        "from": "vw:msme:rice-milling-unit",
+        "to": "vw:crop:rice",
+        "types": [
+          "PROCESSES",
+          "USES_RAW_MATERIAL"
+        ]
+      },
+      {
+        "from": "vw:msme:dal-milling-unit",
+        "to": "vw:crop:pigeon-pea",
+        "types": [
+          "PROCESSES",
+          "USES_RAW_MATERIAL"
+        ]
+      },
+      {
+        "from": "vw:msme:dal-milling-unit",
+        "to": "vw:crop:chickpea",
+        "types": [
+          "PROCESSES",
+          "USES_RAW_MATERIAL"
+        ]
+      },
+      {
+        "from": "vw:msme:cold-pressed-oil-unit",
+        "to": "vw:crop:groundnut",
+        "types": [
+          "PROCESSES",
+          "USES_RAW_MATERIAL"
+        ]
+      },
+      {
+        "from": "vw:msme:spice-grinding-and-packing-unit",
+        "to": "vw:crop:turmeric",
+        "types": [
+          "PROCESSES",
+          "USES_RAW_MATERIAL"
+        ]
+      },
+      {
+        "from": "vw:msme:spice-grinding-and-packing-unit",
+        "to": "vw:crop:chilli",
+        "types": [
+          "PROCESSES",
+          "USES_RAW_MATERIAL"
+        ]
+      },
+      {
+        "from": "vw:msme:millet-processing-unit",
+        "to": "vw:crop:pearl-millet",
+        "types": [
+          "PROCESSES",
+          "USES_RAW_MATERIAL"
+        ]
+      },
+      {
+        "from": "vw:msme:millet-processing-unit",
+        "to": "vw:crop:finger-millet",
+        "types": [
+          "PROCESSES",
+          "USES_RAW_MATERIAL"
+        ]
+      },
+      {
+        "from": "vw:msme:fruit-pulp-and-beverage-unit",
+        "to": "vw:crop:mango",
+        "types": [
+          "PROCESSES",
+          "USES_RAW_MATERIAL"
+        ]
+      },
+      {
+        "from": "vw:msme:fruit-pulp-and-beverage-unit",
+        "to": "vw:crop:tomato",
+        "types": [
+          "PROCESSES",
+          "USES_RAW_MATERIAL"
+        ]
+      }
+    ],
+    "naming_inconsistencies": [
+      {
+        "issue": "ampersand vs 'and' in canonical names",
+        "count": 42,
+        "examples": [
+          "Agricultural Seed Cleaning, Grading & Processing Unit",
+          "Bridal Wear & Traditional Telugu Dress Rental",
+          "Chilli Processing, Grading & Powder-Making Unit",
+          "Electrical Services (Domestic Wiring & Wireman Work)",
+          "Instagram / YouTube Creator Commerce & Affiliate Selling",
+          "Instagram Shopping / WhatsApp Business / Meesho / Flipkart / Amazon Seller Social & Marketplace Commerce"
+        ],
+        "note": "slug normalisation collapses these, so they do not split nodes, but display is inconsistent"
+      },
+      {
+        "issue": "primary key column naming is not uniform",
+        "breakdown": {
+          "<name>_id": 64,
+          "id": 13
+        },
+        "note": "Package002/003/004 use bare 'id'; Package005-008 use '<entity>_id'. Both are internally consistent."
+      },
+      {
+        "issue": "primary key VALUE format is not uniform",
+        "breakdown": {
+          "uuid": 25,
+          "slug/prefixed": 50
+        },
+        "note": "UUIDs in Package001-004, human-readable prefixed ids in Package005-008. Cross-package joins work either way."
+      }
+    ],
+    "cross_package_reference_cells_checked": 730,
+    "broken_references": [],
+    "weak_references_count": 127,
+    "weak_references_by_dataset": {
+      "Package008_MSME/machinery_mapping.csv.package005_machinery_id": 54,
+      "Package008_MSME/raw_material_mapping.csv.package005_crop_id": 21,
+      "Package007_Government_Schemes/skill_scheme_mapping.csv.package006_provider_id": 9,
+      "Package008_MSME/education_support_mapping.csv.package002_institution_id": 9,
+      "Package007_Government_Schemes/skill_scheme_mapping.csv.package006_certification_id": 8,
+      "Package008_MSME/skill_mapping.csv.package006_skill_id": 7,
+      "Package008_MSME/agriculture_business_mapping.csv.package005_crop_id": 4,
+      "Package008_MSME/education_support_mapping.csv.package006_provider_id": 4,
+      "Package007_Government_Schemes/education_scheme_mapping.csv.package002_record_id": 3,
+      "Package007_Government_Schemes/skill_scheme_mapping.csv.package006_scheme_id": 3,
+      "Package007_Government_Schemes/agriculture_scheme_mapping.csv.package005_crop_id": 2,
+      "Package007_Government_Schemes/agriculture_scheme_mapping.csv.package005_scheme_id": 2,
+      "Package007_Government_Schemes/skill_scheme_mapping.csv.package006_skill_id": 1
+    },
+    "orphan_entities_count": 142,
+    "orphan_entities_by_type": {
+      "Certification": 30,
+      "TrainingProvider": 22,
+      "GovernmentScheme": 21,
+      "Industry": 17,
+      "FinancialInstitution": 13,
+      "Market": 10,
+      "Institution": 8,
+      "Machinery": 8,
+      "ExportCountry": 7,
+      "Skill": 5,
+      "Soil": 1
+    },
+    "orphan_entities_by_package": {
+      "Package006_Skills_and_Training": 57,
+      "Package007_Government_Schemes": 31,
+      "Package008_MSME": 30,
+      "Package005_Agriculture": 9,
+      "Package002_Education": 8,
+      "Package001_Geography": 7
+    },
+    "orphan_relationships": [],
+    "datasets_not_contributing_to_graph": [
+      "Package001_Geography/mandal.csv",
+      "Package001_Geography/revenue_division_andhra_pradesh.csv",
+      "Package001_Geography/revenue_division_telangana.csv",
+      "Package002_Education/education_boards_regulatory_bodies.csv",
+      "Package002_Education/entrance_exams.csv",
+      "Package002_Education/scholarships.csv",
+      "Package003_Healthcare/government_health_insurance_schemes.csv",
+      "Package003_Healthcare/government_hospitals_telangana_andhra_pradesh.csv",
+      "Package003_Healthcare/medical_colleges_telangana_andhra_pradesh.csv",
+      "Package003_Healthcare/medical_regulatory_bodies_and_health_missions.csv",
+      "Package004_Industries/msme_entrepreneurship_support_schemes.csv",
+      "Package005_Agriculture/agri_business_mapping.csv",
+      "Package005_Agriculture/agri_processing_opportunities.csv",
+      "Package005_Agriculture/agriculture_schemes.csv",
+      "Package005_Agriculture/agriculture_training.csv",
+      "Package005_Agriculture/crop_disease_management.csv",
+      "Package005_Agriculture/farmer_producer_organizations.csv",
+      "Package005_Agriculture/market_linkages.csv",
+      "Package006_Skills_and_Training/career_paths.csv",
+      "Package006_Skills_and_Training/government_skill_schemes.csv",
+      "Package006_Skills_and_Training/skill_categories.csv",
+      "Package006_Skills_and_Training/training_centres.csv",
+      "Package007_Government_Schemes/application_process.csv",
+      "Package007_Government_Schemes/district_scheme_mapping.csv",
+      "Package007_Government_Schemes/education_scheme_mapping.csv",
+      "Package007_Government_Schemes/eligibility_criteria.csv",
+      "Package007_Government_Schemes/implementing_agencies.csv",
+      "Package007_Government_Schemes/required_documents.csv",
+      "Package007_Government_Schemes/scheme_ai_recommendations.csv",
+      "Package007_Government_Schemes/scheme_application_status.csv",
+      "Package007_Government_Schemes/scheme_benefits.csv",
+      "Package007_Government_Schemes/scheme_categories.csv",
+      "Package008_MSME/business_models.csv",
+      "Package008_MSME/industry_mapping.csv",
+      "Package008_MSME/investment_intelligence.csv",
+      "Package008_MSME/license_compliance.csv",
+      "Package008_MSME/startup_ecosystem.csv"
+    ],
+    "empty_or_constant_columns": [
+      {
+        "dataset": "Package001_Geography/district.csv",
+        "column": "latitude",
+        "value": "PENDING_GEOCODING",
+        "rows": 61,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package001_Geography/district.csv",
+        "column": "longitude",
+        "value": "PENDING_GEOCODING",
+        "rows": 61,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package001_Geography/district.csv",
+        "column": "district_readiness_score",
+        "value": "NOT_APPLICABLE_AT_COLLECTION_STAGE (AI-d",
+        "rows": 61,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package001_Geography/district.csv",
+        "column": "collection_date",
+        "value": "2026-07-18",
+        "rows": 61,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package001_Geography/district.csv",
+        "column": "last_verified_date",
+        "value": "2026-07-18",
+        "rows": 61,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package001_Geography/district.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 61,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package001_Geography/district.csv",
+        "column": "reviewer",
+        "value": "ValueWeave Data Collection Engine (AI-as",
+        "rows": 61,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package001_Geography/district.csv",
+        "column": "version",
+        "value": "1.0.0-draft",
+        "rows": 61,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package001_Geography/district.csv",
+        "column": "created_by",
+        "value": "vw_data_collection_engine",
+        "rows": 61,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package001_Geography/district.csv",
+        "column": "created_at",
+        "value": "2026-07-18T17:06:27.604709Z",
+        "rows": 61,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package001_Geography/district.csv",
+        "column": "updated_at",
+        "value": "2026-07-18T17:06:27.604709Z",
+        "rows": 61,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package001_Geography/district.csv",
+        "column": "is_active",
+        "value": "TRUE",
+        "rows": 61,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package001_Geography/revenue_division_telangana.csv",
+        "column": "state_code",
+        "value": "TG",
+        "rows": 75,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package001_Geography/revenue_division_telangana.csv",
+        "column": "latitude",
+        "value": "PENDING_GEOCODING",
+        "rows": 75,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package001_Geography/revenue_division_telangana.csv",
+        "column": "longitude",
+        "value": "PENDING_GEOCODING",
+        "rows": 75,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package001_Geography/revenue_division_telangana.csv",
+        "column": "data_source",
+        "value": "Wikipedia 'List of revenue divisions in ",
+        "rows": 75,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package001_Geography/revenue_division_telangana.csv",
+        "column": "source_url",
+        "value": "https://en.wikipedia.org/wiki/List_of_re",
+        "rows": 75,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package001_Geography/revenue_division_telangana.csv",
+        "column": "collection_date",
+        "value": "2026-07-19",
+        "rows": 75,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package001_Geography/revenue_division_telangana.csv",
+        "column": "last_verified_date",
+        "value": "2026-07-19",
+        "rows": 75,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package001_Geography/revenue_division_telangana.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 75,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package001_Geography/revenue_division_telangana.csv",
+        "column": "reviewer",
+        "value": "ValueWeave Data Factory (AI-assisted) \u2014 ",
+        "rows": 75,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package001_Geography/revenue_division_telangana.csv",
+        "column": "version",
+        "value": "1.0.0-draft",
+        "rows": 75,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package001_Geography/revenue_division_telangana.csv",
+        "column": "license",
+        "value": "CC BY-SA 4.0 (Wikipedia compilation); un",
+        "rows": 75,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package001_Geography/revenue_division_telangana.csv",
+        "column": "attribution",
+        "value": "Government of Telangana, Chief Commissio",
+        "rows": 75,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package001_Geography/revenue_division_telangana.csv",
+        "column": "created_by",
+        "value": "vw_data_factory",
+        "rows": 75,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package001_Geography/revenue_division_telangana.csv",
+        "column": "created_at",
+        "value": "2026-07-19T06:44:32.573319Z",
+        "rows": 75,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package001_Geography/revenue_division_telangana.csv",
+        "column": "updated_at",
+        "value": "2026-07-19T06:44:32.573319Z",
+        "rows": 75,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package001_Geography/revenue_division_telangana.csv",
+        "column": "is_active",
+        "value": "TRUE",
+        "rows": 75,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package002_Education/education_boards_regulatory_bodies.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 21,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package002_Education/entrance_exams.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 29,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package002_Education/scholarships.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 25,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package002_Education/universities_telangana_andhra_pradesh.csv",
+        "column": "data_source",
+        "value": "WebSearch aggregation (secondary/portal ",
+        "rows": 66,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package002_Education/universities_telangana_andhra_pradesh.csv",
+        "column": "collection_date",
+        "value": "2026-07-22",
+        "rows": 66,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package002_Education/universities_telangana_andhra_pradesh.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 66,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package003_Healthcare/government_health_insurance_schemes.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 9,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package003_Healthcare/government_hospitals_telangana_andhra_pradesh.csv",
+        "column": "ownership",
+        "value": "State Government",
+        "rows": 55,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package003_Healthcare/government_hospitals_telangana_andhra_pradesh.csv",
+        "column": "collection_date",
+        "value": "2026-07-22",
+        "rows": 55,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package003_Healthcare/government_hospitals_telangana_andhra_pradesh.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 55,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package003_Healthcare/medical_colleges_telangana_andhra_pradesh.csv",
+        "column": "collection_date",
+        "value": "2026-07-22",
+        "rows": 58,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package003_Healthcare/medical_colleges_telangana_andhra_pradesh.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 58,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package003_Healthcare/medical_regulatory_bodies_and_health_missions.csv",
+        "column": "data_source",
+        "value": "WebSearch",
+        "rows": 24,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package003_Healthcare/medical_regulatory_bodies_and_health_missions.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 24,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package004_Industries/china_inspired_adapted_opportunities.csv",
+        "column": "collection_date",
+        "value": "2026-07-22; 2026-07-24 (v2 enrichment)",
+        "rows": 9,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package004_Industries/china_inspired_adapted_opportunities.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 9,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package004_Industries/construction_skilled_trade_services.csv",
+        "column": "category",
+        "value": "Construction & Skilled Trades",
+        "rows": 11,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package004_Industries/construction_skilled_trade_services.csv",
+        "column": "collection_date",
+        "value": "2026-07-23",
+        "rows": 11,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package004_Industries/construction_skilled_trade_services.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 11,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package004_Industries/digital_technology_livelihoods.csv",
+        "column": "category",
+        "value": "Technology",
+        "rows": 12,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package004_Industries/digital_technology_livelihoods.csv",
+        "column": "data_source",
+        "value": "WebSearch (secondary aggregation of gove",
+        "rows": 12,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package004_Industries/digital_technology_livelihoods.csv",
+        "column": "collection_date",
+        "value": "2026-07-23",
+        "rows": 12,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package004_Industries/digital_technology_livelihoods.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 12,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package004_Industries/food_agro_processing_micro_enterprises.csv",
+        "column": "collection_date",
+        "value": "2026-07-24",
+        "rows": 13,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package004_Industries/food_agro_processing_micro_enterprises.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 13,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package004_Industries/msme_entrepreneurship_support_schemes.csv",
+        "column": "collection_date",
+        "value": "2026-07-22",
+        "rows": 18,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package004_Industries/msme_entrepreneurship_support_schemes.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 18,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package005_Agriculture/agri_business_mapping.csv",
+        "column": "collection_date",
+        "value": "2026-07-24",
+        "rows": 30,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package005_Agriculture/agri_business_mapping.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 30,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package005_Agriculture/agri_processing_opportunities.csv",
+        "column": "collection_date",
+        "value": "2026-07-24",
+        "rows": 17,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package005_Agriculture/agri_processing_opportunities.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 17,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package005_Agriculture/agriculture_schemes.csv",
+        "column": "collection_date",
+        "value": "2026-07-24",
+        "rows": 12,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package005_Agriculture/agriculture_schemes.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 12,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package005_Agriculture/agriculture_training.csv",
+        "column": "collection_date",
+        "value": "2026-07-24",
+        "rows": 7,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package005_Agriculture/agriculture_training.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 7,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package005_Agriculture/ai_precision_agriculture.csv",
+        "column": "collection_date",
+        "value": "2026-07-24",
+        "rows": 10,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package005_Agriculture/ai_precision_agriculture.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 10,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package005_Agriculture/climate_zones.csv",
+        "column": "source_url",
+        "value": "https://icar.org.in/",
+        "rows": 8,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package005_Agriculture/climate_zones.csv",
+        "column": "collection_date",
+        "value": "2026-07-24",
+        "rows": 8,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package005_Agriculture/climate_zones.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 8,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package005_Agriculture/crop_categories.csv",
+        "column": "collection_date",
+        "value": "2026-07-24",
+        "rows": 24,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package005_Agriculture/crop_categories.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 24,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package005_Agriculture/crop_climate_mapping.csv",
+        "column": "data_source",
+        "value": "ICAR; Ministry of Agriculture & Farmers ",
+        "rows": 90,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package005_Agriculture/crop_climate_mapping.csv",
+        "column": "source_url",
+        "value": "https://icar.org.in/",
+        "rows": 90,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package005_Agriculture/crop_climate_mapping.csv",
+        "column": "collection_date",
+        "value": "2026-07-24",
+        "rows": 90,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package005_Agriculture/crop_climate_mapping.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 90,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package005_Agriculture/crop_climate_mapping.csv",
+        "column": "notes",
+        "value": "Yield potential is a relative agro-clima",
+        "rows": 90,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package005_Agriculture/crop_disease_management.csv",
+        "column": "source_url",
+        "value": "https://icar.org.in/",
+        "rows": 10,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package005_Agriculture/crop_disease_management.csv",
+        "column": "collection_date",
+        "value": "2026-07-24",
+        "rows": 10,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package005_Agriculture/crop_disease_management.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 10,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package005_Agriculture/crop_soil_mapping.csv",
+        "column": "data_source",
+        "value": "ICAR; Ministry of Agriculture & Farmers ",
+        "rows": 90,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package005_Agriculture/crop_soil_mapping.csv",
+        "column": "source_url",
+        "value": "https://icar.org.in/",
+        "rows": 90,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package005_Agriculture/crop_soil_mapping.csv",
+        "column": "collection_date",
+        "value": "2026-07-24",
+        "rows": 90,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package005_Agriculture/crop_soil_mapping.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 90,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package005_Agriculture/crops.csv",
+        "column": "collection_date",
+        "value": "2026-07-24",
+        "rows": 45,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package005_Agriculture/crops.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 45,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package005_Agriculture/export_opportunities.csv",
+        "column": "collection_date",
+        "value": "2026-07-24",
+        "rows": 8,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package005_Agriculture/export_opportunities.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 8,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package005_Agriculture/farm_machinery.csv",
+        "column": "collection_date",
+        "value": "2026-07-24",
+        "rows": 16,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package005_Agriculture/farm_machinery.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 16,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package005_Agriculture/farmer_producer_organizations.csv",
+        "column": "collection_date",
+        "value": "2026-07-24",
+        "rows": 5,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package005_Agriculture/farmer_producer_organizations.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 5,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package005_Agriculture/market_linkages.csv",
+        "column": "collection_date",
+        "value": "2026-07-24",
+        "rows": 6,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package005_Agriculture/market_linkages.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 6,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package005_Agriculture/soil_types.csv",
+        "column": "source_url",
+        "value": "https://icar.org.in/",
+        "rows": 10,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package005_Agriculture/soil_types.csv",
+        "column": "collection_date",
+        "value": "2026-07-24",
+        "rows": 10,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package005_Agriculture/soil_types.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 10,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package006_Skills_and_Training/ai_skill_mapping.csv",
+        "column": "data_source",
+        "value": "WEF Future of Jobs Report 2025, McKinsey",
+        "rows": 45,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package006_Skills_and_Training/ai_skill_mapping.csv",
+        "column": "source_url",
+        "value": "https://www.weforum.org/publications/fut",
+        "rows": 45,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package006_Skills_and_Training/ai_skill_mapping.csv",
+        "column": "collection_date",
+        "value": "2026-07-24",
+        "rows": 45,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package006_Skills_and_Training/ai_skill_mapping.csv",
+        "column": "confidence_score",
+        "value": "65",
+        "rows": 45,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package006_Skills_and_Training/ai_skill_mapping.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 45,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package006_Skills_and_Training/ai_skill_mapping.csv",
+        "column": "notes",
+        "value": "[will_ai_replace]: AI adoption forecasts",
+        "rows": 45,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package006_Skills_and_Training/career_paths.csv",
+        "column": "collection_date",
+        "value": "2026-07-24",
+        "rows": 15,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package006_Skills_and_Training/career_paths.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 15,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package006_Skills_and_Training/certifications.csv",
+        "column": "collection_date",
+        "value": "2026-07-24",
+        "rows": 30,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package006_Skills_and_Training/certifications.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 30,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package006_Skills_and_Training/government_skill_schemes.csv",
+        "column": "collection_date",
+        "value": "2026-07-24",
+        "rows": 15,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package006_Skills_and_Training/government_skill_schemes.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 15,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package006_Skills_and_Training/industry_skill_mapping.csv",
+        "column": "data_source",
+        "value": "NASSCOM Industry Skills Mapping, LinkedI",
+        "rows": 40,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package006_Skills_and_Training/industry_skill_mapping.csv",
+        "column": "source_url",
+        "value": "https://www.nasscom.in/knowledge-center",
+        "rows": 40,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package006_Skills_and_Training/industry_skill_mapping.csv",
+        "column": "collection_date",
+        "value": "2026-07-24",
+        "rows": 40,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package006_Skills_and_Training/industry_skill_mapping.csv",
+        "column": "confidence_score",
+        "value": "68",
+        "rows": 40,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package006_Skills_and_Training/industry_skill_mapping.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 40,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package006_Skills_and_Training/industry_skill_mapping.csv",
+        "column": "notes",
+        "value": "[demand_level]: based on industry job op",
+        "rows": 40,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package006_Skills_and_Training/skill_business_mapping.csv",
+        "column": "data_source",
+        "value": "Manual cross-reference with Package004_I",
+        "rows": 30,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package006_Skills_and_Training/skill_business_mapping.csv",
+        "column": "source_url",
+        "value": "Internal package mapping",
+        "rows": 30,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package006_Skills_and_Training/skill_business_mapping.csv",
+        "column": "collection_date",
+        "value": "2026-07-24",
+        "rows": 30,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package006_Skills_and_Training/skill_business_mapping.csv",
+        "column": "confidence_score",
+        "value": "75",
+        "rows": 30,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package006_Skills_and_Training/skill_business_mapping.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 30,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package006_Skills_and_Training/skill_categories.csv",
+        "column": "nsqf_alignment_note",
+        "value": "ValueWeave-defined category grouping for",
+        "rows": 24,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package006_Skills_and_Training/skill_categories.csv",
+        "column": "data_source",
+        "value": "NCVET National Skills Qualification Fram",
+        "rows": 24,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package006_Skills_and_Training/skill_categories.csv",
+        "column": "source_url",
+        "value": "https://ncvet.gov.in/national-skills-qua",
+        "rows": 24,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package006_Skills_and_Training/skill_categories.csv",
+        "column": "collection_date",
+        "value": "2026-07-24",
+        "rows": 24,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package006_Skills_and_Training/skill_categories.csv",
+        "column": "confidence_score",
+        "value": "65",
+        "rows": 24,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package006_Skills_and_Training/skill_categories.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 24,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package006_Skills_and_Training/skill_categories.csv",
+        "column": "notes",
+        "value": "[category_group/description]: this is a ",
+        "rows": 24,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package006_Skills_and_Training/skills.csv",
+        "column": "collection_date",
+        "value": "2026-07-24",
+        "rows": 45,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package006_Skills_and_Training/skills.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 45,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package006_Skills_and_Training/training_centres.csv",
+        "column": "collection_date",
+        "value": "2026-07-24",
+        "rows": 22,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package006_Skills_and_Training/training_centres.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 22,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package006_Skills_and_Training/training_providers.csv",
+        "column": "collection_date",
+        "value": "2026-07-24",
+        "rows": 25,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package006_Skills_and_Training/training_providers.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 25,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package007_Government_Schemes/agriculture_scheme_mapping.csv",
+        "column": "data_source",
+        "value": "Ministry of Agriculture and Farmers Welf",
+        "rows": 14,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package007_Government_Schemes/agriculture_scheme_mapping.csv",
+        "column": "source_url",
+        "value": "https://agricoop.gov.in/",
+        "rows": 14,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package007_Government_Schemes/agriculture_scheme_mapping.csv",
+        "column": "collection_date",
+        "value": "2026-07-25",
+        "rows": 14,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package007_Government_Schemes/agriculture_scheme_mapping.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 14,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package007_Government_Schemes/application_process.csv",
+        "column": "data_source",
+        "value": "MyScheme national scheme platform",
+        "rows": 43,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package007_Government_Schemes/application_process.csv",
+        "column": "source_url",
+        "value": "https://www.myscheme.gov.in/",
+        "rows": 43,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package007_Government_Schemes/application_process.csv",
+        "column": "collection_date",
+        "value": "2026-07-25",
+        "rows": 43,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package007_Government_Schemes/application_process.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 43,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package007_Government_Schemes/application_process.csv",
+        "column": "notes",
+        "value": "Timelines are the bare sentinel where no",
+        "rows": 43,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package007_Government_Schemes/district_scheme_mapping.csv",
+        "column": "data_source",
+        "value": "Package001_Geography district master; sc",
+        "rows": 305,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package007_Government_Schemes/district_scheme_mapping.csv",
+        "column": "source_url",
+        "value": "https://www.myscheme.gov.in/",
+        "rows": 305,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package007_Government_Schemes/district_scheme_mapping.csv",
+        "column": "collection_date",
+        "value": "2026-07-25",
+        "rows": 305,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package007_Government_Schemes/district_scheme_mapping.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 305,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package007_Government_Schemes/education_scheme_mapping.csv",
+        "column": "collection_date",
+        "value": "2026-07-25",
+        "rows": 7,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package007_Government_Schemes/education_scheme_mapping.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 7,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package007_Government_Schemes/eligibility_criteria.csv",
+        "column": "data_source",
+        "value": "MyScheme national scheme platform",
+        "rows": 55,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package007_Government_Schemes/eligibility_criteria.csv",
+        "column": "source_url",
+        "value": "https://www.myscheme.gov.in/",
+        "rows": 55,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package007_Government_Schemes/eligibility_criteria.csv",
+        "column": "collection_date",
+        "value": "2026-07-25",
+        "rows": 55,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package007_Government_Schemes/eligibility_criteria.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 55,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package007_Government_Schemes/financial_institutions.csv",
+        "column": "collection_date",
+        "value": "2026-07-25",
+        "rows": 12,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package007_Government_Schemes/financial_institutions.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 12,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package007_Government_Schemes/government_schemes.csv",
+        "column": "government_level",
+        "value": "Central",
+        "rows": 40,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package007_Government_Schemes/government_schemes.csv",
+        "column": "status",
+        "value": "Active",
+        "rows": 40,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package007_Government_Schemes/government_schemes.csv",
+        "column": "collection_date",
+        "value": "2026-07-25",
+        "rows": 40,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package007_Government_Schemes/government_schemes.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 40,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package007_Government_Schemes/implementing_agencies.csv",
+        "column": "collection_date",
+        "value": "2026-07-25",
+        "rows": 20,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package007_Government_Schemes/implementing_agencies.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 20,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package007_Government_Schemes/industry_scheme_mapping.csv",
+        "column": "data_source",
+        "value": "Ministry of MSME; Package004_Industries ",
+        "rows": 12,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package007_Government_Schemes/industry_scheme_mapping.csv",
+        "column": "source_url",
+        "value": "https://msme.gov.in/",
+        "rows": 12,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package007_Government_Schemes/industry_scheme_mapping.csv",
+        "column": "collection_date",
+        "value": "2026-07-25",
+        "rows": 12,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package007_Government_Schemes/industry_scheme_mapping.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 12,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package007_Government_Schemes/required_documents.csv",
+        "column": "collection_date",
+        "value": "2026-07-25",
+        "rows": 15,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package007_Government_Schemes/required_documents.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 15,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package007_Government_Schemes/scheme_ai_recommendations.csv",
+        "column": "data_source",
+        "value": "Rule-based synthesis over this package's",
+        "rows": 37,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package007_Government_Schemes/scheme_ai_recommendations.csv",
+        "column": "source_url",
+        "value": "https://www.myscheme.gov.in/",
+        "rows": 37,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package007_Government_Schemes/scheme_ai_recommendations.csv",
+        "column": "collection_date",
+        "value": "2026-07-25",
+        "rows": 37,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package007_Government_Schemes/scheme_ai_recommendations.csv",
+        "column": "confidence_score",
+        "value": "60",
+        "rows": 37,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package007_Government_Schemes/scheme_ai_recommendations.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 37,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package007_Government_Schemes/scheme_ai_recommendations.csv",
+        "column": "notes",
+        "value": "priority_score is a deterministic rule-e",
+        "rows": 37,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package007_Government_Schemes/scheme_application_status.csv",
+        "column": "data_source",
+        "value": "MyScheme national scheme platform",
+        "rows": 8,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package007_Government_Schemes/scheme_application_status.csv",
+        "column": "source_url",
+        "value": "https://www.myscheme.gov.in/",
+        "rows": 8,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package007_Government_Schemes/scheme_application_status.csv",
+        "column": "collection_date",
+        "value": "2026-07-25",
+        "rows": 8,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package007_Government_Schemes/scheme_application_status.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 8,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package007_Government_Schemes/scheme_benefits.csv",
+        "column": "data_source",
+        "value": "MyScheme national scheme platform",
+        "rows": 51,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package007_Government_Schemes/scheme_benefits.csv",
+        "column": "source_url",
+        "value": "https://www.myscheme.gov.in/",
+        "rows": 51,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package007_Government_Schemes/scheme_benefits.csv",
+        "column": "collection_date",
+        "value": "2026-07-25",
+        "rows": 51,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package007_Government_Schemes/scheme_benefits.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 51,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package007_Government_Schemes/scheme_categories.csv",
+        "column": "collection_date",
+        "value": "2026-07-25",
+        "rows": 24,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package007_Government_Schemes/scheme_categories.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 24,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package007_Government_Schemes/skill_scheme_mapping.csv",
+        "column": "data_source",
+        "value": "Ministry of Skill Development and Entrep",
+        "rows": 12,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package007_Government_Schemes/skill_scheme_mapping.csv",
+        "column": "source_url",
+        "value": "https://msde.gov.in/",
+        "rows": 12,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package007_Government_Schemes/skill_scheme_mapping.csv",
+        "column": "collection_date",
+        "value": "2026-07-25",
+        "rows": 12,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package007_Government_Schemes/skill_scheme_mapping.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 12,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package008_MSME/agriculture_business_mapping.csv",
+        "column": "data_source",
+        "value": "Package005_Agriculture reconciliation",
+        "rows": 14,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package008_MSME/agriculture_business_mapping.csv",
+        "column": "source_url",
+        "value": "https://agricoop.gov.in/",
+        "rows": 14,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package008_MSME/agriculture_business_mapping.csv",
+        "column": "collection_date",
+        "value": "2026-07-25",
+        "rows": 14,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package008_MSME/agriculture_business_mapping.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 14,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package008_MSME/ai_business_tools.csv",
+        "column": "collection_date",
+        "value": "2026-07-25",
+        "rows": 12,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package008_MSME/ai_business_tools.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 12,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package008_MSME/business_models.csv",
+        "column": "collection_date",
+        "value": "2026-07-25",
+        "rows": 15,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package008_MSME/business_models.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 15,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package008_MSME/district_business_mapping.csv",
+        "column": "data_source",
+        "value": "Package001_Geography district master; Pa",
+        "rows": 32,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package008_MSME/district_business_mapping.csv",
+        "column": "source_url",
+        "value": "https://msme.gov.in/",
+        "rows": 32,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package008_MSME/district_business_mapping.csv",
+        "column": "collection_date",
+        "value": "2026-07-25",
+        "rows": 32,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package008_MSME/district_business_mapping.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 32,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package008_MSME/district_business_mapping.csv",
+        "column": "notes",
+        "value": "Suitability is asserted only where a doc",
+        "rows": 32,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package008_MSME/education_support_mapping.csv",
+        "column": "data_source",
+        "value": "Package002_Education and Package006 reco",
+        "rows": 13,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package008_MSME/education_support_mapping.csv",
+        "column": "source_url",
+        "value": "https://www.education.gov.in/",
+        "rows": 13,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package008_MSME/education_support_mapping.csv",
+        "column": "collection_date",
+        "value": "2026-07-25",
+        "rows": 13,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package008_MSME/education_support_mapping.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 13,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package008_MSME/export_opportunities.csv",
+        "column": "collection_date",
+        "value": "2026-07-25",
+        "rows": 12,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package008_MSME/export_opportunities.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 12,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package008_MSME/financial_support.csv",
+        "column": "collection_date",
+        "value": "2026-07-25",
+        "rows": 12,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package008_MSME/financial_support.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 12,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package008_MSME/industry_mapping.csv",
+        "column": "data_source",
+        "value": "Package004_Industries reconciliation",
+        "rows": 19,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package008_MSME/industry_mapping.csv",
+        "column": "source_url",
+        "value": "https://msme.gov.in/",
+        "rows": 19,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package008_MSME/industry_mapping.csv",
+        "column": "collection_date",
+        "value": "2026-07-25",
+        "rows": 19,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package008_MSME/industry_mapping.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 19,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package008_MSME/investment_intelligence.csv",
+        "column": "data_source",
+        "value": "Derived from msme_businesses.csv attribu",
+        "rows": 40,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package008_MSME/investment_intelligence.csv",
+        "column": "source_url",
+        "value": "https://msme.gov.in/",
+        "rows": 40,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package008_MSME/investment_intelligence.csv",
+        "column": "collection_date",
+        "value": "2026-07-25",
+        "rows": 40,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package008_MSME/investment_intelligence.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 40,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package008_MSME/investment_intelligence.csv",
+        "column": "notes",
+        "value": "investment_band mirrors udyam_classifica",
+        "rows": 40,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package008_MSME/license_compliance.csv",
+        "column": "collection_date",
+        "value": "2026-07-25",
+        "rows": 14,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package008_MSME/license_compliance.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 14,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package008_MSME/machinery_mapping.csv",
+        "column": "data_source",
+        "value": "Office of Development Commissioner (MSME",
+        "rows": 64,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package008_MSME/machinery_mapping.csv",
+        "column": "source_url",
+        "value": "https://msme.gov.in/",
+        "rows": 64,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package008_MSME/machinery_mapping.csv",
+        "column": "collection_date",
+        "value": "2026-07-25",
+        "rows": 64,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package008_MSME/machinery_mapping.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 64,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package008_MSME/market_channels.csv",
+        "column": "collection_date",
+        "value": "2026-07-25",
+        "rows": 11,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package008_MSME/market_channels.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 11,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package008_MSME/msme_businesses.csv",
+        "column": "collection_date",
+        "value": "2026-07-25",
+        "rows": 40,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package008_MSME/msme_businesses.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 40,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package008_MSME/msme_categories.csv",
+        "column": "collection_date",
+        "value": "2026-07-25",
+        "rows": 24,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package008_MSME/msme_categories.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 24,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package008_MSME/raw_material_mapping.csv",
+        "column": "data_source",
+        "value": "Office of Development Commissioner (MSME",
+        "rows": 33,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package008_MSME/raw_material_mapping.csv",
+        "column": "source_url",
+        "value": "https://msme.gov.in/",
+        "rows": 33,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package008_MSME/raw_material_mapping.csv",
+        "column": "collection_date",
+        "value": "2026-07-25",
+        "rows": 33,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package008_MSME/raw_material_mapping.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 33,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package008_MSME/scheme_mapping.csv",
+        "column": "data_source",
+        "value": "Package007_Government_Schemes reconcilia",
+        "rows": 57,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package008_MSME/scheme_mapping.csv",
+        "column": "source_url",
+        "value": "https://www.myscheme.gov.in/",
+        "rows": 57,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package008_MSME/scheme_mapping.csv",
+        "column": "collection_date",
+        "value": "2026-07-25",
+        "rows": 57,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package008_MSME/scheme_mapping.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 57,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package008_MSME/scheme_mapping.csv",
+        "column": "notes",
+        "value": "Scheme detail (benefit, eligibility, pro",
+        "rows": 57,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package008_MSME/skill_mapping.csv",
+        "column": "data_source",
+        "value": "Package006_Skills_and_Training reconcili",
+        "rows": 53,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package008_MSME/skill_mapping.csv",
+        "column": "source_url",
+        "value": "https://msde.gov.in/",
+        "rows": 53,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package008_MSME/skill_mapping.csv",
+        "column": "collection_date",
+        "value": "2026-07-25",
+        "rows": 53,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package008_MSME/skill_mapping.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 53,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package008_MSME/startup_ecosystem.csv",
+        "column": "collection_date",
+        "value": "2026-07-25",
+        "rows": 12,
+        "reason": "single constant value"
+      },
+      {
+        "dataset": "Package008_MSME/startup_ecosystem.csv",
+        "column": "verification_status",
+        "value": "VST-NEEDS_REVIEW",
+        "rows": 12,
+        "reason": "single constant value"
+      }
+    ],
+    "fully_sentinel_columns": [
+      {
+        "dataset": "Package001_Geography/district.csv",
+        "column": "lgd_district_code",
+        "rows": 61,
+        "reason": "100% PENDING_VERIFICATION"
+      },
+      {
+        "dataset": "Package001_Geography/district.csv",
+        "column": "district_gdp_inr_cr",
+        "rows": 61,
+        "reason": "100% PENDING_VERIFICATION"
+      },
+      {
+        "dataset": "Package001_Geography/district.csv",
+        "column": "primary_industry_sector_id",
+        "rows": 61,
+        "reason": "100% PENDING_VERIFICATION"
+      },
+      {
+        "dataset": "Package001_Geography/revenue_division_telangana.csv",
+        "column": "lgd_code",
+        "rows": 75,
+        "reason": "100% PENDING_VERIFICATION"
+      },
+      {
+        "dataset": "Package001_Geography/state.csv",
+        "column": "state_gdp_inr_cr",
+        "rows": 2,
+        "reason": "100% PENDING_VERIFICATION"
+      },
+      {
+        "dataset": "Package001_Geography/state.csv",
+        "column": "lgd_state_code",
+        "rows": 2,
+        "reason": "100% PENDING_VERIFICATION"
+      },
+      {
+        "dataset": "Package004_Industries/construction_skilled_trade_services.csv",
+        "column": "district_suitability_summary",
+        "rows": 11,
+        "reason": "100% PENDING_VERIFICATION"
+      },
+      {
+        "dataset": "Package004_Industries/digital_technology_livelihoods.csv",
+        "column": "minimum_investment",
+        "rows": 12,
+        "reason": "100% PENDING_VERIFICATION"
+      },
+      {
+        "dataset": "Package004_Industries/digital_technology_livelihoods.csv",
+        "column": "working_capital_summary",
+        "rows": 12,
+        "reason": "100% PENDING_VERIFICATION"
+      },
+      {
+        "dataset": "Package004_Industries/digital_technology_livelihoods.csv",
+        "column": "estimated_setup_time_summary",
+        "rows": 12,
+        "reason": "100% PENDING_VERIFICATION"
+      },
+      {
+        "dataset": "Package004_Industries/digital_technology_livelihoods.csv",
+        "column": "seasonal_factors_summary",
+        "rows": 12,
+        "reason": "100% PENDING_VERIFICATION"
+      },
+      {
+        "dataset": "Package004_Industries/digital_technology_livelihoods.csv",
+        "column": "sustainability_summary",
+        "rows": 12,
+        "reason": "100% PENDING_VERIFICATION"
+      },
+      {
+        "dataset": "Package004_Industries/food_agro_processing_micro_enterprises.csv",
+        "column": "estimated_setup_time_summary",
+        "rows": 13,
+        "reason": "100% PENDING_VERIFICATION"
+      },
+      {
+        "dataset": "Package004_Industries/food_agro_processing_micro_enterprises.csv",
+        "column": "ai_tools_summary",
+        "rows": 13,
+        "reason": "100% PENDING_VERIFICATION"
+      },
+      {
+        "dataset": "Package005_Agriculture/agri_processing_opportunities.csv",
+        "column": "investment_band",
+        "rows": 17,
+        "reason": "100% PENDING_VERIFICATION"
+      },
+      {
+        "dataset": "Package005_Agriculture/agri_processing_opportunities.csv",
+        "column": "capacity_indicative",
+        "rows": 17,
+        "reason": "100% PENDING_VERIFICATION"
+      },
+      {
+        "dataset": "Package005_Agriculture/ai_precision_agriculture.csv",
+        "column": "approximate_cost_inr",
+        "rows": 10,
+        "reason": "100% PENDING_VERIFICATION"
+      },
+      {
+        "dataset": "Package005_Agriculture/farm_machinery.csv",
+        "column": "investment_inr",
+        "rows": 16,
+        "reason": "100% PENDING_VERIFICATION"
+      },
+      {
+        "dataset": "Package005_Agriculture/farm_machinery.csv",
+        "column": "annual_maintenance_inr",
+        "rows": 16,
+        "reason": "100% PENDING_VERIFICATION"
+      },
+      {
+        "dataset": "Package007_Government_Schemes/district_scheme_mapping.csv",
+        "column": "district_specific_variation",
+        "rows": 305,
+        "reason": "100% PENDING_VERIFICATION"
+      },
+      {
+        "dataset": "Package008_MSME/business_models.csv",
+        "column": "typical_lead_time_to_revenue",
+        "rows": 15,
+        "reason": "100% PENDING_VERIFICATION"
+      },
+      {
+        "dataset": "Package008_MSME/market_channels.csv",
+        "column": "typical_payment_cycle",
+        "rows": 11,
+        "reason": "100% PENDING_VERIFICATION"
+      },
+      {
+        "dataset": "Package008_MSME/msme_businesses.csv",
+        "column": "investment_range",
+        "rows": 40,
+        "reason": "100% PENDING_VERIFICATION"
+      }
+    ],
+    "package_documentation_matrix": {
+      "Package001_Geography": {
+        "README.md": true,
+        "CHANGELOG.md": true,
+        "VERSION": true,
+        "package_manifest.json": true,
+        "validation_report.md": false,
+        "docs/METHODOLOGY.md": false,
+        "docs/USAGE.md": false,
+        "docs/DATA_DICTIONARY.md": false,
+        "docs/IMPORT_GUIDE.md": false,
+        "schemas/schema_catalog.json": true,
+        "registry/dataset_registry.csv": true
+      },
+      "Package002_Education": {
+        "README.md": true,
+        "CHANGELOG.md": true,
+        "VERSION": true,
+        "package_manifest.json": true,
+        "validation_report.md": false,
+        "docs/METHODOLOGY.md": true,
+        "docs/USAGE.md": true,
+        "docs/DATA_DICTIONARY.md": false,
+        "docs/IMPORT_GUIDE.md": false,
+        "schemas/schema_catalog.json": true,
+        "registry/dataset_registry.csv": true
+      },
+      "Package003_Healthcare": {
+        "README.md": true,
+        "CHANGELOG.md": true,
+        "VERSION": true,
+        "package_manifest.json": true,
+        "validation_report.md": true,
+        "docs/METHODOLOGY.md": true,
+        "docs/USAGE.md": true,
+        "docs/DATA_DICTIONARY.md": false,
+        "docs/IMPORT_GUIDE.md": false,
+        "schemas/schema_catalog.json": true,
+        "registry/dataset_registry.csv": true
+      },
+      "Package004_Industries": {
+        "README.md": true,
+        "CHANGELOG.md": true,
+        "VERSION": true,
+        "package_manifest.json": true,
+        "validation_report.md": true,
+        "docs/METHODOLOGY.md": true,
+        "docs/USAGE.md": true,
+        "docs/DATA_DICTIONARY.md": false,
+        "docs/IMPORT_GUIDE.md": false,
+        "schemas/schema_catalog.json": true,
+        "registry/dataset_registry.csv": true
+      },
+      "Package005_Agriculture": {
+        "README.md": true,
+        "CHANGELOG.md": true,
+        "VERSION": true,
+        "package_manifest.json": true,
+        "validation_report.md": true,
+        "docs/METHODOLOGY.md": true,
+        "docs/USAGE.md": true,
+        "docs/DATA_DICTIONARY.md": true,
+        "docs/IMPORT_GUIDE.md": true,
+        "schemas/schema_catalog.json": true,
+        "registry/dataset_registry.csv": true
+      },
+      "Package006_Skills_and_Training": {
+        "README.md": false,
+        "CHANGELOG.md": false,
+        "VERSION": false,
+        "package_manifest.json": false,
+        "validation_report.md": true,
+        "docs/METHODOLOGY.md": false,
+        "docs/USAGE.md": false,
+        "docs/DATA_DICTIONARY.md": false,
+        "docs/IMPORT_GUIDE.md": false,
+        "schemas/schema_catalog.json": false,
+        "registry/dataset_registry.csv": false
+      },
+      "Package007_Government_Schemes": {
+        "README.md": true,
+        "CHANGELOG.md": true,
+        "VERSION": true,
+        "package_manifest.json": true,
+        "validation_report.md": true,
+        "docs/METHODOLOGY.md": true,
+        "docs/USAGE.md": true,
+        "docs/DATA_DICTIONARY.md": true,
+        "docs/IMPORT_GUIDE.md": true,
+        "schemas/schema_catalog.json": true,
+        "registry/dataset_registry.csv": true
+      },
+      "Package008_MSME": {
+        "README.md": true,
+        "CHANGELOG.md": true,
+        "VERSION": true,
+        "package_manifest.json": true,
+        "validation_report.md": true,
+        "docs/METHODOLOGY.md": true,
+        "docs/USAGE.md": true,
+        "docs/DATA_DICTIONARY.md": true,
+        "docs/IMPORT_GUIDE.md": true,
+        "schemas/schema_catalog.json": true,
+        "registry/dataset_registry.csv": true
+      }
+    },
+    "packages_missing_docs": {
+      "Package001_Geography": [
+        "validation_report.md",
+        "docs/METHODOLOGY.md",
+        "docs/USAGE.md",
+        "docs/DATA_DICTIONARY.md",
+        "docs/IMPORT_GUIDE.md"
+      ],
+      "Package002_Education": [
+        "validation_report.md",
+        "docs/DATA_DICTIONARY.md",
+        "docs/IMPORT_GUIDE.md"
+      ],
+      "Package003_Healthcare": [
+        "docs/DATA_DICTIONARY.md",
+        "docs/IMPORT_GUIDE.md"
+      ],
+      "Package004_Industries": [
+        "docs/DATA_DICTIONARY.md",
+        "docs/IMPORT_GUIDE.md"
+      ],
+      "Package006_Skills_and_Training": [
+        "README.md",
+        "CHANGELOG.md",
+        "VERSION",
+        "package_manifest.json",
+        "docs/METHODOLOGY.md",
+        "docs/USAGE.md",
+        "docs/DATA_DICTIONARY.md",
+        "docs/IMPORT_GUIDE.md",
+        "schemas/schema_catalog.json",
+        "registry/dataset_registry.csv"
+      ]
+    },
+    "empty_directories": [
+      "Package006_Skills_and_Training/docs",
+      "Package006_Skills_and_Training/evidence",
+      "Package006_Skills_and_Training/imports",
+      "Package006_Skills_and_Training/metadata",
+      "Package006_Skills_and_Training/raw_sources",
+      "Package006_Skills_and_Training/registry",
+      "Package006_Skills_and_Training/schemas"
+    ],
+    "placeholder_package_directories": [
+      "Package006_Skills"
+    ],
+    "python_files": 28,
+    "dead_code_candidates": [
+      {
+        "file": "backend/server.py",
+        "possibly_unused_functions": [
+          "auth_logout",
+          "auth_me",
+          "auth_session",
+          "create_connection",
+          "create_opportunity",
+          "delete_opportunity",
+          "get_current_user",
+          "get_opportunity",
+          "get_user",
+          "list_opportunities",
+          "list_received",
+          "list_sent",
+          "root",
+          "shutdown_db_client",
+          "update_connection",
+          "update_me"
+        ]
+      },
+      {
+        "file": "knowledge_graph/resolution/resolver.py",
+        "possibly_unused_functions": [
+          "search"
+        ]
+      },
+      {
+        "file": "query_engine/queries.py",
+        "possibly_unused_functions": [
+          "crop_to_opportunity"
+        ]
+      },
+      {
+        "file": "query_engine/engine.py",
+        "possibly_unused_functions": [
+          "__repr__",
+          "edges_of_type",
+          "entity_type",
+          "find",
+          "id",
+          "name",
+          "rank",
+          "shortest_path",
+          "stats",
+          "to_dict",
+          "traverse"
+        ]
+      }
+    ],
+    "pycache_without_source": [
+      "knowledge_engine",
+      "knowledge_engine/collectors",
+      "knowledge_engine/core",
+      "knowledge_engine/examples",
+      "knowledge_engine/package_builder",
+      "knowledge_engine/parsers",
+      "knowledge_engine/provenance",
+      "knowledge_engine/rule_engine",
+      "knowledge_engine/tests",
+      "knowledge_engine/update_engine",
+      "knowledge_engine/validation",
+      "knowledge_engine/versioning"
+    ]
+  },
+  "phase2_graph_integrity": {
+    "connected_components": 150,
+    "largest_component_size": 489,
+    "largest_component_pct": 75.58,
+    "singleton_components": 142,
+    "component_size_distribution": {
+      "1": 142,
+      "2": 6,
+      "489": 1,
+      "4": 1
+    },
+    "non_singleton_secondary_components": [
+      {
+        "size": 4,
+        "types": {
+          "BusinessOpportunity": 3,
+          "Industry": 1
+        },
+        "sample": [
+          "Instagram Live Selling / YouTube Live Shopping / Meesho Live",
+          "Retail & Local Commerce",
+          "WhatsApp Group Buying / Bulk-Order Community Groups",
+          "Instagram Shopping / WhatsApp Business / Meesho / Flipkart / Amazon Seller Social & Marketplace Commerce"
+        ]
+      },
+      {
+        "size": 2,
+        "types": {
+          "BusinessOpportunity": 1,
+          "Industry": 1
+        },
+        "sample": [
+          "Bridal Wear & Traditional Telugu Dress Rental",
+          "Local Entrepreneurship / Fashion & Apparel"
+        ]
+      },
+      {
+        "size": 2,
+        "types": {
+          "BusinessOpportunity": 1,
+          "Industry": 1
+        },
+        "sample": [
+          "Common Service Centres (CSC) + One District One Product (ODOP) Rural Digital Commerce Hubs",
+          "Local Entrepreneurship / Rural Digital Commerce"
+        ]
+      },
+      {
+        "size": 2,
+        "types": {
+          "BusinessOpportunity": 1,
+          "Industry": 1
+        },
+        "sample": [
+          "Farmer Producer Organisations (FPOs) + eNAM + ONDC + WhatsApp Farmer Groups",
+          "Agriculture & Allied Livelihoods"
+        ]
+      },
+      {
+        "size": 2,
+        "types": {
+          "BusinessOpportunity": 1,
+          "Industry": 1
+        },
+        "sample": [
+          "Instagram / YouTube Creator Commerce & Affiliate Selling",
+          "Retail & Local Commerce / Creator Economy"
+        ]
+      },
+      {
+        "size": 2,
+        "types": {
+          "BusinessOpportunity": 1,
+          "Industry": 1
+        },
+        "sample": [
+          "Telangana Homestays / Andhra Pradesh Heritage & Coastal Homestays",
+          "Tourism & Hospitality"
+        ]
+      },
+      {
+        "size": 2,
+        "types": {
+          "BusinessOpportunity": 1,
+          "Industry": 1
+        },
+        "sample": [
+          "WhatsApp Business Automation / Digital Catalog & Storefront Apps",
+          "Local Entrepreneurship / Digital Services"
+        ]
+      }
+    ],
+    "directed_cycles": 0,
+    "cycle_samples": [],
+    "self_loops": [],
+    "duplicate_edges": 0,
+    "alias_conflicts": [],
+    "alias_shadowing_a_canonical_name": [
+      {
+        "alias": "stand-up india",
+        "alias_of": "vw:governmentscheme:stand-up-india-scheme",
+        "canonical_of": "vw:financialinstitution:stand-up-india"
+      }
+    ],
+    "cross_package_sightings": 9,
+    "cross_package_sighting_detail": [
+      {
+        "entity": "Manufacturing",
+        "type": "Industry",
+        "owner": "Package004_Industries",
+        "also_in": "Package008_MSME"
+      },
+      {
+        "entity": "Agriculture and Allied",
+        "type": "Industry",
+        "owner": "Package004_Industries",
+        "also_in": "Package008_MSME"
+      },
+      {
+        "entity": "Tourism and Hospitality",
+        "type": "Industry",
+        "owner": "Package004_Industries",
+        "also_in": "Package008_MSME"
+      },
+      {
+        "entity": "Regional Rural Banks",
+        "type": "FinancialInstitution",
+        "owner": "Package007_Government_Schemes",
+        "also_in": "Package008_MSME"
+      },
+      {
+        "entity": "SIDBI",
+        "type": "FinancialInstitution",
+        "owner": "Package007_Government_Schemes",
+        "also_in": "Package008_MSME"
+      },
+      {
+        "entity": "NABARD",
+        "type": "FinancialInstitution",
+        "owner": "Package007_Government_Schemes",
+        "also_in": "Package008_MSME"
+      },
+      {
+        "entity": "Renewable Energy",
+        "type": "Industry",
+        "owner": "Package008_MSME",
+        "also_in": "Package004_Industries"
+      },
+      {
+        "entity": "Renewable Energy",
+        "type": "Industry",
+        "owner": "Package008_MSME",
+        "also_in": "Package004_Industries"
+      },
+      {
+        "entity": "Textiles & Apparel",
+        "type": "Industry",
+        "owner": "Package008_MSME",
+        "also_in": "Package004_Industries"
+      }
+    ],
+    "unresolved_endpoints": 132,
+    "unresolved_by_reason": {
+      "Package006 has no skill record for this requirement": 7,
+      "related_skill_names entry 'Employability Skills' is not a registered Skill: Package006 cer": 3,
+      "related_skill_names entry 'Cloud Computing Fundamentals' is not a registered Skill: Packag": 2,
+      "related_skill_names entry 'Cloud Security Basics' is not a registered Skill: Package006 ce": 2,
+      "crop_product 'Tea (Orthodox/CTC)' does not name a registered crop entity": 1,
+      "crop_product 'Coffee' does not name a registered crop entity": 1,
+      "crop_product 'Seafood (Fish, Shrimp)' does not name a registered crop entity": 1,
+      "related_skill_names entry 'Vocational Training' is not a registered Skill: Package006 cert": 1,
+      "related_skill_names entry 'Sector-Specific Trade Skills' is not a registered Skill: Packag": 1,
+      "related_skill_names entry 'Prior Learning Assessment' is not a registered Skill: Package00": 1,
+      "related_skill_names entry 'Sector-Specific Vocational Skills' is not a registered Skill: P": 1,
+      "related_skill_names entry 'Two-Wheeler Servicing' is not a registered Skill: Package006 ce": 1,
+      "related_skill_names entry 'Three-Wheeler Servicing' is not a registered Skill: Package006 ": 1,
+      "related_skill_names entry 'Automotive Electrical Systems' is not a registered Skill: Packa": 1,
+      "related_skill_names entry 'Automotive Mechanical Repair' is not a registered Skill: Packag": 1,
+      "related_skill_names entry 'Data Entry' is not a registered Skill: Package006 certification": 1,
+      "related_skill_names entry 'Typing Speed & Accuracy' is not a registered Skill: Package006 ": 1,
+      "related_skill_names entry 'Basic Computer Operation' is not a registered Skill: Package006": 1,
+      "related_skill_names entry 'MS Office Usage' is not a registered Skill: Package006 certific": 1,
+      "related_skill_names entry 'Computer Hardware Repair' is not a registered Skill: Package006": 1,
+      "related_skill_names entry 'Peripheral Installation & Troubleshooting' is not a registered ": 1,
+      "related_skill_names entry 'Laptop Servicing' is not a registered Skill: Package006 certifi": 1,
+      "related_skill_names entry 'Customer-Premise Technical Support' is not a registered Skill: ": 1,
+      "related_skill_names entry 'CNC Turning Machine Operation' is not a registered Skill: Packa": 1,
+      "related_skill_names entry 'Metal Machining' is not a registered Skill: Package006 certific": 1,
+      "related_skill_names entry 'Tooling & Workholding Setup' is not a registered Skill: Package": 1,
+      "related_skill_names entry 'Quality Inspection of Machined Parts' is not a registered Skill": 1,
+      "related_skill_names entry 'Computer Fundamentals' is not a registered Skill: Package006 ce": 1,
+      "related_skill_names entry 'Programming Basics' is not a registered Skill: Package006 certi": 1,
+      "related_skill_names entry 'IT Applications' is not a registered Skill: Package006 certific": 1,
+      "related_skill_names entry 'Web Design Basics' is not a registered Skill: Package006 certif": 1,
+      "related_skill_names entry 'Basic Computer Literacy' is not a registered Skill: Package006 ": 1,
+      "related_skill_names entry 'Internet & Email Usage' is not a registered Skill: Package006 c": 1,
+      "related_skill_names entry 'Digital Literacy' is not a registered Skill: Package006 certifi": 1,
+      "related_skill_names entry 'MS Office Basics' is not a registered Skill: Package006 certifi": 1,
+      "related_skill_names entry 'Networking Fundamentals' is not a registered Skill: Package006 ": 1,
+      "related_skill_names entry 'Network Security' is not a registered Skill: Package006 certifi": 1,
+      "related_skill_names entry 'Routing & Switching' is not a registered Skill: Package006 cert": 1,
+      "related_skill_names entry 'IP Connectivity' is not a registered Skill: Package006 certific": 1,
+      "related_skill_names entry 'Microsoft Azure' is not a registered Skill: Package006 certific": 1,
+      "related_skill_names entry 'Cloud Service Models' is not a registered Skill: Package006 cer": 1,
+      "related_skill_names entry 'MS Word' is not a registered Skill: Package006 certifications u": 1,
+      "related_skill_names entry 'MS Excel' is not a registered Skill: Package006 certifications ": 1,
+      "related_skill_names entry 'MS PowerPoint' is not a registered Skill: Package006 certificat": 1,
+      "related_skill_names entry 'Office Productivity Tools' is not a registered Skill: Package00": 1,
+      "related_skill_names entry 'AWS Cloud Services' is not a registered Skill: Package006 certi": 1,
+      "related_skill_names entry 'Cloud Economics' is not a registered Skill: Package006 certific": 1,
+      "related_skill_names entry 'IT Support' is not a registered Skill: Package006 certification": 1,
+      "related_skill_names entry 'Troubleshooting' is not a registered Skill: Package006 certific": 1,
+      "related_skill_names entry 'Networking Basics' is not a registered Skill: Package006 certif": 1,
+      "related_skill_names entry 'System Administration' is not a registered Skill: Package006 ce": 1,
+      "related_skill_names entry 'Customer Service (IT)' is not a registered Skill: Package006 ce": 1,
+      "related_skill_names entry 'Digital Marketing' is not a registered Skill: Package006 certif": 1,
+      "related_skill_names entry 'SEO Basics' is not a registered Skill: Package006 certification": 1,
+      "related_skill_names entry 'Social Media Marketing' is not a registered Skill: Package006 c": 1,
+      "related_skill_names entry 'Online Advertising Fundamentals' is not a registered Skill: Pac": 1,
+      "related_skill_names entry 'Computer-Aided Design (CAD)' is not a registered Skill: Package": 1,
+      "related_skill_names entry 'AutoCAD Drafting' is not a registered Skill: Package006 certifi": 1,
+      "related_skill_names entry '2D/3D Modeling' is not a registered Skill: Package006 certifica": 1,
+      "related_skill_names entry 'Technical Drawing' is not a registered Skill: Package006 certif": 1,
+      "related_skill_names entry 'Mechatronics' is not a registered Skill: Package006 certificati": 1,
+      "related_skill_names entry 'Industrial Automation' is not a registered Skill: Package006 ce": 1,
+      "related_skill_names entry 'Machine Operation' is not a registered Skill: Package006 certif": 1,
+      "related_skill_names entry 'Troubleshooting of Automated Systems' is not a registered Skill": 1,
+      "related_skill_names entry 'Industrial Robot Operation' is not a registered Skill: Package0": 1,
+      "related_skill_names entry 'Robot Programming' is not a registered Skill: Package006 certif": 1,
+      "related_skill_names entry 'CNC Operation' is not a registered Skill: Package006 certificat": 1,
+      "related_skill_names entry 'ROBOGUIDE Simulation' is not a registered Skill: Package006 cer": 1,
+      "related_skill_names entry 'Industrial Robot Programming' is not a registered Skill: Packag": 1,
+      "related_skill_names entry 'RAPID Programming Language' is not a registered Skill: Package0": 1,
+      "related_skill_names entry 'Robot Coordinate Systems' is not a registered Skill: Package006": 1,
+      "related_skill_names entry 'Flex Pendant Operation' is not a registered Skill: Package006 c": 1,
+      "related_skill_names entry 'Building Automation' is not a registered Skill: Package006 cert": 1,
+      "related_skill_names entry 'Power Management' is not a registered Skill: Package006 certifi": 1,
+      "related_skill_names entry 'EcoStruxure Platform' is not a registered Skill: Package006 cer": 1,
+      "related_skill_names entry 'Energy Efficiency Systems' is not a registered Skill: Package00": 1,
+      "related_skill_names entry 'Sector-Specific Vocational Skills (varies by job role)' is not ": 1,
+      "related_skill_names entry 'Entrepreneurship Basics' is not a registered Skill: Package006 ": 1,
+      "related_skill_names entry 'Varies by course (Engineering' is not a registered Skill: Packa": 1,
+      "related_skill_names entry 'Science' is not a registered Skill: Package006 certifications u": 1,
+      "related_skill_names entry 'Humanities' is not a registered Skill: Package006 certification": 1,
+      "related_skill_names entry 'Management subjects)' is not a registered Skill: Package006 cer": 1,
+      "related_skill_names entry 'Varies by course (School' is not a registered Skill: Package006": 1,
+      "related_skill_names entry 'Undergraduate' is not a registered Skill: Package006 certificat": 1,
+      "related_skill_names entry 'Postgraduate subjects across disciplines)' is not a registered ": 1,
+      "related_skill_names entry 'Free and Open Source Software (FOSS)' is not a registered Skill": 1,
+      "related_skill_names entry 'Linux' is not a registered Skill: Package006 certifications use": 1,
+      "related_skill_names entry 'LaTeX' is not a registered Skill: Package006 certifications use": 1,
+      "related_skill_names entry 'PHP & MySQL' is not a registered Skill: Package006 certificatio": 1,
+      "related_skill_names entry 'Java' is not a registered Skill: Package006 certifications use ": 1,
+      "related_skill_names entry 'C/C++ Programming' is not a registered Skill: Package006 certif": 1,
+      "related_skill_names entry 'LibreOffice' is not a registered Skill: Package006 certificatio": 1,
+      "related_skill_names entry 'Artificial Intelligence' is not a registered Skill: Package006 ": 1,
+      "related_skill_names entry 'Data Science & Machine Learning' is not a registered Skill: Pac": 1,
+      "related_skill_names entry 'Internet of Things (IoT)' is not a registered Skill: Package006": 1,
+      "related_skill_names entry 'Cybersecurity' is not a registered Skill: Package006 certificat": 1,
+      "related_skill_names entry 'Robotic Process Automation (RPA)' is not a registered Skill: Pa": 1,
+      "related_skill_names entry 'Blockchain' is not a registered Skill: Package006 certification": 1,
+      "related_skill_names entry 'Java Programming' is not a registered Skill: Package006 certifi": 1,
+      "related_skill_names entry 'Sector-Specific Vocational Skills (varies by Qualification Pack": 1,
+      "related_skill_names entry 'Industry-Aligned Technical Skills' is not a registered Skill: P": 1,
+      "related_skill_names entry 'Patient Care Support' is not a registered Skill: Package006 cer": 1,
+      "related_skill_names entry 'Basic Nursing Assistance' is not a registered Skill: Package006": 1,
+      "related_skill_names entry 'Hospital Hygiene & Safety' is not a registered Skill: Package00": 1,
+      "related_skill_names entry 'First Aid' is not a registered Skill: Package006 certifications": 1,
+      "related_skill_names entry 'Beauty Treatments' is not a registered Skill: Package006 certif": 1,
+      "related_skill_names entry 'Skin Care Services' is not a registered Skill: Package006 certi": 1,
+      "related_skill_names entry 'Hair Styling Basics' is not a registered Skill: Package006 cert": 1,
+      "related_skill_names entry 'Salon Hygiene Practices' is not a registered Skill: Package006 ": 1,
+      "related_skill_names entry 'Accounting Software' is not a registered Skill: Package006 cert": 1,
+      "related_skill_names entry 'GST Compliance' is not a registered Skill: Package006 certifica": 1,
+      "related_skill_names entry 'Inventory Management' is not a registered Skill: Package006 cer": 1,
+      "related_skill_names entry 'Bookkeeping' is not a registered Skill: Package006 certificatio": 1,
+      "related_skill_names entry 'Linux System Administration' is not a registered Skill: Package": 1,
+      "related_skill_names entry 'Red Hat Enterprise Linux' is not a registered Skill: Package006": 1,
+      "related_skill_names entry 'Open Source Software' is not a registered Skill: Package006 cer": 1,
+      "related_skill_names entry 'IT Infrastructure Management' is not a registered Skill: Packag": 1,
+      "related_skill_names entry 'Advanced Programming' is not a registered Skill: Package006 cer": 1,
+      "related_skill_names entry 'Software Engineering' is not a registered Skill: Package006 cer": 1,
+      "related_skill_names entry 'Database Management' is not a registered Skill: Package006 cert": 1,
+      "related_skill_names entry 'Computer Networking' is not a registered Skill: Package006 cert": 1,
+      "related_skill_names entry 'IT Systems Design' is not a registered Skill: Package006 certif": 1
+    },
+    "unresolved_by_type": {
+      "CERTIFIED_BY": 122,
+      "REQUIRES_SKILL": 7,
+      "EXPORTS_TO": 3
+    },
+    "relationship_types_registered": 19,
+    "relationship_types_unused": [
+      "STUDIED_AT",
+      "CERTIFIED_BY",
+      "SUCCESSOR_OF",
+      "PREDECESSOR_OF"
+    ],
+    "relationship_type_usage": {
+      "RELATED_TO": 190,
+      "LOCATED_IN": 121,
+      "SUPPORTED_BY_SCHEME": 92,
+      "PART_OF": 90,
+      "REQUIRES_SKILL": 86,
+      "EXPORTS_TO": 68,
+      "USES_MACHINERY": 64,
+      "SUPPORTED_BY_BANK": 36,
+      "USES_RAW_MATERIAL": 33,
+      "GENERATES_EMPLOYMENT": 32,
+      "USES_AI": 16,
+      "SELLS_TO": 12,
+      "FUNDED_BY": 12,
+      "PROCESSES": 10,
+      "TRAINED_BY": 3
+    },
+    "entity_types_unused": [],
+    "entity_type_counts": {
+      "Industry": 78,
+      "Machinery": 69,
+      "Institution": 66,
+      "District": 61,
+      "BusinessOpportunity": 45,
+      "Crop": 45,
+      "Skill": 45,
+      "GovernmentScheme": 40,
+      "MSME": 40,
+      "Certification": 30,
+      "ExportCountry": 29,
+      "TrainingProvider": 25,
+      "FinancialInstitution": 21,
+      "RawMaterial": 21,
+      "Market": 11,
+      "Soil": 10,
+      "ClimateZone": 8,
+      "State": 2,
+      "Country": 1
+    },
+    "degree_mean": 2.67,
+    "degree_max": 39,
+    "most_connected": [
+      {
+        "entity": "Scheduled Commercial Banks",
+        "type": "FinancialInstitution",
+        "degree": 39
+      },
+      {
+        "entity": "Telangana",
+        "type": "State",
+        "degree": 34
+      },
+      {
+        "entity": "Andhra Pradesh",
+        "type": "State",
+        "degree": 29
+      },
+      {
+        "entity": "Loamy",
+        "type": "Soil",
+        "degree": 27
+      },
+      {
+        "entity": "Spice Grinding and Packing Unit",
+        "type": "MSME",
+        "degree": 22
+      },
+      {
+        "entity": "Red Soil",
+        "type": "Soil",
+        "degree": 21
+      },
+      {
+        "entity": "Pradhan Mantri MUDRA Yojana",
+        "type": "GovernmentScheme",
+        "degree": 20
+      },
+      {
+        "entity": "Semi-arid",
+        "type": "ClimateZone",
+        "degree": 20
+      },
+      {
+        "entity": "Dal Milling Unit",
+        "type": "MSME",
+        "degree": 19
+      },
+      {
+        "entity": "Fruit Pulp and Beverage Unit",
+        "type": "MSME",
+        "degree": 19
+      },
+      {
+        "entity": "Sub-tropical",
+        "type": "ClimateZone",
+        "degree": 19
+      },
+      {
+        "entity": "Hyderabad",
+        "type": "District",
+        "degree": 18
+      }
+    ]
+  },
+  "phase3_ownership": {
+    "entity_type_owners": {
+      "District": "Package001_Geography",
+      "State": "Package001_Geography",
+      "Country": "Package001_Geography",
+      "Institution": "Package002_Education",
+      "Skill": "Package006_Skills_and_Training",
+      "Certification": "Package006_Skills_and_Training",
+      "TrainingProvider": "Package006_Skills_and_Training",
+      "Industry": "Package004_Industries",
+      "BusinessOpportunity": "Package004_Industries",
+      "MSME": "Package008_MSME",
+      "GovernmentScheme": "Package007_Government_Schemes",
+      "Crop": "Package005_Agriculture",
+      "Soil": "Package005_Agriculture",
+      "ClimateZone": "Package005_Agriculture",
+      "Machinery": "Package005_Agriculture",
+      "RawMaterial": "Package008_MSME",
+      "Market": "Package008_MSME",
+      "ExportCountry": "Package001_Geography",
+      "FinancialInstitution": "Package007_Government_Schemes"
+    },
+    "types_owned_per_package": {
+      "Package001_Geography": 4,
+      "Package005_Agriculture": 4,
+      "Package006_Skills_and_Training": 3,
+      "Package008_MSME": 3,
+      "Package004_Industries": 2,
+      "Package007_Government_Schemes": 2,
+      "Package002_Education": 1
+    },
+    "attributes_claimed_by_multiple_packages": {
+      "ai_readiness": [
+        "Package005_Agriculture",
+        "Package008_MSME"
+      ],
+      "automation_level": [
+        "Package005_Agriculture",
+        "Package008_MSME"
+      ]
+    },
+    "enforceable_attributes": 87,
+    "owned_attributes_appearing_outside_owner": {
+      "district_name": {
+        "owner": [
+          "Package001_Geography"
+        ],
+        "also_in": [
+          "Package006_Skills_and_Training",
+          "Package007_Government_Schemes",
+          "Package008_MSME"
+        ]
+      },
+      "scheme_name": {
+        "owner": [
+          "Package007_Government_Schemes"
+        ],
+        "also_in": [
+          "Package002_Education",
+          "Package003_Healthcare",
+          "Package005_Agriculture",
+          "Package006_Skills_and_Training"
+        ]
+      },
+      "machinery_name": {
+        "owner": [
+          "Package005_Agriculture"
+        ],
+        "also_in": [
+          "Package008_MSME"
+        ]
+      }
+    },
+    "declared_overlaps": [
+      {
+        "entity_type": "GovernmentScheme",
+        "owner": "Package007_Government_Schemes",
+        "also_held_by": [
+          "Package002_Education",
+          "Package003_Healthcare",
+          "Package004_Industries",
+          "Package005_Agriculture",
+          "Package006_Skills_and_Training"
+        ],
+        "status": "UNRESOLVED",
+        "adr": "ADR-003"
+      },
+      {
+        "entity_type": "Industry",
+        "owner": "Package004_Industries",
+        "also_held_by": [
+          "Package005_Agriculture",
+          "Package006_Skills_and_Training",
+          "Package008_MSME"
+        ],
+        "status": "PARTIALLY_RESOLVED",
+        "adr": "ADR-005"
+      },
+      {
+        "entity_type": "FinancialInstitution",
+        "owner": "Package007_Government_Schemes",
+        "also_held_by": [
+          "Package008_MSME"
+        ],
+        "status": "ACCEPTED",
+        "adr": "ADR-005"
+      },
+      {
+        "entity_type": "Machinery",
+        "owner": "Package005_Agriculture",
+        "also_held_by": [
+          "Package008_MSME"
+        ],
+        "status": "ACCEPTED",
+        "adr": "ADR-005"
+      },
+      {
+        "entity_type": "ExportCountry",
+        "owner": "Package001_Geography",
+        "also_held_by": [
+          "Package005_Agriculture",
+          "Package008_MSME"
+        ],
+        "status": "UNRESOLVED",
+        "adr": "ADR-005"
+      }
+    ],
+    "unresolved_overlaps": [
+      "GovernmentScheme",
+      "ExportCountry"
+    ],
+    "entities_sourced_from_non_owner": 115,
+    "entities_sourced_from_non_owner_by_type": {
+      "Industry": 53,
+      "Machinery": 53,
+      "FinancialInstitution": 9
+    },
+    "entities_sourced_from_non_owner_sample": [
+      {
+        "entity": "Angel Investors and Angel Networks",
+        "type": "FinancialInstitution",
+        "declared_owner": "Package007_Government_Schemes",
+        "sourced_from": "Package008_MSME"
+      },
+      {
+        "entity": "CGTMSE Guarantee Cover",
+        "type": "FinancialInstitution",
+        "declared_owner": "Package007_Government_Schemes",
+        "sourced_from": "Package008_MSME"
+      },
+      {
+        "entity": "NSIC Support Schemes",
+        "type": "FinancialInstitution",
+        "declared_owner": "Package007_Government_Schemes",
+        "sourced_from": "Package008_MSME"
+      },
+      {
+        "entity": "PMEGP Margin Money Subsidy",
+        "type": "FinancialInstitution",
+        "declared_owner": "Package007_Government_Schemes",
+        "sourced_from": "Package008_MSME"
+      },
+      {
+        "entity": "Pradhan Mantri MUDRA Yojana",
+        "type": "FinancialInstitution",
+        "declared_owner": "Package007_Government_Schemes",
+        "sourced_from": "Package008_MSME"
+      },
+      {
+        "entity": "Scheduled Commercial Banks",
+        "type": "FinancialInstitution",
+        "declared_owner": "Package007_Government_Schemes",
+        "sourced_from": "Package008_MSME"
+      },
+      {
+        "entity": "Stand-Up India",
+        "type": "FinancialInstitution",
+        "declared_owner": "Package007_Government_Schemes",
+        "sourced_from": "Package008_MSME"
+      },
+      {
+        "entity": "State Finance Corporations",
+        "type": "FinancialInstitution",
+        "declared_owner": "Package007_Government_Schemes",
+        "sourced_from": "Package008_MSME"
+      },
+      {
+        "entity": "Venture Capital and SIDBI Fund of Funds",
+        "type": "FinancialInstitution",
+        "declared_owner": "Package007_Government_Schemes",
+        "sourced_from": "Package008_MSME"
+      },
+      {
+        "entity": "AI Tooling: AI Credit Scoring and Cash Flow Forecasting",
+        "type": "Industry",
+        "declared_owner": "Package004_Industries",
+        "sourced_from": "Package008_MSME"
+      },
+      {
+        "entity": "AI Tooling: AI Quality Inspection",
+        "type": "Industry",
+        "declared_owner": "Package004_Industries",
+        "sourced_from": "Package008_MSME"
+      },
+      {
+        "entity": "AI Tooling: Accounting and GST Software",
+        "type": "Industry",
+        "declared_owner": "Package004_Industries",
+        "sourced_from": "Package008_MSME"
+      },
+      {
+        "entity": "AI Tooling: CRM System",
+        "type": "Industry",
+        "declared_owner": "Package004_Industries",
+        "sourced_from": "Package008_MSME"
+      },
+      {
+        "entity": "AI Tooling: Computer Vision Sorting and Grading",
+        "type": "Industry",
+        "declared_owner": "Package004_Industries",
+        "sourced_from": "Package008_MSME"
+      },
+      {
+        "entity": "AI Tooling: Customer Service Chatbot",
+        "type": "Industry",
+        "declared_owner": "Package004_Industries",
+        "sourced_from": "Package008_MSME"
+      },
+      {
+        "entity": "AI Tooling: Digital Marketing and Ad Automation",
+        "type": "Industry",
+        "declared_owner": "Package004_Industries",
+        "sourced_from": "Package008_MSME"
+      },
+      {
+        "entity": "AI Tooling: ERP System",
+        "type": "Industry",
+        "declared_owner": "Package004_Industries",
+        "sourced_from": "Package008_MSME"
+      },
+      {
+        "entity": "AI Tooling: Generative AI for Content and Documentation",
+        "type": "Industry",
+        "declared_owner": "Package004_Industries",
+        "sourced_from": "Package008_MSME"
+      },
+      {
+        "entity": "AI Tooling: Inventory and Warehouse Management",
+        "type": "Industry",
+        "declared_owner": "Package004_Industries",
+        "sourced_from": "Package008_MSME"
+      },
+      {
+        "entity": "AI Tooling: Predictive Maintenance",
+        "type": "Industry",
+        "declared_owner": "Package004_Industries",
+        "sourced_from": "Package008_MSME"
+      }
+    ],
+    "scheme_rows_by_package": {
+      "Package002_Education": 25,
+      "Package003_Healthcare": 9,
+      "Package004_Industries": 18,
+      "Package005_Agriculture": 12,
+      "Package006_Skills_and_Training": 15,
+      "Package007_Government_Schemes": 40
+    },
+    "scheme_rows_total": 119
+  },
+  "phase4_stewardship": {
+    "package_rows": {
+      "Package001_Geography": 138,
+      "Package002_Education": 141,
+      "Package003_Healthcare": 146,
+      "Package004_Industries": 63,
+      "Package005_Agriculture": 388,
+      "Package006_Skills_and_Training": 291,
+      "Package007_Government_Schemes": 655,
+      "Package008_MSME": 477
+    },
+    "rows_awaiting_review": {
+      "Package001_Geography": 138,
+      "Package002_Education": 141,
+      "Package003_Healthcare": 146,
+      "Package004_Industries": 63,
+      "Package005_Agriculture": 388,
+      "Package006_Skills_and_Training": 291,
+      "Package007_Government_Schemes": 655,
+      "Package008_MSME": 477
+    },
+    "rows_verified": {},
+    "total_rows": 2299,
+    "total_awaiting_review": 2299,
+    "total_verified": 0,
+    "total_cells": 40503,
+    "confidence_by_package": {
+      "Package001_Geography": {
+        "min": 55,
+        "max": 90,
+        "avg": 82.2,
+        "n": 138
+      },
+      "Package002_Education": {
+        "min": 58,
+        "max": 92,
+        "avg": 77.9,
+        "n": 141
+      },
+      "Package003_Healthcare": {
+        "min": 78,
+        "max": 88,
+        "avg": 85.8,
+        "n": 146
+      },
+      "Package004_Industries": {
+        "min": 55,
+        "max": 85,
+        "avg": 74.4,
+        "n": 63
+      },
+      "Package005_Agriculture": {
+        "min": 50,
+        "max": 78,
+        "avg": 72.2,
+        "n": 388
+      },
+      "Package006_Skills_and_Training": {
+        "min": 50,
+        "max": 80,
+        "avg": 67.3,
+        "n": 291
+      },
+      "Package007_Government_Schemes": {
+        "min": 60,
+        "max": 78,
+        "avg": 71.6,
+        "n": 655
+      },
+      "Package008_MSME": {
+        "min": 57,
+        "max": 78,
+        "avg": 67.9,
+        "n": 477
+      }
+    },
+    "entities_awaiting_review": 647,
+    "review_priority_top_40": [
+      {
+        "entity": "Scheduled Commercial Banks",
+        "type": "FinancialInstitution",
+        "package": "Package008_MSME",
+        "degree": 39,
+        "confidence": "75"
+      },
+      {
+        "entity": "Telangana",
+        "type": "State",
+        "package": "Package001_Geography",
+        "degree": 34,
+        "confidence": "85"
+      },
+      {
+        "entity": "Andhra Pradesh",
+        "type": "State",
+        "package": "Package001_Geography",
+        "degree": 29,
+        "confidence": "80"
+      },
+      {
+        "entity": "Loamy",
+        "type": "Soil",
+        "package": "Package005_Agriculture",
+        "degree": 27,
+        "confidence": "77"
+      },
+      {
+        "entity": "Spice Grinding and Packing Unit",
+        "type": "MSME",
+        "package": "Package008_MSME",
+        "degree": 22,
+        "confidence": "74"
+      },
+      {
+        "entity": "Red Soil",
+        "type": "Soil",
+        "package": "Package005_Agriculture",
+        "degree": 21,
+        "confidence": "77"
+      },
+      {
+        "entity": "Semi-arid",
+        "type": "ClimateZone",
+        "package": "Package005_Agriculture",
+        "degree": 20,
+        "confidence": "75"
+      },
+      {
+        "entity": "Pradhan Mantri MUDRA Yojana",
+        "type": "GovernmentScheme",
+        "package": "Package007_Government_Schemes",
+        "degree": 20,
+        "confidence": "77"
+      },
+      {
+        "entity": "Sub-tropical",
+        "type": "ClimateZone",
+        "package": "Package005_Agriculture",
+        "degree": 19,
+        "confidence": "76"
+      },
+      {
+        "entity": "Dal Milling Unit",
+        "type": "MSME",
+        "package": "Package008_MSME",
+        "degree": 19,
+        "confidence": "73"
+      },
+      {
+        "entity": "Fruit Pulp and Beverage Unit",
+        "type": "MSME",
+        "package": "Package008_MSME",
+        "degree": 19,
+        "confidence": "69"
+      },
+      {
+        "entity": "Hyderabad",
+        "type": "District",
+        "package": "Package001_Geography",
+        "degree": 18,
+        "confidence": "88"
+      },
+      {
+        "entity": "Prime Minister's Employment Generation Programme",
+        "type": "GovernmentScheme",
+        "package": "Package007_Government_Schemes",
+        "degree": 18,
+        "confidence": "76"
+      },
+      {
+        "entity": "Manufacturing",
+        "type": "Industry",
+        "package": "Package004_Industries",
+        "degree": 18,
+        "confidence": "55"
+      },
+      {
+        "entity": "Tropical",
+        "type": "ClimateZone",
+        "package": "Package005_Agriculture",
+        "degree": 17,
+        "confidence": "77"
+      },
+      {
+        "entity": "Cold-Pressed Oil Unit",
+        "type": "MSME",
+        "package": "Package008_MSME",
+        "degree": 17,
+        "confidence": "72"
+      },
+      {
+        "entity": "Rice Milling Unit",
+        "type": "MSME",
+        "package": "Package008_MSME",
+        "degree": 17,
+        "confidence": "73"
+      },
+      {
+        "entity": "Rice",
+        "type": "Crop",
+        "package": "Package005_Agriculture",
+        "degree": 15,
+        "confidence": "78"
+      },
+      {
+        "entity": "Garment Manufacturing Unit",
+        "type": "MSME",
+        "package": "Package008_MSME",
+        "degree": 15,
+        "confidence": "73"
+      },
+      {
+        "entity": "Dry",
+        "type": "ClimateZone",
+        "package": "Package005_Agriculture",
+        "degree": 13,
+        "confidence": "74"
+      },
+      {
+        "entity": "Turmeric",
+        "type": "Crop",
+        "package": "Package005_Agriculture",
+        "degree": 13,
+        "confidence": "77"
+      },
+      {
+        "entity": "Credit Guarantee Fund Trust for Micro and Small Enterprises",
+        "type": "GovernmentScheme",
+        "package": "Package007_Government_Schemes",
+        "degree": 13,
+        "confidence": "74"
+      },
+      {
+        "entity": "Custom Software Development Firm",
+        "type": "MSME",
+        "package": "Package008_MSME",
+        "degree": 13,
+        "confidence": "74"
+      },
+      {
+        "entity": "Chickpea",
+        "type": "Crop",
+        "package": "Package005_Agriculture",
+        "degree": 12,
+        "confidence": "77"
+      },
+      {
+        "entity": "Agriculture & Allied",
+        "type": "Industry",
+        "package": "Package004_Industries",
+        "degree": 12,
+        "confidence": "56"
+      },
+      {
+        "entity": "Technology",
+        "type": "Industry",
+        "package": "Package004_Industries",
+        "degree": 12,
+        "confidence": "82"
+      },
+      {
+        "entity": "Packaging Materials Unit",
+        "type": "MSME",
+        "package": "Package008_MSME",
+        "degree": 12,
+        "confidence": "72"
+      },
+      {
+        "entity": "Tool and Die Making Unit",
+        "type": "MSME",
+        "package": "Package008_MSME",
+        "degree": 12,
+        "confidence": "71"
+      },
+      {
+        "entity": "Export Channel",
+        "type": "Market",
+        "package": "Package008_MSME",
+        "degree": 12,
+        "confidence": "70"
+      },
+      {
+        "entity": "Alluvial",
+        "type": "Soil",
+        "package": "Package005_Agriculture",
+        "degree": 12,
+        "confidence": "78"
+      },
+      {
+        "entity": "PM Formalisation of Micro Food Processing Enterprises",
+        "type": "GovernmentScheme",
+        "package": "Package007_Government_Schemes",
+        "degree": 11,
+        "confidence": "73"
+      },
+      {
+        "entity": "Construction & Skilled Trades",
+        "type": "Industry",
+        "package": "Package004_Industries",
+        "degree": 11,
+        "confidence": "74"
+      },
+      {
+        "entity": "AI Solutions and Consulting",
+        "type": "MSME",
+        "package": "Package008_MSME",
+        "degree": 11,
+        "confidence": "66"
+      },
+      {
+        "entity": "Black Soil",
+        "type": "Soil",
+        "package": "Package005_Agriculture",
+        "degree": 11,
+        "confidence": "78"
+      },
+      {
+        "entity": "Groundnut",
+        "type": "Crop",
+        "package": "Package005_Agriculture",
+        "degree": 10,
+        "confidence": "77"
+      },
+      {
+        "entity": "Mango",
+        "type": "Crop",
+        "package": "Package005_Agriculture",
+        "degree": 10,
+        "confidence": "77"
+      },
+      {
+        "entity": "United States",
+        "type": "ExportCountry",
+        "package": "Package001_Geography",
+        "degree": 10,
+        "confidence": "60"
+      },
+      {
+        "entity": "CNC Machining Job Shop",
+        "type": "MSME",
+        "package": "Package008_MSME",
+        "degree": 10,
+        "confidence": "73"
+      },
+      {
+        "entity": "Handloom and Handicraft Enterprise",
+        "type": "MSME",
+        "package": "Package008_MSME",
+        "degree": 10,
+        "confidence": "70"
+      },
+      {
+        "entity": "Guntur",
+        "type": "District",
+        "package": "Package001_Geography",
+        "degree": 9,
+        "confidence": "75"
+      }
+    ],
+    "high_leverage_entity_count": 128,
+    "edges_covered_by_top_40": 643,
+    "edge_endpoint_total": 1730
+  },
+  "phase5_knowledge_engine": {
+    "tracked_files_on_main": 0,
+    "working_tree_source_files": 0,
+    "origin_commit": "71ac7e1f3127",
+    "origin_commit_subject": "feat(knowledge_engine): add ValueWeave Knowledge Engine (VKE) v0.1.0 foundation",
+    "origin_commit_date": "2026-07-24 09:16:31 +0000",
+    "file_count_in_commit": 62,
+    "insertions_in_commit": "62 files changed, 5322 insertions(+)",
+    "branches_containing": [
+      "claude/knowledge-engine-foundation",
+      "remotes/origin/claude/knowledge-engine-foundation"
+    ],
+    "reachable_from_main": false,
+    "commits_ahead_of_main": 1,
+    "commits_main_ahead": 18,
+    "merge_base": "3161186 Merge branch 'claude/package004-industries-import' into main",
+    "merge_conflict_markers": 0,
+    "modules_in_commit": [
+      "collectors",
+      "config",
+      "core",
+      "docs",
+      "examples",
+      "package_builder",
+      "parsers",
+      "provenance",
+      "rule_engine",
+      "tests",
+      "update_engine",
+      "validation",
+      "versioning"
+    ],
+    "files_referencing_engine": [
+      "./source_registry/build_source_registry.py",
+      "./governance/adr/ADR-006-knowledge-engine-absent-from-repository.md",
+      "./audit/run_audit.py",
+      "./PLATFORM_V2.md",
+      "./docs/architecture/SYSTEM_ARCHITECTURE.md",
+      "./docs/architecture/ROADMAP_V2.md"
+    ]
+  },
+  "phase8_metrics": {
+    "packages_released": 8,
+    "placeholder_package_dirs": 1,
+    "datasets": 77,
+    "package_rows": 2299,
+    "package_cells": 40503,
+    "entities": 647,
+    "relationships": 865,
+    "aliases": 150,
+    "entity_types": 19,
+    "relationship_types": 19,
+    "provenance_records": 3164,
+    "markdown_docs": 252,
+    "json_artifacts": 145,
+    "validators": 4,
+    "generator_scripts": 14,
+    "connectivity_pct": 78.05,
+    "largest_component_pct": 75.58,
+    "entity_type_coverage_pct": 100.0,
+    "relationship_type_coverage_pct": 78.95,
+    "verified_pct": 0.0,
+    "cross_package_reference_cells": 730,
+    "broken_reference_pct": 0.0,
+    "weak_reference_pct": 17.4,
+    "normalization_score": 96.6,
+    "maturity_dimensions": {
+      "structure_and_validation": 95,
+      "provenance_completeness": 95,
+      "cross_package_integrity": 90,
+      "graph_connectivity": 78,
+      "ownership_governance": 70,
+      "documentation": 90,
+      "human_verification": 0,
+      "collection_reproducibility": 30
+    },
+    "repository_maturity_score": 68.5
+  },
+  "phase6_recommendation_readiness": {
+    "required_inputs": {
+      "Education": {
+        "available": true,
+        "via": "Institution entities + RELATED_TO talent pipeline",
+        "entities": 66
+      },
+      "Skills": {
+        "available": true,
+        "via": "Skill entities + REQUIRES_SKILL",
+        "entities": 45
+      },
+      "District": {
+        "available": true,
+        "via": "District entities + GENERATES_EMPLOYMENT",
+        "entities": 61
+      },
+      "Budget": {
+        "available": "PARTIAL",
+        "via": "udyam_classification ordinal band only; no rupee figure exists",
+        "entities": 40
+      },
+      "Interests": {
+        "available": true,
+        "via": "Industry entities + PART_OF",
+        "entities": 78
+      },
+      "Experience": {
+        "available": "PARTIAL",
+        "via": "msme_businesses.difficulty ordinal; not an entity attribute",
+        "entities": 40
+      },
+      "Goals": {
+        "available": false,
+        "via": "no goal taxonomy exists in any package",
+        "entities": 0
+      }
+    },
+    "required_outputs": {
+      "Business": {
+        "available": true,
+        "entities": 40
+      },
+      "Skills": {
+        "available": true,
+        "entities": 45
+      },
+      "Schemes": {
+        "available": true,
+        "entities": 40
+      },
+      "Training": {
+        "available": "WEAK",
+        "note": "25 providers but only 3 TRAINED_BY edges"
+      },
+      "MSME": {
+        "available": true,
+        "entities": 40
+      },
+      "Market": {
+        "available": "WEAK",
+        "note": "11 channels, 12 SELLS_TO edges"
+      },
+      "AI Tools": {
+        "available": true,
+        "note": "16 USES_AI edges"
+      }
+    },
+    "readiness_factors": {
+      "candidate_generation_possible": 100,
+      "constraint_filtering_possible": 60,
+      "explanation_possible": 100,
+      "ranking_calibratable": 0,
+      "graph_density_sufficient": 78,
+      "data_human_verified": 0,
+      "ownership_stable": 60
+    },
+    "readiness_score": 56.9,
+    "blocking_gaps": [
+      "No outcome data exists to calibrate ranking weights",
+      "No goal taxonomy: 'Goals' input has no representation in any package",
+      "TRAINED_BY has only 3 edges; 'Training' output would be near-empty",
+      "SELLS_TO has only 12 edges; 'Market' output would be near-empty",
+      "Zero rows human-verified",
+      "ADR-003 open: a recommendation could surface a stale scheme copy"
+    ]
+  },
+  "phase7_api_readiness": {
+    "apis": {
+      "Entity API": {
+        "data_ready": true,
+        "score": 95,
+        "note": "647 entities, stable ids, provenance complete"
+      },
+      "Relationship API": {
+        "data_ready": true,
+        "score": 95,
+        "note": "865 edges, all endpoints resolve"
+      },
+      "Graph API": {
+        "data_ready": true,
+        "score": 90,
+        "note": "traverse/neighbours/shortest_path implemented"
+      },
+      "Search API": {
+        "data_ready": true,
+        "score": 85,
+        "note": "Resolver provides alias/prefix/fuzzy; no full-text index"
+      },
+      "Package API": {
+        "data_ready": true,
+        "score": 80,
+        "note": "manifests and registries exist per package"
+      },
+      "Version API": {
+        "data_ready": "PARTIAL",
+        "score": 55,
+        "note": "package VERSION files exist; graph has no version endpoint contract"
+      },
+      "Governance API": {
+        "data_ready": true,
+        "score": 75,
+        "note": "ownership registry + ADRs are machine-readable CSV/MD"
+      },
+      "Recommendation API": {
+        "data_ready": false,
+        "score": 25,
+        "note": "blocked on Phase 6 gaps"
+      }
+    },
+    "implementation_order": [
+      "Entity API",
+      "Relationship API",
+      "Graph API",
+      "Search API",
+      "Package API",
+      "Governance API",
+      "Version API",
+      "Recommendation API"
+    ],
+    "blocking_for_all": [
+      "Zero human-verified rows: an API industrialises whatever errors the data holds",
+      "No auth, rate limiting or API versioning policy designed"
+    ]
+  }
+}

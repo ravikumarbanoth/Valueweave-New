@@ -8,6 +8,27 @@ import AiReadableSummary from "@/components/geo/AiReadableSummary";
 import AppNavbar from "@/components/AppNavbar";
 import PageTracker from "@/components/PageTracker";
 import RequestContentWidget from "@/components/RequestContentWidget";
+import DistrictIntelligencePanel from "@/components/knowledge/DistrictIntelligencePanel";
+import { getDistrictKnowledge, resolveTerms } from "@/lib/knowledge";
+
+// Phase 5 — researched knowledge for this district.
+//
+// Resolution goes through the Step 0 district crosswalk, which reaches 100%: all
+// 14 editorial districts plus the idea-library variants map to a graph District,
+// including the curated cases (Anantapur -> Ananthapuramu, Nellore -> Sri Potti
+// Sriramulu Nellore, and Vijayawada -> NTR, which maps a city to its district).
+async function loadDistrictKnowledge(districtName) {
+  const { resolved } = await resolveTerms("district", [districtName]);
+  const hit = resolved[0];
+  if (!hit) {
+    return {
+      grouped: {},
+      status: "NO_DATA_SOURCE",
+      note: `"${districtName}" has no entry in the district vocabulary crosswalk yet, so no researched entities can be linked to it.`,
+    };
+  }
+  return { grouped: await getDistrictKnowledge(hit.global_entity_id), status: null, note: null };
+}
 
 export async function generateStaticParams() {
   return getAllDistrictSlugs().map((slug) => ({ slug }));
@@ -19,9 +40,14 @@ export async function generateMetadata({ params }) {
   return buildDistrictMetadata(district);
 }
 
-export default function DistrictPage({ params }) {
+export default async function DistrictPage({ params }) {
   const district = getDistrictBySlug(params.slug);
   if (!district) notFound();
+
+  // Additive: the editorial profile below is unchanged. This runs at build time
+  // and returns an empty grouping when the projection is absent, so the page
+  // renders identically today and gains content the day the sync runs.
+  const knowledge = await loadDistrictKnowledge(district.name);
 
   const allArticles = getAllArticles();
   const relatedLinks = getDistrictRelatedLinks(district, allArticles);
@@ -76,6 +102,20 @@ export default function DistrictPage({ params }) {
         relatedLinks={relatedLinks}
         relatedArticles={relatedArticles}
       />
+      {/* ── Phase 5: researched knowledge, BELOW the editorial profile ──
+          lib/districts-data.js narrative is better writing than anything the graph
+          generates. The graph contributes sourced facts, clearly labelled as such,
+          and neither replaces the other. */}
+      <div className="max-w-5xl mx-auto px-4 pb-4">
+        <DistrictIntelligencePanel
+          testId="district-intelligence"
+          districtName={district.name}
+          grouped={knowledge.grouped}
+          status={knowledge.status}
+          note={knowledge.note}
+        />
+      </div>
+
       <div className="max-w-5xl mx-auto px-4 pb-10">
         <div className="flex items-center justify-between pt-6 border-t border-stone-200 mt-2">
           <p className="text-[13px] text-stone-400">Missing something about {district.name}?</p>

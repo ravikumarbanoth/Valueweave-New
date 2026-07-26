@@ -1,0 +1,86 @@
+// Researched knowledge for one district, grouped by entity type.
+//
+// Sits BELOW the existing editorial district profile, never replacing it.
+// lib/districts-data.js narrative is better writing than anything the graph can
+// generate; the graph contributes sourced facts. Layer A owns the story, the
+// knowledge platform owns the figures, and the labels say which is which.
+//
+// Coverage is uneven and the panel admits it: GENERATES_EMPLOYMENT holds 32 edges
+// across 61 districts, so most districts show institutions and industries but few
+// businesses. Rendering an empty section without explanation would read as "this
+// district has no economy".
+import KnowledgeCard from "./KnowledgeCard";
+import KnowledgeCardGrid from "./KnowledgeCardGrid";
+import UnverifiedNotice from "./UnverifiedNotice";
+
+const SECTIONS = [
+  { type: "Industry", label: "Industries" },
+  { type: "MSME", label: "MSMEs" },
+  { type: "BusinessOpportunity", label: "Business opportunities" },
+  { type: "GovernmentScheme", label: "Government schemes" },
+  { type: "Institution", label: "Institutions" },
+  { type: "Market", label: "Markets" },
+];
+
+export default function DistrictIntelligencePanel({ districtName, grouped = {}, status, note, testId }) {
+  const populated = SECTIONS.filter((s) => (grouped[s.type] || []).length > 0);
+  const total = Object.values(grouped).reduce((n, rows) => n + rows.length, 0);
+
+  return (
+    <section data-testid={testId} className="card-base p-5 sm:p-7">
+      <div className="mb-4">
+        <span className="chip bg-teal-100 text-teal-700 border border-teal-200 mb-3">
+          RESEARCHED KNOWLEDGE
+        </span>
+        <h2 className="font-display font-extrabold text-2xl text-ink">
+          What the knowledge base records for {districtName}
+        </h2>
+        <p className="text-sm text-muted mt-2 max-w-2xl leading-relaxed">
+          Sourced entities linked to this district across Packages 001–008. Separate
+          from the editorial profile above, and every item names where it came from.
+        </p>
+      </div>
+
+      {total === 0 ? (
+        <KnowledgeCardGrid
+          status={status || "NO_DATA_SOURCE"}
+          note={
+            note ||
+            `No researched entity is linked to ${districtName} yet. Coverage is uneven: the knowledge graph holds 32 employment links across 61 districts, so a blank here is a collection gap rather than an absence of opportunity.`
+          }
+          testId={testId && `${testId}-empty`}
+        />
+      ) : (
+        <>
+          <UnverifiedNotice hasUnverified className="mb-5" />
+          {populated.map((section) => {
+            const rows = grouped[section.type] || [];
+            return (
+              <div key={section.type} className="mb-5 last:mb-0">
+                <h3 className="label-display flex items-center gap-1.5">
+                  {section.label}
+                  <span className="text-stone-400 tabular-nums font-normal">{rows.length}</span>
+                </h3>
+                <KnowledgeCardGrid columns="sm:grid-cols-2 lg:grid-cols-3">
+                  {rows.slice(0, 6).map((row) => (
+                    <KnowledgeCard
+                      key={row.global_entity_id}
+                      testId={`district-${section.type}`}
+                      title={row.canonical_name}
+                      type={row._via ? row._via.replace(/_/g, " ").toLowerCase() : section.type}
+                      confidence={row.confidence_score}
+                      provenance={{
+                        package: row.source_package,
+                        rowId: row.package_local_id,
+                      }}
+                    />
+                  ))}
+                </KnowledgeCardGrid>
+              </div>
+            );
+          })}
+        </>
+      )}
+    </section>
+  );
+}

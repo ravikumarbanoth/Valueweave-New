@@ -43,6 +43,8 @@ SUITES = {
                        "v3.0 Step 1: Git -> Supabase synchronisation framework"),
     "user_intelligence": ("tests.test_user_intelligence",
                           "v3.0 Step 1.5: rule-based user intelligence engine"),
+    "frontend_integration": ("tests.test_frontend_integration",
+                             "v3.0 Step 2: JS <-> Python contract and page wiring"),
 }
 
 

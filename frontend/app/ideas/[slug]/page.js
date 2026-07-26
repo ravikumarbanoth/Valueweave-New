@@ -8,6 +8,7 @@ import ShareButton from "@/components/ShareButton";
 import PageTracker from "@/components/PageTracker";
 import RequestContentWidget from "@/components/RequestContentWidget";
 import AiReadableSummary from "@/components/geo/AiReadableSummary";
+import BusinessKnowledgeSection from "@/components/knowledge/BusinessKnowledgeSection";
 import { MapPin, Users, Target, Wrench, IndianRupee, TrendingUp, Sparkles, ShieldCheck, Landmark, ShoppingBag } from "lucide-react";
 
 const BUCKET_COLOR = {
@@ -236,7 +237,15 @@ export default function IdeaDetailPage() {
 
       <div className="flex items-center justify-between mt-4 px-1">
         <p className="text-[13px] text-stone-400">Want a detailed business guide for this idea?</p>
-        <RequestContentWidget
+        {/* ── Phase 6: researched counterparts from Packages 004/006/007/008 ──
+          Additive, below the editorial detail. Links; never merges. */}
+      <BusinessKnowledgeSection
+        sectorLabel={sector.label}
+        skills={skills}
+        districts={arr(idea.district_fit)}
+      />
+
+      <RequestContentWidget
           defaultType="idea"
           sector={idea.sector}
           district={seedDistrict || null}

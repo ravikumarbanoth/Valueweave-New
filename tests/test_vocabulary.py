@@ -27,6 +27,28 @@ ROOT = Path(__file__).resolve().parent.parent
 VOCAB = ROOT / "governance" / "vocabulary"
 sys.path.insert(0, str(ROOT))
 
+
+def files_changed_by_commit(subject):
+    """
+    The files changed by the one commit that delivered a step, or None if that
+    commit is not in this clone.
+
+    `test_no_application_code_is_touched_by_this_step` used to diff `main...HEAD`,
+    which measured the whole branch rather than this step. Step 2 later landed on
+    the same branch and legitimately edited pages, so the test failed on someone
+    else's work; after a merge it would instead have passed by measuring an empty
+    diff. A step's scope is a claim about its own commit, and once committed that
+    is fixed in history.
+    """
+    log = subprocess.run(["git", "log", "--all", "--format=%H%x09%s"],
+                         cwd=ROOT, capture_output=True, text=True).stdout.splitlines()
+    sha = next((line.split("\t", 1)[0] for line in log
+                if line.split("\t", 1)[-1].strip() == subject), None)
+    if sha is None:
+        return None
+    return subprocess.run(["git", "diff", "--name-only", f"{sha}^", sha],
+                          cwd=ROOT, capture_output=True, text=True).stdout.split()
+
 KINDS = ("skill", "sector", "district")
 TARGET_TYPE = {"skill": "Skill", "sector": "Industry", "district": "District"}
 NO_COUNTERPART = "NO_COUNTERPART"
@@ -248,9 +270,9 @@ class MigrationTest(unittest.TestCase):
 
     def test_no_application_code_is_touched_by_this_step(self):
         """Step 0 adds a migration file. It must not edit a page or a component."""
-        changed = subprocess.run(
-            ["git", "diff", "--name-only", "main...HEAD"],
-            cwd=ROOT, capture_output=True, text=True).stdout.split()
+        changed = files_changed_by_commit("feat(v3.0): Step 0 — vocabulary crosswalk")
+        if changed is None:
+            self.skipTest("Step 0's commit is not in this clone's history")
         offenders = [f for f in changed
                      if f.startswith("frontend/") and not f.startswith("frontend/migrations/")]
         self.assertEqual(offenders, [],

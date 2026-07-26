@@ -6,6 +6,38 @@ import AppNavbar from "@/components/AppNavbar";
 import OpportunityCard from "@/components/OpportunityCard";
 import { FeedSkeleton } from "@/components/Skeleton";
 import { Search } from "lucide-react";
+import RecommendationRail from "@/components/knowledge/RecommendationRail";
+import UnverifiedNotice from "@/components/knowledge/UnverifiedNotice";
+import {
+  getRecommendationsByCategory,
+  intelligenceState,
+} from "@/lib/intelligence";
+
+// Phase 2 — the four personalised rails. Ordered by how reliably they resolve:
+// district-driven rails join at 100% (Step 0), skill-driven rails at 22.8%, so the
+// ones most likely to have content come first.
+const RAILS = [
+  {
+    category: "business_ideas",
+    title: "Business ideas for you",
+    subtitle: "Matched to your skills, district and declared interests",
+  },
+  {
+    category: "government_schemes",
+    title: "Schemes you may qualify for",
+    subtitle: "Reached through the businesses your skills match",
+  },
+  {
+    category: "msmes",
+    title: "District opportunities",
+    subtitle: "Researched MSMEs operating where you are",
+  },
+  {
+    category: "courses",
+    title: "Skills worth adding",
+    subtitle: "Ordered by how many matched businesses each one unlocks",
+  },
+];
 
 const CATEGORIES = [
   { id: "", emoji: "🌐", label: "All" },
@@ -35,6 +67,11 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [category, setCategory] = useState("");
   const [search, setSearch] = useState("");
+  // Personalised intelligence, read from the user_intelligence schema. Loaded
+  // separately from the feed so a slow or absent projection never delays the
+  // opportunities the dashboard already shows.
+  const [intel, setIntel] = useState(null);
+  const [rails, setRails] = useState({});
 
   useEffect(() => {
     (async () => {
@@ -46,6 +83,21 @@ export default function DashboardPage() {
         return;
       }
       setProfile(data);
+
+      // Read-only. Nothing here computes a recommendation in the browser — the
+      // Python engine wrote these rows, RLS scopes them to this user, and this
+      // page renders them.
+      const state = await intelligenceState(user.id);
+      setIntel(state);
+      if (state.available) {
+        setRails(
+          await getRecommendationsByCategory(
+            user.id,
+            RAILS.map((r) => r.category),
+            { perCategory: 6 }
+          )
+        );
+      }
     })();
   }, [supabase]);
 
@@ -149,6 +201,57 @@ export default function DashboardPage() {
             ))}
           </div>
         </div>
+
+        {/* ── Phase 2: personalised intelligence ─────────────────────────
+            Additive. The opportunity feed below is untouched: same query, same
+            ranking, same OpportunityCard. */}
+        {intel && (
+          <div data-testid="dashboard-intelligence" className="mb-8">
+            {!intel.available ? (
+              <div
+                data-testid="intelligence-unavailable"
+                className="rounded-2xl border border-dashed border-amber-200 bg-amber-50 p-5 mb-6"
+              >
+                <p className="font-display font-bold text-sm text-ink">
+                  {intel.reason === "NOT_DEPLOYED"
+                    ? "Personalised recommendations are not switched on yet"
+                    : "We have not analysed your profile yet"}
+                </p>
+                <p className="text-xs text-muted mt-1.5 leading-relaxed">{intel.message}</p>
+              </div>
+            ) : (
+              <>
+                <UnverifiedNotice
+                  verified={0}
+                  total={intel.summary?.total_recommendations || 0}
+                  className="mb-5"
+                />
+                {RAILS.map((rail) => (
+                  <RecommendationRail
+                    key={rail.category}
+                    testId={`rail-${rail.category}`}
+                    title={rail.title}
+                    subtitle={rail.subtitle}
+                    category={rail.category}
+                    items={rails[rail.category] || []}
+                    status={
+                      (intel.summary?.recommendations_by_category?.[rail.category] || {})
+                        .status
+                    }
+                    note={
+                      (intel.summary?.recommendations_by_category?.[rail.category] || {})
+                        .note
+                    }
+                  />
+                ))}
+              </>
+            )}
+          </div>
+        )}
+
+        <h2 className="font-display font-extrabold text-lg text-ink mb-3">
+          Open opportunities
+        </h2>
 
         {loading ? (
           <FeedSkeleton count={6} />

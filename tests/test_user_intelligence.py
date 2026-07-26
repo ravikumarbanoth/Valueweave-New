@@ -29,6 +29,31 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
+
+def files_changed_by_commit(subject):
+    """
+    The files changed by the one commit that delivered a step, or None if that
+    commit is not in this clone.
+
+    The scope tests below used to diff `main...HEAD`. That was correct only while
+    the branch held nothing but their own step: a later step landing on the same
+    branch made the test fail on *that* step's legitimate changes, and once the
+    branch merged, the diff would be empty and the test would pass by measuring
+    nothing — which is worse, because it reports confidence it never earned.
+
+    A step's scope is a claim about that step's commit. Once committed, it is a
+    fact fixed in history that no later work can invalidate, so that is what is
+    measured.
+    """
+    log = subprocess.run(["git", "log", "--all", "--format=%H%x09%s"],
+                         cwd=ROOT, capture_output=True, text=True).stdout.splitlines()
+    sha = next((line.split("\t", 1)[0] for line in log
+                if line.split("\t", 1)[-1].strip() == subject), None)
+    if sha is None:
+        return None
+    return subprocess.run(["git", "diff", "--name-only", f"{sha}^", sha],
+                          cwd=ROOT, capture_output=True, text=True).stdout.split()
+
 from user_intelligence import RULES_VERSION, __version__            # noqa: E402
 from user_intelligence import fixtures                              # noqa: E402
 from user_intelligence.config import (CATEGORIES_BY_KEY, INPUTS,     # noqa: E402
@@ -454,17 +479,35 @@ class ConfigurationTest(unittest.TestCase):
                 self.assertEqual(INPUTS[name].status, MISSING)
         self.assertEqual(INPUTS["idea_library"].status, "STATIC_FILE")
 
-    def test_no_migration_defines_the_missing_tables(self):
-        """The claim that they do not exist, verified rather than asserted."""
-        sql = ""
-        for pattern in ("frontend/migrations/*.sql", "supabase/migrations/*.sql"):
-            for f in sorted(ROOT.glob(pattern)):
-                sql += f.read_text(encoding="utf-8").lower()
-        sql += (ROOT / "frontend" / "supabase_schema.sql").read_text().lower()
+    def test_missing_inputs_stay_missing_until_applied_and_populated(self):
+        """
+        Was: "no migration defines assessment_results or teams".
+
+        Step 2 Phase 8 added `frontend/migrations/010_missing_application_features.sql`,
+        which creates both — so the old assertion is now false while the underlying
+        claim is unchanged. A *written* migration is not a deployed, populated table,
+        and the engine must keep reporting the input as unavailable until it is both.
+
+        What is checked instead:
+          - the migration exists (the shape has been agreed)
+          - it seeds nothing (no fabricated mentor, event or assessment)
+          - INPUTS still says MISSING
+        """
+        migration = (ROOT / "frontend" / "migrations"
+                     / "010_missing_application_features.sql")
+        if migration.exists():
+            statements = "\n".join(line.split("--", 1)[0]
+                                   for line in migration.read_text().lower().splitlines())
+            self.assertNotIn("insert into", statements,
+                             "a seeded row would make a NO_DATA_SOURCE category start "
+                             "returning content that describes nobody")
+
         for name in ("assessment_results", "teams"):
-            with self.subTest(table=name):
-                self.assertNotRegex(
-                    sql, rf"create table\s+(if not exists\s+)?(public\.)?{name}\b")
+            with self.subTest(input=name):
+                self.assertEqual(
+                    INPUTS[name].status, MISSING,
+                    f"{name} is reported as available; a migration file alone does "
+                    f"not make an input usable")
 
     def test_every_score_spec_has_rules_and_a_description(self):
         for s in SCORES:
@@ -607,8 +650,9 @@ class SafetyTest(unittest.TestCase):
         self.assertEqual(offenders, [], f"AI dependency found: {offenders}")
 
     def test_no_package_or_frontend_file_is_modified_by_this_step(self):
-        changed = subprocess.run(["git", "diff", "--name-only", "main...HEAD"],
-                                 cwd=ROOT, capture_output=True, text=True).stdout.split()
+        changed = files_changed_by_commit("feat(v3.0): Step 1.5 — user intelligence engine")
+        if changed is None:
+            self.skipTest("Step 1.5's commit is not in this clone's history")
         offenders = [f for f in changed
                      if f.startswith(("packages/", "frontend/", "knowledge_graph/",
                                       "supabase/"))]

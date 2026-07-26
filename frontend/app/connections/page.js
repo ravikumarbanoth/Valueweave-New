@@ -4,6 +4,26 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase-browser";
 import AppNavbar from "@/components/AppNavbar";
 import { CheckCircle2 } from "lucide-react";
+import RecommendationRail from "@/components/knowledge/RecommendationRail";
+import { getRecommendations, intelligenceState } from "@/lib/intelligence";
+import { normaliseTerm } from "@/lib/knowledge";
+
+// Phase 7 — skill complementarity on an accepted connection.
+//
+// Compares the two profiles' own `skills` arrays directly. No crosswalk is needed
+// or wanted here: the question is "what does this pair have between them", which is
+// answerable from what both people typed. The crosswalk exists to reach the
+// knowledge graph, and this comparison never leaves the two profiles.
+function skillOverlap(mine = [], theirs = []) {
+  const mineNorm = new Map((mine || []).map((s) => [normaliseTerm(s), s]));
+  const theirsNorm = new Map((theirs || []).map((s) => [normaliseTerm(s), s]));
+  const shared = [];
+  const complementary = [];
+  for (const [key, label] of theirsNorm) {
+    (mineNorm.has(key) ? shared : complementary).push(label);
+  }
+  return { shared: shared.sort(), complementary: complementary.sort() };
+}
 
 export default function ConnectionsPage() {
   const supabase = createClient();
@@ -12,6 +32,10 @@ export default function ConnectionsPage() {
   const [received, setReceived] = useState([]);
   const [sent, setSent] = useState([]);
   const [loading, setLoading] = useState(true);
+  // Phase 7 — engine-produced collaborator suggestions, replacing the static
+  // sector-based matching. Read from user_recommendations; nothing is scored here.
+  const [suggested, setSuggested] = useState([]);
+  const [intel, setIntel] = useState(null);
 
   const load = async () => {
     setLoading(true);
@@ -22,17 +46,23 @@ export default function ConnectionsPage() {
 
     const [r, s] = await Promise.all([
       supabase.from("connections")
-        .select("*, opportunity:opportunities(id,title), from_user:profiles!connections_from_user_id_fkey(id,name,picture), to_user:profiles!connections_to_user_id_fkey(id,name,picture)")
+        .select("*, opportunity:opportunities(id,title), from_user:profiles!connections_from_user_id_fkey(id,name,picture,skills), to_user:profiles!connections_to_user_id_fkey(id,name,picture,skills)")
         .eq("to_user_id", user.id)
         .order("created_at", { ascending: false }),
       supabase.from("connections")
-        .select("*, opportunity:opportunities(id,title), from_user:profiles!connections_from_user_id_fkey(id,name,picture), to_user:profiles!connections_to_user_id_fkey(id,name,picture)")
+        .select("*, opportunity:opportunities(id,title), from_user:profiles!connections_from_user_id_fkey(id,name,picture,skills), to_user:profiles!connections_to_user_id_fkey(id,name,picture,skills)")
         .eq("from_user_id", user.id)
         .order("created_at", { ascending: false }),
     ]);
     setReceived(r.data || []);
     setSent(s.data || []);
     setLoading(false);
+
+    const state = await intelligenceState(user.id);
+    setIntel(state);
+    if (state.available) {
+      setSuggested(await getRecommendations(user.id, { category: "collaborators", limit: 6 }));
+    }
   };
 
   useEffect(() => { load(); /* eslint-disable-next-line */ }, []);
@@ -49,6 +79,18 @@ export default function ConnectionsPage() {
       <AppNavbar initialProfile={me} />
       <main className="max-w-3xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
         <h1 className="font-display font-extrabold text-3xl tracking-tight mb-5">Connections</h1>
+
+        {/* ── Phase 7: suggested collaborators, from the intelligence engine ── */}
+        {intel && (intel.available ? suggested.length > 0 : false) && (
+          <RecommendationRail
+            testId="rail-collaborators"
+            title="Suggested collaborators"
+            subtitle="Ranked by complementary skills, shared district and shared sector"
+            category="collaborators"
+            items={suggested}
+            limit={3}
+          />
+        )}
 
         <div className="inline-flex items-center gap-1 mb-5 bg-white border border-stone-200 rounded-full p-1">
           {[["received","Received", received.length], ["sent","Sent", sent.length]].map(([k, l, n]) => (
@@ -84,6 +126,9 @@ export default function ConnectionsPage() {
               const isReceived = tab === "received";
               const other = isReceived ? c.from_user : c.to_user;
               const accepted = c.status === "accepted";
+              // Only shown once a connection is accepted: before that the pair is
+              // not a working group and the comparison would be speculation.
+              const overlap = accepted ? skillOverlap(me?.skills, other?.skills) : null;
               return (
                 <div
                   key={c.id}
@@ -122,6 +167,52 @@ export default function ConnectionsPage() {
                       {c.status}
                     </span>
                   </div>
+
+                  {/* ── Phase 7: what this pair actually brings each other ──
+                      Complementary skills are the reason to work together; shared
+                      ones are the shorthand you already have. Both are useful and
+                      they are not the same thing, so they are labelled apart. */}
+                  {overlap && (overlap.complementary.length > 0 || overlap.shared.length > 0) && (
+                    <div
+                      data-testid={`conn-skills-${c.id}`}
+                      className="mb-3 rounded-2xl bg-white/70 border border-emerald-150 p-3"
+                    >
+                      {overlap.complementary.length > 0 && (
+                        <div className="mb-2 last:mb-0">
+                          <h4 className="label-display !mb-1.5">
+                            Brings skills you don&apos;t have
+                            <span className="text-stone-400 font-normal tabular-nums ml-1.5">
+                              {overlap.complementary.length}
+                            </span>
+                          </h4>
+                          <div className="flex flex-wrap gap-1.5">
+                            {overlap.complementary.slice(0, 8).map((sk) => (
+                              <span key={sk} className="chip bg-teal-50 text-teal-700 border border-teal-200 text-[11px]">
+                                {sk}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                      {overlap.shared.length > 0 && (
+                        <div>
+                          <h4 className="label-display !mb-1.5">
+                            Shared
+                            <span className="text-stone-400 font-normal tabular-nums ml-1.5">
+                              {overlap.shared.length}
+                            </span>
+                          </h4>
+                          <div className="flex flex-wrap gap-1.5">
+                            {overlap.shared.slice(0, 8).map((sk) => (
+                              <span key={sk} className="chip bg-stone-100 text-stone-600 border border-stone-200 text-[11px]">
+                                {sk}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
 
                   <p className="bg-white/70 rounded-xl px-4 py-2.5 text-sm text-ink leading-relaxed">"{c.message}"</p>
 

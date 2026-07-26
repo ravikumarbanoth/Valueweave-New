@@ -3,11 +3,20 @@ import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase-browser";
 import AppNavbar from "@/components/AppNavbar";
 import ProfileView from "@/components/ProfileView";
+import IntelligencePanel from "@/components/knowledge/IntelligencePanel";
+import {
+  getBusinessProfile,
+  getLearningProfile,
+  getSkillProfile,
+  intelligenceState,
+} from "@/lib/intelligence";
 
 export default function MyProfilePage() {
   const [profile, setProfile] = useState(null);
   const [opps, setOpps] = useState([]);
   const [loading, setLoading] = useState(true);
+  // Phase 3 — the four intelligence tables, read not computed.
+  const [intel, setIntel] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -19,6 +28,18 @@ export default function MyProfilePage() {
       const { data: o } = await supabase.from("opportunities").select("*").eq("owner_id", user.id).order("created_at", { ascending: false });
       setOpps(o || []);
       setLoading(false);
+
+      // Loaded after the profile renders, so an absent projection never blocks
+      // the page the user came for.
+      const state = await intelligenceState(user.id);
+      const [skill, business, learning] = state.available
+        ? await Promise.all([
+            getSkillProfile(user.id),
+            getBusinessProfile(user.id),
+            getLearningProfile(user.id),
+          ])
+        : [null, null, null];
+      setIntel({ state, skill, business, learning });
     })();
   }, []);
 
@@ -28,6 +49,15 @@ export default function MyProfilePage() {
   return (
     <Shell me={profile}>
       <ProfileView profile={profile} opps={opps} isMe />
+      {intel && (
+        <IntelligencePanel
+          state={intel.state}
+          skill={intel.skill}
+          business={intel.business}
+          learning={intel.learning}
+          isMe
+        />
+      )}
     </Shell>
   );
 }

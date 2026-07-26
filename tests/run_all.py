@@ -41,6 +41,8 @@ SUITES = {
                    "v3.0 Step 0: vocabulary crosswalk integrity and coverage"),
     "knowledge_sync": ("tests.test_knowledge_sync",
                        "v3.0 Step 1: Git -> Supabase synchronisation framework"),
+    "user_intelligence": ("tests.test_user_intelligence",
+                          "v3.0 Step 1.5: rule-based user intelligence engine"),
 }
 
 

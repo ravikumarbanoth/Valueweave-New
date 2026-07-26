@@ -27,40 +27,70 @@ Everything else keeps the brief's shape and its independent-deployability requir
 
 ---
 
-## Step 0 — Vocabulary reconciliation
+## Step 0 — Vocabulary reconciliation ✅ **BUILT**
 
-**3 days · low risk · blocks Steps 5, 6, 7**
+**low risk · blocks Steps 5, 6, 7 · delivered on `claude/v3-step0-vocabulary-crosswalk`**
 
 The prerequisite. Without it the graph and the users speak different languages.
 
-| Deliverable | Detail |
+### Measured outcome
+
+| Vocabulary | Terms | Resolved | Rate | Before Step 0 |
+|---|---:|---:|---:|---:|
+| District | 33 | 33 | **100%** | 84.8% |
+| Sector | 22 | 11 | 50.0% | 27.3% |
+| Skill | 147 | 39 | 26.5% | 14.3% |
+| **Total** | **202** | **83** | **41.1%** | 27.2% |
+| **Onboarding skills** | **57** | **13** | **22.8%** | **12.3%** |
+
+Matchers: `EXACT_NAME` 39, `CURATED` 28, `PREFIX` 16, **`FUZZY` 0**.
+
+**No fuzzy match cleared the 0.88 threshold unambiguously.** The two vocabularies are not
+near-misses of each other — they are different vocabularies, which is why curation carried
+more rows than every automatic matcher except exact naming.
+
+**Districts hit 100% and are fully unblocked.** Dashboard rails 1–2 and the whole of Step 4
+can proceed.
+
+**Skills reached 22.8%, against the 60% target, and the remainder is not fixable here.**
+110 of the 119 unresolved terms have *no counterpart in the knowledge base at all* —
+`Accounting`, `Data Entry`, `Digital Marketing`, `SEO`, `Graphic Design`,
+`Beautician Services`, `CCTV Installation` and 43 more skills the onboarding form actively
+nudges users to claim. Lowering the threshold would produce confident wrong answers, not
+coverage. **Reaching 60% requires collecting ~30 skills into Package006**; the backlog is
+published in `crosswalk_summary.json → collection_backlog`.
+
+The other 9 unresolved terms span more than one entity (`EV & Energy` covers Electric
+Vehicles, Renewable Energy and Power & Utilities) and are recorded as such rather than
+forced to one, with their candidates in `notes`.
+
+### Delivered
+
+| Deliverable | Status |
 |---|---|
-| `governance/vocabulary/skill_crosswalk.csv` | ~80 distinct terms from onboarding + Idea Library |
-| `governance/vocabulary/sector_crosswalk.csv` | 22 idea sectors → `Industry` |
-| `governance/vocabulary/district_crosswalk.csv` | ~20 terms → `District` |
-| `governance/vocabulary/build_crosswalk.py` | Matchers + `--apply`, modelled on `build_scheme_crosswalk.py` |
-| Migration `009` | `kg_vocabulary_map` |
-| Validator check | Fails the build on a crosswalk pointing at a missing entity |
+| `governance/vocabulary/build_crosswalk.py` | ✅ 5 matchers, `--check` mode, aborts on a broken override |
+| `governance/vocabulary/curated_overrides.json` | ✅ 17 curated mappings + 9 multi-target terms, each with a reason |
+| `governance/vocabulary/{skill,sector,district}_crosswalk.csv` | ✅ 202 rows |
+| `governance/vocabulary/crosswalk_summary.json` | ✅ Includes the collection backlog |
+| `governance/vocabulary/README.md` | ✅ |
+| `frontend/migrations/009_vocabulary_crosswalk.sql` | ✅ Written — **not applied**, no database access from this environment |
+| `tests/test_vocabulary.py` | ✅ 24 tests, wired into `tests/run_all.py` |
 
-**Method.** Reuse the ADR-003 pattern exactly: `EXACT_NAME` → `ALIAS` → `PREFIX` →
-`FUZZY` (accepted only when exactly one candidate clears the threshold) → human `CURATED`.
-Anything left is `NO_COUNTERPART`.
+**Method.** The ADR-003 pattern reused exactly: `EXACT_NAME` → `ALIAS` → `PREFIX` →
+`FUZZY` (accepted only when exactly one candidate clears 0.88) → human `CURATED`. Anything
+left is `NO_COUNTERPART` — a determinate statement, not a missing row.
 
-**Expected outcome.** ~39 of ~122 terms resolve. **~83 will be `NO_COUNTERPART`**, and that
-is the correct result, not a failure: `AC Repair`, `Beautician Services`, `CCTV
-Installation` and `Data Entry` have no Package006 counterpart, and no similarity threshold
-conjures a row that does not exist. The unresolved list is simultaneously the honest UI
-state and the Package006 collection backlog.
+**Still outstanding from this step:** making `/opportunities/new` and `/onboarding`
+*suggest* crosswalked terms first. It touches application code and therefore belongs with
+Step 1's frontend work, but it is where the vocabulary problem is cheapest to fix — every
+resolvable term entered from now on raises the join rate for every later feature at
+near-zero cost.
 
-**Also in this step,** because it is where the vocabulary problem is cheapest to fix: make
-`/opportunities/new` and `/onboarding` *suggest* crosswalked terms first. Free text stays
-allowed — this is a nudge, not a constraint — but every resolvable term entered from now
-on raises the join rate for every later feature at near-zero cost.
+**Verification:** `python3 governance/vocabulary/build_crosswalk.py --check` exits 0;
+24 tests pass; `test_no_application_code_is_touched_by_this_step` confirms no page or
+component was edited.
 
-**Done when:** the crosswalk exists, the validator passes, and a query for a user's skills
-returns either a resolved entity or an explicit `NO_COUNTERPART`.
-
-**Revert:** drop the table. Nothing depends on it yet.
+**Revert:** delete `governance/vocabulary/` and migration 009. Nothing depends on them yet.
 
 ---
 
@@ -398,8 +428,8 @@ Reported because they surfaced during analysis, not because they are in scope.
 |---|---:|---:|---|
 | Package rows visible to users | **0** | ~250 | 1 |
 | Pages showing researched knowledge | 0 | 21 | 1–7 |
-| Skill terms resolvable to the graph | **12%** | ≥ 60% | 0 + collection |
-| District terms resolvable | 86% | 100% | 0 |
+| Onboarding skills resolvable | 12% → **22.8%** | ≥ 60% | 0 done; **needs ~30 new Package006 skills** |
+| District terms resolvable | 86% → **100%** ✅ | 100% | 0 **done** |
 | Knowledge rendered without provenance | n/a | **0** | 2 |
 | Rows human-verified | **0** | ≥ 40 (37.2% of edge endpoints) | 2 |
 | New runtime dependencies | — | **0** | all |

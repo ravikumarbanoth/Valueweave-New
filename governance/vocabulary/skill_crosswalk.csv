@@ -1,0 +1,148 @@
+term_kind,source_vocab,source_term,normalised_term,global_entity_id,entity_type,canonical_name,match_method,match_score,notes
+skill,idea_library,AC Repair,ac repair,vw:skill:hvac-technician,Skill,HVAC Technician,CURATED,1.0,Same trade. HVAC is the formal NSQF-aligned name for air-conditioning installation and repair.
+skill,idea_library,Bike Repair,bike repair,vw:skill:two-wheeler-mechanic,Skill,Two-Wheeler Mechanic,CURATED,1.0,Same trade. 'Two-Wheeler Mechanic' is the NSQF job role name.
+skill,idea_library,Drone Piloting,drone piloting,vw:skill:drone-piloting-and-operations,Skill,Drone Piloting & Operations,PREFIX,0.9,
+skill,idea_library,Electrical Work,electrical work,vw:skill:electrician-domestic-wiring,Skill,Electrician (Domestic Wiring),CURATED,1.0,"Domestic wiring is the default reading of an unqualified 'Electrical Work' claim on a consumer profile. 'Industrial Electrician' is a distinct, higher-NSQF skill and is deliberately NOT the target -- see _multi_candidate if this proves too narrow."
+skill,idea_library,Food Processing,food processing,vw:skill:food-processing-and-preservation,Skill,Food Processing & Preservation,PREFIX,0.9,
+skill,idea_library,Mobile App Development,mobile app development,vw:skill:mobile-app-development-android-ios,Skill,Mobile App Development (Android/iOS),PREFIX,0.9,
+skill,idea_library,Mobile Repair,mobile repair,vw:skill:electronics-repair-and-maintenance,Skill,Electronics Repair & Maintenance,CURATED,1.0,"Package006 has no mobile-specific skill. Electronics repair is the genuine parent, and the note in the crosswalk records that this is a broadening, not an exact match."
+skill,idea_library,Organic Farming,organic farming,vw:skill:organic-farming,Skill,Organic Farming,EXACT_NAME,1.0,
+skill,idea_library,Plumbing,plumbing,vw:skill:plumbing,Skill,Plumbing,EXACT_NAME,1.0,
+skill,idea_library,Tailoring,tailoring,vw:skill:garment-manufacturing-stitching,Skill,Garment Manufacturing (Stitching),CURATED,1.0,Same trade. Package006 names it by the manufacturing role rather than the craft.
+skill,idea_library,Video Editing,video editing,vw:skill:video-editing-and-content-creation,Skill,Video Editing & Content Creation,PREFIX,0.9,
+skill,idea_library,Web Development,web development,vw:skill:full-stack-web-development,Skill,Full Stack Web Development,CURATED,1.0,Same skill. Package006 qualifies it as full-stack; the onboarding form does not.
+skill,idea_library,Welding,welding,vw:skill:welding-mig-tig-arc,Skill,Welding (MIG/TIG/Arc),PREFIX,0.9,
+skill,idea_library_groups,AC Repair,ac repair,vw:skill:hvac-technician,Skill,HVAC Technician,CURATED,1.0,Same trade. HVAC is the formal NSQF-aligned name for air-conditioning installation and repair.
+skill,idea_library_groups,Bike Repair,bike repair,vw:skill:two-wheeler-mechanic,Skill,Two-Wheeler Mechanic,CURATED,1.0,Same trade. 'Two-Wheeler Mechanic' is the NSQF job role name.
+skill,idea_library_groups,Drone Piloting,drone piloting,vw:skill:drone-piloting-and-operations,Skill,Drone Piloting & Operations,PREFIX,0.9,
+skill,idea_library_groups,Electrical Work,electrical work,vw:skill:electrician-domestic-wiring,Skill,Electrician (Domestic Wiring),CURATED,1.0,"Domestic wiring is the default reading of an unqualified 'Electrical Work' claim on a consumer profile. 'Industrial Electrician' is a distinct, higher-NSQF skill and is deliberately NOT the target -- see _multi_candidate if this proves too narrow."
+skill,idea_library_groups,Food Processing,food processing,vw:skill:food-processing-and-preservation,Skill,Food Processing & Preservation,PREFIX,0.9,
+skill,idea_library_groups,Mobile App Development,mobile app development,vw:skill:mobile-app-development-android-ios,Skill,Mobile App Development (Android/iOS),PREFIX,0.9,
+skill,idea_library_groups,Mobile Repair,mobile repair,vw:skill:electronics-repair-and-maintenance,Skill,Electronics Repair & Maintenance,CURATED,1.0,"Package006 has no mobile-specific skill. Electronics repair is the genuine parent, and the note in the crosswalk records that this is a broadening, not an exact match."
+skill,idea_library_groups,Organic Farming,organic farming,vw:skill:organic-farming,Skill,Organic Farming,EXACT_NAME,1.0,
+skill,idea_library_groups,Plumbing,plumbing,vw:skill:plumbing,Skill,Plumbing,EXACT_NAME,1.0,
+skill,idea_library_groups,Tailoring,tailoring,vw:skill:garment-manufacturing-stitching,Skill,Garment Manufacturing (Stitching),CURATED,1.0,Same trade. Package006 names it by the manufacturing role rather than the craft.
+skill,idea_library_groups,Video Editing,video editing,vw:skill:video-editing-and-content-creation,Skill,Video Editing & Content Creation,PREFIX,0.9,
+skill,idea_library_groups,Web Development,web development,vw:skill:full-stack-web-development,Skill,Full Stack Web Development,CURATED,1.0,Same skill. Package006 qualifies it as full-stack; the onboarding form does not.
+skill,idea_library_groups,Welding,welding,vw:skill:welding-mig-tig-arc,Skill,Welding (MIG/TIG/Arc),PREFIX,0.9,
+skill,onboarding,AC Repair,ac repair,vw:skill:hvac-technician,Skill,HVAC Technician,CURATED,1.0,Same trade. HVAC is the formal NSQF-aligned name for air-conditioning installation and repair.
+skill,onboarding,Bike Repair,bike repair,vw:skill:two-wheeler-mechanic,Skill,Two-Wheeler Mechanic,CURATED,1.0,Same trade. 'Two-Wheeler Mechanic' is the NSQF job role name.
+skill,onboarding,Carpentry,carpentry,vw:skill:carpentry,Skill,Carpentry,EXACT_NAME,1.0,
+skill,onboarding,Electrical Work,electrical work,vw:skill:electrician-domestic-wiring,Skill,Electrician (Domestic Wiring),CURATED,1.0,"Domestic wiring is the default reading of an unqualified 'Electrical Work' claim on a consumer profile. 'Industrial Electrician' is a distinct, higher-NSQF skill and is deliberately NOT the target -- see _multi_candidate if this proves too narrow."
+skill,onboarding,Food Processing,food processing,vw:skill:food-processing-and-preservation,Skill,Food Processing & Preservation,PREFIX,0.9,
+skill,onboarding,Mobile App Development,mobile app development,vw:skill:mobile-app-development-android-ios,Skill,Mobile App Development (Android/iOS),PREFIX,0.9,
+skill,onboarding,Mobile Repair,mobile repair,vw:skill:electronics-repair-and-maintenance,Skill,Electronics Repair & Maintenance,CURATED,1.0,"Package006 has no mobile-specific skill. Electronics repair is the genuine parent, and the note in the crosswalk records that this is a broadening, not an exact match."
+skill,onboarding,Organic Farming,organic farming,vw:skill:organic-farming,Skill,Organic Farming,EXACT_NAME,1.0,
+skill,onboarding,Plumbing,plumbing,vw:skill:plumbing,Skill,Plumbing,EXACT_NAME,1.0,
+skill,onboarding,Tailoring,tailoring,vw:skill:garment-manufacturing-stitching,Skill,Garment Manufacturing (Stitching),CURATED,1.0,Same trade. Package006 names it by the manufacturing role rather than the craft.
+skill,onboarding,Video Editing,video editing,vw:skill:video-editing-and-content-creation,Skill,Video Editing & Content Creation,PREFIX,0.9,
+skill,onboarding,Web Development,web development,vw:skill:full-stack-web-development,Skill,Full Stack Web Development,CURATED,1.0,Same skill. Package006 qualifies it as full-stack; the onboarding form does not.
+skill,onboarding,Welding,welding,vw:skill:welding-mig-tig-arc,Skill,Welding (MIG/TIG/Arc),PREFIX,0.9,
+skill,idea_library,Accounting,accounting,,,,NO_COUNTERPART,0.192,no counterpart in the knowledge base (closest 0.19)
+skill,idea_library,Agriculture,agriculture,,,,NO_COUNTERPART,0.4444,no counterpart in the knowledge base (closest 0.44)
+skill,idea_library,AI Engineering,ai engineering,,,,NO_COUNTERPART,0.3823,"MULTI: One is a job role, the other a task. An unqualified 'AI Engineering' claim does not distinguish them. Candidates: Machine Learning Engineer; AI Model Training."
+skill,idea_library,Beautician Services,beautician services,,,,NO_COUNTERPART,0.1913,no counterpart in the knowledge base (closest 0.19)
+skill,idea_library,CCTV Installation,cctv installation,,,,NO_COUNTERPART,0.3162,no counterpart in the knowledge base (closest 0.32)
+skill,idea_library,Community Driven Sales,community driven sales,,,,NO_COUNTERPART,0.16,no counterpart in the knowledge base (closest 0.16)
+skill,idea_library,Construction Supervision,construction supervision,,,,NO_COUNTERPART,0.2113,no counterpart in the knowledge base (closest 0.21)
+skill,idea_library,Content Writing,content writing,,,,NO_COUNTERPART,0.3333,no counterpart in the knowledge base (closest 0.33)
+skill,idea_library,Customer Handling,customer handling,,,,NO_COUNTERPART,0.1946,no counterpart in the knowledge base (closest 0.19)
+skill,idea_library,Dairy Management,dairy management,,,,NO_COUNTERPART,0.4889,no counterpart in the knowledge base (closest 0.49)
+skill,idea_library,Digital Marketing,digital marketing,,,,NO_COUNTERPART,0.1806,no counterpart in the knowledge base (closest 0.18)
+skill,idea_library,Event Management,event management,,,,NO_COUNTERPART,0.4889,no counterpart in the knowledge base (closest 0.49)
+skill,idea_library,Field Marketing,field marketing,,,,NO_COUNTERPART,0.2,no counterpart in the knowledge base (closest 0.20)
+skill,idea_library,Graphic Design,graphic design,,,,NO_COUNTERPART,0.4071,no counterpart in the knowledge base (closest 0.41)
+skill,idea_library,Inventory Management,inventory management,,,,NO_COUNTERPART,0.46,"MULTI: Overlaps both, and is narrower than either. Candidates: Warehouse Management; Supply Chain Logistics."
+skill,idea_library,Lab Operations,lab operations,,,,NO_COUNTERPART,0.3962,no counterpart in the knowledge base (closest 0.40)
+skill,idea_library,Local Sales,local sales,,,,NO_COUNTERPART,0.192,no counterpart in the knowledge base (closest 0.19)
+skill,idea_library,Logistics,logistics,,,,NO_COUNTERPART,0.4323,no counterpart in the knowledge base (closest 0.43)
+skill,idea_library,Mechanical Work,mechanical work,,,,NO_COUNTERPART,0.225,MULTI: Package006 models mechanics by vehicle class. An unqualified claim picks neither. Candidates: Automobile Mechanic (Diesel/Petrol); Two-Wheeler Mechanic.
+skill,idea_library,Operations Coordination,operations coordination,,,,NO_COUNTERPART,0.3167,no counterpart in the knowledge base (closest 0.32)
+skill,idea_library,Packaging,packaging,,,,NO_COUNTERPART,0.2,no counterpart in the knowledge base (closest 0.20)
+skill,idea_library,Photography,photography,,,,NO_COUNTERPART,0.1931,no counterpart in the knowledge base (closest 0.19)
+skill,idea_library,Printing,printing,,,,NO_COUNTERPART,0.2,no counterpart in the knowledge base (closest 0.20)
+skill,idea_library,Retail Operations,retail operations,,,,NO_COUNTERPART,0.4357,no counterpart in the knowledge base (closest 0.44)
+skill,idea_library,Sales,sales,,,,NO_COUNTERPART,0.1333,no counterpart in the knowledge base (closest 0.13)
+skill,idea_library,SEO,seo,,,,NO_COUNTERPART,0.096,no counterpart in the knowledge base (closest 0.10)
+skill,idea_library,Social Media Management,social media management,,,,NO_COUNTERPART,0.3919,no counterpart in the knowledge base (closest 0.39)
+skill,idea_library,Soil Testing,soil testing,,,,NO_COUNTERPART,0.2732,no counterpart in the knowledge base (closest 0.27)
+skill,idea_library,Teaching,teaching,,,,NO_COUNTERPART,0.2286,no counterpart in the knowledge base (closest 0.23)
+skill,idea_library,Team Management,team management,,,,NO_COUNTERPART,0.4743,no counterpart in the knowledge base (closest 0.47)
+skill,idea_library,UI/UX Design,ui ux design,,,,NO_COUNTERPART,0.3662,no counterpart in the knowledge base (closest 0.37)
+skill,idea_library,Vendor Management,vendor management,,,,NO_COUNTERPART,0.4811,no counterpart in the knowledge base (closest 0.48)
+skill,idea_library,Voice Over,voice over,,,,NO_COUNTERPART,0.16,no counterpart in the knowledge base (closest 0.16)
+skill,idea_library_groups,Agriculture,agriculture,,,,NO_COUNTERPART,0.4444,no counterpart in the knowledge base (closest 0.44)
+skill,idea_library_groups,AI Engineering,ai engineering,,,,NO_COUNTERPART,0.3823,"MULTI: One is a job role, the other a task. An unqualified 'AI Engineering' claim does not distinguish them. Candidates: Machine Learning Engineer; AI Model Training."
+skill,idea_library_groups,Beautician Services,beautician services,,,,NO_COUNTERPART,0.1913,no counterpart in the knowledge base (closest 0.19)
+skill,idea_library_groups,CCTV Installation,cctv installation,,,,NO_COUNTERPART,0.3162,no counterpart in the knowledge base (closest 0.32)
+skill,idea_library_groups,Construction Supervision,construction supervision,,,,NO_COUNTERPART,0.2113,no counterpart in the knowledge base (closest 0.21)
+skill,idea_library_groups,Content Writing,content writing,,,,NO_COUNTERPART,0.3333,no counterpart in the knowledge base (closest 0.33)
+skill,idea_library_groups,Customer Handling,customer handling,,,,NO_COUNTERPART,0.1946,no counterpart in the knowledge base (closest 0.19)
+skill,idea_library_groups,Dairy Management,dairy management,,,,NO_COUNTERPART,0.4889,no counterpart in the knowledge base (closest 0.49)
+skill,idea_library_groups,Digital Marketing,digital marketing,,,,NO_COUNTERPART,0.1806,no counterpart in the knowledge base (closest 0.18)
+skill,idea_library_groups,Event Management,event management,,,,NO_COUNTERPART,0.4889,no counterpart in the knowledge base (closest 0.49)
+skill,idea_library_groups,Field Marketing,field marketing,,,,NO_COUNTERPART,0.2,no counterpart in the knowledge base (closest 0.20)
+skill,idea_library_groups,Graphic Design,graphic design,,,,NO_COUNTERPART,0.4071,no counterpart in the knowledge base (closest 0.41)
+skill,idea_library_groups,Inventory Management,inventory management,,,,NO_COUNTERPART,0.46,"MULTI: Overlaps both, and is narrower than either. Candidates: Warehouse Management; Supply Chain Logistics."
+skill,idea_library_groups,Lab Operations,lab operations,,,,NO_COUNTERPART,0.3962,no counterpart in the knowledge base (closest 0.40)
+skill,idea_library_groups,Local Sales,local sales,,,,NO_COUNTERPART,0.192,no counterpart in the knowledge base (closest 0.19)
+skill,idea_library_groups,Logistics,logistics,,,,NO_COUNTERPART,0.4323,no counterpart in the knowledge base (closest 0.43)
+skill,idea_library_groups,Mechanical Work,mechanical work,,,,NO_COUNTERPART,0.225,MULTI: Package006 models mechanics by vehicle class. An unqualified claim picks neither. Candidates: Automobile Mechanic (Diesel/Petrol); Two-Wheeler Mechanic.
+skill,idea_library_groups,Operations Coordination,operations coordination,,,,NO_COUNTERPART,0.3167,no counterpart in the knowledge base (closest 0.32)
+skill,idea_library_groups,Packaging,packaging,,,,NO_COUNTERPART,0.2,no counterpart in the knowledge base (closest 0.20)
+skill,idea_library_groups,Photography,photography,,,,NO_COUNTERPART,0.1931,no counterpart in the knowledge base (closest 0.19)
+skill,idea_library_groups,Printing,printing,,,,NO_COUNTERPART,0.2,no counterpart in the knowledge base (closest 0.20)
+skill,idea_library_groups,Retail Operations,retail operations,,,,NO_COUNTERPART,0.4357,no counterpart in the knowledge base (closest 0.44)
+skill,idea_library_groups,Sales,sales,,,,NO_COUNTERPART,0.1333,no counterpart in the knowledge base (closest 0.13)
+skill,idea_library_groups,SEO,seo,,,,NO_COUNTERPART,0.096,no counterpart in the knowledge base (closest 0.10)
+skill,idea_library_groups,Social Media Management,social media management,,,,NO_COUNTERPART,0.3919,no counterpart in the knowledge base (closest 0.39)
+skill,idea_library_groups,Soil Testing,soil testing,,,,NO_COUNTERPART,0.2732,no counterpart in the knowledge base (closest 0.27)
+skill,idea_library_groups,Teaching,teaching,,,,NO_COUNTERPART,0.2286,no counterpart in the knowledge base (closest 0.23)
+skill,idea_library_groups,Team Management,team management,,,,NO_COUNTERPART,0.4743,no counterpart in the knowledge base (closest 0.47)
+skill,idea_library_groups,UI/UX Design,ui ux design,,,,NO_COUNTERPART,0.3662,no counterpart in the knowledge base (closest 0.37)
+skill,idea_library_groups,Vendor Management,vendor management,,,,NO_COUNTERPART,0.4811,no counterpart in the knowledge base (closest 0.48)
+skill,idea_library_groups,Voice Over,voice over,,,,NO_COUNTERPART,0.16,no counterpart in the knowledge base (closest 0.16)
+skill,onboarding,Accounting,accounting,,,,NO_COUNTERPART,0.192,no counterpart in the knowledge base (closest 0.19)
+skill,onboarding,Agri Equipment Handling,agri equipment handling,,,,NO_COUNTERPART,0.1825,no counterpart in the knowledge base (closest 0.18)
+skill,onboarding,AI Engineering,ai engineering,,,,NO_COUNTERPART,0.3823,"MULTI: One is a job role, the other a task. An unqualified 'AI Engineering' claim does not distinguish them. Candidates: Machine Learning Engineer; AI Model Training."
+skill,onboarding,Animation,animation,,,,NO_COUNTERPART,0.2,no counterpart in the knowledge base (closest 0.20)
+skill,onboarding,Beautician Services,beautician services,,,,NO_COUNTERPART,0.1913,no counterpart in the knowledge base (closest 0.19)
+skill,onboarding,Business Development,business development,,,,NO_COUNTERPART,0.4291,no counterpart in the knowledge base (closest 0.43)
+skill,onboarding,CCTV Installation,cctv installation,,,,NO_COUNTERPART,0.3162,no counterpart in the knowledge base (closest 0.32)
+skill,onboarding,Content Writing,content writing,,,,NO_COUNTERPART,0.3333,no counterpart in the knowledge base (closest 0.33)
+skill,onboarding,Crop Advisory,crop advisory,,,,NO_COUNTERPART,0.1818,no counterpart in the knowledge base (closest 0.18)
+skill,onboarding,Customer Handling,customer handling,,,,NO_COUNTERPART,0.1946,no counterpart in the knowledge base (closest 0.19)
+skill,onboarding,Dairy Management,dairy management,,,,NO_COUNTERPART,0.4889,no counterpart in the knowledge base (closest 0.49)
+skill,onboarding,Data Entry,data entry,,,,NO_COUNTERPART,0.4667,no counterpart in the knowledge base (closest 0.47)
+skill,onboarding,Digital Marketing,digital marketing,,,,NO_COUNTERPART,0.1806,no counterpart in the knowledge base (closest 0.18)
+skill,onboarding,Event Management,event management,,,,NO_COUNTERPART,0.4889,no counterpart in the knowledge base (closest 0.49)
+skill,onboarding,Field Marketing,field marketing,,,,NO_COUNTERPART,0.2,no counterpart in the knowledge base (closest 0.20)
+skill,onboarding,Financial Planning,financial planning,,,,NO_COUNTERPART,0.1829,no counterpart in the knowledge base (closest 0.18)
+skill,onboarding,Furniture Manufacturing,furniture manufacturing,,,,NO_COUNTERPART,0.4019,no counterpart in the knowledge base (closest 0.40)
+skill,onboarding,Graphic Design,graphic design,,,,NO_COUNTERPART,0.4071,no counterpart in the knowledge base (closest 0.41)
+skill,onboarding,GST Filing,gst filing,,,,NO_COUNTERPART,0.192,no counterpart in the knowledge base (closest 0.19)
+skill,onboarding,Housekeeping Services,housekeeping services,,,,NO_COUNTERPART,0.1913,no counterpart in the knowledge base (closest 0.19)
+skill,onboarding,Influencer Marketing,influencer marketing,,,,NO_COUNTERPART,0.1829,no counterpart in the knowledge base (closest 0.18)
+skill,onboarding,Inventory Management,inventory management,,,,NO_COUNTERPART,0.46,"MULTI: Overlaps both, and is narrower than either. Candidates: Warehouse Management; Supply Chain Logistics."
+skill,onboarding,Irrigation Systems,irrigation systems,,,,NO_COUNTERPART,0.3451,no counterpart in the knowledge base (closest 0.35)
+skill,onboarding,Legal Documentation,legal documentation,,,,NO_COUNTERPART,0.2353,no counterpart in the knowledge base (closest 0.24)
+skill,onboarding,Loan Documentation,loan documentation,,,,NO_COUNTERPART,0.2047,no counterpart in the knowledge base (closest 0.20)
+skill,onboarding,Local Advertising,local advertising,,,,NO_COUNTERPART,0.2323,no counterpart in the knowledge base (closest 0.23)
+skill,onboarding,Machine Operations,machine operations,,,,NO_COUNTERPART,0.4658,MULTI: Generic term covering at least two distinct machine skills at different NSQF levels. Candidates: CNC Machine Operator; Lathe Operation.
+skill,onboarding,Operations Coordination,operations coordination,,,,NO_COUNTERPART,0.3167,no counterpart in the knowledge base (closest 0.32)
+skill,onboarding,Packaging,packaging,,,,NO_COUNTERPART,0.2,no counterpart in the knowledge base (closest 0.20)
+skill,onboarding,Photography,photography,,,,NO_COUNTERPART,0.1931,no counterpart in the knowledge base (closest 0.19)
+skill,onboarding,Poultry Management,poultry management,,,,NO_COUNTERPART,0.4737,no counterpart in the knowledge base (closest 0.47)
+skill,onboarding,Printing Operations,printing operations,,,,NO_COUNTERPART,0.4591,no counterpart in the knowledge base (closest 0.46)
+skill,onboarding,Procurement,procurement,,,,NO_COUNTERPART,0.2065,no counterpart in the knowledge base (closest 0.21)
+skill,onboarding,Retail Management,retail management,,,,NO_COUNTERPART,0.4811,no counterpart in the knowledge base (closest 0.48)
+skill,onboarding,Sales,sales,,,,NO_COUNTERPART,0.1333,no counterpart in the knowledge base (closest 0.13)
+skill,onboarding,Seed Management,seed management,,,,NO_COUNTERPART,0.4971,no counterpart in the knowledge base (closest 0.50)
+skill,onboarding,SEO,seo,,,,NO_COUNTERPART,0.096,no counterpart in the knowledge base (closest 0.10)
+skill,onboarding,Social Media Management,social media management,,,,NO_COUNTERPART,0.3919,no counterpart in the knowledge base (closest 0.39)
+skill,onboarding,Soil Testing,soil testing,,,,NO_COUNTERPART,0.2732,no counterpart in the knowledge base (closest 0.27)
+skill,onboarding,Team Management,team management,,,,NO_COUNTERPART,0.4743,no counterpart in the knowledge base (closest 0.47)
+skill,onboarding,Textile Production,textile production,,,,NO_COUNTERPART,0.4743,no counterpart in the knowledge base (closest 0.47)
+skill,onboarding,UI/UX Design,ui ux design,,,,NO_COUNTERPART,0.3662,no counterpart in the knowledge base (closest 0.37)
+skill,onboarding,Vendor Management,vendor management,,,,NO_COUNTERPART,0.4811,no counterpart in the knowledge base (closest 0.48)
+skill,onboarding,Voice Over,voice over,,,,NO_COUNTERPART,0.16,no counterpart in the knowledge base (closest 0.16)

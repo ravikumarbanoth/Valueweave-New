@@ -1,0 +1,128 @@
+{
+  "_README": [
+    "Human decisions the matchers cannot make. Every entry needs a reason, because a",
+    "curated row is an assertion by a person and should be reviewable as one.",
+    "",
+    "Two sections:",
+    "  <kind>            resolves a term to exactly one entity. match_method = CURATED.",
+    "  _multi_candidate  the term is real but spans MORE THAN ONE entity. It stays",
+    "                    NO_COUNTERPART -- the crosswalk is 1:1 by construction and a",
+    "                    partial mapping would silently drop half the meaning -- but the",
+    "                    candidates are recorded so the UI can offer them and a steward",
+    "                    can see what the decision was.",
+    "",
+    "The build aborts if an id here is not in the entity registry, or is the wrong type."
+  ],
+
+  "district": {
+    "Anantapur": {
+      "global_entity_id": "vw:district:ananthapuramu",
+      "reason": "Same district. Andhra Pradesh adopted the Telugu transliteration 'Ananthapuramu' as the official name; 'Anantapur' remains the common English form."
+    },
+    "Nellore": {
+      "global_entity_id": "vw:district:sri-potti-sriramulu-nellore",
+      "reason": "Same district. Officially renamed Sri Potti Sriramulu Nellore in 2008; 'Nellore' is the everyday name and the name of its headquarters city."
+    },
+    "Vijayawada": {
+      "global_entity_id": "vw:district:ntr",
+      "reason": "CITY, NOT A DISTRICT. Vijayawada is the headquarters of NTR district, carved out of Krishna district in 2022. Mapped so that a user who types their city still gets district-level results; the UI should show the district name, not echo the city back."
+    }
+  },
+
+  "sector": {
+    "Agriculture": {
+      "global_entity_id": "vw:industry:agriculture-and-allied",
+      "reason": "The graph carries four overlapping agriculture sector labels (ADR-005, Industry taxonomy overlap). 'Agriculture & Allied' is the broadest and is the one Package006 and Package008 both use as a category."
+    },
+    "Digital Services": {
+      "global_entity_id": "vw:industry:local-entrepreneurship-digital-services",
+      "reason": "Exact concept match; the graph name carries a 'Local Entrepreneurship /' prefix from Package008's category naming."
+    },
+    "Creator Economy": {
+      "global_entity_id": "vw:industry:media-and-content-creation",
+      "reason": "Same sector under a different name. Preferred over 'Retail & Local Commerce / Creator Economy', which is a Package008 sub-category of retail rather than the sector itself."
+    },
+    "Textile & Handloom": {
+      "global_entity_id": "vw:industry:textiles-and-apparel",
+      "reason": "Same sector. Handloom is a production method within textiles, not a separate industry in this taxonomy."
+    },
+    "Local Services": {
+      "global_entity_id": "vw:industry:services",
+      "reason": "'Services' is the graph's generic service-sector node and the only parent available. Broader than the idea-library sense, which is specifically neighbourhood-scale."
+    }
+  },
+
+  "skill": {
+    "Web Development": {
+      "global_entity_id": "vw:skill:full-stack-web-development",
+      "reason": "Same skill. Package006 qualifies it as full-stack; the onboarding form does not."
+    },
+    "AC Repair": {
+      "global_entity_id": "vw:skill:hvac-technician",
+      "reason": "Same trade. HVAC is the formal NSQF-aligned name for air-conditioning installation and repair."
+    },
+    "Bike Repair": {
+      "global_entity_id": "vw:skill:two-wheeler-mechanic",
+      "reason": "Same trade. 'Two-Wheeler Mechanic' is the NSQF job role name."
+    },
+    "Tailoring": {
+      "global_entity_id": "vw:skill:garment-manufacturing-stitching",
+      "reason": "Same trade. Package006 names it by the manufacturing role rather than the craft."
+    },
+    "Solar Installation": {
+      "global_entity_id": "vw:skill:solar-panel-installation-and-maintenance",
+      "reason": "Same skill, shorter name. Term comes from frontend/data/skills.json."
+    },
+    "Electrical Work": {
+      "global_entity_id": "vw:skill:electrician-domestic-wiring",
+      "reason": "Domestic wiring is the default reading of an unqualified 'Electrical Work' claim on a consumer profile. 'Industrial Electrician' is a distinct, higher-NSQF skill and is deliberately NOT the target -- see _multi_candidate if this proves too narrow."
+    },
+    "Mobile Repair": {
+      "global_entity_id": "vw:skill:electronics-repair-and-maintenance",
+      "reason": "Package006 has no mobile-specific skill. Electronics repair is the genuine parent, and the note in the crosswalk records that this is a broadening, not an exact match."
+    }
+  },
+
+  "_multi_candidate": {
+    "sector": {
+      "EV & Energy": {
+        "candidates": ["vw:industry:electric-vehicles", "vw:industry:renewable-energy", "vw:industry:power-and-utilities"],
+        "reason": "Spans three distinct industries. Mapping to 'Electric Vehicles' alone would silently drop the energy half of every idea tagged with it."
+      },
+      "Food Business": {
+        "candidates": ["vw:industry:food-processing", "vw:industry:hospitality-and-tourism"],
+        "reason": "Covers both manufacturing (processing, packaging) and service (tiffin, catering, restaurants). The graph separates them."
+      },
+      "Logistics": {
+        "candidates": ["vw:industry:logistics-and-warehousing", "vw:industry:logistics-and-e-commerce"],
+        "reason": "The graph itself carries two overlapping logistics industries from different packages (ADR-005). Resolving this term requires resolving that duplication first."
+      },
+      "AgriTech": {
+        "candidates": [],
+        "reason": "The graph has ten specific 'AgriTech: X' technology nodes but no AgriTech sector node. The sector does not exist to map to."
+      },
+      "Women-Led": {
+        "candidates": [],
+        "reason": "Not an industry. It is a beneficiary attribute that cuts across every sector, and the idea library uses the sector field to carry it. Needs a separate dimension, not an Industry mapping."
+      }
+    },
+    "skill": {
+      "AI Engineering": {
+        "candidates": ["vw:skill:machine-learning-engineer", "vw:skill:ai-model-training"],
+        "reason": "One is a job role, the other a task. An unqualified 'AI Engineering' claim does not distinguish them."
+      },
+      "Machine Operations": {
+        "candidates": ["vw:skill:cnc-machine-operator", "vw:skill:lathe-operation"],
+        "reason": "Generic term covering at least two distinct machine skills at different NSQF levels."
+      },
+      "Mechanical Work": {
+        "candidates": ["vw:skill:automobile-mechanic-diesel-petrol", "vw:skill:two-wheeler-mechanic"],
+        "reason": "Package006 models mechanics by vehicle class. An unqualified claim picks neither."
+      },
+      "Inventory Management": {
+        "candidates": ["vw:skill:warehouse-management", "vw:skill:supply-chain-logistics"],
+        "reason": "Overlaps both, and is narrower than either."
+      }
+    }
+  }
+}

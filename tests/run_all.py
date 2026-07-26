@@ -37,6 +37,8 @@ SUITES = {
     "stewardship": ("tests.test_stewardship", "Lifecycle, ledger and review queue"),
     "graph": ("tests.test_graph_integrity", "Graph integrity and the 11 G-checks"),
     "regression": ("tests.test_regression", "One test per bug previously fixed"),
+    "vocabulary": ("tests.test_vocabulary",
+                   "v3.0 Step 0: vocabulary crosswalk integrity and coverage"),
 }
 
 

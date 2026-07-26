@@ -1,0 +1,34 @@
+term_kind,source_vocab,source_term,normalised_term,global_entity_id,entity_type,canonical_name,match_method,match_score,notes
+district,idea_library,Anantapur,anantapur,vw:district:ananthapuramu,District,Ananthapuramu,CURATED,1.0,Same district. Andhra Pradesh adopted the Telugu transliteration 'Ananthapuramu' as the official name; 'Anantapur' remains the common English form.
+district,idea_library,East Godavari,east godavari,vw:district:east-godavari,District,East Godavari,EXACT_NAME,1.0,
+district,idea_library,Guntur,guntur,vw:district:guntur,District,Guntur,EXACT_NAME,1.0,
+district,idea_library,Hyderabad,hyderabad,vw:district:hyderabad,District,Hyderabad,EXACT_NAME,1.0,
+district,idea_library,Karimnagar,karimnagar,vw:district:karimnagar,District,Karimnagar,EXACT_NAME,1.0,
+district,idea_library,Khammam,khammam,vw:district:khammam,District,Khammam,EXACT_NAME,1.0,
+district,idea_library,Kurnool,kurnool,vw:district:kurnool,District,Kurnool,EXACT_NAME,1.0,
+district,idea_library,Mahabubnagar,mahabubnagar,vw:district:mahabubnagar,District,Mahabubnagar,EXACT_NAME,1.0,
+district,idea_library,Medak,medak,vw:district:medak,District,Medak,EXACT_NAME,1.0,
+district,idea_library,Nalgonda,nalgonda,vw:district:nalgonda,District,Nalgonda,EXACT_NAME,1.0,
+district,idea_library,Nellore,nellore,vw:district:sri-potti-sriramulu-nellore,District,Sri Potti Sriramulu Nellore,CURATED,1.0,Same district. Officially renamed Sri Potti Sriramulu Nellore in 2008; 'Nellore' is the everyday name and the name of its headquarters city.
+district,idea_library,Nizamabad,nizamabad,vw:district:nizamabad,District,Nizamabad,EXACT_NAME,1.0,
+district,idea_library,Sangareddy,sangareddy,vw:district:sangareddy,District,Sangareddy,EXACT_NAME,1.0,
+district,idea_library,Siddipet,siddipet,vw:district:siddipet,District,Siddipet,EXACT_NAME,1.0,
+district,idea_library,Tirupati,tirupati,vw:district:tirupati,District,Tirupati,EXACT_NAME,1.0,
+district,idea_library,Vijayawada,vijayawada,vw:district:ntr,District,NTR,CURATED,1.0,"CITY, NOT A DISTRICT. Vijayawada is the headquarters of NTR district, carved out of Krishna district in 2022. Mapped so that a user who types their city still gets district-level results; the UI should show the district name, not echo the city back."
+district,idea_library,Visakhapatnam,visakhapatnam,vw:district:visakhapatnam,District,Visakhapatnam,EXACT_NAME,1.0,
+district,idea_library,Warangal,warangal,vw:district:warangal,District,Warangal,EXACT_NAME,1.0,
+district,idea_library,West Godavari,west godavari,vw:district:west-godavari,District,West Godavari,EXACT_NAME,1.0,
+district,static_districts,Guntur,guntur,vw:district:guntur,District,Guntur,EXACT_NAME,1.0,
+district,static_districts,Hyderabad,hyderabad,vw:district:hyderabad,District,Hyderabad,EXACT_NAME,1.0,
+district,static_districts,Karimnagar,karimnagar,vw:district:karimnagar,District,Karimnagar,EXACT_NAME,1.0,
+district,static_districts,Khammam,khammam,vw:district:khammam,District,Khammam,EXACT_NAME,1.0,
+district,static_districts,Kurnool,kurnool,vw:district:kurnool,District,Kurnool,EXACT_NAME,1.0,
+district,static_districts,Medak,medak,vw:district:medak,District,Medak,EXACT_NAME,1.0,
+district,static_districts,Nellore,nellore,vw:district:sri-potti-sriramulu-nellore,District,Sri Potti Sriramulu Nellore,CURATED,1.0,Same district. Officially renamed Sri Potti Sriramulu Nellore in 2008; 'Nellore' is the everyday name and the name of its headquarters city.
+district,static_districts,Nizamabad,nizamabad,vw:district:nizamabad,District,Nizamabad,EXACT_NAME,1.0,
+district,static_districts,Sangareddy,sangareddy,vw:district:sangareddy,District,Sangareddy,EXACT_NAME,1.0,
+district,static_districts,Siddipet,siddipet,vw:district:siddipet,District,Siddipet,EXACT_NAME,1.0,
+district,static_districts,Tirupati,tirupati,vw:district:tirupati,District,Tirupati,EXACT_NAME,1.0,
+district,static_districts,Vijayawada,vijayawada,vw:district:ntr,District,NTR,CURATED,1.0,"CITY, NOT A DISTRICT. Vijayawada is the headquarters of NTR district, carved out of Krishna district in 2022. Mapped so that a user who types their city still gets district-level results; the UI should show the district name, not echo the city back."
+district,static_districts,Visakhapatnam,visakhapatnam,vw:district:visakhapatnam,District,Visakhapatnam,EXACT_NAME,1.0,
+district,static_districts,Warangal,warangal,vw:district:warangal,District,Warangal,EXACT_NAME,1.0,

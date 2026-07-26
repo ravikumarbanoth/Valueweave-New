@@ -39,6 +39,8 @@ SUITES = {
     "regression": ("tests.test_regression", "One test per bug previously fixed"),
     "vocabulary": ("tests.test_vocabulary",
                    "v3.0 Step 0: vocabulary crosswalk integrity and coverage"),
+    "knowledge_sync": ("tests.test_knowledge_sync",
+                       "v3.0 Step 1: Git -> Supabase synchronisation framework"),
 }
 
 

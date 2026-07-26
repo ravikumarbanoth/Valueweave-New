@@ -1,0 +1,136 @@
+{
+  "built_at": "2026-07-26",
+  "fuzzy_threshold": 0.88,
+  "terms_total": 202,
+  "resolved_total": 83,
+  "no_counterpart_total": 119,
+  "resolve_pct_total": 41.1,
+  "onboarding_skill_terms": 57,
+  "onboarding_skill_resolved": 13,
+  "onboarding_skill_resolve_pct": 22.8,
+  "by_kind": {
+    "district": {
+      "terms": 33,
+      "resolved": 33,
+      "no_counterpart": 0,
+      "resolve_pct": 100.0,
+      "target_entity_type": "District",
+      "distinct_entities_referenced": 19,
+      "by_match_method": {
+        "EXACT_NAME": 28,
+        "CURATED": 5
+      }
+    },
+    "sector": {
+      "terms": 22,
+      "resolved": 11,
+      "no_counterpart": 11,
+      "resolve_pct": 50.0,
+      "target_entity_type": "Industry",
+      "distinct_entities_referenced": 11,
+      "by_match_method": {
+        "NO_COUNTERPART": 11,
+        "CURATED": 5,
+        "EXACT_NAME": 4,
+        "PREFIX": 2
+      }
+    },
+    "skill": {
+      "terms": 147,
+      "resolved": 39,
+      "no_counterpart": 108,
+      "resolve_pct": 26.5,
+      "target_entity_type": "Skill",
+      "distinct_entities_referenced": 14,
+      "by_match_method": {
+        "NO_COUNTERPART": 108,
+        "CURATED": 18,
+        "PREFIX": 14,
+        "EXACT_NAME": 7
+      }
+    }
+  },
+  "by_match_method": {
+    "NO_COUNTERPART": 119,
+    "EXACT_NAME": 39,
+    "CURATED": 28,
+    "PREFIX": 16
+  },
+  "collection_backlog": {
+    "sector": [
+      "Beauty & Wellness",
+      "Climate Tech",
+      "Drone Tech",
+      "Events & Entertainment",
+      "Repair Economy",
+      "Sports & Fitness"
+    ],
+    "skill": [
+      "Accounting",
+      "Agri Equipment Handling",
+      "Agriculture",
+      "Animation",
+      "Beautician Services",
+      "Business Development",
+      "CCTV Installation",
+      "Community Driven Sales",
+      "Construction Supervision",
+      "Content Writing",
+      "Crop Advisory",
+      "Customer Handling",
+      "Dairy Management",
+      "Data Entry",
+      "Digital Marketing",
+      "Event Management",
+      "Field Marketing",
+      "Financial Planning",
+      "Furniture Manufacturing",
+      "GST Filing",
+      "Graphic Design",
+      "Housekeeping Services",
+      "Influencer Marketing",
+      "Irrigation Systems",
+      "Lab Operations",
+      "Legal Documentation",
+      "Loan Documentation",
+      "Local Advertising",
+      "Local Sales",
+      "Logistics",
+      "Operations Coordination",
+      "Packaging",
+      "Photography",
+      "Poultry Management",
+      "Printing",
+      "Printing Operations",
+      "Procurement",
+      "Retail Management",
+      "Retail Operations",
+      "SEO",
+      "Sales",
+      "Seed Management",
+      "Social Media Management",
+      "Soil Testing",
+      "Teaching",
+      "Team Management",
+      "Textile Production",
+      "UI/UX Design",
+      "Vendor Management",
+      "Voice Over"
+    ]
+  },
+  "multi_target_terms": {
+    "sector": [
+      "AgriTech",
+      "EV & Energy",
+      "Food Business",
+      "Logistics",
+      "Women-Led"
+    ],
+    "skill": [
+      "AI Engineering",
+      "Inventory Management",
+      "Machine Operations",
+      "Mechanical Work"
+    ]
+  }
+}

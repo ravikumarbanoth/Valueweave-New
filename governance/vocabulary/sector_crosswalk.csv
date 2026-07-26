@@ -1,0 +1,23 @@
+term_kind,source_vocab,source_term,normalised_term,global_entity_id,entity_type,canonical_name,match_method,match_score,notes
+sector,idea_library,Agriculture,agriculture,vw:industry:agriculture-and-allied,Industry,Agriculture & Allied,CURATED,1.0,"The graph carries four overlapping agriculture sector labels (ADR-005, Industry taxonomy overlap). 'Agriculture & Allied' is the broadest and is the one Package006 and Package008 both use as a category."
+sector,idea_library,Construction,construction,vw:industry:construction,Industry,Construction,EXACT_NAME,1.0,
+sector,idea_library,Creator Economy,creator economy,vw:industry:media-and-content-creation,Industry,Media & Content Creation,CURATED,1.0,"Same sector under a different name. Preferred over 'Retail & Local Commerce / Creator Economy', which is a Package008 sub-category of retail rather than the sector itself."
+sector,idea_library,Digital Services,digital services,vw:industry:local-entrepreneurship-digital-services,Industry,Local Entrepreneurship / Digital Services,CURATED,1.0,Exact concept match; the graph name carries a 'Local Entrepreneurship /' prefix from Package008's category naming.
+sector,idea_library,Education,education,vw:industry:education-and-training,Industry,Education and Training,PREFIX,0.9,
+sector,idea_library,Finance,finance,vw:industry:finance-and-banking,Industry,Finance & Banking,PREFIX,0.9,
+sector,idea_library,Healthcare,healthcare,vw:industry:healthcare,Industry,Healthcare,EXACT_NAME,1.0,
+sector,idea_library,Local Services,local services,vw:industry:services,Industry,Services,CURATED,1.0,"'Services' is the graph's generic service-sector node and the only parent available. Broader than the idea-library sense, which is specifically neighbourhood-scale."
+sector,idea_library,Manufacturing,manufacturing,vw:industry:manufacturing,Industry,Manufacturing,EXACT_NAME,1.0,
+sector,idea_library,Textile & Handloom,textile and handloom,vw:industry:textiles-and-apparel,Industry,Textiles and Apparel,CURATED,1.0,"Same sector. Handloom is a production method within textiles, not a separate industry in this taxonomy."
+sector,idea_library,Tourism & Hospitality,tourism and hospitality,vw:industry:tourism-and-hospitality,Industry,Tourism & Hospitality,EXACT_NAME,1.0,
+sector,idea_library,AgriTech,agritech,,,,NO_COUNTERPART,0.323,MULTI: The graph has ten specific 'AgriTech: X' technology nodes but no AgriTech sector node. The sector does not exist to map to.
+sector,idea_library,Beauty & Wellness,beauty and wellness,,,,NO_COUNTERPART,0.1684,no counterpart in the knowledge base (closest 0.17)
+sector,idea_library,Climate Tech,climate tech,,,,NO_COUNTERPART,0.2118,no counterpart in the knowledge base (closest 0.21)
+sector,idea_library,Drone Tech,drone tech,,,,NO_COUNTERPART,0.2636,no counterpart in the knowledge base (closest 0.26)
+sector,idea_library,EV & Energy,ev and energy,,,,NO_COUNTERPART,0.456,MULTI: Spans three distinct industries. Mapping to 'Electric Vehicles' alone would silently drop the energy half of every idea tagged with it. Candidates: Electric Vehicles; Renewable Energy; Power & Utilities.
+sector,idea_library,Events & Entertainment,events and entertainment,,,,NO_COUNTERPART,0.2,no counterpart in the knowledge base (closest 0.20)
+sector,idea_library,Food Business,food business,,,,NO_COUNTERPART,0.4286,"MULTI: Covers both manufacturing (processing, packaging) and service (tiffin, catering, restaurants). The graph separates them. Candidates: Food Processing; Hospitality & Tourism."
+sector,idea_library,Logistics,logistics,,,,NO_COUNTERPART,0.5118,MULTI: The graph itself carries two overlapping logistics industries from different packages (ADR-005). Resolving this term requires resolving that duplication first. Candidates: Logistics and Warehousing; Logistics & E-commerce.
+sector,idea_library,Repair Economy,repair economy,,,,NO_COUNTERPART,0.3864,no counterpart in the knowledge base (closest 0.39)
+sector,idea_library,Sports & Fitness,sports and fitness,,,,NO_COUNTERPART,0.2207,no counterpart in the knowledge base (closest 0.22)
+sector,idea_library,Women-Led,women led,,,,NO_COUNTERPART,0.1667,"MULTI: Not an industry. It is a beneficiary attribute that cuts across every sector, and the idea library uses the sector field to carry it. Needs a separate dimension, not an Industry mapping."

@@ -36,6 +36,8 @@ SUITES = {
     "search": ("tests.test_search", "Search: index, four match modes, filters"),
     "stewardship": ("tests.test_stewardship", "Lifecycle, ledger and review queue"),
     "graph": ("tests.test_graph_integrity", "Graph integrity and the 11 G-checks"),
+    "graph_compiler": ("tests.test_graph_compiler",
+                       "Builder dataset coverage: every dataset registered"),
     "regression": ("tests.test_regression", "One test per bug previously fixed"),
     "vocabulary": ("tests.test_vocabulary",
                    "v3.0 Step 0: vocabulary crosswalk integrity and coverage"),

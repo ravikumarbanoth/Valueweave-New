@@ -442,3 +442,221 @@ class MissingFeaturesMigrationTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
+
+
+# ═══════════════════════════════════════════════════ 5. Step 3 — knowledge UI
+class KnowledgeUiTest(unittest.TestCase):
+    """
+    Platform v3.0 Step 3 — the pages that let a user actually read Packages001–008.
+
+    Step 2 proved the frontend could reach the knowledge schema. Step 3 is where a
+    person can browse it, open a record, and walk the graph from one entity to the
+    next. These tests protect the two properties that make that work:
+
+      * **Every knowledge item names its source package.** The brief's general
+        requirement, and the platform's first principle on screen.
+      * **Every knowledge item links somewhere.** A detail page nothing links to is
+        a page nobody reaches, and the graph stops feeling connected.
+    """
+
+    STEP3_COMPONENTS = [
+        "SourceBadge.jsx", "AttributeGrid.jsx", "RelatedEntities.jsx",
+        "EntityHeader.jsx", "KnowledgePagination.jsx", "KnowledgeEmptyState.jsx",
+        "IntelligenceSummaryCard.jsx", "LatestKnowledgeCard.jsx",
+        "GraphSourceNote.jsx",
+    ]
+
+    @classmethod
+    def setUpClass(cls):
+        cls.klib = read(FE / "lib" / "knowledge.js")
+        cls.detail = read(FE / "app" / "knowledge" / "[type]" / "[slug]" / "page.js")
+        cls.explorer = read(FE / "app" / "knowledge" / "page.js")
+        cls.dashboard = read(FE / "app" / "dashboard" / "page.js")
+
+    # ── the data layer ──────────────────────────────────────────────────────
+    def test_step3_readers_exist(self):
+        for fn in ("getEntityBySlug", "getEntityDetail", "getRelatedByType",
+                   "listEntities", "typeCounts", "latestKnowledge", "hrefFor",
+                   "entityIdFor", "slugOf"):
+            with self.subTest(fn=fn):
+                self.assertIn(f"export async function {fn}",
+                              self.klib.replace("export function", "export async function"),
+                              f"lib/knowledge.js is missing {fn}")
+
+    def test_detail_tables_match_the_sync_specs(self):
+        """
+        A detail page reads a per-type table by name. If knowledge_sync renames one,
+        the page returns nothing and renders an empty state — the exact silent
+        failure this suite exists to prevent.
+        """
+        declared = {t.name for t in TABLE_SPECS}
+        for table in ("kg_districts", "kg_skills", "kg_schemes", "kg_businesses",
+                      "kg_industries", "kg_agriculture"):
+            with self.subTest(table=table):
+                self.assertIn(table, declared, f"{table} is not a synced table")
+                self.assertIn(f'"{table}"', self.klib,
+                              f"lib/knowledge.js never reads {table}")
+
+    def test_detail_attribute_columns_exist_in_the_synced_tables(self):
+        """Every column the detail page renders must be one the sync projects."""
+        by_table = {t.name: set(t.columns) for t in TABLE_SPECS}
+        checks = [
+            ("kg_schemes", ["ministry", "financial_assistance", "application_mode",
+                            "official_portal", "objective"]),
+            ("kg_skills", ["nsqf_level", "demand_level", "automation_risk",
+                           "learning_duration"]),
+            ("kg_businesses", ["investment_range", "minimum_investment",
+                               "risk_level", "ai_readiness"]),
+            ("kg_districts", ["population", "literacy_rate_pct", "mandal_count"]),
+        ]
+        for table, columns in checks:
+            for column in columns:
+                with self.subTest(table=table, column=column):
+                    self.assertIn(column, by_table[table],
+                                  f"{table}.{column} is rendered but not synced")
+                    # Either a quoted grid key or direct property access — the
+                    # official portal is a call-to-action button, not a table row,
+                    # and pinning the syntax would make the test about style.
+                    used = (f'"{column}"' in self.detail
+                            or f".{column}" in self.detail)
+                    self.assertTrue(used,
+                                    f"{column} is synced but the detail page never reads it")
+
+    def test_entity_id_scheme_matches_the_graph_builder(self):
+        """
+        Slug -> id reconstruction assumes `vw:<type_lowercase>:<slug>`. If the
+        builder's scheme changed, every detail page would 404 while the data was
+        present — so the assumption is checked against build_graph.py, not trusted.
+        """
+        builder = read(ROOT / "knowledge_graph" / "build_graph.py")
+        self.assertIn('f"vw:{TYPE_SLUG[etype]}:{slug(canonical_name)}"', builder)
+        self.assertIn("`vw:${type.toLowerCase()}:${slug}`", self.klib)
+
+    # ── pages ───────────────────────────────────────────────────────────────
+    def test_step3_components_exist(self):
+        for name in self.STEP3_COMPONENTS:
+            with self.subTest(component=name):
+                self.assertTrue((FE / "components" / "knowledge" / name).exists(),
+                                f"missing component {name}")
+
+    def test_explorer_browses_every_package(self):
+        """Priority 2: browse Packages 001, 004, 005, 006, 007, 008."""
+        for pkg in ("Package001_Geography", "Package004_Industries",
+                    "Package005_Agriculture", "Package006_Skills_and_Training",
+                    "Package007_Government_Schemes", "Package008_MSME"):
+            with self.subTest(package=pkg):
+                self.assertIn(pkg, self.explorer)
+
+    def test_explorer_paginates_rather_than_dumping_every_row(self):
+        self.assertIn("KnowledgePagination", self.explorer)
+        self.assertIn("PAGE_SIZE", self.explorer)
+
+    def test_detail_page_keeps_the_static_route_working(self):
+        """
+        The graph namespace is singular, the pre-existing static namespace plural.
+        Losing the static branch would 404 the 56 pages that already worked.
+        """
+        self.assertIn("getKnowledgeItem", self.detail)
+        self.assertIn("generateStaticParams", self.detail)
+        self.assertIn("StaticDetail", self.detail)
+
+    def test_graph_and_static_type_namespaces_do_not_collide(self):
+        static_types = set(re.findall(r"^\s{2}(\w+):", read(FE / "lib" / "static-knowledge.js"), re.M))
+        graph_types = set(re.findall(r"^\s{2}(\w+):\s*\"", self.klib, re.M))
+        overlap = static_types & graph_types
+        self.assertEqual(overlap, set(),
+                         f"a URL type resolves to both namespaces: {overlap}")
+
+    def test_dashboard_covers_every_priority_one_card(self):
+        for category in ("business_ideas", "government_schemes", "courses",
+                         "msmes", "industries", "markets"):
+            with self.subTest(category=category):
+                self.assertIn(f'category: "{category}"', self.dashboard)
+        self.assertIn("IntelligenceSummaryCard", self.dashboard)
+        self.assertIn("LatestKnowledgeCard", self.dashboard)
+
+    # ── the two general requirements ────────────────────────────────────────
+    def test_every_knowledge_surface_names_its_source_package(self):
+        surfaces = {
+            "app/knowledge/page.js": "explorer",
+            "components/knowledge/EntityHeader.jsx": "detail header",
+            "components/knowledge/LatestKnowledgeCard.jsx": "latest knowledge",
+        }
+        for rel, label in surfaces.items():
+            with self.subTest(surface=label):
+                self.assertIn("SourceBadge", read(FE / rel),
+                              f"{label} does not name the source package")
+
+    def test_every_recommendation_category_can_reach_a_detail_page(self):
+        """
+        Priority 1: "each card must link to a detailed page". Graph-backed
+        categories previously returned null from HREF_BUILDERS, so their cards were
+        dead ends even though the engine emits a global_entity_id.
+        """
+        rail = read(FE / "components" / "knowledge" / "RecommendationRail.jsx")
+        self.assertIn("graphHref", rail)
+        for category in ("government_schemes", "msmes", "industries", "markets", "courses"):
+            with self.subTest(category=category):
+                self.assertRegex(rail, rf"{category}:\s*graphHref",
+                                 f"{category} cards do not link anywhere")
+
+    def test_recommendation_item_ids_are_graph_ids(self):
+        """`hrefFor` assumes item_id is the global_entity_id. Verified in Python."""
+        recommenders = read(ROOT / "user_intelligence" / "recommenders.py")
+        self.assertIn('item_id=sid', recommenders)
+
+    def test_search_supports_type_filters(self):
+        search = read(FE / "components" / "platform" / "KnowledgeSearch.jsx")
+        self.assertIn("SEARCH_FILTERS", search)
+        self.assertIn("entityType: typeFilter", search)
+        for entity_type in ("BusinessOpportunity", "Skill", "GovernmentScheme",
+                            "District", "Industry", "Crop", "MSME"):
+            with self.subTest(entity_type=entity_type):
+                self.assertIn(f'"{entity_type}"', search)
+
+    def test_search_results_link_to_detail_pages(self):
+        self.assertIn("hrefFor(e)", read(FE / "components" / "platform" / "KnowledgeSearch.jsx"))
+
+    def test_district_panel_covers_every_priority_six_group(self):
+        panel = read(FE / "components" / "knowledge" / "DistrictIntelligencePanel.jsx")
+        for entity_type in ("Industry", "MSME", "BusinessOpportunity", "GovernmentScheme",
+                            "Institution", "TrainingProvider", "Crop"):
+            with self.subTest(entity_type=entity_type):
+                self.assertIn(f'type: "{entity_type}"', panel)
+        self.assertIn("hrefFor(row)", panel)
+
+    def test_empty_states_distinguish_their_three_causes(self):
+        """
+        NOT_DEPLOYED, EMPTY and NO_MATCH look identical to a user and mean opposite
+        things. Collapsing them is the easiest way this platform could mislead.
+        """
+        empty = read(FE / "components" / "knowledge" / "KnowledgeEmptyState.jsx")
+        for reason in ("SCHEMA_UNREACHABLE", "EMPTY", "NO_MATCH"):
+            with self.subTest(reason=reason):
+                self.assertIn(reason, empty)
+
+    def test_sentinels_are_never_rendered_to_a_user(self):
+        grid = read(FE / "components" / "knowledge" / "AttributeGrid.jsx")
+        self.assertIn("PENDING_VERIFICATION", grid)
+        self.assertIn("PENDING_GEOCODING", grid)
+        self.assertIn("SENTINELS", grid)
+
+    # ── still additive ──────────────────────────────────────────────────────
+    def test_the_cms_pages_still_prefer_the_cms(self):
+        """
+        `/schemes` and `/skills` fall back to the graph. They must not *replace* the
+        CMS: an admin who publishes a scheme still overrides the researched row.
+        """
+        fallback = read(FE / "lib" / "kg-fallback.js")
+        self.assertIn("cmsItems.length > 0", fallback)
+        self.assertIn('source: "CMS"', fallback)
+
+    def test_no_new_runtime_dependency(self):
+        pkg = json.loads(read(FE / "package.json"))
+        expected = {
+            "@supabase/ssr", "@supabase/supabase-js", "clsx", "gray-matter",
+            "lucide-react", "marked", "next", "next-mdx-remote", "react",
+            "react-dom", "remark-gfm",
+        }
+        self.assertEqual(set(pkg["dependencies"]), expected,
+                         "Step 3 added a runtime dependency")

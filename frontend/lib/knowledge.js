@@ -227,3 +227,175 @@ export async function knowledgeAvailable() {
   if (rows.length === 0) return { available: false, reason: "EMPTY" };
   return { available: true, reason: "OK" };
 }
+
+// ═══════════════════════════════════════════════════════════════════════════
+// Step 3 — detail pages, explorer, and the type registry that binds them.
+// ═══════════════════════════════════════════════════════════════════════════
+
+// Entity ids are `vw:<entity_type_slug>:<canonical_name_slug>` and the builder
+// generates them deterministically (knowledge_graph/build_graph.py:slug). A URL
+// slug therefore reconstructs an id without a lookup — the detail pages need one
+// query, not two, and a 404 costs nothing.
+export const TYPE_BY_URL = {
+  district: "District",
+  industry: "Industry",
+  business: "BusinessOpportunity",
+  msme: "MSME",
+  skill: "Skill",
+  scheme: "GovernmentScheme",
+  crop: "Crop",
+  certification: "Certification",
+  institution: "Institution",
+  provider: "TrainingProvider",
+  machinery: "Machinery",
+  market: "Market",
+  bank: "FinancialInstitution",
+  material: "RawMaterial",
+};
+
+export const URL_BY_TYPE = Object.fromEntries(
+  Object.entries(TYPE_BY_URL).map(([url, type]) => [type, url])
+);
+
+//: entity_type -> the projected detail table and the column its rows are keyed by.
+//: kg_businesses holds both kinds, keyed differently, because Package008 keys on
+//: `business_id` and Package004 on `id` (see knowledge_sync/config.py).
+const DETAIL_TABLE = {
+  District: ["kg_districts", "dist_id"],
+  Skill: ["kg_skills", "skill_id"],
+  GovernmentScheme: ["kg_schemes", "scheme_id"],
+  BusinessOpportunity: ["kg_businesses", "id"],
+  MSME: ["kg_businesses", "business_id"],
+  Industry: ["kg_industries", "category_id"],
+  Crop: ["kg_agriculture", "crop_id"],
+};
+
+export const PACKAGE_LABELS = {
+  Package001_Geography: "Package001 · Geography",
+  Package002_Education: "Package002 · Education",
+  Package003_Healthcare: "Package003 · Healthcare",
+  Package004_Industries: "Package004 · Industries",
+  Package005_Agriculture: "Package005 · Agriculture",
+  Package006_Skills_and_Training: "Package006 · Skills & Training",
+  Package007_Government_Schemes: "Package007 · Government Schemes",
+  Package008_MSME: "Package008 · MSME",
+};
+
+/** `vw:skill:welding` -> `welding`. Returns "" for anything unexpected. */
+export function slugOf(entityOrId) {
+  const id = typeof entityOrId === "string" ? entityOrId : entityOrId?.global_entity_id;
+  const parts = String(id || "").split(":");
+  return parts.length === 3 ? parts[2] : "";
+}
+
+/** The canonical in-app link for an entity. Unknown types fall back to search. */
+export function hrefFor(entity) {
+  const url = URL_BY_TYPE[entity?.entity_type];
+  const slug = slugOf(entity);
+  if (!url || !slug) return `/knowledge?q=${encodeURIComponent(entity?.canonical_name || "")}`;
+  return `/knowledge/${url}/${slug}`;
+}
+
+/** Rebuild the graph id from a URL pair. No query needed. */
+export function entityIdFor(urlType, slug) {
+  const type = TYPE_BY_URL[urlType];
+  if (!type || !slug) return null;
+  return `vw:${type.toLowerCase()}:${slug}`;
+}
+
+export async function getEntityBySlug(urlType, slug) {
+  return getEntity(entityIdFor(urlType, slug));
+}
+
+/**
+ * The rich attribute row behind an entity — investment range, eligibility, NSQF
+ * level. `kg_entities` carries graph identity only; everything a user reads on a
+ * detail page lives in the per-type table, joined on `package_local_id`.
+ */
+export async function getEntityDetail(entity) {
+  const spec = DETAIL_TABLE[entity?.entity_type];
+  if (!spec || !entity?.package_local_id) return null;
+  const [table, keyColumn] = spec;
+  const rows = await safe(
+    (sb) =>
+      sb.from(table).select("*").eq(keyColumn, entity.package_local_id).is(LIVE, null).limit(1),
+    []
+  );
+  return rows[0] || null;
+}
+
+/**
+ * Everything the graph connects to an entity, in both directions, grouped by the
+ * neighbour's type. Two queries per direction, not one per edge.
+ */
+export async function getRelatedByType(globalEntityId, { limit = 120 } = {}) {
+  const [out, incoming] = await Promise.all([
+    getNeighbours(globalEntityId, { direction: "out", limit }),
+    getNeighbours(globalEntityId, { direction: "in", limit }),
+  ]);
+  const grouped = {};
+  for (const [pairs, direction] of [[out, "out"], [incoming, "in"]]) {
+    for (const { entity, edge } of pairs) {
+      const bucket = (grouped[entity.entity_type] ||= []);
+      if (bucket.some((e) => e.global_entity_id === entity.global_entity_id)) continue;
+      bucket.push({ ...entity, _via: edge.relationship_type, _edge: edge, _direction: direction });
+    }
+  }
+  return grouped;
+}
+
+/**
+ * One page of entities of a type, with a total count for the pager.
+ * `count: "exact"` rides on the same request — a second round trip for a number
+ * the first one can return is the kind of duplicate query the brief rules out.
+ */
+export async function listEntities(entityType, { page = 1, pageSize = 24, q = "" } = {}) {
+  const from = Math.max(0, (page - 1) * pageSize);
+  const term = String(q || "").trim().replace(/[%,]/g, "");
+  const res = await safe(
+    async (sb) => {
+      let sel = sb
+        .from("kg_entities")
+        .select("*", { count: "exact" })
+        .eq("entity_type", entityType)
+        .is(LIVE, null);
+      if (term.length >= 2) sel = sel.ilike("canonical_name", `%${term}%`);
+      const out = await sel
+        .order("confidence_score", { ascending: false })
+        .order("canonical_name", { ascending: true })
+        .range(from, from + pageSize - 1);
+      return { data: { rows: out.data || [], total: out.count ?? 0 }, error: out.error };
+    },
+    { rows: [], total: 0 }
+  );
+  return res;
+}
+
+/** Per-type counts for the explorer index. One query, grouped client-side. */
+export async function typeCounts() {
+  const rows = await safe(
+    (sb) => sb.from("kg_entities").select("entity_type").is(LIVE, null).limit(5000),
+    []
+  );
+  const counts = {};
+  for (const r of rows) counts[r.entity_type] = (counts[r.entity_type] || 0) + 1;
+  return counts;
+}
+
+/**
+ * Newest rows in the projection, for the dashboard's "Latest knowledge" card.
+ * Ordered by the sync's own timestamp so it reflects what actually landed, not
+ * when a package was authored.
+ */
+export async function latestKnowledge({ limit = 8 } = {}) {
+  return safe(
+    (sb) =>
+      sb
+        .from("kg_entities")
+        .select("*")
+        .is(LIVE, null)
+        .order("sync_updated_at", { ascending: false, nullsFirst: false })
+        .limit(limit),
+    []
+  );
+}

@@ -5,20 +5,32 @@
 // disagree with it, and a support engineer can trace it to a CSV row.
 import KnowledgeCard from "./KnowledgeCard";
 import KnowledgeCardGrid from "./KnowledgeCardGrid";
+import { hrefFor } from "@/lib/knowledge";
 
+// Every recommendation must reach a detail page (Step 3, Priority 1).
+//
+// Graph-backed categories carry the `global_entity_id` in `item_id` — the engine
+// emits `vw:governmentscheme:pmegp`, not an opaque key — so `hrefFor()` resolves
+// them with no lookup. Editorial and Supabase-backed categories keep their own
+// prefixed ids and their own routes.
 const HREF_BUILDERS = {
   business_ideas: (r) =>
-    r.item_id?.startsWith("idea:") ? `/ideas/${r.item_id.slice(5)}` : null,
-  government_schemes: () => null,
-  msmes: () => null,
-  industries: () => null,
-  markets: () => null,
-  courses: () => null,
+    r.item_id?.startsWith("idea:") ? `/ideas/${r.item_id.slice(5)}` : graphHref(r),
+  government_schemes: graphHref,
+  msmes: graphHref,
+  industries: graphHref,
+  markets: graphHref,
+  courses: graphHref,
   collaborators: (r) =>
     r.item_id?.startsWith("user:") ? `/profile/${r.item_id.slice(5)}` : null,
   research: (r) =>
     r.item_id?.startsWith("article:") ? `/research/${r.item_id.slice(8)}` : null,
 };
+
+function graphHref(r) {
+  if (!r?.item_id?.startsWith("vw:")) return null;
+  return hrefFor({ global_entity_id: r.item_id, entity_type: r.item_type });
+}
 
 export default function RecommendationRail({
   title,

@@ -7,6 +7,9 @@ import OpportunityCard from "@/components/OpportunityCard";
 import { FeedSkeleton } from "@/components/Skeleton";
 import { Search } from "lucide-react";
 import RecommendationRail from "@/components/knowledge/RecommendationRail";
+import IntelligenceSummaryCard from "@/components/knowledge/IntelligenceSummaryCard";
+import LatestKnowledgeCard from "@/components/knowledge/LatestKnowledgeCard";
+import { latestKnowledge } from "@/lib/knowledge";
 import UnverifiedNotice from "@/components/knowledge/UnverifiedNotice";
 import {
   getRecommendationsByCategory,
@@ -19,13 +22,18 @@ import {
 const RAILS = [
   {
     category: "business_ideas",
-    title: "Business ideas for you",
+    title: "Recommended business ideas",
     subtitle: "Matched to your skills, district and declared interests",
   },
   {
     category: "government_schemes",
-    title: "Schemes you may qualify for",
-    subtitle: "Reached through the businesses your skills match",
+    title: "Government schemes you may qualify for",
+    subtitle: "Reached through the businesses and skills you match",
+  },
+  {
+    category: "courses",
+    title: "Skills to learn",
+    subtitle: "Ordered by how many matched businesses each one unlocks",
   },
   {
     category: "msmes",
@@ -33,9 +41,14 @@ const RAILS = [
     subtitle: "Researched MSMEs operating where you are",
   },
   {
-    category: "courses",
-    title: "Skills worth adding",
-    subtitle: "Ordered by how many matched businesses each one unlocks",
+    category: "industries",
+    title: "Recommended industries",
+    subtitle: "Sectors your skills and interests reach in the knowledge graph",
+  },
+  {
+    category: "markets",
+    title: "Where you could sell",
+    subtitle: "Market channels the matched businesses already use",
   },
 ];
 
@@ -72,6 +85,8 @@ export default function DashboardPage() {
   // opportunities the dashboard already shows.
   const [intel, setIntel] = useState(null);
   const [rails, setRails] = useState({});
+  // Step 3: the newest rows in the knowledge projection.
+  const [latest, setLatest] = useState([]);
 
   useEffect(() => {
     (async () => {
@@ -87,7 +102,12 @@ export default function DashboardPage() {
       // Read-only. Nothing here computes a recommendation in the browser — the
       // Python engine wrote these rows, RLS scopes them to this user, and this
       // page renders them.
-      const state = await intelligenceState(user.id);
+      const [state, latest] = await Promise.all([
+        intelligenceState(user.id),
+        // Read-only projection: one query, cached by Next for the page life.
+        latestKnowledge({ limit: 6 }),
+      ]);
+      setLatest(latest);
       setIntel(state);
       if (state.available) {
         setRails(
@@ -226,6 +246,7 @@ export default function DashboardPage() {
                   total={intel.summary?.total_recommendations || 0}
                   className="mb-5"
                 />
+                <IntelligenceSummaryCard summary={intel.summary} />
                 {RAILS.map((rail) => (
                   <RecommendationRail
                     key={rail.category}
@@ -248,6 +269,8 @@ export default function DashboardPage() {
             )}
           </div>
         )}
+
+        <LatestKnowledgeCard items={latest} />
 
         <h2 className="font-display font-extrabold text-lg text-ink mb-3">
           Open opportunities

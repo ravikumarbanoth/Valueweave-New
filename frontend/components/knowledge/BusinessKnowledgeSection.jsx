@@ -19,7 +19,7 @@ import { useEffect, useState } from "react";
 import KnowledgeCard from "./KnowledgeCard";
 import KnowledgeCardGrid from "./KnowledgeCardGrid";
 import UnverifiedNotice from "./UnverifiedNotice";
-import { getNeighbours, resolveTerms } from "@/lib/knowledge";
+import { getNeighbours, resolveTerms, hrefFor } from "@/lib/knowledge";
 
 export default function BusinessKnowledgeSection({ sectorLabel, skills = [], districts = [] }) {
   const [state, setState] = useState({ loading: true });
@@ -151,6 +151,7 @@ export default function BusinessKnowledgeSection({ sectorLabel, skills = [], dis
                     type={entity.entity_type === "MSME" ? "researched MSME" : "researched opportunity"}
                     confidence={entity.confidence_score}
                     provenance={{ package: entity.source_package, rowId: entity.package_local_id }}
+                    href={hrefFor(entity)}
                   />
                 ))}
               </KnowledgeCardGrid>
@@ -179,6 +180,7 @@ export default function BusinessKnowledgeSection({ sectorLabel, skills = [], dis
                       dataset: edge?.provenance_dataset,
                       rowId: edge?.provenance_row_id,
                     }}
+                    href={hrefFor(entity)}
                   />
                 ))}
               </KnowledgeCardGrid>

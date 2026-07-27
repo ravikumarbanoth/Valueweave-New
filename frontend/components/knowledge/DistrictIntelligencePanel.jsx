@@ -12,6 +12,8 @@
 import KnowledgeCard from "./KnowledgeCard";
 import KnowledgeCardGrid from "./KnowledgeCardGrid";
 import UnverifiedNotice from "./UnverifiedNotice";
+import Link from "next/link";
+import { hrefFor } from "@/lib/knowledge";
 
 const SECTIONS = [
   { type: "Industry", label: "Industries" },
@@ -20,6 +22,8 @@ const SECTIONS = [
   { type: "GovernmentScheme", label: "Government schemes" },
   { type: "Institution", label: "Institutions" },
   { type: "Market", label: "Markets" },
+  { type: "TrainingProvider", label: "Training providers" },
+  { type: "Crop", label: "Agriculture" },
 ];
 
 export default function DistrictIntelligencePanel({ districtName, grouped = {}, status, note, testId }) {
@@ -52,6 +56,17 @@ export default function DistrictIntelligencePanel({ districtName, grouped = {}, 
         />
       ) : (
         <>
+          <div data-testid="district-knowledge-depth"
+               className="flex flex-wrap items-center justify-between gap-2 mb-4 text-[12px] text-muted">
+            <span>
+              <strong className="text-ink tabular-nums">{total}</strong> researched{" "}
+              {total === 1 ? "record" : "records"} linked to this district across{" "}
+              {populated.length} {populated.length === 1 ? "category" : "categories"}
+            </span>
+            <Link href="/district-opportunity-index" className="underline hover:text-ink">
+              Compare districts →
+            </Link>
+          </div>
           <UnverifiedNotice hasUnverified className="mb-5" />
           {populated.map((section) => {
             const rows = grouped[section.type] || [];
@@ -73,6 +88,7 @@ export default function DistrictIntelligencePanel({ districtName, grouped = {}, 
                         package: row.source_package,
                         rowId: row.package_local_id,
                       }}
+                      href={hrefFor(row)}
                     />
                   ))}
                 </KnowledgeCardGrid>

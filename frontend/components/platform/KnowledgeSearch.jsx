@@ -21,7 +21,20 @@ import { Search } from "lucide-react";
 import { getAllKnowledgeItems } from "@/lib/static-knowledge";
 import ConfidenceBadge from "@/components/knowledge/ConfidenceBadge";
 import ProvenanceLine from "@/components/knowledge/ProvenanceLine";
-import { searchKnowledge } from "@/lib/knowledge";
+import { searchKnowledge, hrefFor, TYPE_BY_URL } from "@/lib/knowledge";
+
+//: The filter axis. Entity types, not packages: a user searching for "welding"
+//: wants to narrow to skills, not to Package006.
+const SEARCH_FILTERS = [
+  { value: "", label: "All" },
+  { value: "BusinessOpportunity", label: "Businesses" },
+  { value: "Skill", label: "Skills" },
+  { value: "GovernmentScheme", label: "Schemes" },
+  { value: "District", label: "Districts" },
+  { value: "Industry", label: "Industries" },
+  { value: "Crop", label: "Agriculture" },
+  { value: "MSME", label: "MSMEs" },
+];
 
 export default function KnowledgeSearch() {
   const [query, setQuery] = useState("");
@@ -35,6 +48,10 @@ export default function KnowledgeSearch() {
   // Researched entities. Debounced, and silently empty when the projection is not
   // deployed — exactly the contract lib/knowledge.js promises.
   const [entities, setEntities] = useState([]);
+  // Step 3, Priority 7 — filter the researched results by entity type. Applied
+  // server-side in the query rather than by filtering a fetched page, so a filter
+  // widens the reachable set instead of narrowing the same twelve rows.
+  const [typeFilter, setTypeFilter] = useState("");
   useEffect(() => {
     const q = query.trim();
     if (q.length < 2) {
@@ -43,14 +60,14 @@ export default function KnowledgeSearch() {
     }
     let cancelled = false;
     const timer = setTimeout(async () => {
-      const rows = await searchKnowledge(q, { limit: 12 });
+      const rows = await searchKnowledge(q, { limit: 12, entityType: typeFilter || undefined });
       if (!cancelled) setEntities(rows);
     }, 250);
     return () => {
       cancelled = true;
       clearTimeout(timer);
     };
-  }, [query]);
+  }, [query, typeFilter]);
 
   return (
     <section className="card-base p-5 sm:p-7">
@@ -99,10 +116,11 @@ export default function KnowledgeSearch() {
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
             {entities.map((e) => (
-              <div
+              <Link
                 key={e.global_entity_id}
+                href={hrefFor(e)}
                 data-testid="search-entity"
-                className="rounded-2xl bg-white border border-stone-150 p-4"
+                className="rounded-2xl bg-white border border-stone-150 p-4 hover:border-amber-300 hover:bg-amber-50 transition-colors block"
               >
                 <div className="flex items-start justify-between gap-2 mb-2">
                   <span className="chip bg-stone-50 text-stone-500 border border-stone-200 text-[10px]">
@@ -118,7 +136,7 @@ export default function KnowledgeSearch() {
                   rowId={e.package_local_id}
                   className="mt-2"
                 />
-              </div>
+              </Link>
             ))}
           </div>
           <p className="text-[10px] text-stone-400 mt-3 leading-relaxed">

@@ -35,6 +35,8 @@ SUITES = {
     "api": ("tests.test_api", "REST API: envelope, routing, errors, HTTP transport"),
     "search": ("tests.test_search", "Search: index, four match modes, filters"),
     "stewardship": ("tests.test_stewardship", "Lifecycle, ledger and review queue"),
+    "deployment": ("tests.test_deployment",
+                   "Deployment: writer, scripts, migration 011"),
     "graph": ("tests.test_graph_integrity", "Graph integrity and the 11 G-checks"),
     "graph_compiler": ("tests.test_graph_compiler",
                        "Builder dataset coverage: every dataset registered"),

@@ -3,6 +3,11 @@
 **For whoever is on the other end of it.** Five procedures: update packages, rebuild the
 graph, run the sync, deploy, roll back.
 
+Each has a script in `scripts/` — `run_graph_build.sh`, `run_sync.sh`,
+`run_user_intelligence.sh`, `verify_deployment.sh`, `health_check.sh`, `rollback.sh`. All
+honour `DRY_RUN=1`, which prints what they would do and changes nothing. At 3am, prefer
+the script: it is covered by `tests/test_deployment.py`, and prose is not.
+
 First principle, and everything below follows from it:
 
 > **Git is the source of truth. Supabase is a cache.**
@@ -238,7 +243,7 @@ gone: profiles, connections, opportunities.
 | Every knowledge surface empty | **Schemas exposed?** The failure with no error |
 | Some surfaces empty | Normal — `POST_DEPLOYMENT_VALIDATION.md` §11 |
 | Districts/skills never resolve | `kg_vocabulary_map` — loaded? right schema? |
-| All rails `NOT_COMPUTED` | Intelligence pipeline not built — Guide §9 |
+| All rails `NOT_COMPUTED` | Writer not run for that user — `scripts/run_user_intelligence.sh --from-db --apply` (Guide §9) |
 | Sync aborts on transform | Fix the package, not the sync. Every bad cell is listed |
 | Sync aborts on validation | V4 → rebuild the graph first |
 | Second sync reports updates | Round-trip mismatch. Do not schedule until understood |

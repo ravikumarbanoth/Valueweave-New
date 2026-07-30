@@ -108,3 +108,6 @@ credentials.json
 *.pem
 *.key
 .credentials
+
+# Runtime state written by the user-intelligence Supabase writer (append-only log)
+user_intelligence/state/

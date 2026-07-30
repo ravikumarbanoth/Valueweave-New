@@ -7,7 +7,21 @@ Print it. Tick every box. Record the commit before you start:
 
 Narrative and reasoning: `PRODUCTION_DEPLOYMENT_GUIDE.md`. This file is the sequence.
 
-**Three steps fail in ways that are not obvious — 4, 6 and 7. Two of them fail silently.**
+**Step 6 fails silently.** It is the only step here that a script cannot take for you, and
+the only one where a mistake produces no error anywhere.
+
+### The scripted path
+
+`scripts/first_deploy.sh` executes steps 5, 7, 8, 10 and 14 in order, stopping at a manual
+gate before step 6. Every script honours `DRY_RUN=1`:
+
+```bash
+DRY_RUN=1 scripts/first_deploy.sh     # print every command, touch nothing
+scripts/first_deploy.sh               # for real
+```
+
+Work through this checklist either way — the scripts print the same step names, and the
+boxes below are what you are signing off on regardless of who typed the commands.
 
 ---
 
@@ -29,13 +43,15 @@ Narrative and reasoning: `PRODUCTION_DEPLOYMENT_GUIDE.md`. This file is the sequ
 | | |
 |---|---|
 | **Command** | `python3 tests/run_all.py --quiet` |
-| **Expected** | `TOTAL 478 0 0 0 PASS` — 13 suites |
+| **Expected** | `TOTAL 530 0 0 0 PASS` — 14 suites |
 | **Validation** | 0 fail, 0 error, 0 skip |
 | **Rollback** | n/a — nothing changed |
 
-**A failure here stops the deployment.** Every later step assumes the clone is sound.
+**A failure here stops the deployment.** Every later step assumes the clone is sound. The
+`deployment` suite (50 tests) covers the writer, the scripts and migration 011 — the
+machinery this checklist runs.
 
-- [ ] 478 passing
+- [ ] 530 passing
 
 ---
 
@@ -56,23 +72,29 @@ Narrative and reasoning: `PRODUCTION_DEPLOYMENT_GUIDE.md`. This file is the sequ
 
 ---
 
-## 4 · ⚠️ Patch migration 009 — it cannot apply as committed
+## 4 · Understand migration 009 before you run it
 
 | | |
 |---|---|
 | **Problem** | 009 declares `references public.kg_entity_registry(...)`; **no migration creates that table** |
 | **Symptom** | `ERROR: relation "public.kg_entity_registry" does not exist` |
-| **Command** | `sed 's| references public\.kg_entity_registry(global_entity_id) on delete restrict||' frontend/migrations/009_vocabulary_crosswalk.sql > /tmp/009_patched.sql` |
-| **Expected** | file written, one line shorter in content |
-| **Validation** | `grep -c kg_entity_registry /tmp/009_patched.sql` → **0** |
-| **Rollback** | `rm /tmp/009_patched.sql` — the committed file is untouched |
+| **Fix** | `frontend/migrations/011_repair_vocabulary_crosswalk.sql`, applied in step 5 |
+| **Expected** | **009 fails. That is correct.** 011 then creates the table in `knowledge`, without the FK |
+| **Validation** | after step 5: `\dt knowledge.kg_vocabulary_map` exists; 0 foreign keys on it |
+| **Rollback** | `drop table knowledge.kg_vocabulary_map;` — the `public` copy, if any, is untouched |
 
-Integrity is preserved by 009's own `kg_vocab_resolution_is_coherent` CHECK.
+**009 is not edited and never will be.** It stays in history as it shipped; 011 moves
+forward from whatever state the database is actually in, and handles all four of them
+(009 never applied · 009 applied · 011 already applied · both copies present).
+
+011 also fixes the quieter half of the defect: 009 put the table in `public` while
+`lib/knowledge.js` reads it through a `knowledge`-scoped client, so even a *successful* 009
+would have produced a table nothing could read.
 
 **Do not create an empty `kg_entity_registry` instead.** That would be a third entity
 table in `public`, alongside the CMS `kg_*` tables and the real `knowledge.kg_entities`.
 
-- [ ] Patched file produced · `grep` returns 0
+- [ ] 011 read and understood · [ ] 009 left unmodified
 
 ---
 
@@ -80,10 +102,13 @@ table in `public`, alongside the CMS `kg_*` tables and the real `knowledge.kg_en
 
 | | |
 |---|---|
-| **Command** | The 14 `psql -f` lines in `PRODUCTION_DEPLOYMENT_GUIDE.md` §5.1, **substituting `/tmp/009_patched.sql` for 009** |
-| **Expected** | `CREATE TABLE` / `CREATE POLICY` / `ALTER TABLE` · **no `ERROR`** |
+| **Command** | The 15 `psql -f` lines in `PRODUCTION_DEPLOYMENT_GUIDE.md` §5.1, in order — or `scripts/first_deploy.sh` |
+| **Expected** | `CREATE TABLE` / `CREATE POLICY` / `ALTER TABLE` · **009 errors, nothing else does** |
 | **Validation** | see below |
 | **Rollback** | see below |
+
+`first_deploy.sh` expects 009 to fail and continues to 011. **Any other migration failing
+stops it**, and should stop you.
 
 ```sql
 select count(*) from pg_tables
@@ -135,25 +160,26 @@ and the application looks exactly as it did before deployment.
 
 ---
 
-## 7 · ⚠️ Load the vocabulary crosswalk — no loader exists
+## 7 · Load the vocabulary crosswalk
 
 | | |
 |---|---|
-| **Command** | the three `\copy` statements in `PRODUCTION_DEPLOYMENT_GUIDE.md` §7 |
-| **Expected** | `COPY 33` · `COPY 22` · `COPY 147` |
-| **Validation** | `select term_kind, count(*) from public.kg_vocabulary_map group by 1;` → 33 / 22 / 147 |
-| **Rollback** | `truncate public.kg_vocabulary_map;` |
+| **Command** | `scripts/load_crosswalk.sh` |
+| **Expected** | `district 33` · `sector 22` · `skill 147` · total **202** |
+| **Validation** | `select term_kind, count(*) from knowledge.kg_vocabulary_map group by 1;` → 33 / 22 / 147 |
+| **Rollback** | `truncate knowledge.kg_vocabulary_map;` then re-run the script |
 
-Then resolve the schema mismatch — the table is in `public`, the client queries
-`knowledge`:
+Each CSV is staged into a temp table and merged with `on conflict … do update`, so a
+re-run corrects drift instead of duplicating. The script **fails unless the final count is
+exactly 202** — a half-loaded crosswalk resolves some terms and not others, which reads as
+missing data rather than as a broken load.
 
-```sql
-alter table public.kg_vocabulary_map set schema knowledge;   -- re-grant 009's policies after
-```
+No schema move is needed any more; migration 011 (step 4) created the table in
+`knowledge`, which is where the client looks.
 
-**Without both, every district and skill a user types fails to resolve.**
+**Without this, every district and skill a user types fails to resolve** — silently.
 
-- [ ] 202 rows loaded · [ ] table moved **or** code fix scheduled
+- [ ] 202 rows loaded · [ ] counts match 33 / 22 / 147
 
 ---
 
@@ -161,7 +187,7 @@ alter table public.kg_vocabulary_map set schema knowledge;   -- re-grant 009's p
 
 | | |
 |---|---|
-| **Command** | `python3 knowledge_sync/generate_migration.py --check && python3 -m knowledge_sync plan` |
+| **Command** | `scripts/run_sync.sh --plan-only` |
 | **Expected** | `001_knowledge_schema.sql: matches the specs` · `1812` rows · `0 error(s), 4 warning(s)` |
 | **Validation** | exactly 4 warnings, all `V6-OWNERSHIP … governed by ADR-005` |
 | **Rollback** | n/a — writes nothing |
@@ -189,33 +215,44 @@ alter table public.kg_vocabulary_map set schema knowledge;   -- re-grant 009's p
 
 | | |
 |---|---|
-| **Command** | `python3 -m knowledge_sync sync --target supabase` — **then run it again** |
-| **Expected** | 1st: `1812 inserted` · 2nd: **`0 inserted, 0 updated, 1812 skipped`** |
+| **Command** | `scripts/run_sync.sh` |
+| **Expected** | 1st: `1812 inserted` · 2nd (automatic): **`0 inserted, 0 updated, 1812 skipped`** |
 | **Validation** | `select count(*) from knowledge.kg_entities;` → 647 |
-| **Rollback** | `python3 -m knowledge_sync snapshots` → `rollback <run_id> --dry-run` → `rollback <run_id>` |
+| **Rollback** | `scripts/rollback.sh list` → `scripts/rollback.sh sync <run_id>` |
 
-**The second run is the step that matters.** Updates on an unchanged repository mean a
+**The second run is the step that matters, and the script does it for you** — it fails if
+the repeat run is not `0 inserted, 0 updated`. Updates on an unchanged repository mean a
 value round-trips differently through Postgres than through the content hash. Diagnose
 before scheduling the sync.
+
+The script also refuses to proceed if the plan shows anything other than the 4 governed
+warnings, and asks for confirmation before more than 50 deletes.
 
 - [ ] 1,812 rows · [ ] **second run 0/0** · [ ] `run_id` recorded: ____________
 
 ---
 
-## 11 · ⚠️ Per-user intelligence — no writer exists
+## 11 · Per-user intelligence
 
 | | |
 |---|---|
-| **Command** | `python3 -m user_intelligence capabilities` |
-| **Expected** | 8 scores, 10 categories, `mentors`/`events` = `NO DATA` |
-| **Validation** | `python3 -m user_intelligence run --fixture resolving --explain` produces a rule trace |
-| **Rollback** | `truncate` the five `user_intelligence` tables |
+| **Command** | `scripts/run_user_intelligence.sh` (dry) → `scripts/run_user_intelligence.sh --from-db --apply` |
+| **Expected** | dry: 8 scores, 10 categories, `mentors`/`events` = `NO DATA` · apply: one write pass per user |
+| **Validation** | `select count(*) from user_intelligence.user_activity_summary;` → one row per processed user |
+| **Rollback** | `scripts/rollback.sh intelligence` — drops and recreates the schema |
 
-**There is no `--target supabase`.** The five tables stay empty until a pipeline is
-built (`PRODUCTION_DEPLOYMENT_GUIDE.md` §9). `/dashboard` shows `NOT_COMPUTED` and says
-so — correct behaviour, not a failure.
+Without `--apply` the script computes against an in-memory target and writes nothing, and
+needs no credentials. `--apply` is the only path that reads
+`SUPABASE_SERVICE_ROLE_KEY`.
 
-- [ ] Engine runs · [ ] `NOT_COMPUTED` accepted for launch, **or** pipeline built
+The writer is idempotent by result hash, so re-running over every user costs one read per
+unchanged user. `user_activity_summary` is written **last**, so a partial failure leaves
+the user reading `NOT_COMPUTED` and replays cleanly rather than showing half a profile.
+Per-run detail lands in `user_intelligence/state/writer_log.jsonl` (gitignored).
+
+`NOT_COMPUTED` remains correct for any user not yet processed, and `/dashboard` says so.
+
+- [ ] Dry run clean · [ ] `--apply` completed · [ ] row counts match user count
 
 ---
 
@@ -251,29 +288,43 @@ so — correct behaviour, not a failure.
 
 | | |
 |---|---|
-| **Command** | `POST_DEPLOYMENT_VALIDATION.md` |
-| **Expected** | 9 surfaces render; each empty state names its cause |
-| **Validation** | both smoke profiles — resolving **and** non-resolving skills |
+| **Command** | `scripts/verify_deployment.sh` then `scripts/health_check.sh` |
+| **Expected** | every assertion passes; 0 scheme→district edges is reported as `KNOWN GAP` |
+| **Validation** | `health_check.sh` exits **0**; both smoke profiles — resolving **and** non-resolving skills |
 | **Rollback** | §15 |
 
-- [ ] Validation complete · [ ] result recorded
+`verify_deployment.sh` is the scripted form of `POST_DEPLOYMENT_VALIDATION.md`: schemas
+and table counts, **anon-key schema exposure** (the step 6 failure, which nothing else
+surfaces), crosswalk counts by kind, 1,812 synced rows, sync idempotency, intelligence
+population, search results, recommendations.
+
+`health_check.sh` emits JSON and exits `0` healthy / `1` degraded / `2` failed — poll it
+from a monitor. It uses the **anon key**, deliberately: the service-role key can read a
+schema that is not exposed and would report healthy while every page renders empty.
+
+Read `POST_DEPLOYMENT_VALIDATION.md` for the human judgements the scripts cannot make —
+whether an empty state reads as *incomplete* or as *broken*.
+
+- [ ] `verify_deployment.sh` clean · [ ] `health_check.sh` exit 0 · [ ] result recorded
 
 ---
 
 ## 15 · Rollback ladder
 
-Least to most destructive. **Stop at the first that works.**
+Least to most destructive. **Stop at the first that works.** `scripts/rollback.sh --help`
+prints this table; `scripts/rollback.sh list` shows the available rollback points.
 
 | # | Situation | Action | Loses |
 |---|---|---|---|
-| 1 | Frontend bug | Vercel → promote previous | nothing |
-| 2 | Bad sync | `knowledge_sync rollback <run_id>` | that run |
-| 3 | Projection wrong | `drop schema knowledge cascade` → re-migrate → `sync --full` | nothing — it is derived from Git |
-| 4 | Intelligence wrong | `drop schema user_intelligence cascade` → re-migrate | computed rows, recomputable |
-| 5 | Schema mistake in `public` | **Supabase point-in-time restore** | everything after the restore point |
+| 1 | Frontend bug | Vercel → promote previous *(not scripted)* | nothing |
+| 2 | Bad sync | `scripts/rollback.sh sync <run_id>` | that run |
+| 3 | Projection wrong | `scripts/rollback.sh knowledge` | nothing — it is derived from Git |
+| 4 | Intelligence wrong | `scripts/rollback.sh intelligence` | computed rows, recomputable |
+| 5 | Schema mistake in `public` | **Supabase point-in-time restore** *(not scripted)* | everything after the restore point |
 
 > **Levels 1–4 lose nothing that is not derived from Git.** Level 5 is the only one that
-> touches user data, and it is the only one that needs a decision rather than a command.
+> touches user data, and it is deliberately **not scripted** — it needs a decision rather
+> than a command.
 
 **Rehearse level 2 once** on the `kg_schemes` sync from step 9, before real users exist.
 
@@ -288,11 +339,13 @@ Least to most destructive. **Stop at the first that works.**
 | Deployed by | |
 | Date | |
 | Commit | |
-| 009 patched | ☐ |
+| Migration 011 applied | ☐ |
 | Schemas exposed | ☐ |
 | Crosswalk loaded (202) | ☐ |
 | Second sync reported 0/0 | ☐ |
-| Intelligence pipeline | ☐ built ☐ deferred |
+| Intelligence written | ☐ all users ☐ deferred |
+| `verify_deployment.sh` clean | ☐ |
+| `health_check.sh` exit 0 | ☐ |
 | Seeded opportunities | ☐ labelled ☐ omitted |
 | Rollback rehearsed | ☐ |
 | **Go / No-Go** | |

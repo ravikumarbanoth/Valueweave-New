@@ -603,11 +603,45 @@ class MigrationTest(unittest.TestCase):
 
 
 # ══════════════════════════════════════════════════════════════════ safety
+#: Modules that make up the ENGINE — the part that must stay pure.
+#:
+#: The Operational Completion Sprint added `writer.py`, which holds a Supabase
+#: client and appends to a log file. Both are its entire purpose. The invariant
+#: these tests protect was never "the package touches nothing"; it is "the rules
+#: engine touches nothing", so that a score is reproducible from Git alone.
+#:
+#: Listing the pure modules explicitly rather than excluding the impure ones is
+#: deliberate: a new module is pure until someone adds it here, so an accidental
+#: database call in a future `scorers.py` fails this test instead of slipping
+#: through an exclusion list.
+ENGINE_MODULES = ("__init__.py", "__main__.py", "cli.py", "config.py", "context.py",
+                  "engine.py", "fixtures.py", "knowledge.py", "profiles.py",
+                  "recommenders.py", "rules.py")
+
+
 class SafetyTest(unittest.TestCase):
+    @staticmethod
+    def _engine_sources():
+        for name in ENGINE_MODULES:
+            path = ROOT / "user_intelligence" / name
+            if path.exists():
+                yield path
+
+    def test_engine_module_list_is_complete(self):
+        """
+        Guards the guard. A module absent from ENGINE_MODULES is unchecked, so the
+        list must account for every file in the package.
+        """
+        on_disk = {p.name for p in (ROOT / "user_intelligence").glob("*.py")}
+        known = set(ENGINE_MODULES) | {"generate_migration.py", "writer.py"}
+        self.assertEqual(on_disk - known, set(),
+                         "a new module is neither declared pure nor a known "
+                         "exception — add it to ENGINE_MODULES or justify it here")
+
     def test_engine_never_queries_supabase(self):
-        """Callers pass rows in; the engine holds no client."""
+        """Callers pass rows in; the engine holds no client. The writer is separate."""
         offenders = []
-        for py in sorted((ROOT / "user_intelligence").rglob("*.py")):
+        for py in self._engine_sources():
             text = py.read_text(encoding="utf-8")
             for token in ("create_client", "from supabase", "import supabase",
                           ".table(", "psycopg", "SUPABASE_SERVICE_ROLE_KEY"):
@@ -615,12 +649,23 @@ class SafetyTest(unittest.TestCase):
                     offenders.append(f"{py.name}: {token}")
         self.assertEqual(offenders, [], f"database access in the engine: {offenders}")
 
+    def test_only_the_writer_holds_a_database_client(self):
+        """
+        The companion to the test above, and the sharper one.
+
+        Excluding `writer.py` from a scan would let a client leak into
+        `recommenders.py` unnoticed if someone later widened the exclusion. This
+        asserts the client lives in exactly one module.
+        """
+        holders = [p.name for p in (ROOT / "user_intelligence").glob("*.py")
+                   if "create_client" in p.read_text(encoding="utf-8")]
+        self.assertEqual(holders, ["writer.py"],
+                         "the Supabase client must live only in writer.py")
+
     def test_engine_writes_nothing(self):
-        """No file or database write anywhere in the package."""
+        """No file or database write in the rules engine."""
         offenders = []
-        for py in sorted((ROOT / "user_intelligence").rglob("*.py")):
-            if py.name == "generate_migration.py":
-                continue          # writes its own migration, deliberately
+        for py in self._engine_sources():
             text = py.read_text(encoding="utf-8")
             for token in ("write_text(", "open(", "os.remove", "shutil"):
                 if token in text and "newline=" not in text.split(token)[1][:40]:

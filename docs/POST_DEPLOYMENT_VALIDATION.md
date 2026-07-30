@@ -7,6 +7,12 @@ with `curl` — most of what can go wrong is invisible to a status code.
 panel is often the right answer, and a validation pass that cannot tell right-empty from
 wrong-empty is worthless.
 
+**Run `scripts/verify_deployment.sh` first.** It automates everything here that a machine
+can assert — schemas, exposure under the anon key, crosswalk counts, the 1,812 synced
+rows, sync idempotency, intelligence population, search results, recommendations — and
+takes about a minute. What is left for you is the part it cannot judge: whether an empty
+panel reads as *incomplete* or as *broken*. That judgement is the point of this document.
+
 ---
 
 ## 0. Two-minute gate
@@ -16,7 +22,7 @@ Fail any of these and stop; the rest will fail too.
 ```bash
 psql "$DATABASE_URL" -c "select count(*) from knowledge.kg_entities;"      # 647
 psql "$DATABASE_URL" -c "select count(*) from knowledge.kg_relationships;" # 865
-psql "$DATABASE_URL" -c "select count(*) from public.kg_vocabulary_map;"   # 202
+psql "$DATABASE_URL" -c "select count(*) from knowledge.kg_vocabulary_map;" # 202
 curl -sI https://<domain>/knowledge | head -1                              # HTTP/2 200
 curl -sI https://<domain>/ | head -1                                       # HTTP/2 200
 ```
@@ -180,8 +186,9 @@ On any page carrying `KnowledgeSearch`.
 > than an incomplete one, read `PILOT_PLAN.md` before inviting a general cohort. It is
 > what ~3 in 4 real users will see.
 
-> **Right-empty:** if the intelligence pipeline (Guide §9) has not been built, **all**
-> rails show `NOT_COMPUTED`. Expected until it exists.
+> **Right-empty:** for any user the writer has not yet processed, **all** rails show
+> `NOT_COMPUTED`. Expected until `scripts/run_user_intelligence.sh --apply` has run for
+> that user (Guide §9).
 
 - [ ] 7a populated · [ ] 7b degrades honestly · [ ] cards link · [ ] scores show `—`
 

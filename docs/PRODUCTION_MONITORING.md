@@ -8,7 +8,10 @@ to do when it trips.
 > `[]`, and the application serves 200s with empty panels. No error rate moves. No log
 > line appears. **Uptime monitoring will report everything healthy.**
 >
-> §1 exists specifically to catch that.
+> §1 exists specifically to catch that, and `scripts/health_check.sh` is its
+> implementation — JSON out, exit `0` healthy / `1` degraded / `2` failed, using the
+> **anon key** so that an unexposed schema reports failed rather than healthy. Point the
+> monitor at that, not at a status code.
 
 ---
 

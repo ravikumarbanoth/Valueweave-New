@@ -139,6 +139,57 @@ def cmd_run(args):
     return 0
 
 
+def cmd_write(args):
+    """
+    Compute intelligence and write it to the `user_intelligence` schema.
+
+    The step deployment preparation named blocker B3: the engine had always
+    produced correct rows and nothing put them in a database. `--target memory`
+    is the default so that a mistyped command computes and reports rather than
+    writing somewhere unintended.
+    """
+    from user_intelligence.writer import (IntelligenceWriter, WriterError,  # noqa: PLC0415
+                                          make_target)
+    try:
+        target = make_target(args.target)
+    except WriterError as exc:
+        print(f"ERROR: {exc}", file=sys.stderr)
+        return 2
+
+    engine = IntelligenceEngine()
+    writer = IntelligenceWriter(engine, target, force=args.force)
+
+    if args.users_json:
+        payload = json.loads(Path(args.users_json).read_text(encoding="utf-8"))
+        users = payload if isinstance(payload, list) else payload.get("users", [])
+        contexts = [_context_from_payload(u) for u in users]
+    else:
+        contexts = [_load_context(args)]
+
+    run = writer.write_many(contexts, stop_after_failures=args.stop_after_failures)
+
+    if args.json:
+        print(json.dumps(run.as_dict(), indent=2, sort_keys=True))
+    else:
+        print(f"\n  target: {type(target).__name__}  rules {RULES_VERSION}")
+        print(f"  {run.summary()}\n")
+        for failure in run.as_dict()["failures"]:
+            print(f"  FAILED {failure['user_id']}: {failure['error']}",
+                  file=sys.stderr)
+    return 0 if run.ok else 1
+
+
+def _context_from_payload(entry):
+    """One entry of --users-json. Same shape --profile-json accepts, per user."""
+    if "profile" in entry:
+        return from_supabase_rows(
+            entry["profile"], collaborator=entry.get("collaborator_profile"),
+            connections=entry.get("connections", ()),
+            peers=entry.get("peers", ()),
+            opportunities=entry.get("opportunities", ()))
+    return from_supabase_rows(entry)
+
+
 def build_parser():
     ap = argparse.ArgumentParser(prog="user_intelligence",
                                  description="Rule-based user intelligence engine")
@@ -161,6 +212,20 @@ def build_parser():
     r.add_argument("--explain", action="store_true", help="rule-by-rule trace")
     r.add_argument("--score", help="limit --explain to one score key")
     r.set_defaults(fn=cmd_run)
+
+    w = sub.add_parser("write",
+                       help="compute and WRITE to the user_intelligence schema")
+    w.add_argument("--target", choices=("memory", "supabase"), default="memory",
+                   help="memory needs no credentials (default)")
+    w.add_argument("--fixture", choices=sorted(fixtures.ALL), default="resolving")
+    w.add_argument("--profile-json", help="a JSON file of Supabase rows, one user")
+    w.add_argument("--users-json",
+                   help="a JSON array (or {\"users\": [...]}) for a batch")
+    w.add_argument("--force", action="store_true",
+                   help="write even when the result hash is unchanged")
+    w.add_argument("--stop-after-failures", type=int, default=None,
+                   help="abort the batch once this many users have failed")
+    w.set_defaults(fn=cmd_write)
     return ap
 
 

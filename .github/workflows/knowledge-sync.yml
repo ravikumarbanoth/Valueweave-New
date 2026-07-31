@@ -1,0 +1,139 @@
+# Publish the researched knowledge to the production database.
+#
+# WHY THIS FILE EXISTS
+# --------------------
+# Everything needed to get Packages 001-008 into Supabase was built and tested
+# months ago: `knowledge_sync` reads the package CSVs, `scripts/run_sync.sh`
+# drives it, and 114 tests cover the two. None of it had ever run against a
+# database. The only evidence of execution anywhere in the repository is two
+# entries in `knowledge_sync/state/sync_log.jsonl`, both `"mode": "dry-run"`,
+# both `"applied": false`.
+#
+# There was no CI in this repository at all. The pipeline was complete and
+# nothing invoked it, which is why every knowledge surface in production shows
+# "This information is being prepared" — the code is right and the table is empty.
+#
+# This is the invocation. It is the difference between a pipeline that exists and
+# a pipeline that has run.
+#
+# BEFORE THIS CAN WORK, an operator must add three repository secrets:
+#   DATABASE_URL               postgres connection string (migrations)
+#   SUPABASE_URL               project URL                (sync writes)
+#   SUPABASE_SERVICE_ROLE_KEY  service role key           (sync writes)
+#
+# The service role key bypasses RLS. It belongs in Actions secrets and nowhere
+# else — never in a NEXT_PUBLIC_* variable, never in a committed file. Until the
+# secrets exist this workflow fails its preflight with a clear message rather
+# than half-running.
+name: Knowledge sync
+
+on:
+  # Every merge to main that touches the research or the pipeline. A package
+  # edit and a live database that disagree is the state this whole sprint was
+  # called to diagnose.
+  push:
+    branches: [main]
+    paths:
+      - "packages/**"
+      - "knowledge_graph/**"
+      - "knowledge_sync/**"
+      - "governance/vocabulary/**"
+      - "scripts/**"
+      - ".github/workflows/knowledge-sync.yml"
+
+  # Weekly, so a missed push still converges rather than drifting silently.
+  schedule:
+    - cron: "0 3 * * 1"
+
+  # And on demand, with a dry run by default so the first thing anyone tries is
+  # the safe thing.
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: "Write to the database (unchecked = plan only)"
+        type: boolean
+        default: false
+
+concurrency:
+  # Two syncs against one database interleave writes and make the idempotency
+  # check meaningless.
+  group: knowledge-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      # No pip install. The engine depends on the standard library alone, which
+      # is why it can be reviewed and run on a bare Python — see tests/run_all.py.
+
+      - name: Tests
+        run: python3 tests/run_all.py --quiet
+
+      - name: Preflight — are the secrets present?
+        id: preflight
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          missing=""
+          for v in DATABASE_URL SUPABASE_URL SUPABASE_SERVICE_ROLE_KEY; do
+            [ -z "${!v}" ] && missing="$missing $v"
+          done
+          if [ -n "$missing" ]; then
+            echo "::error::Missing repository secrets:$missing"
+            echo "The knowledge pipeline is complete but has never been run against"
+            echo "a database. Add these three secrets in Settings -> Secrets and"
+            echo "variables -> Actions, then re-run. See docs/IMPLEMENTATION_PLAN.md."
+            exit 1
+          fi
+          echo "ok=true" >> "$GITHUB_OUTPUT"
+
+      # The plan needs no credentials and proves the packages still transform
+      # cleanly. It fails on any validation error or an unexpected warning.
+      - name: Plan
+        run: scripts/run_sync.sh --plan-only
+
+      - name: Apply
+        # Pushes and the weekly run always apply. A manual run applies only when
+        # the operator ticked the box.
+        if: github.event_name != 'workflow_dispatch' || inputs.apply
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          VW_ASSUME_YES: "1"
+        # run_sync.sh syncs, then runs the sync a second time and fails unless the
+        # repeat reports 0 inserted, 0 updated. That is the idempotency proof, and
+        # it is the check most likely to catch a real problem on first contact
+        # with Postgres — a numeric returning as a string, a date as a timestamp.
+        run: scripts/run_sync.sh
+
+      - name: Verify
+        if: github.event_name != 'workflow_dispatch' || inputs.apply
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+        # health_check.sh checks schema exposure with the ANON key. The service
+        # role can read a schema that is not exposed to the browser, so a
+        # service-role check would report healthy while every page stayed empty.
+        run: scripts/health_check.sh
+
+      - name: Run log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sync-run-log
+          path: |
+            knowledge_sync/state/sync_log.jsonl
+            knowledge_sync/state/snapshots/
+          if-no-files-found: ignore
+          retention-days: 30

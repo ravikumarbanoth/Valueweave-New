@@ -155,12 +155,22 @@ class EmptyStateTest(unittest.TestCase):
                 self.assertIn("body:", body,
                               f"{state} must say why it is empty")
 
-    def test_the_deployment_states_name_their_dependency(self):
-        """NOT_DEPLOYED and EMPTY are our fault, so they say what to run."""
+    def test_the_deployment_states_keep_an_operator_note(self):
+        """NOT_DEPLOYED and EMPTY are our fault, and the diagnosis is kept.
+
+        Step 4 rendered that diagnosis to the user, which is how a student
+        looking for a course was told to run `scripts/run_sync.sh`. The
+        production-UX pass moved it to `operatorNote` — carried on the element as
+        `data-operator-note`, readable by support and by tests, invisible on the
+        page. This asserts it was moved rather than deleted: losing the
+        distinction would make the two states genuinely indistinguishable.
+        """
         for state in ("NOT_DEPLOYED", "EMPTY"):
             with self.subTest(state=state):
                 start = self.src.index(f"{state}: {{")
-                self.assertIn("dependency:", self.src[start:start + 900])
+                self.assertIn("operatorNote:", self.src[start:start + 900])
+        self.assertIn("data-operator-note", self.src,
+                      "the diagnosis must reach the DOM for support to read it")
 
     def test_the_old_reason_name_still_resolves(self):
         """lib/knowledge.js returns SCHEMA_UNREACHABLE; callers still pass it."""

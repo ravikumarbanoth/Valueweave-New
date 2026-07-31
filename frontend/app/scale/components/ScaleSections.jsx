@@ -19,7 +19,7 @@ export default async function ScaleSections() {
       ? { status: "LIVE", href, count: counts[type], description }
       : {
           status: "NOT_AVAILABLE_YET",
-          dependency: `${label} are researched but the knowledge schema is not deployed here. See docs/FIRST_DEPLOYMENT_CHECKLIST.md.`,
+          dependency: `We have researched ${label.toLowerCase()} — this section is still being connected. Check back soon.`,
           description,
         };
 
@@ -51,7 +51,7 @@ export default async function ScaleSections() {
         "FinancialInstitution",
         "/knowledge?type=bank",
         "Financial institutions",
-        "Banks, NBFCs and investor categories named by Packages 007 and 008."
+        "Banks, NBFCs and the kinds of investor that fund businesses like these."
       ),
     },
     {
@@ -87,7 +87,7 @@ export default async function ScaleSections() {
         { label: "Automation", dependency: "No automation vendor or upgrade-path data in any package." },
         { label: "Robotics", dependency: "No robotics data in any package." },
         { label: "ERP", dependency: "No software or systems data in any package." },
-        { label: "Quality", dependency: "Certifications exist in Package006; quality systems do not." },
+        { label: "Quality", dependency: "We list certifications you can earn, but not quality systems for a business." },
         { label: "Logistics", dependency: "No carrier, route or freight data in any package." },
         { label: "Energy", dependency: "No tariff or renewable-capacity data in any package." },
       ]}

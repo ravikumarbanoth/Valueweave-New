@@ -1,9 +1,13 @@
-// Which package a knowledge item came from.
+// Which area of our research a fact came from.
 //
-// The brief requires every displayed knowledge item to name its source package.
-// This is that, and it is deliberately a plain chip rather than a link: the
-// package is provenance, not a destination — there is no package browse page and
-// inventing one would be a duplicate surface.
+// Every item we show names where it came from — that is the platform's first
+// promise and it stays. What changed is the wording: the chip used to read
+// "Package006 · Skills & Training" and now reads "Skills & training research".
+// A reader learns the same thing and is not handed a directory name.
+//
+// Deliberately a plain chip and not a link: this is provenance, not a
+// destination. There is no browse-by-research-area page and inventing one would
+// be a duplicate surface.
 import { PACKAGE_LABELS } from "@/lib/knowledge";
 
 export default function SourceBadge({ sourcePackage, className = "" }) {
@@ -12,10 +16,11 @@ export default function SourceBadge({ sourcePackage, className = "" }) {
   return (
     <span
       data-testid="source-badge"
-      title={`Researched and released in ${sourcePackage}`}
+      data-source-package={sourcePackage}
+      title={`Gathered by our ${label.toLowerCase()} research team from official public sources`}
       className={`chip text-[11px] whitespace-nowrap ${className}`}
     >
-      {label}
+      {label} research
     </span>
   );
 }

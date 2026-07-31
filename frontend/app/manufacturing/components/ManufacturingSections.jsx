@@ -18,7 +18,7 @@ export default async function ManufacturingSections() {
       ? { status: "LIVE", href, count: counts[type], description }
       : {
           status: "NOT_AVAILABLE_YET",
-          dependency: `${label} are researched but the knowledge schema is not deployed here. See docs/FIRST_DEPLOYMENT_CHECKLIST.md.`,
+          dependency: `We have researched ${label.toLowerCase()} — this section is still being connected. Check back soon.`,
           description,
         };
 
@@ -40,7 +40,7 @@ export default async function ManufacturingSections() {
         "Machinery",
         "/knowledge?type=machinery",
         "Machinery records",
-        "Machinery linked to the businesses and crops that use it, across Packages 005 and 008."
+        "Equipment used by the businesses and farms we have researched, with what each one is for."
       ),
     },
     {

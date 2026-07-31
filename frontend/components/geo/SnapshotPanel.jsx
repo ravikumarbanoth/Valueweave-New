@@ -1,4 +1,17 @@
-export default function AiReadableSummary({ title = "AI-readable summary", items = {}, faq = [] }) {
+// The key facts about a page, in one block at the top.
+//
+// Was `AiReadableSummary`, titled "AI-readable summary" on every page that
+// used it. That title described who the block was FOR — search engines and
+// answer engines, via the `data-ai-readable` attribute below — and told the
+// human reading it that this part of the page was not meant for them.
+//
+// It was always the most useful block on the page: investment range, district,
+// who it suits, what to do next. Renamed to say what it contains rather than
+// who else can parse it. The machine-readable attributes are untouched, so the
+// GEO behaviour is unchanged — only the words a person sees.
+//
+// Callers pass a specific title: "Opportunity Snapshot", "District Snapshot".
+export default function SnapshotPanel({ title = "Snapshot", items = {}, faq = [] }) {
   const rows = Object.entries(items).filter(([, value]) => {
     if (Array.isArray(value)) return value.length > 0;
     return value != null && String(value).trim() !== "";

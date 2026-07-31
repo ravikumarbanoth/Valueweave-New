@@ -51,6 +51,8 @@ SUITES = {
                              "v3.0 Step 2: JS <-> Python contract and page wiring"),
     "frontend_activation": ("tests.test_frontend_activation",
                             "v3.0 Step 4: placeholders removed, every type routed"),
+    "production_ux": ("tests.test_production_ux",
+                      "v1.0 UX polish: no internal vocabulary reaches a user"),
 }
 
 

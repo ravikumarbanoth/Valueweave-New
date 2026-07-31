@@ -43,7 +43,7 @@ const RAILS = [
   {
     category: "industries",
     title: "Recommended industries",
-    subtitle: "Sectors your skills and interests reach in the knowledge graph",
+    subtitle: "Sectors your skills and interests point towards",
   },
   {
     category: "markets",
@@ -225,19 +225,36 @@ export default function DashboardPage() {
         {/* ── Phase 2: personalised intelligence ─────────────────────────
             Additive. The opportunity feed below is untouched: same query, same
             ranking, same OpportunityCard. */}
-        {intel && (
+        {/* Personalised suggestions.
+            Two unavailable states, handled differently on purpose.
+
+            NOT_DEPLOYED is our problem: our matching service is not connected in
+            this environment. The user did nothing, can do nothing, and does not
+            benefit from being told. The whole block is HIDDEN — an empty panel
+            explaining our infrastructure is worse than no panel at all.
+
+            NOT_COMPUTED is theirs to fix: we have not worked out their matches
+            because we do not know their skills or district yet. That gets a
+            friendly card with the one button that changes it. */}
+        {intel && (intel.available || intel.reason === "NOT_COMPUTED") && (
           <div data-testid="dashboard-intelligence" className="mb-8">
             {!intel.available ? (
               <div
                 data-testid="intelligence-unavailable"
+                data-reason={intel.reason}
                 className="rounded-2xl border border-dashed border-amber-200 bg-amber-50 p-5 mb-6"
               >
                 <p className="font-display font-bold text-sm text-ink">
-                  {intel.reason === "NOT_DEPLOYED"
-                    ? "Personalised recommendations are not switched on yet"
-                    : "We have not analysed your profile yet"}
+                  Tell us a little more and we&apos;ll suggest what fits you
                 </p>
-                <p className="text-xs text-muted mt-1.5 leading-relaxed">{intel.message}</p>
+                <p className="text-xs text-muted mt-1.5 leading-relaxed max-w-xl">
+                  Add the skills you have and the district you are in. We will use
+                  them to suggest businesses you could start, courses worth taking
+                  and government schemes you may qualify for.
+                </p>
+                <Link href="/onboarding" className="btn-primary text-sm mt-4 inline-flex">
+                  Complete your profile →
+                </Link>
               </div>
             ) : (
               <>

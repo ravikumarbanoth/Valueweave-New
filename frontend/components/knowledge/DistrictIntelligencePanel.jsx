@@ -34,14 +34,15 @@ export default function DistrictIntelligencePanel({ districtName, grouped = {}, 
     <section data-testid={testId} className="card-base p-5 sm:p-7">
       <div className="mb-4">
         <span className="chip bg-teal-100 text-teal-700 border border-teal-200 mb-3">
-          RESEARCHED KNOWLEDGE
+          WHAT&apos;S HERE
         </span>
         <h2 className="font-display font-extrabold text-2xl text-ink">
-          What the knowledge base records for {districtName}
+          Opportunities in {districtName}
         </h2>
         <p className="text-sm text-muted mt-2 max-w-2xl leading-relaxed">
-          Sourced entities linked to this district across Packages 001–008. Separate
-          from the editorial profile above, and every item names where it came from.
+          Industries operating here, businesses you could start, schemes you may
+          qualify for, places to train and crops that grow well. Each one links to
+          the full details and names the source it came from.
         </p>
       </div>
 
@@ -50,7 +51,7 @@ export default function DistrictIntelligencePanel({ districtName, grouped = {}, 
           status={status || "NO_DATA_SOURCE"}
           note={
             note ||
-            `No researched entity is linked to ${districtName} yet. Coverage is uneven: the knowledge graph holds 32 employment links across 61 districts, so a blank here is a collection gap rather than an absence of opportunity.`
+            `We have not linked anything to ${districtName} yet. That means our research has not reached this district — not that there is nothing happening here. Try a nearby district, or explore by what you want to do.`
           }
           testId={testId && `${testId}-empty`}
         />
@@ -59,8 +60,8 @@ export default function DistrictIntelligencePanel({ districtName, grouped = {}, 
           <div data-testid="district-knowledge-depth"
                className="flex flex-wrap items-center justify-between gap-2 mb-4 text-[12px] text-muted">
             <span>
-              <strong className="text-ink tabular-nums">{total}</strong> researched{" "}
-              {total === 1 ? "record" : "records"} linked to this district across{" "}
+              <strong className="text-ink tabular-nums">{total}</strong>{" "}
+              {total === 1 ? "thing" : "things"} to explore in {districtName}, across{" "}
               {populated.length} {populated.length === 1 ? "category" : "categories"}
             </span>
             <Link href="/district-opportunity-index" className="underline hover:text-ink">

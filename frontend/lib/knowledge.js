@@ -280,15 +280,27 @@ const DETAIL_TABLE = {
   Crop: ["kg_agriculture", "crop_id"],
 };
 
+/**
+ * What a user reads when we name where a fact came from.
+ *
+ * These used to render the internal identifier: "Package006 · Skills &
+ * Training". `Package006` is a directory in this repository. It tells a student
+ * nothing, and it tells them so in a way that makes the site feel like somebody
+ * else's tool that they are looking at by accident.
+ *
+ * The subject is the useful half, so the subject is what shows. The identifier
+ * still exists on the row, in `source_package`, and still appears in exported
+ * data and admin tooling — it just no longer appears on a page.
+ */
 export const PACKAGE_LABELS = {
-  Package001_Geography: "Package001 · Geography",
-  Package002_Education: "Package002 · Education",
-  Package003_Healthcare: "Package003 · Healthcare",
-  Package004_Industries: "Package004 · Industries",
-  Package005_Agriculture: "Package005 · Agriculture",
-  Package006_Skills_and_Training: "Package006 · Skills & Training",
-  Package007_Government_Schemes: "Package007 · Government Schemes",
-  Package008_MSME: "Package008 · MSME",
+  Package001_Geography: "Districts & geography",
+  Package002_Education: "Education",
+  Package003_Healthcare: "Healthcare",
+  Package004_Industries: "Industries",
+  Package005_Agriculture: "Agriculture",
+  Package006_Skills_and_Training: "Skills & training",
+  Package007_Government_Schemes: "Government schemes",
+  Package008_MSME: "Small business",
 };
 
 /** `vw:skill:welding` -> `welding`. Returns "" for anything unexpected. */

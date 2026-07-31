@@ -9,7 +9,7 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase-browser";
 import AppNavbar from "@/components/AppNavbar";
 import ShareButton from "@/components/ShareButton";
-import AiReadableSummary from "@/components/geo/AiReadableSummary";
+import SnapshotPanel from "@/components/geo/SnapshotPanel";
 import { CATEGORY_META } from "@/components/OpportunityCard";
 import { LogIn } from "lucide-react";
 
@@ -154,8 +154,8 @@ export default function OpportunityDetailClient() {
         <h1 data-testid="detail-title" className="h-section mb-3">{opp.title}</h1>
         <p className="text-muted text-sm mb-6">📍 {opp.location}</p>
 
-        <AiReadableSummary
-          title="AI-readable opportunity summary"
+        <SnapshotPanel
+          title="Opportunity Snapshot"
           items={{
             "Key Takeaways": opp.description,
             "Who should read this": opp.founder_role ? `Builders who can take the ${opp.founder_role} role.` : "Builders, collaborators, and local entrepreneurs exploring this opportunity.",

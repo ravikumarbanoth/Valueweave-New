@@ -31,8 +31,9 @@ export const revalidate = 300;
 export const metadata = buildBaseMetadata({
   title: "Knowledge Explorer | ValueWeave",
   description:
-    "Browse researched districts, industries, business opportunities, skills, " +
-    "government schemes, MSMEs and agriculture across Telangana and Andhra Pradesh.",
+    "Find districts, industries, business ideas, skills, government schemes and " +
+    "farming information across Telangana and Andhra Pradesh — all checked against " +
+    "official public sources.",
   alternates: { canonical: `${BASE_URL}/knowledge` },
 });
 
@@ -122,14 +123,15 @@ export default async function KnowledgeExplorerPage({ searchParams }) {
       <AppNavbar />
       <main className="max-w-5xl mx-auto px-4 sm:px-6 py-8 flex flex-col gap-6">
         <div>
-          <p className="text-[11px] uppercase tracking-widest text-muted">Knowledge Explorer</p>
+          <p className="text-[11px] uppercase tracking-widest text-muted">Explore</p>
           <h1 className="font-display font-bold text-2xl sm:text-3xl text-ink">
-            {entityType ? BROWSE_LABEL(entityType) : "Everything we have researched"}
+            {entityType ? BROWSE_LABEL(entityType) : "What would you like to explore?"}
           </h1>
           <p className="text-sm text-muted mt-1 max-w-2xl">
-            Districts, industries, business opportunities, skills, schemes, MSMEs and
-            crops across Telangana and Andhra Pradesh — every record traceable to the
-            package and public source it came from.
+            Districts to build in, businesses you could start, skills worth learning,
+            government schemes you may qualify for and crops that grow well here —
+            across Telangana and Andhra Pradesh. Everything here was checked against
+            an official public source.
           </p>
         </div>
 
@@ -163,8 +165,8 @@ function SearchBar({ q, urlType }) {
       <input
         name="q"
         defaultValue={q}
-        placeholder="Search researched knowledge…"
-        aria-label="Search researched knowledge"
+        placeholder="Try a district, a skill, or a business idea…"
+        aria-label="Search"
         className="input-field flex-1 min-w-[200px]"
       />
       <button type="submit" className="btn-primary">Search</button>
@@ -203,7 +205,7 @@ async function TypeIndex({ q }) {
                   className="card-base p-4 hover:border-stone-300 transition-colors"
                 >
                   <p className="font-display font-bold text-ink">{label}</p>
-                  <p className="text-sm text-muted">{counts[type]} researched</p>
+                  <p className="text-sm text-muted">{counts[type]} to explore</p>
                 </Link>
               ))}
             </div>

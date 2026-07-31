@@ -27,13 +27,13 @@ export default async function NetworkSections() {
       emoji: "🏫",
       title: "Institutions",
       description:
-        "Universities, colleges and training institutions researched in Package002, linked to the districts they sit in.",
+        "Universities, colleges and training institutions across both states, with the district each one is in.",
       ...(institutions > 0
         ? { status: "LIVE", href: "/knowledge?type=institution", count: institutions }
         : {
             status: "NOT_AVAILABLE_YET",
             dependency:
-              "Package002 holds 66 institutions but the knowledge schema is not deployed here.",
+              "We have researched 66 institutions — this section is still being connected.",
           }),
     },
     {
@@ -51,9 +51,8 @@ export default async function NetworkSections() {
       description: "Capital discovery for qualified businesses and founders.",
       status: "NO_DATA_SOURCE",
       dependency:
-        "Packages 007 and 008 name 21 financial institutions as categories — angel " +
-        "networks, NBFCs, banks — but hold no individual investor, ticket size or " +
-        "mandate. Browse what does exist at /knowledge?type=bank.",
+        "We list 21 kinds of funder — banks, NBFCs, angel networks — but not " +
+        "individual investors or how much they invest. Browse the funder types below.",
     },
   ];
 
@@ -63,8 +62,8 @@ export default async function NetworkSections() {
       primaryLabel="Open Collaborators"
       dependency={
         "Communities, events and a startup workspace are not built. The parts of the " +
-        "network that exist — the collaborator marketplace and 66 researched " +
-        "institutions — are open above."
+        "network that do work — the collaborator marketplace and 66 institutions — " +
+        "are open above."
       }
       roadmap={[
         "Keep existing collaborator marketplace stable and accessible under the broader network layer.",

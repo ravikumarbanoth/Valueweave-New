@@ -9,7 +9,7 @@ import Link from "next/link";
 import { STATE_SLUGS, districtsForState, getOpportunityCountsByDistrict } from "@/lib/collab";
 import { buildBaseMetadata, breadcrumbJsonLd, pageSummaryJsonLd, BASE_URL } from "@/lib/seo";
 import AppNavbar from "@/components/AppNavbar";
-import AiReadableSummary from "@/components/geo/AiReadableSummary";
+import SnapshotPanel from "@/components/geo/SnapshotPanel";
 import OpportunityDetailClient from "./OpportunityDetailClient";
 
 export const revalidate = 300;
@@ -76,8 +76,8 @@ export default async function OpportunityIdOrStatePage({ params }) {
         </section>
 
         <section className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
-          <AiReadableSummary
-            title="AI-readable opportunity marketplace summary"
+          <SnapshotPanel
+            title="Opportunity Snapshot"
             items={{
               "Key Takeaways": `${stateName} has ${districts.length} district opportunity pages and ${total || "curated"} open opportunity signals.`,
               "Who should read this": `Builders, students, MSMEs, and collaborators exploring opportunities in ${stateName}.`,

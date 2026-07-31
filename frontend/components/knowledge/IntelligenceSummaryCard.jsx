@@ -32,7 +32,7 @@ export default function IntelligenceSummaryCard({ summary }) {
         <div>
           <h2 className="font-display font-bold text-ink">Your intelligence summary</h2>
           <p className="text-xs text-muted mt-0.5">
-            Computed from the knowledge graph by rule, not by model. Every score is
+            Worked out by matching your profile against what we have researched. Every score is
             explainable.
           </p>
         </div>

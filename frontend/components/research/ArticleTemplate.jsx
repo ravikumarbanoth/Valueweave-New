@@ -7,7 +7,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { Breadcrumb, CategoryBadge } from "@/components/ui/index";
 import { ArticleCard } from "./ArticleCard";
-import AiReadableSummary from "@/components/geo/AiReadableSummary";
+import SnapshotPanel from "@/components/geo/SnapshotPanel";
 import ResearchVideoEmbed from "@/components/research/ResearchVideoEmbed";
 
 export function ArticleTemplate({ article, relatedLinks, relatedArticles, mdx }) {
@@ -67,8 +67,8 @@ export function ArticleTemplate({ article, relatedLinks, relatedArticles, mdx })
               />
             )}
 
-            <AiReadableSummary
-              title="AI-readable research summary"
+            <SnapshotPanel
+              title="Research Snapshot"
               items={{
                 "Key Takeaways": article.metaDescription,
                 "Who should read this": `Entrepreneurs, students, local operators, and collaborators exploring ${article.sector || article.category}.`,

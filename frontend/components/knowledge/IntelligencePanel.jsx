@@ -25,12 +25,12 @@ export default function IntelligencePanel({ skill, business, learning, state, is
     return (
       <section data-testid="intelligence-panel-unavailable" className="card-base p-5 mb-6">
         <h2 className="font-display font-extrabold text-xl text-ink mb-2">
-          Knowledge graph profile
+          Your readiness profile
         </h2>
         <p className="text-sm text-muted leading-relaxed">
           {isMe
             ? state?.message ||
-              "We have not analysed your profile yet. Add skills and a district to get started."
+              "Add your skills and your district and we will work out where you stand."
             : "This is only visible to the person who owns the profile."}
         </p>
       </section>
@@ -45,9 +45,9 @@ export default function IntelligencePanel({ skill, business, learning, state, is
     <section data-testid="intelligence-panel" className="mb-6">
       <div className="flex items-baseline justify-between gap-3 mb-3">
         <h2 className="font-display font-extrabold text-xl text-ink">
-          Knowledge graph profile
+          Your readiness profile
         </h2>
-        <span className="text-xs text-stone-400">rule-based · no AI</span>
+        <span className="text-xs text-stone-400">based on your skills and district</span>
       </div>
 
       <UnverifiedNotice hasUnverified className="mb-4" />
@@ -111,7 +111,7 @@ export default function IntelligencePanel({ skill, business, learning, state, is
         {roadmap.length === 0 ? (
           <p className="text-xs text-muted leading-relaxed">
             {learning?.reason ||
-              "No roadmap yet — this needs at least one skill that matches a researched business."}
+              "Add a skill we have information on and we will suggest what to learn next."}
           </p>
         ) : (
           <ol className="space-y-2.5">

@@ -1,15 +1,13 @@
 // A grid of KnowledgeCards, plus the empty states that must not look alike.
 //
-// THIS IS THE COMPONENT THAT DECIDES WHETHER THE INTEGRATION FEELS BROKEN.
-// "No data source exists", "nothing matched you" and "not analysed yet" render
-// identically if you let them, and they mean completely different things.
+// The states still mean different things internally — that distinction is real
+// and worth keeping. What changed in the UX polish pass is who the sentences are
+// written for. A grid on a district page told students to run
+// `scripts/run_user_intelligence.sh`; it now tells them to complete their
+// profile. Same condition, same `data-reason`, different reader.
 //
-// A blank div reads as a bug. A sentence reads as honesty. A sentence that names
-// what has to happen next reads as a plan.
-//
-// Step 4 aligned the vocabulary with KnowledgeEmptyState so the same five names
-// mean the same five things everywhere in the app — plus NOT_COMPUTED, which is
-// specific to per-user intelligence and has no equivalent for shared knowledge.
+// Operator detail moves to `data-operator-note`, where support and tests can
+// reach it and a student cannot.
 import { emptyStateCopy, normaliseReason } from "./KnowledgeEmptyState";
 
 export default function KnowledgeCardGrid({
@@ -17,7 +15,7 @@ export default function KnowledgeCardGrid({
   status,
   note,
   dependency,
-  emptyTitle = "Nothing here yet",
+  emptyTitle = "Nothing to show yet",
   columns = "sm:grid-cols-2 lg:grid-cols-3",
   testId,
 }) {
@@ -33,39 +31,37 @@ export default function KnowledgeCardGrid({
 
   const key = normaliseReason(status);
 
-  // NOT_COMPUTED is the one state with no shared-knowledge equivalent: the data
-  // source exists and is deployed, but the engine has not run for THIS user.
+  // NOT_COMPUTED is the one state with no shared-knowledge equivalent: the
+  // information exists, and we have not worked out this person's matches yet.
+  // It is also the only state where the user genuinely can do something.
   const local = {
     NOT_COMPUTED: {
-      title: "Not analysed yet",
-      dependency:
-        "`scripts/run_user_intelligence.sh --from-db --apply` has not processed " +
-        "your profile.",
+      title: "We are still working out your matches",
+      body:
+        "Add your skills and your district to your profile and we will suggest " +
+        "opportunities, courses and schemes that fit.",
+      operatorNote: "Per-user analysis has not run for this account.",
     },
   }[key];
 
-  const copy = local || emptyStateCopy(key, { entityLabel: "records" });
+  const copy = local || emptyStateCopy(key, { entityLabel: "results" });
   const title = key ? copy.title : emptyTitle;
   const tone =
     key === "NOT_COMPUTED" || key === "NOT_DEPLOYED" || key === "EMPTY"
       ? "border-amber-200 bg-amber-50"
       : "border-stone-200 bg-stone-50";
-  const depends = dependency || copy.dependency;
 
   return (
     <div
       data-testid={testId ? `${testId}-empty` : undefined}
       data-reason={key || undefined}
+      data-operator-note={dependency || copy.operatorNote || undefined}
       className={`rounded-2xl border border-dashed ${tone} p-6 text-center`}
     >
       <p className="font-display font-bold text-sm text-ink">{title}</p>
-      {note && <p className="text-xs text-muted mt-1.5 leading-relaxed max-w-xl mx-auto">{note}</p>}
-      {depends && (
-        <p className="text-[10px] text-stone-400 mt-2 leading-relaxed max-w-xl mx-auto">
-          <span className="font-display font-bold text-stone-500">Depends on: </span>
-          {depends}
-        </p>
-      )}
+      <p className="text-xs text-muted mt-1.5 leading-relaxed max-w-xl mx-auto">
+        {note || copy.body}
+      </p>
     </div>
   );
 }

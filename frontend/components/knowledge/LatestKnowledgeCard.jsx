@@ -14,8 +14,8 @@ export default function LatestKnowledgeCard({ items = [] }) {
     <section data-testid="latest-knowledge" className="card-base p-5 mb-6">
       <div className="flex items-center justify-between gap-3 mb-3">
         <div>
-          <h2 className="font-display font-bold text-ink">Latest knowledge</h2>
-          <p className="text-xs text-muted mt-0.5">Most recently synced from Packages001–008</p>
+          <h2 className="font-display font-bold text-ink">Recently added</h2>
+          <p className="text-xs text-muted mt-0.5">The newest additions to our research</p>
         </div>
         <Link href="/knowledge" className="text-[12px] text-muted underline hover:text-ink whitespace-nowrap">
           Explore all →

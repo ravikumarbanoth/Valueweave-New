@@ -90,7 +90,7 @@ export default function BusinessKnowledgeSection({ sectorLabel, skills = [], dis
   if (state.loading) {
     return (
       <section className="card-base p-5 mb-5" data-testid="business-knowledge-loading">
-        <p className="text-xs text-muted">Loading researched knowledge…</p>
+        <p className="text-xs text-muted">Loading…</p>
       </section>
     );
   }
@@ -98,7 +98,7 @@ export default function BusinessKnowledgeSection({ sectorLabel, skills = [], dis
   if (state.failed) {
     return (
       <section className="card-base p-5 mb-5" data-testid="business-knowledge-failed">
-        <p className="text-xs text-muted">Couldn&apos;t load researched knowledge just now.</p>
+        <p className="text-xs text-muted">Couldn&apos;t load this just now. Try refreshing the page.</p>
       </section>
     );
   }
@@ -109,16 +109,16 @@ export default function BusinessKnowledgeSection({ sectorLabel, skills = [], dis
   return (
     <section data-testid="business-knowledge" className="card-base p-5 sm:p-7 mb-5">
       <span className="chip bg-teal-100 text-teal-700 border border-teal-200 mb-3">
-        RESEARCHED KNOWLEDGE
+        REAL EXAMPLES
       </span>
       <h2 className="font-display font-extrabold text-xl text-ink">
-        Comparable researched businesses
+        Businesses like this that already exist
       </h2>
       <p className="text-sm text-muted mt-2 mb-4 max-w-2xl leading-relaxed">
-        This idea is editorial — written to start a conversation. Below are{" "}
-        <strong className="text-ink">sourced</strong> businesses from Packages 004 and
-        008 in the same sector, the schemes that support them, and where they operate.
-        Two different kinds of claim, kept apart on purpose.
+        The idea above was written by our team to get you thinking. Below are{" "}
+        <strong className="text-ink">real businesses</strong> in the same sector that we
+        have researched, the government schemes that support them, and where they
+        operate. Two different things, kept separate on purpose.
       </p>
 
       {nothing ? (
@@ -127,8 +127,8 @@ export default function BusinessKnowledgeSection({ sectorLabel, skills = [], dis
           testId="business-knowledge"
           note={
             industry
-              ? `No researched business is linked to ${industry.canonical_name} yet.`
-              : `"${sectorLabel}" has no researched industry counterpart yet — 11 of 22 idea sectors currently resolve.`
+              ? `We have not connected any businesses to ${industry.canonical_name} yet.`
+              : `We have not matched "${sectorLabel}" to an industry we have researched yet. The idea above still stands — we just cannot show you comparable businesses for it.`
           }
         />
       ) : (
@@ -149,7 +149,7 @@ export default function BusinessKnowledgeSection({ sectorLabel, skills = [], dis
                     key={entity.global_entity_id}
                     testId="business-comparable"
                     title={entity.canonical_name}
-                    type={entity.entity_type === "MSME" ? "researched MSME" : "researched opportunity"}
+                    type={entity.entity_type === "MSME" ? "small business" : "business idea"}
                     confidence={entity.confidence_score}
                     provenance={{ package: entity.source_package, rowId: entity.package_local_id }}
                     href={hrefFor(entity)}
@@ -175,7 +175,7 @@ export default function BusinessKnowledgeSection({ sectorLabel, skills = [], dis
                     title={entity.canonical_name}
                     type="government scheme"
                     confidence={entity.confidence_score}
-                    reason="Supports a researched business in this sector"
+                    reason="Supports businesses like this one"
                     provenance={{
                       package: edge?.provenance_package,
                       dataset: edge?.provenance_dataset,
@@ -202,7 +202,7 @@ export default function BusinessKnowledgeSection({ sectorLabel, skills = [], dis
           actually covers. */}
       {(skillHits?.resolved?.length > 0 || districtHits?.resolved?.length > 0) && (
         <div className="mt-4 pt-4 border-t border-stone-150" data-testid="idea-resolved">
-          <h3 className="label-display">In the knowledge base</h3>
+          <h3 className="label-display">Explore these</h3>
           <div className="flex flex-wrap gap-1.5">
             {[
               ...(skillHits?.resolved || []).map((r) => ["skill", r]),
@@ -227,8 +227,8 @@ export default function BusinessKnowledgeSection({ sectorLabel, skills = [], dis
               ))}
           </div>
           <p className="text-[10px] text-stone-400 mt-2 leading-relaxed">
-            Each one is a researched entity with its own page, its sources and
-            everything else the graph links to it.
+            Each one has its own page with the full details and everything connected
+            to it.
           </p>
         </div>
       )}
@@ -237,7 +237,7 @@ export default function BusinessKnowledgeSection({ sectorLabel, skills = [], dis
           a real skill the knowledge base has not collected — worth saying. */}
       {(skillHits?.unresolved?.length > 0 || districtHits?.unresolved?.length > 0) && (
         <div className="mt-4 pt-4 border-t border-stone-150">
-          <h3 className="label-display">Not yet in the knowledge base</h3>
+          <h3 className="label-display">We have not covered these yet</h3>
           <div className="flex flex-wrap gap-1.5">
             {[...(skillHits?.unresolved || []), ...(districtHits?.unresolved || [])]
               .slice(0, 12)
@@ -252,8 +252,8 @@ export default function BusinessKnowledgeSection({ sectorLabel, skills = [], dis
               ))}
           </div>
           <p className="text-[10px] text-stone-400 mt-2 leading-relaxed">
-            These are real skills and places. They have no researched counterpart yet,
-            which is a collection gap rather than a judgement.
+            These are real skills and places — we have just not gathered information on
+            them yet. It is a gap on our side, not a comment on them.
           </p>
         </div>
       )}

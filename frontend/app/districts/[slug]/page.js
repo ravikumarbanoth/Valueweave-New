@@ -58,10 +58,14 @@ async function loadDistrictKnowledge(districtName) {
   const { resolved } = await resolveTerms("district", [districtName]);
   const hit = resolved[0];
   if (!hit) {
+    // We could not match this district name to one we have researched. To the
+    // reader that is simply "nothing linked yet" — the matching mechanism is our
+    // business, not theirs, and naming it would only make a gap sound like a
+    // fault.
     return {
       grouped: {},
       status: "NO_DATA_SOURCE",
-      note: `"${districtName}" has no entry in the district vocabulary crosswalk, so no researched entity can be linked to it. The crosswalk covers 33 district terms.`,
+      note: `We have not linked our research to ${districtName} yet. The profile above is still accurate — we are working on connecting local businesses, schemes and training to each district.`,
     };
   }
   return { grouped: await getDistrictKnowledge(hit.global_entity_id), status: null, note: null };
@@ -82,7 +86,7 @@ export default async function DistrictDetailPage({ params }) {
       description={
         districtKnowledge?.summary ||
         district?.profileSummary ||
-        `Everything Packages 001–008 record about ${name}.`
+        `Industries, businesses, schemes and training in ${name}.`
       }
     >
       <div className="space-y-8">
@@ -96,8 +100,8 @@ export default async function DistrictDetailPage({ params }) {
             </h2>
             <p className="text-muted leading-relaxed">{districtKnowledge.overview}</p>
             <p className="text-[11px] text-stone-400 mt-4 leading-relaxed">
-              Written by hand, carrying no source or confidence score. The researched
-              records below are a different kind of claim and are kept separate.
+              Written by our editorial team. The information below comes from official
+              public sources and is kept separate on purpose.
             </p>
           </section>
         )}
@@ -117,7 +121,7 @@ export default async function DistrictDetailPage({ params }) {
             </Link>
           )}
           <Link href="/knowledge?type=district" className="btn-secondary text-sm">
-            Compare all researched districts →
+            Compare all districts →
           </Link>
           <Link href="/districts" className="btn-secondary text-sm">
             All districts →

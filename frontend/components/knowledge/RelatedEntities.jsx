@@ -27,6 +27,7 @@ const TYPE_LABELS = {
   Soil: "Soil types",
   ClimateZone: "Climate zones",
   State: "States",
+  Country: "Countries",
 };
 
 const VIA = (rel) => String(rel || "").toLowerCase().replace(/_/g, " ");

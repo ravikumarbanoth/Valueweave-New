@@ -1,27 +1,36 @@
-// Phase 4 — search across the static knowledge layer AND the researched projection.
+// Knowledge search — Platform v3.0, Step 4.
 //
-// EXTENDED, NOT REPLACED. The existing client-side search over
-// lib/static-knowledge is untouched: same input, same cards, same behaviour when
-// the projection is absent. A second result group is added beneath it.
+// WHAT CHANGED, AND WHY IT MATTERED
+// ---------------------------------
+// This component used to search two things at once. The primary result grid —
+// the one that filled before you typed anything and sat at the top — came from
+// lib/static-knowledge.js: 56 hand-written JSON records with no source, no
+// confidence and no provenance. The researched projection, 647 sourced entities
+// across Packages 001–008, appeared underneath as a secondary group and only
+// after two characters were typed.
 //
-// The two groups stay visually separate because they are different kinds of thing.
-// The static layer is editorial (56 hand-written records); the projection is
-// researched, sourced and confidence-scored (647 entities). Merging them into one
-// ranked list would hide which is which.
+// So the platform's weakest data answered first and its strongest answered
+// second. Every one of the seven static types — districts, industries,
+// manufacturing, products, training, skills, schemes — has a researched
+// counterpart now, so the static group is gone and the projection is the search.
 //
-// Postgres ilike, not the Python SearchEngine's four-mode ladder. The engine's
-// EXACT/ALIAS/PREFIX/FUZZY ranking is not reproduced here and the UI does not claim
-// it is — see docs/SEARCH_GUIDE.md. Substring matching is honest about being
-// substring matching.
+// The static detail routes at /knowledge/<plural>/<slug> still resolve. Nothing
+// links to them from here any more, but breaking 56 live URLs to make a point
+// about data quality would be a worse trade than leaving them reachable.
+//
+// STILL NOT THE PYTHON SEARCH ENGINE.
+// Postgres ilike, not the EXACT/ALIAS/PREFIX/FUZZY ladder in search/index.py —
+// see docs/SEARCH_GUIDE.md. Substring matching is honest about being substring
+// matching, and the copy below says so.
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Search } from "lucide-react";
-import { getAllKnowledgeItems } from "@/lib/static-knowledge";
 import ConfidenceBadge from "@/components/knowledge/ConfidenceBadge";
 import ProvenanceLine from "@/components/knowledge/ProvenanceLine";
-import { searchKnowledge, hrefFor, TYPE_BY_URL } from "@/lib/knowledge";
+import KnowledgeEmptyState from "@/components/knowledge/KnowledgeEmptyState";
+import { searchKnowledge, hrefFor } from "@/lib/knowledge";
 
 //: The filter axis. Entity types, not packages: a user searching for "welding"
 //: wants to narrow to skills, not to Package006.
@@ -34,34 +43,33 @@ const SEARCH_FILTERS = [
   { value: "Industry", label: "Industries" },
   { value: "Crop", label: "Agriculture" },
   { value: "MSME", label: "MSMEs" },
+  { value: "Machinery", label: "Machinery" },
+  { value: "TrainingProvider", label: "Training" },
 ];
 
 export default function KnowledgeSearch() {
   const [query, setQuery] = useState("");
-  const items = useMemo(() => getAllKnowledgeItems(), []);
-  const results = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    if (!q) return items.slice(0, 8);
-    return items.filter((item) => item.searchText.includes(q)).slice(0, 12);
-  }, [items, query]);
-
-  // Researched entities. Debounced, and silently empty when the projection is not
-  // deployed — exactly the contract lib/knowledge.js promises.
-  const [entities, setEntities] = useState([]);
-  // Step 3, Priority 7 — filter the researched results by entity type. Applied
-  // server-side in the query rather than by filtering a fetched page, so a filter
-  // widens the reachable set instead of narrowing the same twelve rows.
   const [typeFilter, setTypeFilter] = useState("");
+  const [entities, setEntities] = useState([]);
+  // "idle" before the first search, so an empty grid never reads as "no results"
+  // when the truth is "you have not searched yet".
+  const [state, setState] = useState("idle");
+
   useEffect(() => {
     const q = query.trim();
     if (q.length < 2) {
       setEntities([]);
+      setState("idle");
       return undefined;
     }
     let cancelled = false;
+    setState("searching");
     const timer = setTimeout(async () => {
-      const rows = await searchKnowledge(q, { limit: 12, entityType: typeFilter || undefined });
-      if (!cancelled) setEntities(rows);
+      // Never throws — returns [] when the projection is not deployed.
+      const rows = await searchKnowledge(q, { limit: 24, entityType: typeFilter || undefined });
+      if (cancelled) return;
+      setEntities(rows);
+      setState(rows.length > 0 ? "results" : "empty");
     }, 250);
     return () => {
       cancelled = true;
@@ -70,14 +78,17 @@ export default function KnowledgeSearch() {
   }, [query, typeFilter]);
 
   return (
-    <section className="card-base p-5 sm:p-7">
+    <section className="card-base p-5 sm:p-7" data-testid="knowledge-search">
       <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4 mb-5">
         <div>
-          <span className="chip bg-teal-100 text-teal-700 border border-teal-200 mb-3">CLIENT-SIDE SEARCH</span>
-          <h3 className="font-display font-extrabold text-2xl text-ink">Search the Knowledge Layer</h3>
+          <span className="chip bg-teal-100 text-teal-700 border border-teal-200 mb-3">
+            RESEARCHED KNOWLEDGE
+          </span>
+          <h3 className="font-display font-extrabold text-2xl text-ink">Search the Knowledge Base</h3>
           <p className="text-sm text-muted mt-2 max-w-2xl leading-relaxed">
-            Searches the editorial knowledge layer and, where deployed, the researched
-            knowledge base of 647 sourced entities. Rule-based substring matching — no AI.
+            Searches 647 sourced entities across Packages 001–008. Every result carries
+            the package it came from and a confidence score. Rule-based substring
+            matching — no AI, and no ranking beyond source confidence.
           </p>
         </div>
         <div className="relative w-full lg:w-80">
@@ -86,30 +97,60 @@ export default function KnowledgeSearch() {
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder="Search Medak, PMEGP, turmeric, welding..."
+            aria-label="Search the researched knowledge base"
+            data-testid="knowledge-search-input"
             className="input-field !pl-10"
           />
         </div>
       </div>
 
-      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
-        {results.map((item) => (
-          <Link key={`${item.type}-${item.slug}`} href={item.href} className="rounded-2xl bg-stone-50 border border-stone-150 p-4 hover:border-amber-300 hover:bg-amber-50 transition-colors group">
-            <span className="chip bg-white text-stone-500 border border-stone-200 text-[10px] mb-3">{item.typeLabel}</span>
-            <h4 className="font-display font-bold text-sm text-ink group-hover:text-amber-700 transition-colors">{item.name}</h4>
-            <p className="text-xs text-muted mt-2 line-clamp-3 leading-relaxed">
-              {item.summary || item.description || item.purpose || item.overview}
-            </p>
-          </Link>
+      <div className="flex flex-wrap gap-1.5 mb-5" data-testid="knowledge-search-filters">
+        {SEARCH_FILTERS.map((f) => (
+          <button
+            key={f.value || "all"}
+            type="button"
+            onClick={() => setTypeFilter(f.value)}
+            aria-pressed={typeFilter === f.value}
+            className={`chip border transition-colors ${
+              typeFilter === f.value
+                ? "bg-ink text-white border-ink"
+                : "bg-white text-stone-600 border-stone-200 hover:border-stone-300"
+            }`}
+          >
+            {f.label}
+          </button>
         ))}
       </div>
 
-      {/* ── Researched entities, kept visually separate from the editorial layer ── */}
-      {entities.length > 0 && (
-        <div data-testid="search-researched" className="mt-6 pt-5 border-t border-stone-150">
+      {state === "idle" && (
+        <p className="text-sm text-muted text-center py-8" data-testid="knowledge-search-idle">
+          Type at least two characters to search the researched knowledge base.{" "}
+          <Link href="/knowledge" className="underline hover:text-ink">
+            Or browse by category →
+          </Link>
+        </p>
+      )}
+
+      {state === "searching" && (
+        <p className="text-sm text-muted text-center py-8">Searching…</p>
+      )}
+
+      {state === "empty" && (
+        <KnowledgeEmptyState
+          reason="NO_MATCH"
+          entityLabel={
+            typeFilter
+              ? (SEARCH_FILTERS.find((f) => f.value === typeFilter)?.label || "records").toLowerCase()
+              : "records"
+          }
+          query={query.trim()}
+        />
+      )}
+
+      {state === "results" && (
+        <div data-testid="search-researched">
           <div className="flex items-baseline justify-between gap-3 mb-3">
-            <h4 className="font-display font-extrabold text-base text-ink">
-              Researched knowledge base
-            </h4>
+            <h4 className="font-display font-extrabold text-base text-ink">Results</h4>
             <span className="text-xs text-stone-400 tabular-nums">
               {entities.length} {entities.length === 1 ? "entity" : "entities"}
             </span>

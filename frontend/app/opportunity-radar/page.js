@@ -53,6 +53,39 @@ export default function OpportunityRadarPage() {
           </div>
         </section>
 
+        {/* ── Step 4: say where the scores come from ─────────────────────────
+            `fitScore: 91` and `demandScore: 93` are hand-assigned editorial
+            judgements in lib/radar-data.js. They look exactly like the computed
+            confidence scores on researched entities elsewhere in the app, and a
+            reader has no way to tell them apart — so the page says which it is
+            and points at the data that does carry provenance. The ranking itself
+            is editorial work and stays. */}
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-10">
+          <div
+            data-testid="radar-methodology"
+            className="rounded-2xl border border-dashed border-stone-200 bg-stone-50 p-5"
+          >
+            <p className="font-display font-bold text-sm text-ink">
+              These scores are editorial judgements, not measurements
+            </p>
+            <p className="text-xs text-muted mt-1.5 leading-relaxed max-w-2xl">
+              Fit and demand are assigned by hand from sector reading. They carry no
+              source and no confidence band, and they are not comparable with the
+              confidence scores shown on researched knowledge. For sourced figures —
+              investment ranges, employment, risk — open the researched business
+              opportunities, each of which names the package and public source behind it.
+            </p>
+            <div className="flex flex-wrap gap-2 mt-4">
+              <Link href="/knowledge?type=business" className="btn-secondary text-sm">
+                Researched business opportunities →
+              </Link>
+              <Link href="/knowledge?type=district" className="btn-secondary text-sm">
+                Researched districts →
+              </Link>
+            </div>
+          </div>
+        </div>
+
         {/* Segments Grid */}
         <section className="max-w-5xl mx-auto px-4 sm:px-6 py-14">
           <h2 className="font-display font-extrabold tracking-tight text-2xl text-ink mb-8 text-center">

@@ -47,6 +47,24 @@ export default function RadarSegmentPage({ params }) {
         </section>
 
         <section className="max-w-5xl mx-auto px-4 sm:px-6 py-10">
+          {/* Step 4 — the same disclosure the radar index carries. Fit and demand
+              are editorial judgements from lib/radar-data.js, and this page renders
+              them as a /100 badge with a progress bar, which is the most
+              measurement-like presentation in the application. */}
+          <div
+            data-testid="radar-methodology"
+            className="rounded-2xl border border-dashed border-stone-200 bg-stone-50 p-4 mb-8"
+          >
+            <p className="text-xs text-muted leading-relaxed">
+              <strong className="font-display text-ink">Fit and demand are editorial
+              judgements</strong>, assigned by hand and carrying no source. They are not
+              comparable with the confidence scores on researched knowledge.{" "}
+              <Link href="/knowledge?type=business" className="underline hover:text-ink">
+                Researched business opportunities →
+              </Link>
+            </p>
+          </div>
+
           {/* Segment nav */}
           <div className="flex items-center gap-2 overflow-x-auto pb-3 mb-8">
             {getAllSegments().map((seg) => (

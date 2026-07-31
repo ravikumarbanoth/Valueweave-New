@@ -236,6 +236,11 @@ export async function knowledgeAvailable() {
 // generates them deterministically (knowledge_graph/build_graph.py:slug). A URL
 // slug therefore reconstructs an id without a lookup — the detail pages need one
 // query, not two, and a 404 costs nothing.
+//
+// Step 4 completed this map. It previously held 14 of the graph's 19 entity types,
+// so `hrefFor()` sent ExportCountry, Soil, ClimateZone, State and Country — 50
+// entities — to a search URL instead of a detail page. A knowledge network with
+// dead ends in it is a list, so the remaining five are here.
 export const TYPE_BY_URL = {
   district: "District",
   industry: "Industry",
@@ -251,6 +256,11 @@ export const TYPE_BY_URL = {
   market: "Market",
   bank: "FinancialInstitution",
   material: "RawMaterial",
+  export: "ExportCountry",
+  soil: "Soil",
+  climate: "ClimateZone",
+  state: "State",
+  country: "Country",
 };
 
 export const URL_BY_TYPE = Object.fromEntries(
@@ -380,6 +390,47 @@ export async function typeCounts() {
   const counts = {};
   for (const r of rows) counts[r.entity_type] = (counts[r.entity_type] || 0) + 1;
   return counts;
+}
+
+/**
+ * One representative entity per type, highest confidence first — Step 4.
+ *
+ * Replaces the six hand-picked `featuredKnowledge` entries in
+ * lib/static-knowledge.js on the homepage. Those named specific slugs, so they
+ * showed the same six records forever and said nothing about what the platform
+ * actually holds.
+ *
+ * ONE query for every type rather than one per type: `.in()` plus a client-side
+ * first-per-type pass. Six round trips on the homepage would be six round trips
+ * on every homepage render.
+ */
+export async function featuredByType(entityTypes, { perType = 1 } = {}) {
+  const types = (entityTypes || []).filter(Boolean);
+  if (types.length === 0) return [];
+
+  const rows = await safe(
+    (sb) =>
+      sb
+        .from("kg_entities")
+        .select("*")
+        .in("entity_type", types)
+        .is(LIVE, null)
+        .order("confidence_score", { ascending: false })
+        .order("canonical_name", { ascending: true })
+        .limit(types.length * perType * 12),
+    []
+  );
+
+  const picked = new Map();
+  for (const row of rows) {
+    const bucket = picked.get(row.entity_type) || [];
+    if (bucket.length >= perType) continue;
+    bucket.push(row);
+    picked.set(row.entity_type, bucket);
+  }
+  // Ordered by the caller's list, not by the database — the homepage decides
+  // which package leads.
+  return types.flatMap((t) => picked.get(t) || []);
 }
 
 /**

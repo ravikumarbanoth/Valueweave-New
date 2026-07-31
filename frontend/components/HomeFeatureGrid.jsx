@@ -1,7 +1,27 @@
+// Homepage feature grid — Platform v3.0, Step 4.
+//
+// TWO SECTIONS CHANGED, AND FOR OPPOSITE REASONS.
+//
+// "Explore Knowledge" used to render `featuredKnowledge` from
+// lib/static-knowledge.js: six hard-coded slugs over 56 editorial JSON records,
+// under a banner that read "STATIC KNOWLEDGE LAYER · Early static knowledge
+// previews". Every one of those six types now exists as researched, sourced,
+// confidence-scored data — 647 entities across Packages 001–008 — so the section
+// reads the projection and shows what the platform actually holds.
+//
+// "Future Infrastructure Roadmap" kept its six modules but lost the "Planned"
+// chip. None of them has a data source in any package, and that is a different
+// and more honest statement than "planned": it says the research does not exist,
+// not that the wiring is pending. Each now names the package that would have to
+// exist first.
 import Link from "next/link";
 import InfrastructureCard from "@/components/platform/InfrastructureCard";
 import KnowledgeSearch from "@/components/platform/KnowledgeSearch";
-import { featuredKnowledge, futureInfrastructureModules, knowledgeLabels } from "@/lib/static-knowledge";
+import ConfidenceBadge from "@/components/knowledge/ConfidenceBadge";
+import SourceBadge from "@/components/knowledge/SourceBadge";
+import CapabilityCard from "@/components/knowledge/CapabilityStatus";
+import KnowledgeEmptyState from "@/components/knowledge/KnowledgeEmptyState";
+import { featuredByType, typeCounts, hrefFor, URL_BY_TYPE } from "@/lib/knowledge";
 
 const FEATURES = [
   {
@@ -62,8 +82,76 @@ const FEATURES = [
     href: "/ai",
     accent: "violet",
     buttonLabel: "View AI Layer",
-    comingSoon: true,
+    status: "NOT_AVAILABLE_YET",
     items: ["AI District Advisor", "AI Manufacturing Advisor", "AI Readiness Advisor", "AI Scale Advisor"],
+  },
+];
+
+//: The types the homepage leads with, in package order. One representative each,
+//: highest confidence first — see lib/knowledge.js featuredByType().
+const FEATURED_TYPES = [
+  "District",
+  "Industry",
+  "BusinessOpportunity",
+  "Skill",
+  "GovernmentScheme",
+  "Crop",
+];
+
+const TYPE_LABEL = {
+  District: "District",
+  Industry: "Industry",
+  BusinessOpportunity: "Business opportunity",
+  Skill: "Skill",
+  GovernmentScheme: "Government scheme",
+  Crop: "Crop",
+};
+
+//: The six roadmap modules, each with the package that does not exist yet. The
+//: dependency is the point: "Planned" told the reader nothing they could check.
+const FUTURE_MODULES = [
+  {
+    emoji: "🔬",
+    title: "Innovation Infrastructure",
+    description: "Research commercialization, technology transfer, innovation labs, patent ecosystem.",
+    dependency: "No package covers patents, TRLs or tech transfer. Would need a new research package.",
+  },
+  {
+    emoji: "🎓",
+    title: "Research & Technology Infrastructure",
+    description: "Universities, research labs, R&D collaboration, technology readiness levels.",
+    dependency:
+      "Package002 holds 66 institutions but no R&D capability, lab or TRL data — " +
+      "browse those at /knowledge?type=institution.",
+  },
+  {
+    emoji: "🚚",
+    title: "Digital Supply Chain Infrastructure",
+    description: "Suppliers, warehousing, cold chain, procurement, traceability.",
+    dependency:
+      "Package008 holds 21 raw materials but no supplier, warehouse or cold-chain dataset.",
+  },
+  {
+    emoji: "🌍",
+    title: "Global Trade Infrastructure",
+    description: "Exports, imports, international buyers, trade missions, export documentation.",
+    dependency:
+      "Package001 holds 29 export destinations but no buyer, tariff or documentation data — " +
+      "browse those at /knowledge?type=export.",
+  },
+  {
+    emoji: "🏦",
+    title: "Industrial Finance Infrastructure",
+    description: "Banks, NBFCs, government grants, CSR, angel investors, VC.",
+    dependency:
+      "Packages 007 and 008 hold 21 financial institutions but no product, rate or " +
+      "eligibility data — browse those at /knowledge?type=bank.",
+  },
+  {
+    emoji: "♻️",
+    title: "Sustainability Infrastructure",
+    description: "Circular economy, recycling, renewable energy, carbon footprint, green manufacturing.",
+    dependency: "No package covers emissions, recycling or renewable capacity.",
   },
 ];
 
@@ -80,7 +168,15 @@ const JOURNEY = [
   { label: "Become Mentor", href: "/network" },
 ];
 
-export default function HomeFeatureGrid() {
+export default async function HomeFeatureGrid() {
+  // Both return empty when the projection is not deployed — lib/knowledge.js
+  // never throws — so the homepage renders either way and says which it is.
+  const [featured, counts] = await Promise.all([
+    featuredByType(FEATURED_TYPES),
+    typeCounts(),
+  ]);
+  const total = Object.values(counts).reduce((a, b) => a + b, 0);
+
   return (
     <section className="py-20 sm:py-24 px-4 sm:px-6 bg-warm">
       <div className="max-w-6xl mx-auto space-y-16">
@@ -129,53 +225,101 @@ export default function HomeFeatureGrid() {
           </div>
         </section>
 
-        <section>
+        <section data-testid="home-researched-knowledge">
           <div className="text-center mb-10">
-            <span className="chip bg-blue-100 text-blue-700 border border-blue-200 mb-4">STATIC KNOWLEDGE LAYER</span>
+            <span className="chip bg-blue-100 text-blue-700 border border-blue-200 mb-4">RESEARCHED KNOWLEDGE</span>
             <h2 className="font-display font-extrabold text-3xl sm:text-4xl text-ink">Explore Knowledge</h2>
             <p className="text-muted mt-3 max-w-2xl mx-auto leading-relaxed">
-              Early static knowledge previews show how ValueWeave will connect places, sectors, learning, schemes, products, and manufacturing opportunities.
+              {total > 0 ? (
+                <>
+                  <strong className="text-ink tabular-nums">{total}</strong> researched
+                  records across Packages 001–008 — districts, industries, business
+                  opportunities, skills, schemes and crops. Every one traceable to the
+                  package and public source it came from.
+                </>
+              ) : (
+                <>
+                  Districts, industries, business opportunities, skills, schemes and
+                  crops across Telangana and Andhra Pradesh — every record traceable to
+                  the package and public source it came from.
+                </>
+              )}
             </p>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-6">
-            {featuredKnowledge.map(({ label, type, slug, item }) => (
-              <Link key={`${type}-${slug}`} href={`/knowledge/${type}/${slug}`} className="card-base p-5 hover:border-amber-300 hover:shadow-md hover:-translate-y-1 transition-all group">
-                <span className="chip bg-stone-50 text-stone-500 border border-stone-100 mb-3">{label}</span>
-                <h3 className="font-display font-bold text-lg text-ink group-hover:text-amber-700 transition-colors">{item.name}</h3>
-                <p className="text-xs text-teal-700 font-display font-bold mt-1">{knowledgeLabels[type]}</p>
-                <p className="text-sm text-muted mt-3 line-clamp-3 leading-relaxed">
-                  {item.summary || item.description || item.purpose || item.overview}
-                </p>
-              </Link>
-            ))}
-          </div>
+
+          {featured.length > 0 ? (
+            <>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-6">
+                {featured.map((entity) => (
+                  <Link
+                    key={entity.global_entity_id}
+                    href={hrefFor(entity)}
+                    data-testid="home-featured-entity"
+                    className="card-base p-5 hover:border-amber-300 hover:shadow-md hover:-translate-y-1 transition-all group flex flex-col"
+                  >
+                    <div className="flex items-start justify-between gap-2 mb-3">
+                      <span className="chip bg-stone-50 text-stone-500 border border-stone-100">
+                        {TYPE_LABEL[entity.entity_type] || entity.entity_type}
+                      </span>
+                      <ConfidenceBadge confidence={entity.confidence_score} />
+                    </div>
+                    <h3 className="font-display font-bold text-lg text-ink group-hover:text-amber-700 transition-colors leading-snug">
+                      {entity.canonical_name}
+                    </h3>
+                    <p className="text-xs text-teal-700 font-display font-bold mt-1 tabular-nums">
+                      {counts[entity.entity_type] || 0} researched in this category
+                    </p>
+                    <div className="mt-auto pt-3 flex items-center justify-between gap-2">
+                      <SourceBadge sourcePackage={entity.source_package} />
+                      <span className="text-[13px] font-display font-bold text-amber-700">Open →</span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+              <div className="flex flex-wrap justify-center gap-2 mb-6">
+                {FEATURED_TYPES.filter((t) => (counts[t] || 0) > 0).map((t) => (
+                  <Link
+                    key={t}
+                    href={`/knowledge?type=${URL_BY_TYPE[t]}`}
+                    data-testid="home-browse-type"
+                    className="btn-secondary text-sm"
+                  >
+                    All {TYPE_LABEL[t].toLowerCase()}s ({counts[t]}) →
+                  </Link>
+                ))}
+                <Link href="/knowledge" className="btn-primary text-sm">Knowledge Explorer →</Link>
+              </div>
+            </>
+          ) : (
+            <div className="mb-6">
+              <KnowledgeEmptyState reason="NOT_DEPLOYED" entityLabel="knowledge" />
+            </div>
+          )}
+
           <KnowledgeSearch />
         </section>
 
-        <section>
+        <section data-testid="home-future-modules">
           <div className="text-center mb-10">
-            <span className="chip bg-violet-100 text-violet-700 border border-violet-200 mb-4">PLANNED MODULES</span>
+            <span className="chip bg-violet-100 text-violet-700 border border-violet-200 mb-4">NOT AVAILABLE YET</span>
             <h2 className="font-display font-extrabold text-3xl sm:text-4xl text-ink">Future Infrastructure Roadmap</h2>
             <p className="text-muted mt-3 max-w-2xl mx-auto leading-relaxed">
-              These future infrastructure layers are visible for strategic clarity, but navigation is intentionally disabled until implementation begins.
+              These layers are not built. Each one names the knowledge it would need
+              first — where a package already holds part of it, the link goes to what
+              exists today.
             </p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {futureInfrastructureModules.map((module) => (
-              <div key={module.title} className="card-base p-5 min-h-[230px] opacity-90">
-                <div className="flex items-start justify-between gap-3 mb-4">
-                  <h3 className="font-display font-bold text-lg text-ink leading-tight">{module.title}</h3>
-                  <span className="chip bg-violet-50 text-violet-700 border border-violet-100">Planned</span>
-                </div>
-                <div className="grid gap-2">
-                  {module.items.map((item) => (
-                    <span key={item} className="flex items-center gap-2 text-sm text-muted">
-                      <span className="w-1.5 h-1.5 rounded-full bg-violet-400 shrink-0" />
-                      {item}
-                    </span>
-                  ))}
-                </div>
-              </div>
+            {FUTURE_MODULES.map((module) => (
+              <CapabilityCard
+                key={module.title}
+                testId="future-module"
+                emoji={module.emoji}
+                title={module.title}
+                description={module.description}
+                status="NO_DATA_SOURCE"
+                dependency={module.dependency}
+              />
             ))}
           </div>
         </section>

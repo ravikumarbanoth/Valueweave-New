@@ -47,7 +47,9 @@ function fmt(n) {
 const STATS = [
   { key: "visitors",     icon: Eye,       label: "Visitors",           emptyLabel: "Early access" },
   { key: "assessments",  icon: Users,     label: "Discover Profiles",  emptyLabel: "Be the first" },
-  { key: "opportunities",icon: Briefcase, label: "Open Opportunities", emptyLabel: "Coming soon" },
+  // "Coming soon" was wrong on both counts: the feature is live, and the number
+  // being zero is a fact about the marketplace rather than a promise about it.
+  { key: "opportunities",icon: Briefcase, label: "Open Opportunities", emptyLabel: "None open yet" },
   { key: "collaborators",icon: UserCheck, label: "Collaborators",      emptyLabel: "Join us" },
   { key: "districts",    icon: MapPin,    label: "Districts Covered",  emptyLabel: "Expanding" },
 ];

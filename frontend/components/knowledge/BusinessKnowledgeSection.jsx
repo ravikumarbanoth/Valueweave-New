@@ -15,6 +15,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 import KnowledgeCard from "./KnowledgeCard";
 import KnowledgeCardGrid from "./KnowledgeCardGrid";
@@ -187,6 +188,49 @@ export default function BusinessKnowledgeSection({ sectorLabel, skills = [], dis
             </div>
           )}
         </>
+      )}
+
+      {/* ── Step 4: the resolved half ────────────────────────────────────────
+          This component already resolved every idea's skills and districts
+          through the crosswalk, and then rendered only the ones that FAILED.
+          The successes — real graph entities with detail pages — were computed
+          and thrown away, so an idea listing "Welding, Food Processing" showed
+          the reader nothing they could click.
+
+          Both directions are now shown, and the contrast is the useful part: a
+          user can see at a glance how much of this idea the knowledge base
+          actually covers. */}
+      {(skillHits?.resolved?.length > 0 || districtHits?.resolved?.length > 0) && (
+        <div className="mt-4 pt-4 border-t border-stone-150" data-testid="idea-resolved">
+          <h3 className="label-display">In the knowledge base</h3>
+          <div className="flex flex-wrap gap-1.5">
+            {[
+              ...(skillHits?.resolved || []).map((r) => ["skill", r]),
+              ...(districtHits?.resolved || []).map((r) => ["district", r]),
+            ]
+              .slice(0, 14)
+              .map(([kind, r]) => (
+                <Link
+                  key={`${kind}-${r.global_entity_id}`}
+                  href={hrefFor({
+                    global_entity_id: r.global_entity_id,
+                    entity_type: r.entity_type,
+                  })}
+                  data-testid="idea-resolved-link"
+                  title={`"${r.term}" matched ${r.canonical_name} by ${String(
+                    r.match_method || ""
+                  ).toLowerCase()}`}
+                  className="chip bg-teal-50 text-teal-700 border border-teal-200 hover:border-teal-400 transition-colors text-[11px]"
+                >
+                  {r.canonical_name || r.term}
+                </Link>
+              ))}
+          </div>
+          <p className="text-[10px] text-stone-400 mt-2 leading-relaxed">
+            Each one is a researched entity with its own page, its sources and
+            everything else the graph links to it.
+          </p>
+        </div>
       )}
 
       {/* Skill and district resolution, reported either way. An unresolved skill is

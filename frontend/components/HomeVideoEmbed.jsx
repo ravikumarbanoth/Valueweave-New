@@ -50,7 +50,14 @@ export default function HomeVideoEmbed({
                   <path d="M5 3l14 9-14 9V3z" fill="white" />
                 </svg>
               </div>
-              <p className="text-white/60 text-sm">Video coming soon</p>
+              {/* Step 4: "coming soon" promised a date nobody had set. An
+                  explainer video is not knowledge and has no package behind it;
+                  it is waiting on someone recording one. */}
+              <p className="text-white/60 text-sm">Not available yet</p>
+              <p className="text-white/40 text-xs max-w-xs text-center leading-relaxed">
+                No explainer video has been published. Set one in Admin → Settings
+                when it exists.
+              </p>
             </div>
           )}
         </div>

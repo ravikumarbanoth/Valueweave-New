@@ -42,6 +42,21 @@ def read(path):
     return Path(path).read_text(encoding="utf-8")
 
 
+def code(path):
+    """`read()` with `//` line comments stripped.
+
+    A test that asserts a symbol is ABSENT must not match the comment explaining
+    why it was removed. Step 4 hit exactly that: KnowledgeSearch.jsx documents
+    that it no longer reads lib/static-knowledge, and the naive assertion failed
+    on its own explanation.
+
+    Line comments only. A `//` inside a string literal or a URL would be stripped
+    too, which is wrong in general and harmless here — these assertions look for
+    identifiers, and no identifier survives only inside a URL.
+    """
+    return "\n".join(line.split("//", 1)[0] for line in read(path).splitlines())
+
+
 NEW_COMPONENTS = [
     "ConfidenceBadge.jsx", "ProvenanceLine.jsx", "UnverifiedNotice.jsx",
     "KnowledgeCard.jsx", "KnowledgeCardGrid.jsx", "RecommendationRail.jsx",
@@ -173,13 +188,26 @@ class WiringTest(unittest.TestCase):
         self.assertIn("learning-roadmap", panel)
         self.assertIn("SkillGapPanel", panel)
 
-    def test_search_uses_the_projection_without_replacing_static_search(self):
-        """Phase 4 — extended, not replaced."""
-        src = read(FE / "components" / "platform" / "KnowledgeSearch.jsx")
+    def test_search_reads_only_the_projection(self):
+        """Phase 4, superseded by Step 4.
+
+        Step 2 extended search rather than replacing it: the 56 static JSON
+        records answered first and the 647 researched entities answered second.
+        Step 4's brief says "Ensure search results come from live package data.
+        Remove every mock result", so the static half is gone and this test
+        asserts the reverse of what it used to.
+
+        The strong assertion is the absence: a later change that reintroduces
+        lib/static-knowledge here fails, rather than silently restoring an
+        unsourced result set above a sourced one.
+        """
+        src = code(FE / "components" / "platform" / "KnowledgeSearch.jsx")
         self.assertIn("searchKnowledge", src)
-        self.assertIn("getAllKnowledgeItems", src,
-                      "the existing static search must survive")
         self.assertIn("search-researched", src)
+        self.assertNotIn("static-knowledge", src,
+                         "search must not read the unsourced editorial layer")
+        self.assertNotIn("getAllKnowledgeItems", src,
+                         "search must not read the unsourced editorial layer")
 
     def test_district_page_renders_the_intelligence_panel(self):
         """Phase 5."""
@@ -255,11 +283,26 @@ class WiringTest(unittest.TestCase):
         self.assertIn('return "—"', intel)
 
     def test_empty_states_are_distinguished(self):
-        """NO_DATA_SOURCE, NO_MATCHES and NOT_COMPUTED mean different things."""
-        src = read(FE / "components" / "knowledge" / "KnowledgeCardGrid.jsx")
-        for state in ("NO_DATA_SOURCE", "NOT_COMPUTED", "NOT_DEPLOYED"):
+        """The five states mean different things and share one vocabulary.
+
+        Step 2 defined three states inline in KnowledgeCardGrid. Step 4 raised
+        that to the brief's five and moved the copy into KnowledgeEmptyState, so
+        both components name the same thing the same way — a grid and a full-page
+        state that disagree about what EMPTY means are worse than either alone.
+
+        NOT_COMPUTED stays local to the grid: it is specific to per-user
+        intelligence and has no shared-knowledge equivalent.
+        """
+        shared = read(FE / "components" / "knowledge" / "KnowledgeEmptyState.jsx")
+        for state in ("NOT_DEPLOYED", "EMPTY", "NO_MATCH",
+                      "NOT_AVAILABLE_YET", "NO_DATA_SOURCE"):
             with self.subTest(state=state):
-                self.assertIn(state, src)
+                self.assertIn(state, shared)
+
+        grid = read(FE / "components" / "knowledge" / "KnowledgeCardGrid.jsx")
+        self.assertIn("NOT_COMPUTED", grid)
+        self.assertIn("KnowledgeEmptyState", grid,
+                      "the grid must share the state vocabulary, not fork it")
 
 
 # ═══════════════════════════════════════════════ 3. additive, not a rewrite

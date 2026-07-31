@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CapabilityChip } from "@/components/knowledge/CapabilityStatus";
 
 export default function InfrastructureCard({
   href,
@@ -9,7 +10,10 @@ export default function InfrastructureCard({
   items = [],
   accent = "amber",
   buttonLabel = "Explore",
-  comingSoon = false,
+  // Step 4: was `comingSoon`, a boolean that could only say "not yet" and never
+  // said why. `status` distinguishes a capability waiting to be built from one
+  // with no data source at all, and CapabilityChip renders both honestly.
+  status = null,
 }) {
   const styles = {
     amber: "bg-amber-50 border-amber-200 hover:border-amber-300",
@@ -28,7 +32,7 @@ export default function InfrastructureCard({
     >
       <div className="flex items-start justify-between gap-3">
         <div className="text-4xl" aria-hidden="true">{emoji}</div>
-        {comingSoon && <span className="chip bg-white/80 text-violet-700 border border-violet-100">Coming Soon</span>}
+        {status && <CapabilityChip status={status} className="bg-white/80" />}
       </div>
       <div>
         <h3 className="font-display font-extrabold text-xl text-ink mb-2 group-hover:text-amber-700 transition-colors leading-tight">

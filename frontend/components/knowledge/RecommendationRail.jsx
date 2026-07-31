@@ -32,6 +32,45 @@ function graphHref(r) {
   return hrefFor({ global_entity_id: r.item_id, entity_type: r.item_type });
 }
 
+// The entities the rule actually traversed, turned into links — Step 4.
+//
+// `supporting_entities` is a list of Evidence rows (user_intelligence/rules.py):
+// `kind` is entity | edge | profile_field | crosswalk | supabase, and only the
+// `entity` rows carry a graph id in `ref`. The rest are real evidence — a profile
+// field, a crosswalk hit — but they are not places you can go, so they stay in
+// the reason text where they already appear.
+//
+// Entity type is derived from the id rather than carried alongside it, because
+// the engine emits `vw:<type>:<slug>` and hrefFor() only needs the type to pick a
+// URL segment. Deriving it here avoids a second field the writer would have to
+// keep in step.
+const TYPE_FROM_ID = {
+  district: "District", industry: "Industry", businessopportunity: "BusinessOpportunity",
+  msme: "MSME", skill: "Skill", governmentscheme: "GovernmentScheme", crop: "Crop",
+  certification: "Certification", institution: "Institution",
+  trainingprovider: "TrainingProvider", machinery: "Machinery", market: "Market",
+  financialinstitution: "FinancialInstitution", rawmaterial: "RawMaterial",
+  exportcountry: "ExportCountry", soil: "Soil", climatezone: "ClimateZone",
+  state: "State", country: "Country",
+};
+
+function supportingLinks(rec) {
+  const seen = new Set();
+  return (rec?.supporting_entities || [])
+    .filter((e) => e?.kind === "entity" && String(e.ref || "").startsWith("vw:"))
+    .map((e) => {
+      const entityType = TYPE_FROM_ID[String(e.ref).split(":")[1]];
+      if (!entityType || seen.has(e.ref)) return null;
+      seen.add(e.ref);
+      return {
+        href: hrefFor({ global_entity_id: e.ref, entity_type: entityType }),
+        label: e.label || String(e.ref).split(":")[2].replace(/-/g, " "),
+        detail: e.detail || e.source_package || "",
+      };
+    })
+    .filter(Boolean);
+}
+
 export default function RecommendationRail({
   title,
   subtitle,
@@ -74,6 +113,7 @@ export default function RecommendationRail({
               confidence={r.confidence}
               matchScore={r.match_score}
               href={build(r)}
+              related={supportingLinks(r)}
               provenance={
                 prov && {
                   package: prov.source_package,

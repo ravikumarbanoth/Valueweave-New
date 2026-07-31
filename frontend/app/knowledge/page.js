@@ -38,24 +38,41 @@ export const metadata = buildBaseMetadata({
 
 const PAGE_SIZE = 24;
 
-//: The browse taxonomy, grouped by the package that owns each type. The brief
-//: asks for browsing "by package", and a user thinks in nouns — so the package is
-//: the grouping and the entity type is the thing you click.
+//: The browse taxonomy — Step 4.
+//:
+//: This was grouped by "the package that owns each type", with a SourceBadge on
+//: every section heading. Three of those headings were wrong, because three types
+//: span packages: Industry is 25 rows from Package004, 20 from Package005 and 33
+//: from Package008; Machinery is 16 from Package005 and 53 from Package008;
+//: FinancialInstitution is 12 from Package007 and 9 from Package008. Labelling
+//: the section with one package told the reader something false about two thirds
+//: of what was in it.
+//:
+//: Grouping is by domain now, and provenance stays where it is accurate: on each
+//: entity's own card, which carries the package that actually produced that row.
+//: `packages` lists every contributor so the section can still say where its
+//: content came from without pretending to a single owner.
+//:
+//: Step 4 also added five types that had no route in at all — ExportCountry,
+//: Soil, ClimateZone, State and Country, 50 entities between them.
 const SECTIONS = [
   {
-    package: "Package001_Geography",
-    types: [["District", "Districts"]],
+    domain: "Places",
+    packages: ["Package001_Geography"],
+    types: [["District", "Districts"], ["State", "States"], ["Country", "Countries"]],
   },
   {
-    package: "Package004_Industries",
-    types: [["Industry", "Industries"], ["BusinessOpportunity", "Business opportunities"]],
+    domain: "Business and industry",
+    packages: ["Package004_Industries", "Package008_MSME", "Package005_Agriculture"],
+    types: [
+      ["Industry", "Industries"],
+      ["BusinessOpportunity", "Business opportunities"],
+      ["MSME", "MSMEs"],
+    ],
   },
   {
-    package: "Package005_Agriculture",
-    types: [["Crop", "Crops"], ["Machinery", "Farm machinery"]],
-  },
-  {
-    package: "Package006_Skills_and_Training",
+    domain: "Skills and training",
+    packages: ["Package006_Skills_and_Training"],
     types: [
       ["Skill", "Skills"],
       ["Certification", "Certifications"],
@@ -63,15 +80,31 @@ const SECTIONS = [
     ],
   },
   {
-    package: "Package007_Government_Schemes",
-    types: [["GovernmentScheme", "Government schemes"], ["FinancialInstitution", "Financial institutions"]],
+    domain: "Agriculture and land",
+    packages: ["Package005_Agriculture"],
+    types: [["Crop", "Crops"], ["Soil", "Soil types"], ["ClimateZone", "Climate zones"]],
   },
   {
-    package: "Package008_MSME",
-    types: [["MSME", "MSMEs"], ["Market", "Market channels"], ["RawMaterial", "Raw materials"]],
+    domain: "Support and capital",
+    packages: ["Package007_Government_Schemes", "Package008_MSME"],
+    types: [
+      ["GovernmentScheme", "Government schemes"],
+      ["FinancialInstitution", "Financial institutions"],
+    ],
   },
   {
-    package: "Package002_Education",
+    domain: "Inputs and markets",
+    packages: ["Package008_MSME", "Package005_Agriculture", "Package001_Geography"],
+    types: [
+      ["Machinery", "Machinery"],
+      ["RawMaterial", "Raw materials"],
+      ["Market", "Market channels"],
+      ["ExportCountry", "Export destinations"],
+    ],
+  },
+  {
+    domain: "Education",
+    packages: ["Package002_Education"],
     types: [["Institution", "Institutions"]],
   },
 ];
@@ -154,9 +187,12 @@ async function TypeIndex({ q }) {
         const live = section.types.filter(([t]) => (counts[t] || 0) > 0);
         if (live.length === 0) return null;
         return (
-          <section key={section.package} data-testid="explorer-section">
-            <div className="flex items-center gap-2 mb-2">
-              <SourceBadge sourcePackage={section.package} />
+          <section key={section.domain} data-testid="explorer-section">
+            <div className="flex flex-wrap items-center gap-2 mb-2">
+              <h2 className="font-display font-bold text-ink text-[15px]">{section.domain}</h2>
+              {section.packages.map((p) => (
+                <SourceBadge key={p} sourcePackage={p} />
+              ))}
             </div>
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {live.map(([type, label]) => (

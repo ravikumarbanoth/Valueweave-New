@@ -49,6 +49,8 @@ SUITES = {
                           "v3.0 Step 1.5: rule-based user intelligence engine"),
     "frontend_integration": ("tests.test_frontend_integration",
                              "v3.0 Step 2: JS <-> Python contract and page wiring"),
+    "frontend_activation": ("tests.test_frontend_activation",
+                            "v3.0 Step 4: placeholders removed, every type routed"),
 }
 
 

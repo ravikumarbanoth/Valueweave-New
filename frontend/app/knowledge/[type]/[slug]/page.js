@@ -28,6 +28,7 @@ import EntityHeader from "@/components/knowledge/EntityHeader";
 import AttributeGrid, { isPresent } from "@/components/knowledge/AttributeGrid";
 import RelatedEntities, { RelatedSourceSummary } from "@/components/knowledge/RelatedEntities";
 import KnowledgeEmptyState from "@/components/knowledge/KnowledgeEmptyState";
+import KnowledgeCardGrid from "@/components/knowledge/KnowledgeCardGrid";
 
 export const revalidate = 300;
 
@@ -62,6 +63,7 @@ export async function generateMetadata({ params }) {
 // empty or holds a sentinel is skipped by AttributeGrid rather than rendered.
 const ATTRIBUTES = {
   BusinessOpportunity: [
+    ["category_name", "Category"],
     ["investment_range", "Investment range"],
     ["minimum_investment", "Minimum investment"],
     ["working_capital_need", "Working capital"],
@@ -75,6 +77,8 @@ const ATTRIBUTES = {
     ["ideal_target_audience", "Best suited to"],
   ],
   GovernmentScheme: [
+    ["category_name", "Category"],
+    ["short_name", "Also known as"],
     ["ministry", "Ministry"],
     ["department", "Department"],
     ["government_level", "Level"],
@@ -87,6 +91,7 @@ const ATTRIBUTES = {
     ["status", "Status"],
   ],
   Skill: [
+    ["category_name", "Category"],
     ["difficulty_level", "Difficulty"],
     ["nsqf_level", "NSQF level"],
     ["learning_duration", "Typical duration"],
@@ -115,6 +120,7 @@ const ATTRIBUTES = {
     ["nic_section_hint", "NIC section"],
   ],
   Crop: [
+    ["category_name", "Category"],
     ["season", "Season"],
     ["duration_days", "Duration (days)"],
     ["water_requirement_mm", "Water requirement (mm)"],
@@ -124,6 +130,7 @@ const ATTRIBUTES = {
     ["major_districts", "Major districts"],
   ],
   MSME: [
+    ["category_name", "Category"],
     ["udyam_classification", "Udyam classification"],
     ["investment_range", "Investment range"],
     ["employment_generation", "Employment generated"],
@@ -133,11 +140,70 @@ const ATTRIBUTES = {
 };
 
 // Which related types lead the page, per the brief's per-priority lists.
+//
+// Step 4 widened three of these. A business needs its training providers, raw
+// materials and machinery to answer "what would I have to arrange?", and a crop
+// needs its soil and climate — all of which the graph held and none of which the
+// page surfaced above the fold.
 const LEAD_RELATED = {
-  BusinessOpportunity: ["Skill", "Certification", "GovernmentScheme", "Industry", "Market", "District", "MSME"],
+  BusinessOpportunity: [
+    "Skill", "Certification", "TrainingProvider", "GovernmentScheme", "Industry",
+    "Market", "District", "MSME", "RawMaterial", "Machinery",
+  ],
   GovernmentScheme: ["BusinessOpportunity", "MSME", "Skill", "District", "Crop", "FinancialInstitution"],
   Skill: ["TrainingProvider", "Certification", "BusinessOpportunity", "Industry", "GovernmentScheme", "MSME"],
-  District: ["Industry", "BusinessOpportunity", "MSME", "Institution", "GovernmentScheme", "Crop"],
+  District: ["Industry", "BusinessOpportunity", "MSME", "Institution", "GovernmentScheme", "Crop", "TrainingProvider", "Market"],
+  Crop: ["District", "Soil", "ClimateZone", "Machinery", "Industry", "GovernmentScheme"],
+  MSME: ["Skill", "Industry", "GovernmentScheme", "District", "Market", "RawMaterial"],
+  Industry: ["BusinessOpportunity", "MSME", "Skill", "District", "GovernmentScheme"],
+};
+
+// ─── Sections the brief asks for that have no source ────────────────────────
+//
+// Step 4's rule is that a requested section either shows live data or says
+// exactly what is missing. These three are asked for by name in the brief and
+// cannot be answered from the projection. Rendering them blank, or quietly
+// omitting them, would both read as "this entity has none" — which is false.
+//
+// Every one of them names a file that exists in Git, because that is the real
+// state of affairs: the research was done, and `knowledge_sync` does not project
+// it. That is a backend scope item, not a frontend gap, and saying so is more
+// useful than a shrug.
+const UNAVAILABLE_SECTIONS = {
+  GovernmentScheme: [
+    {
+      title: "Eligibility",
+      dependency:
+        "packages/Package007_Government_Schemes/datasets/eligibility_criteria.csv " +
+        "exists in Git but is not one of the 8 tables knowledge_sync projects, so " +
+        "no eligibility rule is readable from the frontend. Requires a TABLE_SPEC " +
+        "and a migration.",
+    },
+    {
+      title: "Required documents and application steps",
+      dependency:
+        "packages/Package007_Government_Schemes/datasets/required_documents.csv and " +
+        "application_process.csv are researched but unprojected. The official portal " +
+        "link above is the only application path currently readable.",
+    },
+  ],
+  Skill: [
+    {
+      title: "Learning roadmap",
+      dependency:
+        "Package006 records each skill's NSQF level and typical duration but no " +
+        "ordering between skills, so no prerequisite chain can be derived. A roadmap " +
+        "assembled from difficulty alone would be a guess presented as a curriculum.",
+    },
+  ],
+  BusinessOpportunity: [
+    {
+      title: "Step-by-step setup plan",
+      dependency:
+        "Investment range, working capital and difficulty are researched; the " +
+        "sequence of licences, premises and hires is not, in any package.",
+    },
+  ],
 };
 
 const DESCRIPTION_KEYS = ["description", "objective", "benefit_summary", "scientific_name"];
@@ -220,9 +286,33 @@ async function GraphDetail({ params }) {
           {lead && <RelatedEntities grouped={related} exclude={lead} max={8} />}
         </section>
 
+        <UnavailableSections entityType={entity.entity_type} />
+
         <NextSteps entity={entity} related={related} />
       </main>
     </>
+  );
+}
+
+// The sections a user is entitled to expect and we cannot fill. Naming them is
+// the difference between an incomplete page and a dishonest one.
+function UnavailableSections({ entityType }) {
+  const sections = UNAVAILABLE_SECTIONS[entityType];
+  if (!sections) return null;
+  return (
+    <section data-testid="entity-unavailable" className="flex flex-col gap-3">
+      {sections.map((s) => (
+        <div key={s.title}>
+          <h3 className="label-display">{s.title}</h3>
+          <KnowledgeCardGrid
+            status="NO_DATA_SOURCE"
+            note={`We do not hold this for any ${entityType === "GovernmentScheme" ? "scheme" : entityType === "Skill" ? "skill" : "business opportunity"} yet.`}
+            dependency={s.dependency}
+            testId={`unavailable-${s.title.split(" ")[0].toLowerCase()}`}
+          />
+        </div>
+      ))}
+    </section>
   );
 }
 
@@ -252,7 +342,27 @@ function NextSteps({ entity, related }) {
   );
 }
 
-// ─── Static detail (unchanged behaviour, preserved) ─────────────────────────
+// ─── Static detail — preserved for URL stability, demoted in the UI ─────────
+//
+// Step 4 removed every link into these 56 pages: the homepage featured cards and
+// the search results both read the projection now. The routes still resolve
+// because they are indexed URLs and breaking them to make a point about data
+// quality would be a worse trade than leaving them reachable.
+//
+// What changed is the framing. A page reached from a search engine now opens
+// with a banner saying it is editorial, unsourced, and superseded — and links to
+// the researched equivalent. Silently serving 2023 hand-written JSON as if it
+// were the knowledge base is the exact confusion this step exists to end.
+const STATIC_TYPE_HINT = {
+  districts: "district",
+  industries: "industry",
+  skills: "skill",
+  schemes: "scheme",
+  manufacturing: "business",
+  training: "provider",
+  products: null,
+};
+
 function valueToText(value) {
   if (Array.isArray(value)) return value.join(", ");
   if (value && typeof value === "object") return JSON.stringify(value);
@@ -279,10 +389,32 @@ function StaticDetail({ item, type }) {
         </section>
 
         <section className="max-w-5xl mx-auto px-4 sm:px-6 py-12 pb-20">
-          <div className="flex justify-center mb-8">
-            <Link href="/knowledge" className="btn-secondary text-sm">
-              Browse the researched knowledge base →
-            </Link>
+          <div
+            data-testid="static-superseded-notice"
+            className="rounded-2xl border border-dashed border-amber-200 bg-amber-50 p-5 mb-8"
+          >
+            <p className="font-display font-bold text-sm text-ink">
+              This is an early editorial preview, not researched knowledge
+            </p>
+            <p className="text-xs text-muted mt-1.5 leading-relaxed max-w-2xl">
+              It was hand-written before the knowledge packages existed and carries no
+              source, no confidence score and no provenance. Packages 001–008 now hold
+              647 sourced entities covering the same ground. Nothing on the platform
+              links here any more — this page is kept so an existing link does not break.
+            </p>
+            <div className="flex flex-wrap gap-2 mt-4">
+              {STATIC_TYPE_HINT[type] && (
+                <Link href={`/knowledge?type=${STATIC_TYPE_HINT[type]}`} className="btn-primary text-sm">
+                  Researched {typeLabel.toLowerCase()}s →
+                </Link>
+              )}
+              <Link
+                href={`/knowledge?q=${encodeURIComponent(item.name || "")}`}
+                className="btn-secondary text-sm"
+              >
+                Search for “{item.name}” →
+              </Link>
+            </div>
           </div>
           <div className="grid md:grid-cols-2 gap-4">
             {entries.map(([key, value]) => (

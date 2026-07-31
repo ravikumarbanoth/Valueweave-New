@@ -121,31 +121,32 @@ const FUTURE_MODULES = [
     title: "Research & Technology Infrastructure",
     description: "Universities, research labs, R&D collaboration, technology readiness levels.",
     dependency:
-      "Package002 holds 66 institutions but no R&D capability, lab or TRL data — " +
-      "browse those at /knowledge?type=institution.",
+      "We list 66 universities and colleges, but not their research labs or " +
+      "capabilities. Browse the institutions we do have.",
   },
   {
     emoji: "🚚",
     title: "Digital Supply Chain Infrastructure",
     description: "Suppliers, warehousing, cold chain, procurement, traceability.",
     dependency:
-      "Package008 holds 21 raw materials but no supplier, warehouse or cold-chain dataset.",
+      "We list 21 raw materials businesses use, but not the firms that supply them " +
+      "or where to store goods.",
   },
   {
     emoji: "🌍",
     title: "Global Trade Infrastructure",
     description: "Exports, imports, international buyers, trade missions, export documentation.",
     dependency:
-      "Package001 holds 29 export destinations but no buyer, tariff or documentation data — " +
-      "browse those at /knowledge?type=export.",
+      "We list 29 countries local businesses export to, but not buyers, tariffs or " +
+      "the paperwork involved.",
   },
   {
     emoji: "🏦",
     title: "Industrial Finance Infrastructure",
     description: "Banks, NBFCs, government grants, CSR, angel investors, VC.",
     dependency:
-      "Packages 007 and 008 hold 21 financial institutions but no product, rate or " +
-      "eligibility data — browse those at /knowledge?type=bank.",
+      "We list 21 kinds of funder, but not their loan products, interest rates or " +
+      "who qualifies.",
   },
   {
     emoji: "♻️",
@@ -232,16 +233,15 @@ export default async function HomeFeatureGrid() {
             <p className="text-muted mt-3 max-w-2xl mx-auto leading-relaxed">
               {total > 0 ? (
                 <>
-                  <strong className="text-ink tabular-nums">{total}</strong> researched
-                  records across Packages 001–008 — districts, industries, business
-                  opportunities, skills, schemes and crops. Every one traceable to the
-                  package and public source it came from.
+                  <strong className="text-ink tabular-nums">{total}</strong> things to
+                  explore — districts, industries, business ideas, skills, government
+                  schemes and crops. Each one checked against an official public source.
                 </>
               ) : (
                 <>
-                  Districts, industries, business opportunities, skills, schemes and
-                  crops across Telangana and Andhra Pradesh — every record traceable to
-                  the package and public source it came from.
+                  Districts, industries, business ideas, skills, government schemes and
+                  crops across Telangana and Andhra Pradesh — each one checked against an
+                  official public source.
                 </>
               )}
             </p>
@@ -267,7 +267,7 @@ export default async function HomeFeatureGrid() {
                       {entity.canonical_name}
                     </h3>
                     <p className="text-xs text-teal-700 font-display font-bold mt-1 tabular-nums">
-                      {counts[entity.entity_type] || 0} researched in this category
+                      {counts[entity.entity_type] || 0} more like this
                     </p>
                     <div className="mt-auto pt-3 flex items-center justify-between gap-2">
                       <SourceBadge sourcePackage={entity.source_package} />
@@ -304,9 +304,8 @@ export default async function HomeFeatureGrid() {
             <span className="chip bg-violet-100 text-violet-700 border border-violet-200 mb-4">NOT AVAILABLE YET</span>
             <h2 className="font-display font-extrabold text-3xl sm:text-4xl text-ink">Future Infrastructure Roadmap</h2>
             <p className="text-muted mt-3 max-w-2xl mx-auto leading-relaxed">
-              These layers are not built. Each one names the knowledge it would need
-              first — where a package already holds part of it, the link goes to what
-              exists today.
+              We have not built these yet. Each one says what we would need to gather
+              first, and what we already have.
             </p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">

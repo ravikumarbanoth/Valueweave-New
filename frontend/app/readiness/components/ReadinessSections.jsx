@@ -21,7 +21,7 @@ export default async function ReadinessSections() {
       ? { status: "LIVE", href, count: counts[type], description }
       : {
           status: "NOT_AVAILABLE_YET",
-          dependency: `${label} are researched in Package006 but the knowledge schema is not deployed here. See docs/FIRST_DEPLOYMENT_CHECKLIST.md.`,
+          dependency: `We have researched ${label.toLowerCase()} — this section is still being connected. Check back soon.`,
           description,
         };
 
@@ -62,8 +62,8 @@ export default async function ReadinessSections() {
       description: "Matching a learner to someone who has already done the work.",
       status: "NO_DATA_SOURCE",
       dependency:
-        "No package holds mentors. Package002 has 66 institutions and the " +
-        "collaborator marketplace has real people, but neither is a mentor record.",
+        "We have not started gathering mentors yet. In the meantime you can find " +
+        "people to work with in the collaborator marketplace.",
     },
   ];
 
@@ -86,7 +86,7 @@ export default async function ReadinessSections() {
         { label: "Certifications", status: counts.Certification ? "LIVE" : "NOT_AVAILABLE_YET", href: "/knowledge?type=certification", count: counts.Certification },
         { label: "Training providers", status: counts.TrainingProvider ? "LIVE" : "NOT_AVAILABLE_YET", href: "/knowledge?type=provider", count: counts.TrainingProvider },
         { label: "Skill assessment", dependency: "No scoring rules exist for a self-assessment." },
-        { label: "Learning paths", dependency: "Requires an ordering over skills that Package006 does not encode." },
+        { label: "Learning paths", dependency: "We know what each skill needs, but not yet what order to learn them in." },
         { label: "Internships", dependency: "No package holds internship postings." },
         { label: "Apprenticeships", dependency: "No package holds apprenticeship postings." },
         { label: "Mentors", dependency: "No package holds mentors." },

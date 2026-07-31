@@ -15,7 +15,7 @@ export default function ConfidenceBadge({ confidence, className = "" }) {
   if (!n) {
     return (
       <span
-        title="This item comes from editorial content, which carries no source-confidence score."
+        title="Written by our editorial team rather than gathered from an official source, so it has no source rating."
         className={`chip border ${band.tone} text-[10px] ${className}`}
       >
         editorial
@@ -25,7 +25,7 @@ export default function ConfidenceBadge({ confidence, className = "" }) {
 
   return (
     <span
-      title={`Confidence ${n}/100 — ${band.label}. This scores how strong the source is, not whether the fact is correct. No row in this knowledge base has been reviewed by a person.`}
+      title={`Source rating ${n}/100 — ${band.label}. This tells you how reliable the source is, not whether every detail is still current. Please confirm anything important on the official website.`}
       className={`chip border ${band.tone} text-[10px] tabular-nums ${className}`}
     >
       {n}/100

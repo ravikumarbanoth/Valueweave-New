@@ -15,10 +15,10 @@ export default function UnverifiedNotice({ verified = 0, total = 0, hasUnverifie
       data-testid="unverified-notice"
       className={`text-xs text-stone-500 bg-stone-50 border border-stone-150 rounded-xl px-3 py-2 leading-relaxed ${className}`}
     >
-      <span className="font-semibold text-stone-600">Not yet reviewed.</span>{" "}
-      This is built from researched sources that no person has checked line by line.
-      Confidence scores describe source strength, not correctness. Verify anything
-      you plan to act on against the official portal.
+      <span className="font-semibold text-stone-600">Please double-check before you act.</span>{" "}
+      We gather this from official public sources, but our team has not yet checked
+      every line by hand. If you are about to apply for a scheme or invest money,
+      confirm the details on the official website first.
     </p>
   );
 }

@@ -56,9 +56,9 @@ export default async function DistrictsPage() {
         {entities.length > 0 && (
           <p className="text-sm text-muted" data-testid="districts-coverage">
             <strong className="text-ink tabular-nums">{entities.length}</strong> districts
-            researched in Package001_Geography.{" "}
+            with information gathered from official sources.{" "}
             <strong className="text-ink tabular-nums">{DISTRICTS.length}</strong> have a
-            written profile; the rest have researched data and no narrative yet.
+            written profile; the rest have data but no write-up yet.
           </p>
         )}
 
@@ -91,9 +91,9 @@ export default async function DistrictsPage() {
             )}
           </div>
           <p className="text-sm text-muted mb-5 max-w-2xl leading-relaxed">
-            Sourced from Package001_Geography with population, area, literacy and
-            headquarters, plus everything the knowledge graph links to each one. No
-            written profile yet — that is an editorial gap, not a data gap.
+            Population, area, literacy and headquarters for every district, plus the
+            industries, businesses and schemes connected to each one. No write-up yet —
+            we are working through them.
           </p>
 
           {entities.length === 0 ? (

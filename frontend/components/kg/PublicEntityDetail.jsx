@@ -1,5 +1,5 @@
 import Link from "next/link";
-import AiReadableSummary from "@/components/geo/AiReadableSummary";
+import SnapshotPanel from "@/components/geo/SnapshotPanel";
 
 function Field({ label, value }) {
   if (!value || (Array.isArray(value) && value.length === 0)) return null;
@@ -21,8 +21,8 @@ export default function PublicEntityDetail({ entity, typeLabel, backHref, backLa
           <span className="chip bg-amber-50 text-amber-700 mb-3">{typeLabel}</span>
           <h1 className="font-display font-extrabold text-3xl tracking-tight text-ink mb-3">{title}</h1>
           <p className="text-muted leading-relaxed mb-6">{entity.summary || entity.description || entity.meta_description}</p>
-          <AiReadableSummary
-            title={`AI-readable ${typeLabel.toLowerCase()} summary`}
+          <SnapshotPanel
+            title={`${typeLabel} Snapshot`}
             items={{
               "Key Takeaways": entity.ai_summary || entity.summary || entity.description,
               "Who should read this": "Entrepreneurs, students, MSMEs, collaborators, and local ecosystem builders.",

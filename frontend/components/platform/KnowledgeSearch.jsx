@@ -84,11 +84,11 @@ export default function KnowledgeSearch() {
           <span className="chip bg-teal-100 text-teal-700 border border-teal-200 mb-3">
             RESEARCHED KNOWLEDGE
           </span>
-          <h3 className="font-display font-extrabold text-2xl text-ink">Search the Knowledge Base</h3>
+          <h3 className="font-display font-extrabold text-2xl text-ink">What are you looking for?</h3>
           <p className="text-sm text-muted mt-2 max-w-2xl leading-relaxed">
-            Searches 647 sourced entities across Packages 001–008. Every result carries
-            the package it came from and a confidence score. Rule-based substring
-            matching — no AI, and no ranking beyond source confidence.
+            Find a district, a skill worth learning, a business you could start or a
+            government scheme you may qualify for. Every result tells you where the
+            information came from.
           </p>
         </div>
         <div className="relative w-full lg:w-80">
@@ -97,7 +97,7 @@ export default function KnowledgeSearch() {
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder="Search Medak, PMEGP, turmeric, welding..."
-            aria-label="Search the researched knowledge base"
+            aria-label="Search"
             data-testid="knowledge-search-input"
             className="input-field !pl-10"
           />
@@ -124,7 +124,7 @@ export default function KnowledgeSearch() {
 
       {state === "idle" && (
         <p className="text-sm text-muted text-center py-8" data-testid="knowledge-search-idle">
-          Type at least two characters to search the researched knowledge base.{" "}
+          Type at least two letters to search.{" "}
           <Link href="/knowledge" className="underline hover:text-ink">
             Or browse by category →
           </Link>
@@ -181,8 +181,8 @@ export default function KnowledgeSearch() {
             ))}
           </div>
           <p className="text-[10px] text-stone-400 mt-3 leading-relaxed">
-            Sourced rows with provenance and a confidence score. None has been reviewed
-            by a person — confidence describes source strength, not correctness.
+            Each result names the research it came from. Please confirm anything
+            important on the official website before you act on it.
           </p>
         </div>
       )}

@@ -45,14 +45,14 @@ export async function generateMetadata({ params }) {
     if (!entity) return {};
     return buildBaseMetadata({
       title: `${entity.canonical_name} | ValueWeave Knowledge`,
-      description: `Researched ${entity.entity_type} from ${entity.source_package}, with its linked skills, schemes, districts and businesses.`,
+      description: `${entity.canonical_name} — what it involves, and the skills, government schemes, districts and businesses connected to it.`,
       alternates: { canonical: `${BASE_URL}/knowledge/${params.type}/${params.slug}` },
     });
   }
   const item = getKnowledgeItem(params.type, params.slug);
   if (!item) return {};
   return buildBaseMetadata({
-    title: `${item.name} | ValueWeave Knowledge Layer`,
+    title: `${item.name} | ValueWeave`,
     description: item.summary || item.description || item.purpose || item.overview || "",
     alternates: { canonical: `${BASE_URL}/knowledge/${params.type}/${params.slug}` },
   });
@@ -172,36 +172,36 @@ const LEAD_RELATED = {
 const UNAVAILABLE_SECTIONS = {
   GovernmentScheme: [
     {
-      title: "Eligibility",
-      dependency:
-        "packages/Package007_Government_Schemes/datasets/eligibility_criteria.csv " +
-        "exists in Git but is not one of the 8 tables knowledge_sync projects, so " +
-        "no eligibility rule is readable from the frontend. Requires a TABLE_SPEC " +
-        "and a migration.",
+      title: "Who can apply",
+      note:
+        "We have not published eligibility rules for our schemes yet. Our team has " +
+        "gathered them and we are still checking them line by line — getting this " +
+        "wrong could cost you an application, so we would rather show nothing than " +
+        "show a guess. Use the official portal link above in the meantime.",
     },
     {
-      title: "Required documents and application steps",
-      dependency:
-        "packages/Package007_Government_Schemes/datasets/required_documents.csv and " +
-        "application_process.csv are researched but unprojected. The official portal " +
-        "link above is the only application path currently readable.",
+      title: "Documents and how to apply",
+      note:
+        "We have not published the document checklist or step-by-step process yet. " +
+        "The official portal link above is the reliable route today.",
     },
   ],
   Skill: [
     {
-      title: "Learning roadmap",
-      dependency:
-        "Package006 records each skill's NSQF level and typical duration but no " +
-        "ordering between skills, so no prerequisite chain can be derived. A roadmap " +
-        "assembled from difficulty alone would be a guess presented as a curriculum.",
+      title: "What to learn first",
+      note:
+        "We know how hard each skill is and how long it takes, but not yet what " +
+        "order to learn them in. We are working on it — an ordering we guessed at " +
+        "would waste your time rather than save it.",
     },
   ],
   BusinessOpportunity: [
     {
-      title: "Step-by-step setup plan",
-      dependency:
-        "Investment range, working capital and difficulty are researched; the " +
-        "sequence of licences, premises and hires is not, in any package.",
+      title: "Step-by-step setup",
+      note:
+        "We have not published a setup checklist for this yet. The investment " +
+        "range, working capital and difficulty above are researched; the licences " +
+        "and sequence are not.",
     },
   ],
 };
@@ -279,8 +279,8 @@ async function GraphDetail({ params }) {
             grouped={related}
             only={lead}
             emptyText={
-              "Nothing in the knowledge graph links to this record yet. That is a gap in " +
-              "our relationship coverage, not a statement that no connection exists."
+              "We have not connected anything to this yet. It is a gap in our research, " +
+              "not a sign that nothing is related."
             }
           />
           {lead && <RelatedEntities grouped={related} exclude={lead} max={8} />}
@@ -306,8 +306,7 @@ function UnavailableSections({ entityType }) {
           <h3 className="label-display">{s.title}</h3>
           <KnowledgeCardGrid
             status="NO_DATA_SOURCE"
-            note={`We do not hold this for any ${entityType === "GovernmentScheme" ? "scheme" : entityType === "Skill" ? "skill" : "business opportunity"} yet.`}
-            dependency={s.dependency}
+            note={s.note}
             testId={`unavailable-${s.title.split(" ")[0].toLowerCase()}`}
           />
         </div>
@@ -394,13 +393,12 @@ function StaticDetail({ item, type }) {
             className="rounded-2xl border border-dashed border-amber-200 bg-amber-50 p-5 mb-8"
           >
             <p className="font-display font-bold text-sm text-ink">
-              This is an early editorial preview, not researched knowledge
+              An early preview, since replaced by better information
             </p>
             <p className="text-xs text-muted mt-1.5 leading-relaxed max-w-2xl">
-              It was hand-written before the knowledge packages existed and carries no
-              source, no confidence score and no provenance. Packages 001–008 now hold
-              647 sourced entities covering the same ground. Nothing on the platform
-              links here any more — this page is kept so an existing link does not break.
+              This was written early on, before our research team had covered this
+              area. We now have far more on the same subject, checked against official
+              public sources. This page is kept only so older links still work.
             </p>
             <div className="flex flex-wrap gap-2 mt-4">
               {STATIC_TYPE_HINT[type] && (

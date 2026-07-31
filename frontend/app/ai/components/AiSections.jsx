@@ -25,20 +25,20 @@ export default async function AiSections() {
       emoji: "🧠",
       title: "Rule-based recommendations",
       description:
-        "Deterministic rules over the knowledge graph. Every recommendation shows the rule that fired, its confidence, and the source package behind it.",
+        "Suggestions matched to your skills and district. Every one tells you why we suggested it and where the information came from.",
       status: "LIVE",
       href: "/dashboard",
     },
     {
       emoji: "🕸️",
-      title: "Knowledge graph",
+      title: "Everything we have researched",
       description:
         "The structured layer any future advisor would read: entities, typed relationships and provenance on every edge.",
       ...(total > 0
         ? { status: "LIVE", href: "/knowledge", count: total }
         : {
             status: "NOT_AVAILABLE_YET",
-            dependency: "The knowledge schema is not deployed to this environment.",
+            dependency: "This section is still being connected. Check back soon.",
           }),
     },
     {
@@ -62,17 +62,17 @@ export default async function AiSections() {
       primaryHref="/knowledge"
       primaryLabel="Open Knowledge Explorer"
       dependency={
-        "No AI advisor is implemented. What the page calls an intelligence layer " +
-        "today is a rule engine: it is explainable, traceable to a CSV row, and " +
-        "deliberately not a model."
+        "We do not have an AI advisor yet. What works today is matching: we compare " +
+        "your skills and district against what we have researched, and always show " +
+        "you why. That is deliberate — you can check our reasoning."
       }
       roadmap={[
         "Keep AI dependent on trustworthy human-readable modules and structured platform knowledge.",
-        "Prepare AI-readable relationships across districts, skills, manufacturing, network, and scaling resources.",
+        "Connect districts, skills, businesses and schemes so guidance can draw on all of them at once.",
         "Introduce advisors only after content quality, permissions, and safety boundaries are ready.",
       ]}
       capabilities={[
-        { label: "Knowledge graph", status: total ? "LIVE" : "NOT_AVAILABLE_YET", href: "/knowledge", count: total },
+        { label: "Everything we have researched", status: total ? "LIVE" : "NOT_AVAILABLE_YET", href: "/knowledge", count: total },
         { label: "Rule-based recommendations", status: "LIVE", href: "/dashboard" },
         { label: "AI district advisor", dependency: NO_MODEL },
         { label: "AI manufacturing advisor", dependency: NO_MODEL },

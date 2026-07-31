@@ -31,7 +31,7 @@ export default function SkillGapPanel({ have = [], need = [], noData = [], title
             empty="Nothing outstanding."
           />
           <Column
-            label="No researched data"
+            label="Not gathered yet"
             tone="bg-stone-100 text-stone-500 border-stone-200"
             items={noData}
             empty="All skills resolved."

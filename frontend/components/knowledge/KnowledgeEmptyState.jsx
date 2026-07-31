@@ -1,27 +1,29 @@
-// The five empty states, named — Platform v3.0, Step 4.
+// The five empty states, written for the person reading them.
 //
-// An empty knowledge surface has five distinct causes and they mean opposite
-// things. Collapsing them into one blank panel is the single easiest way for this
-// platform to mislead the person using it:
+// WHAT CHANGED, AND WHY
+// ---------------------
+// Step 4 gave every empty state a named cause and a dependency, so that an
+// operator could tell a deployment gap from a research gap. That was right, and
+// it was aimed at entirely the wrong audience. A first-year student looking for
+// a course in Warangal was being told:
 //
-//   NOT_DEPLOYED        the backend exists, this environment has not deployed it
-//   EMPTY               the schema is deployed but nothing has been synced into it
-//   NO_MATCH            we looked, and the answer about the world is "nothing"
-//   NOT_AVAILABLE_YET   the capability is not built — a roadmap item, not a bug
-//   NO_DATA_SOURCE      no knowledge source exists for this at all
+//     "The knowledge schema has not been deployed to this environment.
+//      Depends on: Run the migrations, expose the `knowledge` schema, then
+//      `scripts/run_sync.sh`. See docs/FIRST_DEPLOYMENT_CHECKLIST.md steps 5–10."
 //
-// The first two are our deployment problem. The third is a real answer. The last
-// two are honest admissions of scope. A user who cannot tell them apart cannot
-// tell whether to wait, to look elsewhere, or to stop trusting the platform.
+// Every word of that is true and none of it is theirs. It tells them the site is
+// broken in a way they cannot fix, in vocabulary that makes them feel the
+// problem is theirs for not understanding it.
 //
-// `dependency` is what has to be true for the state to change. Every state that
-// is our fault names one, because "not available yet" without a reason is the
-// "Coming Soon" chip this step exists to remove.
+// The distinction is worth keeping — it is genuinely useful — so it moved rather
+// than went. `reason` still carries the same five names, `data-reason` still
+// exposes them in the DOM for support and for tests, and `operatorNote` still
+// holds the runbook sentence. What a user READS is now written for a user.
+//
+// The rule: say what they can do next, never why our infrastructure is unhappy.
 
-//: SCHEMA_UNREACHABLE is what lib/knowledge.js `knowledgeAvailable()` returns.
-//: It is the same condition as NOT_DEPLOYED, named from the client's point of
-//: view rather than the operator's. Aliased rather than renamed so existing
-//: callers keep working.
+//: SCHEMA_UNREACHABLE is what lib/knowledge.js `knowledgeAvailable()` returns —
+//: the same condition as NOT_DEPLOYED, named from the client's point of view.
 const ALIASES = { SCHEMA_UNREACHABLE: "NOT_DEPLOYED", NO_MATCHES: "NO_MATCH" };
 
 export const EMPTY_STATES = [
@@ -37,67 +39,75 @@ export function normaliseReason(reason) {
   return ALIASES[key] || key;
 }
 
-export function emptyStateCopy(reason, { entityLabel = "knowledge", query, dependency } = {}) {
+export function emptyStateCopy(reason, { entityLabel = "information", query, dependency } = {}) {
   const key = normaliseReason(reason);
 
   const states = {
+    // Our infrastructure, not their problem. NOT_DEPLOYED and EMPTY are
+    // different to us and identical to them: the information is on its way.
     NOT_DEPLOYED: {
-      title: "Not switched on for this deployment",
+      title: "This information is being prepared",
       body:
-        "The knowledge schema has not been deployed to this environment. Nothing is " +
-        "wrong with your account, and no data is missing — it simply has not been " +
-        "projected here yet.",
-      dependency:
-        "Run the migrations, expose the `knowledge` schema, then " +
-        "`scripts/run_sync.sh`. See docs/FIRST_DEPLOYMENT_CHECKLIST.md steps 5–10.",
+        "We are still connecting this part of ValueWeave. Nothing is wrong with " +
+        "your account, and nothing you did caused this. Try again shortly.",
+      operatorNote:
+        "Research database not connected in this environment — see the operations runbook.",
     },
     EMPTY: {
-      title: "Nothing has been synced yet",
+      title: "This information is being prepared",
       body:
-        "The schema exists but holds no rows. 1,812 researched records are waiting " +
-        "in Git for the projection to run.",
-      dependency: "`scripts/run_sync.sh` has not been run against this database.",
+        "Our researchers have gathered this and it is not published here yet. " +
+        "Check back soon.",
+      operatorNote: "Research database connected but empty — the data load has not run.",
     },
     NO_MATCH: {
-      title: query ? `No ${entityLabel} matches “${query}”` : `No ${entityLabel} found`,
+      title: query ? `Nothing matches “${query}” yet` : `No ${entityLabel} to show yet`,
       body: query
-        ? "We searched the researched knowledge base and found nothing. That is a gap " +
-          "in our data, not a mistake in your query."
-        : "We looked and there is nothing here. That is an answer about our coverage, " +
-          "not an error.",
-      dependency: null,
+        ? "We searched everything we have researched and found nothing for this. " +
+          "Try a shorter word, or browse by category instead."
+        : "We have not researched anything for this yet. It is a gap on our side, " +
+          "not a mistake on yours.",
+      operatorNote: null,
     },
     NOT_AVAILABLE_YET: {
       title: "Not available yet",
-      body: "This capability is not built. It is on the roadmap, not in the product.",
-      dependency: null,
+      body:
+        "We have not built this part of ValueWeave. It is on our list, and it is " +
+        "not something you are missing out on today.",
+      operatorNote: null,
     },
     NO_DATA_SOURCE: {
-      title: "No knowledge source for this yet",
+      title: "We have not researched this yet",
       body:
-        "Nothing in Packages 001–008 covers this. It is not a sync gap or a " +
-        "deployment gap — the research has not been collected.",
-      dependency: null,
+        "Our team gathers information from official public sources, and we have " +
+        "not covered this area yet. When we do, it will appear here.",
+      operatorNote: null,
     },
   };
 
   const copy = states[key] || {
-    title: `No ${entityLabel} available`,
-    body: "Nothing to show here yet.",
-    dependency: null,
+    title: `No ${entityLabel} to show`,
+    body: "There is nothing here yet.",
+    operatorNote: null,
   };
 
-  // A caller-supplied dependency always wins: it knows the specific missing
-  // dataset, and the generic text only knows the category of problem.
-  return { ...copy, key, dependency: dependency || copy.dependency };
+  // `dependency` used to be rendered. It is now an operator note: the caller may
+  // still pass the precise missing dataset, and it stays out of the user's way.
+  return { ...copy, key, operatorNote: dependency || copy.operatorNote };
 }
 
+/**
+ * `action` is the way out. Every state that can offer one should — an empty
+ * panel with nowhere to go is a dead end, and a dead end is what makes a site
+ * feel broken even when it is behaving correctly.
+ */
 export default function KnowledgeEmptyState({
   reason,
-  entityLabel = "knowledge",
+  entityLabel = "information",
   query,
   dependency,
   note,
+  action,
 }) {
   const copy = emptyStateCopy(reason, { entityLabel, query, dependency });
 
@@ -105,19 +115,15 @@ export default function KnowledgeEmptyState({
     <div
       data-testid="knowledge-empty"
       data-reason={copy.key}
-      className="card-base p-8 text-center flex flex-col gap-1.5"
+      // Kept in the DOM, never on the screen: support can read it from the
+      // element inspector, and tests can assert on it, without a student ever
+      // meeting the word "schema".
+      data-operator-note={copy.operatorNote || undefined}
+      className="card-base p-8 text-center flex flex-col items-center gap-1.5"
     >
       <p className="font-display font-bold text-ink">{copy.title}</p>
       <p className="text-sm text-muted max-w-md mx-auto">{note || copy.body}</p>
-      {copy.dependency && (
-        <p
-          data-testid="knowledge-empty-dependency"
-          className="text-[11px] text-stone-400 max-w-md mx-auto mt-1.5 leading-relaxed"
-        >
-          <span className="font-display font-bold text-stone-500">Depends on: </span>
-          {copy.dependency}
-        </p>
-      )}
+      {action}
     </div>
   );
 }

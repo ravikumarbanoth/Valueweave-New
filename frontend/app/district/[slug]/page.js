@@ -4,7 +4,7 @@ import { getAllArticles } from "@/lib/mdx";
 import { buildDistrictMetadata, localBusinessJsonLd, breadcrumbJsonLd, pageSummaryJsonLd, BASE_URL } from "@/lib/seo";
 import { getDistrictRelatedLinks } from "@/lib/internal-links";
 import { DistrictProfile } from "@/components/district/DistrictProfile";
-import AiReadableSummary from "@/components/geo/AiReadableSummary";
+import SnapshotPanel from "@/components/geo/SnapshotPanel";
 import AppNavbar from "@/components/AppNavbar";
 import PageTracker from "@/components/PageTracker";
 import RequestContentWidget from "@/components/RequestContentWidget";
@@ -21,10 +21,12 @@ async function loadDistrictKnowledge(districtName) {
   const { resolved } = await resolveTerms("district", [districtName]);
   const hit = resolved[0];
   if (!hit) {
+    // See the note in app/districts/[slug]/page.js — same condition, same
+    // reasoning. How we match a name to a district is not the reader's problem.
     return {
       grouped: {},
       status: "NO_DATA_SOURCE",
-      note: `"${districtName}" has no entry in the district vocabulary crosswalk yet, so no researched entities can be linked to it.`,
+      note: `We have not linked our research to ${districtName} yet. The profile above is still accurate — we are working on connecting local businesses, schemes and training to each district.`,
     };
   }
   return { grouped: await getDistrictKnowledge(hit.global_entity_id), status: null, note: null };
@@ -95,7 +97,7 @@ export default async function DistrictPage({ params }) {
         }}
       />
       <div className="max-w-5xl mx-auto px-4 pt-6">
-        <AiReadableSummary title="AI-readable district summary" items={summary} />
+        <SnapshotPanel title="District Snapshot" items={summary} />
       </div>
       <DistrictProfile
         district={district}

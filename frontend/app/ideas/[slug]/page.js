@@ -7,7 +7,7 @@ import AppNavbar from "@/components/AppNavbar";
 import ShareButton from "@/components/ShareButton";
 import PageTracker from "@/components/PageTracker";
 import RequestContentWidget from "@/components/RequestContentWidget";
-import AiReadableSummary from "@/components/geo/AiReadableSummary";
+import SnapshotPanel from "@/components/geo/SnapshotPanel";
 import BusinessKnowledgeSection from "@/components/knowledge/BusinessKnowledgeSection";
 import { MapPin, Users, Target, Wrench, IndianRupee, TrendingUp, Sparkles, ShieldCheck, Landmark, ShoppingBag } from "lucide-react";
 
@@ -127,8 +127,8 @@ export default function IdeaDetailPage() {
           </div>
         </div>
 
-        <AiReadableSummary
-          title="AI-readable business idea summary"
+        <SnapshotPanel
+          title="Business Idea Snapshot"
           items={{
             "Key Takeaways": idea.short_description,
             "Who should read this": arr(idea.ideal_for).length ? arr(idea.ideal_for) : "Entrepreneurs and collaborators exploring practical business ideas.",

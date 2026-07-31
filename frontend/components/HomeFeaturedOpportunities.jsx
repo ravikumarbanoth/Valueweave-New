@@ -38,8 +38,15 @@ function sectorColor(cat) {
 
 function OpportunityCard({ opp }) {
   return (
+    // `/explore/<id>` was never a route. `app/explore/` has only `page.js`, so
+    // every card on the landing page led to a 404 — the first thing a visitor
+    // clicked was the first thing that broke. The detail page has always lived
+    // at `/opportunities/<id>`.
+    //
+    // next.config.js keeps `/explore/<id>` redirecting here permanently, because
+    // this link has been wrong long enough to have been shared.
     <Link
-      href={`/explore/${opp.id}`}
+      href={`/opportunities/${opp.id}`}
       className="card-base p-5 flex flex-col gap-3 hover:-translate-y-1 hover:shadow-lg transition-all group min-h-[44px]"
     >
       <div className="flex items-start justify-between gap-2">

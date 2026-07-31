@@ -118,12 +118,16 @@ export async function intelligenceState(userId) {
     (sb) => sb.from("user_activity_summary").select("user_id").limit(1),
     null
   );
+  // `reason` is for us; `message` is for the reader. They used to be the same
+  // sentence, which is how "not switched on for this deployment yet" ended up on
+  // a student's dashboard. The distinction between the two cases still drives
+  // what the page does — NOT_DEPLOYED hides the block, NOT_COMPUTED invites the
+  // user to finish their profile — it just no longer drives what they read.
   if (rows === null) {
     return {
       available: false,
       reason: "NOT_DEPLOYED",
-      message:
-        "Personalised intelligence is not switched on for this deployment yet.",
+      message: "We are still setting up personal suggestions. Check back soon.",
     };
   }
   const mine = await getActivitySummary(userId);
@@ -132,7 +136,8 @@ export async function intelligenceState(userId) {
       available: false,
       reason: "NOT_COMPUTED",
       message:
-        "We have not analysed your profile yet. Complete your skills and district to get started.",
+        "Add your skills and your district and we will suggest businesses, " +
+        "courses and schemes that fit you.",
     };
   }
   return { available: true, reason: "OK", summary: mine };

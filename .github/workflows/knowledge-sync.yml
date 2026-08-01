@@ -65,12 +65,58 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Full history, not the depth-1 default.
+          #
+          # Two tests in the suite assert facts about git history, and both are
+          # right to:
+          #
+          #   test_history_was_preserved_not_recopied  proves
+          #     knowledge_engine/core/types.py still traces back to 71ac7e1 — i.e.
+          #     the engine was recovered by merge rather than re-added by copy,
+          #     which is the difference between keeping provenance and losing it.
+          #
+          #   test_no_page_lost_more_than_a_handful_of_lines  measures Step 2's own
+          #     commit to prove the integration added to existing pages instead of
+          #     rewriting them. It deliberately FAILS rather than passes when it
+          #     cannot find that commit, because a test that silently examines
+          #     nothing reports confidence it never earned.
+          #
+          # A depth-1 clone contains one commit, so both were failing on evidence
+          # the checkout had thrown away — the first one accusing the repository of
+          # a regression that had not happened.
+          #
+          # ~240 commits. The extra fetch costs a second and buys two real guards.
+          fetch-depth: 0
 
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
       # No pip install. The engine depends on the standard library alone, which
       # is why it can be reviewed and run on a bare Python — see tests/run_all.py.
+
+      # Node is here for exactly one test, and it is a test worth the 30 seconds.
+      #
+      # `test_javascript_normalisation_matches_python` executes the JS
+      # `normaliseTerm()` and the Python `normalise()` over the same eight awkward
+      # inputs and asserts identical output. Every free-text skill and district
+      # lookup joins through that function in both languages; a divergence makes
+      # every crosswalk lookup miss and the page merely look empty.
+      #
+      # It self-skips when node cannot run, which is polite locally and useless in
+      # CI: without this step the one place that should always check it was
+      # silently checking nothing. Found by running the suite in a fresh clone.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Frontend dependencies
+        working-directory: frontend
+        # `lib/knowledge.js` imports @supabase/supabase-js, so the parity test
+        # needs the modules present, not just a node binary.
+        run: npm ci
 
       - name: Tests
         run: python3 tests/run_all.py --quiet

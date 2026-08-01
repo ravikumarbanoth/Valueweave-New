@@ -342,8 +342,22 @@ class AdditiveTest(unittest.TestCase):
                                  + self.TOUCHED, cwd=ROOT,
                                  capture_output=True, text=True).stdout
         if not out.strip():
-            self.fail("no diff found for Step 2 in either its commit or the working "
-                      "tree — this test cannot verify anything and must not pass")
+            # Still a failure — a test that examines nothing must not report a
+            # pass. But distinguish "the claim is false" from "the evidence was
+            # thrown away by the checkout", because they need opposite responses.
+            shallow = subprocess.run(["git", "rev-parse", "--is-shallow-repository"],
+                                     cwd=ROOT, capture_output=True,
+                                     text=True).stdout.strip() == "true"
+            depth = subprocess.run(["git", "rev-list", "--count", "HEAD"],
+                                   cwd=ROOT, capture_output=True, text=True).stdout.strip()
+            self.fail(
+                f"no diff found for Step 2 ({self.STEP_COMMIT_SUBJECT!r}) in either "
+                f"its commit or the working tree.\n"
+                + (f"  CAUSE: SHALLOW clone — {depth} commit(s). The commit exists in "
+                   f"history; this checkout does not have it. CI must use "
+                   f"`fetch-depth: 0`.\n" if shallow else
+                   "  History is complete, so the commit is genuinely missing.\n")
+                + "  This test cannot verify anything and must not pass.")
         for line in out.strip().splitlines():
             added, removed, path = line.split("\t")
             with self.subTest(file=path):

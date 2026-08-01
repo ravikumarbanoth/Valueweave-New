@@ -180,6 +180,22 @@ class InvocationTest(unittest.TestCase):
         self.assertIn("NEXT_PUBLIC_SUPABASE_ANON_KEY", self.src)
         self.assertIn("scripts/health_check.sh", self.src)
 
+    def test_the_checkout_fetches_full_history(self):
+        """`actions/checkout@v4` defaults to depth 1, and two tests need more.
+
+        `test_history_was_preserved_not_recopied` proves the knowledge engine was
+        recovered by merge rather than re-added by copy.
+        `test_no_page_lost_more_than_a_handful_of_lines` measures Step 2's own
+        commit. Neither can see anything in a one-commit clone, and the first one
+        failed by accusing the repository of a regression that had not happened.
+
+        Reproduced by cloning this repository with `--depth 1` and running the
+        suite: same two suites, same two failures as CI reported.
+        """
+        self.assertIn("fetch-depth: 0", self.src,
+                      "CI must check out full history; two suites assert facts "
+                      "about the past and a depth-1 clone throws it away")
+
     def test_two_syncs_cannot_run_at_once(self):
         self.assertIn("concurrency:", self.src)
         self.assertIn("cancel-in-progress: false", self.src)

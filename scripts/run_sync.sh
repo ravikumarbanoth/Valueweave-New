@@ -59,14 +59,14 @@ if ((PLAN_ONLY)); then summary "Sync plan"; exit 0; fi
 need_env SUPABASE_URL SUPABASE_SERVICE_ROLE_KEY
 
 step "Applying${FULL:+ (full rebuild)}"
-run python3 -m knowledge_sync sync $FULL --target supabase | tail -6 | sed 's/^/    /'
+run python3 -m knowledge_sync --target supabase sync $FULL | tail -6 | sed 's/^/    /'
 
 step "Proving idempotency — the check that matters"
 if [[ "$DRY_RUN" == "1" ]]; then
   info "[dry-run] would re-run sync and require 0 inserted, 0 updated"
   summary "Sync (dry run)"; exit 0
 fi
-python3 -m knowledge_sync sync --target supabase > /tmp/vw_sync_second.log 2>&1
+python3 -m knowledge_sync --target supabase sync > /tmp/vw_sync_second.log 2>&1
 second=$(grep -oE "[0-9]+ inserted, [0-9]+ updated" /tmp/vw_sync_second.log | tail -1)
 info "second run: ${second:-unknown}"
 if [[ "$second" == "0 inserted, 0 updated" ]]; then

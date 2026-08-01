@@ -267,5 +267,98 @@ class CoverageTest(unittest.TestCase):
             "update SEARCH_PIPELINE_REPORT.md and remove this assertion")
 
 
+# ═══════════════════════════════════════════ 4. the scripts must actually parse
+class CliContractTest(unittest.TestCase):
+    """Every knowledge_sync command written in a script must be a valid command.
+
+    THE BUG THIS EXISTS FOR
+    -----------------------
+    `--target` is declared on the top-level parser, before `add_subparsers()`.
+    argparse therefore accepted it only BEFORE the subcommand:
+
+        knowledge_sync --target supabase sync      works
+        knowledge_sync sync --target supabase      "unrecognized arguments"
+
+    `scripts/run_sync.sh` wrote the second form. Nothing caught it: the plan step
+    uses no target flag, so it passed; the tests never invoked the script; and
+    the failure surfaced at the APPLY step in CI — after tests and planning had
+    both reported success, against a live database, at the last possible moment.
+
+    Parsing is enough to catch it and costs nothing. These tests never execute a
+    sync; they hand the arguments to the real parser and require it to accept
+    them.
+    """
+
+    #: `python3 -m knowledge_sync <args>` as written in every operational script.
+    INVOCATION = re.compile(r"python3\s+-m\s+knowledge_sync\s+([^|>\n]+)")
+
+    #: Placeholders for shell expansions. `$FULL` is `--full` or empty, and both
+    #: must parse; the empty case is the default and is covered by the others.
+    SHELL_VARS = {"$FULL": "--full", '"$RUN_ID"': "20260101T000000Z-abcdef"}
+
+    def _invocations(self):
+        for script in sorted((ROOT / "scripts").glob("*.sh")):
+            for m in self.INVOCATION.finditer(script.read_text(encoding="utf-8")):
+                raw = m.group(1).strip()
+                for var, value in self.SHELL_VARS.items():
+                    raw = raw.replace(var, value)
+                if "$" in raw:          # an expansion we cannot resolve safely
+                    continue
+                yield script.name, raw.split()
+
+    def test_every_scripted_invocation_parses(self):
+        from knowledge_sync.cli import build_parser
+        bad = []
+        seen = 0
+        for script, argv in self._invocations():
+            seen += 1
+            parser = build_parser()
+            try:
+                parser.parse_args(argv)
+            except SystemExit:
+                bad.append(f"{script}: knowledge_sync {' '.join(argv)}")
+        self.assertGreater(seen, 0, "no invocations found — the regex stopped matching")
+        self.assertEqual(bad, [], "scripts issuing commands the CLI rejects:\n  "
+                                  + "\n  ".join(bad))
+
+    def test_target_is_accepted_on_both_sides_of_the_subcommand(self):
+        """The trailing form is what everyone writes. It must work."""
+        from knowledge_sync.cli import build_parser
+        for argv in (["--target", "supabase", "sync"],
+                     ["sync", "--target", "supabase"],
+                     ["--target", "supabase", "plan"],
+                     ["plan", "--target", "supabase"]):
+            with self.subTest(argv=" ".join(argv)):
+                build_parser().parse_args(argv)   # must not SystemExit
+
+    def test_the_leading_form_is_not_silently_downgraded(self):
+        """The subtle way this fix could go wrong, and the expensive one.
+
+        A subparser copy of `--target` sharing `dest="target"` would overwrite
+        the top-level value with its own default. `--target supabase sync` would
+        then parse cleanly and write to an in-process store that is discarded —
+        a green CI run and an empty database, which is strictly worse than the
+        loud error it replaced.
+        """
+        from knowledge_sync.cli import build_parser, main
+        import unittest.mock as mock
+
+        for argv in (["--target", "supabase", "sync"], ["sync", "--target", "supabase"]):
+            with self.subTest(argv=" ".join(argv)):
+                with mock.patch("knowledge_sync.cli.cmd_sync") as fake:
+                    fake.return_value = 0
+                    main(argv)
+                    resolved = fake.call_args[0][0]
+                    self.assertEqual(
+                        resolved.target, "supabase",
+                        "the flag resolved to the wrong target — a sync that "
+                        "reports success and writes nothing")
+
+    def test_the_default_target_stays_memory(self):
+        """No credentials, no accidental writes."""
+        from knowledge_sync.cli import build_parser
+        self.assertEqual(build_parser().parse_args(["sync"]).target, "memory")
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

@@ -162,11 +162,41 @@ def build_parser():
                     help="memory needs no credentials (default)")
     sub = ap.add_subparsers(dest="command", required=True)
 
-    p = sub.add_parser("plan", help="dry run: report what would change, write nothing")
+    # `--target` and `--json` are declared above, on the top-level parser, which
+    # means argparse only accepts them BEFORE the subcommand:
+    #
+    #     knowledge_sync --target supabase sync      works
+    #     knowledge_sync sync --target supabase      "unrecognized arguments"
+    #
+    # The second form is the one everybody writes, and it is the one
+    # scripts/run_sync.sh wrote. It failed in CI at the apply step, after the
+    # tests and the plan had both passed — the latest possible moment, against a
+    # real database, having already reported success twice.
+    #
+    # Accepting both positions rather than only correcting the callers: the
+    # trailing form is the natural one, the error argparse gives for it is
+    # obscure, and this trap has now cost one production run. The same hazard is
+    # documented for `--json` in the deployment guide, which is a sign the design
+    # was surprising people before it broke anything.
+    #
+    # Separate dests, resolved in main(). A subparser sharing `dest="target"`
+    # would overwrite the top-level value with its own default on every run where
+    # the flag came first — turning `--target supabase sync` into a silent
+    # in-memory no-op, which is far worse than the loud error this replaces.
+    def shared(parser):
+        parser.add_argument("--target", dest="target_after", default=None,
+                            choices=("memory", "supabase"),
+                            help="same as the top-level --target; accepted here too")
+        parser.add_argument("--json", dest="json_after", action="store_true",
+                            default=False, help=argparse.SUPPRESS)
+        return parser
+
+    p = shared(sub.add_parser("plan",
+               help="dry run: report what would change, write nothing"))
     p.add_argument("--table", action="append")
     p.set_defaults(fn=cmd_plan)
 
-    p = sub.add_parser("sync", help="apply changes")
+    p = shared(sub.add_parser("sync", help="apply changes"))
     p.add_argument("--full", action="store_true", help="treat every row as new")
     p.add_argument("--table", action="append")
     p.set_defaults(fn=cmd_sync)
@@ -191,6 +221,12 @@ def build_parser():
 
 def main(argv=None):
     args = build_parser().parse_args(argv)
+    # A flag given after the subcommand wins, because it is the more specific
+    # position. Absent there, the top-level value (or its default) stands.
+    if getattr(args, "target_after", None) is not None:
+        args.target = args.target_after
+    if getattr(args, "json_after", False):
+        args.json = True
     return args.fn(args)
 
 

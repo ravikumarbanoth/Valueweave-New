@@ -76,8 +76,16 @@ psql_file "$VW_ROOT/supabase/migrations/202606200001_geo_video_devops.sql"
 psql_file "$VW_ROOT/supabase/migrations/202606200002_entrepreneurship_knowledge_graph.sql"
 
 step "4 · Derived schemas"
-psql_file "$VW_ROOT/knowledge_sync/migrations/001_knowledge_schema.sql"
-psql_file "$VW_ROOT/user_intelligence/migrations/001_user_intelligence.sql"
+# One definition of "deploy the knowledge layer", shared with the Supabase SQL
+# Editor path. This used to apply the two migrations directly, which meant the
+# greenfield script and sql/deploy_knowledge.sql could disagree about what a
+# deployed knowledge layer is — and the SQL Editor path is the one an operator
+# actually uses against production.
+#
+# deploy_knowledge.sql is generated from those same migrations, adds the
+# preflight and the correct ordering, and is idempotent, so re-applying 011 here
+# after step 2 already ran it is a no-op.
+psql_file "$VW_ROOT/sql/deploy_knowledge.sql"
 tables=$(psql_scalar "select count(*) from pg_tables where schemaname in ('public','knowledge','user_intelligence');")
 ok "${tables:-?} tables across 3 schemas"
 

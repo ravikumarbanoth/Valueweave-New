@@ -72,14 +72,35 @@ end $$;
 -- ══════════════════════════════════════════════════════════════════════════
 
 -- PHASE 2's final statement (the policy on knowledge.sync_runs) calls this.
--- `create or replace`, so this is a no-op if the CMS migration already ran.
-create or replace function public.is_valueweave_admin()
-returns boolean language sql stable as $$
-  select exists (
-    select 1 from public.profiles p
-    where p.id = auth.uid() and coalesce(p.is_admin, false) = true
-  );
-$$;
+--
+-- CREATED ONLY IF ABSENT — deliberately not `create or replace`.
+--
+-- In the production database this function already exists and SIXTEEN policies
+-- on the CMS tables (kg_district_profiles, kg_skills, kg_schemes, kg_resources,
+-- kg_roadmaps, kg_industry_sectors, kg_collaborator_types) are written in terms
+-- of it. `create or replace` would silently swap the body those policies
+-- evaluate. The two versions are believed identical, but "believed identical"
+-- is not a reason to rewrite the predicate guarding an existing access-control
+-- rule, and this script has no way to diff them safely.
+--
+-- So: if it exists, leave it exactly as it is. If it does not, create it.
+do $phase1$
+begin
+  if to_regprocedure('public.is_valueweave_admin()') is not null then
+    raise notice '[phase 1] public.is_valueweave_admin() already exists — left untouched.';
+  else
+    execute $fn$
+      create function public.is_valueweave_admin()
+      returns boolean language sql stable as $$
+        select exists (
+          select 1 from public.profiles p
+          where p.id = auth.uid() and coalesce(p.is_admin, false) = true
+        );
+      $$;
+    $fn$;
+    raise notice '[phase 1] created public.is_valueweave_admin().';
+  end if;
+end $phase1$;
 
 
 -- ══════════════════════════════════════════════════════════════════════════

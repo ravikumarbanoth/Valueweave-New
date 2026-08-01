@@ -1,6 +1,15 @@
 import Link from "next/link";
 
-export default function PublicEntityList({ title, eyebrow, description, items, basePath, titleField = "name", emptyText }) {
+// `hrefFor` exists because one basePath stopped being enough. `/resources` is
+// backed by three graph entity types — training providers, banks and
+// institutions — which live at three different detail URLs, so the link has to
+// be decided per row rather than per page. Pages that still have a single
+// destination just pass basePath and nothing changes for them.
+export default function PublicEntityList({
+  title, eyebrow, description, items, basePath, titleField = "name",
+  emptyText, emptyTitle = "Nothing to show here yet", hrefFor,
+}) {
+  const linkTo = (item) => (hrefFor ? hrefFor(item) : `${basePath}/${item.slug}`);
   return (
     <main className="min-h-screen bg-cream font-body pb-16">
       <section className="bg-ink text-white px-4 sm:px-6 py-14">
@@ -13,13 +22,13 @@ export default function PublicEntityList({ title, eyebrow, description, items, b
       <section className="max-w-5xl mx-auto px-4 sm:px-6 py-10">
         {items.length === 0 ? (
           <div className="card-base p-10 text-center">
-            <h2 className="font-display font-bold text-xl text-ink mb-2">No published entries yet</h2>
+            <h2 className="font-display font-bold text-xl text-ink mb-2">{emptyTitle}</h2>
             <p className="text-muted text-sm max-w-md mx-auto">{emptyText}</p>
           </div>
         ) : (
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {items.map((item) => (
-              <Link key={item.id} href={`${basePath}/${item.slug}`} className="card-base p-5 hover:border-amber-400 hover:shadow-md hover:-translate-y-1 transition-all">
+              <Link key={item.id} href={linkTo(item)} className="card-base p-5 hover:border-amber-400 hover:shadow-md hover:-translate-y-1 transition-all">
                 <div className="flex items-center justify-between gap-2 mb-3">
                   <span className="chip bg-amber-50 text-amber-700">{item.category || item.type || item.state || "ValueWeave"}</span>
                   {item.future_demand && <span className="chip bg-teal-50 text-teal-700">{item.future_demand}</span>}

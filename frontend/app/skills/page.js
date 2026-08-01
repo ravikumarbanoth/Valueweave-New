@@ -14,7 +14,8 @@ export default async function SkillsPage() {
     <>
       <AppNavbar />
       <GraphSourceNote source={source} kind="skills" browseHref="/knowledge?type=skill" />
-      <PublicEntityList title="Skill Intelligence" eyebrow="SKILLS" description="Explore practical skills and how they connect to local entrepreneurship opportunities." items={items} basePath={source === "GRAPH" ? "/knowledge/skill" : "/skills"} emptyText="Skills will appear here once the knowledge base is synced or an admin publishes them." />
+      <PublicEntityList title="Skill Intelligence" eyebrow="SKILLS" description="Explore practical skills and how they connect to local entrepreneurship opportunities." items={items} basePath={source === "GRAPH" ? "/knowledge/skill" : "/skills"} emptyTitle="We are still gathering this"
+        emptyText="We have not finished collecting skills for your area. Please check back soon." />
     </>
   );
 }

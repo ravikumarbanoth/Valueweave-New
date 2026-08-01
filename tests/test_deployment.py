@@ -618,9 +618,9 @@ class ConsolidatedDeploymentTest(unittest.TestCase):
         time it was run against a database.
         """
         sql = read(self.DEPLOY)
-        # Anchor on the CREATE, not on the first mention of the name — the
-        # preflight's own comment names the function before it is defined.
-        head = sql[:sql.index("create or replace function public.is_valueweave_admin()")]
+        # Anchor on the phase banner. Anchoring on the CREATE broke the moment
+        # PHASE 1 became create-if-absent; the banner is the stable boundary.
+        head = sql[:sql.index("PHASE 1 ·")]
         self.assertIn("to_regclass('public.profiles')", head)
         self.assertIn("is_admin", head,
                       "preflight does not check profiles.is_admin")
@@ -630,7 +630,7 @@ class ConsolidatedDeploymentTest(unittest.TestCase):
     def test_admin_function_precedes_the_policy_that_calls_it(self):
         sql = read(self.DEPLOY)
         self.assertLess(
-            sql.index("create or replace function public.is_valueweave_admin()"),
+            sql.index("create function public.is_valueweave_admin()"),
             sql.index("sync runs admin read"),
             "the policy on knowledge.sync_runs is created before the function it "
             "calls — this is the ordering bug the consolidated script exists to fix")
@@ -753,6 +753,94 @@ class VerifierContractTest(unittest.TestCase):
         self.assertIn("service_role", verdict,
                       "the verdict can say SCHEMA COMPLETE while the sync is "
                       "unable to write")
+
+
+class LiveSchemaCompatibilityTest(unittest.TestCase):
+    """
+    Facts about the production database, from the schema dump the operator
+    supplied, that the deployment has to respect.
+
+    The dump is the authority here — not the migrations, which describe what
+    *should* have been applied rather than what was. Two things it settles:
+    `public.is_valueweave_admin()` already exists with sixteen CMS policies
+    depending on it, and the `knowledge` schema does not exist at all.
+    """
+
+    DEPLOY = ROOT / "sql" / "deploy_knowledge.sql"
+    RETIRE = ROOT / "sql" / "retire_cms_knowledge_tables.sql"
+
+    def test_phase1_creates_only_if_absent(self):
+        """It must not replace the predicate sixteen live policies evaluate.
+
+        `create or replace` would swap the body out from under
+        kg_district_profiles, kg_skills, kg_schemes, kg_resources, kg_roadmaps,
+        kg_industry_sectors and kg_collaborator_types — the access-control rule
+        on every CMS table — for a body this script cannot diff against the
+        deployed one.
+        """
+        sql = read(self.DEPLOY)
+        phase1 = sql[sql.index("PHASE 1 ·"):sql.index("PHASE 2 ·")]
+        self.assertIn("to_regprocedure('public.is_valueweave_admin()')", phase1)
+        self.assertNotIn("create or replace function public.is_valueweave_admin", phase1,
+                         "PHASE 1 still replaces an existing function")
+        self.assertIn("create function public.is_valueweave_admin()", phase1)
+
+    def test_deployment_creates_nothing_in_public(self):
+        """The whole point of the separate schema.
+
+        Three of the projection's table names — kg_skills, kg_schemes,
+        kg_relationships — already exist in `public` as CMS tables with different
+        columns and different RLS. A `create table` landing in `public` would
+        either collide or, worse, shadow one.
+        """
+        sql = read(self.DEPLOY)
+        creates = re.findall(r"create table (?:if not exists )?([\w.]+)", sql, re.I)
+        self.assertTrue(creates)
+        for target in creates:
+            self.assertRegex(
+                target, r"^(knowledge|user_intelligence)\.",
+                f"deployment creates {target} outside its own schemas")
+
+    def test_retirement_script_refuses_to_destroy_content(self):
+        sql = read(self.RETIRE)
+        self.assertIn("raise exception", sql,
+                      "the retirement script must abort on a non-empty table")
+        self.assertRegex(sql, r"count\(\*\).*into\s+n",
+                         "it must actually count rows before dropping")
+
+    def test_retirement_script_leaves_live_tables_alone(self):
+        """Only genuinely superseded tables may be dropped.
+
+        kg_relationships is written by /admin/opportunity-mapping and read by
+        /district-opportunity-index; kg_district_profiles backs that same public
+        page; roadmaps have no equivalent in the graph at all. None of them is a
+        duplicate, so none of them may appear in a DROP.
+        """
+        dropped = set(re.findall(r"drop table if exists public\.(\w+)", read(self.RETIRE)))
+        self.assertEqual(dropped, {"kg_skills", "kg_schemes", "kg_resources"})
+        for keep in ("kg_district_profiles", "kg_relationships", "kg_roadmaps",
+                     "kg_roadmap_steps", "kg_industry_sectors", "kg_collaborator_types"):
+            self.assertNotIn(keep, dropped)
+
+    def test_retirement_uses_restrict_not_cascade(self):
+        """A surviving dependency should stop the drop, not be swept up by it."""
+        self.assertNotRegex(read(self.RETIRE), r"drop table[^;]*cascade")
+
+    def test_greenfield_script_and_sql_editor_agree(self):
+        """One definition of "deploy the knowledge layer", used by both paths.
+
+        first_deploy.sh used to apply the two migrations itself, so it and
+        sql/deploy_knowledge.sql could drift — and the SQL Editor path is the one
+        an operator actually runs against production.
+        """
+        fd = read(SCRIPTS / "first_deploy.sh")
+        self.assertIn("sql/deploy_knowledge.sql", fd)
+        for migration in ("knowledge_sync/migrations/001_knowledge_schema.sql",
+                          "user_intelligence/migrations/001_user_intelligence.sql"):
+            self.assertNotIn(
+                migration, fd,
+                f"first_deploy.sh still applies {migration} directly, so it can "
+                "disagree with sql/deploy_knowledge.sql")
 
 
 if __name__ == "__main__":

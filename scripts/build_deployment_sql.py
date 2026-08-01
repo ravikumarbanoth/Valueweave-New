@@ -75,6 +75,28 @@ def admin_function():
     return src[start:end]
 
 
+def admin_function_body():
+    """The same block as a plain `create function`, for the create-if-absent path.
+
+    `or replace` is dropped because the caller has already established that the
+    function does not exist. Keeping it would make the guard decorative and
+    reintroduce the risk of rewriting a predicate that sixteen live policies
+    evaluate.
+
+    The body's own `$$` quoting is left alone: it sits inside `$fn$ … $fn$`
+    inside `do $phase1$ … $phase1$`, and PostgreSQL matches dollar-quote tags
+    exactly, so three distinct tags nest without interfering.
+    """
+    fn = admin_function()
+    assert fn.startswith("create or replace function"), fn[:40]
+    assert "$fn$" not in fn and "$phase1$" not in fn, "dollar-quote tag collision"
+    return "create function" + fn[len("create or replace function"):]
+
+
+def indent(text, prefix):
+    return "\n".join(prefix + l if l.strip() else l for l in text.splitlines())
+
+
 def strip_transaction_control(sql, path):
     """Remove standalone `begin;` / `commit;` — the outer wrapper replaces them.
 
@@ -169,8 +191,29 @@ end $$;
 {banner("1", "Prerequisite — public.is_valueweave_admin()",
         "supabase/migrations/202606200002_entrepreneurship_knowledge_graph.sql")}
 -- PHASE 2's final statement (the policy on knowledge.sync_runs) calls this.
--- `create or replace`, so this is a no-op if the CMS migration already ran.
-{admin_function()}
+--
+-- CREATED ONLY IF ABSENT — deliberately not `create or replace`.
+--
+-- In the production database this function already exists and SIXTEEN policies
+-- on the CMS tables (kg_district_profiles, kg_skills, kg_schemes, kg_resources,
+-- kg_roadmaps, kg_industry_sectors, kg_collaborator_types) are written in terms
+-- of it. `create or replace` would silently swap the body those policies
+-- evaluate. The two versions are believed identical, but "believed identical"
+-- is not a reason to rewrite the predicate guarding an existing access-control
+-- rule, and this script has no way to diff them safely.
+--
+-- So: if it exists, leave it exactly as it is. If it does not, create it.
+do $phase1$
+begin
+  if to_regprocedure('public.is_valueweave_admin()') is not null then
+    raise notice '[phase 1] public.is_valueweave_admin() already exists — left untouched.';
+  else
+    execute $fn$
+{indent(admin_function_body(), "      ")}
+    $fn$;
+    raise notice '[phase 1] created public.is_valueweave_admin().';
+  end if;
+end $phase1$;
 """]
 
     for num, title, rel in PHASES:

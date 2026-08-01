@@ -4,11 +4,41 @@ Everything needed to take the workflow past its current failure, in the order it
 has to happen.
 
 **Status of this document.** The SQL described here was executed against a real
-PostgreSQL 16 while it was written — clean, partial and repeated — and the object
-counts, grants and idempotency below are measured, not predicted. What has *not*
-happened is a run against your Supabase project: this environment cannot reach it.
-So this document tells you what to run and exactly what you should see; it does
-not claim the deployment is done.
+PostgreSQL 16 while it was written — clean, partial, repeated, and against a
+**replica built from your production schema dump** — so the object counts, grants
+and idempotency below are measured, not predicted. What has *not* happened is a
+run against your Supabase project: this environment cannot reach it.
+
+```
+api.supabase.com:443  →  HTTP 000 (proxy: "gateway answered 403 to CONNECT")
+supabase.co:443       →  HTTP 000 (same)
+frontend/.env.local   →  NEXT_PUBLIC_SUPABASE_ANON_KEY=placeholder…
+```
+
+The network policy for this environment blocks Supabase outright, and no real
+credentials exist here. So steps 6–9 below are yours to run. Everything that can
+be done without the network has been.
+
+For the architecture decision this deployment implements — which of the two
+knowledge systems is canonical, and what happens to the other — see
+`KNOWLEDGE_ARCHITECTURE_DECISION.md`.
+
+---
+
+## Verified against your actual schema
+
+Your dump was turned into a local replica (30 tables, 70 policies,
+`is_valueweave_admin()` present, no `knowledge` schema) and the deployment run
+against it:
+
+| Check | Result |
+|---|---|
+| Deployment exit code | **0**, no errors |
+| `public` schema after | **byte-identical** — same 30 tables, 70 policies, same column fingerprint |
+| `is_valueweave_admin()` | **not replaced** — same OID before and after (the 16 CMS policies are untouched) |
+| `knowledge` / `user_intelligence` | created — 15 tables, 58 indexes, 15 policies |
+| `public.kg_skills` vs `knowledge.kg_skills` | coexist as distinct objects (22 vs 29 columns) |
+| Sync plan | 647 entities, 865 relationships, **0 errors** |
 
 ---
 

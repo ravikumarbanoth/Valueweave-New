@@ -499,5 +499,68 @@ class StalePageTest(unittest.TestCase):
         self.assertRegex(settings, r"revalidate:\s*\d+")
 
 
+class OneKnowledgeSourceTest(unittest.TestCase):
+    """
+    Backlog A1: two knowledge systems with colliding table names.
+
+    `public.kg_skills` is a hand-filled CMS table; `knowledge.kg_skills` is the
+    researched projection. The production schema dump confirms both names exist
+    and that nothing has ever populated the CMS side. The resolution is that the
+    researched graph is canonical and the CMS is an override, wired in
+    lib/kg-fallback.js — these tests hold that wiring in place.
+    """
+
+    FALLBACK = FE / "lib" / "kg-fallback.js"
+
+    def test_every_cms_section_is_either_backed_or_honest(self):
+        """A CMS section must have graph backing, or say it has none.
+
+        `/resources` was the gap: it had 112 matching entities in the graph and
+        read only the empty CMS table, so it had never displayed a single row.
+        """
+        src = read(self.FALLBACK)
+        backed = set(re.findall(r"^\s{2}(\w+): \[", src, re.MULTILINE))
+        self.assertEqual(backed, {"skills", "schemes", "resources"})
+        self.assertIn("roadmaps", src,
+                      "roadmaps has no graph backing and the file must say why")
+
+    def test_detail_links_are_not_hardcoded_to_two_types(self):
+        """`resources` maps to three entity types at three different URLs.
+
+        The previous `graphType === "GovernmentScheme" ? "scheme" : "skill"`
+        silently resolved everything that was not a scheme to "skill".
+        """
+        # code(), not read(): the comment above the loop quotes the old
+        # expression to explain why it went, and that prose is worth keeping.
+        src = code(self.FALLBACK)
+        self.assertIn("URL_BY_TYPE", src)
+        self.assertNotIn('? "scheme" : "skill"', src)
+
+    def test_public_knowledge_pages_do_not_name_internal_tools(self):
+        """A student must never be told to wait for "the Roadmaps CMS".
+
+        These four pages told readers their content would appear once an admin
+        published it from a named internal system, or once the knowledge base was
+        "synced" — three words from the operator's vocabulary, on a page for a
+        first-year student.
+        """
+        banned = re.compile(
+            r"\bCMS\b|admin dashboard|admins publish|knowledge base is synced|"
+            r"\bknowledge graph\b|\bmigration\b|\bsupabase\b|\bsync(ed)?\b",
+            re.IGNORECASE)
+        for page in ("app/skills/page.js", "app/schemes/page.js",
+                     "app/resources/page.js", "app/roadmaps/page.js"):
+            visible = " ".join(re.findall(r'(?:emptyText|emptyTitle|description|title)='
+                                          r'"([^"]*)"', code(FE / page)))
+            with self.subTest(page=page):
+                self.assertNotRegex(visible, banned,
+                                    f"{page} shows internal vocabulary to a reader")
+
+    def test_roadmaps_says_not_available_rather_than_coming_soon(self):
+        src = code(FE / "app/roadmaps/page.js")
+        self.assertRegex(src, r'emptyTitle="Not available yet"')
+        self.assertNotIn("Coming Soon", src)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

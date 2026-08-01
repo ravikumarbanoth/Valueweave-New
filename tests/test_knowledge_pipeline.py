@@ -360,5 +360,106 @@ class CliContractTest(unittest.TestCase):
         self.assertEqual(build_parser().parse_args(["sync"]).target, "memory")
 
 
+# ═══════════════════════════════════════════ 5. the one third-party dependency
+class SyncDependencyTest(unittest.TestCase):
+    """Writing to Supabase needs the SDK. Nothing declared it, so nothing installed it.
+
+    The framework imports the SDK lazily, inside the `client` property, so that
+    tests, plans and dry runs never need it. That guard worked exactly as
+    designed — and hid the fact that no manifest listed the package and no CI
+    step installed it. The workflow reached Apply and failed with "the
+    `supabase` package is not installed", after the tests and the plan had both
+    reported success.
+    """
+
+    REQUIREMENTS = ROOT / "requirements-sync.txt"
+
+    @classmethod
+    def setUpClass(cls):
+        cls.req = cls.REQUIREMENTS.read_text(encoding="utf-8") if cls.REQUIREMENTS.exists() else ""
+        cls.workflow = WORKFLOW.read_text(encoding="utf-8") if WORKFLOW.exists() else ""
+
+    def test_the_dependency_is_declared(self):
+        self.assertTrue(self.REQUIREMENTS.exists(),
+                        "nothing declares the Supabase SDK, so nothing installs it")
+        self.assertRegex(self.req, r"(?m)^supabase[~=<>]")
+
+    def test_it_is_pinned_not_floating(self):
+        """This writes to production data on every merge to main.
+
+        An unpinned dependency means the bytes that touch the database can
+        change without a commit, and the first sign is a failed sync at 03:00 on
+        a Monday.
+        """
+        spec = next(l.strip() for l in self.req.splitlines()
+                    if l.strip().startswith("supabase"))
+        self.assertRegex(spec, r"supabase~=\d+\.\d+\.\d+",
+                         f"pin to a minor range; got {spec!r}")
+
+    def test_the_workflow_installs_it(self):
+        self.assertIn("requirements-sync.txt", self.workflow,
+                      "the workflow must install the SDK before it applies")
+
+    def test_it_is_installed_after_the_tests_and_before_the_plan(self):
+        """Order is load-bearing in both directions.
+
+        AFTER the tests, because the suite asserts the engine holds no database
+        client and can only prove that where the SDK is absent — installing
+        first would make that test pass for the wrong reason.
+
+        BEFORE the plan, so a dependency that breaks the import graph surfaces
+        at the cheap step rather than the one that writes.
+        """
+        def run_line(command):
+            """Index of the `run:` step issuing exactly this command.
+
+            Substring matching is wrong here: `scripts/run_sync.sh` is a prefix
+            of `scripts/run_sync.sh --plan-only`, so a naive `in` check found the
+            plan step twice and reported the apply as preceding itself.
+            """
+            for i, line in enumerate(self.workflow.splitlines()):
+                stripped = line.strip()
+                if stripped.startswith("run:") and stripped[4:].strip() == command:
+                    return i
+            self.fail(f"no step runs exactly: {command}")
+
+        def contains(needle):
+            for i, line in enumerate(self.workflow.splitlines()):
+                if needle in line:
+                    return i
+            self.fail(f"not found in the workflow: {needle}")
+
+        tests = run_line("python3 tests/run_all.py --quiet")
+        install = contains("requirements-sync.txt")
+        plan = run_line("scripts/run_sync.sh --plan-only")
+        apply_ = run_line("scripts/run_sync.sh")
+        self.assertLess(tests, install, "install must come after the tests")
+        self.assertLess(install, plan, "install must come before the plan")
+        self.assertLess(plan, apply_, "the plan must come before the apply")
+
+    def test_the_engine_still_imports_without_the_sdk(self):
+        """The lazy import is the reason the suite needs no virtualenv.
+
+        If anything ever moves `from supabase import ...` to module scope, this
+        whole suite stops running on a bare Python — and the failure would look
+        like an unrelated collection error.
+        """
+        import importlib
+        for module in ("knowledge_sync.adapters", "knowledge_sync.cli",
+                       "knowledge_sync.engine", "user_intelligence.writer"):
+            with self.subTest(module=module):
+                importlib.import_module(module)
+
+        for path in ("knowledge_sync/adapters.py", "user_intelligence/writer.py"):
+            src = (ROOT / path).read_text(encoding="utf-8")
+            for lineno, line in enumerate(src.splitlines(), 1):
+                if "from supabase import" in line:
+                    with self.subTest(file=path, line=lineno):
+                        self.assertTrue(
+                            line.startswith((" ", "\t")),
+                            f"{path}:{lineno} imports the SDK at module scope; it "
+                            f"must stay inside the client property")
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

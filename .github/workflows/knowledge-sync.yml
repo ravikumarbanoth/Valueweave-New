@@ -121,6 +121,19 @@ jobs:
       - name: Tests
         run: python3 tests/run_all.py --quiet
 
+      # Installed AFTER the tests, deliberately.
+      #
+      # The suite must keep proving the engine is self-contained — one of its
+      # tests asserts that no engine module holds a database client — and it can
+      # only prove that in an environment where the SDK is absent. Installing
+      # first would make that test pass for the wrong reason.
+      #
+      # Installed BEFORE the plan, so the plan runs in the same interpreter state
+      # the apply will. A dependency that breaks the import graph should surface
+      # at the cheap step, not the one that writes.
+      - name: Sync dependencies
+        run: python3 -m pip install --disable-pip-version-check -r requirements-sync.txt
+
       - name: Preflight — are the secrets present?
         id: preflight
         env:
@@ -168,6 +181,13 @@ jobs:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          # health_check.sh needs BOTH halves of the anon pair. It was getting
+          # only the key, so its `[[ -n URL && -n KEY ]]` guard was false and the
+          # exposure check silently did not run — the same failure shape as the
+          # parity test that was skipping for want of node. It is the same
+          # project URL as SUPABASE_URL; the browser client just reads it under
+          # the public name.
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
         # health_check.sh checks schema exposure with the ANON key. The service
         # role can read a schema that is not exposed to the browser, so a
         # service-role check would report healthy while every page stayed empty.

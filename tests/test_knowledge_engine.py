@@ -26,6 +26,26 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
 
+def _history_is_truncated():
+    """True when this clone cannot answer questions about the past.
+
+    `actions/checkout@v4` fetches depth 1 by default. Tests that assert facts
+    about history then fail on evidence the checkout discarded — and, worse,
+    fail with a message blaming the code. This lets them say what is actually
+    wrong instead.
+    """
+    out = subprocess.run(["git", "rev-parse", "--is-shallow-repository"],
+                         cwd=ROOT, capture_output=True, text=True)
+    if out.returncode != 0:
+        return True, "this directory is not a git repository"
+    if out.stdout.strip() == "true":
+        depth = subprocess.run(["git", "rev-list", "--count", "HEAD"],
+                               cwd=ROOT, capture_output=True, text=True).stdout.strip()
+        return True, (f"this is a SHALLOW clone ({depth} commit(s)). CI must check "
+                      f"out with `fetch-depth: 0` — see .github/workflows/")
+    return False, ""
+
+
 class RecoveryTest(unittest.TestCase):
     def test_all_62_recovered_files_are_tracked(self):
         out = subprocess.run(["git", "ls-files", "knowledge_engine"],
@@ -40,9 +60,22 @@ class RecoveryTest(unittest.TestCase):
         out = subprocess.run(
             ["git", "log", "--format=%h", "--", "knowledge_engine/core/types.py"],
             cwd=ROOT, capture_output=True, text=True).stdout.split()
-        self.assertIn("71ac7e1", out,
-                      "knowledge_engine/core/types.py does not trace back to 71ac7e1; "
-                      "the engine was re-added rather than recovered")
+        if "71ac7e1" in out:
+            return
+
+        # Still a failure — never a skip. But say which failure it is: a shallow
+        # clone means the evidence is absent, not that the claim is false, and
+        # the original message accused the repository of a regression that had
+        # not happened.
+        truncated, why = _history_is_truncated()
+        self.fail(
+            f"cannot see 71ac7e1 in the history of knowledge_engine/core/types.py.\n"
+            + (f"  CAUSE: {why}\n"
+               f"  The history exists; this checkout does not have it.\n"
+               if truncated else
+               "  History is complete, so this is real: the engine was re-added "
+               "rather than recovered, and its provenance is lost.\n")
+            + f"  commits seen for that file: {out or 'none'}")
 
     def test_every_declared_module_imports(self):
         import importlib

@@ -32,6 +32,14 @@ async function loadDistrictKnowledge(districtName) {
   return { grouped: await getDistrictKnowledge(hit.global_entity_id), status: null, note: null };
 }
 
+// See app/ai/page.js for the full reasoning. Short version: this page reads the
+// projection, the sync writes to it after the build, and without a revalidate the
+// 14 prerendered district pages would be frozen at build time. They do refresh
+// today, but only because the shared Footer's settings cache pulls every segment
+// down to 60s. Declared here so it is this page's own behaviour and not a side
+// effect of an unrelated component.
+export const revalidate = 300;
+
 export async function generateStaticParams() {
   return getAllDistrictSlugs().map((slug) => ({ slug }));
 }
@@ -46,9 +54,11 @@ export default async function DistrictPage({ params }) {
   const district = getDistrictBySlug(params.slug);
   if (!district) notFound();
 
-  // Additive: the editorial profile below is unchanged. This runs at build time
-  // and returns an empty grouping when the projection is absent, so the page
-  // renders identically today and gains content the day the sync runs.
+  // Additive: the editorial profile below is unchanged. This returns an empty
+  // grouping when the projection is absent, so the page renders identically
+  // today and gains content once the sync has run — within one revalidate
+  // window, not at the next deploy. That distinction is the whole reason for the
+  // `export const revalidate` above.
   const knowledge = await loadDistrictKnowledge(district.name);
 
   const allArticles = getAllArticles();

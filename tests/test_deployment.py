@@ -561,5 +561,199 @@ class MigrationRepairTest(unittest.TestCase):
                          "the \\copy column list does not match the CSV header")
 
 
+# ══════════════════════════════════════════ 6. consolidated deployment SQL
+class ConsolidatedDeploymentTest(unittest.TestCase):
+    """
+    Guards on sql/deploy_knowledge.sql and the generator that writes it.
+
+    The script itself was executed against a real PostgreSQL 16 while it was
+    written — clean, partial and re-run, with the object counts and the grant
+    matrix checked each time. None of that can run here, so what these tests
+    protect is the set of properties that would silently rot: that the checked-in
+    file still matches the migrations, and that the invariants which took a real
+    database to discover are still stated in the SQL.
+    """
+
+    DEPLOY = ROOT / "sql" / "deploy_knowledge.sql"
+    VERIFY = ROOT / "sql" / "verify_knowledge_schema.sql"
+    BUILDER = SCRIPTS / "build_deployment_sql.py"
+
+    def test_checked_in_sql_is_not_stale(self):
+        """Regenerate and compare. This is the whole reason the file is generated.
+
+        If someone edits a migration, the consolidated script must be rebuilt or
+        it becomes a second, wrong source of truth — and the drift is invisible
+        until a deployment produces a schema the sync does not recognise.
+        """
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("bds", self.BUILDER)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        self.assertEqual(
+            mod.build(), read(self.DEPLOY),
+            "sql/deploy_knowledge.sql is stale — a migration changed under it. "
+            "Run: python3 scripts/build_deployment_sql.py")
+
+    def test_exactly_one_transaction(self):
+        """One outer begin/commit, and no nested ones left behind by a migration.
+
+        011 ships with its own `begin;`/`commit;`. Nested transaction control
+        inside a larger batch either errors or commits early depending on the
+        client, so the generator strips them and wraps everything once. A second
+        `begin;` reappearing means that stripping silently stopped working.
+        """
+        lines = [l.strip().lower() for l in read(self.DEPLOY).splitlines()]
+        self.assertEqual(lines.count("begin;"), 1, "expected exactly one `begin;`")
+        self.assertEqual(lines.count("commit;"), 1, "expected exactly one `commit;`")
+        self.assertLess(lines.index("begin;"), lines.index("commit;"))
+
+    def test_preflight_checks_both_prerequisites(self):
+        """profiles AND profiles.is_admin.
+
+        The column check is not decoration. public.is_valueweave_admin() reads
+        p.is_admin, PostgreSQL validates a `language sql` body at CREATE time, and
+        the column comes from frontend/migrations/001_research_articles.sql rather
+        than the base schema. Without this check the script dies forty lines in
+        with `column p.is_admin does not exist` — which is what it did the first
+        time it was run against a database.
+        """
+        sql = read(self.DEPLOY)
+        # Anchor on the CREATE, not on the first mention of the name — the
+        # preflight's own comment names the function before it is defined.
+        head = sql[:sql.index("create or replace function public.is_valueweave_admin()")]
+        self.assertIn("to_regclass('public.profiles')", head)
+        self.assertIn("is_admin", head,
+                      "preflight does not check profiles.is_admin")
+        self.assertEqual(head.count("raise exception"), 2,
+                         "expected two preflight aborts, one per prerequisite")
+
+    def test_admin_function_precedes_the_policy_that_calls_it(self):
+        sql = read(self.DEPLOY)
+        self.assertLess(
+            sql.index("create or replace function public.is_valueweave_admin()"),
+            sql.index("sync runs admin read"),
+            "the policy on knowledge.sync_runs is created before the function it "
+            "calls — this is the ordering bug the consolidated script exists to fix")
+
+    def test_no_destructive_statement_reaches_an_application_table(self):
+        """`drop policy if exists` is expected. Anything that loses data is not."""
+        banned = re.compile(
+            r"^\s*(drop\s+(table|schema|column)|truncate|delete\s+from)\b",
+            re.IGNORECASE | re.MULTILINE)
+        found = banned.findall(read(self.DEPLOY))
+        self.assertEqual(found, [], f"destructive statement in the deployment SQL: {found}")
+
+
+class ServiceRoleGrantTest(unittest.TestCase):
+    """
+    The sync's own privileges, in the migrations rather than only in the
+    consolidated copy.
+
+    Supabase's service_role has BYPASSRLS, and an earlier comment in
+    001_knowledge_schema.sql concluded from that it "bypasses grants and RLS
+    alike" and granted it nothing. Only half is true: BYPASSRLS exempts a role
+    from row-level security, not from GRANT checks — PostgreSQL exempts only
+    superusers from those, and the service role is deliberately not one. Supabase's
+    default grants cover `public`; a schema created by a migration gets none.
+
+    Measured against PostgreSQL 16: with the grants absent, the sync's first
+    statement fails with `permission denied for schema knowledge`, on SELECT as
+    well as INSERT — after a deployment where tables, indexes, policies and the
+    verifier's verdict all looked perfect.
+    """
+
+    KNOWLEDGE = ROOT / "knowledge_sync/migrations/001_knowledge_schema.sql"
+    VOCAB = ROOT / "frontend/migrations/011_repair_vocabulary_crosswalk.sql"
+    INTEL = ROOT / "user_intelligence/migrations/001_user_intelligence.sql"
+
+    def test_knowledge_schema_grants_the_sync_usage_and_writes(self):
+        sql = read(self.KNOWLEDGE)
+        self.assertRegex(sql, r"grant usage on schema knowledge to[^;]*service_role")
+        self.assertRegex(sql, r"grant[^;]*insert[^;]*on all tables in schema knowledge"
+                              r"[^;]*service_role")
+        self.assertRegex(sql, r"grant usage on all sequences in schema knowledge"
+                              r"[^;]*service_role",
+                         "kg_vocabulary_map has a sequence; an insert needs USAGE on it")
+
+    def test_knowledge_withholds_delete_from_the_sync(self):
+        """Soft delete is the contract, and the grant is what enforces it.
+
+        knowledge_sync/adapters.py contains no hard delete — removal is
+        `sync_deleted_at = now()`. Granting DELETE would mean a bug in the sync
+        could destroy the projection instead of marking it.
+        """
+        for stmt in re.findall(r"^grant[^;]*service_role[^;]*;", read(self.KNOWLEDGE),
+                               re.IGNORECASE | re.MULTILINE | re.DOTALL):
+            if "schema knowledge" in stmt or "on all tables" in stmt:
+                self.assertNotRegex(
+                    stmt, r"\bdelete\b",
+                    "DELETE granted to service_role on `knowledge`; the sync "
+                    "soft-deletes and must not be able to hard-delete")
+
+    def test_vocabulary_repair_grants_the_sync_too(self):
+        sql = read(self.VOCAB)
+        self.assertRegex(sql, r"grant usage on schema knowledge to[^;]*service_role")
+        self.assertRegex(sql, r"grant[^;]*insert[^;]*knowledge\.kg_vocabulary_map"
+                              r"[^;]*service_role")
+
+    def test_user_intelligence_grants_delete_because_the_writer_uses_it(self):
+        """The one place DELETE is correct, and it is asymmetric on purpose.
+
+        user_intelligence/writer.py hard-deletes a user's stale recommendations
+        before rewriting them. `knowledge` never does.
+        """
+        sql = read(self.INTEL)
+        self.assertRegex(sql, r"grant usage on schema user_intelligence to"
+                              r"[^;]*service_role")
+        self.assertRegex(sql, r"grant[^;]*delete[^;]*in schema user_intelligence"
+                              r"[^;]*service_role")
+        self.assertIn(".delete()", read(ROOT / "user_intelligence/writer.py"),
+                      "the DELETE grant above is justified by the writer; if the "
+                      "writer no longer deletes, withdraw the grant")
+
+    def test_no_write_is_granted_to_a_browser_role(self):
+        """anon and authenticated read. Nothing else, in any of the three."""
+        for path in (self.KNOWLEDGE, self.VOCAB, self.INTEL):
+            for stmt in re.findall(r"^grant[^;]*;", read(path),
+                                   re.IGNORECASE | re.MULTILINE | re.DOTALL):
+                if re.search(r"\b(anon|authenticated)\b", stmt) \
+                        and "service_role" not in stmt:
+                    self.assertNotRegex(
+                        stmt, r"\b(insert|update|delete|truncate|all privileges)\b",
+                        f"{path.name} grants a write to a browser role: {stmt!r}")
+
+
+class VerifierContractTest(unittest.TestCase):
+    """sql/verify_knowledge_schema.sql — the one file an operator runs on prod."""
+
+    VERIFY = ROOT / "sql" / "verify_knowledge_schema.sql"
+
+    def test_is_strictly_read_only(self):
+        """It is handed to an operator to run against production, twice.
+
+        The brief that asked for it was explicit: no CREATE, ALTER, INSERT,
+        UPDATE, DELETE, DROP, GRANT, REVOKE or TRUNCATE.
+        """
+        banned = re.compile(
+            r"^\s*(create|alter|insert|update|delete|drop|grant|revoke|truncate)\b",
+            re.IGNORECASE | re.MULTILINE)
+        found = banned.findall(read(self.VERIFY))
+        self.assertEqual(found, [], f"verifier is not read-only: {found}")
+
+    def test_checks_the_service_role_grant(self):
+        """Because its absence is invisible in every other block.
+
+        Tables, indexes, policies and row counts can all be perfect while the
+        sync cannot write a single row.
+        """
+        sql = read(self.VERIFY)
+        self.assertIn("service_role", sql)
+        self.assertIn("has_schema_privilege", sql)
+        verdict = sql[sql.index("7 · Verdict"):]
+        self.assertIn("service_role", verdict,
+                      "the verdict can say SCHEMA COMPLETE while the sync is "
+                      "unable to write")
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

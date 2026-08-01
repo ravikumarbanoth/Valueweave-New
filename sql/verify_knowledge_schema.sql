@@ -89,14 +89,40 @@ where schemaname in ('knowledge','user_intelligence')
   and cmd <> 'SELECT';
 
 -- ── 5 · Grants ──────────────────────────────────────────────────────────────
--- Expected: knowledge  -> SELECT to anon (10) and authenticated (10)
---           user_intelligence -> SELECT to authenticated (5), and NOT to anon.
+-- Expected, exactly:
+--   knowledge          -> SELECT                        anon (10), authenticated (10)
+--   knowledge          -> SELECT, INSERT, UPDATE        service_role (10 each)
+--   user_intelligence  -> SELECT                        authenticated (5)
+--   user_intelligence  -> SELECT, INSERT, UPDATE, DELETE service_role (5 each)
+--   user_intelligence  -> nothing at all                anon
+--
+-- service_role is included because its absence is a silent, specific failure.
+-- Supabase's service role has BYPASSRLS, which exempts it from row-level
+-- security but NOT from GRANT checks — only a superuser skips those, and the
+-- service role is deliberately not one. A `knowledge` schema with perfect tables,
+-- indexes and policies but no service_role grant looks completely healthy in
+-- every other block of this file, and the sync still dies on its first statement
+-- with `permission denied for schema knowledge`. If the service_role rows below
+-- are missing, the schema is NOT ready, whatever the verdict at the end says.
+--
+-- DELETE on `knowledge` is expected to be ABSENT: the sync soft-deletes by
+-- setting sync_deleted_at. A DELETE row here means someone widened the grant.
 select 'grants' as check, table_schema, grantee, privilege_type, count(*) as tables
 from information_schema.role_table_grants
 where table_schema in ('knowledge','user_intelligence')
-  and grantee in ('anon','authenticated')
+  and grantee in ('anon','authenticated','service_role')
 group by 1,2,3,4
 order by table_schema, grantee, privilege_type;
+
+-- Schema-level USAGE. A table grant is useless without it, and this is the one
+-- that fails first.
+select 'schema usage' as check, n.nspname as schema, r.rolname as role,
+       has_schema_privilege(r.rolname, n.nspname, 'usage') as granted
+from pg_namespace n
+cross join (values ('anon'),('authenticated'),('service_role')) as r(rolname)
+where n.nspname in ('knowledge','user_intelligence')
+  and exists (select 1 from pg_roles where rolname = r.rolname)
+order by n.nspname, r.rolname;
 
 -- ── 6 · Row counts ──────────────────────────────────────────────────────────
 -- Before the sync every count is 0 and that is correct. After it, the numbers
@@ -138,13 +164,23 @@ select
      where schemaname in ('knowledge','user_intelligence'))     as policies,
   case
     when count(*) filter (where ok) = 0
-      then 'NOTHING DEPLOYED — run 001_knowledge_schema.sql, 011, and the user_intelligence migration'
+      then 'NOTHING DEPLOYED — run sql/deploy_knowledge.sql'
     when count(*) filter (where ok) < count(*)
       then 'PARTIAL — ' || (count(*) - count(*) filter (where ok))
-           || ' table(s) missing. 001 is not transactional; re-running it is safe.'
+           || ' table(s) missing. Re-run sql/deploy_knowledge.sql; it is idempotent '
+           || 'and will not touch the rows already imported.'
     when (select count(*) from pg_policies
             where schemaname in ('knowledge','user_intelligence')) < 15
-      then 'TABLES OK, POLICIES INCOMPLETE — re-run the migrations'
+      then 'TABLES OK, POLICIES INCOMPLETE — re-run sql/deploy_knowledge.sql'
+    -- Checked before the success case, because everything above can be perfect
+    -- while the sync is still unable to write a single row.
+    when exists (select 1 from pg_roles where rolname = 'service_role')
+     and not (has_schema_privilege('service_role','knowledge','usage')
+              and has_schema_privilege('service_role','user_intelligence','usage'))
+      then 'TABLES AND POLICIES OK, BUT THE SYNC CANNOT WRITE — service_role has no '
+           || 'USAGE on knowledge and/or user_intelligence. It will fail with '
+           || '"permission denied for schema knowledge". Re-run sql/deploy_knowledge.sql, '
+           || 'which now grants it (BYPASSRLS does not bypass GRANT checks).'
     else 'SCHEMA COMPLETE — next: expose `knowledge` and `user_intelligence` '
          || 'under Project Settings -> API -> Exposed schemas, then run the sync'
   end                                                           as verdict

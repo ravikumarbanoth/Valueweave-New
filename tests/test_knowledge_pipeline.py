@@ -481,16 +481,58 @@ class VerificationSqlTest(unittest.TestCase):
     def test_it_exists(self):
         self.assertTrue(self.SQL.exists())
 
+    @staticmethod
+    def _statements(src):
+        """Executable statements, with comments and string literals removed.
+
+        Both removals matter. An earlier version of this test searched the raw
+        text for substrings like "grant ", which made it fire on the word `grant`
+        inside a quoted hint message — a false alarm about a file that cannot
+        write.
+
+        Comments come out FIRST. The other order looks equally reasonable and is
+        wrong: an apostrophe in prose — "Supabase's service role" — opens a bogus
+        literal that runs to the next apostrophe, swallowing real SQL along with
+        any semicolons in it. That silently merged two statements here and made
+        the next one appear to start with `end`.
+
+        Doing it in this order is only safe while no literal contains `--`, so
+        that is asserted rather than assumed.
+        """
+        no_com = re.sub(r"--[^\n]*", "", src)
+        for lit in re.findall(r"'(?:[^']|'')*'", no_com):
+            assert "--" not in lit, (
+                f"literal contains `--`, so comments cannot be stripped first: {lit!r}")
+        no_lit = re.sub(r"'(?:[^']|'')*'", "''", no_com)
+        return [s.strip().lower() for s in no_lit.split(";") if s.strip()]
+
     def test_it_is_read_only(self):
-        """It runs against production. It must not be able to change anything."""
-        forbidden = ("insert into", "update ", "delete from", "drop ", "alter ",
-                     "create table", "create index", "truncate", "grant ")
-        body = "\n".join(l.split("--", 1)[0].lower()
-                          for l in self.src.splitlines())
-        for word in forbidden:
-            with self.subTest(statement=word.strip()):
-                self.assertNotIn(word, body,
-                                 f"the verification query must not {word.strip()}")
+        """It runs against production, twice. It must not be able to change anything.
+
+        An allowlist, not a denylist: every statement has to BE a read. That
+        catches a verb nobody thought to forbid, which a list of banned words
+        cannot.
+        """
+        for stmt in self._statements(self.src):
+            first = stmt.split()[0]
+            with self.subTest(statement=stmt[:60]):
+                self.assertIn(
+                    first, ("select", "with"),
+                    f"the verification query must only read; found `{first}`")
+
+    def test_no_writing_verb_survives_literal_stripping(self):
+        """The denylist as well, now that it can no longer misfire.
+
+        Belt and braces: the allowlist above proves each statement starts as a
+        read, and this proves no write is hiding inside one — a CTE that updates,
+        or a `select … into`.
+        """
+        for stmt in self._statements(self.src):
+            for verb in ("insert into", "delete from", "drop ", "alter ",
+                         "create ", "truncate", "grant ", "revoke ", " into "):
+                with self.subTest(statement=stmt[:40], verb=verb.strip()):
+                    self.assertNotIn(verb, stmt,
+                                     f"the verification query must not {verb.strip()}")
 
     def test_it_checks_every_table_the_migrations_create(self):
         for table in ("kg_entities", "kg_relationships", "kg_districts", "kg_skills",

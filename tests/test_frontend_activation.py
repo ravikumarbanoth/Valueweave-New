@@ -434,5 +434,70 @@ class NoDuplicationTest(unittest.TestCase):
         self.assertEqual(holders, [])
 
 
+class StalePageTest(unittest.TestCase):
+    """
+    A page that reads the projection must not be frozen at build time.
+
+    The sync writes to the database long after the build. A fully static page
+    would keep serving "this information is being prepared" until somebody
+    redeployed — the data would be there and nobody would see it, with nothing in
+    any log to say so.
+
+    Measured, not assumed: `.next/prerender-manifest.json` after a production
+    build gives every prerendered route `initialRevalidateSeconds: 60`. But that
+    60 is inherited, not chosen. The shared Footer calls getPlatformSettings(), an
+    unstable_cache with revalidate 60, and Next takes the LOWEST revalidate in a
+    segment — so every page in the app is refreshing because of a component that
+    has nothing to do with knowledge. Five module pages and the district page
+    declared nothing at all and were relying entirely on it.
+
+    This test pins the declaration. It does not care what the number is.
+    """
+
+    def _server_pages_reading_knowledge(self):
+        for page in sorted(APP.rglob("page.js")):
+            src = read(page)
+            if src.lstrip().startswith('"use client"'):
+                continue          # fetches in the browser; nothing is prerendered
+            imports = re.findall(r'from ["\']([^"\']+)["\']', src)
+            local = {page.parent / i for i in imports if i.startswith(".")}
+            reaches = "@/lib/knowledge" in imports or "@/lib/intelligence" in imports
+            for dep in local:      # one level: page -> ./components/XSections
+                for cand in (Path(str(dep) + ".jsx"), Path(str(dep) + ".js")):
+                    if cand.exists() and re.search(r"@/lib/(knowledge|intelligence)",
+                                                   read(cand)):
+                        reaches = True
+            if reaches:
+                yield page
+
+    def test_every_knowledge_page_declares_a_revalidate(self):
+        pages = list(self._server_pages_reading_knowledge())
+        self.assertGreaterEqual(len(pages), 6,
+                                "expected to find the knowledge-reading pages; "
+                                "the detection above has probably broken")
+        missing = [str(p.relative_to(FE)) for p in pages
+                   if not re.search(r"^export const (revalidate|dynamic)\s*=",
+                                    read(p), re.MULTILINE)]
+        self.assertEqual(
+            missing, [],
+            "these pages read the researched projection but declare neither "
+            "`revalidate` nor `dynamic`. They currently refresh only because the "
+            "Footer's settings cache drags the whole app to 60s — if that ever "
+            "changes they freeze at build time and silently stop showing new "
+            f"data: {missing}")
+
+    def test_the_inherited_sixty_second_floor_still_exists(self):
+        """The other half of the story, so a change to it is a test failure.
+
+        If someone removes the footer's unstable_cache, revalidate jumps from 60
+        to whatever each page declares. That is survivable precisely because the
+        test above now guarantees each page declares something — but it should be
+        a deliberate change, not a surprise.
+        """
+        settings = read(FE / "lib/settings.js")
+        self.assertIn("unstable_cache", settings)
+        self.assertRegex(settings, r"revalidate:\s*\d+")
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

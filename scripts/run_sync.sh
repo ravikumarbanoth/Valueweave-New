@@ -75,9 +75,19 @@ if [[ -n "${DATABASE_URL:-}" ]] && command -v psql >/dev/null 2>&1; then
   done
   if [[ -n "$missing" ]]; then
     fail "the knowledge schema is missing these tables:$missing
-    The migrations have not been applied to this database. Run
-    ./scripts/first_deploy.sh — it applies them in order, expects 009 to fail,
-    and repairs it with 011. Nothing here can create them."
+
+    The migrations have not been applied to this database. Two ways:
+
+      locally   ./scripts/first_deploy.sh   (applies them in order, expects 009
+                to fail, repairs it with 011, and stops at a manual gate)
+
+      by hand   docs/MANUAL_DEPLOYMENT_PLAN.md — an audit query to run first,
+                then the exact files in order
+
+    Note: creating the tables is NOT sufficient. The sync writes through
+    PostgREST, which serves only schemas listed under Project Settings -> API ->
+    Exposed schemas. That is a server config, not a permission check, so the
+    service-role key does not bypass it. Add 'knowledge' there too."
   fi
   ok "all 8 target tables present"
 else

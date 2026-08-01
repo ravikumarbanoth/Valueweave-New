@@ -755,6 +755,84 @@ class VerifierContractTest(unittest.TestCase):
                       "unable to write")
 
 
+class ExposurePreflightUrlTest(unittest.TestCase):
+    """
+    The workflow's exposure preflight must not paste SUPABASE_URL into a URL raw.
+
+    It did, and the run failed with PGRST125 "Invalid request URL" — HTTP 404,
+    which reads like a missing table and is actually a malformed path. PostgREST
+    routes a table as ONE path segment; a trailing slash in the secret produces
+    `//rest/v1/kg_entities`, which is four.
+
+        secret                          PostgREST receives      segments
+        https://x.supabase.co           /kg_entities                   1
+        https://x.supabase.co/          //rest/v1/kg_entities          4
+        https://x.supabase.co/rest/v1   /rest/v1/kg_entities           3
+
+    A trailing slash is invisible in the GitHub secrets UI, so the fix
+    normalises rather than only rejecting.
+    """
+
+    WORKFLOW = ROOT / ".github" / "workflows" / "knowledge-sync.yml"
+    HEALTH = SCRIPTS / "health_check.sh"
+
+    @staticmethod
+    def _strip_comments(script):
+        """Drop whole-line `#` comments.
+
+        The absence assertions below would otherwise fire on the comment that
+        quotes the old broken expression to explain why it went — and that
+        explanation is the most useful thing in the step. Only full-line
+        comments are removed: the `#` characters that remain are sed delimiters
+        inside quoted expressions, never at the start of a line.
+        """
+        return "\n".join(l for l in script.splitlines()
+                          if not l.lstrip().startswith("#"))
+
+    @classmethod
+    def setUpClass(cls):
+        import yaml                                              # noqa: PLC0415
+        doc = yaml.safe_load(read(cls.WORKFLOW))
+        steps = doc["jobs"]["sync"]["steps"]
+        cls.preflight = next(
+            s["run"] for s in steps
+            if s.get("name", "").startswith("Preflight — is the knowledge"))
+        cls.code = cls._strip_comments(cls.preflight)
+
+    def test_url_is_not_built_from_the_raw_secret(self):
+        self.assertNotIn('"$SUPABASE_URL/rest/v1', self.code,
+                         "the secret is concatenated without normalisation")
+
+    def test_trailing_slash_and_rest_suffix_are_stripped(self):
+        self.assertIn("*/rest/v1) base=", self.code,
+                      "a /rest/v1 suffix in the secret is not stripped")
+        self.assertIn('${base%"${base##*[!/]}"}', self.code,
+                      "trailing slashes in the secret are not stripped")
+
+    def test_pgrst125_is_diagnosed_by_name(self):
+        """Otherwise it falls through to "Unexpected HTTP 404", which is what
+        happened and told the operator nothing."""
+        self.assertIn("PGRST125", self.preflight)
+        idx = self.preflight.index("PGRST125")
+        self.assertIn("SUPABASE_URL", self.preflight[idx:idx + 800],
+                      "the PGRST125 branch must point at the secret's shape")
+
+    def test_the_final_url_is_printed_with_the_project_ref_masked(self):
+        self.assertIn("Final request URL", self.preflight)
+        self.assertRegex(self.preflight, r"sed -E 's#\(https://\)\[\^./\]\+#",
+                         "the project ref must be masked before printing")
+
+    def test_health_check_normalises_the_same_way(self):
+        """It runs in the Verify step of the same workflow and had the same bug.
+
+        Left unfixed it would report CRITICAL "not exposed" for what is really a
+        typo in an environment variable, sending someone to the wrong setting.
+        """
+        src = self._strip_comments(read(self.HEALTH))
+        self.assertNotIn('"$NEXT_PUBLIC_SUPABASE_URL/rest/v1', src)
+        self.assertIn("PGRST125", src)
+
+
 class LiveSchemaCompatibilityTest(unittest.TestCase):
     """
     Facts about the production database, from the schema dump the operator

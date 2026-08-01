@@ -85,12 +85,31 @@ fi
 # ── 2 · schema exposure, through the anon key: the silent failure ──────────
 if [[ -n "${NEXT_PUBLIC_SUPABASE_URL:-}" && -n "${NEXT_PUBLIC_SUPABASE_ANON_KEY:-}" ]] \
    && command -v curl >/dev/null 2>&1; then
+  # Normalised the same way as the workflow's exposure preflight, and for the
+  # same reason: a trailing slash or a /rest/v1 already in the secret produces
+  # "//rest/v1/kg_entities", which PostgREST answers 404 + PGRST125 "Invalid
+  # request URL". That is indistinguishable from "not exposed" in the case
+  # below, so this check would report CRITICAL and send someone to the Exposed
+  # schemas setting to fix a typo in an environment variable.
+  base="$(printf '%s' "$NEXT_PUBLIC_SUPABASE_URL" | tr -d '\r\n' \
+          | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
+  base="${base%"${base##*[!/]}"}"
+  case "$base" in */rest/v1) base="${base%/rest/v1}" ;; esac
+  base="${base%"${base##*[!/]}"}"
+
   code=$(curl -s -o /tmp/vw_expose.json -w '%{http_code}' \
     -H "apikey: $NEXT_PUBLIC_SUPABASE_ANON_KEY" \
     -H "Authorization: Bearer $NEXT_PUBLIC_SUPABASE_ANON_KEY" \
     -H "Accept-Profile: knowledge" \
-    "$NEXT_PUBLIC_SUPABASE_URL/rest/v1/kg_entities?select=global_entity_id&limit=1" || echo 000)
+    "$base/rest/v1/kg_entities?select=global_entity_id&limit=1" || echo 000)
+  if grep -q PGRST125 /tmp/vw_expose.json 2>/dev/null; then
+    record CRITICAL schema_exposed "malformed request URL (PGRST125).
+             NEXT_PUBLIC_SUPABASE_URL should be exactly https://<ref>.supabase.co
+             — no trailing slash, no /rest/v1 suffix."
+    code=handled
+  fi
   case "$code" in
+    handled) : ;;
     200) record OK schema_exposed "knowledge schema reachable by the anon key" ;;
     404|406) record CRITICAL schema_exposed "anon key cannot see the knowledge schema (HTTP $code).
              Add 'knowledge, user_intelligence' to API -> Exposed schemas.

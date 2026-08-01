@@ -179,26 +179,95 @@ jobs:
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
         run: |
           set -uo pipefail
+
+          # ── Normalise SUPABASE_URL before building anything from it ─────────
+          #
+          # This step previously did "$SUPABASE_URL/rest/v1/kg_entities?…" with
+          # the secret pasted straight in, and that only works if the secret is
+          # EXACTLY "https://<ref>.supabase.co" with no trailing slash. Any other
+          # shape produces a path with extra segments:
+          #
+          #   secret                              PostgREST receives   segments
+          #   https://x.supabase.co               /kg_entities                1  ok
+          #   https://x.supabase.co/              //rest/v1/kg_entities       4  PGRST125
+          #   https://x.supabase.co/rest/v1       /rest/v1/kg_entities        3  PGRST125
+          #   https://x.supabase.co/rest/v1/      //rest/v1/kg_entities       4  PGRST125
+          #   "https://x.supabase.co "            %20/rest/v1/kg_entities     4  PGRST125
+          #
+          # PostgREST routes a table as a SINGLE path segment. More than one and
+          # it answers 404 with PGRST125 "Invalid request URL" — which reads like
+          # a missing table but is a malformed URL, so the old handler fell
+          # through to "Unexpected HTTP 404" and said nothing useful.
+          #
+          # A trailing slash in a secret is invisible in the GitHub UI, so this
+          # normalises rather than merely rejecting.
+          raw="$SUPABASE_URL"
+          base="$(printf '%s' "$raw" | tr -d '\r\n' \
+                  | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
+          base="${base%"${base##*[!/]}"}"          # drop trailing slashes
+          case "$base" in */rest/v1) base="${base%/rest/v1}" ;; esac
+          base="${base%"${base##*[!/]}"}"          # and again, for ".../rest/v1/"
+
+          case "$base" in
+            https://*.*) : ;;
+            *) echo "::error::SUPABASE_URL is not a project URL."
+               echo "Expected: https://<project-ref>.supabase.co"
+               echo "Set it in Settings -> Secrets and variables -> Actions."
+               exit 1 ;;
+          esac
+
+          rest_base="$base/rest/v1"
+          url="$rest_base/kg_entities?select=global_entity_id&limit=1"
+
+          # The project ref identifies the project, so it is masked. Everything
+          # else about the URL is exactly what was requested — the point of
+          # printing it is to make a malformed one obvious at a glance.
+          mask() { printf '%s' "$1" | sed -E 's#(https://)[^./]+#\1****#'; }
+          echo "SUPABASE_URL (as stored):  $(mask "$raw")"
+          echo "SUPABASE_URL (normalised): $(mask "$base")"
+          echo "REST base:                 $(mask "$rest_base")"
+          echo "Final request URL:         $(mask "$url")"
+          if [ "$base" != "$(printf '%s' "$raw" | tr -d '\r\n')" ]; then
+            echo "::warning::SUPABASE_URL has a trailing slash, a /rest/v1 suffix or"
+            echo "surrounding whitespace. It was normalised for this request, but"
+            echo "please fix the secret — anything else building a URL from it will"
+            echo "hit the same PGRST125."
+          fi
+
           # --write-out puts the status on its own last line; the key is passed
           # via -H from the environment and never appears in the log or in `ps`.
+          # Redirects are deliberately not followed: the Authorization header
+          # must not be replayed to whatever a redirect points at.
           body=$(curl -sS --max-time 20 \
                    -H "apikey: $SUPABASE_SERVICE_ROLE_KEY" \
                    -H "Authorization: Bearer $SUPABASE_SERVICE_ROLE_KEY" \
                    -H "Accept-Profile: knowledge" \
                    --write-out $'\n%{http_code}' \
-                   "$SUPABASE_URL/rest/v1/kg_entities?select=global_entity_id&limit=1")
+                   "$url")
           code=$(printf '%s' "$body" | tail -n1)
           payload=$(printf '%s' "$body" | sed '$d')
 
           case "$code" in
             200)
               echo "knowledge schema is exposed and reachable." ;;
+            000|"")
+              echo "::error::Could not reach $(mask "$base") at all (no HTTP response)."
+              echo "Check the project ref in SUPABASE_URL, and that the project is not paused."
+              exit 1 ;;
             401|403)
               echo "::error::SUPABASE_SERVICE_ROLE_KEY was rejected (HTTP $code)."
               echo "Check the secret against Project Settings -> API -> service_role."
               exit 1 ;;
             *)
-              if printf '%s' "$payload" | grep -q "PGRST106"; then
+              if printf '%s' "$payload" | grep -q "PGRST125"; then
+                echo "::error::PostgREST rejected the request URL (PGRST125)."
+                echo "Requested: $(mask "$url")"
+                echo ""
+                echo "A table must be a single path segment. This URL has more than"
+                echo "one, which means SUPABASE_URL carries something it should not —"
+                echo "usually a trailing slash or an existing /rest/v1 suffix."
+                echo "Set it to exactly:  https://<project-ref>.supabase.co"
+              elif printf '%s' "$payload" | grep -q "PGRST106"; then
                 echo "::error::The 'knowledge' schema is not exposed to the API."
                 echo ""
                 echo "Fix it in the Supabase Dashboard — this cannot be done in SQL:"

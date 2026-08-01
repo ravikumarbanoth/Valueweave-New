@@ -379,6 +379,70 @@ class SyncDependencyTest(unittest.TestCase):
         cls.req = cls.REQUIREMENTS.read_text(encoding="utf-8") if cls.REQUIREMENTS.exists() else ""
         cls.workflow = WORKFLOW.read_text(encoding="utf-8") if WORKFLOW.exists() else ""
 
+    def test_test_only_dependencies_never_reach_runtime_code(self):
+        """The invariant that survived, now that "no install at all" has not.
+
+        The suite gained PyYAML so a test could read the CI workflow. That is a
+        fair trade for a test; it would not be for the engine. Every module a
+        user or a sync executes must still import nothing outside the standard
+        library, so the platform can be read and run on a bare Python.
+
+        Checked against real imports rather than the requirements file, because
+        the failure mode is someone adding `import yaml` to a runtime module and
+        it working on their machine — which is precisely how the missing
+        dependency got in.
+        """
+        runtime = ROOT / "knowledge_sync", ROOT / "user_intelligence", \
+                  ROOT / "knowledge_engine", ROOT / "search"
+        offenders = []
+        for root in runtime:
+            if not root.exists():
+                continue
+            for path in sorted(root.rglob("*.py")):
+                if "__pycache__" in path.parts:
+                    continue
+                src = path.read_text(encoding="utf-8")
+                for line in src.splitlines():
+                    stripped = line.strip()
+                    if re.match(r"^(import|from)\s+yaml\b", stripped):
+                        offenders.append(f"{path.relative_to(ROOT)}: {stripped}")
+        self.assertEqual(
+            offenders, [],
+            "PyYAML is a TEST dependency (requirements-dev.txt). A runtime "
+            "module importing it breaks the promise that the engine runs on a "
+            "bare Python:\n  " + "\n  ".join(offenders))
+
+    def test_the_test_dependency_is_declared_and_installed_before_the_tests(self):
+        """The failure this file now guards against, in its own right.
+
+        tests/test_deployment.py imports PyYAML. Debian's system Python ships
+        it, so the suite passed on every machine it was tried on and failed in
+        CI with ModuleNotFoundError. An undeclared dependency that happens to be
+        present is not satisfied; it is one that has not failed yet.
+        """
+        dev = ROOT / "requirements-dev.txt"
+        self.assertTrue(dev.exists(), "nothing declares the suite's own dependencies")
+        self.assertRegex(dev.read_text(encoding="utf-8"), r"(?mi)^PyYAML[~=<>]",
+                         "PyYAML must be pinned, not floating")
+        self.assertIn("requirements-dev.txt", self.workflow,
+                      "CI must install the declared set, not pip install inline")
+        # Comments stripped first: the step's own comment says "Not `pip install
+        # pyyaml` inline" to explain the choice, and that sentence is worth more
+        # than the assertion is worth being naive.
+        yaml_code = "\n".join(l for l in self.workflow.splitlines()
+                              if not l.lstrip().startswith("#"))
+        self.assertNotRegex(
+            yaml_code, r"pip install[^\n]*\b(pyyaml|PyYAML)\b",
+            "install from requirements-dev.txt, not an inline package name — an "
+            "inline install is a second dependency list that drifts from the first")
+
+        lines = self.workflow.splitlines()
+        dev_at = next(i for i, l in enumerate(lines) if "requirements-dev.txt" in l
+                      and "pip install" in l)
+        tests_at = next(i for i, l in enumerate(lines) if "tests/run_all.py" in l)
+        self.assertLess(dev_at, tests_at,
+                        "test dependencies must be installed before the Tests step")
+
     def test_the_dependency_is_declared(self):
         self.assertTrue(self.REQUIREMENTS.exists(),
                         "nothing declares the Supabase SDK, so nothing installs it")
@@ -423,14 +487,13 @@ class SyncDependencyTest(unittest.TestCase):
                     return i
             self.fail(f"no step runs exactly: {command}")
 
-        def contains(needle):
-            for i, line in enumerate(self.workflow.splitlines()):
-                if needle in line:
-                    return i
-            self.fail(f"not found in the workflow: {needle}")
-
         tests = run_line("python3 tests/run_all.py --quiet")
-        install = contains("requirements-sync.txt")
+        # Exact `run:` match, not the first mention of the filename. The
+        # filename also appears in setup-python's cache-dependency-path near the
+        # top of the file, and a substring search found that instead — reporting
+        # that the install preceded the tests when it does not.
+        install = run_line("python3 -m pip install --disable-pip-version-check "
+                           "-r requirements-sync.txt")
         plan = run_line("scripts/run_sync.sh --plan-only")
         apply_ = run_line("scripts/run_sync.sh")
         self.assertLess(tests, install, "install must come after the tests")

@@ -92,8 +92,26 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      # No pip install. The engine depends on the standard library alone, which
-      # is why it can be reviewed and run on a bare Python — see tests/run_all.py.
+          cache: pip
+          cache-dependency-path: |
+            requirements-dev.txt
+            requirements-sync.txt
+
+      # The suite's own dependencies, declared rather than assumed.
+      #
+      # This step exists because a test started importing PyYAML and nobody
+      # noticed: Debian's system Python ships it, so the suite passed on every
+      # machine it was tried on and failed here with ModuleNotFoundError.
+      #
+      # Installed from the same requirements-dev.txt a developer installs, so
+      # local and CI resolve to one set. Not `pip install pyyaml` inline — an
+      # inline install is a second, undeclared dependency list that drifts from
+      # the first the moment either changes.
+      #
+      # Kept strictly separate from requirements-sync.txt below, which is
+      # installed AFTER the tests on purpose.
+      - name: Test dependencies
+        run: python3 -m pip install --disable-pip-version-check -r requirements-dev.txt
 
       # Node is here for exactly one test, and it is a test worth the 30 seconds.
       #

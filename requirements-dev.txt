@@ -1,0 +1,47 @@
+# Python dependencies for running the test suite.
+#
+# WHY THIS FILE NOW EXISTS
+# ------------------------
+# `requirements-sync.txt` used to say it was "the only one", and the reason was
+# good: the engine, the sync framework and the whole suite ran on a bare Python,
+# so the platform could be reviewed and tested with no install step at all.
+#
+# A test broke that without anyone noticing, because it broke in the one place
+# nobody looks — the developer's machine. `tests/test_deployment.py` parses
+# `.github/workflows/knowledge-sync.yml` to assert the exposure preflight builds
+# its URL correctly, and PyYAML is not in the standard library. It passed locally
+# only because Debian's system Python happens to ship PyYAML at
+# /usr/lib/python3/dist-packages. CI's setup-python does not, so the suite failed
+# there with ModuleNotFoundError while passing everywhere it was tried.
+#
+# Declaring it is the fix. An undeclared dependency that happens to be present is
+# not a dependency that is satisfied; it is one that has not failed yet.
+#
+# INSTALL BEFORE RUNNING THE TESTS
+#
+#     python3 -m pip install -r requirements-dev.txt
+#     python3 tests/run_all.py
+#
+# CI installs this same file, before the Tests step, so local and CI resolve to
+# the same set. There is no `pip install pyyaml` anywhere in the workflow.
+#
+# WHAT THIS FILE MUST NOT BECOME
+# ------------------------------
+# The invariant that still matters is not "the suite needs no install" — that one
+# is now spent. It is that NO RUNTIME MODULE depends on anything outside the
+# standard library, so the engine can still be read, reasoned about and executed
+# on its own. `tests/test_knowledge_pipeline.py` asserts that PyYAML is imported
+# by tests and by nothing else, and `tests/test_user_intelligence.py` asserts the
+# same for the Supabase SDK.
+#
+# So: test-only tooling belongs here. A parser, a formatter, a fixture library.
+# Anything that `knowledge_engine/`, `knowledge_sync/`, `user_intelligence/` or
+# `search/` would import at runtime does not.
+
+# Used by tests/test_deployment.py to parse the GitHub Actions workflow.
+#
+# Pinned to the 6.x line rather than floating. A test that reads CI configuration
+# is exactly the kind that fails obscurely when its parser changes behaviour, and
+# `~=6.0` takes security and bug-fix releases while blocking a 7.x that could
+# change how it loads a document.
+PyYAML~=6.0

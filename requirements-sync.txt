@@ -1,11 +1,16 @@
 # Python dependencies for writing to Supabase.
 #
-# WHY THIS FILE IS SEPARATE, AND WHY IT IS THE ONLY ONE
-# -----------------------------------------------------
-# The knowledge engine, the sync framework, the user-intelligence engine and the
-# entire 604-test suite depend on the standard library alone. That is deliberate:
-# it means the whole platform can be reviewed, run and tested on a bare Python
-# with no install step, and `tests/run_all.py` needs no virtualenv.
+# WHY THIS FILE IS SEPARATE
+# -------------------------
+# The knowledge engine, the sync framework and the user-intelligence engine
+# depend on the standard library alone. That is deliberate: it means the whole
+# platform can be reviewed and run on a bare Python.
+#
+# The test suite no longer can — see requirements-dev.txt, which declares the one
+# thing it needs. That file and this one stay separate because they are installed
+# at different moments and for different reasons: dev deps BEFORE the tests, this
+# one AFTER them, so the suite keeps proving the engine is self-contained in an
+# environment where the SDK is genuinely absent.
 #
 # Exactly one operation breaks that rule — actually writing to Supabase. Both
 # writers (`knowledge_sync/adapters.py` SupabaseTarget and

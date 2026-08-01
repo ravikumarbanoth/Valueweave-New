@@ -15,6 +15,14 @@ Exit code 0 = everything passed.
 `unittest` rather than pytest, deliberately: the Knowledge Engine was written to
 depend on the standard library alone so it can be run and reviewed on a bare Python
 install, and a test runner that needs a pip install would undo that.
+
+The runner still needs none. The suite itself now needs exactly one package —
+PyYAML, so a test can read the CI workflow — declared in requirements-dev.txt:
+
+    python3 -m pip install -r requirements-dev.txt
+
+Everything under test remains standard-library only, and two tests hold that
+line: no runtime module may import PyYAML or the Supabase SDK.
 """
 
 import argparse

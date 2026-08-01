@@ -53,7 +53,7 @@ case "$LEVEL" in
     psql_file "$VW_ROOT/knowledge_sync/migrations/001_knowledge_schema.sql"
     psql_file "$VW_ROOT/frontend/migrations/011_repair_vocabulary_crosswalk.sql"
     run "$VW_ROOT/scripts/load_crosswalk.sh"
-    run python3 -m knowledge_sync sync --full --target supabase | tail -4 | sed 's/^/    /'
+    run python3 -m knowledge_sync --target supabase sync --full | tail -4 | sed 's/^/    /'
     ok "projection rebuilt"
     warn "Recompute user intelligence: recommendations reference entity ids, and a
          full rebuild can change them. ./scripts/run_user_intelligence.sh --from-db --apply --force"

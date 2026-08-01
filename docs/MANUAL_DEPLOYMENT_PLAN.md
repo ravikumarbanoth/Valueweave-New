@@ -95,7 +95,45 @@ depending on what already exists.
 
 ---
 
+## ⚠️ A prerequisite found by executing the migrations
+
+`knowledge_sync/migrations/001_knowledge_schema.sql` **cannot be run on its own.**
+Its final statement is a policy on `knowledge.sync_runs` that calls
+`public.is_valueweave_admin()`:
+
+```
+ERROR:  function public.is_valueweave_admin() does not exist
+```
+
+That function is created by
+`supabase/migrations/202606200002_entrepreneurship_knowledge_graph.sql`, which in
+turn needs `public.profiles`.
+
+**This matters more than it looks, because 001 is not transactional.** Applying
+it without the function creates 9 tables, 34 indexes and 8 of 9 policies, then
+errors — leaving a schema that looks complete in the table list and has
+`sync_runs` unprotected. Verified by doing exactly that against a real
+PostgreSQL 16; the verification query reports it as `PARTIAL — 6 table(s)
+missing` with 8 policies rather than 15.
+
+`user_intelligence/migrations/001_user_intelligence.sql` has the same shape: it
+carries a foreign key to `public.profiles` and fails without it.
+
+**Your application is running, so `public.profiles` almost certainly exists.
+Whether `is_valueweave_admin()` does depends on whether 202606200002 was ever
+applied — that same file creates the `public.kg_*` CMS tables behind `/skills`
+and `/schemes`.** §A tells you.
+
+---
+
 ## A · Audit first — paste this into the Supabase SQL Editor
+
+**Use `sql/verify_knowledge_schema.sql`** — the full version, tested against a
+real PostgreSQL 16 in all three states (clean, partial, complete). It checks
+prerequisites, schemas, all 15 tables, index counts, policy counts, RLS,
+unexpected write policies, grants, row counts, and prints a one-line verdict.
+
+The short version, if you just want the shape of it:
 
 ```sql
 -- What exists today?
@@ -170,6 +208,12 @@ exists knowledge;`, so either may run first.
 ---
 
 ## C · The manual steps, in order
+
+### Step 0 — only if §A says `admin_fn_exists = false`
+
+Apply `supabase/migrations/202606200002_entrepreneurship_knowledge_graph.sql`
+first. It creates `public.is_valueweave_admin()` and the 9 CMS `kg_*` tables.
+Without it, step 1 fails on its last statement and leaves a partial schema.
 
 ### Step 1 — `knowledge_sync/migrations/001_knowledge_schema.sql`
 
@@ -322,9 +366,11 @@ change is lost from source control. That is why no write policy exists.
 
 ## Summary — the shortest path
 
-1. Run the audit in **§A**.
-2. Run `knowledge_sync/migrations/001_knowledge_schema.sql`.
-3. Run `frontend/migrations/011_repair_vocabulary_crosswalk.sql`.
-4. *(optional now)* `user_intelligence/migrations/001_user_intelligence.sql`.
-5. **Expose `knowledge` and `user_intelligence`.** ← without this Apply still fails.
-6. Re-run the workflow.
+1. Run `sql/verify_knowledge_schema.sql` — read the last block first.
+2. If `admin_fn_exists` is false, apply `supabase/migrations/202606200002_…`.
+3. Run `knowledge_sync/migrations/001_knowledge_schema.sql`.
+4. Run `frontend/migrations/011_repair_vocabulary_crosswalk.sql`.
+5. *(deferrable)* `user_intelligence/migrations/001_user_intelligence.sql`.
+6. Re-run `sql/verify_knowledge_schema.sql` — expect `SCHEMA COMPLETE`.
+7. **Expose `knowledge` and `user_intelligence`.** ← without this Apply still fails.
+8. Re-run the workflow.

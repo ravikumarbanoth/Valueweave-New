@@ -461,5 +461,71 @@ class SyncDependencyTest(unittest.TestCase):
                             f"must stay inside the client property")
 
 
+# ═══════════════════════════════════════════ 6. the verification query
+class VerificationSqlTest(unittest.TestCase):
+    """`sql/verify_knowledge_schema.sql` must stay in step with the migrations.
+
+    Its expected index and policy counts were measured against a real
+    PostgreSQL 16 with these migration files applied. If a migration gains a
+    table or an index and the query does not, it reports a complete deployment
+    that is not one — the worst outcome for a check whose entire job is to be
+    trusted before someone touches production.
+    """
+
+    SQL = ROOT / "sql" / "verify_knowledge_schema.sql"
+
+    @classmethod
+    def setUpClass(cls):
+        cls.src = cls.SQL.read_text(encoding="utf-8") if cls.SQL.exists() else ""
+
+    def test_it_exists(self):
+        self.assertTrue(self.SQL.exists())
+
+    def test_it_is_read_only(self):
+        """It runs against production. It must not be able to change anything."""
+        forbidden = ("insert into", "update ", "delete from", "drop ", "alter ",
+                     "create table", "create index", "truncate", "grant ")
+        body = "\n".join(l.split("--", 1)[0].lower()
+                          for l in self.src.splitlines())
+        for word in forbidden:
+            with self.subTest(statement=word.strip()):
+                self.assertNotIn(word, body,
+                                 f"the verification query must not {word.strip()}")
+
+    def test_it_checks_every_table_the_migrations_create(self):
+        for table in ("kg_entities", "kg_relationships", "kg_districts", "kg_skills",
+                      "kg_schemes", "kg_businesses", "kg_industries", "kg_agriculture",
+                      "sync_runs", "kg_vocabulary_map",
+                      "user_skill_profile", "user_business_profile",
+                      "user_learning_profile", "user_recommendations",
+                      "user_activity_summary"):
+            with self.subTest(table=table):
+                self.assertIn(f"'{table}'", self.src)
+
+    def test_it_checks_the_prerequisite_that_breaks_001(self):
+        """001 fails on its last statement without this function."""
+        self.assertIn("is_valueweave_admin", self.src)
+
+    def test_it_flags_write_policies(self):
+        """No write policy may exist. Any row in that block is a finding."""
+        self.assertIn("cmd <> 'SELECT'", self.src)
+
+    def test_the_table_list_matches_the_migrations(self):
+        """The count in the query and the count in the SQL files must agree."""
+        declared = 0
+        for migration in ("knowledge_sync/migrations/001_knowledge_schema.sql",
+                          "frontend/migrations/011_repair_vocabulary_crosswalk.sql",
+                          "user_intelligence/migrations/001_user_intelligence.sql"):
+            body = "\n".join(l.split("--", 1)[0]
+                             for l in (ROOT / migration).read_text().splitlines())
+            declared += len(re.findall(r"create table(?: if not exists)?\s+[\w\.]+",
+                                       body, re.I))
+        self.assertIn("tables_expected", self.src)
+        self.assertEqual(
+            declared, 15,
+            "the migrations declare a different number of tables than the "
+            "verification query expects; update sql/verify_knowledge_schema.sql")
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

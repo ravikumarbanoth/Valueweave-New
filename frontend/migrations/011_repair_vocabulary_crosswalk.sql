@@ -166,6 +166,14 @@ create policy kg_vocabulary_map_read
 grant usage on schema knowledge to anon, authenticated;
 grant select on knowledge.kg_vocabulary_map to anon, authenticated;
 
+-- The sync writes this table too, and Supabase's service_role is not a superuser:
+-- BYPASSRLS exempts it from row-level security, not from GRANT checks. Without
+-- these it fails with `permission denied for schema knowledge`. Same posture as
+-- the rest of the schema — no DELETE, because the sync soft-deletes.
+grant usage on schema knowledge to service_role;
+grant select, insert, update on knowledge.kg_vocabulary_map to service_role;
+grant usage on all sequences in schema knowledge to service_role;
+
 commit;
 
 -- ── Verify ─────────────────────────────────────────────────────────────────

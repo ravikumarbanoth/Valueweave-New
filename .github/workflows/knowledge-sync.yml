@@ -159,6 +159,65 @@ jobs:
       - name: Plan
         run: scripts/run_sync.sh --plan-only
 
+      # The last thing that can go wrong before a write, and the one with the
+      # least helpful native error.
+      #
+      # `knowledge` has to be listed under Project Settings -> API -> Exposed
+      # schemas. That is PostgREST's `db-schemas` allowlist: it validates the
+      # requested schema before it authenticates anything, so an unlisted schema
+      # returns PGRST106 no matter which key is presented — the service role does
+      # not route around it. And the sync writes through PostgREST, so this stops
+      # the import, not just the browser.
+      #
+      # Without this step the failure surfaces partway through Apply as a raw
+      # PGRST106 from inside supabase-py, which reads like a library fault rather
+      # than a one-checkbox setting. Ten seconds of curl turns it into a sentence.
+      - name: Preflight — is the knowledge schema exposed?
+        if: github.event_name != 'workflow_dispatch' || inputs.apply
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          set -uo pipefail
+          # --write-out puts the status on its own last line; the key is passed
+          # via -H from the environment and never appears in the log or in `ps`.
+          body=$(curl -sS --max-time 20 \
+                   -H "apikey: $SUPABASE_SERVICE_ROLE_KEY" \
+                   -H "Authorization: Bearer $SUPABASE_SERVICE_ROLE_KEY" \
+                   -H "Accept-Profile: knowledge" \
+                   --write-out $'\n%{http_code}' \
+                   "$SUPABASE_URL/rest/v1/kg_entities?select=global_entity_id&limit=1")
+          code=$(printf '%s' "$body" | tail -n1)
+          payload=$(printf '%s' "$body" | sed '$d')
+
+          case "$code" in
+            200)
+              echo "knowledge schema is exposed and reachable." ;;
+            401|403)
+              echo "::error::SUPABASE_SERVICE_ROLE_KEY was rejected (HTTP $code)."
+              echo "Check the secret against Project Settings -> API -> service_role."
+              exit 1 ;;
+            *)
+              if printf '%s' "$payload" | grep -q "PGRST106"; then
+                echo "::error::The 'knowledge' schema is not exposed to the API."
+                echo ""
+                echo "Fix it in the Supabase Dashboard — this cannot be done in SQL:"
+                echo "  Project Settings -> API -> Exposed schemas"
+                echo "  add:  knowledge, user_intelligence"
+                echo "  Save, wait ~30s for PostgREST to reload, then re-run this workflow."
+                echo ""
+                echo "This is a server setting, not a permission. No key bypasses it."
+              elif printf '%s' "$payload" | grep -q "PGRST205\|does not exist"; then
+                echo "::error::The schema is exposed but knowledge.kg_entities is missing."
+                echo "Run sql/deploy_knowledge.sql in the Supabase SQL Editor first,"
+                echo "then confirm with sql/verify_knowledge_schema.sql."
+              else
+                echo "::error::Unexpected HTTP $code from PostgREST."
+                echo "$payload"
+              fi
+              exit 1 ;;
+          esac
+
       - name: Apply
         # Pushes and the weekly run always apply. A manual run applies only when
         # the operator ticked the box.
@@ -188,9 +247,11 @@ jobs:
           # project URL as SUPABASE_URL; the browser client just reads it under
           # the public name.
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-        # health_check.sh checks schema exposure with the ANON key. The service
-        # role can read a schema that is not exposed to the browser, so a
-        # service-role check would report healthy while every page stayed empty.
+        # health_check.sh checks schema exposure with the ANON key, because a
+        # service-role read bypasses RLS and would sail past the very read
+        # policies a real visitor must satisfy.
+        #
+        # It does NOT bypass schema exposure — see the Apply preflight above.
         run: scripts/health_check.sh
 
       - name: Run log

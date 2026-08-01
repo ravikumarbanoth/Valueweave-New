@@ -7,10 +7,24 @@
 # every query fails, safe() in lib/knowledge.js returns [], and the app serves 200s
 # with empty panels. No error rate moves. Uptime monitoring reports healthy.
 #
-# So this checks through the ANON key, not the service role. Service role bypasses
-# both RLS and the exposed-schemas setting, and would pass while every real user
-# saw nothing — a health check that cannot fail the way production fails is worse
-# than none.
+# So this checks through the ANON key, not the service role — a health check that
+# cannot fail the way production fails is worse than none.
+#
+# One correction to an earlier version of this comment, because it changes the
+# order of a deployment: the service role does NOT bypass the exposed-schemas
+# setting. That setting is PostgREST's `db-schemas` allowlist, and PostgREST
+# validates the requested schema against it before it authenticates anything —
+# an unlisted schema returns PGRST106 whichever key is presented. It is a server
+# configuration, not a permission, so there is no key that can route around it.
+#
+# The practical consequence: `knowledge` must be exposed BEFORE the sync runs,
+# not after. The sync writes through PostgREST too (SupabaseTarget calls
+# client.schema(...) — see knowledge_sync/adapters.py), so an unexposed schema
+# fails the import, not merely the browser.
+#
+# What the service role does bypass is RLS, which is why a service-role read
+# would still be the wrong check here: it would sail past the read policies that
+# a real visitor has to satisfy.
 #
 # Exit: 0 healthy · 1 degraded (warnings) · 2 critical
 #

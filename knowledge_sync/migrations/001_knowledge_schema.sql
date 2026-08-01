@@ -30,9 +30,23 @@ comment on schema knowledge is
   'Read-only projection of the Git knowledge repository. Written only by '
   'knowledge_sync using the service role. Never edit rows here: Git is canonical.';
 
--- Read access for the application. Writes are not granted to anyone: the sync
--- uses the service role, which bypasses grants and RLS alike.
+-- Read access for the application.
 grant usage on schema knowledge to anon, authenticated;
+
+-- Write access for the sync, and nothing else.
+--
+-- An earlier version of this file said the service role "bypasses grants and RLS
+-- alike" and granted it nothing. Half of that is true. Supabase's `service_role`
+-- has BYPASSRLS, so it is not stopped by row-level security — but BYPASSRLS is
+-- not superuser, and GRANT checks still apply. Without the line below the sync
+-- fails on its first statement with
+--
+--     permission denied for schema knowledge
+--
+-- on SELECT as well as INSERT. PostgreSQL only exempts superusers from privilege
+-- checks, and Supabase's service role is deliberately not one. Supabase's own
+-- default grants cover `public`; a schema created by a migration gets none.
+grant usage on schema knowledge to service_role;
 
 
 --------------------------------------------------------------------------
@@ -489,6 +503,17 @@ create policy "kg_agriculture public read"
 grant select on all tables in schema knowledge to anon, authenticated;
 alter default privileges in schema knowledge
   grant select on tables to anon, authenticated;
+
+-- The sync writes with select/insert/update and nothing more. It upserts rows
+-- and it soft-deletes by setting sync_deleted_at — see knowledge_sync/adapters.py,
+-- which contains no hard delete at all. DELETE and TRUNCATE are therefore withheld
+-- on purpose: a bug in the sync cannot destroy the projection, only mark it.
+grant select, insert, update on all tables in schema knowledge to service_role;
+grant usage on all sequences in schema knowledge to service_role;
+alter default privileges in schema knowledge
+  grant select, insert, update on tables to service_role;
+alter default privileges in schema knowledge
+  grant usage on sequences to service_role;
 
 -- Sync bookkeeping. One row per run, so an operator can answer "what happened on
 -- the 14th" from SQL rather than from a log file on whichever machine ran it.

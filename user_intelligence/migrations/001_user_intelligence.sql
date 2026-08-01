@@ -182,5 +182,22 @@ grant select on all tables in schema user_intelligence to authenticated;
 alter default privileges in schema user_intelligence
   grant select on tables to authenticated;
 
+-- The engine's own grants. "Bypasses RLS" above is accurate and remains true —
+-- but BYPASSRLS is not superuser, and GRANT checks are separate. Supabase's
+-- default privileges cover `public` only, so a schema created here starts with
+-- the service role holding nothing, and the engine's first statement fails with
+-- `permission denied for schema user_intelligence`.
+--
+-- DELETE is granted here and withheld in `knowledge`, and the difference is real:
+-- user_intelligence/writer.py hard-deletes a user's stale recommendations before
+-- rewriting them, whereas the knowledge sync only ever sets sync_deleted_at.
+grant usage on schema user_intelligence to service_role;
+grant select, insert, update, delete on all tables in schema user_intelligence to service_role;
+grant usage on all sequences in schema user_intelligence to service_role;
+alter default privileges in schema user_intelligence
+  grant select, insert, update, delete on tables to service_role;
+alter default privileges in schema user_intelligence
+  grant usage on sequences to service_role;
+
 -- Current rules version at generation time: 1.0.0
 -- Scores produced: 'skill_profile', 'business_readiness', 'learning_roadmap', 'district_opportunity', 'collaboration_score', 'ai_readiness', 'funding_readiness', 'startup_readiness'

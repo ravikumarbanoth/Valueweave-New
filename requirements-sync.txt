@@ -1,0 +1,39 @@
+# Python dependencies for writing to Supabase.
+#
+# WHY THIS FILE IS SEPARATE, AND WHY IT IS THE ONLY ONE
+# -----------------------------------------------------
+# The knowledge engine, the sync framework, the user-intelligence engine and the
+# entire 604-test suite depend on the standard library alone. That is deliberate:
+# it means the whole platform can be reviewed, run and tested on a bare Python
+# with no install step, and `tests/run_all.py` needs no virtualenv.
+#
+# Exactly one operation breaks that rule — actually writing to Supabase. Both
+# writers (`knowledge_sync/adapters.py` SupabaseTarget and
+# `user_intelligence/writer.py` SupabaseTarget) import the SDK LAZILY, inside the
+# `client` property, so the import cost is paid only by a live sync and never by
+# a test, a plan or a dry run.
+#
+# What was missing was not the import guard. It was this file: nothing declared
+# the dependency, and nothing installed it, so the workflow reached the Apply
+# step and failed with "the `supabase` package is not installed" — after the
+# tests and the plan had both passed.
+#
+# INSTALL ONLY WHEN YOU INTEND TO WRITE
+#
+#     python3 -m pip install -r requirements-sync.txt
+#
+# Do NOT add it to a general requirements.txt. A test suite that quietly gains a
+# third-party dependency is a test suite that stops proving the engine is
+# self-contained, and `tests/test_user_intelligence.py` asserts that property.
+
+# Pinned to a minor range, not floating.
+#
+# This writes to production data on every merge to main. An unpinned dependency
+# means the bytes that touch the database can change without a commit, and the
+# first sign would be a failed sync at 03:00 on a Monday. `~=` allows patch
+# releases (security fixes) and blocks 2.32 and 3.x.
+#
+# Verified against 2.31.0 in a clean virtualenv: every call the adapters make —
+# create_client, .schema(), .table(), .upsert(on_conflict=), .update().in_(),
+# .select().is_() — resolves. Re-verify when raising this pin.
+supabase~=2.31.0

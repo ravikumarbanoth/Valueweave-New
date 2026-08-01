@@ -58,6 +58,33 @@ if ((PLAN_ONLY)); then summary "Sync plan"; exit 0; fi
 
 need_env SUPABASE_URL SUPABASE_SERVICE_ROLE_KEY
 
+# Do the tables exist? Nothing checked, and the failure without this is a raw
+# PostgREST error surfacing through the SDK — technically accurate and useless
+# for working out that the migrations were never run.
+#
+# Skipped rather than failed when DATABASE_URL is absent: the sync itself writes
+# over the REST API and does not need a Postgres connection, so requiring one
+# here would break a legitimate way to run this script.
+if [[ -n "${DATABASE_URL:-}" ]] && command -v psql >/dev/null 2>&1; then
+  step "Checking the target tables exist"
+  missing=""
+  for tbl in kg_entities kg_relationships kg_districts kg_skills \
+             kg_schemes kg_businesses kg_industries kg_agriculture; do
+    present=$(psql_scalar "select to_regclass('knowledge.$tbl') is not null;")
+    [[ "$present" == "t" ]] || missing="$missing $tbl"
+  done
+  if [[ -n "$missing" ]]; then
+    fail "the knowledge schema is missing these tables:$missing
+    The migrations have not been applied to this database. Run
+    ./scripts/first_deploy.sh — it applies them in order, expects 009 to fail,
+    and repairs it with 011. Nothing here can create them."
+  fi
+  ok "all 8 target tables present"
+else
+  info "no DATABASE_URL or psql — skipping the table check; a missing table will
+    surface as a PostgREST error during apply"
+fi
+
 step "Applying${FULL:+ (full rebuild)}"
 run python3 -m knowledge_sync --target supabase sync $FULL | tail -6 | sed 's/^/    /'
 

@@ -632,5 +632,106 @@ class VerificationSqlTest(unittest.TestCase):
             "verification query expects; update sql/verify_knowledge_schema.sql")
 
 
+class EveryExpectedTableHasAPopulatorTest(unittest.TestCase):
+    """
+    The check that would have caught the empty crosswalk.
+
+    health_check.sh verifies three things after a sync: entities, edges and the
+    vocabulary crosswalk. Two of the three are written by the sync framework.
+    The third is not — knowledge.kg_vocabulary_map is absent from TABLE_SPECS,
+    is built by governance/vocabulary/build_crosswalk.py and loaded by
+    scripts/load_crosswalk.sh, and that loader was invoked only by
+    first_deploy.sh (the greenfield path) and rollback.sh.
+
+    Nothing in the CI path called it. So a sync reported success with 647
+    entities and 865 edges while the crosswalk sat at zero — and resolveTerms()
+    is the only bridge from a term a user types to a graph entity, so every
+    district and skill lookup resolved to nothing. Every surface rendered its
+    empty state and no error appeared anywhere.
+
+    A table nobody writes is indistinguishable from a table nobody has written
+    to YET, which is why this is asserted structurally rather than left to be
+    noticed.
+    """
+
+    ROOT = Path(__file__).resolve().parent.parent
+
+    #: Tables the verifier asserts a row count for, and what is expected to fill
+    #: each. Anything here with no populator is the bug above, repeating.
+    EXPECTED_ROWS = {
+        "kg_entities": 647, "kg_relationships": 865, "kg_districts": 61,
+        "kg_skills": 45, "kg_schemes": 40, "kg_businesses": 85,
+        "kg_industries": 24, "kg_agriculture": 45, "kg_vocabulary_map": 202,
+    }
+
+    def test_the_verifier_and_this_test_agree_on_the_table_list(self):
+        """If the verifier gains a table, this test must see it too."""
+        sql = (self.ROOT / "sql" / "verify_knowledge_schema.sql").read_text("utf-8")
+        block = sql[sql.index("'rows' as check"):sql.index("7 · Verdict")]
+        listed = set(re.findall(r"\('(kg_\w+)',\s*\d+\)", block))
+        self.assertEqual(listed, set(self.EXPECTED_ROWS),
+                         "verify_knowledge_schema.sql expects a different set of "
+                         "tables than this test knows how to account for")
+
+    def test_every_expected_table_has_something_that_writes_it(self):
+        from knowledge_sync.config import BY_NAME                  # noqa: PLC0415
+        loader = (self.ROOT / "scripts" / "load_crosswalk.sh").read_text("utf-8")
+
+        orphans = []
+        for table in sorted(self.EXPECTED_ROWS):
+            by_sync = table in BY_NAME
+            by_loader = f"knowledge.{table}" in loader
+            if not (by_sync or by_loader):
+                orphans.append(table)
+        self.assertEqual(
+            orphans, [],
+            "these tables have an expected row count and nothing that populates "
+            f"them, so a sync will report success and leave them empty: {orphans}")
+
+    def test_the_crosswalk_is_loaded_by_the_sync_run(self):
+        """Having a loader is not enough — something has to call it."""
+        run_sync = (self.ROOT / "scripts" / "run_sync.sh").read_text("utf-8")
+        self.assertIn("scripts/load_crosswalk.sh", run_sync,
+                      "run_sync.sh does not load the vocabulary crosswalk, so CI "
+                      "will leave knowledge.kg_vocabulary_map empty")
+
+    def test_the_crosswalk_is_loaded_after_the_entities(self):
+        """It references global_entity_id values the entity load creates."""
+        run_sync = (self.ROOT / "scripts" / "run_sync.sh").read_text("utf-8")
+        apply_at = run_sync.index('step "Applying')
+        load_at = run_sync.index('step "Loading the vocabulary crosswalk"')
+        self.assertLess(apply_at, load_at,
+                        "the crosswalk must load after the entities it references")
+
+    def test_the_csvs_hold_exactly_what_the_verifier_expects(self):
+        """202 is asserted in three places; they must not drift apart."""
+        import csv as _csv                                         # noqa: PLC0415
+        vocab = self.ROOT / "governance" / "vocabulary"
+        total = 0
+        for kind in ("district", "sector", "skill"):
+            path = vocab / f"{kind}_crosswalk.csv"
+            with open(path, encoding="utf-8", newline="") as fh:
+                total += sum(1 for _ in _csv.DictReader(fh))
+        self.assertEqual(total, self.EXPECTED_ROWS["kg_vocabulary_map"])
+        self.assertIn("EXPECTED_TOTAL=202",
+                      (self.ROOT / "scripts" / "load_crosswalk.sh").read_text("utf-8"))
+
+    def test_tables_with_no_expected_count_are_deliberate(self):
+        """knowledge.sync_runs and user_intelligence.* are legitimately empty
+        after a sync, and the verifier does not claim otherwise.
+
+        sync_runs has no writer at all — the engine records runs in
+        knowledge_sync/state/sync_log.jsonl, not in the table. The
+        user_intelligence tables are per-user and filled by a separate engine
+        that this workflow does not run. Pinned so that if either ever gains an
+        expected count, the omission is noticed rather than inherited.
+        """
+        sql = (self.ROOT / "sql" / "verify_knowledge_schema.sql").read_text("utf-8")
+        block = sql[sql.index("'rows' as check"):sql.index("7 · Verdict")]
+        for table in ("sync_runs", "user_skill_profile", "user_recommendations"):
+            with self.subTest(table=table):
+                self.assertNotIn(f"('{table}'", block)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

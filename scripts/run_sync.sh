@@ -178,6 +178,31 @@ fi
 step "Applying${FULL:+ (full rebuild)} via --target $SYNC_TARGET"
 run python3 -m knowledge_sync --target "$SYNC_TARGET" sync $FULL | tail -6 | sed 's/^/    /'
 
+# The ninth table.
+#
+# knowledge.kg_vocabulary_map is NOT in TABLE_SPECS — the sync framework owns
+# eight tables and the crosswalk is not one of them. It is built by
+# governance/vocabulary/build_crosswalk.py and loaded by load_crosswalk.sh from
+# three CSVs, through a staging table with `on conflict do update`.
+#
+# That loader was only ever invoked by first_deploy.sh, the greenfield path.
+# Nothing in the CI path called it, so a sync would report complete with 647
+# entities and 865 edges while the crosswalk sat at zero — and resolveTerms() is
+# the only bridge from a term a user types to a graph entity, so every district
+# and skill lookup silently resolved to nothing. health_check.sh calls that
+# CRITICAL, correctly.
+#
+# Placed after the apply because the crosswalk references global_entity_id
+# values that the entity load creates. Idempotent, so the re-run below is safe.
+if command -v psql >/dev/null 2>&1; then
+  step "Loading the vocabulary crosswalk"
+  run "$VW_ROOT/scripts/load_crosswalk.sh" 2>&1 | sed 's/^/    /'
+else
+  warn "psql is not installed — the vocabulary crosswalk was NOT loaded.
+    knowledge.kg_vocabulary_map stays empty, and every district and skill a
+    user types will fail to resolve. Install postgresql-client on the runner."
+fi
+
 step "Proving idempotency — the check that matters"
 if [[ "$DRY_RUN" == "1" ]]; then
   info "[dry-run] would re-run sync and require 0 inserted, 0 updated"

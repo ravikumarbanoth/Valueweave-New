@@ -42,9 +42,9 @@ export default async function NetworkSections() {
       description: "Domain, finance, operations, technology and compliance guidance.",
       status: "NO_DATA_SOURCE",
       dependency:
-        "We have not started gathering mentors or experts yet. The collaborator " +
-        "marketplace has real people on it, but it cannot yet tell you who is " +
-        "experienced in what.",
+        "Mentors and experts are being gathered now. The collaborator marketplace " +
+        "already has real people on it — what is coming is being able to tell you " +
+        "who is experienced in what.",
     },
     {
       emoji: "💼",
@@ -76,10 +76,10 @@ export default async function NetworkSections() {
         { label: "Institutions", status: institutions ? "LIVE" : "NOT_AVAILABLE_YET", href: "/knowledge?type=institution", count: institutions },
         { label: "Financial institutions", status: counts.FinancialInstitution ? "LIVE" : "NOT_AVAILABLE_YET", href: "/knowledge?type=bank", count: counts.FinancialInstitution },
         { label: "Experts", dependency: "We cannot yet tell you who is experienced in what." },
-        { label: "Mentors", dependency: "We have not started gathering mentors yet." },
-        { label: "Investors", dependency: "We have not gathered individual investors, or how much they usually put in." },
-        { label: "Communities", dependency: "We have not started gathering communities or groups yet." },
-        { label: "Events", dependency: "We have not started gathering events yet." },
+        { label: "Mentors", dependency: "Mentors are being gathered now." },
+        { label: "Investors", dependency: "Individual investors, and how much they usually put in, are coming." },
+        { label: "Communities", dependency: "Communities and groups are being gathered now." },
+        { label: "Events", dependency: "Events are being gathered now." },
       ]}
       cards={cards}
     />

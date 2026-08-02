@@ -183,8 +183,8 @@ export async function resolveTerms(termKind, terms) {
         // hovered a skill we do not hold. Both now describe the gap in words
         // the reader can act on.
         reason: row
-          ? "We know this one, but we have not gathered any information about it yet."
-          : "We have not come across this one yet.",
+          ? "We know this one — information about it is being gathered now."
+          : "This one is not in our research yet. It is on the list.",
       });
     }
   });

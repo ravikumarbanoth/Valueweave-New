@@ -114,7 +114,7 @@ const FUTURE_MODULES = [
     emoji: "🔬",
     title: "Innovation Infrastructure",
     description: "Research commercialization, technology transfer, innovation labs, patent ecosystem.",
-    dependency: "We have not researched patents, innovation labs, or how research turns into a business.",
+    dependency: "Patents, innovation labs and how research turns into a business are being researched now.",
   },
   {
     emoji: "🎓",
@@ -152,7 +152,7 @@ const FUTURE_MODULES = [
     emoji: "♻️",
     title: "Sustainability Infrastructure",
     description: "Circular economy, recycling, renewable energy, carbon footprint, green manufacturing.",
-    dependency: "We have not researched emissions, recycling or renewable energy capacity.",
+    dependency: "Emissions, recycling and renewable energy capacity are being researched now.",
   },
 ];
 
@@ -301,11 +301,11 @@ export default async function HomeFeatureGrid() {
 
         <section data-testid="home-future-modules">
           <div className="text-center mb-10">
-            <span className="chip bg-violet-100 text-violet-700 border border-violet-200 mb-4">NOT AVAILABLE YET</span>
-            <h2 className="font-display font-extrabold text-3xl sm:text-4xl text-ink">Future Infrastructure Roadmap</h2>
+            <span className="chip bg-violet-100 text-violet-700 border border-violet-200 mb-4">COMING NEXT</span>
+            <h2 className="font-display font-extrabold text-3xl sm:text-4xl text-ink">What we are building next</h2>
             <p className="text-muted mt-3 max-w-2xl mx-auto leading-relaxed">
-              We have not built these yet. Each one says what we would need to gather
-              first, and what we already have.
+              Six areas our research is moving into. Each card says what is already
+              here and what is being gathered now.
             </p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">

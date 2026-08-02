@@ -59,9 +59,9 @@ export default async function ManufacturingSections() {
       description: "Space, layout, compliance sequence, and setup order.",
       status: "NO_DATA_SOURCE",
       dependency:
-        "We have not researched factory layouts, land requirements, or the order to " +
-        "get licences in. Each business idea does tell you the money needed to " +
-        "start — but not how to lay the place out.",
+        "Factory layouts, land requirements and the order to get licences in are being " +
+        "researched now. Each business idea already tells you the money needed to " +
+        "start.",
     },
   ];
 
@@ -70,9 +70,9 @@ export default async function ManufacturingSections() {
       primaryHref="/knowledge?type=business"
       primaryLabel="Browse opportunities"
       dependency={
-        "We have not built production planning, supplier search or licence tracking, " +
-        "and we have not researched them either. What we do have is everything " +
-        "they would work on: business ideas, machinery, raw materials and places to sell."
+        "Production planning, supplier search and licence tracking are on the way. " +
+        "Everything they will work on is already here: business ideas, machinery, " +
+        "raw materials and places to sell."
       }
       roadmap={[
         "Gather what a manufacturer needs in one place: products, machinery, suppliers, raw materials and licences.",
@@ -86,9 +86,9 @@ export default async function ManufacturingSections() {
         { label: "Market channels", status: counts.Market ? "LIVE" : "NOT_AVAILABLE_YET", href: "/knowledge?type=market", count: counts.Market },
         { label: "MSMEs", status: counts.MSME ? "LIVE" : "NOT_AVAILABLE_YET", href: "/knowledge?type=msme", count: counts.MSME },
         { label: "Suppliers", dependency: "Raw materials are researched; the firms that supply them are not." },
-        { label: "Factory planning", dependency: "We have not researched factory layouts or land requirements." },
-        { label: "Production", dependency: "We have not researched output rates, staffing or quality checks." },
-        { label: "Compliance", dependency: "We have not researched licences or inspections." },
+        { label: "Factory planning", dependency: "Factory layouts and land requirements are being researched now." },
+        { label: "Production", dependency: "Output rates, staffing and quality checks are being researched now." },
+        { label: "Compliance", dependency: "Licences and inspections are being researched now." },
       ]}
       cards={cards}
     />

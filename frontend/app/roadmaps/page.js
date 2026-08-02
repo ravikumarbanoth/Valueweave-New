@@ -28,8 +28,9 @@ export default async function RoadmapsPage() {
         items={items}
         basePath="/roadmaps"
         titleField="title"
-        emptyTitle="Not available yet"
-        emptyText="We have not written step-by-step roadmaps yet. In the meantime you can explore businesses you could start, the skills they need, and the schemes that may help fund them."
+        emptyTitle="Step-by-step roadmaps are coming"
+        emptyText="We are writing these now. In the meantime you can explore businesses you could start, the skills they need, and the schemes that may help fund them."
+        emptyHref="/opportunity-radar" emptyLabel="Browse business ideas"
       />
     </>
   );

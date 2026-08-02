@@ -5,9 +5,15 @@ import Link from "next/link";
 // institutions — which live at three different detail URLs, so the link has to
 // be decided per row rather than per page. Pages that still have a single
 // destination just pass basePath and nothing changes for them.
+// PX Phase 4: the empty card was a title and a paragraph. `emptyHref` /
+// `emptyLabel` give it somewhere to send the reader, and both default to the
+// ranked business ideas, which are editorial and therefore still there on the
+// days the researched projection is not.
 export default function PublicEntityList({
   title, eyebrow, description, items, basePath, titleField = "name",
-  emptyText, emptyTitle = "Nothing to show here yet", hrefFor,
+  emptyText, emptyTitle = "More coming soon", hrefFor,
+  emptyHref = "/opportunity-radar",
+  emptyLabel = "Browse business ideas",
 }) {
   const linkTo = (item) => (hrefFor ? hrefFor(item) : `${basePath}/${item.slug}`);
   return (
@@ -21,9 +27,13 @@ export default function PublicEntityList({
       </section>
       <section className="max-w-5xl mx-auto px-4 sm:px-6 py-10">
         {items.length === 0 ? (
-          <div className="card-base p-10 text-center">
+          <div data-testid="entity-list-empty" className="card-base p-10 text-center">
             <h2 className="font-display font-bold text-xl text-ink mb-2">{emptyTitle}</h2>
             <p className="text-muted text-sm max-w-md mx-auto">{emptyText}</p>
+            <Link href={emptyHref} data-testid="entity-list-empty-next"
+                  className="btn-secondary text-sm mt-5 inline-flex">
+              {emptyLabel} →
+            </Link>
           </div>
         ) : (
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">

@@ -60,9 +60,9 @@ export default async function ScaleSections() {
       description: "Upgrade paths from manual operation to automated production.",
       status: "NO_DATA_SOURCE",
       dependency:
-        "We have not researched who sells automation equipment, or what it costs to " +
-        "upgrade. Each business idea does say how much of the work a machine could " +
-        "do — but that describes the work, not the machine.",
+        "Automation suppliers and what upgrading costs are being researched now. Each " +
+        "business idea already says how much of the work a machine could do — what " +
+        "is coming is which machine, and at what price.",
     },
   ];
 
@@ -71,9 +71,9 @@ export default async function ScaleSections() {
       primaryHref="/knowledge?type=export"
       primaryLabel="Browse export destinations"
       dependency={
-        "We have not researched quality systems, business software, transport or " +
-        "energy yet. The parts of growing a business we have researched — export " +
-        "destinations, places to sell, and where the money comes from — are open above."
+        "Quality systems, business software, transport and energy are being researched " +
+        "now. The parts of growing a business that are ready — export destinations, " +
+        "places to sell, and where the money comes from — are open above."
       }
       roadmap={[
         "Lay out the steps from selling locally to competing with the best manufacturers.",
@@ -84,12 +84,12 @@ export default async function ScaleSections() {
         { label: "Export destinations", status: counts.ExportCountry ? "LIVE" : "NOT_AVAILABLE_YET", href: "/knowledge?type=export", count: counts.ExportCountry },
         { label: "Market channels", status: counts.Market ? "LIVE" : "NOT_AVAILABLE_YET", href: "/knowledge?type=market", count: counts.Market },
         { label: "Capital sources", status: counts.FinancialInstitution ? "LIVE" : "NOT_AVAILABLE_YET", href: "/knowledge?type=bank", count: counts.FinancialInstitution },
-        { label: "Automation", dependency: "We have not researched automation suppliers or what upgrading costs." },
-        { label: "Robotics", dependency: "We have not researched robotics yet." },
-        { label: "ERP", dependency: "We have not researched business software yet." },
+        { label: "Automation", dependency: "Automation suppliers and upgrade costs are being researched now." },
+        { label: "Robotics", dependency: "Robotics is being researched now." },
+        { label: "ERP", dependency: "Business software is being researched now." },
         { label: "Quality", dependency: "We list certifications you can earn, but not quality systems for a business." },
-        { label: "Logistics", dependency: "We have not researched transport companies, routes or freight costs." },
-        { label: "Energy", dependency: "We have not researched electricity tariffs or solar capacity." },
+        { label: "Logistics", dependency: "Transport companies, routes and freight costs are being researched now." },
+        { label: "Energy", dependency: "Electricity tariffs and solar capacity are being researched now." },
       ]}
       cards={cards}
     />

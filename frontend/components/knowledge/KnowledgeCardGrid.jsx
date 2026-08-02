@@ -8,6 +8,12 @@
 //
 // Operator detail moves to `data-operator-note`, where support and tests can
 // reach it and a student cannot.
+//
+// PX Phase 4: this grid had the same dead-end shape as KnowledgeEmptyState —
+// a title, a paragraph, and nowhere to go. It now renders the same next step,
+// including for NOT_COMPUTED, which is the one state where the reader can
+// actually fix it themselves and so is the one that most needed a button.
+import Link from "next/link";
 import { emptyStateCopy, normaliseReason } from "./KnowledgeEmptyState";
 
 export default function KnowledgeCardGrid({
@@ -15,7 +21,8 @@ export default function KnowledgeCardGrid({
   status,
   note,
   dependency,
-  emptyTitle = "Nothing to show yet",
+  action,
+  emptyTitle = "More coming soon",
   columns = "sm:grid-cols-2 lg:grid-cols-3",
   testId,
 }) {
@@ -36,10 +43,11 @@ export default function KnowledgeCardGrid({
   // It is also the only state where the user genuinely can do something.
   const local = {
     NOT_COMPUTED: {
-      title: "We are still working out your matches",
+      title: "Tell us a little about yourself",
       body:
-        "Add your skills and your district to your profile and we will suggest " +
-        "opportunities, courses and schemes that fit.",
+        "Add your skills and your district, and we will suggest opportunities, " +
+        "courses and schemes that fit you.",
+      nextStep: { href: "/onboarding", label: "Complete your profile" },
       operatorNote: "Per-user analysis has not run for this account.",
     },
   }[key];
@@ -62,6 +70,15 @@ export default function KnowledgeCardGrid({
       <p className="text-xs text-muted mt-1.5 leading-relaxed max-w-xl mx-auto">
         {note || copy.body}
       </p>
+      {action || (
+        <Link
+          href={copy.nextStep.href}
+          data-testid={testId ? `${testId}-next` : "empty-next"}
+          className="inline-block text-xs font-display font-bold text-amber-700 mt-3 hover:text-amber-600"
+        >
+          {copy.nextStep.label} →
+        </Link>
+      )}
     </div>
   );
 }

@@ -84,7 +84,7 @@ export function RelatedSourceSummary({ grouped }) {
   if (packages.length === 0) return null;
   return (
     <div className="flex flex-wrap items-center gap-1.5">
-      <span className="text-[11px] text-muted">Knowledge sources:</span>
+      <span className="text-[11px] text-muted">Researched by:</span>
       {packages.map((p) => <SourceBadge key={p} sourcePackage={p} />)}
     </div>
   );

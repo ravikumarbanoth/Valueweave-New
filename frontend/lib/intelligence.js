@@ -161,12 +161,24 @@ export function scoreTone(score, status) {
 }
 
 // Matches the Knowledge Engine's ConfidenceTier so users see one vocabulary.
+/**
+ * How strong the source behind a fact is.
+ *
+ * PX PHASE 3. These labels used to be "Government-grade source", "Portal or
+ * news source" and "Community or qualitative" — a taxonomy written for whoever
+ * scores the research. "Community or qualitative" in particular tells a reader
+ * nothing except that they have not understood something.
+ *
+ * They now name the source in the words a reader would use for it. The bands
+ * and the thresholds are unchanged, so nothing about the scoring moved — only
+ * what the chip says.
+ */
 export function confidenceBand(confidence) {
   const n = Number(confidence) || 0;
-  if (n >= 70) return { label: "Government-grade source", tone: "bg-teal-50 text-teal-700 border-teal-200" };
-  if (n >= 55) return { label: "Portal or news source", tone: "bg-amber-50 text-amber-700 border-amber-200" };
-  if (n > 0) return { label: "Community or qualitative", tone: "bg-stone-50 text-stone-600 border-stone-200" };
-  return { label: "No confidence score", tone: "bg-stone-50 text-stone-500 border-stone-200" };
+  if (n >= 70) return { label: "Official source", tone: "bg-teal-50 text-teal-700 border-teal-100" };
+  if (n >= 55) return { label: "Published source", tone: "bg-amber-50 text-amber-700 border-amber-100" };
+  if (n > 0) return { label: "Local knowledge", tone: "bg-stone-50 text-stone-600 border-stone-200" };
+  return { label: "Written by our team", tone: "bg-stone-50 text-stone-500 border-stone-200" };
 }
 
 export const SCORE_LABELS = {

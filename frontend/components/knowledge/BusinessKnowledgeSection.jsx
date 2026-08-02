@@ -19,7 +19,7 @@ import Link from "next/link";
 
 import KnowledgeCard from "./KnowledgeCard";
 import KnowledgeCardGrid from "./KnowledgeCardGrid";
-import UnverifiedNotice from "./UnverifiedNotice";
+import TrustPanel from "./TrustPanel";
 import { getNeighbours, resolveTerms, hrefFor } from "@/lib/knowledge";
 
 export default function BusinessKnowledgeSection({ sectorLabel, skills = [], districts = [] }) {
@@ -133,7 +133,7 @@ export default function BusinessKnowledgeSection({ sectorLabel, skills = [], dis
         />
       ) : (
         <>
-          <UnverifiedNotice hasUnverified className="mb-5" />
+          <TrustPanel hasUnverified className="mb-5" />
 
           {businesses.length > 0 && (
             <div className="mb-5">

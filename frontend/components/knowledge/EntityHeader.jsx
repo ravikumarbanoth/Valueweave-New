@@ -25,7 +25,11 @@ export default function EntityHeader({ entity, detail, backHref = "/knowledge", 
   if (!entity) return null;
   const unverified = String(entity.verification_status || "").includes("NEEDS_REVIEW");
   return (
-    <header data-testid="entity-header" className="flex flex-col gap-3">
+    <header
+      data-testid="entity-header"
+      data-verification-status={unverified ? "NEEDS_REVIEW" : "VERIFIED"}
+      className="flex flex-col gap-3"
+    >
       <Link href={backHref} className="text-[12px] text-muted hover:text-ink w-fit">
         ← {backLabel}
       </Link>
@@ -65,12 +69,19 @@ export default function EntityHeader({ entity, detail, backHref = "/knowledge", 
         </a>
       )}
 
-      {unverified && (
-        <p data-testid="entity-unverified" className="text-[12px] text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
-          This record has not yet been reviewed by a person. It was collected from a
-          public source and machine-validated. Treat it as a starting point.
-        </p>
-      )}
+      {/* PX PHASE 3 — THE AMBER PANEL IS GONE FROM THE MASTHEAD
+          ------------------------------------------------------
+          It read: "This record has not yet been reviewed by a person. It was
+          collected from a public source and machine-validated. Treat it as a
+          starting point." — in alert amber, directly under the title, before
+          the reader had learned a single fact about the thing they came for.
+
+          The disclosure was worth making and the position was not: an alert
+          above the content tells a student the page is unsafe, which is not
+          what it meant. It now appears once per page as TrustPanel, after the
+          facts, where "check the official site before you apply" is advice
+          instead of a warning. `data-verification-status` keeps the machine
+          answer here for support and for tests. */}
     </header>
   );
 }

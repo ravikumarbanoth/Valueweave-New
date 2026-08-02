@@ -268,7 +268,7 @@ class HumanLanguageTest(unittest.TestCase):
         self.present("This is about you", code(card), rel(card))
         self.absent("Separate from source confidence", code(card), rel(card))
         score = COMPONENTS / "knowledge" / "ScoreCard.jsx"
-        self.present("the weakest source", code(score), rel(score))
+        self.present("The weakest source behind this number", code(score), rel(score))
         # "rows" is the database's word for a fact.
         self.absent("among the rows behind", code(score), rel(score))
 
@@ -300,6 +300,91 @@ class HumanLanguageTest(unittest.TestCase):
         self.absent("crosswalk\"", src, rel(path))
         self.present("We have not come across this one yet.", src, rel(path))
         self.present("we have not gathered any information about it yet", src, rel(path))
+
+
+# ══════════════════════════════════ 1c. PX Phase 3: trust without fear
+class TrustWithoutFearTest(unittest.TestCase):
+    """Disclosure that helps a reader decide, rather than warning them off.
+
+    The brief: "This record has not yet been reviewed by a person..." creates
+    doubt. Replace it with a trust component that is professional, friendly and
+    trustworthy.
+
+    Two failure modes to guard, in opposite directions. The obvious one is the
+    fear language coming back. The one worth writing a test for is the other:
+    somebody deleting the disclosure entirely because it was in the way. A page
+    that never says where a government scheme's details came from, or that they
+    might have changed, is not friendlier — it is worse, and it fails silently.
+    """
+
+    PANEL = COMPONENTS / "knowledge" / "TrustPanel.jsx"
+
+    def test_the_panel_names_the_source_before_it_asks_for_anything(self):
+        src = code(self.PANEL)
+        self.assertIn("Where this information comes from", src)
+        self.assertIn("official public sources", src)
+        self.assertIn("ValueWeave research team", src)
+
+    def test_the_panel_tells_the_reader_what_to_do_before_they_spend_money(self):
+        """The disclosure has to survive being made friendly."""
+        src = code(self.PANEL)
+        self.assertIn("official authority", src)
+        self.assertRegex(src, r"apply for a scheme or invest money")
+
+    def test_the_panel_is_not_styled_as_an_alert(self):
+        """Amber on a page about someone's career reads as "something is wrong"."""
+        src = code(self.PANEL)
+        self.assertNotIn("amber", src,
+                         "the trust panel is information, not a warning")
+
+    def test_every_surface_that_carried_the_old_notice_carries_the_new_one(self):
+        """Six call sites. A rename that drops one is a silent regression."""
+        surfaces = [
+            APP / "knowledge" / "page.js",
+            APP / "dashboard" / "page.js",
+            APP / "knowledge" / "[type]" / "[slug]" / "page.js",
+            COMPONENTS / "knowledge" / "IntelligencePanel.jsx",
+            COMPONENTS / "knowledge" / "DistrictIntelligencePanel.jsx",
+            COMPONENTS / "knowledge" / "BusinessKnowledgeSection.jsx",
+        ]
+        for path in surfaces:
+            with self.subTest(surface=rel(path)):
+                src = code(path)
+                self.assertIn("TrustPanel", src)
+
+    def test_the_detail_page_puts_it_after_the_facts_not_above_them(self):
+        """Position was half the problem: an alert above the content."""
+        src = code(APP / "knowledge" / "[type]" / "[slug]" / "page.js")
+        body = src[src.index("<EntityHeader"):]
+        self.assertLess(body.index("entity-attributes"), body.index("<TrustPanel"),
+                        "the reader should meet the facts before the caveat")
+        self.assertNotIn("entity-unverified", src,
+                         "the masthead alert is gone, not relocated inside itself")
+
+    def test_the_header_still_answers_the_machine_question(self):
+        """Removing the amber panel must not remove the fact it carried."""
+        src = code(COMPONENTS / "knowledge" / "EntityHeader.jsx")
+        self.assertIn("data-verification-status", src)
+        self.assertIn("NEEDS_REVIEW", src)
+
+    def test_a_source_score_is_shown_as_words_not_as_a_mark_out_of_100(self):
+        """"56/100" beside an opportunity reads as a grade on the opportunity."""
+        badge = COMPONENTS / "knowledge" / "ConfidenceBadge.jsx"
+        src = code(badge)
+        self.assertIn("{band.label}", src)
+        self.assertNotIn("{n}/100", src.split("title=")[0],
+                         "the number belongs in the tooltip, not on the chip")
+        self.assertIn("data-confidence", src, "the number must stay machine-readable")
+        # And the bands themselves must read as source descriptions.
+        intel = code(FE / "lib" / "intelligence.js")
+        block = intel[intel.index("export function confidenceBand"):]
+        block = block[:block.index("\n}")]
+        labels = re.findall(r'label:\s*"([^"]+)"', block)
+        self.assertEqual(len(labels), 4)
+        for label in labels:
+            with self.subTest(label=label):
+                self.assertNotIn("qualitative", label.lower())
+                self.assertNotIn("grade", label.lower())
 
 
 # ═══════════════════════════════════════════════ 2. the 404

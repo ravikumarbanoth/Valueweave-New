@@ -29,6 +29,7 @@ import AttributeGrid, { isPresent } from "@/components/knowledge/AttributeGrid";
 import RelatedEntities, { RelatedSourceSummary } from "@/components/knowledge/RelatedEntities";
 import KnowledgeEmptyState from "@/components/knowledge/KnowledgeEmptyState";
 import KnowledgeCardGrid from "@/components/knowledge/KnowledgeCardGrid";
+import TrustPanel from "@/components/knowledge/TrustPanel";
 
 export const revalidate = 300;
 
@@ -269,6 +270,16 @@ async function GraphDetail({ params }) {
             Apply on the official portal ↗
           </a>
         )}
+
+        {/* PX Phase 3. This is the amber "not reviewed by a person" panel that
+            used to sit under the title, rewritten and moved here. Placed after
+            the facts and after the apply button, because "confirm the details
+            with the authority first" is something you tell someone who is about
+            to act — not the first thing you say to someone who has just arrived. */}
+        <TrustPanel
+          hasUnverified={String(entity.verification_status || "").includes("NEEDS_REVIEW")}
+          officialUrl={detail?.source_url || portal}
+        />
 
         <section data-testid="entity-related" className="card-base p-5 flex flex-col gap-4">
           <div className="flex flex-wrap items-center justify-between gap-2">

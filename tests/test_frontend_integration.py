@@ -59,7 +59,9 @@ def code(path):
 
 
 NEW_COMPONENTS = [
-    "ConfidenceBadge.jsx", "ProvenanceLine.jsx", "UnverifiedNotice.jsx",
+    # `UnverifiedNotice.jsx` became `TrustPanel.jsx` in PX Phase 3 — see the
+    # component header for why the name went with the wording.
+    "ConfidenceBadge.jsx", "ProvenanceLine.jsx", "TrustPanel.jsx",
     "KnowledgeCard.jsx", "KnowledgeCardGrid.jsx", "RecommendationRail.jsx",
     "ScoreCard.jsx", "SkillGapPanel.jsx", "DistrictIntelligencePanel.jsx",
     "IntelligencePanel.jsx", "BusinessKnowledgeSection.jsx",
@@ -282,10 +284,50 @@ class WiringTest(unittest.TestCase):
         self.assertIn("ConfidenceBadge", src)
         self.assertIn("ProvenanceLine", src)
 
-    def test_unverified_notice_is_computed_not_hardcoded(self):
-        """It must vanish on its own once verification arrives."""
-        src = read(FE / "components" / "knowledge" / "UnverifiedNotice.jsx")
-        self.assertIn("if (!unverified) return null", src)
+    def test_the_trust_panel_is_computed_not_hardcoded(self):
+        """It must not still be claiming the same thing after verification lands.
+
+        This asserted `if (!unverified) return null` — the old notice removed
+        itself entirely once `verified === total`, which is how it stayed
+        honest. PX Phase 3 kept the property and moved it: the panel always
+        renders, because "here is where this came from" does not expire, but
+        the sentence about what to do next is chosen from the same computed
+        flag. So the check is no longer "does it disappear" but "are there two
+        different sentences, and is a real value choosing between them".
+        """
+        src = read(FE / "components" / "knowledge" / "TrustPanel.jsx")
+        self.assertIn("hasUnverified === null ? Math.max(0, total - verified) > 0", src,
+                      "the panel must still read the verification counts")
+        self.assertIn("pending", src)
+        # Two branches, and neither may be a placeholder.
+        self.assertIn("check the latest details with the official authority", src)
+        self.assertIn("has confirmed this against the official source", src)
+        self.assertIn("data-review-state", src,
+                      "support and tests need to see which sentence is showing")
+
+    def test_no_surface_still_warns_that_a_human_has_not_read_the_row(self):
+        """The Phase 3 brief in one assertion.
+
+        "This record has not yet been reviewed by a person" was on every
+        knowledge detail page, in alert amber, above the content.
+        """
+        banned = ("reviewed by a person", "not yet checked every line",
+                  "machine-validated", "Treat it as a starting point")
+        offenders = []
+        for root in (FE / "app", FE / "components", FE / "lib"):
+            for path in sorted(root.rglob("*.js")) + sorted(root.rglob("*.jsx")):
+                if "admin" in path.parts:
+                    continue
+                # Comments stripped — both `//` and `/* */`, the latter because
+                # a JSX comment is `{/* ... */}`. TrustPanel.jsx and the detail
+                # page both quote the old copy at length, and that record is
+                # precisely why it does not come back.
+                body = re.sub(r"/\*.*?\*/", "", read(path), flags=re.DOTALL)
+                body = "\n".join(l.split("//", 1)[0] for l in body.splitlines())
+                for phrase in banned:
+                    if phrase in body:
+                        offenders.append(f"{path.relative_to(FE)}: {phrase!r}")
+        self.assertEqual(offenders, [], "\n  ".join(offenders))
 
     def test_score_card_never_renders_unavailable_as_zero(self):
         """The single most misleading thing this UI could do."""

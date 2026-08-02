@@ -10,7 +10,7 @@ import RecommendationRail from "@/components/knowledge/RecommendationRail";
 import IntelligenceSummaryCard from "@/components/knowledge/IntelligenceSummaryCard";
 import LatestKnowledgeCard from "@/components/knowledge/LatestKnowledgeCard";
 import { latestKnowledge } from "@/lib/knowledge";
-import UnverifiedNotice from "@/components/knowledge/UnverifiedNotice";
+import TrustPanel from "@/components/knowledge/TrustPanel";
 import {
   getRecommendationsByCategory,
   intelligenceState,
@@ -258,7 +258,7 @@ export default function DashboardPage() {
               </div>
             ) : (
               <>
-                <UnverifiedNotice
+                <TrustPanel
                   verified={0}
                   total={intel.summary?.total_recommendations || 0}
                   className="mb-5"

@@ -23,6 +23,7 @@ Four groups:
 
 import json
 import re
+import shutil
 import subprocess
 import sys
 import unittest
@@ -142,8 +143,19 @@ class ContractTest(unittest.TestCase):
         result = subprocess.run(
             ["node", "--input-type=module", "-e", script],
             cwd=FE, capture_output=True, text=True)
-        if result.returncode != 0 or not result.stdout.strip():
-            self.skipTest(f"node unavailable: {result.stderr[:160]}")
+        # Skip ONLY when node is genuinely absent. It was skipping whenever the
+        # import failed for any reason — and it did, silently, the moment
+        # lib/knowledge.js gained an "@/..." import that plain node cannot
+        # resolve. A parity check that reports success when it did not run is
+        # worse than no parity check.
+        if shutil.which("node") is None:
+            self.skipTest("node is not installed")
+        self.assertEqual(
+            result.returncode, 0,
+            "node is installed but could not import lib/knowledge.js. An "
+            "unresolvable import (usually an '@/...' alias) breaks this parity "
+            f"check:\n{result.stderr[:600]}")
+        self.assertTrue(result.stdout.strip(), f"no output from node:\n{result.stderr[:400]}")
         # stdout only — node writes a MODULE_TYPELESS warning to stderr.
         js = json.loads(result.stdout.strip().splitlines()[-1])
 

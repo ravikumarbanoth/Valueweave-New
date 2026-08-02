@@ -25,6 +25,12 @@
 // migration runs.
 
 import { createClient } from "@supabase/supabase-js";
+// Relative, not "@/lib/...", and deliberately so: tests/test_frontend_integration
+// imports this module in plain node to prove normaliseTerm() agrees with the
+// Python side. Plain node cannot resolve the "@/" alias, so an aliased import
+// here turns that parity check into a silent skip — which is exactly what it
+// did until this line was changed back.
+import { rankEntities, relatedSearches } from "./knowledge-search.js";
 
 // The projection lives in its own schema so it cannot collide with the existing
 // public.kg_* CMS tables. See docs/SYNC_ARCHITECTURE.md §2.
@@ -196,23 +202,71 @@ export function normaliseTerm(text) {
 // Postgres FTS + trigram over the projection. Not a reimplementation of the
 // Python SearchEngine's four-mode ladder — see docs/SEARCH_GUIDE.md — and the UI
 // does not claim parity.
+//: The whole searchable corpus, fetched once. 647 rows of (id, type, name,
+//: package, confidence) is roughly 60 KB before compression.
+//
+//: Fetched once per process rather than once per keystroke. The old
+//: implementation issued a Postgres query on every debounced input, which on a
+//: Tier-2 mobile connection is 200-400 ms of dead time between typing and
+//: seeing anything. Ranking 647 rows in memory takes under a millisecond.
+let searchIndexPromise = null;
+
+async function searchIndex() {
+  if (!searchIndexPromise) {
+    searchIndexPromise = safe(
+      (sb) =>
+        sb
+          .from("kg_entities")
+          .select("global_entity_id,entity_type,canonical_name,source_package,confidence_score")
+          .is(LIVE, null)
+          .limit(2000),
+      []
+    ).then((rows) => {
+      // Do not cache a failure. Without this a single blip — a cold start, a
+      // paused project — would leave search permanently empty for the life of
+      // the process, with no error anywhere.
+      if (!rows || rows.length === 0) searchIndexPromise = null;
+      return rows || [];
+    });
+  }
+  return searchIndexPromise;
+}
+
+/**
+ * Search the researched knowledge.
+ *
+ * Signature unchanged. Results gain `_match`, `_score` and `_via`, which the UI
+ * may use and existing callers can ignore.
+ *
+ * WHAT CHANGED: this was `ilike '%query%'` on canonical_name, ordered by
+ * confidence. Measured against the live graph, that gave "Electrician" two
+ * results, "PMEGP" one (not the scheme), "Dairy" none, and "AI" forty-six of
+ * which thirty-one matched the letters a-i inside Maize, Painting and Retail.
+ * Ordering by confidence meant the ranking had nothing to do with the query.
+ *
+ * See lib/knowledge-search.js for the ladder and lib/search-vocabulary.js for
+ * the domain terms.
+ */
 export async function searchKnowledge(query, { entityType, limit = 20 } = {}) {
   const q = String(query || "").trim();
   if (q.length < 2) return [];
-  return safe(
-    (sb) => {
-      let sel = sb
-        .from("kg_entities")
-        .select("*")
-        .is(LIVE, null)
-        .ilike("canonical_name", `%${q.replace(/[%,]/g, "")}%`)
-        .order("confidence_score", { ascending: false })
-        .limit(limit);
-      if (entityType) sel = sel.eq("entity_type", entityType);
-      return sel;
-    },
-    []
-  );
+  const index = await searchIndex();
+  if (!index.length) return [];
+  return rankEntities(index, q, { limit, entityType });
+}
+
+/**
+ * Terms worth trying next, for the "no results" and "few results" states.
+ *
+ * Only ever returns terms that would actually find something — see Phase 4:
+ * an empty state should point somewhere, and a suggestion leading to another
+ * empty page is a second dead end.
+ */
+export async function suggestRelatedSearches(query, { limit = 6 } = {}) {
+  const q = String(query || "").trim();
+  if (q.length < 2) return [];
+  const index = await searchIndex();
+  return relatedSearches(index, q, { limit });
 }
 
 // ─── Availability ───────────────────────────────────────────────────────────

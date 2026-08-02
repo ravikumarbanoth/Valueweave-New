@@ -42,6 +42,8 @@ SUITES = {
     "ownership": ("tests.test_ownership", "Ownership rules and the ADR-003 crosswalk"),
     "api": ("tests.test_api", "REST API: envelope, routing, errors, HTTP transport"),
     "search": ("tests.test_search", "Search: index, four match modes, filters"),
+    "search_experience": ("tests.test_search_experience",
+                          "PX Phase 1: semantic search quality on the live graph"),
     "stewardship": ("tests.test_stewardship", "Lifecycle, ledger and review queue"),
     "deployment": ("tests.test_deployment",
                    "Deployment: writer, scripts, migration 011"),

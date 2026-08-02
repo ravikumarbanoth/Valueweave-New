@@ -30,7 +30,7 @@ import { Search } from "lucide-react";
 import ConfidenceBadge from "@/components/knowledge/ConfidenceBadge";
 import ProvenanceLine from "@/components/knowledge/ProvenanceLine";
 import KnowledgeEmptyState from "@/components/knowledge/KnowledgeEmptyState";
-import { searchKnowledge, hrefFor } from "@/lib/knowledge";
+import { searchKnowledge, suggestRelatedSearches, hrefFor } from "@/lib/knowledge";
 
 //: The filter axis. Entity types, not packages: a user searching for "welding"
 //: wants to narrow to skills, not to Package006.
@@ -51,6 +51,7 @@ export default function KnowledgeSearch() {
   const [query, setQuery] = useState("");
   const [typeFilter, setTypeFilter] = useState("");
   const [entities, setEntities] = useState([]);
+  const [related, setRelated] = useState([]);
   // "idle" before the first search, so an empty grid never reads as "no results"
   // when the truth is "you have not searched yet".
   const [state, setState] = useState("idle");
@@ -59,6 +60,7 @@ export default function KnowledgeSearch() {
     const q = query.trim();
     if (q.length < 2) {
       setEntities([]);
+      setRelated([]);
       setState("idle");
       return undefined;
     }
@@ -66,9 +68,13 @@ export default function KnowledgeSearch() {
     setState("searching");
     const timer = setTimeout(async () => {
       // Never throws — returns [] when the projection is not deployed.
-      const rows = await searchKnowledge(q, { limit: 24, entityType: typeFilter || undefined });
+      const [rows, suggestions] = await Promise.all([
+        searchKnowledge(q, { limit: 24, entityType: typeFilter || undefined }),
+        suggestRelatedSearches(q),
+      ]);
       if (cancelled) return;
       setEntities(rows);
+      setRelated(suggestions);
       setState(rows.length > 0 ? "results" : "empty");
     }, 250);
     return () => {
@@ -135,7 +141,28 @@ export default function KnowledgeSearch() {
         <p className="text-sm text-muted text-center py-8">Searching…</p>
       )}
 
-      {state === "empty" && (
+      {state === "empty" && related.length > 0 && (
+        <div className="text-center py-8" data-testid="search-no-match-suggestions">
+          <p className="font-display font-bold text-sm text-ink">
+            Nothing matched “{query.trim()}” exactly
+          </p>
+          <p className="text-xs text-muted mt-1.5">Try one of these instead:</p>
+          <div className="flex flex-wrap gap-1.5 justify-center mt-3">
+            {related.map((term) => (
+              <button
+                key={term}
+                type="button"
+                onClick={() => setQuery(term)}
+                className="chip bg-white text-stone-600 border border-stone-200 hover:border-amber-300 hover:bg-amber-50 transition-colors"
+              >
+                {term}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {state === "empty" && related.length === 0 && (
         <KnowledgeEmptyState
           reason="NO_MATCH"
           entityLabel={
@@ -172,6 +199,14 @@ export default function KnowledgeSearch() {
                 <h5 className="font-display font-bold text-sm text-ink leading-snug">
                   {e.canonical_name}
                 </h5>
+                {/* Why this is here, when the title does not contain what they
+                    typed. Without it a search for "electrician" returning
+                    "Power Distribution Technician" looks like a mistake. */}
+                {e._via && (
+                  <p className="text-[10px] text-teal-700 mt-1" data-testid="match-reason">
+                    related to “{e._via}”
+                  </p>
+                )}
                 <ProvenanceLine
                   package={e.source_package}
                   rowId={e.package_local_id}

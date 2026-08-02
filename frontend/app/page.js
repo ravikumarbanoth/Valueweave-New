@@ -1,25 +1,17 @@
 import Link from "next/link";
 import { Shield, Smartphone, Sparkles } from "lucide-react";
 import HomepageStats from "@/components/HomepageStats";
-import HomeStartHere from "@/components/HomeStartHere";
+import HomeHeroSearch from "@/components/HomeHeroSearch";
 import HomeHowItWorks from "@/components/HomeHowItWorks";
 import HomeVideoEmbed from "@/components/HomeVideoEmbed";
 import HomeFeatureGrid from "@/components/HomeFeatureGrid";
 import HomeFeaturedOpportunities from "@/components/HomeFeaturedOpportunities";
 import HomeSuccessJourney from "@/components/HomeSuccessJourney";
 import HomeLiveActivity from "@/components/HomeLiveActivity";
-import MobileStartHereSheet from "@/components/MobileStartHereSheet";
 import MobileNavMenu from "@/components/MobileNavMenu";
 import { getPlatformSettings, enabled, setting } from "@/lib/settings";
 import { NAVIGATION_SETTING_KEYS } from "@/lib/settings-schema";
 import { BASE_URL, speakableJsonLd, webApplicationJsonLd, websiteJsonLd } from "@/lib/seo";
-
-const FLOATING_CARDS = [
-  { top: "8%", left: "12%", emoji: "🤖", label: "AI · Hyderabad", bg: "bg-blue-50", border: "border-blue-200" },
-  { top: "15%", right: "0%", emoji: "🌾", label: "Agri · Warangal", bg: "bg-emerald-50", border: "border-emerald-200" },
-  { bottom: "14%", left: "0%", emoji: "🏪", label: "Retail · Vijayawada", bg: "bg-amber-50", border: "border-amber-200" },
-  { bottom: "22%", right: "10%", emoji: "⚡", label: "EV · Coimbatore", bg: "bg-violet-50", border: "border-violet-200" },
-];
 
 const GAP_CARDS = [
   {
@@ -103,66 +95,61 @@ export default async function LandingPage() {
         </div>
       </nav>
 
-      {/* ── HERO ──────────────────────────────────────────────── */}
-      <section className="pt-32 pb-20 px-4 sm:px-6 relative overflow-hidden">
+      {/* ── HERO ──────────────────────────────────────────────────
+          PX Phase 6. Was a two-column marketing block: pitch and three module
+          buttons on the left, a decorative float of emoji cards on the right.
+
+          The brief's test is what the page answers in the first screen. It
+          answered "here is what we are"; it now answers "what are you looking
+          for?" — with the box that answers it, ten example searches for the
+          people who do not know the word, and six ways in for the people who do
+          not know the question.
+
+          The decoration went with it. A 440px animation beside the fold is
+          440px of scrolling before a Tier-2 visitor on a slow connection
+          reaches anything they can use. */}
+      <section className="pt-28 sm:pt-32 pb-16 sm:pb-20 px-4 sm:px-6 relative overflow-hidden">
         <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_60%_60%_at_80%_20%,rgba(249,115,22,0.14)_0%,transparent_60%),radial-gradient(ellipse_50%_50%_at_10%_80%,rgba(13,148,136,0.12)_0%,transparent_55%)]" />
-        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
-          <div>
-            <div className="inline-flex items-center gap-2 bg-amber-200 rounded-full px-4 py-1.5 mb-6 animate-fadeUp">
-              <span className="w-2 h-2 rounded-full bg-amber-500 ring-4 ring-amber-500/20" />
-              <span className="text-xs font-display font-semibold text-amber-700">Now Open · Bharat Edition</span>
-            </div>
-            <h1 className="h-hero mb-6 animate-fadeUp" data-speakable>
-              {heroHeading}
-            </h1>
-            <p className="text-base sm:text-lg text-muted leading-relaxed mb-7 max-w-md animate-fadeUp" style={{ animationDelay: "0.1s" }} data-speakable>
-              {heroSubheading}
-            </p>
+        <div className="max-w-6xl mx-auto">
+          <HomeHeroSearch heading={heroHeading} subheading={heroSubheading} />
 
-            {/* Primary CTAs — only 3 */}
-            <div className="flex flex-wrap gap-3 mb-6 animate-fadeUp" style={{ animationDelay: "0.2s" }}>
-              <Link href="/discover" data-testid="hero-cta-discover" className="btn-teal">🧠 {primaryCta}</Link>
-              <Link href="/ideas" data-testid="hero-cta-ideas" className="btn-primary">💡 {secondaryCta}</Link>
-              <Link href="/network" data-testid="hero-cta-collabs" className="btn-secondary">🤝 {tertiaryCta}</Link>
-            </div>
+          <ul className="flex flex-wrap justify-center gap-x-5 gap-y-2 mt-10">
+            <li className="inline-flex items-center gap-1.5 text-xs sm:text-sm text-muted">
+              <Shield size={14} className="text-teal-600" /> Google-authenticated profiles
+            </li>
+            <li className="inline-flex items-center gap-1.5 text-xs sm:text-sm text-muted">
+              <Smartphone size={14} className="text-teal-600" /> Mobile-first
+            </li>
+            <li className="inline-flex items-center gap-1.5 text-xs sm:text-sm text-muted">
+              <Sparkles size={14} className="text-teal-600" /> Free to join
+            </li>
+          </ul>
 
-            <ul className="flex flex-wrap gap-x-5 gap-y-2 animate-fadeUp" style={{ animationDelay: "0.3s" }}>
-              <li className="inline-flex items-center gap-1.5 text-xs sm:text-sm text-muted">
-                <Shield size={14} className="text-teal-600" /> Google-authenticated profiles
-              </li>
-              <li className="inline-flex items-center gap-1.5 text-xs sm:text-sm text-muted">
-                <Smartphone size={14} className="text-teal-600" /> Mobile-first
-              </li>
-              <li className="inline-flex items-center gap-1.5 text-xs sm:text-sm text-muted">
-                <Sparkles size={14} className="text-teal-600" /> Free to join
-              </li>
-            </ul>
-          </div>
-
-          <div className="relative h-[440px] hidden md:block">
-            <div className="absolute inset-0 m-auto w-72 h-72 rounded-[60%_40%_30%_70%/60%_30%_70%_40%] bg-gradient-to-br from-amber-500/15 to-teal-500/15" />
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="relative w-24 h-24 rounded-full bg-gradient-to-br from-amber-500 to-yellow-400 flex items-center justify-center shadow-xl shadow-amber-500/30">
-                <svg width="44" height="44" viewBox="0 0 24 24" fill="none"><path d="M12 3L4 7.5V16.5L12 21L20 16.5V7.5L12 3Z" stroke="#fff" strokeWidth="1.8" strokeLinejoin="round"/><path d="M4 7.5L12 12M12 12L20 7.5M12 12V21" stroke="#fff" strokeWidth="1.8" strokeLinecap="round"/></svg>
-                <span className="absolute -inset-2 rounded-full border-2 border-amber-500/30 animate-ping" />
-              </div>
-            </div>
-            {FLOATING_CARDS.map((card, index) => (
-              <div
-                key={card.label}
-                className={`absolute ${card.bg} border ${card.border} rounded-2xl px-3 py-2 flex items-center gap-2 shadow-sm animate-float`}
-                style={{ top: card.top, left: card.left, right: card.right, bottom: card.bottom, animationDelay: `${index * 0.5}s` }}
-              >
-                <span className="text-xl">{card.emoji}</span>
-                <span className="text-xs font-display font-semibold text-ink whitespace-nowrap">{card.label}</span>
-              </div>
-            ))}
+          {/* The three CTA labels are admin-editable settings, so they keep a
+              home rather than being deleted along with the hero that held them.
+              Demoted below the search on purpose: they are our three product
+              areas, and the whole point of this phase is that a visitor should
+              not have to choose one of those before they can do anything. */}
+          <div className="flex flex-wrap justify-center gap-3 mt-6" data-testid="hero-secondary-ctas">
+            <Link href="/discover" data-testid="hero-cta-discover" className="btn-secondary text-sm">
+              🧠 {primaryCta}
+            </Link>
+            <Link href="/ideas" data-testid="hero-cta-ideas" className="btn-secondary text-sm">
+              💡 {secondaryCta}
+            </Link>
+            <Link href="/network" data-testid="hero-cta-collabs" className="btn-secondary text-sm">
+              🤝 {tertiaryCta}
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* ── 1. START HERE ─────────────────────────────────────── */}
-      <HomeStartHere />
+      {/* PX Phase 6: a "Not sure where to begin?" block with three goal cards
+          stood here. The audience row in the hero asks the same question
+          higher up, with six answers instead of three, so keeping both meant
+          asking a visitor to choose twice before they had read anything. Its
+          three destinations — /discover, /ideas, /collaborators — all survive
+          inside the audience start pages. */}
 
       {/* ── 2. STATS ──────────────────────────────────────────── */}
       <HomepageStats />
@@ -308,8 +295,12 @@ export default async function LandingPage() {
         </div>
       </section>
 
-      {/* ── MOBILE FLOATING START-HERE SHEET ──────────────────── */}
-      <MobileStartHereSheet />
+      {/* PX Phase 6: a floating "✨ Start Here" button sat here on mobile,
+          opening a sheet with four destinations. It was the phone version of
+          the "Not sure where to begin?" block, and the audience row replaces
+          both — but it also physically covered the last audience chip at
+          390px, which is how it got noticed. Its four destinations all survive
+          inside the audience start pages. */}
     </div>
   );
 }

@@ -11,7 +11,7 @@
 // district has no economy".
 import KnowledgeCard from "./KnowledgeCard";
 import KnowledgeCardGrid from "./KnowledgeCardGrid";
-import UnverifiedNotice from "./UnverifiedNotice";
+import TrustPanel from "./TrustPanel";
 import Link from "next/link";
 import { hrefFor } from "@/lib/knowledge";
 
@@ -68,7 +68,7 @@ export default function DistrictIntelligencePanel({ districtName, grouped = {}, 
               Compare districts →
             </Link>
           </div>
-          <UnverifiedNotice hasUnverified className="mb-5" />
+          <TrustPanel hasUnverified className="mb-5" />
           {populated.map((section) => {
             const rows = grouped[section.type] || [];
             return (

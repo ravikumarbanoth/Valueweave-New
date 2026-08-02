@@ -9,7 +9,7 @@
 
 import ScoreCard from "./ScoreCard";
 import SkillGapPanel from "./SkillGapPanel";
-import UnverifiedNotice from "./UnverifiedNotice";
+import TrustPanel from "./TrustPanel";
 import { SCORE_LABELS, STATUS } from "@/lib/intelligence";
 
 const BUSINESS_SCORES = [
@@ -50,7 +50,7 @@ export default function IntelligencePanel({ skill, business, learning, state, is
         <span className="text-xs text-stone-400">based on your skills and district</span>
       </div>
 
-      <UnverifiedNotice hasUnverified className="mb-4" />
+      <TrustPanel hasUnverified className="mb-4" />
 
       {/* ── Business, funding, AI and startup readiness ── */}
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-5">

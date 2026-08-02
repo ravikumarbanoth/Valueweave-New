@@ -8,7 +8,7 @@
 // Rendering UNAVAILABLE as 0 would tell a user they scored nothing when the truth
 // is that we lack an input. That is the single most misleading thing this UI could
 // do, so it is handled here once rather than at every call site.
-import { STATUS, scoreLabel, scoreTone } from "@/lib/intelligence";
+import { STATUS, confidenceBand, scoreLabel, scoreTone } from "@/lib/intelligence";
 
 export default function ScoreCard({ label, score, status, confidence, reason, detail, testId }) {
   const value = scoreLabel(score, status);
@@ -36,12 +36,18 @@ export default function ScoreCard({ label, score, status, confidence, reason, de
             {status === STATUS.UNAVAILABLE ? "not enough data" : "nothing found yet"}
           </span>
         )}
+        {/* PX Phase 3: this read "source 56/100" next to a score that is
+            already out of 100, so the page showed a reader two fractions and
+            left them to work out that only one of them was about them. It now
+            names the source in the same words ConfidenceBadge uses, and the
+            number stays in the tooltip and on `data-source-confidence`. */}
         {confidence > 0 && (
           <span
-            title="How reliable the weakest source behind this number is. We show the lowest one, not the average, so the score is never flattered."
-            className="chip bg-stone-50 text-stone-500 border border-stone-200 text-[10px] tabular-nums"
+            data-source-confidence={confidence}
+            title={`The weakest source behind this number is what we rate ${confidence}/100 for reliability. We show the weakest rather than the average, so the score is never flattered.`}
+            className="chip bg-stone-50 text-stone-500 border border-stone-200 text-[10px]"
           >
-            source {confidence}/100
+            {confidenceBand(confidence).label.toLowerCase()}
           </span>
         )}
       </div>

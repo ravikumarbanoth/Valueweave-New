@@ -213,7 +213,7 @@ export default function IdeaDetailPage() {
                 </span>
               ))}
             </div>
-            <p className="text-xs text-stone-400 mt-2">Verify eligibility and current terms on the official scheme portal before relying on them.</p>
+            <p className="text-xs text-stone-400 mt-2">Scheme rules, amounts and deadlines change. Check the latest on the official portal before you apply.</p>
           </Section>
         )}
 

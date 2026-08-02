@@ -23,7 +23,7 @@ import SourceBadge from "@/components/knowledge/SourceBadge";
 import ConfidenceBadge from "@/components/knowledge/ConfidenceBadge";
 import KnowledgePagination from "@/components/knowledge/KnowledgePagination";
 import KnowledgeEmptyState from "@/components/knowledge/KnowledgeEmptyState";
-import UnverifiedNotice from "@/components/knowledge/UnverifiedNotice";
+import TrustPanel from "@/components/knowledge/TrustPanel";
 import { buildBaseMetadata, BASE_URL } from "@/lib/seo";
 
 export const revalidate = 300;
@@ -183,7 +183,7 @@ async function TypeIndex({ q }) {
 
   return (
     <div className="flex flex-col gap-6">
-      <UnverifiedNotice hasUnverified={total > 0} />
+      <TrustPanel hasUnverified={total > 0} />
 
       {SECTIONS.map((section) => {
         const live = section.types.filter(([t]) => (counts[t] || 0) > 0);
@@ -239,12 +239,12 @@ async function BrowseType({ entityType, urlType, q, page }) {
       <div className="flex items-center justify-between gap-3">
         <Link href="/knowledge" className="text-[12px] text-muted hover:text-ink">← All knowledge</Link>
         <p className="text-[12px] text-muted" data-testid="browse-count">
-          {total} {total === 1 ? "record" : "records"}
+          {total} {total === 1 ? "result" : "results"}
           {q ? ` matching “${q}”` : ""}
         </p>
       </div>
 
-      <UnverifiedNotice hasUnverified={unverified > 0} />
+      <TrustPanel hasUnverified={unverified > 0} />
 
       <ul data-testid="browse-list" className="grid gap-3 sm:grid-cols-2">
         {rows.map((e) => (

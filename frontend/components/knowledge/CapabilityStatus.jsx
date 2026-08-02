@@ -17,19 +17,31 @@
 //
 // `dependency` is required for the two unavailable states. A capability that
 // cannot say what it is waiting for is a capability nobody has thought about.
+//
+// PX PHASE 2 — THE THREE STATE NAMES ARE OURS, NOT THEIRS
+// -------------------------------------------------------
+// The keys above are the vocabulary the codebase reasons in and they stay. What
+// a person READS is now written for a person: "No Data Source" is a sentence
+// about our pipeline, and a student reading it on the mentors card learns only
+// that something they do not understand is missing. "Not researched yet" says
+// the same thing about the world instead of about us — and it is the truth.
+//
+// "Depends on:" had the same problem in miniature. It is a build-plan word. The
+// reader is not waiting on a dependency; they are asking why the thing is not
+// there.
 import Link from "next/link";
 
 const STATES = {
   LIVE: {
-    label: "Live",
+    label: "Ready now",
     chip: "bg-teal-50 text-teal-700 border-teal-200",
   },
   NOT_AVAILABLE_YET: {
-    label: "Not Available Yet",
+    label: "Coming later",
     chip: "bg-stone-50 text-stone-500 border-stone-200",
   },
   NO_DATA_SOURCE: {
-    label: "No Data Source",
+    label: "Not researched yet",
     chip: "bg-stone-50 text-stone-400 border-stone-200",
   },
 };
@@ -82,7 +94,7 @@ export default function CapabilityCard({
       )}
       {!live && dependency && (
         <p className="text-[10px] text-stone-400 mt-auto pt-3 leading-relaxed">
-          <span className="font-display font-bold text-stone-500">Depends on: </span>
+          <span className="font-display font-bold text-stone-500">Why not yet: </span>
           {dependency}
         </p>
       )}

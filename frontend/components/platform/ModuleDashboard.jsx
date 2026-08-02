@@ -45,10 +45,15 @@ export default function ModuleDashboard({
     <div className="space-y-8" data-testid={testId}>
       <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-5">
         <section className="card-base p-6">
-          <div className="flex items-center justify-between gap-3 mb-5">
+          {/* `flex-wrap`: the heading went from "Buildout Plan" to a sentence,
+              and on a 390px screen a two-word heading and a five-word heading
+              do not lay out the same way. Without wrapping, the heading broke
+              across two lines while the button stayed pinned beside it and
+              squeezed. The button now drops below on narrow screens instead. */}
+          <div className="flex flex-wrap items-center justify-between gap-3 mb-5">
             <div>
-              <span className="chip bg-amber-50 text-amber-700 border border-amber-100">ROADMAP</span>
-              <h2 className="font-display font-extrabold text-2xl text-ink mt-3">Buildout Plan</h2>
+              <span className="chip bg-amber-50 text-amber-700 border border-amber-100">WHAT IS NEXT</span>
+              <h2 className="font-display font-extrabold text-2xl text-ink mt-3">Where this is going</h2>
             </div>
             <Link href={primaryHref} className="btn-secondary !py-2 !px-4 text-sm">{primaryLabel}</Link>
           </div>
@@ -65,14 +70,14 @@ export default function ModuleDashboard({
         </section>
 
         <section className="card-base p-6">
-          <span className="chip bg-teal-50 text-teal-700 border border-teal-100">CAPABILITIES</span>
+          <span className="chip bg-teal-50 text-teal-700 border border-teal-100">WHAT YOU CAN USE</span>
           <h2 className="font-display font-extrabold text-2xl text-ink mt-3 mb-2">
             What works today
           </h2>
           <p className="text-xs text-muted mb-5 leading-relaxed">
             {liveCaps.length > 0
-              ? `${liveCaps.length} of ${caps.length} are backed by the knowledge base and open from here.`
-              : "None of these is backed by the knowledge base yet."}
+              ? `${liveCaps.length} of these ${caps.length} are ready to open right now.`
+              : "None of these is ready to open yet."}
           </p>
 
           <div className="flex flex-wrap gap-2" data-testid="module-capabilities">
@@ -120,8 +125,8 @@ export default function ModuleDashboard({
       <section>
         <div className="flex items-end justify-between gap-3 mb-4">
           <div>
-            <span className="chip bg-stone-100 text-stone-600 border border-stone-200">MODULE AREAS</span>
-            <h2 className="font-display font-extrabold text-2xl text-ink mt-3">Expansion Cards</h2>
+            <span className="chip bg-stone-100 text-stone-600 border border-stone-200">EXPLORE</span>
+            <h2 className="font-display font-extrabold text-2xl text-ink mt-3">Areas we cover here</h2>
           </div>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">

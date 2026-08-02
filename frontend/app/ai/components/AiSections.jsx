@@ -12,9 +12,13 @@
 import ModuleDashboard from "@/components/platform/ModuleDashboard";
 import { typeCounts } from "@/lib/knowledge";
 
+// PX Phase 2: this sentence said "no model, no inference and no prompt layer
+// exists in this repository", which is precise, true, and readable only by
+// someone who already knows what those three things are. The honesty was the
+// point and it survives — stated as what we do instead of what we lack.
 const NO_MODEL =
-  "No model, no inference and no prompt layer exists in this repository. The " +
-  "recommendation engine that does exist is rule-based and deterministic by design.";
+  "We have not built an AI advisor. What suggests things to you today follows " +
+  "fixed rules we wrote by hand, and it always tells you which rule it used.";
 
 export default async function AiSections() {
   const counts = await typeCounts();
@@ -33,7 +37,7 @@ export default async function AiSections() {
       emoji: "🕸️",
       title: "Everything we have researched",
       description:
-        "The structured layer any future advisor would read: entities, typed relationships and provenance on every edge.",
+        "Districts, skills, courses, schemes and business ideas — each one linked to the others, and each one saying where the information came from.",
       ...(total > 0
         ? { status: "LIVE", href: "/knowledge", count: total }
         : {
@@ -67,9 +71,9 @@ export default async function AiSections() {
         "you why. That is deliberate — you can check our reasoning."
       }
       roadmap={[
-        "Keep AI dependent on trustworthy human-readable modules and structured platform knowledge.",
+        "Any advice we ever give will be built on research you can open and check for yourself.",
         "Connect districts, skills, businesses and schemes so guidance can draw on all of them at once.",
-        "Introduce advisors only after content quality, permissions, and safety boundaries are ready.",
+        "Add an advisor only once we are confident it will not mislead anyone about their money or their career.",
       ]}
       capabilities={[
         { label: "Everything we have researched", status: total ? "LIVE" : "NOT_AVAILABLE_YET", href: "/knowledge", count: total },

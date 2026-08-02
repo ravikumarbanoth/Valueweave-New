@@ -258,7 +258,7 @@ async function GraphDetail({ params }) {
 
         {fields.length > 0 && detail && (
           <section className="card-base p-5" data-testid="entity-attributes">
-            <h2 className="font-display font-bold text-ink mb-4">Details</h2>
+            <h2 className="font-display font-bold text-ink mb-4">What you should know</h2>
             <AttributeGrid fields={fields} row={detail} />
           </section>
         )}
@@ -272,7 +272,10 @@ async function GraphDetail({ params }) {
 
         <section data-testid="entity-related" className="card-base p-5 flex flex-col gap-4">
           <div className="flex flex-wrap items-center justify-between gap-2">
-            <h2 className="font-display font-bold text-ink">Connected knowledge</h2>
+            {/* PX Phase 2: was "Connected knowledge". "Knowledge" is what we
+                call the database; "where this leads" is what the section is
+                for — the next hop in someone's actual journey. */}
+            <h2 className="font-display font-bold text-ink">Where this leads next</h2>
             <RelatedSourceSummary grouped={related} />
           </div>
           <RelatedEntities

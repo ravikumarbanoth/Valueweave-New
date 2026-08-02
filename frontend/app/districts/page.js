@@ -23,8 +23,8 @@ import { buildBaseMetadata, BASE_URL } from "@/lib/seo";
 export const revalidate = 300;
 
 export const metadata = buildBaseMetadata({
-  title: "District Intelligence | ValueWeave",
-  description: "Discover district-level opportunity, industry, resource, infrastructure, skill, manufacturing, and scheme intelligence.",
+  title: "Districts | ValueWeave",
+  description: "Find out what your district is known for — the industries, the businesses people start there, the training available, and the government schemes that apply.",
   alternates: { canonical: `${BASE_URL}/districts` },
 });
 
@@ -48,9 +48,12 @@ export default async function DistrictsPage() {
 
   return (
     <ModuleShell
-      badge="DISTRICT INTELLIGENCE"
+      badge="DISTRICTS"
       title="Discover Where Opportunities Exist"
-      description="A canonical district intelligence layer for local opportunity discovery, industry context, resources, infrastructure, skills, manufacturing, and schemes."
+      // PX Phase 2: was "A canonical district intelligence layer for local
+      // opportunity discovery...". Three of those words describe how the data
+      // is stored and none of them describe what the page is for.
+      description="Start with where you already are. Every district here shows the industries around it, the businesses people start there, where to learn the skills, and which government schemes apply."
     >
       <div className="space-y-10">
         {entities.length > 0 && (

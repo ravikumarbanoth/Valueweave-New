@@ -59,8 +59,9 @@ export default async function ManufacturingSections() {
       description: "Space, layout, compliance sequence, and setup order.",
       status: "NO_DATA_SOURCE",
       dependency:
-        "No package holds layouts, site requirements or a compliance sequence. " +
-        "Investment ranges exist on each business opportunity; a plan does not.",
+        "We have not researched factory layouts, land requirements, or the order to " +
+        "get licences in. Each business idea does tell you the money needed to " +
+        "start — but not how to lay the place out.",
     },
   ];
 
@@ -69,14 +70,14 @@ export default async function ManufacturingSections() {
       primaryHref="/knowledge?type=business"
       primaryLabel="Browse opportunities"
       dependency={
-        "Production planning, supplier discovery and compliance workflows are not " +
-        "built and have no source data. What exists is the catalogue they would " +
-        "operate on: opportunities, machinery, raw materials and market channels."
+        "We have not built production planning, supplier search or licence tracking, " +
+        "and we have not researched them either. What we do have is everything " +
+        "they would work on: business ideas, machinery, raw materials and places to sell."
       }
       roadmap={[
-        "Organize product, machinery, supplier, raw material, and compliance knowledge into reusable modules.",
+        "Gather what a manufacturer needs in one place: products, machinery, suppliers, raw materials and licences.",
         "Connect manufacturing guides to district industries and readiness pathways.",
-        "Prepare future operating dashboards without introducing production business logic yet.",
+        "Build day-to-day tools for running a unit, once we are sure the underlying research is right.",
       ]}
       capabilities={[
         { label: "Business opportunities", status: counts.BusinessOpportunity ? "LIVE" : "NOT_AVAILABLE_YET", href: "/knowledge?type=business", count: counts.BusinessOpportunity },
@@ -85,9 +86,9 @@ export default async function ManufacturingSections() {
         { label: "Market channels", status: counts.Market ? "LIVE" : "NOT_AVAILABLE_YET", href: "/knowledge?type=market", count: counts.Market },
         { label: "MSMEs", status: counts.MSME ? "LIVE" : "NOT_AVAILABLE_YET", href: "/knowledge?type=msme", count: counts.MSME },
         { label: "Suppliers", dependency: "Raw materials are researched; the firms that supply them are not." },
-        { label: "Factory planning", dependency: "No layout or site-requirement data in any package." },
-        { label: "Production", dependency: "No throughput, staffing or quality data in any package." },
-        { label: "Compliance", dependency: "No licence or inspection data in any package." },
+        { label: "Factory planning", dependency: "We have not researched factory layouts or land requirements." },
+        { label: "Production", dependency: "We have not researched output rates, staffing or quality checks." },
+        { label: "Compliance", dependency: "We have not researched licences or inspections." },
       ]}
       cards={cards}
     />

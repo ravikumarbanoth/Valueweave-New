@@ -60,9 +60,9 @@ export default async function ScaleSections() {
       description: "Upgrade paths from manual operation to automated production.",
       status: "NO_DATA_SOURCE",
       dependency:
-        "No package holds automation vendors or upgrade paths. Business rows carry " +
-        "an `automation_level` and `ai_readiness` rating, which describes a business " +
-        "rather than the equipment that would change it.",
+        "We have not researched who sells automation equipment, or what it costs to " +
+        "upgrade. Each business idea does say how much of the work a machine could " +
+        "do — but that describes the work, not the machine.",
     },
   ];
 
@@ -71,25 +71,25 @@ export default async function ScaleSections() {
       primaryHref="/knowledge?type=export"
       primaryLabel="Browse export destinations"
       dependency={
-        "Quality systems, ERP, logistics and energy have no source data in any " +
-        "package. The parts of scaling that are researched — export destinations, " +
-        "market channels and capital sources — are browsable above."
+        "We have not researched quality systems, business software, transport or " +
+        "energy yet. The parts of growing a business we have researched — export " +
+        "destinations, places to sell, and where the money comes from — are open above."
       }
       roadmap={[
-        "Define the operating maturity ladder from local production to competitive manufacturing.",
-        "Map scale resources to quality, logistics, energy, ERP, export, automation, and robotics needs.",
+        "Lay out the steps from selling locally to competing with the best manufacturers.",
+        "Research what a growing business actually needs: quality, transport, energy, software, exports and automation.",
         "Connect mature businesses back into the ecosystem as mentors, suppliers, and local anchors.",
       ]}
       capabilities={[
         { label: "Export destinations", status: counts.ExportCountry ? "LIVE" : "NOT_AVAILABLE_YET", href: "/knowledge?type=export", count: counts.ExportCountry },
         { label: "Market channels", status: counts.Market ? "LIVE" : "NOT_AVAILABLE_YET", href: "/knowledge?type=market", count: counts.Market },
         { label: "Capital sources", status: counts.FinancialInstitution ? "LIVE" : "NOT_AVAILABLE_YET", href: "/knowledge?type=bank", count: counts.FinancialInstitution },
-        { label: "Automation", dependency: "No automation vendor or upgrade-path data in any package." },
-        { label: "Robotics", dependency: "No robotics data in any package." },
-        { label: "ERP", dependency: "No software or systems data in any package." },
+        { label: "Automation", dependency: "We have not researched automation suppliers or what upgrading costs." },
+        { label: "Robotics", dependency: "We have not researched robotics yet." },
+        { label: "ERP", dependency: "We have not researched business software yet." },
         { label: "Quality", dependency: "We list certifications you can earn, but not quality systems for a business." },
-        { label: "Logistics", dependency: "No carrier, route or freight data in any package." },
-        { label: "Energy", dependency: "No tariff or renewable-capacity data in any package." },
+        { label: "Logistics", dependency: "We have not researched transport companies, routes or freight costs." },
+        { label: "Energy", dependency: "We have not researched electricity tariffs or solar capacity." },
       ]}
       cards={cards}
     />

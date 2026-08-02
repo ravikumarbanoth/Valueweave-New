@@ -45,7 +45,7 @@ export default function KnowledgeCard({
         <div className="flex items-center gap-1.5 shrink-0">
           {matchScore !== undefined && matchScore !== null && (
             <span
-              title="How well this matches your profile. Separate from source confidence."
+              title="How closely this fits the skills and district on your profile. This is about you — it is not a rating of how reliable the information is."
               className="chip bg-teal-50 text-teal-700 border border-teal-200 text-[10px] tabular-nums"
             >
               {Math.round(Number(matchScore))}% match

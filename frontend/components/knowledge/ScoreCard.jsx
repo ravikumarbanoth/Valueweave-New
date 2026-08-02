@@ -38,7 +38,7 @@ export default function ScoreCard({ label, score, status, confidence, reason, de
         )}
         {confidence > 0 && (
           <span
-            title="Lowest source confidence among the rows behind this score."
+            title="How reliable the weakest source behind this number is. We show the lowest one, not the average, so the score is never flattered."
             className="chip bg-stone-50 text-stone-500 border border-stone-200 text-[10px] tabular-nums"
           >
             source {confidence}/100

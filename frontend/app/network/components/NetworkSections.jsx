@@ -42,8 +42,9 @@ export default async function NetworkSections() {
       description: "Domain, finance, operations, technology and compliance guidance.",
       status: "NO_DATA_SOURCE",
       dependency:
-        "No package holds mentors or experts. The collaborator marketplace has real " +
-        "people but does not model expertise or seniority.",
+        "We have not started gathering mentors or experts yet. The collaborator " +
+        "marketplace has real people on it, but it cannot yet tell you who is " +
+        "experienced in what.",
     },
     {
       emoji: "💼",
@@ -66,19 +67,19 @@ export default async function NetworkSections() {
         "are open above."
       }
       roadmap={[
-        "Keep existing collaborator marketplace stable and accessible under the broader network layer.",
-        "Add future network roles for experts, mentors, investors, institutions, and communities.",
+        "Keep the collaborator marketplace working exactly as it does today.",
+        "Add experts, mentors, investors, institutions and communities you can actually reach.",
         "Connect people and capital to districts, skills, opportunities, manufacturing, and scaling resources.",
       ]}
       capabilities={[
         { label: "Collaborator marketplace", status: "LIVE", href: "/collaborators" },
         { label: "Institutions", status: institutions ? "LIVE" : "NOT_AVAILABLE_YET", href: "/knowledge?type=institution", count: institutions },
         { label: "Financial institutions", status: counts.FinancialInstitution ? "LIVE" : "NOT_AVAILABLE_YET", href: "/knowledge?type=bank", count: counts.FinancialInstitution },
-        { label: "Experts", dependency: "No expertise or seniority model exists." },
-        { label: "Mentors", dependency: "No package holds mentors." },
-        { label: "Investors", dependency: "No individual investor, ticket size or mandate data." },
-        { label: "Communities", dependency: "No package holds communities or groups." },
-        { label: "Events", dependency: "No package holds events." },
+        { label: "Experts", dependency: "We cannot yet tell you who is experienced in what." },
+        { label: "Mentors", dependency: "We have not started gathering mentors yet." },
+        { label: "Investors", dependency: "We have not gathered individual investors, or how much they usually put in." },
+        { label: "Communities", dependency: "We have not started gathering communities or groups yet." },
+        { label: "Events", dependency: "We have not started gathering events yet." },
       ]}
       cards={cards}
     />

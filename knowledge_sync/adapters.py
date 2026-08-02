@@ -93,6 +93,16 @@ class Target(ABC):
         """Undo a soft delete. Used only by rollback."""
         raise NotImplementedError
 
+    def describe(self):
+        """One line naming this target and its destination, safe to log.
+
+        Asked for after the default transport changed: a shell variable says
+        which target was *intended*, and only the constructed object can say
+        which one is actually about to write. Implementations must never include
+        a credential — see the masking in each.
+        """
+        return f"{type(self).__name__} (no destination)"
+
 
 class InMemoryTarget(Target):
     """Fixture target. Faithful enough to test every code path, and inspectable."""
@@ -105,6 +115,9 @@ class InMemoryTarget(Target):
         for table, rows in (seed or {}).items():
             for r in rows:
                 self.rows[table][r["sync_row_key"]] = dict(r)
+
+    def describe(self):
+        return "InMemoryTarget -> in-process dict (nothing is persisted)"
 
     def _maybe_fail(self, table, op):
         if (table, op) in self.fail_on:
@@ -175,6 +188,12 @@ class SupabaseTarget(Target):
                 "SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are required. "
                 "For a dry run or a test, use InMemoryTarget instead — no "
                 "credentials are needed for either.")
+
+    def describe(self):
+        host = (self.url or "").split("//", 1)[-1].split("/", 1)[0] or "(unset)"
+        return (f"SupabaseTarget -> PostgREST at {_mask_host(host)} "
+                f"schema={self.schema} "
+                f"[subject to API > Exposed schemas]")
 
     @property
     def client(self):
@@ -256,6 +275,29 @@ class PostgresTarget(Target):
             raise TargetError(
                 "DATABASE_URL is required for --target postgres. For a dry run "
                 "or a test, use InMemoryTarget instead — no credentials needed.")
+
+    def describe(self):
+        """Host, port and database. Never the password.
+
+        Parsed with urlsplit rather than split on punctuation, because a Postgres
+        password may legally contain '@' and ':' and a naive split puts part of
+        it in the log.
+        """
+        from urllib.parse import urlsplit, parse_qs                # noqa: PLC0415
+        try:
+            u = urlsplit(self.dsn or "")
+            host = u.hostname or parse_qs(u.query).get("host", [""])[0] \
+                or "(local socket)"
+            try:
+                port = f":{u.port}" if u.port else ""
+            except ValueError:
+                port = ""
+            db = (u.path or "").lstrip("/") or "(default)"
+        except Exception:                                          # noqa: BLE001
+            host, port, db = "(unparseable)", "", "(unknown)"
+        return (f"PostgresTarget -> postgresql://{host}{port}/{db} "
+                f"schema={self.schema} "
+                f"[Exposed schemas does not apply]")
 
     @staticmethod
     def _psycopg():
@@ -379,6 +421,14 @@ class PostgresTarget(Target):
         if self._conn is not None:
             self._conn.close()
             self._conn = None
+
+
+def _mask_host(host):
+    """Hide the project ref in a Supabase hostname, keep the shape."""
+    parts = host.split(".")
+    if len(parts) > 2:
+        parts[0] = "****"
+    return ".".join(parts)
 
 
 def utcnow():

@@ -72,6 +72,21 @@ def cmd_sync(args):
         print("NOTE: --target memory writes to an in-process store that is discarded "
               "when this command exits. Useful for rehearsal; it syncs nothing.\n")
 
+    # The constructed object states what it is and where it points, before it is
+    # handed anything to write.
+    #
+    # A flag says which target was asked for; only this says which one exists.
+    # The two can disagree — a default changes, a wrapper passes the wrong
+    # string, an env var overrides — and when the question is "which database
+    # just received 1,812 rows", intent is not evidence.
+    #
+    # stderr, and unconditionally. On stdout it was printed and then discarded:
+    # run_sync.sh pipes this command through `tail -6`, which keeps the summary
+    # and drops everything before it — including the one line the operator asked
+    # for. stderr also keeps --json output machine-readable without needing a
+    # special case.
+    print(f"[target] {target.describe()}", file=sys.stderr)
+
     mode = SyncMode.FULL if args.full else SyncMode.INCREMENTAL
     engine = SyncEngine(target=target, quiet=args.json)
     try:

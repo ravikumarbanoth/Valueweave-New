@@ -63,6 +63,62 @@ need_cmd() {
   done
 }
 
+# A connection string, safe to print.
+#
+# Parsed with urllib rather than cut/sed: a Postgres password may legally contain
+# `@`, `:` and `/`, so a naive split on those puts part of the credential in the
+# log — which is the exact opposite of what a masking helper is for.
+#
+# Shows scheme, host, port and database in full, because the whole point is to
+# let someone confirm which database is about to be written to. The password is
+# replaced outright; the username keeps its prefix and loses the rest, since on
+# Supabase poolers it carries the project ref (postgres.<ref>).
+mask_dsn() {
+  python3 - "$1" <<'PYEOF'
+import sys
+from urllib.parse import urlsplit, parse_qs
+
+raw = (sys.argv[1] if len(sys.argv) > 1 else "").strip()
+if not raw:
+    print("(not set)"); raise SystemExit
+
+try:
+    u = urlsplit(raw)
+except Exception:
+    print("(unparseable — check the DATABASE_URL secret)"); raise SystemExit
+
+# Host may be absent from the authority and supplied as a query parameter
+# instead: `postgresql://user@/db?host=/var/run/postgresql` is a valid libpq URI
+# and is what a unix-socket connection looks like. Rejecting it as unparseable
+# would report a fault in a working configuration.
+host = u.hostname or (parse_qs(u.query).get("host", [""])[0]) or "(local socket)"
+
+# .port raises on a non-numeric port, which happens when an unencoded ":" in the
+# password confuses the authority split. Degrade to "no port shown" rather than
+# declaring the whole DSN unreadable — and never fall back to printing the raw
+# string, which is where the password lives.
+try:
+    port = f":{u.port}" if u.port else ""
+except ValueError:
+    port = ""
+
+user = u.username or ""
+if user:
+    head = user.split(".", 1)[0]
+    user = head + (".****" if "." in user else "")
+cred = f"{user}:****@" if (u.username or u.password or "@" in u.netloc) else ""
+
+db = (u.path or "").lstrip("/") or "(default)"
+scheme = u.scheme or "postgresql"
+print(f"{scheme}://{cred}{host}{port}/{db}")
+PYEOF
+}
+
+# Same idea for a project URL: keep the shape, hide the project ref.
+mask_url() {
+  printf '%s' "${1:-(not set)}" | sed -E 's#(https://)[^./]+#\1****#'
+}
+
 # One scalar out of Postgres, whitespace trimmed. Empty string on error, so a
 # caller decides what a failed query means rather than the script dying inside a
 # health check whose whole job is to report failure.

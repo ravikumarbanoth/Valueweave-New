@@ -75,13 +75,44 @@ case "$SYNC_TARGET" in
   *) fail "VW_SYNC_TARGET must be 'postgres' or 'supabase', got '$SYNC_TARGET'" ;;
 esac
 
+# Say where this is about to write, before anything reads or writes.
+#
+# The default transport changed from PostgREST to Postgres, and "the default
+# changed" is not something anyone should have to take on trust when the thing
+# being changed is which database gets 1,812 rows. Printed before the table
+# checks so that if those checks look at the wrong database, the log already
+# says which one.
+#
+# The adapter prints its own line when it is constructed. That one is the proof:
+# this is intent, that is fact. If the two ever disagree, believe the adapter.
+step "Transport"
+info "target:   $SYNC_TARGET"
+case "$SYNC_TARGET" in
+  postgres)
+    info "database: $(mask_dsn "${DATABASE_URL:-}")"
+    info "note:     writes over the PostgreSQL protocol — the API's Exposed"
+    info "          schemas setting does not apply to this path"
+    ;;
+  supabase)
+    info "endpoint: $(mask_url "${SUPABASE_URL:-}")"
+    info "note:     writes through PostgREST — requires 'knowledge' under"
+    info "          Project Settings -> API -> Exposed schemas"
+    ;;
+esac
+
 # Do the tables exist? Nothing checked, and the failure without this is a raw
 # PostgREST error surfacing through the SDK — technically accurate and useless
 # for working out that the migrations were never run.
 #
-# Skipped rather than failed when DATABASE_URL is absent: the sync itself writes
-# over the REST API and does not need a Postgres connection, so requiring one
-# here would break a legitimate way to run this script.
+# Uses psql and DATABASE_URL — not PostgREST — so it reports on the same database
+# the default transport writes to.
+#
+# Still skipped rather than failed when psql is unavailable: with
+# VW_SYNC_TARGET=supabase the sync needs no Postgres connection at all, and
+# demanding one here would refuse a legitimate run. When the target IS postgres,
+# DATABASE_URL is already guaranteed present by the guard above, so the only way
+# to reach the skip is a runner without psql — which is called out loudly below
+# rather than passed over in silence.
 if [[ -n "${DATABASE_URL:-}" ]] && command -v psql >/dev/null 2>&1; then
   step "Checking the target tables exist"
   missing=""
@@ -101,15 +132,21 @@ if [[ -n "${DATABASE_URL:-}" ]] && command -v psql >/dev/null 2>&1; then
       by hand   docs/MANUAL_DEPLOYMENT_PLAN.md — an audit query to run first,
                 then the exact files in order
 
-    Note: creating the tables is NOT sufficient. The sync writes through
-    PostgREST, which serves only schemas listed under Project Settings -> API ->
-    Exposed schemas. That is a server config, not a permission check, so the
-    service-role key does not bypass it. Add 'knowledge' there too."
+    Run sql/deploy_knowledge.sql in the Supabase SQL Editor — one paste, all
+    15 tables, and safe to re-run."
   fi
   ok "all 8 target tables present"
+elif [[ "$SYNC_TARGET" == "postgres" ]]; then
+  # DATABASE_URL is guaranteed present here — the guard above demanded it — so
+  # the only way to land in this branch is a runner without psql. Warn rather
+  # than info: the check that would have caught "schema deployed but empty"
+  # before writing anything just did not run.
+  warn "psql is not installed — the table-existence check was SKIPPED.
+    A missing table will now surface partway through apply as a psycopg
+    UndefinedTable error instead of a clear message here."
 else
-  info "no DATABASE_URL or psql — skipping the table check; a missing table will
-    surface as a PostgREST error during apply"
+  info "target is supabase and psql is unavailable — skipping the table check;
+    a missing table will surface as a PostgREST error during apply"
 fi
 
 step "Applying${FULL:+ (full rebuild)} via --target $SYNC_TARGET"

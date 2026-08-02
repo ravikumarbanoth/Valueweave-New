@@ -753,5 +753,130 @@ class SyncTransportTest(unittest.TestCase):
                       "the PGRST106 branch must not exit non-zero")
 
 
+class TransportVisibilityTest(unittest.TestCase):
+    """
+    Proof, in the log, of which target actually ran.
+
+    The default transport changed from PostgREST to Postgres. A shell variable
+    records which was *intended*; only the constructed object can say which one
+    exists. The two can disagree — a default changes, a wrapper passes the wrong
+    string, an env var overrides — and "which database received 1,812 rows" is
+    not a question to answer from intent.
+    """
+
+    ROOT = Path(__file__).resolve().parent.parent
+    SECRET = "sup3rs3cret"
+    DSN = f"postgresql://postgres.abcdefgh:{SECRET}@aws-0-ap-south-1.pooler.supabase.com:6543/postgres"
+
+    def test_every_target_can_describe_itself(self):
+        self.assertIn("InMemoryTarget", InMemoryTarget().describe())
+        self.assertIn("PostgresTarget", PostgresTarget(dsn=self.DSN).describe())
+        self.assertIn("SupabaseTarget",
+                      SupabaseTarget(url="https://x.supabase.co", service_role_key="k")
+                      .describe())
+
+    def test_describe_names_the_host_and_database(self):
+        """The point is to let someone confirm the destination at a glance."""
+        d = PostgresTarget(dsn=self.DSN).describe()
+        self.assertIn("aws-0-ap-south-1.pooler.supabase.com:6543", d)
+        self.assertIn("/postgres", d)
+        self.assertIn("schema=knowledge", d)
+
+    def test_describe_never_prints_a_credential(self):
+        """The whole reason it is parsed rather than printed.
+
+        A Postgres password may contain '@' and ':', so a naive split leaks part
+        of it. Checked against the awkward forms, not just the tidy one.
+        """
+        awkward = [
+            self.DSN,
+            "postgresql://u:p%40ss%3Aword@h.example.com:5432/db",
+            "postgresql://postgres@/prod?host=/var/run/postgresql",
+            "postgresql://user:with:colons@host/db",
+            "garbage", "",
+        ]
+        for dsn in awkward:
+            with self.subTest(dsn=dsn[:40]):
+                out = PostgresTarget(dsn=dsn or "x").describe()
+                for leak in (self.SECRET, "p%40ss%3Aword", "with:colons"):
+                    self.assertNotIn(leak, out)
+
+    def test_supabase_describe_masks_the_project_ref(self):
+        d = SupabaseTarget(url="https://abcdefgh.supabase.co",
+                           service_role_key="k").describe()
+        self.assertNotIn("abcdefgh", d)
+        self.assertIn("supabase.co", d)
+
+    def test_describe_says_whether_exposed_schemas_applies(self):
+        """The distinction that caused nine failed runs, stated where it is read."""
+        self.assertIn("Exposed schemas does not apply",
+                      PostgresTarget(dsn=self.DSN).describe())
+        self.assertIn("Exposed schemas",
+                      SupabaseTarget(url="https://x.supabase.co",
+                                     service_role_key="k").describe())
+
+    def test_the_cli_announces_the_target_on_stderr(self):
+        """stderr, because run_sync.sh pipes this command through `tail -6`.
+
+        On stdout the line was printed and then discarded before anyone saw it —
+        which is worse than not printing it, because the code looks correct.
+        """
+        src = (self.ROOT / "knowledge_sync" / "cli.py").read_text(encoding="utf-8")
+        self.assertIn('print(f"[target] {target.describe()}", file=sys.stderr)', src)
+
+    def test_run_sync_prints_the_transport_before_any_table_check(self):
+        """Order matters: if the table check looks at the wrong database, the log
+        must already say which database that was."""
+        src = (self.ROOT / "scripts" / "run_sync.sh").read_text(encoding="utf-8")
+        banner = src.index('step "Transport"')
+        check = src.index('step "Checking the target tables exist"')
+        self.assertLess(banner, check,
+                        "the transport banner must precede the table check")
+        self.assertIn('info "target:   $SYNC_TARGET"', src)
+        self.assertIn('mask_dsn "${DATABASE_URL:-}"', src)
+
+    def test_a_runner_without_psql_warns_rather_than_shrugs(self):
+        """With target=postgres, DATABASE_URL is guaranteed, so the only way to
+        skip the table check is a missing psql — and that skip removes the check
+        that catches "schema deployed but empty" before anything is written."""
+        src = (self.ROOT / "scripts" / "run_sync.sh").read_text(encoding="utf-8")
+        self.assertIn("the table-existence check was SKIPPED", src)
+        self.assertRegex(src, r'warn "psql is not installed')
+
+    def test_no_check_in_the_postgres_path_uses_postgrest(self):
+        """Every remaining SUPABASE_* mention must be inside the opt-in branch."""
+        src = (self.ROOT / "scripts" / "run_sync.sh").read_text(encoding="utf-8")
+        code = [l for l in src.splitlines() if not l.lstrip().startswith("#")]
+
+        # Block-aware, not line-aware. A `supabase)` branch spans several lines,
+        # so requiring the label on the same line as the reference flagged the
+        # transport banner's own endpoint line — which is inside the branch and
+        # perfectly correct.
+        in_supabase_branch = False
+        offenders = []
+        for line in code:
+            stripped = line.strip()
+            if stripped.startswith("supabase)"):
+                in_supabase_branch = True
+            elif in_supabase_branch and stripped.endswith(";;"):
+                in_supabase_branch = False
+                continue
+            if not in_supabase_branch and (
+                    "SUPABASE_URL" in line or "SUPABASE_SERVICE_ROLE_KEY" in line):
+                offenders.append(stripped[:70])
+        self.assertEqual(
+            offenders, [],
+            "Supabase credentials referenced outside the opt-in supabase branch, "
+            f"so the postgres path still depends on them: {offenders}")
+
+        for token in ("rest/v1", "Accept-Profile"):
+            self.assertNotIn(token, "\n".join(code))
+
+    def test_the_table_check_reads_through_postgres(self):
+        src = (self.ROOT / "scripts" / "run_sync.sh").read_text(encoding="utf-8")
+        self.assertIn("psql_scalar \"select to_regclass('knowledge.$tbl')", src)
+        self.assertIn('psql_scalar "select count(*) from knowledge.kg_entities;"', src)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

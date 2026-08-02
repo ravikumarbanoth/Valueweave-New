@@ -124,13 +124,14 @@ if [[ -n "${DATABASE_URL:-}" ]] && command -v psql >/dev/null 2>&1; then
   # PostgREST — the tables were there and psql simply could not connect. The
   # message sent the reader to redeploy a schema that was already correct.
   if ! probe_err=$(psql_probe); then
-    fail "cannot connect to DATABASE_URL — this is a credentials problem, NOT a
-    missing schema.
+    fail "cannot connect to DATABASE_URL. Whatever else is true, this is NOT a
+    missing schema — nothing here was able to look.
 
     psql said:
       ${probe_err:-(no output)}
 
     Target: $(mask_dsn "${DATABASE_URL:-}")
+$(diagnose_pg_failure "$probe_err" "${DATABASE_URL:-}")
 
     The tables may well exist; nothing here could look. Check the DATABASE_URL
     secret against Project Settings -> Database -> Connection string. The most

@@ -268,6 +268,10 @@ class PostgresTarget(Target):
     would be a different contract, and this class exists to be a drop-in.
     """
 
+    #: Supavisor's transaction-mode port. Supabase publishes the transaction
+    #: pooler on 6543 and the session pooler on 5432, both on *.pooler.supabase.com.
+    TRANSACTION_POOLER_PORT = 6543
+
     def __init__(self, dsn=None, connection=None):
         self.dsn = dsn or os.environ.get("DATABASE_URL")
         self._conn = connection
@@ -276,12 +280,11 @@ class PostgresTarget(Target):
                 "DATABASE_URL is required for --target postgres. For a dry run "
                 "or a test, use InMemoryTarget instead — no credentials needed.")
 
-    def describe(self):
-        """Host, port and database. Never the password.
+    def _endpoint(self):
+        """(host, port, dbname) from the DSN, or ('(unparseable)', None, ...).
 
-        Parsed with urlsplit rather than split on punctuation, because a Postgres
-        password may legally contain '@' and ':' and a naive split puts part of
-        it in the log.
+        Never raises: it is used by describe(), which has to work on a DSN too
+        broken to connect with — that is exactly when someone needs to read it.
         """
         from urllib.parse import urlsplit, parse_qs                # noqa: PLC0415
         try:
@@ -289,14 +292,53 @@ class PostgresTarget(Target):
             host = u.hostname or parse_qs(u.query).get("host", [""])[0] \
                 or "(local socket)"
             try:
-                port = f":{u.port}" if u.port else ""
+                port = u.port
             except ValueError:
-                port = ""
-            db = (u.path or "").lstrip("/") or "(default)"
+                port = None
+            return host, port, (u.path or "").lstrip("/") or "(default)"
         except Exception:                                          # noqa: BLE001
-            host, port, db = "(unparseable)", "", "(unknown)"
-        return (f"PostgresTarget -> postgresql://{host}{port}/{db} "
-                f"schema={self.schema} "
+            return "(unparseable)", None, "(unknown)"
+
+    def connection_mode(self):
+        """Which Supabase connection method this DSN points at.
+
+        It decides one thing that matters: whether server-side prepared
+        statements are safe. Measured, not assumed — psycopg3 defaults to
+        prepare_threshold=5 and does create a named prepared statement for the
+        upsert this class issues (verified against PostgreSQL 16).
+
+        Under Supavisor TRANSACTION mode the connection returns to the pool
+        after every transaction, so the backend holding `_pg3_0` is not the one
+        that runs the next statement, and the sync dies on
+        `prepared statement "_pg3_0" does not exist`. Session mode and a direct
+        connection both keep one backend for the whole session, where preparing
+        is correct and faster.
+        """
+        host, port, _ = self._endpoint()
+        if port == self.TRANSACTION_POOLER_PORT:
+            return "transaction-pooler"
+        if "pooler.supabase.com" in host:
+            return "session-pooler"
+        if host.startswith("db.") and host.endswith(".supabase.co"):
+            return "direct"
+        return "other"
+
+    def describe(self):
+        """Host, port, database and connection mode. Never the password.
+
+        Parsed rather than split on punctuation, because a Postgres password may
+        legally contain '@' and ':' and a naive split puts part of it in the log.
+
+        The mode is here because it is the difference between a run that works
+        and one that cannot reach the host at all — a direct connection resolves
+        to IPv6 only, and GitHub's hosted runners have no IPv6 route.
+        """
+        host, port, db = self._endpoint()
+        mode = self.connection_mode()
+        prep = " prepared-statements=off" if mode == "transaction-pooler" else ""
+        port_s = f":{port}" if port else ""
+        return (f"PostgresTarget -> postgresql://{host}{port_s}/{db} "
+                f"schema={self.schema} mode={mode}{prep} "
                 f"[Exposed schemas does not apply]")
 
     @staticmethod
@@ -319,7 +361,13 @@ class PostgresTarget(Target):
     def conn(self):
         if self._conn is None:
             psycopg, _, _ = self._psycopg()
-            self._conn = psycopg.connect(self.dsn, autocommit=True)
+            kwargs = {"autocommit": True}
+            if self.connection_mode() == "transaction-pooler":
+                # Not an optimisation toggle — a correctness requirement. See
+                # connection_mode(). Costs nothing at this volume: 1,812 rows
+                # apply in well under a second either way.
+                kwargs["prepare_threshold"] = None
+            self._conn = psycopg.connect(self.dsn, **kwargs)
         return self._conn
 
     def _qualified(self, table):

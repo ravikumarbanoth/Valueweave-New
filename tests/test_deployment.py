@@ -446,12 +446,42 @@ class ScriptContractTest(unittest.TestCase):
             with self.subTest(script=name):
                 self.assertIn("need_env", read(SCRIPTS / name))
 
+    #: A JWT, or a connection URI carrying a password.
+    CREDENTIAL = re.compile(r"(eyJ[A-Za-z0-9_-]{20,}|postgres(ql)?://[^\s\"']*:[^\s\"']+@)")
+
+    @classmethod
+    def _is_template(cls, text):
+        """`postgresql://user:<password>@host` is documentation, not a secret.
+
+        The scanner cannot tell a filled-in URI from a blank one, and it started
+        firing on a guidance message that shows an operator the shape of the
+        session-pooler string. Weakening the pattern would be the wrong fix; an
+        angle-bracket placeholder is unambiguous, and nothing else is exempted.
+        """
+        return "<" in text and ">" in text
+
     def test_no_script_hardcodes_a_credential(self):
-        pattern = re.compile(r"(eyJ[A-Za-z0-9_-]{20,}|postgres(ql)?://[^\s\"']*:[^\s\"']+@)")
         for path in sorted(SCRIPTS.glob("*.sh")):
+            real = [m.group(0) for m in self.CREDENTIAL.finditer(read(path))
+                    if not self._is_template(m.group(0))]
             with self.subTest(script=path.name):
-                self.assertIsNone(pattern.search(read(path)),
-                                  f"{path.name} appears to contain a credential")
+                self.assertEqual(real, [],
+                                 f"{path.name} appears to contain a credential")
+
+    def test_the_credential_scanner_still_catches_a_real_one(self):
+        """The exemption above must not have opened a hole.
+
+        A scanner relaxed to accommodate documentation is worth testing in the
+        direction that matters.
+        """
+        for secret in ("postgresql://postgres:Tr0ub4dor@db.abc.supabase.co:5432/postgres",
+                       "postgres://u:hunter2@h/db",
+                       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9abcdefghij"):
+            with self.subTest(secret=secret[:34]):
+                m = self.CREDENTIAL.search(secret)
+                self.assertIsNotNone(m, "the pattern no longer matches a real credential")
+                self.assertFalse(self._is_template(m.group(0)),
+                                 "a real credential must not be treated as a template")
 
     def test_intelligence_script_defaults_to_not_writing(self):
         """A mistyped command should compute and report, not write to production."""

@@ -912,8 +912,12 @@ class ConnectionDiagnosisTest(unittest.TestCase):
                         "the table check must rule out a connection fault first")
 
     def test_a_connection_failure_does_not_blame_the_schema(self):
-        self.assertIn("this is a credentials problem, NOT a\n    missing schema",
-                      self.run_sync)
+        # The headline deliberately no longer guesses between "credentials" and
+        # "network" — the IPv6 direct-connection case is a network fault, and
+        # calling it a credential problem sent the reader to the wrong setting.
+        # diagnose_pg_failure supplies the specific cause.
+        self.assertIn("this is NOT a\n    missing schema", self.run_sync)
+        self.assertNotIn("this is a credentials problem", self.run_sync)
 
     def test_a_bracketed_password_is_diagnosed_by_name(self):
         """The exact shape that broke a real run: an unreplaced
@@ -962,6 +966,115 @@ class ConnectionDiagnosisTest(unittest.TestCase):
         for dsn in shapes:
             with self.subTest(dsn=dsn[:44]):
                 self.assertNotIn(secret, self._bash(f'mask_dsn "{dsn}"'))
+
+
+class ConnectionMethodTest(unittest.TestCase):
+    """
+    Which of Supabase's three connection methods CI must use, and why the code
+    has to know which one it is looking at.
+
+    A run failed with "Network is unreachable" against
+    db.<ref>.supabase.co:5432. That host publishes an AAAA record only, and
+    GitHub-hosted runners have no IPv6 route, so the socket fails before
+    authentication — a network fault that reads nothing like one if you only see
+    "tables missing" downstream.
+
+    Both poolers are IPv4 and both connect. They are NOT interchangeable here:
+    psycopg 3 defaults to prepare_threshold=5 and does create a server-side
+    prepared statement for the upsert this framework issues. Measured against
+    PostgreSQL 16:
+
+        default (prepare_threshold=5)    prepared=1  rows_written=40
+        prepare_threshold=None           prepared=0  rows_written=40
+
+    Transaction mode returns the connection to the pool between transactions, so
+    the backend holding that statement is not the one that runs the next
+    query. Session mode keeps one backend and is the right choice; transaction
+    mode is supported by turning preparation off.
+    """
+
+    DIRECT = "postgresql://postgres:pw@db.hpqk0000ref.supabase.co:5432/postgres"
+    SESSION = ("postgresql://postgres.hpqk0000ref:pw@"
+               "aws-0-ap-south-1.pooler.supabase.com:5432/postgres")
+    TRANSACTION = ("postgresql://postgres.hpqk0000ref:pw@"
+                   "aws-0-ap-south-1.pooler.supabase.com:6543/postgres")
+
+    def test_each_endpoint_shape_is_recognised(self):
+        for dsn, expected in ((self.DIRECT, "direct"),
+                              (self.SESSION, "session-pooler"),
+                              (self.TRANSACTION, "transaction-pooler")):
+            with self.subTest(expected=expected):
+                self.assertEqual(PostgresTarget(dsn=dsn).connection_mode(), expected)
+
+    def test_the_mode_is_visible_in_the_log(self):
+        """`mode=direct` in a CI run means the connection is about to fail."""
+        for dsn, token in ((self.DIRECT, "mode=direct"),
+                           (self.SESSION, "mode=session-pooler"),
+                           (self.TRANSACTION, "mode=transaction-pooler")):
+            with self.subTest(token=token):
+                self.assertIn(token, PostgresTarget(dsn=dsn).describe())
+
+    def test_transaction_mode_announces_that_preparation_is_off(self):
+        self.assertIn("prepared-statements=off",
+                      PostgresTarget(dsn=self.TRANSACTION).describe())
+        self.assertNotIn("prepared-statements=off",
+                         PostgresTarget(dsn=self.SESSION).describe())
+
+    def test_a_broken_dsn_still_describes_rather_than_raising(self):
+        """describe() is read precisely when the DSN is too broken to connect."""
+        for dsn in ("postgresql://u:[PLACEHOLDER]@db.x.supabase.co:5432/postgres",
+                    "garbage", "postgresql://u:p@h:notaport/db"):
+            with self.subTest(dsn=dsn[:36]):
+                out = PostgresTarget(dsn=dsn).describe()
+                self.assertIn("PostgresTarget", out)
+                self.assertNotIn("PLACEHOLDER", out)
+
+    def test_the_direct_connection_is_diagnosed_from_the_dsn_alone(self):
+        """Not from the error text, which can be empty.
+
+        An unreachable host can produce a bare "psql: error:" with nothing to
+        match on, and a diagnosis that goes quiet exactly when the connection
+        fails is no diagnosis. The DSN shape is known before anything is tried.
+        """
+        import subprocess                                          # noqa: PLC0415
+        common = Path(__file__).resolve().parent.parent / "scripts" / "_common.sh"
+        r = subprocess.run(
+            ["bash", "-c",
+             f'source "{common}" >/dev/null 2>&1; diagnose_pg_failure "" "{self.DIRECT}"'],
+            capture_output=True, text=True)
+        out = r.stdout
+        self.assertIn("NETWORK PROBLEM", out)
+        self.assertIn("IPv6", out)
+        self.assertIn("Session pooler", out)
+        self.assertIn("pooler.supabase.com:5432", out)
+
+    def test_a_pooler_dsn_is_not_accused_of_the_ipv6_fault(self):
+        import subprocess                                          # noqa: PLC0415
+        common = Path(__file__).resolve().parent.parent / "scripts" / "_common.sh"
+        r = subprocess.run(
+            ["bash", "-c",
+             f'source "{common}" >/dev/null 2>&1; '
+             f'diagnose_pg_failure "password authentication failed for user" "{self.SESSION}"'],
+            capture_output=True, text=True)
+        self.assertNotIn("IPv6", r.stdout)
+        self.assertIn("credential, not the network", r.stdout)
+
+    def test_the_comparison_is_documented(self):
+        doc = (Path(__file__).resolve().parent.parent
+               / "docs" / "CONNECTION_METHODS.md").read_text(encoding="utf-8")
+        for token in ("Session Pooler", "Transaction pooler", "Direct",
+                      "IPv6", "6543", "prepare_threshold"):
+            with self.subTest(token=token):
+                self.assertIn(token, doc)
+
+    def test_no_real_project_ref_was_committed(self):
+        """The ref appeared in a support conversation; it does not belong in git."""
+        root = Path(__file__).resolve().parent.parent
+        for rel in ("docs/CONNECTION_METHODS.md", "scripts/_common.sh",
+                    "scripts/run_sync.sh", "knowledge_sync/adapters.py"):
+            with self.subTest(path=rel):
+                self.assertNotIn("hpqkqhngjcsygohyizbi",
+                                 (root / rel).read_text(encoding="utf-8"))
 
 
 if __name__ == "__main__":

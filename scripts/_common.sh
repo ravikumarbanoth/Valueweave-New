@@ -135,6 +135,67 @@ redact() {
   sed -E -e 's#(://[^:/@]*):[^@]*@#\1:****@#g' -e 's#password=[^ ]*#password=****#g'
 }
 
+# Does this failure have a known cause with a known fix?
+#
+# Emits guidance on stdout, or nothing. Kept apart from psql_probe so the raw
+# libpq text and our interpretation of it stay visibly separate.
+#
+# Keyed on the DSN SHAPE first, and only then on the error text. psql does not
+# always produce a message worth matching — an unreachable host can yield a bare
+# "psql: error:" — and a diagnosis that goes quiet precisely when the connection
+# fails is no diagnosis at all. The shape is known before anything is attempted.
+diagnose_pg_failure() {
+  local err="$1" dsn="$2"
+
+  # -i, and a permissive ref charset: a project ref is lowercase in practice,
+  # but a pattern that only works because of that is a pattern that fails
+  # silently the first time it does not.
+  if printf '%s' "$dsn" | grep -qiE 'db\.[a-z0-9_-]+\.supabase\.co'; then
+    cat <<'EOD'
+
+    THIS IS A NETWORK PROBLEM, NOT A CREDENTIAL.
+
+    That host is Supabase's DIRECT connection, and it publishes an AAAA record
+    only — IPv6. GitHub's hosted runners have no IPv6 route, so the socket
+    fails before any authentication is attempted. That is why the error is
+    "Network is unreachable" rather than a password rejection: nothing ever got
+    far enough to check a password.
+
+    Use the SESSION POOLER. Dashboard -> Connect -> Session pooler:
+
+      postgresql://postgres.<project-ref>:<password>@aws-0-<region>.pooler.supabase.com:5432/postgres
+
+    Note the shape differs from the direct string in three places: the host is
+    the pooler, the username carries the project ref, and the password is the
+    same database password.
+
+    Session mode holds one backend for the whole connection, so it behaves like
+    a direct connection and nothing else has to change.
+
+    The TRANSACTION pooler (same host, port 6543) also works — this code detects
+    it and disables prepared statements, which transaction mode cannot support —
+    but session mode suits a batch import that opens a single connection.
+
+    Keeping the direct connection would need the IPv4 add-on on the project.
+    See docs/CONNECTION_METHODS.md.
+EOD
+    return
+  fi
+
+  if printf '%s' "$err" | grep -qiE "password authentication failed"; then
+    echo ""
+    echo "    The host was reached and the password was rejected — so this is the"
+    echo "    credential, not the network. Re-copy it from Dashboard -> Connect."
+  elif printf '%s' "$err" | grep -qiE "could not translate host name"; then
+    echo ""
+    echo "    The hostname does not resolve. Check the project ref in DATABASE_URL."
+  elif printf '%s' "$err" | grep -qiE "network is unreachable|cannot assign requested address"; then
+    echo ""
+    echo "    The host did not accept a TCP connection. If it resolves to IPv6"
+    echo "    only, a GitHub-hosted runner cannot reach it — use an IPv4 endpoint."
+  fi
+}
+
 # Can we actually reach the database? Returns 0 and prints nothing on success;
 # returns 1 and prints the redacted reason otherwise.
 #

@@ -26,7 +26,7 @@ async function loadDistrictKnowledge(districtName) {
     return {
       grouped: {},
       status: "NO_DATA_SOURCE",
-      note: `We have not linked our research to ${districtName} yet. The profile above is still accurate — we are working on connecting local businesses, schemes and training to each district.`,
+      note: `We are connecting local businesses, schemes and training to ${districtName} now. The profile above is still accurate — and the districts we have finished are worth a look.`,
     };
   }
   return { grouped: await getDistrictKnowledge(hit.global_entity_id), status: null, note: null };

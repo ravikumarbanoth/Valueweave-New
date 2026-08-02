@@ -78,13 +78,31 @@ class PlaceholderRemovalTest(unittest.TestCase):
     #: Matched against comment-stripped source, so a file may still *explain*
     #: that it used to say "Coming Soon" — several do, and that history is worth
     #: keeping. What it may not do is render it.
+    #:
+    #: PX PHASE 4 NARROWED THIS, DELIBERATELY.
+    #: -----------------------------------------------------------------------
+    #: `Coming Soon` was banned outright. The objection recorded in
+    #: CapabilityStatus.jsx was twofold: it "made a promise the repository could
+    #: not keep" and it "gave the reader nothing to act on" — and it was applied
+    #: uniformly, so a researched-but-unwired capability and one with no data
+    #: source anywhere wore the same chip.
+    #:
+    #: The second half of that objection is the real one, and Phase 4 fixes it
+    #: at the source: no empty state may exist without a destination, which
+    #: test_every_empty_state_offers_a_way_out below enforces on the components
+    #: themselves. The first half is handled by the three status keys, which
+    #: still exist and still differ.
+    #:
+    #: What remains banned is the shape that had neither: a bare `Planned` chip,
+    #: and the old undated banner. The status chips keep "Coming later" rather
+    #: than "Coming soon" because a chip has no room for a next step and is
+    #: exactly where the uniformity problem lived.
     BANNED = [
-        (r"Coming\s+Soon", "Coming Soon"),
         (r">\s*Planned\s*<", "a bare 'Planned' chip"),
         (r"Knowledge\s+Base\s+Coming", "Knowledge Base Coming Soon"),
     ]
 
-    def test_no_user_facing_coming_soon_remains(self):
+    def test_no_undated_placeholder_promise_remains(self):
         offenders = []
         for path in sources(APP, COMPONENTS):
             src = code(path)
@@ -95,6 +113,52 @@ class PlaceholderRemovalTest(unittest.TestCase):
             offenders, [],
             "Every capability must declare LIVE, NOT_AVAILABLE_YET or "
             "NO_DATA_SOURCE via CapabilityStatus.\n  " + "\n  ".join(offenders))
+
+    def test_the_status_chips_do_not_promise_a_date(self):
+        """The uniformity problem lived here, and a chip cannot hold a link."""
+        src = code(COMPONENTS / "knowledge" / "CapabilityStatus.jsx")
+        block = src[src.index("const STATES = {"):]
+        block = block[:block.index("\n};")]
+        for label in re.findall(r'label:\s*"([^"]+)"', block):
+            with self.subTest(label=label):
+                self.assertNotRegex(label, r"(?i)soon")
+
+    def test_every_empty_state_offers_a_way_out(self):
+        """PX Phase 4, the whole of it, in one assertion.
+
+        The five shared empty-state surfaces. Each renders a paragraph when it
+        has nothing to show, and before this phase each one stopped there —
+        `KnowledgeEmptyState` even had an `action` prop that exactly one caller
+        in the codebase ever passed.
+
+        A component that can render "nothing here" must be able to render
+        "…so go here", and must do it without the caller remembering to ask.
+        """
+        surfaces = {
+            "knowledge/KnowledgeEmptyState.jsx": "nextStep",
+            "knowledge/KnowledgeCardGrid.jsx": "nextStep",
+            "knowledge/RelatedEntities.jsx": "emptyHref",
+            "kg/PublicEntityList.jsx": "emptyHref",
+        }
+        for name, marker in surfaces.items():
+            with self.subTest(component=name):
+                src = code(COMPONENTS / name)
+                self.assertIn(marker, src, f"{name} has no notion of a next step")
+                self.assertIn("href", src, f"{name} renders no link out")
+
+    def test_the_default_destinations_survive_an_unreachable_projection(self):
+        """NOT_DEPLOYED means /knowledge is the surface that just failed.
+
+        Sending someone there from its own failure is the one way to turn a
+        polite empty state into a loop. The editorial pages are built from
+        lib/radar-data.js and lib/districts-data.js and do not touch the
+        projection, so they still have something on exactly those days.
+        """
+        src = code(COMPONENTS / "knowledge" / "KnowledgeEmptyState.jsx")
+        block = src[src.index("NOT_DEPLOYED: {"):]
+        block = block[:block.index("EMPTY: {")]
+        self.assertIn("RADAR", block)
+        self.assertNotIn('"/knowledge"', block)
 
     def test_the_static_knowledge_layer_is_no_longer_displayed(self):
         """Phase 2 — replace what has a live backend equivalent.
@@ -564,10 +628,20 @@ class OneKnowledgeSourceTest(unittest.TestCase):
                 self.assertNotRegex(visible, banned,
                                     f"{page} shows internal vocabulary to a reader")
 
-    def test_roadmaps_says_not_available_rather_than_coming_soon(self):
+    def test_roadmaps_names_what_is_coming_and_where_to_go_meanwhile(self):
+        """This pinned `emptyTitle="Not available yet"`.
+
+        That title was chosen when the alternative on the table was an undated
+        "Coming Soon" chip, and it was the right call then. PX Phase 4 asks the
+        page to do more than be accurate about itself: name the thing that is
+        coming, and hand the reader something to read today. Pinning the old
+        four words would forbid the improvement without protecting anything —
+        the property worth keeping is that the page does not oversell, and an
+        `emptyHref` cannot oversell.
+        """
         src = code(FE / "app/roadmaps/page.js")
-        self.assertRegex(src, r'emptyTitle="Not available yet"')
-        self.assertNotIn("Coming Soon", src)
+        self.assertIn("roadmaps are coming", src)
+        self.assertIn("emptyHref=", src)
 
 
 if __name__ == "__main__":

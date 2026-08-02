@@ -26,7 +26,10 @@ import {
 } from "@/lib/knowledge";
 import EntityHeader from "@/components/knowledge/EntityHeader";
 import AttributeGrid, { isPresent } from "@/components/knowledge/AttributeGrid";
-import RelatedEntities, { RelatedSourceSummary } from "@/components/knowledge/RelatedEntities";
+import RelatedEntities, {
+  RelatedSourceSummary,
+  TYPE_LABELS as TYPE_LABEL_PLURAL,
+} from "@/components/knowledge/RelatedEntities";
 import KnowledgeEmptyState from "@/components/knowledge/KnowledgeEmptyState";
 import KnowledgeCardGrid from "@/components/knowledge/KnowledgeCardGrid";
 import TrustPanel from "@/components/knowledge/TrustPanel";
@@ -170,39 +173,50 @@ const LEAD_RELATED = {
 // state of affairs: the research was done, and `knowledge_sync` does not project
 // it. That is a backend scope item, not a frontend gap, and saying so is more
 // useful than a shrug.
+// PX Phase 4. Each of these notes was a paragraph about our coverage, and two
+// of them ended by telling the reader to scroll back up to a link. A mentor who
+// cannot answer a question does not describe the shape of their ignorance — they
+// say "not my area, ask them" and point. So each section now carries the pointer
+// itself, and `portal` means "send them to this scheme's own official site",
+// which is genuinely the best answer we have for eligibility and paperwork.
 const UNAVAILABLE_SECTIONS = {
   GovernmentScheme: [
     {
       title: "Who can apply",
       note:
-        "We have not published eligibility rules for our schemes yet. Our team has " +
-        "gathered them and we are still checking them line by line — getting this " +
-        "wrong could cost you an application, so we would rather show nothing than " +
-        "show a guess. Use the official portal link above in the meantime.",
+        "We are still checking the eligibility rules line by line. Getting this " +
+        "wrong could cost you an application, so the official portal is the one " +
+        "to trust for now.",
+      portal: true,
+      label: "Check eligibility on the official portal",
     },
     {
       title: "Documents and how to apply",
       note:
-        "We have not published the document checklist or step-by-step process yet. " +
-        "The official portal link above is the reliable route today.",
+        "The document checklist and step-by-step process are being written up. " +
+        "The official portal has the current version today.",
+      portal: true,
+      label: "Apply on the official portal",
     },
   ],
   Skill: [
     {
       title: "What to learn first",
       note:
-        "We know how hard each skill is and how long it takes, but not yet what " +
-        "order to learn them in. We are working on it — an ordering we guessed at " +
-        "would waste your time rather than save it.",
+        "We know how hard each skill is and how long it takes. The order to learn " +
+        "them in is coming soon — meanwhile, here is where people learn this.",
+      href: "/knowledge?type=provider",
+      label: "Find training centres",
     },
   ],
   BusinessOpportunity: [
     {
       title: "Step-by-step setup",
       note:
-        "We have not published a setup checklist for this yet. The investment " +
-        "range, working capital and difficulty above are researched; the licences " +
-        "and sequence are not.",
+        "A setup checklist for this is on the way. The money you would need, the " +
+        "working capital and the difficulty are all researched above.",
+      href: "/knowledge?type=machinery",
+      label: "See the machinery this needs",
     },
   ],
 };
@@ -293,14 +307,16 @@ async function GraphDetail({ params }) {
             grouped={related}
             only={lead}
             emptyText={
-              "We have not connected anything to this yet. It is a gap in our research, " +
-              "not a sign that nothing is related."
+              "We are still mapping what connects to this one. More links are added " +
+              "as our research grows."
             }
+            emptyHref={`/knowledge?type=${params.type}`}
+            emptyLabel={`Browse other ${(TYPE_LABEL_PLURAL[entity.entity_type] || "entries").toLowerCase()}`}
           />
           {lead && <RelatedEntities grouped={related} exclude={lead} max={8} />}
         </section>
 
-        <UnavailableSections entityType={entity.entity_type} />
+        <UnavailableSections entityType={entity.entity_type} portal={portal} />
 
         <NextSteps entity={entity} related={related} />
       </main>
@@ -309,22 +325,38 @@ async function GraphDetail({ params }) {
 }
 
 // The sections a user is entitled to expect and we cannot fill. Naming them is
-// the difference between an incomplete page and a dishonest one.
-function UnavailableSections({ entityType }) {
+// the difference between an incomplete page and a dishonest one; pointing
+// somewhere is the difference between naming one and leaving them there.
+function UnavailableSections({ entityType, portal }) {
   const sections = UNAVAILABLE_SECTIONS[entityType];
   if (!sections) return null;
+  const usable = (s) => (s.portal ? (String(portal || "").startsWith("http") ? portal : null) : s.href);
   return (
     <section data-testid="entity-unavailable" className="flex flex-col gap-3">
-      {sections.map((s) => (
-        <div key={s.title}>
-          <h3 className="label-display">{s.title}</h3>
-          <KnowledgeCardGrid
-            status="NO_DATA_SOURCE"
-            note={s.note}
-            testId={`unavailable-${s.title.split(" ")[0].toLowerCase()}`}
-          />
-        </div>
-      ))}
+      {sections.map((s) => {
+        const href = usable(s);
+        return (
+          <div key={s.title}>
+            <h3 className="label-display">{s.title}</h3>
+            <KnowledgeCardGrid
+              status="NO_DATA_SOURCE"
+              note={s.note}
+              testId={`unavailable-${s.title.split(" ")[0].toLowerCase()}`}
+              action={
+                href ? (
+                  <a
+                    href={href}
+                    {...(s.portal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                    className="inline-block text-xs font-display font-bold text-amber-700 mt-3 hover:text-amber-600"
+                  >
+                    {s.label} {s.portal ? "\u2197" : "\u2192"}
+                  </a>
+                ) : undefined
+              }
+            />
+          </div>
+        );
+      })}
     </section>
   );
 }

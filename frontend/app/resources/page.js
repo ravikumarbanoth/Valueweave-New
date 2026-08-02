@@ -27,8 +27,9 @@ export default async function ResourcesPage() {
         items={items}
         basePath="/resources"
         hrefFor={source === "GRAPH" ? (item) => rowHref("resources", item) : undefined}
-        emptyTitle="We are still gathering this"
-        emptyText="We have not finished collecting training centres and support institutions. Please check back soon."
+        emptyTitle="More training centres coming soon"
+        emptyText="We add new training centres and support institutions regularly. In the meantime, see what your district is known for."
+        emptyHref="/districts" emptyLabel="Explore your district"
       />
     </>
   );

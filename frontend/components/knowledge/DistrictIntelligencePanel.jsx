@@ -51,7 +51,7 @@ export default function DistrictIntelligencePanel({ districtName, grouped = {}, 
           status={status || "NO_DATA_SOURCE"}
           note={
             note ||
-            `We have not linked anything to ${districtName} yet. That means our research has not reached this district — not that there is nothing happening here. Try a nearby district, or explore by what you want to do.`
+            `We are connecting our research to ${districtName} now. Plenty is already mapped in the districts around it — and you can also start from what you want to do rather than where you are.`
           }
           testId={testId && `${testId}-empty`}
         />

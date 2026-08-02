@@ -62,8 +62,8 @@ export default async function ReadinessSections() {
       description: "Matching a learner to someone who has already done the work.",
       status: "NO_DATA_SOURCE",
       dependency:
-        "We have not started gathering mentors yet. In the meantime you can find " +
-        "people to work with in the collaborator marketplace.",
+        "Mentors are being gathered now. In the meantime you can find people to " +
+        "work with in the collaborator marketplace.",
     },
   ];
 
@@ -72,9 +72,9 @@ export default async function ReadinessSections() {
       primaryHref="/knowledge?type=skill"
       primaryLabel="Browse skills"
       dependency={
-        "We have not built skill tests, learning paths, internships or apprenticeships " +
-        "yet. The skills, certificates and training centres they would string " +
-        "together are researched and open above — the order to do them in is not."
+        "Skill tests, learning paths, internships and apprenticeships are on the way. " +
+        "The skills, certificates and training centres they will string together are " +
+        "already researched and open above."
       }
       roadmap={[
         "Work out what being ready looks like for a student, a first-time owner and someone already running a business.",
@@ -85,11 +85,11 @@ export default async function ReadinessSections() {
         { label: "Skills", status: counts.Skill ? "LIVE" : "NOT_AVAILABLE_YET", href: "/knowledge?type=skill", count: counts.Skill },
         { label: "Certifications", status: counts.Certification ? "LIVE" : "NOT_AVAILABLE_YET", href: "/knowledge?type=certification", count: counts.Certification },
         { label: "Training providers", status: counts.TrainingProvider ? "LIVE" : "NOT_AVAILABLE_YET", href: "/knowledge?type=provider", count: counts.TrainingProvider },
-        { label: "Skill assessment", dependency: "We have not worked out a fair way to score you yet." },
+        { label: "Skill assessment", dependency: "We are working out a way to score this that is fair to everyone." },
         { label: "Learning paths", dependency: "We know what each skill needs, but not yet what order to learn them in." },
-        { label: "Internships", dependency: "We have not started gathering internship openings yet." },
-        { label: "Apprenticeships", dependency: "We have not started gathering apprenticeship openings yet." },
-        { label: "Mentors", dependency: "We have not started gathering mentors yet." },
+        { label: "Internships", dependency: "Internship openings are being gathered now." },
+        { label: "Apprenticeships", dependency: "Apprenticeship openings are being gathered now." },
+        { label: "Mentors", dependency: "Mentors are being gathered now." },
       ]}
       cards={cards}
     />

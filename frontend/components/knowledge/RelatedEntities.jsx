@@ -8,7 +8,9 @@ import Link from "next/link";
 import { hrefFor } from "@/lib/knowledge";
 import SourceBadge from "./SourceBadge";
 
-const TYPE_LABELS = {
+//: Exported so the detail page can name the category in its empty state
+//: with the same words the populated state uses.
+export const TYPE_LABELS = {
   District: "Districts",
   Industry: "Industries",
   BusinessOpportunity: "Business opportunities",
@@ -32,16 +34,39 @@ const TYPE_LABELS = {
 
 const VIA = (rel) => String(rel || "").toLowerCase().replace(/_/g, " ");
 
-export default function RelatedEntities({ grouped, only, exclude = [], emptyText, max = 12 }) {
+export default function RelatedEntities({
+  grouped, only, exclude = [], emptyText, emptyHref, emptyLabel, max = 12,
+}) {
   const types = Object.keys(grouped || {})
     .filter((t) => (only ? only.includes(t) : true))
     .filter((t) => !exclude.includes(t))
     .sort((a, b) => (grouped[b].length - grouped[a].length) || a.localeCompare(b));
 
+  // PX Phase 4. This was one italic sentence — "We have not connected anything
+  // to this yet. It is a gap in our research, not a sign that nothing is
+  // related." — sitting under a heading that promises the reader where to go
+  // next. It was the most literal dead end on the site: the section whose whole
+  // job is onward navigation, rendering a paragraph about our coverage.
+  //
+  // A person who reads "nothing is linked to Welding yet" does not want an
+  // explanation. They want the other welding-adjacent things we do hold, so the
+  // caller passes the category and the empty state opens it.
   if (types.length === 0) {
-    return emptyText ? (
-      <p data-testid="related-empty" className="text-sm text-muted italic">{emptyText}</p>
-    ) : null;
+    if (!emptyText) return null;
+    return (
+      <div data-testid="related-empty" className="flex flex-col items-start gap-2">
+        <p className="text-sm text-muted">{emptyText}</p>
+        {emptyHref && (
+          <Link
+            href={emptyHref}
+            data-testid="related-empty-next"
+            className="text-sm font-display font-bold text-amber-700 hover:text-amber-600"
+          >
+            {emptyLabel || "Browse everything we have researched"} →
+          </Link>
+        )}
+      </div>
+    );
   }
 
   return (

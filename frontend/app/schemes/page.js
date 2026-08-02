@@ -16,8 +16,9 @@ export default async function SchemesPage() {
     <>
       <AppNavbar />
       <GraphSourceNote source={source} kind="schemes" browseHref="/knowledge?type=scheme" />
-      <PublicEntityList title="Government Scheme Engine" eyebrow="SCHEMES" description="Find schemes, eligibility, subsidies, loan support, and application links." items={items} basePath={source === "GRAPH" ? "/knowledge/scheme" : "/schemes"} emptyTitle="We are still gathering this"
-        emptyText="We have not finished collecting government schemes. Please check back soon." />
+      <PublicEntityList title="Government Scheme Engine" eyebrow="SCHEMES" description="Find schemes, eligibility, subsidies, loan support, and application links." items={items} basePath={source === "GRAPH" ? "/knowledge/scheme" : "/schemes"} emptyTitle="More schemes coming soon"
+        emptyText="We add new government schemes regularly. In the meantime, browse business ideas — each one names the schemes that usually apply to it."
+        emptyHref="/opportunity-radar" emptyLabel="Browse business ideas" />
     </>
   );
 }

@@ -20,7 +20,27 @@
 // exposes them in the DOM for support and for tests, and `operatorNote` still
 // holds the runbook sentence. What a user READS is now written for a user.
 //
+// PX PHASE 4 — A SENTENCE IS NOT AN ANSWER
+// ----------------------------------------
+// The rewrite above fixed the vocabulary and left the shape: a dead end that
+// apologised politely. Every one of the twelve call sites rendered a paragraph
+// and stopped. The `action` prop existed and exactly one caller in the codebase
+// ever passed it.
+//
+// The test now is: if a mentor were sitting with this student, what would they
+// say NEXT? Not "we have not researched that" — they would say "not my area,
+// but go and talk to so-and-so", and they would point. So every state carries a
+// destination, the destination is rendered whether or not the caller thought
+// about it, and a caller that wants a better one passes `action`.
+//
+// Choosing those destinations needs one piece of care. NOT_DEPLOYED and EMPTY
+// mean the researched projection is unreachable, so they must not point at
+// /knowledge — that is the surface that just failed. They point at the editorial
+// pages, which are static and work regardless: ranked business ideas and the
+// fourteen written district profiles.
+//
 // The rule: say what they can do next, never why our infrastructure is unhappy.
+import Link from "next/link";
 
 //: SCHEMA_UNREACHABLE is what lib/knowledge.js `knowledgeAvailable()` returns —
 //: the same condition as NOT_DEPLOYED, named from the client's point of view.
@@ -39,55 +59,71 @@ export function normaliseReason(reason) {
   return ALIASES[key] || key;
 }
 
+//: Where each state sends the reader. `/opportunity-radar` and `/districts` are
+//: built from lib/radar-data.js and lib/districts-data.js, so they still have
+//: something to show on the exact days the researched projection does not.
+//: Short enough to sit on one line in a pill button at 390px. The first draft
+//: read "See business ideas ranked for your area", which wrapped to two lines
+//: inside the button on every phone.
+const RADAR = { href: "/opportunity-radar", label: "Browse business ideas" };
+const EXPLORE = { href: "/knowledge", label: "Browse our research" };
+
 export function emptyStateCopy(reason, { entityLabel = "information", query, dependency } = {}) {
   const key = normaliseReason(reason);
 
   const states = {
     // Our infrastructure, not their problem. NOT_DEPLOYED and EMPTY are
-    // different to us and identical to them: the information is on its way.
+    // different to us and identical to them: more is on the way, and there is
+    // something worth reading in the meantime.
     NOT_DEPLOYED: {
-      title: "This information is being prepared",
+      title: "More is on the way",
       body:
-        "We are still connecting this part of ValueWeave. Nothing is wrong with " +
-        "your account, and nothing you did caused this. Try again shortly.",
+        "We are adding districts, skills, schemes and business ideas all the time. " +
+        "Here is something you can look at right now.",
+      nextStep: RADAR,
       operatorNote:
         "Research database not connected in this environment — see the operations runbook.",
     },
     EMPTY: {
-      title: "This information is being prepared",
+      title: "More is on the way",
       body:
         "Our researchers have gathered this and it is not published here yet. " +
-        "Check back soon.",
+        "In the meantime, here is where most people start.",
+      nextStep: RADAR,
       operatorNote: "Research database connected but empty — the data load has not run.",
     },
     NO_MATCH: {
-      title: query ? `Nothing matches “${query}” yet` : `No ${entityLabel} to show yet`,
+      title: query ? `No match for “${query}” yet` : `More ${entityLabel} coming soon`,
       body: query
-        ? "We searched everything we have researched and found nothing for this. " +
-          "Try a shorter word, or browse by category instead."
-        : "We have not researched anything for this yet. It is a gap on our side, " +
-          "not a mistake on yours.",
+        ? "Try a shorter word or a different spelling. We add new opportunities " +
+          "every few weeks, so it is worth looking again."
+        : `New ${entityLabel} are added as our research grows. Have a look at what ` +
+          "is already here.",
+      nextStep: EXPLORE,
       operatorNote: null,
     },
     NOT_AVAILABLE_YET: {
-      title: "Not available yet",
+      title: "Coming soon",
       body:
-        "We have not built this part of ValueWeave. It is on our list, and it is " +
-        "not something you are missing out on today.",
+        "We are building this part of ValueWeave. Plenty is ready today, and this " +
+        "will join it.",
+      nextStep: EXPLORE,
       operatorNote: null,
     },
     NO_DATA_SOURCE: {
-      title: "We have not researched this yet",
+      title: "Coming soon",
       body:
-        "Our team gathers information from official public sources, and we have " +
-        "not covered this area yet. When we do, it will appear here.",
+        "Our team is researching this area now. New industries and opportunities " +
+        "are added regularly.",
+      nextStep: EXPLORE,
       operatorNote: null,
     },
   };
 
   const copy = states[key] || {
-    title: `No ${entityLabel} to show`,
-    body: "There is nothing here yet.",
+    title: `More ${entityLabel} coming soon`,
+    body: "New entries are added as our research grows.",
+    nextStep: EXPLORE,
     operatorNote: null,
   };
 
@@ -97,9 +133,14 @@ export function emptyStateCopy(reason, { entityLabel = "information", query, dep
 }
 
 /**
- * `action` is the way out. Every state that can offer one should — an empty
- * panel with nowhere to go is a dead end, and a dead end is what makes a site
- * feel broken even when it is behaving correctly.
+ * `action` is the way out, and there is always one.
+ *
+ * A caller that knows a better destination than the default should pass
+ * `action` — a search box that just failed can offer the query it would have
+ * worked for, a district page can offer the district next door. A caller that
+ * passes nothing still gets a link, because the alternative is a panel with
+ * nowhere to go, and a dead end is what makes a site feel broken even when it
+ * is behaving correctly.
  */
 export default function KnowledgeEmptyState({
   reason,
@@ -123,7 +164,15 @@ export default function KnowledgeEmptyState({
     >
       <p className="font-display font-bold text-ink">{copy.title}</p>
       <p className="text-sm text-muted max-w-md mx-auto">{note || copy.body}</p>
-      {action}
+      {action || (
+        <Link
+          href={copy.nextStep.href}
+          data-testid="knowledge-empty-next"
+          className="btn-secondary text-sm mt-3"
+        >
+          {copy.nextStep.label} →
+        </Link>
+      )}
     </div>
   );
 }

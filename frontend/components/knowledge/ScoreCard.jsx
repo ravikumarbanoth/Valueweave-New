@@ -31,9 +31,13 @@ export default function ScoreCard({ label, score, status, confidence, reason, de
       {reason && <p className="text-xs text-muted leading-relaxed">{reason}</p>}
 
       <div className="flex items-center gap-2 mt-2.5 flex-wrap">
+        {/* PX Phase 4: "not enough data" reads as a verdict on the reader and
+            names our problem at the same time. UNAVAILABLE means we are missing
+            an input about THEM, which is the one case where they can act — so
+            it says what to add rather than what we lack. */}
         {status && status !== STATUS.APPLIED && (
           <span className="chip bg-stone-100 text-stone-500 border border-stone-200 text-[10px]">
-            {status === STATUS.UNAVAILABLE ? "not enough data" : "nothing found yet"}
+            {status === STATUS.UNAVAILABLE ? "add more to your profile" : "nothing yet"}
           </span>
         )}
         {/* PX Phase 3: this read "source 56/100" next to a score that is

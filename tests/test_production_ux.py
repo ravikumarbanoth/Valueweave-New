@@ -298,8 +298,11 @@ class HumanLanguageTest(unittest.TestCase):
         path = FE / "lib" / "knowledge.js"
         src = code(path)
         self.absent("crosswalk\"", src, rel(path))
-        self.present("We have not come across this one yet.", src, rel(path))
-        self.present("we have not gathered any information about it yet", src, rel(path))
+        # Phase 2 replaced the lookup-table name; Phase 4 turned both branches
+        # from what we lack into what is happening. The property this test owns
+        # is that neither branch names an internal structure.
+        self.present("information about it is being gathered now", src, rel(path))
+        self.present("It is on the list.", src, rel(path))
 
 
 # ══════════════════════════════════ 1c. PX Phase 3: trust without fear
@@ -385,6 +388,79 @@ class TrustWithoutFearTest(unittest.TestCase):
             with self.subTest(label=label):
                 self.assertNotIn("qualitative", label.lower())
                 self.assertNotIn("grade", label.lower())
+
+
+# ═════════════════════════════════ 1d. PX Phase 4: empty states that point
+class EmptyStatesPointSomewhereTest(unittest.TestCase):
+    """"If this were a real mentor talking to a student, what would they say next?"
+
+    That is the brief, and it is a higher bar than encouraging wording. A mentor
+    who does not know the answer does not describe the shape of their ignorance
+    in a warmer tone — they say "not my area, go and ask them", and they point.
+
+    So there are two things to hold. The copy must stop leading with what we
+    lack, and every surface that can render "nothing here" must render a
+    destination with it. The structural half is enforced in
+    test_frontend_activation; this is the copy half.
+    """
+
+    #: Openings that make our coverage the subject of the sentence.
+    #:
+    #: `We have not built an AI advisor` is deliberately NOT caught: it is the
+    #: one place where the sentence exists to stop us overclaiming, Phase 3
+    #: asserts it, and softening it into "an AI advisor is coming" would be the
+    #: overclaim it was written to prevent. The pattern below requires the
+    #: subject to be our research or our coverage, not a capability we are
+    #: promising we do not have.
+    LEADS_WITH_A_GAP = re.compile(
+        r"We have not (researched|covered|connected|gathered|linked|matched|started)",
+        re.IGNORECASE)
+
+    def test_no_public_copy_leads_with_what_we_lack(self):
+        offenders = []
+        for path in public_sources():
+            for lineno, line in enumerate(code(path).splitlines(), 1):
+                if self.LEADS_WITH_A_GAP.search(line):
+                    offenders.append(f"{rel(path)}:{lineno}  {line.strip()[:90]}")
+        self.assertEqual(
+            offenders, [],
+            "Say what is coming and where to go meanwhile, not what is missing:\n  "
+            + "\n  ".join(offenders))
+
+    def test_the_five_states_all_carry_a_destination(self):
+        # Parsed from source rather than executed: this is a JS module, and the
+        # point is that no state object can be added without a way out.
+        src = code(COMPONENTS / "knowledge" / "KnowledgeEmptyState.jsx")
+        block = src[src.index("const states = {"):src.index("const copy = states[key]")]
+        states = re.findall(r"^    ([A-Z_]+): \{", block, re.MULTILINE)
+        self.assertEqual(sorted(states),
+                         ["EMPTY", "NOT_AVAILABLE_YET", "NOT_DEPLOYED",
+                          "NO_DATA_SOURCE", "NO_MATCH"])
+        self.assertEqual(len(re.findall(r"nextStep:", block)), len(states),
+                         "every state needs a way out, not most of them")
+        # …including the fallback for an unrecognised reason.
+        tail = src[src.index("const copy = states[key]"):]
+        self.assertIn("nextStep:", tail[:tail.index("return {")])
+
+    def test_the_default_way_out_is_actually_rendered(self):
+        """The `action` prop existed before this phase. One caller used it."""
+        src = code(COMPONENTS / "knowledge" / "KnowledgeEmptyState.jsx")
+        self.assertIn("{action || (", src,
+                      "a caller that passes nothing must still get a link")
+        self.assertIn("knowledge-empty-next", src)
+
+    def test_the_related_section_opens_the_category_it_could_not_fill(self):
+        """The section whose entire job is onward navigation had a dead end."""
+        page = code(APP / "knowledge" / "[type]" / "[slug]" / "page.js")
+        self.assertIn("emptyHref=", page)
+        self.assertIn("emptyLabel=", page)
+
+    def test_the_scheme_page_hands_over_the_portal_instead_of_pointing_upward(self):
+        """Two sections ended with "use the official portal link above"."""
+        page = code(APP / "knowledge" / "[type]" / "[slug]" / "page.js")
+        self.assertNotIn("portal link above", page)
+        self.assertIn("portal: true", page)
+        self.assertIn("Check eligibility on the official portal", page)
 
 
 # ═══════════════════════════════════════════════ 2. the 404

@@ -127,8 +127,8 @@ export default function BusinessKnowledgeSection({ sectorLabel, skills = [], dis
           testId="business-knowledge"
           note={
             industry
-              ? `We have not connected any businesses to ${industry.canonical_name} yet.`
-              : `We have not matched "${sectorLabel}" to an industry we have researched yet. The idea above still stands — we just cannot show you comparable businesses for it.`
+              ? `Comparable businesses for ${industry.canonical_name} are being added now.`
+              : `Comparable businesses for "${sectorLabel}" are being added now. The idea above still stands on its own.`
           }
         />
       ) : (
@@ -233,11 +233,16 @@ export default function BusinessKnowledgeSection({ sectorLabel, skills = [], dis
         </div>
       )}
 
-      {/* Skill and district resolution, reported either way. An unresolved skill is
-          a real skill the knowledge base has not collected — worth saying. */}
+      {/* Skill and district resolution, reported either way. An unresolved skill
+          is a real skill we have not collected — worth saying.
+
+          PX Phase 4: the heading was "We have not covered these yet" and the
+          footnote below it explained, twice, that this was our fault. A reader
+          does not need us to apologise for a chip; they need to know the chip
+          is coming and where to look meanwhile. */}
       {(skillHits?.unresolved?.length > 0 || districtHits?.unresolved?.length > 0) && (
         <div className="mt-4 pt-4 border-t border-stone-150">
-          <h3 className="label-display">We have not covered these yet</h3>
+          <h3 className="label-display">Coming soon</h3>
           <div className="flex flex-wrap gap-1.5">
             {[...(skillHits?.unresolved || []), ...(districtHits?.unresolved || [])]
               .slice(0, 12)
@@ -252,8 +257,11 @@ export default function BusinessKnowledgeSection({ sectorLabel, skills = [], dis
               ))}
           </div>
           <p className="text-[10px] text-stone-400 mt-2 leading-relaxed">
-            These are real skills and places — we have just not gathered information on
-            them yet. It is a gap on our side, not a comment on them.
+            These are real skills and places. We are researching them now —{" "}
+            <Link href="/knowledge?type=skill" className="underline hover:text-stone-600">
+              see the skills we have already covered
+            </Link>
+            .
           </p>
         </div>
       )}

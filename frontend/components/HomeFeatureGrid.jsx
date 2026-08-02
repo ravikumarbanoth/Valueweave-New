@@ -26,9 +26,9 @@ import { featuredByType, typeCounts, hrefFor, URL_BY_TYPE } from "@/lib/knowledg
 const FEATURES = [
   {
     emoji: "📍",
-    title: "District Intelligent Digital Infrastructure",
-    subtitle: "Know where to build.",
-    description: "Understand local economic context before choosing what to build and where to start.",
+    title: "Your district",
+    subtitle: "See what is around you.",
+    description: "What your district is known for, who employs people there, and which schemes apply.",
     href: "/districts",
     accent: "green",
     buttonLabel: "Explore Districts",
@@ -36,9 +36,9 @@ const FEATURES = [
   },
   {
     emoji: "🛠️",
-    title: "Skill & Industrial Readiness",
-    subtitle: "Become capable of building.",
-    description: "Prepare founders, students, and operators with practical readiness pathways.",
+    title: "What to learn",
+    subtitle: "Skills that lead somewhere.",
+    description: "Skills worth learning, how long each takes, and where you can go and learn them.",
     href: "/readiness",
     accent: "teal",
     buttonLabel: "Start Learning",
@@ -46,9 +46,9 @@ const FEATURES = [
   },
   {
     emoji: "🤝",
-    title: "Collaboration & Capital Infrastructure",
-    subtitle: "Find the right people and resources.",
-    description: "Organize the human and capital network needed to turn local opportunity into execution.",
+    title: "People and money",
+    subtitle: "You do not have to do it alone.",
+    description: "Find people to build with, and see who lends to small businesses like yours.",
     href: "/network",
     accent: "rose",
     buttonLabel: "Build Network",
@@ -56,9 +56,9 @@ const FEATURES = [
   },
   {
     emoji: "🏭",
-    title: "Digital Manufacturing Operating System",
-    subtitle: "Build and operate manufacturing businesses.",
-    description: "Create the future operating layer for product, factory, machinery, and production planning.",
+    title: "Making things",
+    subtitle: "From an idea to a working unit.",
+    description: "The machinery, raw materials and licences behind the businesses people actually start.",
     href: "/manufacturing",
     accent: "amber",
     buttonLabel: "Explore Manufacturing",
@@ -66,9 +66,9 @@ const FEATURES = [
   },
   {
     emoji: "📈",
-    title: "Industrial Scaling Resources",
-    subtitle: "Grow into globally competitive manufacturers.",
-    description: "Support businesses as they move from first production to scalable industrial operations.",
+    title: "Growing a business",
+    subtitle: "Once it is working.",
+    description: "Where to sell, where local businesses export to, and who funds the next step.",
     href: "/scale",
     accent: "blue",
     buttonLabel: "Scale Business",
@@ -76,8 +76,8 @@ const FEATURES = [
   },
   {
     emoji: "✨",
-    title: "AI Guidance",
-    subtitle: "See how we decide what to suggest.",
+    title: "How we choose what to show you",
+    subtitle: "No mystery, no black box.",
     description: "We do not have an AI advisor yet. Here is what suggests things to you today, and why we show our reasoning.",
     href: "/ai",
     accent: "violet",
@@ -112,62 +112,50 @@ const TYPE_LABEL = {
 const FUTURE_MODULES = [
   {
     emoji: "🔬",
-    title: "Innovation Infrastructure",
-    description: "Research commercialization, technology transfer, innovation labs, patent ecosystem.",
+    title: "Patents and innovation labs",
+    description: "How research turns into a business you could run.",
     dependency: "Patents, innovation labs and how research turns into a business are being researched now.",
   },
   {
     emoji: "🎓",
-    title: "Research & Technology Infrastructure",
-    description: "Universities, research labs, R&D collaboration, technology readiness levels.",
+    title: "University research",
+    description: "What the labs near you are working on, and how to get involved.",
     dependency:
       "We list 66 universities and colleges, but not their research labs or " +
       "capabilities. Browse the institutions we do have.",
   },
   {
     emoji: "🚚",
-    title: "Digital Supply Chain Infrastructure",
-    description: "Suppliers, warehousing, cold chain, procurement, traceability.",
+    title: "Suppliers and storage",
+    description: "Who supplies what you need, and where to keep goods before they sell.",
     dependency:
       "We list 21 raw materials businesses use, but not the firms that supply them " +
       "or where to store goods.",
   },
   {
     emoji: "🌍",
-    title: "Global Trade Infrastructure",
-    description: "Exports, imports, international buyers, trade missions, export documentation.",
+    title: "Selling abroad",
+    description: "Buyers in other countries, and the paperwork it takes to reach them.",
     dependency:
       "We list 29 countries local businesses export to, but not buyers, tariffs or " +
       "the paperwork involved.",
   },
   {
     emoji: "🏦",
-    title: "Industrial Finance Infrastructure",
-    description: "Banks, NBFCs, government grants, CSR, angel investors, VC.",
+    title: "Loans and investors",
+    description: "Who lends to a business like yours, on what terms, and who qualifies.",
     dependency:
       "We list 21 kinds of funder, but not their loan products, interest rates or " +
       "who qualifies.",
   },
   {
     emoji: "♻️",
-    title: "Sustainability Infrastructure",
-    description: "Circular economy, recycling, renewable energy, carbon footprint, green manufacturing.",
+    title: "Green manufacturing",
+    description: "Recycling, solar and cutting waste — and what each one saves you.",
     dependency: "Emissions, recycling and renewable energy capacity are being researched now.",
   },
 ];
 
-const JOURNEY = [
-  { label: "Idea", href: "/ideas" },
-  { label: "Discover Opportunity", href: "/districts" },
-  { label: "Develop Skills", href: "/readiness" },
-  { label: "Find Team", href: "/network" },
-  { label: "Secure Funding", href: "/network" },
-  { label: "Build Factory", href: "/manufacturing" },
-  { label: "Manufacture", href: "/manufacturing" },
-  { label: "Scale", href: "/scale" },
-  { label: "Export", href: "/scale" },
-  { label: "Become Mentor", href: "/network" },
-];
 
 export default async function HomeFeatureGrid() {
   // Both return empty when the projection is not deployed — lib/knowledge.js
@@ -183,12 +171,12 @@ export default async function HomeFeatureGrid() {
       <div className="max-w-6xl mx-auto space-y-16">
         <div>
           <div className="text-center mb-12">
-            <span className="chip bg-teal-100 text-teal-600 mb-4">INDIA&apos;S DIGITAL ECONOMIC INFRASTRUCTURE</span>
+            <span className="chip bg-teal-100 text-teal-600 mb-4">EXPLORE</span>
             <h2 className="font-display font-extrabold text-3xl sm:text-4xl md:text-5xl tracking-tight leading-tight text-ink">
-              India&apos;s Digital Economic Infrastructure
+              What can you explore here?
             </h2>
             <p className="mt-4 text-muted max-w-3xl mx-auto text-base sm:text-lg leading-relaxed">
-              ValueWeave is becoming the permanent gateway for district opportunity discovery, industrial readiness, collaboration, manufacturing, scaling, and future AI intelligence.
+              Six things people come here for. Start with whichever one matches where you are today.
             </p>
           </div>
 
@@ -197,39 +185,21 @@ export default async function HomeFeatureGrid() {
           </div>
         </div>
 
-        <section className="card-base p-5 sm:p-7 overflow-hidden">
-          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4 mb-7">
-            <div>
-              <span className="chip bg-amber-100 text-amber-700 border border-amber-200 mb-3">THE ENTREPRENEUR JOURNEY</span>
-              <h2 className="font-display font-extrabold text-2xl sm:text-3xl text-ink">Entrepreneur Journey</h2>
-              <p className="text-sm sm:text-base text-muted mt-2 max-w-2xl leading-relaxed">
-                A visual path from first idea to local manufacturing, export readiness, and mentoring others back into the ecosystem.
-              </p>
-            </div>
-            <Link href="/districts" className="btn-primary shrink-0">Start with districts</Link>
-          </div>
+        {/* PX Phase 7: a ten-stage "Entrepreneur Journey" strip stood here —
+            Idea → Discover Opportunity → Develop Skills → … → Become Mentor,
+            inside a `min-w-[1120px]` horizontal scroller. On a 390px phone that
+            is three visible stages and a sideways drag to see the rest.
 
-          <div className="overflow-x-auto pb-2">
-            <div className="min-w-[1120px] grid grid-cols-10 gap-3 items-stretch">
-              {JOURNEY.map((stage, index) => (
-                <Link key={stage.label} href={stage.href} className="relative rounded-2xl bg-stone-50 border border-stone-150 p-4 hover:border-amber-300 hover:bg-amber-50 transition-colors group">
-                  <span className="w-8 h-8 rounded-full bg-white border border-stone-200 flex items-center justify-center text-xs font-display font-bold text-amber-700 mb-3">
-                    {index + 1}
-                  </span>
-                  <p className="font-display font-bold text-sm text-ink leading-tight group-hover:text-amber-700">{stage.label}</p>
-                  {index < JOURNEY.length - 1 && (
-                    <span className="absolute -right-3 top-1/2 -translate-y-1/2 text-amber-500 font-display font-extrabold">→</span>
-                  )}
-                </Link>
-              ))}
-            </div>
-          </div>
-        </section>
+            It was also the second journey on this page: HomeSuccessJourney says
+            the same thing below, in five steps, with real time horizons and
+            without the horizontal scroll. Two paths on one page is not twice
+            the guidance, it is a question about which one to follow. Every one
+            of the ten destinations is reachable from the six cards above. */}
 
         <section data-testid="home-researched-knowledge">
           <div className="text-center mb-10">
-            <span className="chip bg-blue-100 text-blue-700 border border-blue-200 mb-4">RESEARCHED KNOWLEDGE</span>
-            <h2 className="font-display font-extrabold text-3xl sm:text-4xl text-ink">Explore Knowledge</h2>
+            <span className="chip bg-blue-100 text-blue-700 border border-blue-200 mb-4">LOOK IT UP</span>
+            <h2 className="font-display font-extrabold text-3xl sm:text-4xl text-ink">Search what we have researched</h2>
             <p className="text-muted mt-3 max-w-2xl mx-auto leading-relaxed">
               {total > 0 ? (
                 <>

@@ -124,7 +124,7 @@ export default function OnboardingPage() {
           <h1 className="font-display font-extrabold text-3xl md:text-4xl tracking-tight mb-2">
             Tell us about <span className="text-teal-500">you</span>
           </h1>
-          <p className="text-muted text-sm">A lightweight profile to help you find the right people to build with.</p>
+          <p className="text-muted text-sm">Two minutes. We use this to suggest skills, schemes and businesses that fit you.</p>
         </div>
 
         <form onSubmit={submit} className="card-base p-6 md:p-8 flex flex-col gap-5">

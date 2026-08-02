@@ -12,7 +12,7 @@ const STEPS = [
   {
     emoji: "💡",
     label: "Get Personalized Ideas",
-    desc: "122 curated ideas matched to your profile",
+    desc: "Business ideas matched to your district and budget",
     href: "/ideas",
     color: "bg-amber-50 border-amber-200",
     iconBg: "bg-amber-100 text-amber-700",
@@ -48,9 +48,9 @@ export default function HomeHowItWorks() {
     <section className="py-20 sm:py-24 px-4 sm:px-6">
       <div className="max-w-5xl mx-auto">
         <div className="text-center mb-14">
-          <span className="chip bg-amber-100 text-amber-700 mb-4">HOW VALUEWEAVE WORKS</span>
+          <span className="chip bg-amber-100 text-amber-700 mb-4">FIVE STEPS</span>
           <h2 className="font-display font-extrabold text-3xl sm:text-4xl md:text-5xl tracking-tight leading-tight text-ink">
-            How ValueWeave Works
+            How this works
           </h2>
           <p className="mt-4 text-muted max-w-lg mx-auto text-base sm:text-lg">
             Five steps from self-discovery to launching your venture.

@@ -15,8 +15,16 @@ export const DEFAULT_PLATFORM_SETTINGS = {
   "site.title": "ValueWeave",
   "site.description": "India's collaboration and opportunity discovery platform for builders, local businesses, and district-first entrepreneurship.",
   "site.tagline": "Where ambition finds its team.",
-  "homepage.hero.heading": "Where Ambition Finds Its Team.",
-  "homepage.hero.subheading": "ValueWeave connects India's youth, students, and skilled builders to discover collaborators, form startup teams, and create real economic opportunities — from tier-2 towns to global ambitions.",
+  // PX Phase 7. Was "Where Ambition Finds Its Team." with a 33-word
+  // subheading. Both are still admin-editable; only the DEFAULTS changed.
+  //
+  // The test the brief sets is whether a heading helps answer one of five
+  // questions a first-year student actually has — what can I explore, what
+  // should I learn, what can I start, what support exists, what do I do next.
+  // "Where Ambition Finds Its Team" answers none of them, and the subheading
+  // took four lines on a phone to say the same thing at more length.
+  "homepage.hero.heading": "Find what to learn, what to start, and who can help.",
+  "homepage.hero.subheading": "Skills, business ideas and government schemes for every district in Telangana and Andhra Pradesh — researched from official sources, free to use.",
   "homepage.cta.primary.label": "Discover Yourself",
   "homepage.cta.secondary.label": "Explore Ideas",
   "homepage.cta.tertiary.label": "Find Collaborators",

@@ -17,17 +17,17 @@ const GAP_CARDS = [
   {
     icon: "🔍",
     title: "Talent without visibility",
-    desc: "A diploma-holder electrician in Warangal, a coder in Vizag, a baker in Guntur — full of skill, invisible to the people who'd build with them.",
+    desc: "An electrician in Warangal, a coder in Vizag, a baker in Guntur. Good at the work, unknown to the people who would hire or partner with them.",
   },
   {
     icon: "💡",
     title: "Ideas without teams",
-    desc: "Founders in tier-2 cities like Hyderabad, Vijayawada, Coimbatore have ambition and insight, but no easy way to find a co-founder locally.",
+    desc: "You can have a good idea and still not know a single person nearby who can help you build it.",
   },
   {
     icon: "🤝",
     title: "Trust without proof",
-    desc: "LinkedIn rewards titles; Fiverr rewards bidding. Neither rewards real collaboration. We're building the third option.",
+    desc: "Job sites reward job titles. Freelance sites reward the lowest bid. Neither shows you what someone can actually do.",
   },
 ];
 
@@ -176,13 +176,14 @@ export default async function LandingPage() {
       <section id="why" className="bg-warm py-20 sm:py-24 px-4 sm:px-6">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
-            <span className="chip bg-teal-100 text-teal-600 mb-4">WHY VALUEWEAVE EXISTS</span>
+            <span className="chip bg-teal-100 text-teal-600 mb-4">WHY WE BUILT THIS</span>
             <h2 className="h-section">
-              The collaboration gap in<br />
-              <span className="text-teal-500">India&apos;s grassroots economy.</span>
+              Skill is not the problem.<br />
+              <span className="text-teal-500">Knowing where to take it is.</span>
             </h2>
             <p className="mt-5 text-muted max-w-2xl mx-auto text-base sm:text-lg leading-relaxed">
-              Millions of brilliant minds across India aren&apos;t held back by lack of skill — they&apos;re held back by lack of the right connections.
+              Plenty of people can do the work. Far fewer know which scheme applies to
+              them, who is hiring nearby, or what it costs to start on their own.
             </p>
           </div>
 
@@ -192,7 +193,8 @@ export default async function LandingPage() {
 
           <div className="text-center mt-12">
             <p className="font-display font-bold text-lg max-w-2xl mx-auto leading-snug text-ink">
-              ValueWeave is the missing bridge — between skill and opportunity, between ambition and team, between idea and execution.
+              So we researched it and put it in one place: what to learn, what to
+              start, which schemes apply, and who is nearby.
             </p>
           </div>
         </div>
@@ -204,18 +206,19 @@ export default async function LandingPage() {
           <div>
             <span className="chip bg-teal-100 text-teal-600 mb-4">FREE ASSESSMENT</span>
             <h2 className="h-section mb-5">
-              Not sure where to start?<br />
-              <span className="text-teal-500">Find your founder DNA.</span>
+              Not sure what suits you?<br />
+              <span className="text-teal-500">Answer a few questions.</span>
             </h2>
             <p className="text-muted text-base sm:text-lg leading-relaxed mb-6 max-w-md">
-              A free 7-minute assessment that maps your personality, sector interests, budget, and district into your entrepreneur archetype, founder role, and the business ideas best suited to where you live.
+              Seven minutes, free. Tell us your district, what you are interested in and
+              what you could invest, and we will suggest business ideas that fit.
             </p>
             <ul className="flex flex-col gap-2.5 mb-7">
               {[
-                ["🧠", "Your archetype & founder role — Innovator, Builder, Leader & more"],
-                ["📍", "Business ideas matched to your district's real opportunity demand"],
-                ["💰", "Filtered by what you can actually invest, from ₹30K to ₹15L+"],
-                ["🚀", "Turn your top idea into a live opportunity post in one click"],
+                ["🧠", "Which kind of work suits you — building, leading, selling or planning"],
+                ["📍", "Business ideas that suit your district"],
+                ["💰", "Only ideas you could actually afford, from ₹30,000 upwards"],
+                ["🚀", "Post your best idea and let people ask to join you"],
               ].map(([icon, text]) => (
                 <li key={text} className="flex items-start gap-2.5 text-sm text-muted">
                   <span className="text-base">{icon}</span>
@@ -243,9 +246,9 @@ export default async function LandingPage() {
       <section className="py-20 sm:py-24 px-4 sm:px-6 bg-warm">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
-            <span className="chip bg-amber-100 text-amber-700 mb-4">EVERY SKILL HAS A HOME</span>
+            <span className="chip bg-amber-100 text-amber-700 mb-4">WHATEVER YOU DO</span>
             <h2 className="h-section">
-              Built for India&apos;s <span className="text-amber-500">builders.</span>
+              Whatever you already do, <span className="text-amber-500">it fits here.</span>
             </h2>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
@@ -276,13 +279,13 @@ export default async function LandingPage() {
         <div className="absolute -top-20 -right-20 w-80 h-80 rounded-full bg-amber-500/20 blur-3xl" />
         <div className="absolute -bottom-20 -left-20 w-96 h-96 rounded-full bg-teal-500/20 blur-3xl" />
         <div className="max-w-3xl mx-auto text-center relative">
-          <span className="chip bg-amber-500/20 text-amber-300 border border-amber-500/30 mb-5">JOIN THE FIRST WAVE</span>
+          <span className="chip bg-amber-500/20 text-amber-300 border border-amber-500/30 mb-5">READY?</span>
           <h2 className="font-display font-extrabold text-4xl sm:text-5xl md:text-6xl tracking-tight leading-[1.05] mb-5">
-            Start building with<br />
-            <span className="bg-gradient-to-r from-amber-500 via-yellow-400 to-teal-500 bg-clip-text text-transparent">your people.</span>
+            Take the first step<br />
+            <span className="bg-gradient-to-r from-amber-500 via-yellow-400 to-teal-500 bg-clip-text text-transparent">from where you are.</span>
           </h2>
           <p className="text-white/60 text-base sm:text-lg mb-9 leading-relaxed">
-            Free to join. Google sign-in. Mobile-first. Built for Bharat.
+            Free. Sign in with Google — no password to remember.
           </p>
           <div className="flex items-center justify-center gap-3 flex-wrap">
             <Link href="/get-started" data-testid="footer-cta-join" className="btn-primary !px-7 !py-3.5 text-base">

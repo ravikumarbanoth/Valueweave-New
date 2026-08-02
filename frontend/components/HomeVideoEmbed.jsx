@@ -24,7 +24,7 @@ export default function HomeVideoEmbed({
         <div className="text-center mb-10">
           <span className="chip bg-teal-100 text-teal-600 mb-4">🎥 EXPLAINER</span>
           <h2 className="font-display font-extrabold text-3xl sm:text-4xl tracking-tight text-ink mb-3">
-            Watch ValueWeave in 60 Seconds
+            See how it works in 60 seconds
           </h2>
           <p className="text-muted text-base">
             See how ValueWeave helps India&apos;s builders discover, connect and launch.

@@ -48,6 +48,8 @@ SUITES = {
                             "PX Phase 5: intent sections, ranking and the second hop"),
     "landing": ("tests.test_landing",
                 "PX Phase 6: hero search, audience routes and their destinations"),
+    "plain_language": ("tests.test_plain_language",
+                       "PX Phase 7: entry-page headings a student can act on"),
     "stewardship": ("tests.test_stewardship", "Lifecycle, ledger and review queue"),
     "deployment": ("tests.test_deployment",
                    "Deployment: writer, scripts, migration 011"),

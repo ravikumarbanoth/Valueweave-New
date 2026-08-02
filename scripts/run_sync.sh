@@ -115,6 +115,31 @@ esac
 # rather than passed over in silence.
 if [[ -n "${DATABASE_URL:-}" ]] && command -v psql >/dev/null 2>&1; then
   step "Checking the target tables exist"
+
+  # Connectivity FIRST, and as its own question.
+  #
+  # psql_scalar swallows stderr, so an unreachable database and an absent table
+  # both come back as the empty string. A CI run reported all eight tables
+  # missing from a database that had just served knowledge.kg_entities over
+  # PostgREST — the tables were there and psql simply could not connect. The
+  # message sent the reader to redeploy a schema that was already correct.
+  if ! probe_err=$(psql_probe); then
+    fail "cannot connect to DATABASE_URL — this is a credentials problem, NOT a
+    missing schema.
+
+    psql said:
+      ${probe_err:-(no output)}
+
+    Target: $(mask_dsn "${DATABASE_URL:-}")
+
+    The tables may well exist; nothing here could look. Check the DATABASE_URL
+    secret against Project Settings -> Database -> Connection string. The most
+    common cause is an unreplaced [YOUR-PASSWORD] placeholder, or a password
+    containing characters that must be percent-encoded.
+
+    The sync would fail the same way: it connects with this same DSN."
+  fi
+
   missing=""
   for tbl in kg_entities kg_relationships kg_districts kg_skills \
              kg_schemes kg_businesses kg_industries kg_agriculture; do

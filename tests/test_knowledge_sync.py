@@ -19,6 +19,7 @@ Three groups:
 """
 
 import json
+import os
 import sys
 import tempfile
 import unittest
@@ -876,6 +877,91 @@ class TransportVisibilityTest(unittest.TestCase):
         src = (self.ROOT / "scripts" / "run_sync.sh").read_text(encoding="utf-8")
         self.assertIn("psql_scalar \"select to_regclass('knowledge.$tbl')", src)
         self.assertIn('psql_scalar "select count(*) from knowledge.kg_entities;"', src)
+
+
+class ConnectionDiagnosisTest(unittest.TestCase):
+    """
+    Telling "cannot connect" apart from "table missing".
+
+    A CI run reported all eight knowledge tables missing from a database that had
+    served knowledge.kg_entities over PostgREST one second earlier. The tables
+    were there; psql could not connect, `psql_scalar` swallows stderr, and an
+    empty result reads exactly like `to_regclass(...) is null`. The message sent
+    the reader to redeploy a schema that was already correct.
+    """
+
+    COMMON = Path(__file__).resolve().parent.parent / "scripts" / "_common.sh"
+    RUN_SYNC = Path(__file__).resolve().parent.parent / "scripts" / "run_sync.sh"
+
+    @classmethod
+    def setUpClass(cls):
+        cls.common = cls.COMMON.read_text(encoding="utf-8")
+        cls.run_sync = cls.RUN_SYNC.read_text(encoding="utf-8")
+
+    def _bash(self, snippet, env=None):
+        import subprocess                                        # noqa: PLC0415
+        full = f'source "{self.COMMON}" >/dev/null 2>&1 || true\n{snippet}'
+        r = subprocess.run(["bash", "-c", full], capture_output=True, text=True,
+                           env={**os.environ, **(env or {})})
+        return (r.stdout + r.stderr).strip()
+
+    def test_connectivity_is_probed_before_the_table_verdict(self):
+        probe = self.run_sync.index("psql_probe")
+        verdict = self.run_sync.index("the knowledge schema is missing these tables")
+        self.assertLess(probe, verdict,
+                        "the table check must rule out a connection fault first")
+
+    def test_a_connection_failure_does_not_blame_the_schema(self):
+        self.assertIn("this is a credentials problem, NOT a\n    missing schema",
+                      self.run_sync)
+
+    def test_a_bracketed_password_is_diagnosed_by_name(self):
+        """The exact shape that broke a real run: an unreplaced
+        [YOUR-PASSWORD] placeholder. urlsplit reads '[' in the authority as an
+        IPv6 literal and raises, and libpq rejects it for the same reason — so
+        this is a genuine fault, not a display quirk."""
+        out = self._bash(
+            'mask_dsn "postgresql://postgres:[YOUR-PASSWORD]@db.abc.supabase.co:5432/postgres"')
+        self.assertIn("not a valid connection URI", out)
+        self.assertIn("percent-encode", out)
+
+    def test_the_libpq_keyword_form_is_not_reported_as_broken(self):
+        """`host=... port=...` is valid for libpq and is not a URI. Calling it
+        unparseable would report a fault in a working configuration."""
+        out = self._bash(
+            'mask_dsn "host=db.abc.supabase.co port=5432 dbname=postgres '
+            'user=postgres password=sekrit"')
+        self.assertIn("host=db.abc.supabase.co", out)
+        self.assertNotIn("sekrit", out)
+        self.assertNotIn("unparseable", out)
+
+    def test_redact_strips_credentials_from_arbitrary_text(self):
+        """psql's own errors go into a public build log."""
+        out = self._bash(
+            "echo 'connection to postgresql://u:Tr0ub4dor@h/db failed; "
+            "password=Tr0ub4dor rejected' | redact")
+        self.assertNotIn("Tr0ub4dor", out)
+        self.assertIn("****", out)
+
+    def test_psql_probe_reports_failure_rather_than_swallowing_it(self):
+        out = self._bash("psql_probe || echo EXIT_NONZERO",
+                         env={"DATABASE_URL": "postgresql://u:p@127.0.0.1:1/nope"})
+        self.assertIn("EXIT_NONZERO", out)
+        self.assertTrue(out.strip(), "the probe must say why it failed")
+        self.assertNotIn(":p@", out, "the password must not reach the log")
+
+    def test_mask_dsn_never_emits_a_password_for_any_shape(self):
+        secret = "Tr0ub4dor"
+        shapes = [
+            f"postgresql://postgres:{secret}@db.abc.supabase.co:5432/postgres",
+            f"postgresql://postgres:[{secret}]@db.abc.supabase.co:5432/postgres",
+            f"host=db.abc.supabase.co password={secret}",
+            f"postgresql://u:{secret}@/db?host=/var/run",
+            "", "garbage",
+        ]
+        for dsn in shapes:
+            with self.subTest(dsn=dsn[:44]):
+                self.assertNotIn(secret, self._bash(f'mask_dsn "{dsn}"'))
 
 
 if __name__ == "__main__":

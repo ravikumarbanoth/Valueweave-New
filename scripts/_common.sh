@@ -82,21 +82,38 @@ raw = (sys.argv[1] if len(sys.argv) > 1 else "").strip()
 if not raw:
     print("(not set)"); raise SystemExit
 
+# libpq also accepts a keyword string: "host=... port=... password=...".
+# Valid, and not a URI, so urlsplit would report a fault in a working value.
+if "=" in raw.split()[0] and "://" not in raw:
+    kv = dict(p.split("=", 1) for p in raw.split() if "=" in p)
+    host = kv.get("host", "(unset)"); port = kv.get("port", "")
+    print(f"keyword form: host={host}"
+          + (f" port={port}" if port else "")
+          + f" dbname={kv.get('dbname', '(default)')} "
+            f"user={kv.get('user', '(default)')} password={'****' if 'password' in kv else '(none)'}")
+    raise SystemExit
+
 try:
     u = urlsplit(raw)
+    host = u.hostname or (parse_qs(u.query).get("host", [""])[0]) or "(local socket)"
+except ValueError as exc:
+    # The common real cause, and worth naming rather than shrugging at: '[' and
+    # ']' in the authority are parsed as an IPv6 literal, so a password
+    # containing them — very often an unreplaced "[YOUR-PASSWORD]" from the
+    # Supabase connection-string dialog — makes the whole URI invalid. libpq
+    # rejects it for the same reason, so this is a real fault, not a display
+    # problem. The exception text names only the host, never the password.
+    hint = ""
+    if "[" in raw or "]" in raw:
+        hint = (" — the value contains '[' or ']'. If that is a literal "
+                "[YOUR-PASSWORD] placeholder, replace it with the real password; "
+                "if the password genuinely contains brackets, percent-encode them "
+                "(%5B and %5D)")
+    print(f"(not a valid connection URI: {exc}{hint})")
+    raise SystemExit
 except Exception:
     print("(unparseable — check the DATABASE_URL secret)"); raise SystemExit
 
-# Host may be absent from the authority and supplied as a query parameter
-# instead: `postgresql://user@/db?host=/var/run/postgresql` is a valid libpq URI
-# and is what a unix-socket connection looks like. Rejecting it as unparseable
-# would report a fault in a working configuration.
-host = u.hostname or (parse_qs(u.query).get("host", [""])[0]) or "(local socket)"
-
-# .port raises on a non-numeric port, which happens when an unencoded ":" in the
-# password confuses the authority split. Degrade to "no port shown" rather than
-# declaring the whole DSN unreadable — and never fall back to printing the raw
-# string, which is where the password lives.
 try:
     port = f":{u.port}" if u.port else ""
 except ValueError:
@@ -107,11 +124,32 @@ if user:
     head = user.split(".", 1)[0]
     user = head + (".****" if "." in user else "")
 cred = f"{user}:****@" if (u.username or u.password or "@" in u.netloc) else ""
-
 db = (u.path or "").lstrip("/") or "(default)"
-scheme = u.scheme or "postgresql"
-print(f"{scheme}://{cred}{host}{port}/{db}")
+print(f"{u.scheme or 'postgresql'}://{cred}{host}{port}/{db}")
 PYEOF
+}
+
+# Strip anything credential-shaped out of arbitrary text — a libpq error, say —
+# before it reaches a public build log.
+redact() {
+  sed -E -e 's#(://[^:/@]*):[^@]*@#\1:****@#g' -e 's#password=[^ ]*#password=****#g'
+}
+
+# Can we actually reach the database? Returns 0 and prints nothing on success;
+# returns 1 and prints the redacted reason otherwise.
+#
+# Exists because psql_scalar swallows stderr, which makes "the connection
+# failed" and "the query returned false" indistinguishable. That ambiguity sent
+# a CI run into reporting all eight tables missing from a database that
+# demonstrably had them — the tables had just been read successfully through
+# PostgREST seconds earlier.
+psql_probe() {
+  local err
+  if ! err=$(psql "$DATABASE_URL" -qtAX -c "select 1" 2>&1 >/dev/null); then
+    printf '%s' "$err" | head -3 | redact
+    return 1
+  fi
+  return 0
 }
 
 # Same idea for a project URL: keep the shape, hide the project ref.

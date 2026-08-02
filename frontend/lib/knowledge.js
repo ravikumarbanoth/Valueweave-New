@@ -427,6 +427,119 @@ export async function getRelatedByType(globalEntityId, { limit = 120 } = {}) {
 }
 
 /**
+ * The second hop: everything connected to an entity's neighbours.
+ *
+ * WHY THIS EXISTS
+ * ---------------
+ * One hop is not enough on the pages people actually land on. Measured against
+ * the built graph, a District has a MEDIAN OF ONE directly-linked entity and 33
+ * within two hops. A BusinessOpportunity: 1 and 11. A Crop: 5 and 36. The
+ * "Where this leads next" section on a district page was, for half the
+ * districts, a single link to Telangana.
+ *
+ * That is not a data gap — the research is there. It is the shape of the graph:
+ * districts connect to businesses and institutions, and everything a person
+ * wants to know about a district (which schemes apply, which skills are in
+ * demand, what grows there) hangs off those.
+ *
+ * TWO QUERIES, NOT N
+ * ------------------
+ * `getNeighbours` takes one id. Calling it per neighbour would be forty round
+ * trips on a busy page. This does the same work with one query for the edges
+ * and one for the endpoints, regardless of how many ids go in.
+ *
+ * Results are marked `_hop: 2` and carry `_bridge`, the neighbour they came
+ * through, so the UI can say "through Warangal Spinning Mill" rather than
+ * implying a direct relationship that does not exist.
+ */
+export async function getSecondHop(entityIds, { exclude = [], limit = 400 } = {}) {
+  const ids = [...new Set((entityIds || []).filter(Boolean))].slice(0, 40);
+  if (ids.length === 0) return {};
+  const skip = new Set([...exclude, ...ids].filter(Boolean));
+
+  const edges = await safe(
+    (sb) =>
+      sb
+        .from("kg_relationships")
+        .select("*")
+        .or(`from_entity.in.(${ids.join(",")}),to_entity.in.(${ids.join(",")})`)
+        .is(LIVE, null)
+        .order("confidence", { ascending: false })
+        .limit(limit),
+    []
+  );
+  if (edges.length === 0) return {};
+
+  // For each edge, the end that is NOT one of ours is the second-hop entity,
+  // and the end that IS ours is the bridge we reached it through.
+  const inSeed = new Set(ids);
+  const wanted = new Map(); // farId -> bridgeId
+  for (const e of edges) {
+    const from = e.from_entity;
+    const to = e.to_entity;
+    const far = inSeed.has(from) ? to : from;
+    const bridge = inSeed.has(from) ? from : to;
+    if (!far || skip.has(far) || wanted.has(far)) continue;
+    wanted.set(far, { bridge, edge: e });
+  }
+  if (wanted.size === 0) return {};
+
+  const nodes = await safe(
+    (sb) =>
+      sb.from("kg_entities").select("*").in("global_entity_id", [...wanted.keys()]).is(LIVE, null),
+    []
+  );
+  const bridges = new Map(
+    (
+      await safe(
+        (sb) =>
+          sb
+            .from("kg_entities")
+            .select("global_entity_id,canonical_name")
+            .in("global_entity_id", [...new Set([...wanted.values()].map((v) => v.bridge))])
+            .is(LIVE, null),
+        []
+      )
+    ).map((b) => [b.global_entity_id, b.canonical_name])
+  );
+
+  const grouped = {};
+  for (const node of nodes) {
+    const hit = wanted.get(node.global_entity_id);
+    if (!hit) continue;
+    (grouped[node.entity_type] ||= []).push({
+      ...node,
+      _via: hit.edge.relationship_type,
+      _edge: hit.edge,
+      _hop: 2,
+      _bridge: bridges.get(hit.bridge) || null,
+    });
+  }
+  return grouped;
+}
+
+/**
+ * One hop, then the second hop for anything the first did not already reach.
+ *
+ * Direct neighbours always win: a two-hop entity is only added to a type the
+ * first hop left empty, so a page never shows "Skills you will need" filled
+ * with skills that belong to a different business.
+ */
+export async function getConnectedKnowledge(globalEntityId, { limit = 120 } = {}) {
+  const direct = await getRelatedByType(globalEntityId, { limit });
+  const directIds = Object.values(direct).flat().map((e) => e.global_entity_id);
+  if (directIds.length === 0) return direct;
+
+  const second = await getSecondHop(directIds, { exclude: [globalEntityId, ...directIds] });
+  const merged = { ...direct };
+  for (const [type, rows] of Object.entries(second)) {
+    if (merged[type]?.length) continue;
+    merged[type] = rows;
+  }
+  return merged;
+}
+
+/**
  * One page of entities of a type, with a total count for the pager.
  * `count: "exact"` rides on the same request — a second round trip for a number
  * the first one can return is the kind of duplicate query the brief rules out.

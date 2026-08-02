@@ -477,9 +477,29 @@ class NoDuplicationTest(unittest.TestCase):
         # Step 4 created no directory; it only edited existing page.js files.
         # This asserts the count rather than the list so a legitimate future
         # page does not have to be added in two places.
+        #
+        # 80 -> 81 IN PX PHASE 6, DELIBERATELY.
+        # ---------------------------------------------------------------
+        # "DO NOT create new pages" was a Step 4 constraint, and it was the
+        # right one: that step's job was to wire existing surfaces to the
+        # projection, and a new page would have been scope creep dressed as
+        # progress.
+        #
+        # The PX brief asks the homepage to open with "who are you?" and says
+        # each answer "opens a curated discovery experience". The alternative —
+        # pointing the six chips straight at /knowledge?type=skill and friends —
+        # keeps the count at 80 and delivers a filtered table instead of a
+        # curated start, which is the thing the phase exists to stop.
+        #
+        # One parameterised route, six static params, no data access. If a
+        # future step wants the old constraint back, it is one number.
         self.assertEqual(
-            len(pages), 80,
-            "Step 4 must not add or remove a route; edit the existing ones")
+            len(pages), 81,
+            "a new route needs a reason; see the note above")
+
+    def test_the_only_route_this_phase_added_is_the_audience_start_page(self):
+        pages = {str(p.parent.relative_to(APP)) for p in APP.rglob("page.js")}
+        self.assertIn("start/[audience]", pages)
 
     def test_one_district_intelligence_component_serves_both_routes(self):
         panel = COMPONENTS / "knowledge" / "DistrictIntelligencePanel.jsx"

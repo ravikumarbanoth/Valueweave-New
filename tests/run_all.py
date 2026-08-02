@@ -46,6 +46,8 @@ SUITES = {
                           "PX Phase 1: semantic search quality on the live graph"),
     "connected_knowledge": ("tests.test_connected_knowledge",
                             "PX Phase 5: intent sections, ranking and the second hop"),
+    "landing": ("tests.test_landing",
+                "PX Phase 6: hero search, audience routes and their destinations"),
     "stewardship": ("tests.test_stewardship", "Lifecycle, ledger and review queue"),
     "deployment": ("tests.test_deployment",
                    "Deployment: writer, scripts, migration 011"),

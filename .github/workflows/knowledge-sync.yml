@@ -177,21 +177,26 @@ jobs:
       - name: Plan
         run: scripts/run_sync.sh --plan-only
 
-      # The last thing that can go wrong before a write, and the one with the
-      # least helpful native error.
+      # Reports on the FRONTEND's access, and no longer gates the import.
       #
       # `knowledge` has to be listed under Project Settings -> API -> Exposed
-      # schemas. That is PostgREST's `db-schemas` allowlist: it validates the
-      # requested schema before it authenticates anything, so an unlisted schema
-      # returns PGRST106 no matter which key is presented — the service role does
-      # not route around it. And the sync writes through PostgREST, so this stops
-      # the import, not just the browser.
+      # schemas for anything to read it through PostgREST — that is the browser,
+      # via the anon key. PostgREST validates the requested schema before it
+      # authenticates anything, so an unlisted schema returns PGRST106 to every
+      # caller, service role included.
       #
-      # Without this step the failure surfaces partway through Apply as a raw
-      # PGRST106 from inside supabase-py, which reads like a library fault rather
-      # than a one-checkbox setting. Ten seconds of curl turns it into a sentence.
-      - name: Preflight — is the knowledge schema exposed?
+      # This step used to `exit 1`, which stopped Apply. That was wrong once the
+      # sync stopped needing PostgREST: nine consecutive runs deployed a complete
+      # schema and imported nothing into it, blocked by a setting that governs
+      # what the public API exposes rather than what an operator process may
+      # write. The import now goes over the Postgres protocol (see
+      # knowledge_sync/adapters.py), so this warns and lets the data land.
+      #
+      # It still runs, and Verify below still fails on it, because the
+      # deployment is not finished until a visitor can read the data.
+      - name: Check — is the knowledge schema exposed to the API?
         if: github.event_name != 'workflow_dispatch' || inputs.apply
+        continue-on-error: true
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
@@ -286,14 +291,20 @@ jobs:
                 echo "usually a trailing slash or an existing /rest/v1 suffix."
                 echo "Set it to exactly:  https://<project-ref>.supabase.co"
               elif printf '%s' "$payload" | grep -q "PGRST106"; then
-                echo "::error::The 'knowledge' schema is not exposed to the API."
+                echo "::warning::The 'knowledge' schema is not exposed to the API."
+                echo ""
+                echo "The import will still run — it writes over the Postgres protocol"
+                echo "and does not go through PostgREST. But the WEBSITE reads through"
+                echo "PostgREST with the anon key, so until this is set every page will"
+                echo "keep showing its 'being prepared' state even once the data is in."
                 echo ""
                 echo "Fix it in the Supabase Dashboard — this cannot be done in SQL:"
                 echo "  Project Settings -> API -> Exposed schemas"
                 echo "  add:  knowledge, user_intelligence"
-                echo "  Save, wait ~30s for PostgREST to reload, then re-run this workflow."
+                echo "  Save and wait ~30s for PostgREST to reload."
                 echo ""
                 echo "This is a server setting, not a permission. No key bypasses it."
+                exit 0
               elif printf '%s' "$payload" | grep -q "PGRST205\|does not exist"; then
                 echo "::error::The schema is exposed but knowledge.kg_entities is missing."
                 echo "Run sql/deploy_knowledge.sql in the Supabase SQL Editor first,"

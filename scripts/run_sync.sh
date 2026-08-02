@@ -56,7 +56,24 @@ fi
 
 if ((PLAN_ONLY)); then summary "Sync plan"; exit 0; fi
 
-need_env SUPABASE_URL SUPABASE_SERVICE_ROLE_KEY
+# VW_SYNC_TARGET selects the transport, and the two need different credentials.
+# Declared here rather than just before the apply because this guard has to know
+# which one to demand: requiring SUPABASE_* for a run that never contacts
+# PostgREST would refuse a perfectly valid sync.
+#
+#   postgres  writes over the PostgreSQL wire protocol with DATABASE_URL, and is
+#             unaffected by the Dashboard's "Exposed schemas" setting. Default.
+#   supabase  writes through PostgREST with the service role key, and is refused
+#             with PGRST106 unless `knowledge` is on that list.
+#
+# See knowledge_sync/adapters.py for why the default changed.
+SYNC_TARGET="${VW_SYNC_TARGET:-postgres}"
+
+case "$SYNC_TARGET" in
+  postgres) need_env DATABASE_URL ;;
+  supabase) need_env SUPABASE_URL SUPABASE_SERVICE_ROLE_KEY ;;
+  *) fail "VW_SYNC_TARGET must be 'postgres' or 'supabase', got '$SYNC_TARGET'" ;;
+esac
 
 # Do the tables exist? Nothing checked, and the failure without this is a raw
 # PostgREST error surfacing through the SDK — technically accurate and useless
@@ -95,15 +112,15 @@ else
     surface as a PostgREST error during apply"
 fi
 
-step "Applying${FULL:+ (full rebuild)}"
-run python3 -m knowledge_sync --target supabase sync $FULL | tail -6 | sed 's/^/    /'
+step "Applying${FULL:+ (full rebuild)} via --target $SYNC_TARGET"
+run python3 -m knowledge_sync --target "$SYNC_TARGET" sync $FULL | tail -6 | sed 's/^/    /'
 
 step "Proving idempotency — the check that matters"
 if [[ "$DRY_RUN" == "1" ]]; then
   info "[dry-run] would re-run sync and require 0 inserted, 0 updated"
   summary "Sync (dry run)"; exit 0
 fi
-python3 -m knowledge_sync --target supabase sync > /tmp/vw_sync_second.log 2>&1
+python3 -m knowledge_sync --target "$SYNC_TARGET" sync > /tmp/vw_sync_second.log 2>&1
 second=$(grep -oE "[0-9]+ inserted, [0-9]+ updated" /tmp/vw_sync_second.log | tail -1)
 info "second run: ${second:-unknown}"
 if [[ "$second" == "0 inserted, 0 updated" ]]; then

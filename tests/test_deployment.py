@@ -794,9 +794,13 @@ class ExposurePreflightUrlTest(unittest.TestCase):
         import yaml                                              # noqa: PLC0415
         doc = yaml.safe_load(read(cls.WORKFLOW))
         steps = doc["jobs"]["sync"]["steps"]
+        # Located by what it does, not what it is called. Matching the step name
+        # broke the moment the step was renamed from "Preflight — is the
+        # knowledge schema exposed?" to "Check — …", and a StopIteration in
+        # setUpClass is a far worse failure than the one it was guarding.
         cls.preflight = next(
             s["run"] for s in steps
-            if s.get("name", "").startswith("Preflight — is the knowledge"))
+            if "kg_entities?select=global_entity_id" in (s.get("run") or ""))
         cls.code = cls._strip_comments(cls.preflight)
 
     def test_url_is_not_built_from_the_raw_secret(self):

@@ -2,14 +2,38 @@
 """
 Target adapters — where synced rows actually go.
 
-Two implementations behind one interface:
+Three implementations behind one interface:
 
   InMemoryTarget   the fixture. Holds rows in a dict, records every call.
                    Every test in tests/test_knowledge_sync.py runs against it,
                    which is why the suite needs no Supabase credentials.
 
-  SupabaseTarget   the real one. Uses the service role key and writes only to the
-                   `knowledge` schema.
+  SupabaseTarget   over PostgREST, with the service role key.
+
+  PostgresTarget   over the PostgreSQL wire protocol, with DATABASE_URL.
+
+WHY THERE ARE TWO REAL ONES
+---------------------------
+They differ in one way that turned out to matter: SupabaseTarget speaks to
+PostgREST, and PostgREST will not serve a schema that is not listed in its
+`db-schemas` allowlist — the Dashboard's "Exposed schemas" setting. It validates
+that before it authenticates anything, so an unlisted schema returns PGRST106 to
+every caller, including one holding the service role key. There is no key, grant
+or policy that routes around a server configuration.
+
+That is correct for the browser. It is a strange gate for an import: the sync is
+an operator process running in CI with the database's own credentials, and it was
+being blocked by a setting that exists to control what the public API exposes. A
+deployment that has created every table, index, policy and grant would still
+import nothing until somebody ticked a checkbox.
+
+PostgresTarget writes over the Postgres protocol instead, using DATABASE_URL —
+already a required secret, and until now used only for a psql table check. It is
+not affected by Exposed schemas at all.
+
+Exposing the schemas is still necessary for the frontend, which reads through
+PostgREST with the anon key. It is no longer necessary in order to populate the
+tables, and those two things should not have been coupled.
 
 WHY AN ADAPTER AT ALL
 ---------------------
@@ -205,6 +229,156 @@ class SupabaseTarget(Target):
         if not include_deleted:
             q = q.is_("sync_deleted_at", "null")
         return q.execute().count or 0
+
+
+class PostgresTarget(Target):
+    """
+    The other real target. Writes over the PostgreSQL wire protocol.
+
+    Same interface, same allowlist, same soft-delete semantics as SupabaseTarget
+    — the only difference is the transport, and therefore what can block it. See
+    the module docstring for why that difference matters.
+
+    `psycopg` is imported lazily, inside `conn`, for the same reason the Supabase
+    SDK is: the test suite and every dry run must work without it installed.
+
+    Autocommit, deliberately. It matches SupabaseTarget statement-for-statement,
+    so a partial failure leaves the same state either way and the engine's
+    manifest-written-last design replays it identically. Wrapping the whole sync
+    in one transaction would be a different — arguably better — contract, but it
+    would be a different contract, and this class exists to be a drop-in.
+    """
+
+    def __init__(self, dsn=None, connection=None):
+        self.dsn = dsn or os.environ.get("DATABASE_URL")
+        self._conn = connection
+        if connection is None and not self.dsn:
+            raise TargetError(
+                "DATABASE_URL is required for --target postgres. For a dry run "
+                "or a test, use InMemoryTarget instead — no credentials needed.")
+
+    @staticmethod
+    def _psycopg():
+        """The one place the driver is imported, so the message is the same
+        wherever it is missing. Importing `psycopg.sql` directly inside each
+        method bypassed this and leaked a raw ModuleNotFoundError."""
+        try:
+            import psycopg                                 # noqa: PLC0415
+            from psycopg import sql                        # noqa: PLC0415
+            from psycopg.types.json import Jsonb           # noqa: PLC0415
+        except ImportError as exc:                         # pragma: no cover
+            raise TargetError(
+                "the `psycopg` package is not installed. It is an optional "
+                "dependency: everything except a live sync works without it. "
+                "Install with: pip install -r requirements-sync.txt") from exc
+        return psycopg, sql, Jsonb
+
+    @property
+    def conn(self):
+        if self._conn is None:
+            psycopg, _, _ = self._psycopg()
+            self._conn = psycopg.connect(self.dsn, autocommit=True)
+        return self._conn
+
+    def _qualified(self, table):
+        # Allowlist BEFORE the driver import, so a forbidden table is refused
+        # even where psycopg is not installed — and so the refusal never depends
+        # on a dependency being present.
+        self._assert_target(table)
+        _, sql, _ = self._psycopg()
+        return sql.Identifier(self.schema, table)
+
+    @classmethod
+    def _adapt(cls, value):
+        """Only one conversion is needed, and it is measured rather than guessed.
+
+        Across all 1,812 rows the engine produces, the value types are str, int,
+        float, None and dict — and dict occurs in exactly one column,
+        `sync_pending_fields`, which is jsonb. psycopg adapts the first four
+        natively; a bare dict it would reject.
+        """
+        if isinstance(value, dict):
+            _, _, Jsonb = cls._psycopg()
+            return Jsonb(value)
+        return value
+
+    def upsert(self, table, rows):
+        self._assert_target(table)          # before the early return, and before psycopg
+        if not rows:
+            return 0
+        _, sql, _ = self._psycopg()
+        ident = self._qualified(table)
+
+        # Grouped by column set. Every table the engine writes has exactly one
+        # (verified across all eight), so this is normally a single group — but
+        # a heterogeneous batch would otherwise produce a statement whose
+        # placeholders did not match its rows.
+        groups = {}
+        for row in rows:
+            groups.setdefault(tuple(row.keys()), []).append(row)
+
+        written = 0
+        with self.conn.cursor() as cur:
+            for cols, batch in groups.items():
+                updatable = [c for c in cols if c != "sync_row_key"]
+                stmt = sql.SQL(
+                    "insert into {tbl} ({cols}) values ({vals}) "
+                    "on conflict (sync_row_key) do update set {sets}"
+                ).format(
+                    tbl=ident,
+                    cols=sql.SQL(", ").join(map(sql.Identifier, cols)),
+                    vals=sql.SQL(", ").join(sql.Placeholder() * len(cols)),
+                    sets=sql.SQL(", ").join(
+                        sql.SQL("{c} = excluded.{c}").format(c=sql.Identifier(c))
+                        for c in updatable),
+                )
+                cur.executemany(
+                    stmt, [[self._adapt(r[c]) for c in cols] for r in batch])
+                written += len(batch)
+        return written
+
+    def soft_delete(self, table, row_keys, at):
+        return self._set_deleted_at(table, row_keys, at)
+
+    def restore(self, table, row_keys):
+        return self._set_deleted_at(table, row_keys, None)
+
+    def _set_deleted_at(self, table, row_keys, at):
+        self._assert_target(table)
+        if not row_keys:
+            return 0
+        _, sql, _ = self._psycopg()
+        keys = list(row_keys)
+        with self.conn.cursor() as cur:
+            cur.execute(
+                sql.SQL("update {tbl} set sync_deleted_at = %s "
+                        "where sync_row_key = any(%s)").format(
+                            tbl=self._qualified(table)),
+                (at, keys))
+        return len(keys)
+
+    def fetch_keys(self, table):
+        _, sql, _ = self._psycopg()
+        with self.conn.cursor() as cur:
+            cur.execute(
+                sql.SQL("select sync_row_key, sync_content_hash from {tbl} "
+                        "where sync_deleted_at is null").format(
+                            tbl=self._qualified(table)))
+            return dict(cur.fetchall())
+
+    def count(self, table, include_deleted=False):
+        _, sql, _ = self._psycopg()
+        clause = sql.SQL("") if include_deleted else sql.SQL(
+            " where sync_deleted_at is null")
+        with self.conn.cursor() as cur:
+            cur.execute(sql.SQL("select count(*) from {tbl}").format(
+                tbl=self._qualified(table)) + clause)
+            return cur.fetchone()[0]
+
+    def close(self):
+        if self._conn is not None:
+            self._conn.close()
+            self._conn = None
 
 
 def utcnow():

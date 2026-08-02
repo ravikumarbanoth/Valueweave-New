@@ -42,3 +42,24 @@
 # create_client, .schema(), .table(), .upsert(on_conflict=), .update().in_(),
 # .select().is_() — resolves. Re-verify when raising this pin.
 supabase~=2.31.0
+
+# The direct-Postgres transport, used by `--target postgres` (the default in
+# scripts/run_sync.sh).
+#
+# WHY BOTH ARE HERE
+#
+# supabase-py talks to PostgREST, which refuses any schema not listed under
+# Project Settings -> API -> Exposed schemas — PGRST106, for every caller,
+# including one holding the service role key. That is a server configuration and
+# no credential routes around it. Nine consecutive CI runs therefore created a
+# complete schema and imported nothing into it.
+#
+# psycopg talks to the database. The sync is an operator process in CI holding
+# the database's own DSN; it has no reason to go through the public REST API to
+# write a projection, and every reason not to be gated by a setting that governs
+# what the public API exposes.
+#
+# `[binary]` so CI needs no libpq or compiler. Pinned to the 3.x line: this
+# writes to production data on every merge to main, and an unpinned driver means
+# the bytes reaching the database can change without a commit.
+psycopg[binary]~=3.2

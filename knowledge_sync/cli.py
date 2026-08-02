@@ -25,7 +25,8 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from knowledge_sync import __version__                                   # noqa: E402
-from knowledge_sync.adapters import InMemoryTarget, SupabaseTarget       # noqa: E402
+from knowledge_sync.adapters import (InMemoryTarget, PostgresTarget,     # noqa: E402
+                                     SupabaseTarget)
 from knowledge_sync.config import TABLE_SPECS                            # noqa: E402
 from knowledge_sync.changes import Manifest                              # noqa: E402
 from knowledge_sync.engine import SyncAborted, SyncEngine, SyncMode      # noqa: E402
@@ -33,10 +34,18 @@ from knowledge_sync.logs import read_log                                 # noqa:
 from knowledge_sync.rollback import list_snapshots                       # noqa: E402
 
 
+#: Both real targets write the same rows to the same tables. They differ only in
+#: transport — and therefore in what can stop them. `postgres` goes over the
+#: Postgres wire protocol with DATABASE_URL and is unaffected by the Dashboard's
+#: "Exposed schemas" setting; `supabase` goes through PostgREST and is not.
+#: See the module docstring in knowledge_sync/adapters.py.
+REAL_TARGETS = {"supabase": SupabaseTarget, "postgres": PostgresTarget}
+
+
 def build_target(name):
     if name == "memory":
         return InMemoryTarget()
-    return SupabaseTarget()
+    return REAL_TARGETS[name]()
 
 
 def cmd_plan(args):
@@ -52,11 +61,11 @@ def cmd_plan(args):
 
 
 def cmd_sync(args):
-    if args.target == "supabase":
+    if args.target in REAL_TARGETS:
         try:
-            target = SupabaseTarget()
+            target = REAL_TARGETS[args.target]()
         except Exception as exc:                                       # noqa: BLE001
-            print(f"cannot reach Supabase: {exc}", file=sys.stderr)
+            print(f"cannot reach the {args.target} target: {exc}", file=sys.stderr)
             return 2
     else:
         target = InMemoryTarget()
@@ -158,7 +167,8 @@ def build_parser():
     ap = argparse.ArgumentParser(prog="knowledge_sync",
                                  description="Git -> Supabase knowledge synchronisation")
     ap.add_argument("--json", action="store_true", help="machine-readable output")
-    ap.add_argument("--target", choices=("memory", "supabase"), default="memory",
+    ap.add_argument("--target", choices=("memory", "supabase", "postgres"),
+                    default="memory",
                     help="memory needs no credentials (default)")
     sub = ap.add_subparsers(dest="command", required=True)
 
@@ -185,7 +195,7 @@ def build_parser():
     # in-memory no-op, which is far worse than the loud error this replaces.
     def shared(parser):
         parser.add_argument("--target", dest="target_after", default=None,
-                            choices=("memory", "supabase"),
+                            choices=("memory", "supabase", "postgres"),
                             help="same as the top-level --target; accepted here too")
         parser.add_argument("--json", dest="json_after", action="store_true",
                             default=False, help=argparse.SUPPRESS)

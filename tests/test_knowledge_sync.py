@@ -32,7 +32,8 @@ from knowledge_sync import changes as changes_mod                    # noqa: E40
 from knowledge_sync import metrics as metrics_mod                    # noqa: E402
 from knowledge_sync import rollback as rollback_mod                  # noqa: E402
 from knowledge_sync import validation as validation_mod              # noqa: E402
-from knowledge_sync.adapters import (InMemoryTarget, SupabaseTarget,  # noqa: E402
+from knowledge_sync.adapters import (InMemoryTarget, PostgresTarget,  # noqa: E402
+                                     SupabaseTarget,
                                      TargetError)
 from knowledge_sync.changes import Manifest                          # noqa: E402
 from knowledge_sync.config import (SENTINELS, SYNC_COLUMNS,          # noqa: E402
@@ -607,6 +608,149 @@ class SafetyTest(unittest.TestCase):
             for c in s.columns:
                 with self.subTest(table=s.name, column=c):
                     self.assertFalse(c.startswith("sync_"))
+
+
+class PostgresTargetTest(unittest.TestCase):
+    """
+    The direct-Postgres transport.
+
+    WHY IT EXISTS: SupabaseTarget writes through PostgREST, which refuses any
+    schema absent from the Dashboard's "Exposed schemas" list with PGRST106 — to
+    every caller, service role included, because it is a server configuration
+    rather than a permission. Nine consecutive CI runs therefore deployed a
+    complete `knowledge` schema and imported nothing into it. PostgresTarget
+    writes over the Postgres protocol with DATABASE_URL and is not subject to it.
+
+    WHAT THESE TESTS COVER, AND WHAT THEY DO NOT: the contract that can be
+    checked without a driver — construction, the allowlist, the error a missing
+    psycopg produces, and interface parity with the other targets. They cannot
+    execute SQL: psycopg is deliberately absent when the suite runs, because the
+    same ordering lets a sibling test prove the engine holds no database client.
+
+    The behaviour was verified by running it: against a real PostgreSQL 16 with
+    the deployed schema, `scripts/run_sync.sh` inserted 1,812 rows across eight
+    tables with every count matching, reported `0 inserted, 0 updated` on the
+    second pass, and round-tripped a soft delete and restore.
+    """
+
+    def test_it_refuses_to_construct_without_a_dsn(self):
+        import os                                              # noqa: PLC0415
+        from unittest import mock                              # noqa: PLC0415
+        env = {k: v for k, v in os.environ.items() if k != "DATABASE_URL"}
+        with mock.patch.dict(os.environ, env, clear=True):
+            with self.assertRaises(TargetError):
+                PostgresTarget()
+
+    def test_it_takes_the_dsn_from_the_environment(self):
+        import os                                              # noqa: PLC0415
+        from unittest import mock                              # noqa: PLC0415
+        with mock.patch.dict(os.environ, {"DATABASE_URL": "postgresql://h/db"}):
+            self.assertEqual(PostgresTarget().dsn, "postgresql://h/db")
+
+    def test_the_allowlist_is_checked_before_the_driver_is_imported(self):
+        """A forbidden table must be refused whether or not psycopg is present.
+
+        Ordering matters: if the driver were imported first, the refusal would
+        depend on an optional dependency being installed, and the message a
+        developer saw would be about psycopg rather than about writing somewhere
+        it must not.
+        """
+        t = PostgresTarget(dsn="postgresql://h/db")
+        for table in ("profiles", "auth.users", "connections", "opportunities"):
+            with self.subTest(table=table):
+                with self.assertRaises(TargetError) as ctx:
+                    t.upsert(table, [{"sync_row_key": "k"}])
+                self.assertIn("refusing to write", str(ctx.exception))
+
+    def test_every_method_reports_a_missing_driver_as_a_target_error(self):
+        """Not a raw ModuleNotFoundError from whichever method happened to run.
+
+        Each method used to `from psycopg import sql` directly, which bypassed
+        the guarded import in `conn` and leaked the bare exception.
+        """
+        t = PostgresTarget(dsn="postgresql://h/db")
+        calls = (
+            ("upsert", ("kg_entities", [{"sync_row_key": "k"}])),
+            ("soft_delete", ("kg_entities", ["k"], "2026-01-01T00:00:00Z")),
+            ("restore", ("kg_entities", ["k"])),
+            ("fetch_keys", ("kg_entities",)),
+            ("count", ("kg_entities",)),
+        )
+        for name, args in calls:
+            with self.subTest(method=name):
+                with self.assertRaises(TargetError) as ctx:
+                    getattr(t, name)(*args)
+                self.assertIn("psycopg", str(ctx.exception))
+
+    def test_empty_batches_are_free(self):
+        """No driver needed to do nothing — the engine calls these on no-op tables."""
+        t = PostgresTarget(dsn="postgresql://h/db")
+        self.assertEqual(t.upsert("kg_entities", []), 0)
+        self.assertEqual(t.soft_delete("kg_entities", [], None), 0)
+        self.assertEqual(t.restore("kg_entities", []), 0)
+
+    def test_only_dicts_are_adapted(self):
+        """jsonb is the single conversion, and it is measured, not assumed.
+
+        Across all 1,812 rows the engine produces the value types are str, int,
+        float, None and dict, and dict appears in exactly one column —
+        sync_pending_fields. Everything else psycopg adapts natively.
+        """
+        for value in ("text", 42, 4.2, None, True):
+            with self.subTest(value=value):
+                self.assertIs(PostgresTarget._adapt(value), value)
+
+    def test_it_implements_the_same_interface_as_the_other_targets(self):
+        for method in ("upsert", "soft_delete", "restore", "fetch_keys", "count"):
+            with self.subTest(method=method):
+                self.assertTrue(callable(getattr(PostgresTarget, method, None)))
+        self.assertEqual(PostgresTarget.schema, InMemoryTarget.schema)
+
+
+class SyncTransportTest(unittest.TestCase):
+    """How the transport is chosen, end to end."""
+
+    ROOT = Path(__file__).resolve().parent.parent
+
+    def test_the_cli_offers_the_postgres_target(self):
+        from knowledge_sync.cli import build_parser         # noqa: PLC0415
+        action = next(a for a in build_parser()._actions if a.dest == "target")
+        self.assertIn("postgres", action.choices)
+        self.assertIn("supabase", action.choices)
+
+    def test_run_sync_defaults_to_postgres(self):
+        """Because the PostgREST path is the one that cannot reach an unexposed
+        schema, and that is what stopped nine consecutive runs."""
+        src = (self.ROOT / "scripts" / "run_sync.sh").read_text(encoding="utf-8")
+        self.assertIn('SYNC_TARGET="${VW_SYNC_TARGET:-postgres}"', src)
+        self.assertIn('--target "$SYNC_TARGET"', src)
+
+    def test_the_credential_guard_follows_the_transport(self):
+        """Demanding SUPABASE_* for a run that never contacts PostgREST would
+        refuse a valid sync — which it did, on the first end-to-end attempt."""
+        src = (self.ROOT / "scripts" / "run_sync.sh").read_text(encoding="utf-8")
+        self.assertIn("postgres) need_env DATABASE_URL", src)
+        self.assertIn("supabase) need_env SUPABASE_URL SUPABASE_SERVICE_ROLE_KEY", src)
+
+    def test_the_driver_is_declared_and_pinned(self):
+        req = (self.ROOT / "requirements-sync.txt").read_text(encoding="utf-8")
+        self.assertRegex(req, r"(?m)^psycopg\[binary\]~=\d+\.\d+",
+                         "psycopg must be declared and pinned, like the SDK")
+
+    def test_exposure_no_longer_blocks_the_import(self):
+        """It gates the frontend, not the sync. Conflating the two meant a fully
+        deployed schema imported nothing until somebody ticked a checkbox."""
+        import yaml                                          # noqa: PLC0415
+        wf = yaml.safe_load(
+            (self.ROOT / ".github/workflows/knowledge-sync.yml").read_text("utf-8"))
+        steps = wf["jobs"]["sync"]["steps"]
+        check = next(s for s in steps
+                     if s.get("name", "").startswith("Check — is the knowledge"))
+        self.assertTrue(check.get("continue-on-error"),
+                        "the exposure check must not fail the job")
+        idx = check["run"].index("PGRST106")
+        self.assertIn("exit 0", check["run"][idx:idx + 900],
+                      "the PGRST106 branch must not exit non-zero")
 
 
 if __name__ == "__main__":

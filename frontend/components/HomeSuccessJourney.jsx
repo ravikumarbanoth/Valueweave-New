@@ -1,36 +1,36 @@
 const MILESTONES = [
   {
     period: "Day 1",
-    title: "Take Assessment",
-    desc: "Complete the free Discover Yourself quiz to find your archetype and matched opportunities.",
+    title: "Answer a few questions",
+    desc: "Answer a few questions and we will suggest ideas that suit you.",
     color: "bg-violet-50 border-violet-200",
     dot: "bg-violet-400",
   },
   {
     period: "Week 1",
-    title: "Explore Opportunities",
-    desc: "Browse 122 ideas and 500+ live opportunities matched to your district and sector.",
+    title: "Look around",
+    desc: "Browse business ideas matched to your district, your budget and what you can do.",
     color: "bg-amber-50 border-amber-200",
     dot: "bg-amber-400",
   },
   {
     period: "Week 2",
-    title: "Find Collaborators",
-    desc: "Connect with co-founders, mentors, and skilled partners who want to build with you.",
+    title: "Find people nearby",
+    desc: "Find people nearby who have the skills you do not.",
     color: "bg-teal-50 border-teal-200",
     dot: "bg-teal-400",
   },
   {
     period: "Month 1",
-    title: "Launch Project",
-    desc: "Post your opportunity, form your team, and take the first steps toward your venture.",
+    title: "Post what you are building",
+    desc: "Post what you are building, and let people ask to join you.",
     color: "bg-emerald-50 border-emerald-200",
     dot: "bg-emerald-400",
   },
   {
     period: "Month 3",
-    title: "Grow Venture",
-    desc: "Scale with community support, research insights, and district-level market intelligence.",
+    title: "Grow it",
+    desc: "Work out where to sell, what it costs to grow, and who can fund it.",
     color: "bg-rose-50 border-rose-200",
     dot: "bg-rose-400",
   },
@@ -41,9 +41,9 @@ export default function HomeSuccessJourney() {
     <section className="py-20 sm:py-24 px-4 sm:px-6">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-14">
-          <span className="chip bg-teal-100 text-teal-600 mb-4">YOUR PATH</span>
+          <span className="chip bg-teal-100 text-teal-600 mb-4">STEP BY STEP</span>
           <h2 className="font-display font-extrabold text-3xl sm:text-4xl md:text-5xl tracking-tight leading-tight text-ink">
-            Your Startup Journey
+            What to do next
           </h2>
           <p className="mt-4 text-muted max-w-lg mx-auto text-base sm:text-lg">
             From first click to funded venture — here&apos;s the roadmap.

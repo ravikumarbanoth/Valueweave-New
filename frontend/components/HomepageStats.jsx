@@ -64,7 +64,7 @@ export default async function HomepageStats() {
         {hasAnyData ? (
           <>
             <p className="text-center text-[11px] font-semibold text-stone-400 uppercase tracking-widest mb-8">
-              Platform Activity
+              Who is here so far
             </p>
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6">
               {STATS.map(({ key, icon: Icon, label, emptyLabel }) => {

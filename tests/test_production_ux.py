@@ -291,7 +291,11 @@ class HumanLanguageTest(unittest.TestCase):
         src = code(grid)
         self.absent("AI Intelligence Layer", src, rel(grid))
         self.absent("View AI Layer", src, rel(grid))
-        self.present('title: "AI Guidance"', src, rel(grid))
+        # Phase 2 renamed this tile "AI Guidance"; Phase 7 renamed it again to
+        # a phrase that answers a question rather than naming a feature. What
+        # this test owns is that the tile does not promise an AI layer.
+        self.present('title: "How we choose what to show you"', src, rel(grid))
+        self.present('href: "/ai"', src, rel(grid))
 
     def test_the_unresolved_chip_tooltip_names_the_gap_not_the_lookup_table(self):
         """This is the string `lib/` was not being scanned for."""

@@ -21,15 +21,17 @@ import {
   TYPE_BY_URL,
   getEntityBySlug,
   getEntityDetail,
-  getRelatedByType,
+  getConnectedKnowledge,
   hrefFor,
 } from "@/lib/knowledge";
 import EntityHeader from "@/components/knowledge/EntityHeader";
 import AttributeGrid, { isPresent } from "@/components/knowledge/AttributeGrid";
 import RelatedEntities, {
+  IntentSections,
   RelatedSourceSummary,
   TYPE_LABELS as TYPE_LABEL_PLURAL,
 } from "@/components/knowledge/RelatedEntities";
+import { intentSections } from "@/lib/related-intent";
 import KnowledgeEmptyState from "@/components/knowledge/KnowledgeEmptyState";
 import KnowledgeCardGrid from "@/components/knowledge/KnowledgeCardGrid";
 import TrustPanel from "@/components/knowledge/TrustPanel";
@@ -143,24 +145,22 @@ const ATTRIBUTES = {
   ],
 };
 
-// Which related types lead the page, per the brief's per-priority lists.
+// PX PHASE 5 — `LEAD_RELATED` LIVED HERE AND HAS MOVED
+// -----------------------------------------------------
+// It listed, per entity type, which related types should lead the page. Two
+// things were wrong with it and neither was the idea.
 //
-// Step 4 widened three of these. A business needs its training providers, raw
-// materials and machinery to answer "what would I have to arrange?", and a crop
-// needs its soil and climate — all of which the graph held and none of which the
-// page surfaced above the fold.
-const LEAD_RELATED = {
-  BusinessOpportunity: [
-    "Skill", "Certification", "TrainingProvider", "GovernmentScheme", "Industry",
-    "Market", "District", "MSME", "RawMaterial", "Machinery",
-  ],
-  GovernmentScheme: ["BusinessOpportunity", "MSME", "Skill", "District", "Crop", "FinancialInstitution"],
-  Skill: ["TrainingProvider", "Certification", "BusinessOpportunity", "Industry", "GovernmentScheme", "MSME"],
-  District: ["Industry", "BusinessOpportunity", "MSME", "Institution", "GovernmentScheme", "Crop", "TrainingProvider", "Market"],
-  Crop: ["District", "Soil", "ClimateZone", "Machinery", "Industry", "GovernmentScheme"],
-  MSME: ["Skill", "Industry", "GovernmentScheme", "District", "Market", "RawMaterial"],
-  Industry: ["BusinessOpportunity", "MSME", "Skill", "District", "GovernmentScheme"],
-};
+// It never took effect: RelatedEntities re-sorted the groups by how many rows
+// each held, so a hand-written priority order was overwritten by our own data
+// volume on every render.
+//
+// And it had drifted from the graph. Of the 46 (source, neighbour) pairs it
+// named, 20 do not exist — `Certification` was listed for two types and appears
+// in zero relationships of any kind — while 10 pairs that do exist were absent.
+//
+// lib/related-intent.js replaces it: the same intent, expressed as the question
+// a reader has rather than a type name, applied in the order written, and
+// checked against the built graph by the test suite.
 
 // ─── Sections the brief asks for that have no source ────────────────────────
 //
@@ -251,11 +251,11 @@ async function GraphDetail({ params }) {
 
   const [detail, related] = await Promise.all([
     getEntityDetail(entity),
-    getRelatedByType(entity.global_entity_id),
+    getConnectedKnowledge(entity.global_entity_id),
   ]);
 
   const fields = ATTRIBUTES[entity.entity_type] || [];
-  const lead = LEAD_RELATED[entity.entity_type];
+  const sections = intentSections(related, entity.entity_type);
   const description = DESCRIPTION_KEYS.map((k) => detail?.[k]).find(isPresent);
   const portal = detail?.official_portal;
 
@@ -303,17 +303,18 @@ async function GraphDetail({ params }) {
             <h2 className="font-display font-bold text-ink">Where this leads next</h2>
             <RelatedSourceSummary grouped={related} />
           </div>
-          <RelatedEntities
-            grouped={related}
-            only={lead}
-            emptyText={
-              "We are still mapping what connects to this one. More links are added " +
-              "as our research grows."
-            }
-            emptyHref={`/knowledge?type=${params.type}`}
-            emptyLabel={`Browse other ${(TYPE_LABEL_PLURAL[entity.entity_type] || "entries").toLowerCase()}`}
-          />
-          {lead && <RelatedEntities grouped={related} exclude={lead} max={8} />}
+          <IntentSections sections={sections} />
+          {sections.length === 0 && (
+            <RelatedEntities
+              grouped={{}}
+              emptyText={
+                "We are still mapping what connects to this one. More links are added " +
+                "as our research grows."
+              }
+              emptyHref={`/knowledge?type=${params.type}`}
+              emptyLabel={`Browse other ${(TYPE_LABEL_PLURAL[entity.entity_type] || "entries").toLowerCase()}`}
+            />
+          )}
         </section>
 
         <UnavailableSections entityType={entity.entity_type} portal={portal} />

@@ -100,6 +100,68 @@ export default function RelatedEntities({
   );
 }
 
+/**
+ * PX Phase 5 — the same links, under the question that makes them worth
+ * following.
+ *
+ * `RelatedEntities` above heads each group with the entity type's plural name
+ * and orders the groups by how many rows are in them. That is the graph
+ * describing itself. This heads each group with what a reader of THIS page
+ * wants from that group, in the order they would ask, and ranks inside a group
+ * by how strong the relationship is rather than by nothing at all.
+ *
+ * The old component is kept, unchanged, for the places that legitimately want a
+ * flat by-type view.
+ */
+export function IntentSections({ sections, testId = "related-intent" }) {
+  if (!sections || sections.length === 0) return null;
+  return (
+    <div data-testid={testId} className="flex flex-col gap-5">
+      {sections.map((section) => (
+        <section key={`${section.type}-${section.heading}`} data-section-type={section.type}>
+          <h3 className="font-display font-bold text-[13px] text-ink mb-2">
+            {section.heading}
+          </h3>
+          <div className="flex flex-wrap gap-2">
+            {section.items.map((e) => (
+              <Link
+                key={e.global_entity_id}
+                href={hrefFor(e)}
+                data-testid="related-link"
+                data-hop={e._hop === 2 ? "2" : "1"}
+                title={
+                  e._hop === 2 && e._bridge
+                    ? `${e.canonical_name} — reached through ${e._bridge}`
+                    : `${e.canonical_name} — linked by ${VIA(e._via)}`
+                }
+                className="chip hover:bg-stone-100 transition-colors"
+              >
+                {e.canonical_name}
+                {/* A second-hop entity is not connected to this page directly,
+                    and saying so is the difference between a suggestion and a
+                    claim. The bridge is the honest version of "why is this
+                    here?" — the question any connected view raises first. */}
+                {e._hop === 2 && e._bridge && (
+                  <span className="ml-1.5 text-[10px] text-stone-400">via {e._bridge}</span>
+                )}
+              </Link>
+            ))}
+            {section.overflow > 0 && section.href && (
+              <Link
+                href={section.href}
+                data-testid="related-overflow"
+                className="chip text-amber-700 hover:bg-amber-50 transition-colors"
+              >
+                +{section.overflow} more →
+              </Link>
+            )}
+          </div>
+        </section>
+      ))}
+    </div>
+  );
+}
+
 export function RelatedSourceSummary({ grouped }) {
   const packages = [
     ...new Set(

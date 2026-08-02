@@ -313,7 +313,10 @@ class KnowledgeBindingTest(unittest.TestCase):
         "components/HomeFeatureGrid.jsx": ["featuredByType", "typeCounts"],
         "components/platform/KnowledgeSearch.jsx": ["searchKnowledge"],
         "app/knowledge/page.js": ["listEntities", "typeCounts"],
-        "app/knowledge/[type]/[slug]/page.js": ["getEntityBySlug", "getRelatedByType"],
+        # `getConnectedKnowledge` wraps `getRelatedByType` and adds the second
+        # hop — see PX Phase 5. The binding this test protects is unchanged:
+        # the page reads the projection rather than a static file.
+        "app/knowledge/[type]/[slug]/page.js": ["getEntityBySlug", "getConnectedKnowledge"],
         "app/districts/page.js": ["getEntitiesByType"],
         "app/districts/[slug]/page.js": ["getDistrictKnowledge", "resolveTerms"],
         "app/district/[slug]/page.js": ["getDistrictKnowledge", "resolveTerms"],

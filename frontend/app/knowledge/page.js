@@ -12,6 +12,8 @@ import Link from "next/link";
 import AppNavbar from "@/components/AppNavbar";
 import {
   listEntities,
+  searchKnowledge,
+  suggestRelatedSearches,
   typeCounts,
   knowledgeAvailable,
   hrefFor,
@@ -114,6 +116,10 @@ export default async function KnowledgeExplorerPage({ searchParams }) {
   const urlType = searchParams?.type || "";
   const entityType = TYPE_BY_URL[urlType] || "";
   const q = (searchParams?.q || "").slice(0, 80);
+  //: Two characters is `searchKnowledge`'s own floor — below it the ranker
+  //: returns nothing, so treating one character as a search would render an
+  //: empty result page for someone who is still typing.
+  const searching = q.trim().length >= 2;
   const page = Math.max(1, parseInt(searchParams?.page || "1", 10) || 1);
 
   const availability = await knowledgeAvailable();
@@ -137,12 +143,41 @@ export default async function KnowledgeExplorerPage({ searchParams }) {
 
         <SearchBar q={q} urlType={urlType} />
 
+        {/* PRODUCTION BUG, FIXED HERE — SEARCH NEVER RAN
+            ------------------------------------------------
+            This branch used to read:
+
+                : entityType ? <BrowseType … q={q} …/>
+                : <TypeIndex q={q} />
+
+            and neither of those searched. `TypeIndex` ACCEPTED `q` and used
+            it for exactly one thing: appending it to the category links. So
+            /knowledge?q=electrician — the URL the homepage search box sends
+            you to — rendered the category grid, identical to /knowledge with
+            no query at all. No results, no "nothing found", no sign the query
+            had been received.
+
+            `BrowseType` did search, in the sense that `listEntities` ran
+            `ilike '%q%'` on the name. Measured on the real 647 entities that
+            gave "electrician" 2 rows, "PMEGP" the margin-money subsidy but
+            not the scheme, "AI" 46 rows of which most matched the letters a-i
+            inside Painting and Millet, and "electrican" nothing at all.
+
+            `searchKnowledge` — typo tolerance, acronyms, the ranking ladder —
+            existed the whole time and had exactly one caller: the client
+            component further down the homepage. This page never imported it.
+
+            A query now goes to that one engine whether or not a type filter
+            is set. `listEntities` has lost its `q` parameter entirely, so
+            there is no second search path left to drift. */}
         {!availability.available ? (
           <KnowledgeEmptyState reason={availability.reason} entityLabel="knowledge" />
+        ) : searching ? (
+          <SearchResults q={q} entityType={entityType} urlType={urlType} />
         ) : entityType ? (
-          <BrowseType entityType={entityType} urlType={urlType} q={q} page={page} />
+          <BrowseType entityType={entityType} urlType={urlType} page={page} />
         ) : (
-          <TypeIndex q={q} />
+          <TypeIndex />
         )}
       </main>
     </>
@@ -177,7 +212,7 @@ function SearchBar({ q, urlType }) {
   );
 }
 
-async function TypeIndex({ q }) {
+async function TypeIndex() {
   const counts = await typeCounts();
   const total = Object.values(counts).reduce((a, b) => a + b, 0);
 
@@ -200,7 +235,7 @@ async function TypeIndex({ q }) {
               {live.map(([type, label]) => (
                 <Link
                   key={type}
-                  href={`/knowledge?type=${URL_BY_TYPE[type]}${q ? `&q=${encodeURIComponent(q)}` : ""}`}
+                  href={`/knowledge?type=${URL_BY_TYPE[type]}`}
                   data-testid="explorer-type-link"
                   className="card-base p-4 hover:border-stone-300 transition-colors"
                 >
@@ -218,8 +253,119 @@ async function TypeIndex({ q }) {
   );
 }
 
-async function BrowseType({ entityType, urlType, q, page }) {
-  const { rows, total } = await listEntities(entityType, { page, pageSize: PAGE_SIZE, q });
+/**
+ * One query, one engine.
+ *
+ * `searchKnowledge` is the ladder in lib/knowledge-search.js: exact, prefix,
+ * word, contains, vocabulary expansion, then fuzzy — with a floor on substring
+ * matching so a two-letter query cannot land inside an unrelated word. It reads
+ * the index once per server process rather than per keystroke, which is why it
+ * is safe to call from a server component.
+ *
+ * `suggestRelatedSearches` was written alongside it and, until this fix, had no
+ * caller outside the client component. A no-match page that offers the terms
+ * that WOULD have worked is the difference between a dead end and a redirect.
+ */
+async function SearchResults({ q, entityType, urlType }) {
+  const [rows, related] = await Promise.all([
+    searchKnowledge(q, { entityType: entityType || undefined, limit: 24 }),
+    suggestRelatedSearches(q, { limit: 6 }),
+  ]);
+
+  const scope = entityType ? ` in ${BROWSE_LABEL(entityType).toLowerCase()}` : "";
+
+  if (rows.length === 0) {
+    return (
+      <div className="flex flex-col gap-4" data-testid="search-results">
+        <KnowledgeEmptyState
+          reason="NO_MATCH"
+          entityLabel={entityType ? BROWSE_LABEL(entityType).toLowerCase() : "results"}
+          query={q}
+          action={
+            related.length > 0 ? (
+              <div className="flex flex-wrap justify-center gap-2 mt-3"
+                   data-testid="search-suggestions">
+                {related.map((term) => (
+                  <Link
+                    key={term}
+                    href={`/knowledge?q=${encodeURIComponent(term)}`}
+                    className="chip bg-white text-stone-600 border border-stone-200 hover:border-amber-300 hover:bg-amber-50 transition-colors"
+                  >
+                    {term}
+                  </Link>
+                ))}
+              </div>
+            ) : undefined
+          }
+        />
+        {entityType && (
+          <Link href={`/knowledge?q=${encodeURIComponent(q)}`}
+                data-testid="search-drop-filter"
+                className="text-sm font-display font-bold text-amber-700 hover:text-amber-600 w-fit mx-auto">
+            Search everything instead →
+          </Link>
+        )}
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex flex-col gap-4" data-testid="search-results">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <Link href="/knowledge" className="text-[12px] text-muted hover:text-ink">
+          ← All knowledge
+        </Link>
+        <p className="text-[12px] text-muted" data-testid="search-count">
+          {rows.length} {rows.length === 1 ? "result" : "results"} for “{q}”{scope}
+        </p>
+      </div>
+
+      <ul data-testid="search-list" className="grid gap-3 sm:grid-cols-2">
+        {rows.map((e) => (
+          <li key={e.global_entity_id}>
+            <Link href={hrefFor(e)} data-testid="search-item"
+                  className="card-base p-4 flex flex-col gap-2 h-full hover:border-stone-300 transition-colors">
+              <div className="flex items-start justify-between gap-2">
+                <span className="font-display font-bold text-ink text-[15px] leading-snug">
+                  {e.canonical_name}
+                </span>
+                <ConfidenceBadge confidence={e.confidence_score} />
+              </div>
+              {/* Why a result that does not contain the typed word is here.
+                  Without this, "electrician" returning "Power Distribution
+                  Technician" looks like a bug rather than the point. */}
+              {e._via && (
+                <p className="text-[11px] text-stone-400" data-testid="search-via">
+                  related to “{e._via}”
+                </p>
+              )}
+              <SourceBadge sourcePackage={e.source_package} className="w-fit" />
+            </Link>
+          </li>
+        ))}
+      </ul>
+
+      {related.length > 0 && (
+        <div className="flex flex-wrap items-center gap-2 pt-2"
+             data-testid="search-related">
+          <span className="text-[11px] text-muted">Also try:</span>
+          {related.map((term) => (
+            <Link
+              key={term}
+              href={`/knowledge?q=${encodeURIComponent(term)}`}
+              className="chip bg-white text-stone-600 border border-stone-200 hover:border-amber-300 hover:bg-amber-50 transition-colors"
+            >
+              {term}
+            </Link>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+async function BrowseType({ entityType, urlType, page }) {
+  const { rows, total } = await listEntities(entityType, { page, pageSize: PAGE_SIZE });
 
   if (rows.length === 0) {
     return (
@@ -227,7 +373,7 @@ async function BrowseType({ entityType, urlType, q, page }) {
         <Link href="/knowledge" className="text-[12px] text-muted hover:text-ink w-fit">
           ← All knowledge
         </Link>
-        <KnowledgeEmptyState reason="NO_MATCH" entityLabel={BROWSE_LABEL(entityType).toLowerCase()} query={q} />
+        <KnowledgeEmptyState reason="NO_MATCH" entityLabel={BROWSE_LABEL(entityType).toLowerCase()} />
       </>
     );
   }
@@ -240,7 +386,6 @@ async function BrowseType({ entityType, urlType, q, page }) {
         <Link href="/knowledge" className="text-[12px] text-muted hover:text-ink">← All knowledge</Link>
         <p className="text-[12px] text-muted" data-testid="browse-count">
           {total} {total === 1 ? "result" : "results"}
-          {q ? ` matching “${q}”` : ""}
         </p>
       </div>
 
@@ -268,7 +413,7 @@ async function BrowseType({ entityType, urlType, q, page }) {
         pageSize={PAGE_SIZE}
         total={total}
         hrefFor={(p) =>
-          `/knowledge?type=${urlType}${q ? `&q=${encodeURIComponent(q)}` : ""}&page=${p}`}
+          `/knowledge?type=${urlType}&page=${p}`}
       />
     </div>
   );

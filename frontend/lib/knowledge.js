@@ -543,19 +543,36 @@ export async function getConnectedKnowledge(globalEntityId, { limit = 120 } = {}
  * One page of entities of a type, with a total count for the pager.
  * `count: "exact"` rides on the same request — a second round trip for a number
  * the first one can return is the kind of duplicate query the brief rules out.
+ *
+ * BROWSING ONLY. IT NO LONGER SEARCHES.
+ * -------------------------------------
+ * This took a `q` and applied `ilike('canonical_name', '%q%')`. That was the
+ * second search implementation in the codebase, and it was the one users
+ * actually reached: /knowledge routed every query here or, with no type
+ * filter, to a category grid that ignored the query outright.
+ *
+ * Measured on the real 647 entities, the ilike gave "electrician" 2 rows,
+ * "PMEGP" the margin-money subsidy but not the scheme itself, "AI" 46 rows
+ * mostly matching the letters a-i inside Painting and Millet, and "electrican"
+ * nothing. `searchKnowledge` above answers all four correctly and had no
+ * caller on this route.
+ *
+ * Phase 1 left this on ilike deliberately — "it pages in the database and
+ * converting it means reworking pagination" — and recorded it as a known
+ * inconsistency. That was the wrong call: an inconsistency between two search
+ * implementations is not a note to leave for later, it is a coin flip about
+ * which one a user gets. The parameter is gone rather than deprecated, so
+ * there is nothing left to drift back to.
  */
-export async function listEntities(entityType, { page = 1, pageSize = 24, q = "" } = {}) {
+export async function listEntities(entityType, { page = 1, pageSize = 24 } = {}) {
   const from = Math.max(0, (page - 1) * pageSize);
-  const term = String(q || "").trim().replace(/[%,]/g, "");
   const res = await safe(
     async (sb) => {
-      let sel = sb
+      const out = await sb
         .from("kg_entities")
         .select("*", { count: "exact" })
         .eq("entity_type", entityType)
-        .is(LIVE, null);
-      if (term.length >= 2) sel = sel.ilike("canonical_name", `%${term}%`);
-      const out = await sel
+        .is(LIVE, null)
         .order("confidence_score", { ascending: false })
         .order("canonical_name", { ascending: true })
         .range(from, from + pageSize - 1);

@@ -44,6 +44,8 @@ SUITES = {
     "search": ("tests.test_search", "Search: index, four match modes, filters"),
     "search_experience": ("tests.test_search_experience",
                           "PX Phase 1: semantic search quality on the live graph"),
+    "search_routing": ("tests.test_search_routing",
+                       "The /knowledge route actually calls the search engine"),
     "connected_knowledge": ("tests.test_connected_knowledge",
                             "PX Phase 5: intent sections, ranking and the second hop"),
     "landing": ("tests.test_landing",

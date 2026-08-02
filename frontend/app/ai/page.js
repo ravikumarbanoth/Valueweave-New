@@ -15,17 +15,20 @@ import { buildBaseMetadata, BASE_URL } from "@/lib/seo";
 export const revalidate = 300;
 
 export const metadata = buildBaseMetadata({
-  title: "AI Intelligence Layer | ValueWeave",
-  description: "Future AI intelligence layer for district, manufacturing, readiness, and scale advisory experiences.",
+  title: "AI Guidance | ValueWeave",
+  description: "How ValueWeave suggests things to you today, and what AI guidance we plan to add for districts, manufacturing, readiness and growing a business.",
   alternates: { canonical: `${BASE_URL}/ai` },
 });
 
 export default function AiPage() {
   return (
     <ModuleShell
-      badge="AI INTELLIGENCE"
-      title="Future AI Intelligence Layer"
-      description="Reserved architecture for AI-first guidance across districts, manufacturing, readiness, and scaling. No AI features are implemented yet."
+      badge="AI GUIDANCE"
+      title="How ValueWeave guides you"
+      // PX Phase 2: was "Reserved architecture for AI-first guidance". A student
+      // does not know what reserved architecture is, and the sentence made a
+      // page about honesty sound like a design document.
+      description="We do not have an AI advisor yet. Today we match what we have researched against your skills and your district, and we always show you why."
     >
       <AiSections />
     </ModuleShell>

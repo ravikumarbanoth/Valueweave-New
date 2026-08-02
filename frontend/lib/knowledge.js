@@ -176,9 +176,15 @@ export async function resolveTerms(termKind, terms) {
     } else {
       unresolved.push({
         term,
+        // PX Phase 2: these two strings are rendered as the tooltip on the
+        // chips under "We have not covered these yet" in
+        // BusinessKnowledgeSection. The second one read "not in the vocabulary
+        // crosswalk" — the name of an internal lookup table, shown to whoever
+        // hovered a skill we do not hold. Both now describe the gap in words
+        // the reader can act on.
         reason: row
-          ? "recognised, but the knowledge base has no researched data for it yet"
-          : "not in the vocabulary crosswalk",
+          ? "We know this one, but we have not gathered any information about it yet."
+          : "We have not come across this one yet.",
       });
     }
   });

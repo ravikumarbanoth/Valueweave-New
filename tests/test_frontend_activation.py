@@ -308,7 +308,15 @@ class CapabilityStatusTest(unittest.TestCase):
         for state in ("LIVE", "NOT_AVAILABLE_YET", "NO_DATA_SOURCE"):
             with self.subTest(state=state):
                 self.assertIn(state, src)
-        self.assertIn("Not Available Yet", src)
+        # This used to assert the literal chip text "Not Available Yet". PX
+        # Phase 2 rewrote all three labels for a reader ("Coming later"), and
+        # the exact wording now belongs to
+        # test_production_ux.HumanLanguageTest, which owns the user-facing
+        # copy. What this suite cares about is that the three STATES survive
+        # and each still carries a label — pinning the words in two places
+        # means the next copy edit fails a test that is not about copy.
+        labels = re.findall(r'label:\s*"([^"]+)"', src)
+        self.assertEqual(len(labels), 3, "one label per state")
 
     def test_every_unavailable_module_card_names_a_dependency(self):
         """The whole point. "Not Available Yet" alone is "Coming Soon" renamed."""

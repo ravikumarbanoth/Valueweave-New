@@ -76,12 +76,12 @@ const FEATURES = [
   },
   {
     emoji: "✨",
-    title: "AI Intelligence Layer",
-    subtitle: "Connect and optimize every decision.",
-    description: "Reserved for future AI guidance across districts, readiness, manufacturing, and scaling.",
+    title: "AI Guidance",
+    subtitle: "See how we decide what to suggest.",
+    description: "We do not have an AI advisor yet. Here is what suggests things to you today, and why we show our reasoning.",
     href: "/ai",
     accent: "violet",
-    buttonLabel: "View AI Layer",
+    buttonLabel: "See how it works",
     status: "NOT_AVAILABLE_YET",
     items: ["AI District Advisor", "AI Manufacturing Advisor", "AI Readiness Advisor", "AI Scale Advisor"],
   },
@@ -114,7 +114,7 @@ const FUTURE_MODULES = [
     emoji: "🔬",
     title: "Innovation Infrastructure",
     description: "Research commercialization, technology transfer, innovation labs, patent ecosystem.",
-    dependency: "No package covers patents, TRLs or tech transfer. Would need a new research package.",
+    dependency: "We have not researched patents, innovation labs, or how research turns into a business.",
   },
   {
     emoji: "🎓",
@@ -152,7 +152,7 @@ const FUTURE_MODULES = [
     emoji: "♻️",
     title: "Sustainability Infrastructure",
     description: "Circular economy, recycling, renewable energy, carbon footprint, green manufacturing.",
-    dependency: "No package covers emissions, recycling or renewable capacity.",
+    dependency: "We have not researched emissions, recycling or renewable energy capacity.",
   },
 ];
 

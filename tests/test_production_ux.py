@@ -48,14 +48,25 @@ def code(path):
 
 
 def public_sources():
-    """Every non-admin page and component.
+    """Every non-admin page, component and shared library module.
 
     `admin/` is excluded throughout: it is tooling for a handful of operators who
     do maintain the sync and do read the checklist, and for whom "Package006" is
     the clearest available word.
+
+    PX PHASE 2 — WHY `lib/` IS NOW IN HERE
+    ---------------------------------------
+    It was not, and that gap was not theoretical. `lib/knowledge.js` built the
+    tooltip on the "We have not covered these yet" chips, and one of its two
+    branches read "not in the vocabulary crosswalk" — the name of an internal
+    lookup table. `crosswalk` has been on the BANNED list since the list
+    existed. The ratchet simply was not pointed at the file.
+
+    User-visible copy does not only live under `app/` and `components/`. Any
+    module that returns a string a component renders is a page in disguise.
     """
     out = []
-    for root in (APP, COMPONENTS):
+    for root in (APP, COMPONENTS, FE / "lib"):
         for path in sorted(root.rglob("*.js")) + sorted(root.rglob("*.jsx")):
             if "admin" in path.parts:
                 continue
@@ -94,6 +105,32 @@ class DeveloperLanguageTest(unittest.TestCase):
         (r"TABLE_SPEC", "internal spec name"),
         (r"knowledge_sync", "module name"),
         (r"unprojected", "internal jargon"),
+
+        # ── PX Phase 2 additions ────────────────────────────────────────────
+        # Everything below actually rendered before this phase. Each entry is a
+        # sentence a user met, not a term we are being cautious about.
+        #
+        # "package" is our unit of research and means nothing to a reader. The
+        # bare word is NOT banned — it is also a prop name (`package={...}` on
+        # ProvenanceLine) and banning it would force a rename that changes no
+        # pixel. The three prose shapes that leaked are banned instead.
+        (r"\bno\s+package\b", "\"no package holds/covers\""),
+        (r"\bin\s+any\s+package\b", "\"in any package\""),
+        (r"\bresearch\s+package\b", "\"research package\""),
+        (r"\bDepends\s+on:", "\"Depends on:\" build-plan label"),
+        (r"No\s+Data\s+Source", "\"No Data Source\" chip label"),
+        (r"intelligence\s+layer", "\"intelligence layer\""),
+        (r"structured\s+layer", "\"structured layer\""),
+        (r"prompt\s+layer", "\"prompt layer\""),
+        (r"business\s+logic", "\"business logic\""),
+        (r"this\s+repository", "\"this repository\""),
+        (r"Buildout\s+Plan", "\"Buildout Plan\""),
+        (r"Expansion\s+Cards", "\"Expansion Cards\""),
+        (r"MODULE\s+AREAS", "\"MODULE AREAS\""),
+        (r"backed\s+by\s+the\s+knowledge\s+base", "\"backed by the knowledge base\""),
+        (r"typed\s+relationships?", "\"typed relationship\""),
+        (r"admin\s+maps\b", "\"admin maps this entity\""),
+        (r"\bthis\s+entity\b", "\"entity\" as a word for a page"),
     ]
 
     #: `packages: ["Package001_Geography"]` in the explorer is a prop VALUE handed
@@ -143,6 +180,126 @@ class DeveloperLanguageTest(unittest.TestCase):
         for attr in ("data-source-package", "data-source-dataset", "data-source-row"):
             with self.subTest(attr=attr):
                 self.assertIn(attr, src)
+
+
+# ══════════════════════════════════════ 1b. PX Phase 2: what replaced it
+class HumanLanguageTest(unittest.TestCase):
+    """The ratchet above only proves the old words are gone.
+
+    A term can be deleted and leave a worse hole than it filled — a heading
+    removed rather than rewritten, a fallback that now renders blank. These
+    tests assert the replacement, so a future edit cannot satisfy the ban by
+    deleting the sentence.
+
+    Every check reads through `code()`. Each file below explains in a comment
+    which sentence it stopped showing — that record is the reason the sentence
+    stays gone, and an assertion over raw source would forbid keeping it.
+    """
+
+    def absent(self, needle, src, path):
+        """`assertNotIn` on a 20 KB file prints the 20 KB file."""
+        self.assertTrue(needle not in src, f"{path} still contains {needle!r}")
+
+    def present(self, needle, src, path):
+        self.assertTrue(needle in src, f"{path} no longer contains {needle!r}")
+
+    def test_capability_states_describe_the_world_not_our_pipeline(self):
+        """"No Data Source" told a student about our storage, not about mentors."""
+        src = read(COMPONENTS / "knowledge" / "CapabilityStatus.jsx")
+        block = src[src.index("const STATES = {"):]
+        block = block[:block.index("\n};")]
+        labels = dict(re.findall(r"(\w+):\s*\{\s*\n\s*label:\s*\"([^\"]+)\"", block))
+        self.assertEqual(
+            labels,
+            {"LIVE": "Ready now",
+             "NOT_AVAILABLE_YET": "Coming later",
+             "NO_DATA_SOURCE": "Not researched yet"},
+            "the three keys are ours and stay; the three labels are read by a user")
+
+    def test_the_unavailable_reason_is_introduced_as_a_question_not_a_build_step(self):
+        self.assertIn("Why not yet: ",
+                      read(COMPONENTS / "knowledge" / "CapabilityStatus.jsx"))
+
+    def test_the_snapshot_heading_is_a_sentence_not_a_type_name(self):
+        """It rendered "Government Scheme Snapshot" — the type, used as a title."""
+        path = COMPONENTS / "kg" / "PublicEntityDetail.jsx"
+        src = code(path)
+        self.absent("${typeLabel} Snapshot", src, rel(path))
+        self.present('PANEL_TITLE[typeLabel] || "Quick overview"', src, rel(path))
+        block = src[src.index("const PANEL_TITLE = {"):]
+        block = block[:block.index("\n};")]
+        # Every typeLabel any caller passes must have a heading written for it,
+        # or the default silently becomes the only heading on that page.
+        callers = set()
+        for page in sorted(APP.rglob("*.js")) + sorted(APP.rglob("*.jsx")):
+            callers.update(re.findall(r'<PublicEntityDetail[^>]*?typeLabel="([^"]+)"',
+                                      read(page), re.DOTALL))
+        self.assertTrue(callers, "no caller found — the scan is broken, not the code")
+        for label in sorted(callers):
+            with self.subTest(typeLabel=label):
+                self.present(f'"{label}"' if " " in label else label, block, "PANEL_TITLE")
+
+    def test_the_snapshot_rows_lost_their_notes_to_the_maintainer(self):
+        """"Applicable where admin maps this entity to districts." was a row VALUE.
+
+        Deleting the sentence is right and blanking the row would not be: the
+        panel drops rows whose value is empty, so an unknown district now shows
+        nothing rather than an instruction addressed to somebody else.
+        """
+        path = COMPONENTS / "kg" / "PublicEntityDetail.jsx"
+        src = code(path)
+        self.absent("admin maps", src, rel(path))
+        self.absent("Use this entry with linked", src, rel(path))
+        self.present('"Where it applies": entity.state || entity.location,', src, rel(path))
+        panel = COMPONENTS / "geo" / "SnapshotPanel.jsx"
+        self.present("if (rows.length === 0", code(panel), rel(panel))
+
+    def test_the_detail_page_headings_name_what_the_reader_gets(self):
+        path = APP / "knowledge" / "[type]" / "[slug]" / "page.js"
+        src = code(path)
+        self.absent(">Details<", src, rel(path))
+        self.absent("Connected knowledge", src, rel(path))
+        self.present("What you should know", src, rel(path))
+        self.present("Where this leads next", src, rel(path))
+
+    def test_the_two_score_tooltips_explain_the_difference_in_plain_words(self):
+        """A match score and a source score are different things and looked alike."""
+        card = COMPONENTS / "knowledge" / "KnowledgeCard.jsx"
+        self.present("This is about you", code(card), rel(card))
+        self.absent("Separate from source confidence", code(card), rel(card))
+        score = COMPONENTS / "knowledge" / "ScoreCard.jsx"
+        self.present("the weakest source", code(score), rel(score))
+        # "rows" is the database's word for a fact.
+        self.absent("among the rows behind", code(score), rel(score))
+
+    def test_the_ai_page_says_what_exists_rather_than_what_is_reserved(self):
+        """The page's whole purpose is not overclaiming. It must still be readable."""
+        page = APP / "ai" / "page.js"
+        self.absent("Intelligence Layer", code(page), rel(page))
+        self.absent("Reserved architecture", code(page), rel(page))
+        self.present("We do not have an AI advisor yet", code(page), rel(page))
+        sections = APP / "ai" / "components" / "AiSections.jsx"
+        src = code(sections)
+        self.absent("no inference", src, rel(sections))
+        self.present("fixed rules we wrote by hand", src, rel(sections))
+        # The honesty is the point of this page and must not have been softened
+        # away along with the jargon.
+        self.present("We have not built an AI advisor", src, rel(sections))
+
+    def test_the_homepage_tile_matches_the_page_it_opens(self):
+        grid = COMPONENTS / "HomeFeatureGrid.jsx"
+        src = code(grid)
+        self.absent("AI Intelligence Layer", src, rel(grid))
+        self.absent("View AI Layer", src, rel(grid))
+        self.present('title: "AI Guidance"', src, rel(grid))
+
+    def test_the_unresolved_chip_tooltip_names_the_gap_not_the_lookup_table(self):
+        """This is the string `lib/` was not being scanned for."""
+        path = FE / "lib" / "knowledge.js"
+        src = code(path)
+        self.absent("crosswalk\"", src, rel(path))
+        self.present("We have not come across this one yet.", src, rel(path))
+        self.present("we have not gathered any information about it yet", src, rel(path))
 
 
 # ═══════════════════════════════════════════════ 2. the 404

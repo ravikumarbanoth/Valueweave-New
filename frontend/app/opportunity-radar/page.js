@@ -73,7 +73,7 @@ export default function OpportunityRadarPage() {
               source and no confidence band, and they are not comparable with the
               confidence scores shown on researched knowledge. For sourced figures —
               investment ranges, employment, risk — open the researched business
-              opportunities, each of which names the package and public source behind it.
+              opportunities, each of which names the official source it came from.
             </p>
             <div className="flex flex-wrap gap-2 mt-4">
               <Link href="/knowledge?type=business" className="btn-secondary text-sm">

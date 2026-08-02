@@ -98,7 +98,9 @@ function emptyStats() {
 
 export function kgStructuredData(type, entity) {
   const config = KG_ENTITY_CONFIG[type];
-  const title = entity?.[config?.titleField] || entity?.name || entity?.title || "ValueWeave Knowledge Graph Entity";
+  // The last fallback used to be "ValueWeave Knowledge Graph Entity", which is
+  // the `name` in the JSON-LD an answer engine may quote back to a user.
+  const title = entity?.[config?.titleField] || entity?.name || entity?.title || "ValueWeave";
   return {
     "@context": "https://schema.org",
     "@type": type === "schemes" ? "GovernmentService" : type === "resources" ? "ItemList" : "CreativeWork",

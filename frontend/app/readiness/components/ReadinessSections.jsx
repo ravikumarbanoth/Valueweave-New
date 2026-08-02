@@ -72,24 +72,24 @@ export default async function ReadinessSections() {
       primaryHref="/knowledge?type=skill"
       primaryLabel="Browse skills"
       dependency={
-        "Skill assessment, learning paths, internships and apprenticeships are not " +
-        "built. The skills, certifications and providers they would sequence are " +
-        "researched and browsable above; the sequencing logic is not."
+        "We have not built skill tests, learning paths, internships or apprenticeships " +
+        "yet. The skills, certificates and training centres they would string " +
+        "together are researched and open above — the order to do them in is not."
       }
       roadmap={[
-        "Define readiness profiles for founders, students, operators, and local business owners.",
+        "Work out what being ready looks like for a student, a first-time owner and someone already running a business.",
         "Map skills to industries, opportunities, training providers, and district demand.",
-        "Introduce guided learning paths once trusted content and partners are available.",
+        "Add step-by-step learning paths once we have training partners we trust enough to send you to.",
       ]}
       capabilities={[
         { label: "Skills", status: counts.Skill ? "LIVE" : "NOT_AVAILABLE_YET", href: "/knowledge?type=skill", count: counts.Skill },
         { label: "Certifications", status: counts.Certification ? "LIVE" : "NOT_AVAILABLE_YET", href: "/knowledge?type=certification", count: counts.Certification },
         { label: "Training providers", status: counts.TrainingProvider ? "LIVE" : "NOT_AVAILABLE_YET", href: "/knowledge?type=provider", count: counts.TrainingProvider },
-        { label: "Skill assessment", dependency: "No scoring rules exist for a self-assessment." },
+        { label: "Skill assessment", dependency: "We have not worked out a fair way to score you yet." },
         { label: "Learning paths", dependency: "We know what each skill needs, but not yet what order to learn them in." },
-        { label: "Internships", dependency: "No package holds internship postings." },
-        { label: "Apprenticeships", dependency: "No package holds apprenticeship postings." },
-        { label: "Mentors", dependency: "No package holds mentors." },
+        { label: "Internships", dependency: "We have not started gathering internship openings yet." },
+        { label: "Apprenticeships", dependency: "We have not started gathering apprenticeship openings yet." },
+        { label: "Mentors", dependency: "We have not started gathering mentors yet." },
       ]}
       cards={cards}
     />

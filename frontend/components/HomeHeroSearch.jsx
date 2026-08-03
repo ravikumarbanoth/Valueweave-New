@@ -61,12 +61,15 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import LiveSearch from "@/components/search/LiveSearch";
-import { AUDIENCES, AUDIENCE_BY_SLUG, HOME_PROMPTS } from "@/lib/audiences";
+import { AUDIENCES, AUDIENCE_BY_SLUG, GOALS, HOME_PROMPTS } from "@/lib/audiences";
 import { recall, remember, forget } from "@/lib/journey";
 
 export default function HomeHeroSearch({ heading, subheading }) {
   const router = useRouter();
   const [known, setKnown] = useState(null);
+  //: "Change" reopens the six without forgetting first, so a visitor who
+  //: opens it and changes their mind still has the answer they gave.
+  const [choosing, setChoosing] = useState(false);
 
   useEffect(() => {
     setKnown(recall());
@@ -128,14 +131,19 @@ export default function HomeHeroSearch({ heading, subheading }) {
         ))}
       </div>
 
-      {audience ? (
+      {audience && !choosing ? (
         <div className="mt-10" data-testid="home-welcome-back">
-          <p className="text-sm text-muted mb-3">
-            Last time you were here as a{" "}
-            <span className="font-display font-bold text-ink">
-              {audience.label.toLowerCase()}
-            </span>
-            .
+          <p className="font-display font-bold text-base text-ink mb-1">
+            Welcome back 👋
+          </p>
+          {/* Transparency in the same breath as the greeting. A reader should
+              never have to wonder why one row is above another, and "we nudge
+              these up" is the whole truth about what the memory does — it
+              cannot hide anything, and saying so is cheaper than being asked. */}
+          <p className="text-sm text-muted mb-4">
+            You were here as a{" "}
+            <span className="font-semibold text-ink">{audience.label.toLowerCase()}</span>,
+            so we nudge {audience.label.toLowerCase()} results up. Nothing is hidden.
           </p>
           <Link
             href={`/start/${audience.slug}`}
@@ -147,21 +155,33 @@ export default function HomeHeroSearch({ heading, subheading }) {
             <span aria-hidden="true">{audience.emoji}</span>
             Pick up where you left off →
           </Link>
-          <div className="mt-3">
+          {/* Two separate controls, because they are two different intentions.
+              "Change" is for somebody who is now a business owner; "Forget" is
+              for somebody who wants us to stop knowing. Offering only the
+              first would make the memory impossible to leave. */}
+          <div className="mt-4 flex items-center justify-center gap-4">
+            <button
+              type="button"
+              data-testid="home-change-audience"
+              onClick={() => setChoosing(true)}
+              className="text-xs font-semibold text-teal-700 underline hover:text-ink"
+            >
+              Change
+            </button>
             <button
               type="button"
               data-testid="home-not-you"
-              onClick={() => { forget(); setKnown(null); }}
+              onClick={() => { forget(); setKnown(null); setChoosing(false); }}
               className="text-xs text-stone-400 underline hover:text-ink"
             >
-              Not a {audience.label.toLowerCase()}? Choose again
+              Forget me
             </button>
           </div>
         </div>
       ) : (
         <div className="mt-10">
           <p className="text-sm font-display font-bold text-ink mb-3">
-            Or tell us who you are
+            {choosing ? "Who are you now?" : "Or tell us who you are"}
           </p>
           <div className="flex flex-wrap justify-center gap-2.5" data-testid="home-audiences">
             {AUDIENCES.map((option) => (
@@ -181,6 +201,33 @@ export default function HomeHeroSearch({ heading, subheading }) {
           </div>
         </div>
       )}
+
+      {/* POPULAR GOALS — the shortcut for people who already know what they
+          came for. Shown to everyone, remembered visitor or not, because
+          knowing somebody is a farmer does not mean they are not here to look
+          up a scheme today. Tapping one does NOT set an audience: it is a
+          destination, not a claim about who you are. */}
+      <div className="mt-10">
+        <p className="text-sm font-display font-bold text-ink mb-3">
+          Popular goals
+        </p>
+        <div className="flex flex-wrap justify-center gap-2" data-testid="home-goals">
+          {GOALS.map((goal) => (
+            <Link
+              key={goal.label}
+              href={goal.href}
+              data-testid="home-goal"
+              title={goal.hint}
+              className="inline-flex items-center gap-1.5 rounded-full bg-white border border-stone-200
+                         px-3.5 py-2 font-display font-medium text-[13px] text-stone-700
+                         hover:border-amber-400 hover:bg-amber-50 transition-colors min-h-[40px]"
+            >
+              <span aria-hidden="true">{goal.emoji}</span>
+              {goal.label}
+            </Link>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

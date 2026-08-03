@@ -401,5 +401,150 @@ class SurfaceWiringTest(unittest.TestCase):
         self.assertRegex(universal, r"rankEntities\(index,\s*q,\s*\{[^}]*boost[^}]*\}\)")
 
 
+@unittest.skipUnless(NODE, NODE_REASON)
+class PopularGoalsTest(unittest.TestCase):
+    """The second row: what you came for, for people who already know.
+
+    The Phase 9 brief listed nine options mixing two questions — "Looking for
+    a Job" is who you are, "Government Schemes" is what you want. The six
+    personas answer the first. These answer the second, so somebody who came
+    for PM Kisan does not have to describe themselves to reach it.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        cls.h = JsHarness()
+        cls.h.dataset("entities.json", entities())
+        cls.goals = cls.h.run("""
+            const { GOALS } = await import("$LIB/audiences.js");
+            console.log(JSON.stringify(GOALS));
+        """)
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.h.cleanup()
+
+    def test_all_nine_goals_from_the_brief_are_present(self):
+        self.assertEqual(len(self.goals), 9)
+
+    def test_every_typed_goal_opens_a_category_the_graph_holds(self):
+        """A goal chip that opens an empty page is worse than no chip — the
+        same rule the curated `starts` links are held to."""
+        from urllib.parse import urlparse, parse_qs                  # noqa: PLC0415
+        counts = {}
+        for row in entities():
+            counts[row["entity_type"]] = counts.get(row["entity_type"], 0) + 1
+        type_by_url = self.h.run("""
+            const { TYPE_BY_URL } = await import("$LIB/knowledge.js");
+            console.log(JSON.stringify(TYPE_BY_URL));
+        """)
+        for goal in self.goals:
+            params = parse_qs(urlparse(goal["href"]).query)
+            url_type = (params.get("type") or [None])[0]
+            if not url_type:
+                continue
+            with self.subTest(goal=goal["label"]):
+                entity_type = type_by_url.get(url_type)
+                self.assertIsNotNone(entity_type, f"unknown ?type={url_type}")
+                self.assertGreater(counts.get(entity_type, 0), 0)
+
+    def test_every_free_text_goal_actually_returns_something(self):
+        """`?q=AI` and `?q=manufacturing` are not category links, so the only
+        way to know they land on results is to run the real ranker."""
+        from urllib.parse import urlparse, parse_qs                  # noqa: PLC0415
+        checked = 0
+        for goal in self.goals:
+            params = parse_qs(urlparse(goal["href"]).query)
+            query = (params.get("q") or [None])[0]
+            if not query:
+                continue
+            checked += 1
+            found = self.h.run("""
+                const { rankEntities } = await import("$LIB/knowledge-search.js");
+                const rows = JSON.parse(fs.readFileSync("$DIR/entities.json", "utf8"));
+                console.log(JSON.stringify(rankEntities(rows, %s, { limit: 200 }).length));
+            """ % json.dumps(query))
+            with self.subTest(goal=goal["label"]):
+                self.assertGreater(found, 0)
+        self.assertGreater(checked, 0, "no free-text goals were checked")
+
+    def test_a_goal_never_claims_to_know_who_you_are(self):
+        """Tapping "Agriculture" must not silently mark somebody a farmer.
+        Inferring an identity from one tap is what makes personalisation feel
+        like surveillance rather than help."""
+        hero = (FE / "components" / "HomeHeroSearch.jsx").read_text(encoding="utf-8")
+        goals_block = hero[hero.index('data-testid="home-goals"'):]
+        self.assertNotIn("remember(", goals_block)
+
+    def test_the_goals_are_offered_to_everyone(self):
+        """Knowing somebody is a farmer does not mean they are not here to
+        look up a scheme today, so the row is outside the welcome-back
+        branch."""
+        hero = (FE / "components" / "HomeHeroSearch.jsx").read_text(encoding="utf-8")
+        self.assertLess(hero.index('data-testid="home-welcome-back"'),
+                        hero.index('data-testid="home-goals"'))
+        self.assertIn("Popular goals", hero)
+
+
+class ExploreWithoutAnAccountTest(unittest.TestCase):
+    """Phase 9 says "after one click, personalize" — not "after one click,
+    authenticate". Every path off /get-started used to end at Google."""
+
+    def page(self):
+        return (FE / "app" / "get-started" / "page.js").read_text(encoding="utf-8")
+
+    def test_the_knowledge_is_reachable_without_signing_in(self):
+        page = self.page()
+        self.assertIn("getstarted-explore-free", page)
+        self.assertIn('href="/knowledge"', page)
+
+    def test_it_no_longer_calls_itself_step_one_of_three(self):
+        """A three-step funnel in front of a student who only wanted to know
+        whether we hold anything about welding."""
+        self.assertNotIn("STEP 1 OF 3", self.page())
+
+    def test_signing_in_still_works(self):
+        """The refinement removes the WALL, not the door. This page is still
+        the signup path and people who want an account still get one."""
+        page = self.page()
+        self.assertIn("signInWithOAuth", page)
+        self.assertIn("getstarted-signin-link", page)
+
+
+class TransparentPersonalisationTest(unittest.TestCase):
+    """Lightweight, explained, and easy to leave."""
+
+    def hero(self):
+        return (FE / "components" / "HomeHeroSearch.jsx").read_text(encoding="utf-8")
+
+    def test_the_greeting_is_friendly(self):
+        self.assertIn("Welcome back", self.hero())
+
+    def test_the_page_says_what_the_memory_does(self):
+        """A reader should never have to wonder why one row is above another,
+        and "we nudge these up, nothing is hidden" is the whole truth."""
+        hero = self.hero()
+        self.assertIn("nudge", hero)
+        self.assertIn("Nothing is hidden", hero)
+
+    def test_there_is_a_way_to_change_and_a_way_to_be_forgotten(self):
+        """Two controls because they are two intentions: somebody who is now a
+        business owner, and somebody who wants us to stop knowing. Offering
+        only the first would make the memory impossible to leave."""
+        hero = self.hero()
+        self.assertIn("home-change-audience", hero)
+        self.assertIn("home-not-you", hero)
+        self.assertIn("forget()", hero)
+
+    def test_changing_your_mind_does_not_lose_the_answer_you_gave(self):
+        """"Change" reopens the six WITHOUT forgetting first, so a visitor who
+        opens it and backs out still has their audience."""
+        hero = self.hero()
+        self.assertRegex(hero, r'data-testid="home-change-audience"[\s\S]{0,200}?setChoosing\(true\)')
+        change_at = hero.index('data-testid="home-change-audience"')
+        window = hero[change_at:change_at + 300]
+        self.assertNotIn("forget()", window)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

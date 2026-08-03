@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- FIXTURE. Atom 1.0 shape, invented content. See scheme_notifications.rss. -->
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>FIXTURE — Skill council announcements</title>
+  <link href="https://example.invalid/skills"/>
+  <updated>2026-08-03T04:00:00Z</updated>
+  <id>urn:fixture:skill-council</id>
+  <entry>
+    <id>fixture-skill-0001</id>
+    <title>FIXTURE New qualification pack for drone maintenance technician</title>
+    <link href="https://example.invalid/skills/0001"/>
+    <updated>2026-08-02T10:00:00Z</updated>
+    <summary>Fixture text. A new NSQF level 4 qualification pack covering drone maintenance, battery handling and field repair.</summary>
+  </entry>
+  <entry>
+    <id>fixture-skill-0002</id>
+    <title>FIXTURE Lift and elevator technician qualification under review</title>
+    <link href="https://example.invalid/skills/0002"/>
+    <updated>2026-08-01T08:00:00Z</updated>
+    <summary>Fixture text. Draft qualification for lift and elevator installation and maintenance technicians, open for industry comment.</summary>
+  </entry>
+</feed>

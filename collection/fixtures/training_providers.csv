@@ -1,0 +1,4 @@
+provider_code,provider_name,district,state,courses_offered,accreditation,contact_url
+FIXTURE-TP-001,FIXTURE Government ITI (example),Medak,Telangana,Electrician; Welder; Fitter,NCVT,https://example.invalid/iti/001
+FIXTURE-TP-002,FIXTURE Skill Development Centre (example),Khammam,Telangana,Solar Installer; Drone Pilot,NSDC,https://example.invalid/sdc/002
+FIXTURE-TP-003,FIXTURE Polytechnic College (example),Guntur,Andhra Pradesh,CNC Operator; Industrial Robotics,AICTE,https://example.invalid/poly/003

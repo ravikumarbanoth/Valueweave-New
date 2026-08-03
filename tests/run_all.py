@@ -59,6 +59,8 @@ SUITES = {
     "persona_review": ("tests.test_persona_review",
                        "PX Phase 8: the five defects found walking seven personas"),
     "stewardship": ("tests.test_stewardship", "Lifecycle, ledger and review queue"),
+    "collection": ("tests.test_collection",
+                   "Automated collection: registry, conditional fetch, review queue"),
     "deployment": ("tests.test_deployment",
                    "Deployment: writer, scripts, migration 011"),
     "graph": ("tests.test_graph_integrity", "Graph integrity and the 11 G-checks"),

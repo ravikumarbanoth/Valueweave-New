@@ -1,0 +1,29 @@
+{
+  "version": "https://jsonfeed.org/version/1.1",
+  "title": "FIXTURE — District industries centre notices",
+  "home_page_url": "https://example.invalid/dic",
+  "_note": "FIXTURE. JSON Feed 1.1 shape, invented content.",
+  "items": [
+    {
+      "id": "fixture-dic-0001",
+      "title": "FIXTURE Battery recycling collection centre licences invited",
+      "url": "https://example.invalid/dic/0001",
+      "date_published": "2026-08-02T06:00:00Z",
+      "content_text": "Fixture text. Applications invited for battery recycling collection centre licences in the district industrial estate."
+    },
+    {
+      "id": "fixture-dic-0002",
+      "title": "FIXTURE Common facility centre for millet processing announced",
+      "url": "https://example.invalid/dic/0002",
+      "date_published": "2026-07-30T06:00:00Z",
+      "content_text": "Fixture text. A shared millet processing facility for farmer producer organisations, with machinery available on hire."
+    },
+    {
+      "id": "fixture-dic-0003",
+      "title": "FIXTURE Semiconductor assembly unit registration window opens",
+      "url": "https://example.invalid/dic/0003",
+      "date_published": "2026-07-28T06:00:00Z",
+      "content_text": "Fixture text. Registration for electronics and semiconductor assembly units in the notified manufacturing zone."
+    }
+  ]
+}

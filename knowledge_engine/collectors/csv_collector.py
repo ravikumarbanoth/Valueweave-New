@@ -14,7 +14,8 @@ class CSVCollector(BaseCollector):
 
     def fetch(self, source: str, encoding: str = "utf-8", **kwargs: Any) -> FetchResult:
         try:
-            content, metadata = read_source(source)
+            content, metadata = read_source(source, timeout=kwargs.get("timeout", 15.0),
+                                        headers=kwargs.get("headers"))
         except FetchError as exc:
             return FetchResult(
                 payload=None,

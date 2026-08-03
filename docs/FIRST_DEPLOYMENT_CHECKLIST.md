@@ -298,14 +298,20 @@ and table counts, **anon-key schema exposure** (the step 6 failure, which nothin
 surfaces), crosswalk counts by kind, 1,812 synced rows, sync idempotency, intelligence
 population, search results, recommendations.
 
-`health_check.sh` emits JSON and exits `0` healthy / `1` degraded / `2` failed — poll it
-from a monitor. It uses the **anon key**, deliberately: the service-role key can read a
-schema that is not exposed and would report healthy while every page renders empty.
+`health_check.sh` emits JSON and uses the **anon key**, deliberately: the service-role
+key can read a schema that is not exposed and would report healthy while every page
+renders empty.
+
+Exit codes: `2` on any critical finding, `0` otherwise — warnings are printed and
+counted but do not fail the run. Pass `--strict` (or set `VW_HEALTH_STRICT=1`) to make
+warnings exit `1` as well; that is the right mode for a monitor and the wrong one for a
+deployment gate, which is why the gate does not use it. The JSON keeps reporting
+`"status": "degraded"` on warnings regardless, alongside `"strict"` and `"exit_code"`.
 
 Read `POST_DEPLOYMENT_VALIDATION.md` for the human judgements the scripts cannot make —
 whether an empty state reads as *incomplete* or as *broken*.
 
-- [ ] `verify_deployment.sh` clean · [ ] `health_check.sh` exit 0 · [ ] result recorded
+- [ ] `verify_deployment.sh` clean · [ ] `health_check.sh` exit 0 (no critical) · [ ] result recorded
 
 ---
 

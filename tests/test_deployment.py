@@ -347,14 +347,70 @@ class RollbackTest(unittest.TestCase):
 # ═══════════════════════════════════════════════ 4. health verification
 class HealthVerificationTest(unittest.TestCase):
 
-    def test_health_check_runs_and_reports_degraded_without_env(self):
+    #: No database, no anon pair, no production URL: three warnings, nothing
+    #: critical. This is also, near enough, what the Verify step sees on a
+    #: successful sync — four checks OK and the same three warnings.
+    BARE = {"DATABASE_URL": "", "NEXT_PUBLIC_SUPABASE_URL": "",
+            "NEXT_PUBLIC_SUPABASE_ANON_KEY": "", "PRODUCTION_URL": "",
+            "VW_HEALTH_STRICT": ""}
+
+    def _run(self, *args):
+        return subprocess.run([str(SCRIPTS / "health_check.sh"), *args],
+                              capture_output=True, text=True, cwd=ROOT,
+                              env={**os.environ, **self.BARE})
+
+    def test_warnings_alone_do_not_fail_the_run(self):
+        """This asserted returncode 1, and that was the bug.
+
+        Exiting 1 on any warning is the right contract for a monitor and the
+        wrong one for the deployment gate, which runs the same script. A sync
+        that placed 1,812 records and 202 crosswalk rows reported four OK,
+        three warnings, zero critical — and failed the workflow, because
+        PRODUCTION_URL was unset and user_intelligence had not been computed.
+        A CI job that goes red when nothing is wrong gets ignored, and then it
+        cannot report the failure that matters.
+        """
+        proc = self._run()
+        self.assertEqual(proc.returncode, 0,
+                         f"warnings must not fail the default run:\n{proc.stdout}")
+        self.assertIn("warning(s)", proc.stdout, "they must still be reported")
+
+    def test_strict_restores_the_monitor_contract(self):
+        proc = self._run("--strict")
+        self.assertEqual(proc.returncode, 1,
+                         "--strict must still treat warnings as degraded")
+
+    def test_the_env_var_is_the_same_switch(self):
         proc = subprocess.run([str(SCRIPTS / "health_check.sh")],
                               capture_output=True, text=True, cwd=ROOT,
-                              env={**os.environ, "DATABASE_URL": "",
-                                   "NEXT_PUBLIC_SUPABASE_URL": "",
-                                   "PRODUCTION_URL": ""})
-        self.assertEqual(proc.returncode, 1,
-                         "no environment should be degraded (1), not healthy or critical")
+                              env={**os.environ, **self.BARE, "VW_HEALTH_STRICT": "1"})
+        self.assertEqual(proc.returncode, 1)
+
+    def test_the_flags_compose_in_either_order(self):
+        """The old parser read only `$1`, so the second flag was dropped."""
+        for args in (("--json", "--strict"), ("--strict", "--json")):
+            with self.subTest(args=args):
+                proc = self._run(*args)
+                payload = json.loads(proc.stdout)
+                self.assertTrue(payload["strict"])
+                self.assertEqual(proc.returncode, 1)
+
+    def test_an_unknown_flag_is_an_error_not_a_shrug(self):
+        """`--stict` must not quietly leave strict mode off."""
+        proc = self._run("--stict")
+        self.assertEqual(proc.returncode, 64)
+
+    def test_critical_still_fails_in_both_modes(self):
+        """Whatever else changes, a critical finding must never exit 0.
+
+        Driven through the exit-code logic rather than a real database: the
+        point is the contract, and a test that needs Postgres would be skipped
+        in exactly the environment that matters.
+        """
+        src = read(SCRIPTS / "health_check.sh")
+        tail = src[src.index("# Critical always fails"):]
+        self.assertIn("if ((crits)); then\n  exit 2", tail)
+        self.assertIn("if ((warns)) && ((STRICT)); then", tail)
 
     def test_health_check_emits_valid_json(self):
         """A monitor parses this. Hand-rolled JSON that is subtly invalid fails late."""

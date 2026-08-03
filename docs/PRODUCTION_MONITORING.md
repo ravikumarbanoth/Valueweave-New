@@ -9,9 +9,16 @@ to do when it trips.
 > line appears. **Uptime monitoring will report everything healthy.**
 >
 > §1 exists specifically to catch that, and `scripts/health_check.sh` is its
-> implementation — JSON out, exit `0` healthy / `1` degraded / `2` failed, using the
-> **anon key** so that an unexposed schema reports failed rather than healthy. Point the
-> monitor at that, not at a status code.
+> implementation — JSON out, using the **anon key** so that an unexposed schema reports
+> failed rather than healthy. Point the monitor at that, not at a status code.
+>
+> **Run it with `--strict` from a monitor.** The default exit code is `2` on a critical
+> finding and `0` otherwise, because the deployment gate in CI uses the same script and
+> a warning there — intelligence not yet computed, `PRODUCTION_URL` unset — is not a
+> reason to fail a good deploy. A monitor wants the opposite: `--strict` restores
+> `0` healthy / `1` degraded / `2` failed. The JSON `status` field says
+> `healthy`/`degraded`/`critical` in both modes, so a monitor reading the body rather
+> than the exit code needs no flag at all.
 
 ---
 

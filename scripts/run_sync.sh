@@ -22,7 +22,28 @@ for a in "$@"; do
 done
 
 EXPECTED_WARNINGS=4
-EXPECTED_ROWS=1812
+
+# THE EXPECTED ROW COUNT IS READ, NOT WRITTEN DOWN
+# ------------------------------------------------
+# It was `EXPECTED_ROWS=1812` and `expected 647`, hard-coded. That was correct
+# on the day it was written and wrong the first time the collection pipeline
+# promoted anything: the first real end-to-end run added one scheme, the graph
+# went to 648, and this script reported a warning for a knowledge base that had
+# grown exactly as intended.
+#
+# A ratchet that fires on success is a ratchet people learn to ignore, and then
+# it cannot report the row that went missing. So the number now comes from the
+# graph the sync is about to project. What is still checked — and is the thing
+# actually worth checking — is that the target ends up holding what Git holds.
+EXPECTED_ROWS=$(python3 -c "
+import json, pathlib
+summary = json.loads(pathlib.Path('knowledge_graph/graph_summary.json').read_text())
+print(summary['entity_count'] + summary['relationship_count'])
+" 2>/dev/null || echo 0)
+EXPECTED_ENTITIES=$(python3 -c "
+import json, pathlib
+print(json.loads(pathlib.Path('knowledge_graph/graph_summary.json').read_text())['entity_count'])
+" 2>/dev/null || echo 0)
 
 step "Checking generated DDL against the specs"
 python3 knowledge_sync/generate_migration.py --check | sed 's/^/    /' \
@@ -221,8 +242,10 @@ fi
 
 step "Verifying row counts"
 actual=$(psql_scalar "select count(*) from knowledge.kg_entities;")
-info "knowledge.kg_entities: ${actual:-unreadable} (expected 647)"
-[[ "${actual:-0}" == "647" ]] && ok "entity count correct" \
-  || warn "entity count is ${actual:-unreadable}, expected 647"
+info "knowledge.kg_entities: ${actual:-unreadable} (graph holds ${EXPECTED_ENTITIES})"
+[[ "${actual:-0}" == "${EXPECTED_ENTITIES}" ]] \
+  && ok "the target holds exactly what Git holds" \
+  || warn "the target holds ${actual:-unreadable} entities and Git holds ${EXPECTED_ENTITIES} — \
+a difference here means a row did not project, not that the graph changed size"
 
 summary "Knowledge sync"

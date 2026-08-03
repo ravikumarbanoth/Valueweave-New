@@ -11,6 +11,12 @@ ValueWeave collection — command line.
     python3 -m collection.cli health                     dashboard-ready metrics
     python3 -m collection.cli backlog --events x.json    topics people wanted and we lack
 
+    python3 -m collection.cli review  <candidate_id> --actor NAME --evidence URL
+    python3 -m collection.cli approve <candidate_id> --actor NAME
+    python3 -m collection.cli reject  <candidate_id> --actor NAME --notes "why"
+    python3 -m collection.cli promote                    approved -> a package row
+    python3 -m collection.cli promote --write
+
 `run` is a DRY RUN by default, like every other write path in this repository
 (knowledge_sync, stewardship apply, the health check). Collecting is cheap and
 reversible; writing a queue that a person will then read is not, and the default
@@ -30,7 +36,8 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from collection import backlog as backlog_module              # noqa: E402
-from collection import monitor, registry, review, runner      # noqa: E402
+from collection import decide, monitor, registry, review, runner  # noqa: E402
+from stewardship.lifecycle import LifecycleState, TransitionError  # noqa: E402
 
 RUN_LOG = Path(__file__).resolve().parent / "state" / "last_run.json"
 
@@ -172,8 +179,13 @@ def cmd_queue(args):
         if c.supersedes:
             print(f"{'':<6} └─ appears to supersede {c.supersedes}")
     print(f"\n  {json.dumps(review.summary(review.load()), ensure_ascii=False)}")
-    print("\n  Approval happens in stewardship, not here:")
-    print("      python3 -m stewardship.cli review <entity_id> --actor NAME --evidence URL")
+    print("\n  Every decision is recorded against a named person in "
+          "stewardship/review_ledger.csv:")
+    print("      python3 -m collection.cli review  <candidate_id> --actor NAME "
+          "--evidence URL")
+    print("      python3 -m collection.cli approve <candidate_id> --actor NAME")
+    print("      python3 -m collection.cli reject  <candidate_id> --actor NAME "
+          "--notes WHY")
     return 0
 
 
@@ -218,6 +230,91 @@ def cmd_backlog(args):
     return 0
 
 
+def _decide(args, to_state):
+    """review / approve / reject, all three the same shape.
+
+    The ledger validates the transition and raises before the queue is touched,
+    so the queue can never hold a state the audit trail does not justify.
+    """
+    try:
+        result = decide.decide(args.candidate_id, to_state, actor=args.actor,
+                               evidence=getattr(args, "evidence", "") or "",
+                               notes=getattr(args, "notes", "") or "")
+    except (decide.PromotionError, TransitionError) as exc:
+        print(f"  {exc}", file=sys.stderr)
+        return 65
+
+    print(f"  {result.candidate_id}")
+    print(f"  {result.from_state} -> {result.to_state}  by {result.actor}")
+    if result.evidence:
+        print(f"  evidence: {result.evidence}")
+    print(f"\n  recorded in stewardship/review_ledger.csv — append-only, and the "
+          f"only\n  place a decision about ValueWeave knowledge is ever written.")
+    if to_state == LifecycleState.APPROVED.value:
+        print("\n  Next: `python3 -m collection.cli promote` to see the package row "
+              "it becomes.")
+    return 0
+
+
+def cmd_review(args):
+    return _decide(args, LifecycleState.REVIEWED.value)
+
+
+def cmd_approve(args):
+    return _decide(args, LifecycleState.APPROVED.value)
+
+
+def cmd_reject(args):
+    return _decide(args, LifecycleState.ARCHIVED.value)
+
+
+def cmd_promote(args):
+    """Approved candidates -> rows in the package dataset the sync projects.
+
+    A dry run by default. The row it writes is mostly PENDING_VERIFICATION and
+    that is the honest shape: a press release announcing a scheme does not carry
+    the scheme's eligibility, subsidy rate or portal, and filling those from the
+    announcement text would be fabrication.
+    """
+    promotion = decide.plan(queue_path=None)
+
+    if _emit({"summary": promotion.summary,
+              "rows": [{"dataset": str(p), "row": r} for p, r, _c in promotion.rows],
+              "skipped": [{"candidate_id": cid, "reason": why}
+                          for cid, why in promotion.skipped]}, args.json):
+        return 0
+
+    if not promotion.rows and not promotion.skipped:
+        print("nothing approved. Approve a candidate first:")
+        print("    python3 -m collection.cli review  <candidate_id> --actor NAME "
+              "--evidence URL")
+        print("    python3 -m collection.cli approve <candidate_id> --actor NAME")
+        return 0
+
+    for path, row, candidate in promotion.rows:
+        print(f"\n  {candidate.candidate_id}")
+        print(f"  -> {path.relative_to(registry.ROOT)}")
+        supplied = {k: v for k, v in row.items() if v != decide.PENDING}
+        pending = [k for k, v in row.items() if v == decide.PENDING]
+        for key, value in supplied.items():
+            print(f"       {key:<24} {str(value)[:70]}")
+        print(f"       {'':<24} … and {len(pending)} column(s) as "
+              f"{decide.PENDING}, awaiting research")
+
+    for candidate_id, reason in promotion.skipped:
+        print(f"\n  SKIPPED {candidate_id}\n          {reason}")
+
+    if args.write:
+        written = decide.apply(promotion, write=True)
+        print(f"\n  wrote {len(written)} row(s).")
+        print("  Next: rebuild the graph, then sync.")
+        print("      python3 knowledge_graph/build_graph.py")
+        print("      ./scripts/run_sync.sh --plan-only")
+    else:
+        print("\n  DRY RUN — nothing written. Pass --write.")
+    return 0
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(prog="collection", description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -254,6 +351,26 @@ def main(argv=None):
 
     p = sub.add_parser("health", help="feed health metrics", parents=[common])
     p.set_defaults(func=cmd_health)
+
+    for verb, helptext, state_help in (
+        ("review", "record that a person has read a candidate", "evidence"),
+        ("approve", "accept responsibility for a candidate", ""),
+        ("reject", "archive a candidate with a reason", ""),
+    ):
+        p = sub.add_parser(verb, help=helptext, parents=[common])
+        p.add_argument("candidate_id")
+        p.add_argument("--actor", required=True,
+                       help="who is deciding. Required: a transition without a "
+                            "named person is a checkbox, not a review.")
+        p.add_argument("--evidence", help="what was checked, ideally a URL")
+        p.add_argument("--notes")
+        p.set_defaults(func={"review": cmd_review, "approve": cmd_approve,
+                             "reject": cmd_reject}[verb])
+
+    p = sub.add_parser("promote", help="approved candidates -> package rows",
+                       parents=[common])
+    p.add_argument("--write", action="store_true")
+    p.set_defaults(func=cmd_promote)
 
     p = sub.add_parser("backlog", help="topics people searched for and we lack", parents=[common])
     p.add_argument("--events", help="JSON export of search_events")

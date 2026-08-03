@@ -388,17 +388,47 @@ class ReviewQueueTest(unittest.TestCase):
                 self.assertNotIn("= APPROVED", source.replace("REJECTED = ", "")
                                  .replace("APPROVED = \"APPROVED\"", ""))
 
-    def test_no_path_from_here_writes_to_packages_or_the_graph(self):
+    def test_only_one_module_may_write_to_a_package(self):
+        """The boundary moved when promotion was added, so state where it is.
+
+        `decide.py` writes to `packages/` and that is the whole feature — but it
+        is the ONLY module that may, it only does so under `--write`, and only
+        for a candidate the ledger already records as APPROVED. Nothing else in
+        `collection/` touches a package, and nothing at all touches the graph or
+        Supabase: the graph is rebuilt by its own builder and the sync is a
+        separate command on a separate trigger.
+        """
         forbidden = ("packages/", "knowledge_graph/", "supabase", "kg_entities")
         for path in sorted((ROOT / "collection").glob("*.py")):
             body = path.read_text(encoding="utf-8")
-            code = "\n".join(line.split("#", 1)[0] for line in body.splitlines())
+            lines = [line.split("#", 1)[0] for line in body.splitlines()]
+            # `cli.py` PRINTS `python3 knowledge_graph/build_graph.py` as the
+            # operator's next step. Naming a command is not running one, and
+            # the test below is what holds that line honest — it asserts the
+            # CLI has no subprocess, os.system or check_call anywhere.
+            if path.name == "cli.py":
+                lines = [line for line in lines if "print(" not in line]
+            code = "\n".join(lines)
             # Docstrings are prose about the boundary; only code is checked.
-            code = code.split('"""')
-            code = "".join(code[i] for i in range(0, len(code), 2))
+            parts = code.split('"""')
+            code = "".join(parts[i] for i in range(0, len(parts), 2))
+            allowed = {"packages/"} if path.name == "decide.py" else set()
             for token in forbidden:
+                if token in allowed:
+                    continue
                 with self.subTest(path=path.name, token=token):
                     self.assertNotIn(token, code)
+
+    def test_the_cli_only_names_the_graph_builder_it_never_runs_it(self):
+        """`promote --write` prints the rebuild command rather than running it.
+        Rebuilding the graph is a separate, reviewable act, and a command that
+        silently regenerated 648 entities as a side effect of writing one row
+        would bury that row in a diff nobody could read."""
+        code = (ROOT / "collection" / "cli.py").read_text(encoding="utf-8")
+        self.assertIn("print(\"      python3 knowledge_graph/build_graph.py\")", code)
+        for runner_call in ("subprocess", "os.system", "check_call"):
+            with self.subTest(call=runner_call):
+                self.assertNotIn(runner_call, code)
 
     def test_a_decided_candidate_is_not_offered_again(self):
         """A queue that re-presents decided material trains the people reading
@@ -539,7 +569,11 @@ class RunnerTest(unittest.TestCase):
         self.tmp.cleanup()
 
     def sources(self):
-        return [s for s in registry.load(state_path=self.state) if s.category == "Testing"]
+        # The four local fixtures by id, not by category. `pypi-rss-001` is also
+        # category Testing — it is a real feed kept PAUSED to prove the network
+        # leg — and including it would make this assert on something that skips.
+        return [s for s in registry.load(state_path=self.state)
+                if s.source_id.startswith("fix-")]
 
     def test_a_full_pass_over_the_local_fixtures(self):
         report = runner.run(sources=self.sources(), force=True, write=True,
@@ -610,3 +644,161 @@ class ScheduledWorkflowTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
+
+
+# ═══════════════════════════════ 11. the two verbs that were missing
+class DecideAndPromoteTest(unittest.TestCase):
+    """The gap the first end-to-end run found.
+
+    Collection ended at a review queue. Stewardship began at an entity already
+    in `entities.csv`. Between them was nothing: `collection.cli queue` printed
+    twelve rows and no command in the repository could accept one. Two working
+    halves, and no join.
+    """
+
+    def setUp(self):
+        from collection import decide                                # noqa: PLC0415
+        from stewardship.ledger import ReviewLedger                  # noqa: PLC0415
+        self.decide = decide
+        self.tmp = tempfile.TemporaryDirectory()
+        self.queue = Path(self.tmp.name) / "queue.jsonl"
+        self.ledger = ReviewLedger(path=Path(self.tmp.name) / "ledger.csv")
+        review.save([review.Candidate(
+            candidate_id="s:1", source_id="s", source_name="S", item_key="1",
+            title="Test Margin Money Subsidy Scheme", url="https://example.invalid/1",
+            published_at="", change="NEW", classified_as="GovernmentScheme",
+            classified_reason="matched “subsidy”", is_entity=True,
+            state=review.NEEDS_REVIEW, raw={"title": "Test Margin Money Subsidy Scheme"},
+        )], self.queue)
+
+    def tearDown(self):
+        self.tmp.cleanup()
+
+    def approve(self):
+        for state in ("REVIEWED", "APPROVED"):
+            self.decide.decide("s:1", state, actor="tester",
+                               evidence="https://example.invalid/1",
+                               queue_path=self.queue, ledger=self.ledger)
+
+    def test_the_decision_walks_the_lifecycle_rather_than_jumping_it(self):
+        """COLLECTED -> REVIEWED skips VALIDATED, and the lifecycle refuses. The
+        machine step is recorded with what actually validated it — the pipeline
+        parsed, classified and de-duplicated the record — rather than the
+        lifecycle being loosened."""
+        self.decide.decide("s:1", "REVIEWED", actor="tester", evidence="url",
+                           queue_path=self.queue, ledger=self.ledger)
+        states = [(e.from_state, e.to_state, e.actor)
+                  for e in self.ledger.for_entity("s:1")]
+        self.assertEqual(states, [("COLLECTED", "VALIDATED", ""),
+                                  ("VALIDATED", "REVIEWED", "tester")])
+
+    def test_the_decision_lands_in_the_one_audit_trail(self):
+        """A second audit trail is not an audit trail."""
+        self.approve()
+        entries = self.ledger.for_entity("s:1")
+        self.assertEqual(entries[-1].to_state, "APPROVED")
+        self.assertEqual(entries[-1].actor, "tester")
+        self.assertEqual(entries[-1].verification_status_after, "VST-VERIFIED")
+
+    def test_a_decision_survives_the_process(self):
+        """`record()` appends in memory; `flush()` is what makes it a trail.
+        Without the flush the decision existed for the life of one command and
+        the next read a ledger that had never heard of it."""
+        self.decide.decide("s:1", "REVIEWED", actor="tester", evidence="url",
+                           queue_path=self.queue, ledger=self.ledger)
+        from stewardship.ledger import ReviewLedger                  # noqa: PLC0415
+        reopened = ReviewLedger(path=self.ledger.path)
+        self.assertTrue(reopened.for_entity("s:1"))
+
+    def test_an_illegal_transition_leaves_the_queue_untouched(self):
+        """The ledger is written first, so the queue can never hold a state the
+        audit trail does not justify."""
+        with self.assertRaises(Exception):
+            self.decide.decide("s:1", "PUBLISHED", actor="tester",
+                               queue_path=self.queue, ledger=self.ledger)
+        self.assertEqual(review.load(self.queue)[0].state, review.NEEDS_REVIEW)
+
+    def test_a_machine_cannot_approve(self):
+        """`APPROVED is the only state a machine may not enter` —
+        stewardship/lifecycle.py, and the collection layer honours it."""
+        with self.assertRaises(Exception):
+            self.decide.decide("s:1", "APPROVED", actor="",
+                               queue_path=self.queue, ledger=self.ledger)
+
+    def test_promotion_fills_only_what_the_source_supplied(self):
+        """The line that keeps this honest. A press release announcing a scheme
+        does not carry its eligibility, subsidy rate or portal, and writing a
+        plausible one would be the fabrication the repository exists to avoid.
+        """
+        self.approve()
+        promotion = self.decide.plan(candidates=self.decide.approved(self.queue))
+        self.assertEqual(len(promotion.rows), 1)
+        _path, row, _c = promotion.rows[0]
+        self.assertEqual(row["scheme_name"], "Test Margin Money Subsidy Scheme")
+        self.assertEqual(row["source_url"], "https://example.invalid/1")
+        self.assertEqual(row["verification_status"], "VST-NEEDS_REVIEW")
+        for column in ("ministry", "objective", "benefit_summary", "official_portal"):
+            with self.subTest(column=column):
+                self.assertEqual(row[column], self.decide.PENDING)
+
+    def test_it_takes_the_dataset_s_own_next_id(self):
+        """These ids appear in package_local_id and in every mapping dataset
+        that references them. A UUID where the dataset uses `sch-041` would be
+        correct and unreadable."""
+        self.approve()
+        _path, row, _c = self.decide.plan(
+            candidates=self.decide.approved(self.queue)).rows[0]
+        self.assertRegex(row["scheme_id"], r"^sch-\d{3}$")
+
+    def test_a_type_the_sync_does_not_project_is_refused(self):
+        """A row in a dataset no TableSpec reads would never reach Supabase and
+        never become searchable — a silent failure dressed as a success."""
+        candidates = review.load(self.queue)
+        candidates[0].classified_as = "Event"
+        candidates[0].state = review.APPROVED
+        promotion = self.decide.plan(candidates=candidates)
+        self.assertEqual(promotion.rows, [])
+        self.assertIn("no dataset the sync projects", promotion.skipped[0][1])
+
+    def test_every_target_is_a_dataset_the_sync_actually_reads(self):
+        """The guard behind that refusal: if a TARGET names a dataset no
+        TableSpec covers, promotion writes rows that vanish."""
+        from knowledge_sync import config                            # noqa: PLC0415
+        projected = {(s.package, s.dataset) for spec in config.TABLE_SPECS
+                     for s in spec.sources}
+        for kind, target in self.decide.TARGETS.items():
+            with self.subTest(kind=kind):
+                self.assertIn((target["package"], target["dataset"]), projected)
+
+    def test_it_will_not_write_the_same_row_twice(self):
+        self.approve()
+        candidates = self.decide.approved(self.queue)
+        candidates[0].title = "Prime Minister's Employment Generation Programme"
+        promotion = self.decide.plan(candidates=candidates)
+        self.assertEqual(promotion.rows, [])
+        self.assertIn("already holds a row named", promotion.skipped[0][1])
+
+    def test_promotion_is_a_dry_run_by_default(self):
+        self.approve()
+        promotion = self.decide.plan(candidates=self.decide.approved(self.queue))
+        self.assertEqual(self.decide.apply(promotion, write=False), [])
+
+
+class SyncCountRatchetTest(unittest.TestCase):
+
+    def test_the_expected_entity_count_is_read_and_not_written_down(self):
+        """`EXPECTED_ROWS=1812` and `expected 647` were correct the day they
+        were written and wrong the first time collection promoted anything: the
+        graph went to 648 and the sync warned about a knowledge base that had
+        grown exactly as intended. A ratchet that fires on success is one people
+        learn to ignore."""
+        body = (ROOT / "scripts" / "run_sync.sh").read_text(encoding="utf-8")
+        # Executable lines only — the comment above the change quotes the old
+        # values on purpose, and asserting on the whole file would fail on the
+        # explanation of the very fix it is checking for.
+        code = "\n".join(line for line in body.splitlines()
+                          if not line.lstrip().startswith("#"))
+        self.assertNotIn("expected 647", code)
+        self.assertNotIn("EXPECTED_ROWS=1812", code)
+        self.assertIn("graph_summary.json", code)
+        self.assertIn("EXPECTED_ENTITIES", code)

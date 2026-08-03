@@ -48,6 +48,8 @@ SUITES = {
                        "The /knowledge route actually calls the search engine"),
     "multilingual": ("tests.test_multilingual_search",
                      "English, Telugu and Tanglish resolve to the same knowledge"),
+    "universal": ("tests.test_universal_search",
+                  "One box over knowledge and research, grouped, never a dead end"),
     "connected_knowledge": ("tests.test_connected_knowledge",
                             "PX Phase 5: intent sections, ranking and the second hop"),
     "landing": ("tests.test_landing",

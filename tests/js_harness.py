@@ -21,6 +21,18 @@ code under test.
 So the whole of `frontend/lib` is mirrored, not a hand-listed subset. Adding an
 import to a lib module can no longer break a suite that does not mention it.
 
+WHY THE MIRROR LIVES INSIDE frontend/
+-------------------------------------
+Node resolves a bare specifier by walking up from the importing FILE. A mirror
+in /tmp therefore cannot find `@supabase/supabase-js`, so any module that
+touches the database — which now includes lib/search/universal.js, by way of
+lib/knowledge.js — could not be imported at all. Staging under `frontend/`
+puts `frontend/node_modules` on the walk and the real dependencies resolve.
+
+The directory is a mkdtemp with a dotted prefix, removed in `cleanup()` and
+ignored by git, so a crashed run leaves litter that is obvious and harmless
+rather than a file that looks like source.
+
     from tests.js_harness import JsHarness
 
     h = JsHarness()                       # mirrors frontend/lib into a tmpdir
@@ -33,6 +45,7 @@ import to a lib module can no longer break a suite that does not mention it.
 
 import csv
 import json
+import re
 import shutil
 import subprocess
 import tempfile
@@ -74,21 +87,28 @@ class JsHarness:
     """
 
     def __init__(self):
-        self._tmp = tempfile.TemporaryDirectory()
+        self._tmp = tempfile.TemporaryDirectory(prefix=".js-harness-", dir=FE)
         self.dir = Path(self._tmp.name)
         self.lib = self.dir / "lib"
         self._mirror()
+
+    #: `@/lib/foo` or `@/lib/search/foo.js`. The extension is optional in the
+    #: app because the bundler adds it and mandatory here because ESM does not
+    #: — a rewrite that only swapped the prefix produced `./mdx` and a
+    #: ERR_MODULE_NOT_FOUND that looked like a missing file.
+    _ALIAS = re.compile(r"@/lib/([\w./-]+)")
 
     def _mirror(self):
         for src in LIB.rglob("*.js"):
             rel = src.relative_to(LIB)
             dst = self.lib / rel
             dst.parent.mkdir(parents=True, exist_ok=True)
-            # `@/lib/foo` from lib/search/x.js has to become `../foo.js`.
+            # From lib/search/x.js, `@/lib/foo` has to climb back out: `../foo.js`.
             depth = len(rel.parts) - 1
             prefix = "./" if depth == 0 else "../" * depth
-            text = src.read_text(encoding="utf-8")
-            text = text.replace("@/lib/", prefix).replace('@/components/', prefix)
+            text = self._ALIAS.sub(
+                lambda m: prefix + m.group(1) + ("" if m.group(1).endswith(".js") else ".js"),
+                src.read_text(encoding="utf-8"))
             dst.write_text(text, encoding="utf-8")
 
     def dataset(self, name, rows):

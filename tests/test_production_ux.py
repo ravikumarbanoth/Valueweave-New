@@ -630,8 +630,11 @@ class StudentFirstTest(unittest.TestCase):
         """An empty box with no example is a wall."""
         src = read(COMPONENTS / "platform" / "KnowledgeSearch.jsx")
         self.assertIn("placeholder=", src)
+        # The explorer box is LiveSearch now and its placeholder arrives as a
+        # prop. Still an example, still naming the four kinds of thing behind
+        # it, so the wording is asserted where it is actually written.
         explorer = read(APP / "knowledge" / "page.js")
-        self.assertIn("Try a district, a skill, or a business idea", explorer)
+        self.assertIn("A district, a skill, a scheme, a business idea", explorer)
 
 
 if __name__ == "__main__":

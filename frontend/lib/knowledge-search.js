@@ -122,17 +122,30 @@ export function matchTerm(term, name) {
   return null;
 }
 
+//: An alias hit is worth a little less than the same rung on the name itself.
+//: "Battery" appearing in an article's keyword list is real evidence and
+//: weaker evidence than an entity actually called Battery Modules.
+const ALIAS_WEIGHT = 0.9;
+
 /**
  * Score one entity against an expanded query.
  *
  * Returns `{score, match, via}` or null. `via` is the term that matched when it
  * was not the one typed — the UI uses it to say "matched: electrical wiring",
  * so a result that looks unrelated can explain itself.
+ *
+ * `entity._aliases` — optional, absent on every knowledge entity until
+ * something attaches it — is a list of other short strings this thing answers
+ * to: a scheme's short name, a research article's keywords, the Chinese
+ * concept a business opportunity was adapted from. Matched after the name and
+ * before the type, so it can rescue a query the title does not contain and
+ * can never displace a title that does.
  */
 export function scoreEntity(entity, expanded) {
   const name = entity?.canonical_name;
   if (!name) return null;
   const typeLabel = humaniseType(entity.entity_type);
+  const aliases = Array.isArray(entity._aliases) ? entity._aliases : [];
 
   let best = null;
   for (const { term, weight, kind: source } of expanded) {
@@ -142,6 +155,14 @@ export function scoreEntity(entity, expanded) {
     // "Skill Loan Scheme" under 45 skills.
     let kind = matchTerm(term, name);
     let byType = false;
+    let byAlias = null;
+
+    if (!kind) {
+      for (const alias of aliases) {
+        const hit = matchTerm(term, alias);
+        if (hit) { kind = hit; byAlias = alias; break; }
+      }
+    }
     if (!kind && typeLabel && (typeLabel === term || matchTerm(term, typeLabel) === MATCH.EXACT)) {
       kind = MATCH.RELATED;
       byType = true;
@@ -157,10 +178,17 @@ export function scoreEntity(entity, expanded) {
     // as such however well it matched, so it can never outrank what was typed.
     const effective =
       !byType && (source === "typed" || source === "acronym") ? kind : MATCH.RELATED;
-    const score = SCORE[effective] * weight;
+    const score = SCORE[effective] * weight * (byAlias ? ALIAS_WEIGHT : 1);
 
     if (!best || score > best.score) {
-      best = { score, match: effective, via: source === "typed" && !byType ? null : term };
+      best = {
+        score,
+        match: effective,
+        // What to tell the reader. The alias beats the search term here: "PMEGP"
+        // is a more useful explanation of why a scheme is in the list than the
+        // twelve words it stands for.
+        via: byAlias || (source === "typed" && !byType ? null : term),
+      };
     }
   }
   if (!best) return null;
@@ -176,8 +204,26 @@ export function scoreEntity(entity, expanded) {
  *
  * Each result carries `_match`, `_score` and `_via` so the UI can group and
  * explain. Nothing else about the entity is altered.
+ *
+ * THE `boost` SEAM — PERSONALISATION, NOT YET IMPLEMENTED
+ * ------------------------------------------------------
+ * `boost(entity)` returns a multiplier and defaults to 1, which is exactly
+ * today's behaviour. It exists so that ranking differently for a student, an
+ * entrepreneur, an investor, a farmer or a working professional is a function
+ * passed in at the call site rather than a rewrite of this file.
+ *
+ * It is a multiplier and not an additive bonus deliberately: adding points
+ * could lift a FUZZY hit above an EXACT one and make a personalised search
+ * return the wrong thing confidently, which is the failure mode that would
+ * cost the most trust. Scaling preserves the ladder — a preferred CONTAINS
+ * still cannot overtake a WORD unless the boost exceeds the gap between rungs,
+ * and the rungs are far enough apart that a sane boost cannot.
+ *
+ * Nothing calls it with a boost today. When something does, that will be a
+ * change to a caller, and this function will not need to know who the reader
+ * is — which is the only way the seam stays honest.
  */
-export function rankEntities(entities, query, { limit = 24, entityType } = {}) {
+export function rankEntities(entities, query, { limit = 24, entityType, boost } = {}) {
   const expanded = expandQuery(query);
   if (!expanded.length) return [];
 
@@ -185,7 +231,14 @@ export function rankEntities(entities, query, { limit = 24, entityType } = {}) {
   for (const entity of entities || []) {
     if (entityType && entity.entity_type !== entityType) continue;
     const scored = scoreEntity(entity, expanded);
-    if (scored) out.push({ ...entity, _match: scored.match, _score: scored.score, _via: scored.via });
+    if (!scored) continue;
+    const weight = boost ? Number(boost(entity)) || 1 : 1;
+    out.push({
+      ...entity,
+      _match: scored.match,
+      _score: scored.score * weight,
+      _via: scored.via,
+    });
   }
 
   out.sort((a, b) =>

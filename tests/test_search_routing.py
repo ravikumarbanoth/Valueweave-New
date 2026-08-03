@@ -49,6 +49,10 @@ ROOT = Path(__file__).resolve().parent.parent
 FE = ROOT / "frontend"
 ROUTE = FE / "app" / "knowledge" / "page.js"
 LIB = FE / "lib" / "knowledge.js"
+#: The route calls searchGrouped, which calls rankEntities. Both links of that
+#: chain are asserted below — an import that reaches a module which does NOT
+#: reach the ranker is the same outage in a longer coat.
+UNIVERSAL = FE / "lib" / "search" / "universal.js"
 
 
 def read(path):
@@ -67,12 +71,21 @@ class RouteCallsTheSearchEngineTest(unittest.TestCase):
         self.src = code(ROUTE)
 
     def test_the_route_imports_the_engine(self):
-        """The single assertion that would have caught the outage."""
-        self.assertIn("searchKnowledge", self.src,
+        """The single assertion that would have caught the outage.
+
+        The route now goes through lib/search/universal.js, which unions the
+        graph with the research articles and hands the whole thing to the SAME
+        ranker. Both links are checked: a route that imports a search module
+        which does not itself reach `rankEntities` is this outage again.
+        """
+        self.assertIn("searchGrouped", self.src,
                       "/knowledge does not import the search engine")
+        self.assertIn("lib/search/universal", self.src)
+        self.assertIn("rankEntities", code(UNIVERSAL),
+                      "universal.js must rank with the shared ladder, not its own")
 
     def test_a_query_reaches_the_engine(self):
-        self.assertRegex(self.src, r"searchKnowledge\(\s*q\b",
+        self.assertRegex(self.src, r"searchGrouped\(\s*q\b",
                          "the engine is imported but the query never reaches it")
 
     def test_a_query_is_answered_before_any_browse_or_index_branch(self):
@@ -98,9 +111,11 @@ class RouteCallsTheSearchEngineTest(unittest.TestCase):
         Accepting `q` and doing none of them is how a broken search looks
         exactly like a working one.
         """
-        USES = ("searchKnowledge",          # answers it
+        USES = ("searchGrouped",            # answers it
+                "guidance(q)",              # answers the absence of it
                 "encodeURIComponent(q)",    # passes it on in a URL
                 "defaultValue={q}",         # renders it back into the field
+                "initialQuery={q}",
                 "value={q}")
         offenders = []
         for name, params in re.findall(r"^(?:async )?function (\w+)\(\{([^}]*)\}\)",
@@ -116,14 +131,38 @@ class RouteCallsTheSearchEngineTest(unittest.TestCase):
             "these take a query and never search with it: " + ", ".join(offenders))
 
     def test_a_query_with_no_type_filter_still_searches(self):
-        """The homepage box sends `?q=` with no type. That was the dead path."""
-        self.assertRegex(
-            self.src, r"entityType:\s*entityType \|\| undefined",
-            "search must run with or without a category filter")
+        """The homepage box sends `?q=` with no type. That was the dead path.
+
+        The filter is now applied to the RESULTS rather than pushed into the
+        query — which is what lets a filtered search that finds nothing still
+        say "there are eleven of these if you drop the filter". So the thing
+        to assert is that the search itself is unconditional.
+        """
+        block = self.src[self.src.index("async function SearchResults"):]
+        block = block[:block.index("async function BrowseType")]
+        self.assertNotIn("if (entityType)", block.split("searchGrouped")[0],
+                         "search must run with or without a category filter")
+        self.assertRegex(block, r"rows\.filter\(\(r\) => r\.entity_type === entityType\)")
 
     def test_the_no_match_state_offers_the_terms_that_would_have_worked(self):
-        """`suggestRelatedSearches` shipped in Phase 1 with no caller here."""
-        self.assertIn("suggestRelatedSearches", self.src)
+        """`suggestRelatedSearches` shipped in Phase 1 with no caller here.
+
+        `guidance` is its successor and does more: a correction, related rows
+        that exist, the terms that work, and a request form. The rule is
+        unchanged — a no-match page must point somewhere.
+        """
+        self.assertIn("guidance(q)", self.src)
+        self.assertIn("relatedSearches", code(UNIVERSAL))
+
+    def test_a_thin_result_set_is_guided_too(self):
+        """One row is a coverage gap wearing the costume of an answer.
+
+        "Dairy" returns exactly one dairy-adjacent entity. A page showing only
+        that row implies we have a dairy section. Below the threshold the
+        guidance renders underneath the results.
+        """
+        self.assertIn("THIN_RESULTS", self.src)
+        self.assertRegex(self.src, r"visible\.length < THIN_RESULTS")
 
 
 # ═══════════════════════════════════════ 2. exactly one search implementation
@@ -167,11 +206,17 @@ class EntryPointsTest(unittest.TestCase):
         self.assertIn("/knowledge?q=", src)
 
     def test_the_explorer_box_submits_a_q_parameter(self):
-        src = code(ROUTE)
-        form = src[src.index("function SearchBar"):]
+        """The explorer box is LiveSearch now — the same component the hero
+        uses — so the assertion follows it there: it must be seeded with the
+        current query and it must submit back to the search route."""
+        form = code(ROUTE)[code(ROUTE).index("function SearchBar"):]
         form = form[:form.index("\n}")]
-        self.assertIn('action="/knowledge"', form)
-        self.assertIn('name="q"', form)
+        self.assertIn("<LiveSearch", form)
+        self.assertIn("initialQuery={q}", form)
+
+        box = code(FE / "components" / "search" / "LiveSearch.jsx")
+        self.assertIn("/knowledge?q=${encodeURIComponent(q)}", box)
+        self.assertIn('type="submit"', box, "the Search button must survive")
 
     def test_the_audience_pages_send_real_queries(self):
         src = code(FE / "app" / "start" / "[audience]" / "page.js")

@@ -480,9 +480,29 @@ class AdditiveTest(unittest.TestCase):
                 list((FE / "components").rglob("*.jsx")) + \
                 list((FE / "lib").rglob("*.js")):
             src = read(path)
-            if "fetch(" in src and "knowledge" not in path.name.lower():
+            if "fetch(" not in src or "knowledge" in path.name.lower():
+                continue
+            # A same-origin relative fetch is this app calling its own route
+            # handler, which is not a service and has no deployment, auth or
+            # CORS surface of its own. LiveSearch does exactly one of these,
+            # to /api/search/suggest, because the search index has to stay in
+            # server memory. Anything absolute is what this test is about.
+            calls = re.findall(r'fetch\(\s*[`"\']([^`"\']*)', src)
+            if any(not c.startswith("/") for c in calls) or not calls:
                 offenders.append(str(path.relative_to(FE)))
-        self.assertEqual(offenders, [], f"direct fetch() introduced: {offenders}")
+        self.assertEqual(offenders, [], f"direct fetch() to a service: {offenders}")
+
+    def test_the_api_surface_is_one_handler(self):
+        """A frontend with an API surface can grow a backend by accident.
+
+        `/api/search/suggest` is the only one, and it exists for a measured
+        reason — the search index has to stay in server memory, see the file.
+        `/auth/callback` is Supabase's OAuth return and predates all of this.
+        A third appearing without a conversation is the drift this guards.
+        """
+        routes = sorted(str(p.relative_to(FE)) for p in (FE / "app").rglob("route.js"))
+        self.assertEqual(routes, ["app/api/search/suggest/route.js",
+                                  "app/auth/callback/route.js"])
 
 
 # ═══════════════════════════════════════════════════ 4. Phase 8 migration

@@ -34,7 +34,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 
 from collection import classify as classifier
-from collection import detect, dedupe, registry, review
+from collection import backlog, detect, dedupe, priority, registry, review
 from knowledge_engine.parsers.base import ParseError
 
 
@@ -262,6 +262,15 @@ def run(sources=None, only=None, force=False, write=False, queue_path=None,
 
     merged, stats = review.merge(queue, fresh_candidates)
     stats["promoted_to_review"] = review.to_needs_review(merged)
+
+    # Ranked AFTER merging, over the whole queue rather than one run's output.
+    # A four-star item collected last week should not sit below a two-star one
+    # collected this morning just because the morning's run scored separately.
+    merged = priority.rank(
+        merged, sources=sources,
+        demand=priority.demand_from_backlog(backlog.load()),
+        districts=priority.district_names(),
+    )
     report.merged = stats
     report.queue = review.summary(merged)
     report.finished_at = _now()

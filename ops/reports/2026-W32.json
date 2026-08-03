@@ -1,0 +1,4267 @@
+{
+  "generated_at": "2026-08-03T09:57:08+00:00",
+  "overview": {
+    "entities": 647,
+    "relationships": 865,
+    "entity_types_populated": 19,
+    "entity_types_registered": 19,
+    "by_type": {
+      "Industry": 78,
+      "Machinery": 69,
+      "Institution": 66,
+      "District": 61,
+      "BusinessOpportunity": 45,
+      "Crop": 45,
+      "Skill": 45,
+      "GovernmentScheme": 40,
+      "MSME": 40,
+      "Certification": 30,
+      "ExportCountry": 29,
+      "TrainingProvider": 25,
+      "FinancialInstitution": 21,
+      "RawMaterial": 21,
+      "Market": 11,
+      "Soil": 10,
+      "ClimateZone": 8,
+      "State": 2,
+      "Country": 1
+    },
+    "by_package": {
+      "Package008_MSME": 167,
+      "Package006_Skills_and_Training": 100,
+      "Package005_Agriculture": 99,
+      "Package001_Geography": 93,
+      "Package004_Industries": 70,
+      "Package002_Education": 66,
+      "Package007_Government_Schemes": 52
+    },
+    "packages": 7,
+    "package_names": [
+      "Package001_Geography",
+      "Package002_Education",
+      "Package003_Healthcare",
+      "Package004_Industries",
+      "Package005_Agriculture",
+      "Package007_Government_Schemes",
+      "Package008_MSME"
+    ],
+    "research_articles_in_repo": 3,
+    "crosswalk_rows": 202,
+    "crosswalk_resolved_pct": 41.1,
+    "graph_built_at": "2026-08-01"
+  },
+  "connectivity": {
+    "connected": 505,
+    "connected_pct": 78.1,
+    "isolated": 142,
+    "dead_ends": 264,
+    "median_degree": 1,
+    "most_connected": [
+      {
+        "name": "Scheduled Commercial Banks",
+        "type": "FinancialInstitution",
+        "degree": 39
+      },
+      {
+        "name": "Telangana",
+        "type": "State",
+        "degree": 34
+      },
+      {
+        "name": "Andhra Pradesh",
+        "type": "State",
+        "degree": 29
+      },
+      {
+        "name": "Loamy",
+        "type": "Soil",
+        "degree": 27
+      },
+      {
+        "name": "Spice Grinding and Packing Unit",
+        "type": "MSME",
+        "degree": 22
+      },
+      {
+        "name": "Red Soil",
+        "type": "Soil",
+        "degree": 21
+      },
+      {
+        "name": "Pradhan Mantri MUDRA Yojana",
+        "type": "GovernmentScheme",
+        "degree": 20
+      },
+      {
+        "name": "Semi-arid",
+        "type": "ClimateZone",
+        "degree": 20
+      },
+      {
+        "name": "Dal Milling Unit",
+        "type": "MSME",
+        "degree": 19
+      },
+      {
+        "name": "Fruit Pulp and Beverage Unit",
+        "type": "MSME",
+        "degree": 19
+      }
+    ],
+    "least_connected": [
+      {
+        "name": "ABB Robotics Customer Certification - Basic Robot Programming (IRC5)",
+        "type": "Certification",
+        "degree": 0
+      },
+      {
+        "name": "AWS Certified Cloud Practitioner",
+        "type": "Certification",
+        "degree": 0
+      },
+      {
+        "name": "Andhra Pradesh State Skill Development Corporation (APSSDC) Certification",
+        "type": "Certification",
+        "degree": 0
+      },
+      {
+        "name": "Autodesk Certified User (ACU) - AutoCAD",
+        "type": "Certification",
+        "degree": 0
+      },
+      {
+        "name": "Automotive Service Technician (Two and Three Wheelers) - ASC/Q1411",
+        "type": "Certification",
+        "degree": 0
+      },
+      {
+        "name": "CNC Operator - Turning - CSC/Q0115",
+        "type": "Certification",
+        "degree": 0
+      },
+      {
+        "name": "Cisco Certified Network Associate (CCNA)",
+        "type": "Certification",
+        "degree": 0
+      },
+      {
+        "name": "Course on Computer Concepts (CCC)",
+        "type": "Certification",
+        "degree": 0
+      },
+      {
+        "name": "Domestic Data Entry Operator - SSC/Q2212",
+        "type": "Certification",
+        "degree": 0
+      },
+      {
+        "name": "FANUC Certified Robot Operator / FANUC India Academy Training Certificate",
+        "type": "Certification",
+        "degree": 0
+      }
+    ],
+    "isolated_by_type": {
+      "Certification": 30,
+      "TrainingProvider": 22,
+      "GovernmentScheme": 21,
+      "Industry": 17,
+      "FinancialInstitution": 13,
+      "Market": 10,
+      "Institution": 8,
+      "Machinery": 8,
+      "ExportCountry": 7,
+      "Skill": 5,
+      "Soil": 1
+    },
+    "median_degree_by_type": {
+      "BusinessOpportunity": 1,
+      "Certification": 0.0,
+      "ClimateZone": 10.0,
+      "Country": 2,
+      "Crop": 5,
+      "District": 1,
+      "ExportCountry": 1,
+      "FinancialInstitution": 0,
+      "GovernmentScheme": 0.0,
+      "Industry": 1.0,
+      "Institution": 1.0,
+      "MSME": 6.0,
+      "Machinery": 1,
+      "Market": 0,
+      "RawMaterial": 1,
+      "Skill": 2,
+      "Soil": 7.0,
+      "State": 31.5,
+      "TrainingProvider": 0
+    }
+  },
+  "freshness": {
+    "fresh": 647,
+    "ageing": 0,
+    "stale": 0,
+    "unknown": 0,
+    "median_age_days": 2,
+    "oldest_days": 2,
+    "stale_by_package": {}
+  },
+  "collection": {
+    "sources": {
+      "total": 10,
+      "active": 4,
+      "pending_verification": 6,
+      "paused": 0,
+      "retired": 0,
+      "dead": 0,
+      "failing": 0,
+      "stale": 0,
+      "never_fetched": 6,
+      "errors_last_run": 0,
+      "queued_last_run": 0
+    },
+    "feed_status": "degraded",
+    "findings": [
+      {
+        "check": "never_verified",
+        "severity": "WARN",
+        "source_id": "pib-msme-001",
+        "detail": "registered but never successfully fetched — run `collection.cli verify pib-msme-001` from a network that can reach it"
+      },
+      {
+        "check": "never_verified",
+        "severity": "WARN",
+        "source_id": "msme-gov-001",
+        "detail": "registered but never successfully fetched — run `collection.cli verify msme-gov-001` from a network that can reach it"
+      },
+      {
+        "check": "never_verified",
+        "severity": "WARN",
+        "source_id": "ncs-jobs-001",
+        "detail": "registered but never successfully fetched — run `collection.cli verify ncs-jobs-001` from a network that can reach it"
+      },
+      {
+        "check": "never_verified",
+        "severity": "WARN",
+        "source_id": "tg-industries-001",
+        "detail": "registered but never successfully fetched — run `collection.cli verify tg-industries-001` from a network that can reach it"
+      },
+      {
+        "check": "never_verified",
+        "severity": "WARN",
+        "source_id": "ap-industries-001",
+        "detail": "registered but never successfully fetched — run `collection.cli verify ap-industries-001` from a network that can reach it"
+      },
+      {
+        "check": "never_verified",
+        "severity": "WARN",
+        "source_id": "data-gov-001",
+        "detail": "registered but never successfully fetched — run `collection.cli verify data-gov-001` from a network that can reach it"
+      }
+    ],
+    "queue": {
+      "total": 12,
+      "by_state": {
+        "DUPLICATE": 1,
+        "NEEDS_REVIEW": 11
+      },
+      "awaiting_review_by_type": {
+        "TrainingProvider": 4,
+        "BusinessOpportunity": 3,
+        "GovernmentScheme": 1,
+        "Skill": 1,
+        "Certification": 1,
+        "Machinery": 1
+      },
+      "awaiting_review_by_stars": {
+        "4": 1,
+        "3": 3,
+        "2": 6,
+        "1": 1
+      }
+    },
+    "top_of_queue": [
+      {
+        "stars": 4,
+        "type": "GovernmentScheme",
+        "title": "FIXTURE Margin Money Subsidy Scheme for micro enterprises",
+        "source": "fix-rss-001",
+        "why": "GovernmentScheme is worth 34; reads as “subsidy”; a TG source"
+      },
+      {
+        "stars": 3,
+        "type": "BusinessOpportunity",
+        "title": "FIXTURE Battery recycling collection centre licences invited",
+        "source": "fix-json-001",
+        "why": "BusinessOpportunity is worth 30; reads as “applications invited”; a AP source"
+      },
+      {
+        "stars": 3,
+        "type": "BusinessOpportunity",
+        "title": "FIXTURE Solar rooftop installation opportunity in Medak district",
+        "source": "fix-rss-001",
+        "why": "BusinessOpportunity is worth 30; a TG source; names Medak"
+      },
+      {
+        "stars": 3,
+        "type": "TrainingProvider",
+        "title": "FIXTURE Skill training centre empanelment for ITI graduates",
+        "source": "fix-rss-001",
+        "why": "TrainingProvider is worth 24; reads as “empanelment”; a TG source"
+      },
+      {
+        "stars": 2,
+        "type": "BusinessOpportunity",
+        "title": "FIXTURE Semiconductor assembly unit registration window opens",
+        "source": "fix-json-001",
+        "why": "BusinessOpportunity is worth 30; a AP source; published 6 days ago"
+      },
+      {
+        "stars": 2,
+        "type": "TrainingProvider",
+        "title": "FIXTURE Government ITI (example)",
+        "source": "fix-csv-001",
+        "why": "TrainingProvider is worth 24; a TG source; published 0 days ago"
+      },
+      {
+        "stars": 2,
+        "type": "TrainingProvider",
+        "title": "FIXTURE Skill Development Centre (example)",
+        "source": "fix-csv-001",
+        "why": "TrainingProvider is worth 24; a TG source; published 0 days ago"
+      },
+      {
+        "stars": 2,
+        "type": "TrainingProvider",
+        "title": "FIXTURE Polytechnic College (example)",
+        "source": "fix-csv-001",
+        "why": "TrainingProvider is worth 24; a TG source; published 0 days ago"
+      },
+      {
+        "stars": 2,
+        "type": "Skill",
+        "title": "FIXTURE Lift and elevator technician qualification under review",
+        "source": "fix-atom-001",
+        "why": "Skill is worth 26; published 2 days ago"
+      },
+      {
+        "stars": 2,
+        "type": "Certification",
+        "title": "FIXTURE New qualification pack for drone maintenance technician",
+        "source": "fix-atom-001",
+        "why": "Certification is worth 22; published 0 days ago"
+      }
+    ],
+    "last_run": "2026-08-03T09:52:27+00:00"
+  },
+  "sync": {
+    "runs_recorded": 44,
+    "last_success": null,
+    "last_failure": "2026-08-02T06:13:17+00:00",
+    "manifest_written_at": "2026-08-02T06:13:17+00:00",
+    "manifest_version": "20260802T061317Z-921d65",
+    "tables_in_manifest": 8,
+    "recent": [
+      {
+        "duration_seconds": 0.083,
+        "error_count": 0,
+        "errors": [],
+        "finished_at": "2026-08-02T00:49:49+00:00",
+        "metrics": {
+          "applied": false,
+          "by_table": {
+            "kg_agriculture": {
+              "inserted": 45,
+              "pending_cells": 25,
+              "pending_rate_pct": 1.85,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 45,
+              "updated": 0
+            },
+            "kg_businesses": {
+              "inserted": 85,
+              "pending_cells": 79,
+              "pending_rate_pct": 2.66,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 85,
+              "updated": 0
+            },
+            "kg_districts": {
+              "inserted": 61,
+              "pending_cells": 302,
+              "pending_rate_pct": 16.5,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 61,
+              "updated": 0
+            },
+            "kg_entities": {
+              "inserted": 647,
+              "pending_cells": 29,
+              "pending_rate_pct": 0.22,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 647,
+              "updated": 0
+            },
+            "kg_industries": {
+              "inserted": 24,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 24,
+              "updated": 0
+            },
+            "kg_relationships": {
+              "inserted": 865,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 865,
+              "updated": 0
+            },
+            "kg_schemes": {
+              "inserted": 40,
+              "pending_cells": 53,
+              "pending_rate_pct": 3.9,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 40,
+              "updated": 0
+            },
+            "kg_skills": {
+              "inserted": 45,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 45,
+              "updated": 0
+            }
+          },
+          "duration_seconds": 0.081,
+          "mode": "dry-run",
+          "packages_processed": [
+            "Package001_Geography",
+            "Package004_Industries",
+            "Package005_Agriculture",
+            "Package006_Skills_and_Training",
+            "Package007_Government_Schemes",
+            "Package008_MSME",
+            "knowledge_graph"
+          ],
+          "pending_cells": 488,
+          "pending_rate_pct": 1.26,
+          "rows_from_source": 1812,
+          "rows_inserted": 1812,
+          "rows_per_second": 22370.4,
+          "rows_skipped": 0,
+          "rows_soft_deleted": 0,
+          "rows_synchronised": 1812,
+          "rows_updated": 0,
+          "run_id": "20260802T004949Z-dc4374",
+          "tables_processed": 8,
+          "validation_by_check": {
+            "V6-OWNERSHIP:WARNING": 4
+          },
+          "validation_errors": 0,
+          "validation_warnings": 4,
+          "version": "20260802T004949Z-dc4374"
+        },
+        "mode": "dry-run",
+        "outcome": "DRY_RUN",
+        "run_id": "20260802T004949Z-dc4374",
+        "started_at": "2026-08-02T00:49:49+00:00",
+        "tables": {
+          "kg_agriculture": {
+            "delete": 0,
+            "insert": 45,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_businesses": {
+            "delete": 0,
+            "insert": 85,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_districts": {
+            "delete": 0,
+            "insert": 61,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_entities": {
+            "delete": 0,
+            "insert": 647,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_industries": {
+            "delete": 0,
+            "insert": 24,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_relationships": {
+            "delete": 0,
+            "insert": 865,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_schemes": {
+            "delete": 0,
+            "insert": 40,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_skills": {
+            "delete": 0,
+            "insert": 45,
+            "skip": 0,
+            "update": 0
+          }
+        }
+      },
+      {
+        "duration_seconds": 0.07,
+        "error_count": 0,
+        "errors": [],
+        "finished_at": "2026-08-02T00:50:18+00:00",
+        "metrics": {
+          "applied": false,
+          "by_table": {
+            "kg_agriculture": {
+              "inserted": 45,
+              "pending_cells": 25,
+              "pending_rate_pct": 1.85,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 45,
+              "updated": 0
+            },
+            "kg_businesses": {
+              "inserted": 85,
+              "pending_cells": 79,
+              "pending_rate_pct": 2.66,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 85,
+              "updated": 0
+            },
+            "kg_districts": {
+              "inserted": 61,
+              "pending_cells": 302,
+              "pending_rate_pct": 16.5,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 61,
+              "updated": 0
+            },
+            "kg_entities": {
+              "inserted": 647,
+              "pending_cells": 29,
+              "pending_rate_pct": 0.22,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 647,
+              "updated": 0
+            },
+            "kg_industries": {
+              "inserted": 24,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 24,
+              "updated": 0
+            },
+            "kg_relationships": {
+              "inserted": 865,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 865,
+              "updated": 0
+            },
+            "kg_schemes": {
+              "inserted": 40,
+              "pending_cells": 53,
+              "pending_rate_pct": 3.9,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 40,
+              "updated": 0
+            },
+            "kg_skills": {
+              "inserted": 45,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 45,
+              "updated": 0
+            }
+          },
+          "duration_seconds": 0.068,
+          "mode": "dry-run",
+          "packages_processed": [
+            "Package001_Geography",
+            "Package004_Industries",
+            "Package005_Agriculture",
+            "Package006_Skills_and_Training",
+            "Package007_Government_Schemes",
+            "Package008_MSME",
+            "knowledge_graph"
+          ],
+          "pending_cells": 488,
+          "pending_rate_pct": 1.26,
+          "rows_from_source": 1812,
+          "rows_inserted": 1812,
+          "rows_per_second": 26647.1,
+          "rows_skipped": 0,
+          "rows_soft_deleted": 0,
+          "rows_synchronised": 1812,
+          "rows_updated": 0,
+          "run_id": "20260802T005018Z-9f1133",
+          "tables_processed": 8,
+          "validation_by_check": {
+            "V6-OWNERSHIP:WARNING": 4
+          },
+          "validation_errors": 0,
+          "validation_warnings": 4,
+          "version": "20260802T005018Z-9f1133"
+        },
+        "mode": "dry-run",
+        "outcome": "DRY_RUN",
+        "run_id": "20260802T005018Z-9f1133",
+        "started_at": "2026-08-02T00:50:18+00:00",
+        "tables": {
+          "kg_agriculture": {
+            "delete": 0,
+            "insert": 45,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_businesses": {
+            "delete": 0,
+            "insert": 85,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_districts": {
+            "delete": 0,
+            "insert": 61,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_entities": {
+            "delete": 0,
+            "insert": 647,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_industries": {
+            "delete": 0,
+            "insert": 24,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_relationships": {
+            "delete": 0,
+            "insert": 865,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_schemes": {
+            "delete": 0,
+            "insert": 40,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_skills": {
+            "delete": 0,
+            "insert": 45,
+            "skip": 0,
+            "update": 0
+          }
+        }
+      },
+      {
+        "duration_seconds": 0.553,
+        "error_count": 0,
+        "errors": [],
+        "finished_at": "2026-08-02T00:50:19+00:00",
+        "metrics": {
+          "applied": true,
+          "by_table": {
+            "kg_agriculture": {
+              "inserted": 45,
+              "pending_cells": 25,
+              "pending_rate_pct": 1.85,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 45,
+              "updated": 0
+            },
+            "kg_businesses": {
+              "inserted": 85,
+              "pending_cells": 79,
+              "pending_rate_pct": 2.66,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 85,
+              "updated": 0
+            },
+            "kg_districts": {
+              "inserted": 61,
+              "pending_cells": 302,
+              "pending_rate_pct": 16.5,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 61,
+              "updated": 0
+            },
+            "kg_entities": {
+              "inserted": 647,
+              "pending_cells": 29,
+              "pending_rate_pct": 0.22,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 647,
+              "updated": 0
+            },
+            "kg_industries": {
+              "inserted": 24,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 24,
+              "updated": 0
+            },
+            "kg_relationships": {
+              "inserted": 865,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 865,
+              "updated": 0
+            },
+            "kg_schemes": {
+              "inserted": 40,
+              "pending_cells": 53,
+              "pending_rate_pct": 3.9,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 40,
+              "updated": 0
+            },
+            "kg_skills": {
+              "inserted": 45,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 45,
+              "updated": 0
+            }
+          },
+          "coverage": {
+            "kg_agriculture": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 45,
+              "in_target": 45
+            },
+            "kg_businesses": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 85,
+              "in_target": 85
+            },
+            "kg_districts": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 61,
+              "in_target": 61
+            },
+            "kg_entities": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 647,
+              "in_target": 647
+            },
+            "kg_industries": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 24,
+              "in_target": 24
+            },
+            "kg_relationships": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 865,
+              "in_target": 865
+            },
+            "kg_schemes": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 40,
+              "in_target": 40
+            },
+            "kg_skills": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 45,
+              "in_target": 45
+            }
+          },
+          "duration_seconds": 0.547,
+          "mode": "incremental",
+          "packages_processed": [
+            "Package001_Geography",
+            "Package004_Industries",
+            "Package005_Agriculture",
+            "Package006_Skills_and_Training",
+            "Package007_Government_Schemes",
+            "Package008_MSME",
+            "knowledge_graph"
+          ],
+          "pending_cells": 488,
+          "pending_rate_pct": 1.26,
+          "rows_from_source": 1812,
+          "rows_inserted": 1812,
+          "rows_per_second": 3312.6,
+          "rows_skipped": 0,
+          "rows_soft_deleted": 0,
+          "rows_synchronised": 1812,
+          "rows_updated": 0,
+          "run_id": "20260802T005018Z-a996de",
+          "tables_processed": 8,
+          "validation_by_check": {
+            "V6-OWNERSHIP:WARNING": 4
+          },
+          "validation_errors": 0,
+          "validation_warnings": 4,
+          "version": "20260802T005018Z-a996de"
+        },
+        "mode": "incremental",
+        "outcome": "SUCCESS",
+        "run_id": "20260802T005018Z-a996de",
+        "started_at": "2026-08-02T00:50:18+00:00",
+        "tables": {
+          "kg_agriculture": {
+            "delete": 0,
+            "insert": 45,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_businesses": {
+            "delete": 0,
+            "insert": 85,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_districts": {
+            "delete": 0,
+            "insert": 61,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_entities": {
+            "delete": 0,
+            "insert": 647,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_industries": {
+            "delete": 0,
+            "insert": 24,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_relationships": {
+            "delete": 0,
+            "insert": 865,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_schemes": {
+            "delete": 0,
+            "insert": 40,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_skills": {
+            "delete": 0,
+            "insert": 45,
+            "skip": 0,
+            "update": 0
+          }
+        }
+      },
+      {
+        "duration_seconds": 0.287,
+        "error_count": 0,
+        "errors": [],
+        "finished_at": "2026-08-02T00:50:19+00:00",
+        "metrics": {
+          "applied": true,
+          "by_table": {
+            "kg_agriculture": {
+              "inserted": 0,
+              "pending_cells": 25,
+              "pending_rate_pct": 1.85,
+              "skipped": 45,
+              "soft_deleted": 0,
+              "source_rows": 45,
+              "updated": 0
+            },
+            "kg_businesses": {
+              "inserted": 0,
+              "pending_cells": 79,
+              "pending_rate_pct": 2.66,
+              "skipped": 85,
+              "soft_deleted": 0,
+              "source_rows": 85,
+              "updated": 0
+            },
+            "kg_districts": {
+              "inserted": 0,
+              "pending_cells": 302,
+              "pending_rate_pct": 16.5,
+              "skipped": 61,
+              "soft_deleted": 0,
+              "source_rows": 61,
+              "updated": 0
+            },
+            "kg_entities": {
+              "inserted": 0,
+              "pending_cells": 29,
+              "pending_rate_pct": 0.22,
+              "skipped": 647,
+              "soft_deleted": 0,
+              "source_rows": 647,
+              "updated": 0
+            },
+            "kg_industries": {
+              "inserted": 0,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 24,
+              "soft_deleted": 0,
+              "source_rows": 24,
+              "updated": 0
+            },
+            "kg_relationships": {
+              "inserted": 0,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 865,
+              "soft_deleted": 0,
+              "source_rows": 865,
+              "updated": 0
+            },
+            "kg_schemes": {
+              "inserted": 0,
+              "pending_cells": 53,
+              "pending_rate_pct": 3.9,
+              "skipped": 40,
+              "soft_deleted": 0,
+              "source_rows": 40,
+              "updated": 0
+            },
+            "kg_skills": {
+              "inserted": 0,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 45,
+              "soft_deleted": 0,
+              "source_rows": 45,
+              "updated": 0
+            }
+          },
+          "coverage": {
+            "kg_agriculture": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 45,
+              "in_target": 45
+            },
+            "kg_businesses": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 85,
+              "in_target": 85
+            },
+            "kg_districts": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 61,
+              "in_target": 61
+            },
+            "kg_entities": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 647,
+              "in_target": 647
+            },
+            "kg_industries": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 24,
+              "in_target": 24
+            },
+            "kg_relationships": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 865,
+              "in_target": 865
+            },
+            "kg_schemes": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 40,
+              "in_target": 40
+            },
+            "kg_skills": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 45,
+              "in_target": 45
+            }
+          },
+          "duration_seconds": 0.121,
+          "mode": "incremental",
+          "packages_processed": [
+            "Package001_Geography",
+            "Package004_Industries",
+            "Package005_Agriculture",
+            "Package006_Skills_and_Training",
+            "Package007_Government_Schemes",
+            "Package008_MSME",
+            "knowledge_graph"
+          ],
+          "pending_cells": 488,
+          "pending_rate_pct": 1.26,
+          "rows_from_source": 1812,
+          "rows_inserted": 0,
+          "rows_per_second": 14975.2,
+          "rows_skipped": 1812,
+          "rows_soft_deleted": 0,
+          "rows_synchronised": 0,
+          "rows_updated": 0,
+          "run_id": "20260802T005019Z-fb4401",
+          "tables_processed": 8,
+          "validation_by_check": {
+            "V6-OWNERSHIP:WARNING": 4
+          },
+          "validation_errors": 0,
+          "validation_warnings": 4,
+          "version": "20260802T005019Z-fb4401"
+        },
+        "mode": "incremental",
+        "outcome": "SUCCESS",
+        "run_id": "20260802T005019Z-fb4401",
+        "started_at": "2026-08-02T00:50:19+00:00",
+        "tables": {
+          "kg_agriculture": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 45,
+            "update": 0
+          },
+          "kg_businesses": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 85,
+            "update": 0
+          },
+          "kg_districts": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 61,
+            "update": 0
+          },
+          "kg_entities": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 647,
+            "update": 0
+          },
+          "kg_industries": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 24,
+            "update": 0
+          },
+          "kg_relationships": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 865,
+            "update": 0
+          },
+          "kg_schemes": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 40,
+            "update": 0
+          },
+          "kg_skills": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 45,
+            "update": 0
+          }
+        }
+      },
+      {
+        "duration_seconds": 0.074,
+        "error_count": 0,
+        "errors": [],
+        "finished_at": "2026-08-02T00:50:51+00:00",
+        "metrics": {
+          "applied": false,
+          "by_table": {
+            "kg_agriculture": {
+              "inserted": 45,
+              "pending_cells": 25,
+              "pending_rate_pct": 1.85,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 45,
+              "updated": 0
+            },
+            "kg_businesses": {
+              "inserted": 85,
+              "pending_cells": 79,
+              "pending_rate_pct": 2.66,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 85,
+              "updated": 0
+            },
+            "kg_districts": {
+              "inserted": 61,
+              "pending_cells": 302,
+              "pending_rate_pct": 16.5,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 61,
+              "updated": 0
+            },
+            "kg_entities": {
+              "inserted": 647,
+              "pending_cells": 29,
+              "pending_rate_pct": 0.22,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 647,
+              "updated": 0
+            },
+            "kg_industries": {
+              "inserted": 24,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 24,
+              "updated": 0
+            },
+            "kg_relationships": {
+              "inserted": 865,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 865,
+              "updated": 0
+            },
+            "kg_schemes": {
+              "inserted": 40,
+              "pending_cells": 53,
+              "pending_rate_pct": 3.9,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 40,
+              "updated": 0
+            },
+            "kg_skills": {
+              "inserted": 45,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 45,
+              "updated": 0
+            }
+          },
+          "duration_seconds": 0.072,
+          "mode": "dry-run",
+          "packages_processed": [
+            "Package001_Geography",
+            "Package004_Industries",
+            "Package005_Agriculture",
+            "Package006_Skills_and_Training",
+            "Package007_Government_Schemes",
+            "Package008_MSME",
+            "knowledge_graph"
+          ],
+          "pending_cells": 488,
+          "pending_rate_pct": 1.26,
+          "rows_from_source": 1812,
+          "rows_inserted": 1812,
+          "rows_per_second": 25166.7,
+          "rows_skipped": 0,
+          "rows_soft_deleted": 0,
+          "rows_synchronised": 1812,
+          "rows_updated": 0,
+          "run_id": "20260802T005051Z-1e6de1",
+          "tables_processed": 8,
+          "validation_by_check": {
+            "V6-OWNERSHIP:WARNING": 4
+          },
+          "validation_errors": 0,
+          "validation_warnings": 4,
+          "version": "20260802T005051Z-1e6de1"
+        },
+        "mode": "dry-run",
+        "outcome": "DRY_RUN",
+        "run_id": "20260802T005051Z-1e6de1",
+        "started_at": "2026-08-02T00:50:51+00:00",
+        "tables": {
+          "kg_agriculture": {
+            "delete": 0,
+            "insert": 45,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_businesses": {
+            "delete": 0,
+            "insert": 85,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_districts": {
+            "delete": 0,
+            "insert": 61,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_entities": {
+            "delete": 0,
+            "insert": 647,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_industries": {
+            "delete": 0,
+            "insert": 24,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_relationships": {
+            "delete": 0,
+            "insert": 865,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_schemes": {
+            "delete": 0,
+            "insert": 40,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_skills": {
+            "delete": 0,
+            "insert": 45,
+            "skip": 0,
+            "update": 0
+          }
+        }
+      },
+      {
+        "duration_seconds": 0.332,
+        "error_count": 0,
+        "errors": [],
+        "finished_at": "2026-08-02T00:50:52+00:00",
+        "metrics": {
+          "applied": true,
+          "by_table": {
+            "kg_agriculture": {
+              "inserted": 45,
+              "pending_cells": 25,
+              "pending_rate_pct": 1.85,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 45,
+              "updated": 0
+            },
+            "kg_businesses": {
+              "inserted": 85,
+              "pending_cells": 79,
+              "pending_rate_pct": 2.66,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 85,
+              "updated": 0
+            },
+            "kg_districts": {
+              "inserted": 61,
+              "pending_cells": 302,
+              "pending_rate_pct": 16.5,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 61,
+              "updated": 0
+            },
+            "kg_entities": {
+              "inserted": 647,
+              "pending_cells": 29,
+              "pending_rate_pct": 0.22,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 647,
+              "updated": 0
+            },
+            "kg_industries": {
+              "inserted": 24,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 24,
+              "updated": 0
+            },
+            "kg_relationships": {
+              "inserted": 865,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 865,
+              "updated": 0
+            },
+            "kg_schemes": {
+              "inserted": 40,
+              "pending_cells": 53,
+              "pending_rate_pct": 3.9,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 40,
+              "updated": 0
+            },
+            "kg_skills": {
+              "inserted": 45,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 45,
+              "updated": 0
+            }
+          },
+          "coverage": {
+            "kg_agriculture": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 45,
+              "in_target": 45
+            },
+            "kg_businesses": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 85,
+              "in_target": 85
+            },
+            "kg_districts": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 61,
+              "in_target": 61
+            },
+            "kg_entities": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 647,
+              "in_target": 647
+            },
+            "kg_industries": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 24,
+              "in_target": 24
+            },
+            "kg_relationships": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 865,
+              "in_target": 865
+            },
+            "kg_schemes": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 40,
+              "in_target": 40
+            },
+            "kg_skills": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 45,
+              "in_target": 45
+            }
+          },
+          "duration_seconds": 0.326,
+          "mode": "incremental",
+          "packages_processed": [
+            "Package001_Geography",
+            "Package004_Industries",
+            "Package005_Agriculture",
+            "Package006_Skills_and_Training",
+            "Package007_Government_Schemes",
+            "Package008_MSME",
+            "knowledge_graph"
+          ],
+          "pending_cells": 488,
+          "pending_rate_pct": 1.26,
+          "rows_from_source": 1812,
+          "rows_inserted": 1812,
+          "rows_per_second": 5558.3,
+          "rows_skipped": 0,
+          "rows_soft_deleted": 0,
+          "rows_synchronised": 1812,
+          "rows_updated": 0,
+          "run_id": "20260802T005051Z-cda915",
+          "tables_processed": 8,
+          "validation_by_check": {
+            "V6-OWNERSHIP:WARNING": 4
+          },
+          "validation_errors": 0,
+          "validation_warnings": 4,
+          "version": "20260802T005051Z-cda915"
+        },
+        "mode": "incremental",
+        "outcome": "SUCCESS",
+        "run_id": "20260802T005051Z-cda915",
+        "started_at": "2026-08-02T00:50:51+00:00",
+        "tables": {
+          "kg_agriculture": {
+            "delete": 0,
+            "insert": 45,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_businesses": {
+            "delete": 0,
+            "insert": 85,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_districts": {
+            "delete": 0,
+            "insert": 61,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_entities": {
+            "delete": 0,
+            "insert": 647,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_industries": {
+            "delete": 0,
+            "insert": 24,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_relationships": {
+            "delete": 0,
+            "insert": 865,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_schemes": {
+            "delete": 0,
+            "insert": 40,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_skills": {
+            "delete": 0,
+            "insert": 45,
+            "skip": 0,
+            "update": 0
+          }
+        }
+      },
+      {
+        "duration_seconds": 0.196,
+        "error_count": 0,
+        "errors": [],
+        "finished_at": "2026-08-02T00:50:52+00:00",
+        "metrics": {
+          "applied": true,
+          "by_table": {
+            "kg_agriculture": {
+              "inserted": 0,
+              "pending_cells": 25,
+              "pending_rate_pct": 1.85,
+              "skipped": 45,
+              "soft_deleted": 0,
+              "source_rows": 45,
+              "updated": 0
+            },
+            "kg_businesses": {
+              "inserted": 0,
+              "pending_cells": 79,
+              "pending_rate_pct": 2.66,
+              "skipped": 85,
+              "soft_deleted": 0,
+              "source_rows": 85,
+              "updated": 0
+            },
+            "kg_districts": {
+              "inserted": 0,
+              "pending_cells": 302,
+              "pending_rate_pct": 16.5,
+              "skipped": 61,
+              "soft_deleted": 0,
+              "source_rows": 61,
+              "updated": 0
+            },
+            "kg_entities": {
+              "inserted": 0,
+              "pending_cells": 29,
+              "pending_rate_pct": 0.22,
+              "skipped": 647,
+              "soft_deleted": 0,
+              "source_rows": 647,
+              "updated": 0
+            },
+            "kg_industries": {
+              "inserted": 0,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 24,
+              "soft_deleted": 0,
+              "source_rows": 24,
+              "updated": 0
+            },
+            "kg_relationships": {
+              "inserted": 0,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 865,
+              "soft_deleted": 0,
+              "source_rows": 865,
+              "updated": 0
+            },
+            "kg_schemes": {
+              "inserted": 0,
+              "pending_cells": 53,
+              "pending_rate_pct": 3.9,
+              "skipped": 40,
+              "soft_deleted": 0,
+              "source_rows": 40,
+              "updated": 0
+            },
+            "kg_skills": {
+              "inserted": 0,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 45,
+              "soft_deleted": 0,
+              "source_rows": 45,
+              "updated": 0
+            }
+          },
+          "coverage": {
+            "kg_agriculture": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 45,
+              "in_target": 45
+            },
+            "kg_businesses": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 85,
+              "in_target": 85
+            },
+            "kg_districts": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 61,
+              "in_target": 61
+            },
+            "kg_entities": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 647,
+              "in_target": 647
+            },
+            "kg_industries": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 24,
+              "in_target": 24
+            },
+            "kg_relationships": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 865,
+              "in_target": 865
+            },
+            "kg_schemes": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 40,
+              "in_target": 40
+            },
+            "kg_skills": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 45,
+              "in_target": 45
+            }
+          },
+          "duration_seconds": 0.076,
+          "mode": "incremental",
+          "packages_processed": [
+            "Package001_Geography",
+            "Package004_Industries",
+            "Package005_Agriculture",
+            "Package006_Skills_and_Training",
+            "Package007_Government_Schemes",
+            "Package008_MSME",
+            "knowledge_graph"
+          ],
+          "pending_cells": 488,
+          "pending_rate_pct": 1.26,
+          "rows_from_source": 1812,
+          "rows_inserted": 0,
+          "rows_per_second": 23842.1,
+          "rows_skipped": 1812,
+          "rows_soft_deleted": 0,
+          "rows_synchronised": 0,
+          "rows_updated": 0,
+          "run_id": "20260802T005052Z-13b9b8",
+          "tables_processed": 8,
+          "validation_by_check": {
+            "V6-OWNERSHIP:WARNING": 4
+          },
+          "validation_errors": 0,
+          "validation_warnings": 4,
+          "version": "20260802T005052Z-13b9b8"
+        },
+        "mode": "incremental",
+        "outcome": "SUCCESS",
+        "run_id": "20260802T005052Z-13b9b8",
+        "started_at": "2026-08-02T00:50:52+00:00",
+        "tables": {
+          "kg_agriculture": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 45,
+            "update": 0
+          },
+          "kg_businesses": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 85,
+            "update": 0
+          },
+          "kg_districts": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 61,
+            "update": 0
+          },
+          "kg_entities": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 647,
+            "update": 0
+          },
+          "kg_industries": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 24,
+            "update": 0
+          },
+          "kg_relationships": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 865,
+            "update": 0
+          },
+          "kg_schemes": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 40,
+            "update": 0
+          },
+          "kg_skills": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 45,
+            "update": 0
+          }
+        }
+      },
+      {
+        "duration_seconds": 0.074,
+        "error_count": 0,
+        "errors": [],
+        "finished_at": "2026-08-02T00:51:39+00:00",
+        "metrics": {
+          "applied": false,
+          "by_table": {
+            "kg_agriculture": {
+              "inserted": 45,
+              "pending_cells": 25,
+              "pending_rate_pct": 1.85,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 45,
+              "updated": 0
+            },
+            "kg_businesses": {
+              "inserted": 85,
+              "pending_cells": 79,
+              "pending_rate_pct": 2.66,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 85,
+              "updated": 0
+            },
+            "kg_districts": {
+              "inserted": 61,
+              "pending_cells": 302,
+              "pending_rate_pct": 16.5,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 61,
+              "updated": 0
+            },
+            "kg_entities": {
+              "inserted": 647,
+              "pending_cells": 29,
+              "pending_rate_pct": 0.22,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 647,
+              "updated": 0
+            },
+            "kg_industries": {
+              "inserted": 24,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 24,
+              "updated": 0
+            },
+            "kg_relationships": {
+              "inserted": 865,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 865,
+              "updated": 0
+            },
+            "kg_schemes": {
+              "inserted": 40,
+              "pending_cells": 53,
+              "pending_rate_pct": 3.9,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 40,
+              "updated": 0
+            },
+            "kg_skills": {
+              "inserted": 45,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 45,
+              "updated": 0
+            }
+          },
+          "duration_seconds": 0.072,
+          "mode": "dry-run",
+          "packages_processed": [
+            "Package001_Geography",
+            "Package004_Industries",
+            "Package005_Agriculture",
+            "Package006_Skills_and_Training",
+            "Package007_Government_Schemes",
+            "Package008_MSME",
+            "knowledge_graph"
+          ],
+          "pending_cells": 488,
+          "pending_rate_pct": 1.26,
+          "rows_from_source": 1812,
+          "rows_inserted": 1812,
+          "rows_per_second": 25166.7,
+          "rows_skipped": 0,
+          "rows_soft_deleted": 0,
+          "rows_synchronised": 1812,
+          "rows_updated": 0,
+          "run_id": "20260802T005139Z-b8270c",
+          "tables_processed": 8,
+          "validation_by_check": {
+            "V6-OWNERSHIP:WARNING": 4
+          },
+          "validation_errors": 0,
+          "validation_warnings": 4,
+          "version": "20260802T005139Z-b8270c"
+        },
+        "mode": "dry-run",
+        "outcome": "DRY_RUN",
+        "run_id": "20260802T005139Z-b8270c",
+        "started_at": "2026-08-02T00:51:39+00:00",
+        "tables": {
+          "kg_agriculture": {
+            "delete": 0,
+            "insert": 45,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_businesses": {
+            "delete": 0,
+            "insert": 85,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_districts": {
+            "delete": 0,
+            "insert": 61,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_entities": {
+            "delete": 0,
+            "insert": 647,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_industries": {
+            "delete": 0,
+            "insert": 24,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_relationships": {
+            "delete": 0,
+            "insert": 865,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_schemes": {
+            "delete": 0,
+            "insert": 40,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_skills": {
+            "delete": 0,
+            "insert": 45,
+            "skip": 0,
+            "update": 0
+          }
+        }
+      },
+      {
+        "duration_seconds": 0.331,
+        "error_count": 0,
+        "errors": [],
+        "finished_at": "2026-08-02T00:51:39+00:00",
+        "metrics": {
+          "applied": true,
+          "by_table": {
+            "kg_agriculture": {
+              "inserted": 45,
+              "pending_cells": 25,
+              "pending_rate_pct": 1.85,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 45,
+              "updated": 0
+            },
+            "kg_businesses": {
+              "inserted": 85,
+              "pending_cells": 79,
+              "pending_rate_pct": 2.66,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 85,
+              "updated": 0
+            },
+            "kg_districts": {
+              "inserted": 61,
+              "pending_cells": 302,
+              "pending_rate_pct": 16.5,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 61,
+              "updated": 0
+            },
+            "kg_entities": {
+              "inserted": 647,
+              "pending_cells": 29,
+              "pending_rate_pct": 0.22,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 647,
+              "updated": 0
+            },
+            "kg_industries": {
+              "inserted": 24,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 24,
+              "updated": 0
+            },
+            "kg_relationships": {
+              "inserted": 865,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 865,
+              "updated": 0
+            },
+            "kg_schemes": {
+              "inserted": 40,
+              "pending_cells": 53,
+              "pending_rate_pct": 3.9,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 40,
+              "updated": 0
+            },
+            "kg_skills": {
+              "inserted": 45,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 45,
+              "updated": 0
+            }
+          },
+          "coverage": {
+            "kg_agriculture": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 45,
+              "in_target": 45
+            },
+            "kg_businesses": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 85,
+              "in_target": 85
+            },
+            "kg_districts": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 61,
+              "in_target": 61
+            },
+            "kg_entities": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 647,
+              "in_target": 647
+            },
+            "kg_industries": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 24,
+              "in_target": 24
+            },
+            "kg_relationships": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 865,
+              "in_target": 865
+            },
+            "kg_schemes": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 40,
+              "in_target": 40
+            },
+            "kg_skills": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 45,
+              "in_target": 45
+            }
+          },
+          "duration_seconds": 0.323,
+          "mode": "incremental",
+          "packages_processed": [
+            "Package001_Geography",
+            "Package004_Industries",
+            "Package005_Agriculture",
+            "Package006_Skills_and_Training",
+            "Package007_Government_Schemes",
+            "Package008_MSME",
+            "knowledge_graph"
+          ],
+          "pending_cells": 488,
+          "pending_rate_pct": 1.26,
+          "rows_from_source": 1812,
+          "rows_inserted": 1812,
+          "rows_per_second": 5609.9,
+          "rows_skipped": 0,
+          "rows_soft_deleted": 0,
+          "rows_synchronised": 1812,
+          "rows_updated": 0,
+          "run_id": "20260802T005139Z-148b39",
+          "tables_processed": 8,
+          "validation_by_check": {
+            "V6-OWNERSHIP:WARNING": 4
+          },
+          "validation_errors": 0,
+          "validation_warnings": 4,
+          "version": "20260802T005139Z-148b39"
+        },
+        "mode": "incremental",
+        "outcome": "SUCCESS",
+        "run_id": "20260802T005139Z-148b39",
+        "started_at": "2026-08-02T00:51:39+00:00",
+        "tables": {
+          "kg_agriculture": {
+            "delete": 0,
+            "insert": 45,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_businesses": {
+            "delete": 0,
+            "insert": 85,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_districts": {
+            "delete": 0,
+            "insert": 61,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_entities": {
+            "delete": 0,
+            "insert": 647,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_industries": {
+            "delete": 0,
+            "insert": 24,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_relationships": {
+            "delete": 0,
+            "insert": 865,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_schemes": {
+            "delete": 0,
+            "insert": 40,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_skills": {
+            "delete": 0,
+            "insert": 45,
+            "skip": 0,
+            "update": 0
+          }
+        }
+      },
+      {
+        "duration_seconds": 0.184,
+        "error_count": 0,
+        "errors": [],
+        "finished_at": "2026-08-02T00:51:39+00:00",
+        "metrics": {
+          "applied": true,
+          "by_table": {
+            "kg_agriculture": {
+              "inserted": 0,
+              "pending_cells": 25,
+              "pending_rate_pct": 1.85,
+              "skipped": 45,
+              "soft_deleted": 0,
+              "source_rows": 45,
+              "updated": 0
+            },
+            "kg_businesses": {
+              "inserted": 0,
+              "pending_cells": 79,
+              "pending_rate_pct": 2.66,
+              "skipped": 85,
+              "soft_deleted": 0,
+              "source_rows": 85,
+              "updated": 0
+            },
+            "kg_districts": {
+              "inserted": 0,
+              "pending_cells": 302,
+              "pending_rate_pct": 16.5,
+              "skipped": 61,
+              "soft_deleted": 0,
+              "source_rows": 61,
+              "updated": 0
+            },
+            "kg_entities": {
+              "inserted": 0,
+              "pending_cells": 29,
+              "pending_rate_pct": 0.22,
+              "skipped": 647,
+              "soft_deleted": 0,
+              "source_rows": 647,
+              "updated": 0
+            },
+            "kg_industries": {
+              "inserted": 0,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 24,
+              "soft_deleted": 0,
+              "source_rows": 24,
+              "updated": 0
+            },
+            "kg_relationships": {
+              "inserted": 0,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 865,
+              "soft_deleted": 0,
+              "source_rows": 865,
+              "updated": 0
+            },
+            "kg_schemes": {
+              "inserted": 0,
+              "pending_cells": 53,
+              "pending_rate_pct": 3.9,
+              "skipped": 40,
+              "soft_deleted": 0,
+              "source_rows": 40,
+              "updated": 0
+            },
+            "kg_skills": {
+              "inserted": 0,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 45,
+              "soft_deleted": 0,
+              "source_rows": 45,
+              "updated": 0
+            }
+          },
+          "coverage": {
+            "kg_agriculture": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 45,
+              "in_target": 45
+            },
+            "kg_businesses": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 85,
+              "in_target": 85
+            },
+            "kg_districts": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 61,
+              "in_target": 61
+            },
+            "kg_entities": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 647,
+              "in_target": 647
+            },
+            "kg_industries": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 24,
+              "in_target": 24
+            },
+            "kg_relationships": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 865,
+              "in_target": 865
+            },
+            "kg_schemes": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 40,
+              "in_target": 40
+            },
+            "kg_skills": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 45,
+              "in_target": 45
+            }
+          },
+          "duration_seconds": 0.073,
+          "mode": "incremental",
+          "packages_processed": [
+            "Package001_Geography",
+            "Package004_Industries",
+            "Package005_Agriculture",
+            "Package006_Skills_and_Training",
+            "Package007_Government_Schemes",
+            "Package008_MSME",
+            "knowledge_graph"
+          ],
+          "pending_cells": 488,
+          "pending_rate_pct": 1.26,
+          "rows_from_source": 1812,
+          "rows_inserted": 0,
+          "rows_per_second": 24821.9,
+          "rows_skipped": 1812,
+          "rows_soft_deleted": 0,
+          "rows_synchronised": 0,
+          "rows_updated": 0,
+          "run_id": "20260802T005139Z-119777",
+          "tables_processed": 8,
+          "validation_by_check": {
+            "V6-OWNERSHIP:WARNING": 4
+          },
+          "validation_errors": 0,
+          "validation_warnings": 4,
+          "version": "20260802T005139Z-119777"
+        },
+        "mode": "incremental",
+        "outcome": "SUCCESS",
+        "run_id": "20260802T005139Z-119777",
+        "started_at": "2026-08-02T00:51:39+00:00",
+        "tables": {
+          "kg_agriculture": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 45,
+            "update": 0
+          },
+          "kg_businesses": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 85,
+            "update": 0
+          },
+          "kg_districts": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 61,
+            "update": 0
+          },
+          "kg_entities": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 647,
+            "update": 0
+          },
+          "kg_industries": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 24,
+            "update": 0
+          },
+          "kg_relationships": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 865,
+            "update": 0
+          },
+          "kg_schemes": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 40,
+            "update": 0
+          },
+          "kg_skills": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 45,
+            "update": 0
+          }
+        }
+      },
+      {
+        "duration_seconds": 0.107,
+        "error_count": 0,
+        "errors": [],
+        "finished_at": "2026-08-02T00:58:05+00:00",
+        "metrics": {
+          "applied": false,
+          "by_table": {
+            "kg_agriculture": {
+              "inserted": 0,
+              "pending_cells": 25,
+              "pending_rate_pct": 1.85,
+              "skipped": 45,
+              "soft_deleted": 0,
+              "source_rows": 45,
+              "updated": 0
+            },
+            "kg_businesses": {
+              "inserted": 0,
+              "pending_cells": 79,
+              "pending_rate_pct": 2.66,
+              "skipped": 85,
+              "soft_deleted": 0,
+              "source_rows": 85,
+              "updated": 0
+            },
+            "kg_districts": {
+              "inserted": 0,
+              "pending_cells": 302,
+              "pending_rate_pct": 16.5,
+              "skipped": 61,
+              "soft_deleted": 0,
+              "source_rows": 61,
+              "updated": 0
+            },
+            "kg_entities": {
+              "inserted": 0,
+              "pending_cells": 29,
+              "pending_rate_pct": 0.22,
+              "skipped": 647,
+              "soft_deleted": 0,
+              "source_rows": 647,
+              "updated": 0
+            },
+            "kg_industries": {
+              "inserted": 0,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 24,
+              "soft_deleted": 0,
+              "source_rows": 24,
+              "updated": 0
+            },
+            "kg_relationships": {
+              "inserted": 0,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 865,
+              "soft_deleted": 0,
+              "source_rows": 865,
+              "updated": 0
+            },
+            "kg_schemes": {
+              "inserted": 0,
+              "pending_cells": 53,
+              "pending_rate_pct": 3.9,
+              "skipped": 40,
+              "soft_deleted": 0,
+              "source_rows": 40,
+              "updated": 0
+            },
+            "kg_skills": {
+              "inserted": 0,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 45,
+              "soft_deleted": 0,
+              "source_rows": 45,
+              "updated": 0
+            }
+          },
+          "duration_seconds": 0.102,
+          "mode": "dry-run",
+          "packages_processed": [
+            "Package001_Geography",
+            "Package004_Industries",
+            "Package005_Agriculture",
+            "Package006_Skills_and_Training",
+            "Package007_Government_Schemes",
+            "Package008_MSME",
+            "knowledge_graph"
+          ],
+          "pending_cells": 488,
+          "pending_rate_pct": 1.26,
+          "rows_from_source": 1812,
+          "rows_inserted": 0,
+          "rows_per_second": 17764.7,
+          "rows_skipped": 1812,
+          "rows_soft_deleted": 0,
+          "rows_synchronised": 0,
+          "rows_updated": 0,
+          "run_id": "20260802T005805Z-63f4a1",
+          "tables_processed": 8,
+          "validation_by_check": {
+            "V6-OWNERSHIP:WARNING": 4
+          },
+          "validation_errors": 0,
+          "validation_warnings": 4,
+          "version": "20260802T005805Z-63f4a1"
+        },
+        "mode": "dry-run",
+        "outcome": "DRY_RUN",
+        "run_id": "20260802T005805Z-63f4a1",
+        "started_at": "2026-08-02T00:58:05+00:00",
+        "tables": {
+          "kg_agriculture": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 45,
+            "update": 0
+          },
+          "kg_businesses": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 85,
+            "update": 0
+          },
+          "kg_districts": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 61,
+            "update": 0
+          },
+          "kg_entities": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 647,
+            "update": 0
+          },
+          "kg_industries": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 24,
+            "update": 0
+          },
+          "kg_relationships": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 865,
+            "update": 0
+          },
+          "kg_schemes": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 40,
+            "update": 0
+          },
+          "kg_skills": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 45,
+            "update": 0
+          }
+        }
+      },
+      {
+        "duration_seconds": 0.079,
+        "error_count": 0,
+        "errors": [],
+        "finished_at": "2026-08-02T00:58:41+00:00",
+        "metrics": {
+          "applied": false,
+          "by_table": {
+            "kg_agriculture": {
+              "inserted": 45,
+              "pending_cells": 25,
+              "pending_rate_pct": 1.85,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 45,
+              "updated": 0
+            },
+            "kg_businesses": {
+              "inserted": 85,
+              "pending_cells": 79,
+              "pending_rate_pct": 2.66,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 85,
+              "updated": 0
+            },
+            "kg_districts": {
+              "inserted": 61,
+              "pending_cells": 302,
+              "pending_rate_pct": 16.5,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 61,
+              "updated": 0
+            },
+            "kg_entities": {
+              "inserted": 647,
+              "pending_cells": 29,
+              "pending_rate_pct": 0.22,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 647,
+              "updated": 0
+            },
+            "kg_industries": {
+              "inserted": 24,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 24,
+              "updated": 0
+            },
+            "kg_relationships": {
+              "inserted": 865,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 865,
+              "updated": 0
+            },
+            "kg_schemes": {
+              "inserted": 40,
+              "pending_cells": 53,
+              "pending_rate_pct": 3.9,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 40,
+              "updated": 0
+            },
+            "kg_skills": {
+              "inserted": 45,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 45,
+              "updated": 0
+            }
+          },
+          "duration_seconds": 0.077,
+          "mode": "dry-run",
+          "packages_processed": [
+            "Package001_Geography",
+            "Package004_Industries",
+            "Package005_Agriculture",
+            "Package006_Skills_and_Training",
+            "Package007_Government_Schemes",
+            "Package008_MSME",
+            "knowledge_graph"
+          ],
+          "pending_cells": 488,
+          "pending_rate_pct": 1.26,
+          "rows_from_source": 1812,
+          "rows_inserted": 1812,
+          "rows_per_second": 23532.5,
+          "rows_skipped": 0,
+          "rows_soft_deleted": 0,
+          "rows_synchronised": 1812,
+          "rows_updated": 0,
+          "run_id": "20260802T005841Z-107329",
+          "tables_processed": 8,
+          "validation_by_check": {
+            "V6-OWNERSHIP:WARNING": 4
+          },
+          "validation_errors": 0,
+          "validation_warnings": 4,
+          "version": "20260802T005841Z-107329"
+        },
+        "mode": "dry-run",
+        "outcome": "DRY_RUN",
+        "run_id": "20260802T005841Z-107329",
+        "started_at": "2026-08-02T00:58:41+00:00",
+        "tables": {
+          "kg_agriculture": {
+            "delete": 0,
+            "insert": 45,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_businesses": {
+            "delete": 0,
+            "insert": 85,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_districts": {
+            "delete": 0,
+            "insert": 61,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_entities": {
+            "delete": 0,
+            "insert": 647,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_industries": {
+            "delete": 0,
+            "insert": 24,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_relationships": {
+            "delete": 0,
+            "insert": 865,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_schemes": {
+            "delete": 0,
+            "insert": 40,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_skills": {
+            "delete": 0,
+            "insert": 45,
+            "skip": 0,
+            "update": 0
+          }
+        }
+      },
+      {
+        "duration_seconds": 0.304,
+        "error_count": 0,
+        "errors": [],
+        "finished_at": "2026-08-02T00:58:42+00:00",
+        "metrics": {
+          "applied": true,
+          "by_table": {
+            "kg_agriculture": {
+              "inserted": 45,
+              "pending_cells": 25,
+              "pending_rate_pct": 1.85,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 45,
+              "updated": 0
+            },
+            "kg_businesses": {
+              "inserted": 85,
+              "pending_cells": 79,
+              "pending_rate_pct": 2.66,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 85,
+              "updated": 0
+            },
+            "kg_districts": {
+              "inserted": 61,
+              "pending_cells": 302,
+              "pending_rate_pct": 16.5,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 61,
+              "updated": 0
+            },
+            "kg_entities": {
+              "inserted": 647,
+              "pending_cells": 29,
+              "pending_rate_pct": 0.22,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 647,
+              "updated": 0
+            },
+            "kg_industries": {
+              "inserted": 24,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 24,
+              "updated": 0
+            },
+            "kg_relationships": {
+              "inserted": 865,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 865,
+              "updated": 0
+            },
+            "kg_schemes": {
+              "inserted": 40,
+              "pending_cells": 53,
+              "pending_rate_pct": 3.9,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 40,
+              "updated": 0
+            },
+            "kg_skills": {
+              "inserted": 45,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 45,
+              "updated": 0
+            }
+          },
+          "coverage": {
+            "kg_agriculture": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 45,
+              "in_target": 45
+            },
+            "kg_businesses": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 85,
+              "in_target": 85
+            },
+            "kg_districts": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 61,
+              "in_target": 61
+            },
+            "kg_entities": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 647,
+              "in_target": 647
+            },
+            "kg_industries": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 24,
+              "in_target": 24
+            },
+            "kg_relationships": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 865,
+              "in_target": 865
+            },
+            "kg_schemes": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 40,
+              "in_target": 40
+            },
+            "kg_skills": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 45,
+              "in_target": 45
+            }
+          },
+          "duration_seconds": 0.3,
+          "mode": "incremental",
+          "packages_processed": [
+            "Package001_Geography",
+            "Package004_Industries",
+            "Package005_Agriculture",
+            "Package006_Skills_and_Training",
+            "Package007_Government_Schemes",
+            "Package008_MSME",
+            "knowledge_graph"
+          ],
+          "pending_cells": 488,
+          "pending_rate_pct": 1.26,
+          "rows_from_source": 1812,
+          "rows_inserted": 1812,
+          "rows_per_second": 6040.0,
+          "rows_skipped": 0,
+          "rows_soft_deleted": 0,
+          "rows_synchronised": 1812,
+          "rows_updated": 0,
+          "run_id": "20260802T005842Z-fb27a3",
+          "tables_processed": 8,
+          "validation_by_check": {
+            "V6-OWNERSHIP:WARNING": 4
+          },
+          "validation_errors": 0,
+          "validation_warnings": 4,
+          "version": "20260802T005842Z-fb27a3"
+        },
+        "mode": "incremental",
+        "outcome": "SUCCESS",
+        "run_id": "20260802T005842Z-fb27a3",
+        "started_at": "2026-08-02T00:58:42+00:00",
+        "tables": {
+          "kg_agriculture": {
+            "delete": 0,
+            "insert": 45,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_businesses": {
+            "delete": 0,
+            "insert": 85,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_districts": {
+            "delete": 0,
+            "insert": 61,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_entities": {
+            "delete": 0,
+            "insert": 647,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_industries": {
+            "delete": 0,
+            "insert": 24,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_relationships": {
+            "delete": 0,
+            "insert": 865,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_schemes": {
+            "delete": 0,
+            "insert": 40,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_skills": {
+            "delete": 0,
+            "insert": 45,
+            "skip": 0,
+            "update": 0
+          }
+        }
+      },
+      {
+        "duration_seconds": 0.217,
+        "error_count": 0,
+        "errors": [],
+        "finished_at": "2026-08-02T00:58:43+00:00",
+        "metrics": {
+          "applied": true,
+          "by_table": {
+            "kg_agriculture": {
+              "inserted": 0,
+              "pending_cells": 25,
+              "pending_rate_pct": 1.85,
+              "skipped": 45,
+              "soft_deleted": 0,
+              "source_rows": 45,
+              "updated": 0
+            },
+            "kg_businesses": {
+              "inserted": 0,
+              "pending_cells": 79,
+              "pending_rate_pct": 2.66,
+              "skipped": 85,
+              "soft_deleted": 0,
+              "source_rows": 85,
+              "updated": 0
+            },
+            "kg_districts": {
+              "inserted": 0,
+              "pending_cells": 302,
+              "pending_rate_pct": 16.5,
+              "skipped": 61,
+              "soft_deleted": 0,
+              "source_rows": 61,
+              "updated": 0
+            },
+            "kg_entities": {
+              "inserted": 0,
+              "pending_cells": 29,
+              "pending_rate_pct": 0.22,
+              "skipped": 647,
+              "soft_deleted": 0,
+              "source_rows": 647,
+              "updated": 0
+            },
+            "kg_industries": {
+              "inserted": 0,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 24,
+              "soft_deleted": 0,
+              "source_rows": 24,
+              "updated": 0
+            },
+            "kg_relationships": {
+              "inserted": 0,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 865,
+              "soft_deleted": 0,
+              "source_rows": 865,
+              "updated": 0
+            },
+            "kg_schemes": {
+              "inserted": 0,
+              "pending_cells": 53,
+              "pending_rate_pct": 3.9,
+              "skipped": 40,
+              "soft_deleted": 0,
+              "source_rows": 40,
+              "updated": 0
+            },
+            "kg_skills": {
+              "inserted": 0,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 45,
+              "soft_deleted": 0,
+              "source_rows": 45,
+              "updated": 0
+            }
+          },
+          "coverage": {
+            "kg_agriculture": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 45,
+              "in_target": 45
+            },
+            "kg_businesses": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 85,
+              "in_target": 85
+            },
+            "kg_districts": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 61,
+              "in_target": 61
+            },
+            "kg_entities": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 647,
+              "in_target": 647
+            },
+            "kg_industries": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 24,
+              "in_target": 24
+            },
+            "kg_relationships": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 865,
+              "in_target": 865
+            },
+            "kg_schemes": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 40,
+              "in_target": 40
+            },
+            "kg_skills": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 45,
+              "in_target": 45
+            }
+          },
+          "duration_seconds": 0.077,
+          "mode": "incremental",
+          "packages_processed": [
+            "Package001_Geography",
+            "Package004_Industries",
+            "Package005_Agriculture",
+            "Package006_Skills_and_Training",
+            "Package007_Government_Schemes",
+            "Package008_MSME",
+            "knowledge_graph"
+          ],
+          "pending_cells": 488,
+          "pending_rate_pct": 1.26,
+          "rows_from_source": 1812,
+          "rows_inserted": 0,
+          "rows_per_second": 23532.5,
+          "rows_skipped": 1812,
+          "rows_soft_deleted": 0,
+          "rows_synchronised": 0,
+          "rows_updated": 0,
+          "run_id": "20260802T005842Z-6b55dd",
+          "tables_processed": 8,
+          "validation_by_check": {
+            "V6-OWNERSHIP:WARNING": 4
+          },
+          "validation_errors": 0,
+          "validation_warnings": 4,
+          "version": "20260802T005842Z-6b55dd"
+        },
+        "mode": "incremental",
+        "outcome": "SUCCESS",
+        "run_id": "20260802T005842Z-6b55dd",
+        "started_at": "2026-08-02T00:58:42+00:00",
+        "tables": {
+          "kg_agriculture": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 45,
+            "update": 0
+          },
+          "kg_businesses": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 85,
+            "update": 0
+          },
+          "kg_districts": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 61,
+            "update": 0
+          },
+          "kg_entities": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 647,
+            "update": 0
+          },
+          "kg_industries": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 24,
+            "update": 0
+          },
+          "kg_relationships": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 865,
+            "update": 0
+          },
+          "kg_schemes": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 40,
+            "update": 0
+          },
+          "kg_skills": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 45,
+            "update": 0
+          }
+        }
+      },
+      {
+        "duration_seconds": 0.281,
+        "error_count": 0,
+        "errors": [],
+        "finished_at": "2026-08-02T02:02:03+00:00",
+        "metrics": {
+          "applied": false,
+          "by_table": {
+            "kg_agriculture": {
+              "inserted": 0,
+              "pending_cells": 25,
+              "pending_rate_pct": 1.85,
+              "skipped": 45,
+              "soft_deleted": 0,
+              "source_rows": 45,
+              "updated": 0
+            },
+            "kg_businesses": {
+              "inserted": 0,
+              "pending_cells": 79,
+              "pending_rate_pct": 2.66,
+              "skipped": 85,
+              "soft_deleted": 0,
+              "source_rows": 85,
+              "updated": 0
+            },
+            "kg_districts": {
+              "inserted": 0,
+              "pending_cells": 302,
+              "pending_rate_pct": 16.5,
+              "skipped": 61,
+              "soft_deleted": 0,
+              "source_rows": 61,
+              "updated": 0
+            },
+            "kg_entities": {
+              "inserted": 0,
+              "pending_cells": 29,
+              "pending_rate_pct": 0.22,
+              "skipped": 647,
+              "soft_deleted": 0,
+              "source_rows": 647,
+              "updated": 0
+            },
+            "kg_industries": {
+              "inserted": 0,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 24,
+              "soft_deleted": 0,
+              "source_rows": 24,
+              "updated": 0
+            },
+            "kg_relationships": {
+              "inserted": 0,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 865,
+              "soft_deleted": 0,
+              "source_rows": 865,
+              "updated": 0
+            },
+            "kg_schemes": {
+              "inserted": 0,
+              "pending_cells": 53,
+              "pending_rate_pct": 3.9,
+              "skipped": 40,
+              "soft_deleted": 0,
+              "source_rows": 40,
+              "updated": 0
+            },
+            "kg_skills": {
+              "inserted": 0,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 45,
+              "soft_deleted": 0,
+              "source_rows": 45,
+              "updated": 0
+            }
+          },
+          "duration_seconds": 0.278,
+          "mode": "dry-run",
+          "packages_processed": [
+            "Package001_Geography",
+            "Package004_Industries",
+            "Package005_Agriculture",
+            "Package006_Skills_and_Training",
+            "Package007_Government_Schemes",
+            "Package008_MSME",
+            "knowledge_graph"
+          ],
+          "pending_cells": 488,
+          "pending_rate_pct": 1.26,
+          "rows_from_source": 1812,
+          "rows_inserted": 0,
+          "rows_per_second": 6518.0,
+          "rows_skipped": 1812,
+          "rows_soft_deleted": 0,
+          "rows_synchronised": 0,
+          "rows_updated": 0,
+          "run_id": "20260802T020203Z-010ceb",
+          "tables_processed": 8,
+          "validation_by_check": {
+            "V6-OWNERSHIP:WARNING": 4
+          },
+          "validation_errors": 0,
+          "validation_warnings": 4,
+          "version": "20260802T020203Z-010ceb"
+        },
+        "mode": "dry-run",
+        "outcome": "DRY_RUN",
+        "run_id": "20260802T020203Z-010ceb",
+        "started_at": "2026-08-02T02:02:03+00:00",
+        "tables": {
+          "kg_agriculture": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 45,
+            "update": 0
+          },
+          "kg_businesses": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 85,
+            "update": 0
+          },
+          "kg_districts": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 61,
+            "update": 0
+          },
+          "kg_entities": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 647,
+            "update": 0
+          },
+          "kg_industries": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 24,
+            "update": 0
+          },
+          "kg_relationships": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 865,
+            "update": 0
+          },
+          "kg_schemes": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 40,
+            "update": 0
+          },
+          "kg_skills": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 45,
+            "update": 0
+          }
+        }
+      },
+      {
+        "duration_seconds": 0.057,
+        "error_count": 0,
+        "errors": [],
+        "finished_at": "2026-08-02T02:02:49+00:00",
+        "metrics": {
+          "applied": false,
+          "by_table": {
+            "kg_agriculture": {
+              "inserted": 0,
+              "pending_cells": 25,
+              "pending_rate_pct": 1.85,
+              "skipped": 45,
+              "soft_deleted": 0,
+              "source_rows": 45,
+              "updated": 0
+            },
+            "kg_businesses": {
+              "inserted": 0,
+              "pending_cells": 79,
+              "pending_rate_pct": 2.66,
+              "skipped": 85,
+              "soft_deleted": 0,
+              "source_rows": 85,
+              "updated": 0
+            },
+            "kg_districts": {
+              "inserted": 0,
+              "pending_cells": 302,
+              "pending_rate_pct": 16.5,
+              "skipped": 61,
+              "soft_deleted": 0,
+              "source_rows": 61,
+              "updated": 0
+            },
+            "kg_entities": {
+              "inserted": 0,
+              "pending_cells": 29,
+              "pending_rate_pct": 0.22,
+              "skipped": 647,
+              "soft_deleted": 0,
+              "source_rows": 647,
+              "updated": 0
+            },
+            "kg_industries": {
+              "inserted": 0,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 24,
+              "soft_deleted": 0,
+              "source_rows": 24,
+              "updated": 0
+            },
+            "kg_relationships": {
+              "inserted": 0,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 865,
+              "soft_deleted": 0,
+              "source_rows": 865,
+              "updated": 0
+            },
+            "kg_schemes": {
+              "inserted": 0,
+              "pending_cells": 53,
+              "pending_rate_pct": 3.9,
+              "skipped": 40,
+              "soft_deleted": 0,
+              "source_rows": 40,
+              "updated": 0
+            },
+            "kg_skills": {
+              "inserted": 0,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 45,
+              "soft_deleted": 0,
+              "source_rows": 45,
+              "updated": 0
+            }
+          },
+          "duration_seconds": 0.054,
+          "mode": "dry-run",
+          "packages_processed": [
+            "Package001_Geography",
+            "Package004_Industries",
+            "Package005_Agriculture",
+            "Package006_Skills_and_Training",
+            "Package007_Government_Schemes",
+            "Package008_MSME",
+            "knowledge_graph"
+          ],
+          "pending_cells": 488,
+          "pending_rate_pct": 1.26,
+          "rows_from_source": 1812,
+          "rows_inserted": 0,
+          "rows_per_second": 33555.6,
+          "rows_skipped": 1812,
+          "rows_soft_deleted": 0,
+          "rows_synchronised": 0,
+          "rows_updated": 0,
+          "run_id": "20260802T020249Z-4c270f",
+          "tables_processed": 8,
+          "validation_by_check": {
+            "V6-OWNERSHIP:WARNING": 4
+          },
+          "validation_errors": 0,
+          "validation_warnings": 4,
+          "version": "20260802T020249Z-4c270f"
+        },
+        "mode": "dry-run",
+        "outcome": "DRY_RUN",
+        "run_id": "20260802T020249Z-4c270f",
+        "started_at": "2026-08-02T02:02:49+00:00",
+        "tables": {
+          "kg_agriculture": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 45,
+            "update": 0
+          },
+          "kg_businesses": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 85,
+            "update": 0
+          },
+          "kg_districts": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 61,
+            "update": 0
+          },
+          "kg_entities": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 647,
+            "update": 0
+          },
+          "kg_industries": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 24,
+            "update": 0
+          },
+          "kg_relationships": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 865,
+            "update": 0
+          },
+          "kg_schemes": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 40,
+            "update": 0
+          },
+          "kg_skills": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 45,
+            "update": 0
+          }
+        }
+      },
+      {
+        "duration_seconds": 0.331,
+        "error_count": 0,
+        "errors": [],
+        "finished_at": "2026-08-02T06:12:08+00:00",
+        "metrics": {
+          "applied": false,
+          "by_table": {
+            "kg_agriculture": {
+              "inserted": 45,
+              "pending_cells": 25,
+              "pending_rate_pct": 1.85,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 45,
+              "updated": 0
+            },
+            "kg_businesses": {
+              "inserted": 85,
+              "pending_cells": 79,
+              "pending_rate_pct": 2.66,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 85,
+              "updated": 0
+            },
+            "kg_districts": {
+              "inserted": 61,
+              "pending_cells": 302,
+              "pending_rate_pct": 16.5,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 61,
+              "updated": 0
+            },
+            "kg_entities": {
+              "inserted": 647,
+              "pending_cells": 29,
+              "pending_rate_pct": 0.22,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 647,
+              "updated": 0
+            },
+            "kg_industries": {
+              "inserted": 24,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 24,
+              "updated": 0
+            },
+            "kg_relationships": {
+              "inserted": 865,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 865,
+              "updated": 0
+            },
+            "kg_schemes": {
+              "inserted": 40,
+              "pending_cells": 53,
+              "pending_rate_pct": 3.9,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 40,
+              "updated": 0
+            },
+            "kg_skills": {
+              "inserted": 45,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 45,
+              "updated": 0
+            }
+          },
+          "duration_seconds": 0.329,
+          "mode": "dry-run",
+          "packages_processed": [
+            "Package001_Geography",
+            "Package004_Industries",
+            "Package005_Agriculture",
+            "Package006_Skills_and_Training",
+            "Package007_Government_Schemes",
+            "Package008_MSME",
+            "knowledge_graph"
+          ],
+          "pending_cells": 488,
+          "pending_rate_pct": 1.26,
+          "rows_from_source": 1812,
+          "rows_inserted": 1812,
+          "rows_per_second": 5507.6,
+          "rows_skipped": 0,
+          "rows_soft_deleted": 0,
+          "rows_synchronised": 1812,
+          "rows_updated": 0,
+          "run_id": "20260802T061208Z-3a9742",
+          "tables_processed": 8,
+          "validation_by_check": {
+            "V6-OWNERSHIP:WARNING": 4
+          },
+          "validation_errors": 0,
+          "validation_warnings": 4,
+          "version": "20260802T061208Z-3a9742"
+        },
+        "mode": "dry-run",
+        "outcome": "DRY_RUN",
+        "run_id": "20260802T061208Z-3a9742",
+        "started_at": "2026-08-02T06:12:08+00:00",
+        "tables": {
+          "kg_agriculture": {
+            "delete": 0,
+            "insert": 45,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_businesses": {
+            "delete": 0,
+            "insert": 85,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_districts": {
+            "delete": 0,
+            "insert": 61,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_entities": {
+            "delete": 0,
+            "insert": 647,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_industries": {
+            "delete": 0,
+            "insert": 24,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_relationships": {
+            "delete": 0,
+            "insert": 865,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_schemes": {
+            "delete": 0,
+            "insert": 40,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_skills": {
+            "delete": 0,
+            "insert": 45,
+            "skip": 0,
+            "update": 0
+          }
+        }
+      },
+      {
+        "duration_seconds": 0.275,
+        "error_count": 0,
+        "errors": [],
+        "finished_at": "2026-08-02T06:12:09+00:00",
+        "metrics": {
+          "applied": true,
+          "by_table": {
+            "kg_agriculture": {
+              "inserted": 45,
+              "pending_cells": 25,
+              "pending_rate_pct": 1.85,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 45,
+              "updated": 0
+            },
+            "kg_businesses": {
+              "inserted": 85,
+              "pending_cells": 79,
+              "pending_rate_pct": 2.66,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 85,
+              "updated": 0
+            },
+            "kg_districts": {
+              "inserted": 61,
+              "pending_cells": 302,
+              "pending_rate_pct": 16.5,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 61,
+              "updated": 0
+            },
+            "kg_entities": {
+              "inserted": 647,
+              "pending_cells": 29,
+              "pending_rate_pct": 0.22,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 647,
+              "updated": 0
+            },
+            "kg_industries": {
+              "inserted": 24,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 24,
+              "updated": 0
+            },
+            "kg_relationships": {
+              "inserted": 865,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 865,
+              "updated": 0
+            },
+            "kg_schemes": {
+              "inserted": 40,
+              "pending_cells": 53,
+              "pending_rate_pct": 3.9,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 40,
+              "updated": 0
+            },
+            "kg_skills": {
+              "inserted": 45,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 0,
+              "soft_deleted": 0,
+              "source_rows": 45,
+              "updated": 0
+            }
+          },
+          "coverage": {
+            "kg_agriculture": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 45,
+              "in_target": 45
+            },
+            "kg_businesses": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 85,
+              "in_target": 85
+            },
+            "kg_districts": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 61,
+              "in_target": 61
+            },
+            "kg_entities": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 647,
+              "in_target": 647
+            },
+            "kg_industries": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 24,
+              "in_target": 24
+            },
+            "kg_relationships": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 865,
+              "in_target": 865
+            },
+            "kg_schemes": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 40,
+              "in_target": 40
+            },
+            "kg_skills": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 45,
+              "in_target": 45
+            }
+          },
+          "duration_seconds": 0.272,
+          "mode": "incremental",
+          "packages_processed": [
+            "Package001_Geography",
+            "Package004_Industries",
+            "Package005_Agriculture",
+            "Package006_Skills_and_Training",
+            "Package007_Government_Schemes",
+            "Package008_MSME",
+            "knowledge_graph"
+          ],
+          "pending_cells": 488,
+          "pending_rate_pct": 1.26,
+          "rows_from_source": 1812,
+          "rows_inserted": 1812,
+          "rows_per_second": 6661.8,
+          "rows_skipped": 0,
+          "rows_soft_deleted": 0,
+          "rows_synchronised": 1812,
+          "rows_updated": 0,
+          "run_id": "20260802T061209Z-867b34",
+          "tables_processed": 8,
+          "validation_by_check": {
+            "V6-OWNERSHIP:WARNING": 4
+          },
+          "validation_errors": 0,
+          "validation_warnings": 4,
+          "version": "20260802T061209Z-867b34"
+        },
+        "mode": "incremental",
+        "outcome": "SUCCESS",
+        "run_id": "20260802T061209Z-867b34",
+        "started_at": "2026-08-02T06:12:09+00:00",
+        "tables": {
+          "kg_agriculture": {
+            "delete": 0,
+            "insert": 45,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_businesses": {
+            "delete": 0,
+            "insert": 85,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_districts": {
+            "delete": 0,
+            "insert": 61,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_entities": {
+            "delete": 0,
+            "insert": 647,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_industries": {
+            "delete": 0,
+            "insert": 24,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_relationships": {
+            "delete": 0,
+            "insert": 865,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_schemes": {
+            "delete": 0,
+            "insert": 40,
+            "skip": 0,
+            "update": 0
+          },
+          "kg_skills": {
+            "delete": 0,
+            "insert": 45,
+            "skip": 0,
+            "update": 0
+          }
+        }
+      },
+      {
+        "duration_seconds": 0.071,
+        "error_count": 0,
+        "errors": [],
+        "finished_at": "2026-08-02T06:13:16+00:00",
+        "metrics": {
+          "applied": false,
+          "by_table": {
+            "kg_agriculture": {
+              "inserted": 0,
+              "pending_cells": 25,
+              "pending_rate_pct": 1.85,
+              "skipped": 45,
+              "soft_deleted": 0,
+              "source_rows": 45,
+              "updated": 0
+            },
+            "kg_businesses": {
+              "inserted": 0,
+              "pending_cells": 79,
+              "pending_rate_pct": 2.66,
+              "skipped": 85,
+              "soft_deleted": 0,
+              "source_rows": 85,
+              "updated": 0
+            },
+            "kg_districts": {
+              "inserted": 0,
+              "pending_cells": 302,
+              "pending_rate_pct": 16.5,
+              "skipped": 61,
+              "soft_deleted": 0,
+              "source_rows": 61,
+              "updated": 0
+            },
+            "kg_entities": {
+              "inserted": 0,
+              "pending_cells": 29,
+              "pending_rate_pct": 0.22,
+              "skipped": 647,
+              "soft_deleted": 0,
+              "source_rows": 647,
+              "updated": 0
+            },
+            "kg_industries": {
+              "inserted": 0,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 24,
+              "soft_deleted": 0,
+              "source_rows": 24,
+              "updated": 0
+            },
+            "kg_relationships": {
+              "inserted": 0,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 865,
+              "soft_deleted": 0,
+              "source_rows": 865,
+              "updated": 0
+            },
+            "kg_schemes": {
+              "inserted": 0,
+              "pending_cells": 53,
+              "pending_rate_pct": 3.9,
+              "skipped": 40,
+              "soft_deleted": 0,
+              "source_rows": 40,
+              "updated": 0
+            },
+            "kg_skills": {
+              "inserted": 0,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 45,
+              "soft_deleted": 0,
+              "source_rows": 45,
+              "updated": 0
+            }
+          },
+          "duration_seconds": 0.068,
+          "mode": "dry-run",
+          "packages_processed": [
+            "Package001_Geography",
+            "Package004_Industries",
+            "Package005_Agriculture",
+            "Package006_Skills_and_Training",
+            "Package007_Government_Schemes",
+            "Package008_MSME",
+            "knowledge_graph"
+          ],
+          "pending_cells": 488,
+          "pending_rate_pct": 1.26,
+          "rows_from_source": 1812,
+          "rows_inserted": 0,
+          "rows_per_second": 26647.1,
+          "rows_skipped": 1812,
+          "rows_soft_deleted": 0,
+          "rows_synchronised": 0,
+          "rows_updated": 0,
+          "run_id": "20260802T061316Z-1eab57",
+          "tables_processed": 8,
+          "validation_by_check": {
+            "V6-OWNERSHIP:WARNING": 4
+          },
+          "validation_errors": 0,
+          "validation_warnings": 4,
+          "version": "20260802T061316Z-1eab57"
+        },
+        "mode": "dry-run",
+        "outcome": "DRY_RUN",
+        "run_id": "20260802T061316Z-1eab57",
+        "started_at": "2026-08-02T06:13:16+00:00",
+        "tables": {
+          "kg_agriculture": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 45,
+            "update": 0
+          },
+          "kg_businesses": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 85,
+            "update": 0
+          },
+          "kg_districts": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 61,
+            "update": 0
+          },
+          "kg_entities": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 647,
+            "update": 0
+          },
+          "kg_industries": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 24,
+            "update": 0
+          },
+          "kg_relationships": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 865,
+            "update": 0
+          },
+          "kg_schemes": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 40,
+            "update": 0
+          },
+          "kg_skills": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 45,
+            "update": 0
+          }
+        }
+      },
+      {
+        "duration_seconds": 0.171,
+        "error_count": 0,
+        "errors": [],
+        "finished_at": "2026-08-02T06:13:17+00:00",
+        "metrics": {
+          "applied": true,
+          "by_table": {
+            "kg_agriculture": {
+              "inserted": 0,
+              "pending_cells": 25,
+              "pending_rate_pct": 1.85,
+              "skipped": 45,
+              "soft_deleted": 0,
+              "source_rows": 45,
+              "updated": 0
+            },
+            "kg_businesses": {
+              "inserted": 0,
+              "pending_cells": 79,
+              "pending_rate_pct": 2.66,
+              "skipped": 85,
+              "soft_deleted": 0,
+              "source_rows": 85,
+              "updated": 0
+            },
+            "kg_districts": {
+              "inserted": 0,
+              "pending_cells": 302,
+              "pending_rate_pct": 16.5,
+              "skipped": 61,
+              "soft_deleted": 0,
+              "source_rows": 61,
+              "updated": 0
+            },
+            "kg_entities": {
+              "inserted": 0,
+              "pending_cells": 29,
+              "pending_rate_pct": 0.22,
+              "skipped": 647,
+              "soft_deleted": 0,
+              "source_rows": 647,
+              "updated": 0
+            },
+            "kg_industries": {
+              "inserted": 0,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 24,
+              "soft_deleted": 0,
+              "source_rows": 24,
+              "updated": 0
+            },
+            "kg_relationships": {
+              "inserted": 0,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 865,
+              "soft_deleted": 0,
+              "source_rows": 865,
+              "updated": 0
+            },
+            "kg_schemes": {
+              "inserted": 0,
+              "pending_cells": 53,
+              "pending_rate_pct": 3.9,
+              "skipped": 40,
+              "soft_deleted": 0,
+              "source_rows": 40,
+              "updated": 0
+            },
+            "kg_skills": {
+              "inserted": 0,
+              "pending_cells": 0,
+              "pending_rate_pct": 0.0,
+              "skipped": 45,
+              "soft_deleted": 0,
+              "source_rows": 45,
+              "updated": 0
+            }
+          },
+          "coverage": {
+            "kg_agriculture": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 45,
+              "in_target": 45
+            },
+            "kg_businesses": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 85,
+              "in_target": 85
+            },
+            "kg_districts": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 61,
+              "in_target": 61
+            },
+            "kg_entities": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 647,
+              "in_target": 647
+            },
+            "kg_industries": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 24,
+              "in_target": 24
+            },
+            "kg_relationships": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 865,
+              "in_target": 865
+            },
+            "kg_schemes": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 40,
+              "in_target": 40
+            },
+            "kg_skills": {
+              "complete": true,
+              "coverage_pct": 100.0,
+              "expected": 45,
+              "in_target": 45
+            }
+          },
+          "duration_seconds": 0.066,
+          "mode": "incremental",
+          "packages_processed": [
+            "Package001_Geography",
+            "Package004_Industries",
+            "Package005_Agriculture",
+            "Package006_Skills_and_Training",
+            "Package007_Government_Schemes",
+            "Package008_MSME",
+            "knowledge_graph"
+          ],
+          "pending_cells": 488,
+          "pending_rate_pct": 1.26,
+          "rows_from_source": 1812,
+          "rows_inserted": 0,
+          "rows_per_second": 27454.5,
+          "rows_skipped": 1812,
+          "rows_soft_deleted": 0,
+          "rows_synchronised": 0,
+          "rows_updated": 0,
+          "run_id": "20260802T061317Z-921d65",
+          "tables_processed": 8,
+          "validation_by_check": {
+            "V6-OWNERSHIP:WARNING": 4
+          },
+          "validation_errors": 0,
+          "validation_warnings": 4,
+          "version": "20260802T061317Z-921d65"
+        },
+        "mode": "incremental",
+        "outcome": "SUCCESS",
+        "run_id": "20260802T061317Z-921d65",
+        "started_at": "2026-08-02T06:13:17+00:00",
+        "tables": {
+          "kg_agriculture": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 45,
+            "update": 0
+          },
+          "kg_businesses": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 85,
+            "update": 0
+          },
+          "kg_districts": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 61,
+            "update": 0
+          },
+          "kg_entities": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 647,
+            "update": 0
+          },
+          "kg_industries": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 24,
+            "update": 0
+          },
+          "kg_relationships": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 865,
+            "update": 0
+          },
+          "kg_schemes": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 40,
+            "update": 0
+          },
+          "kg_skills": {
+            "delete": 0,
+            "insert": 0,
+            "skip": 45,
+            "update": 0
+          }
+        }
+      }
+    ]
+  },
+  "demand": {
+    "has_data": false,
+    "total": 0,
+    "top": [],
+    "zero_result": [],
+    "unique_terms": 0
+  },
+  "backlog": [],
+  "integrity": {
+    "status": "degraded",
+    "counts": {
+      "entities": 647,
+      "relationships": 865,
+      "isolated": 142,
+      "broken_references": 0,
+      "types_with_no_edges": 1,
+      "malformed_source_urls": 30,
+      "tables_that_shrank": 0
+    },
+    "findings": [
+      {
+        "check": "isolated_entities",
+        "severity": "WARN",
+        "subject": "",
+        "detail": "142 of 647 entities (22%) connect to nothing — mostly Certification (30), TrainingProvider (22), GovernmentScheme (21)"
+      },
+      {
+        "check": "missing_relationships",
+        "severity": "WARN",
+        "subject": "",
+        "detail": "1 entity type(s) have no edges at all — Certification — so nothing can lead to them"
+      },
+      {
+        "check": "malformed_source_urls",
+        "severity": "WARN",
+        "subject": "",
+        "detail": "30 source_url values are not URLs: skill_business_mapping.csv: Internal package mapping; skill_business_mapping.csv: Internal package mapping; skill_business_mapping.csv: Internal package mapping"
+      }
+    ]
+  },
+  "quality": {
+    "overall": 73.0,
+    "grade": "B",
+    "dimensions_scored": 7,
+    "dimensions_unknown": 1,
+    "dimensions": [
+      {
+        "name": "coverage",
+        "value": 100.0,
+        "detail": "19 of 19 registered entity types hold rows",
+        "formula": "populated entity types ÷ registered entity types"
+      },
+      {
+        "name": "connectivity",
+        "value": 78.1,
+        "detail": "505 of 647 entities lead somewhere; median 1 neighbours",
+        "formula": "entities with at least one edge ÷ all entities"
+      },
+      {
+        "name": "freshness",
+        "value": 100.0,
+        "detail": "647 fresh, 0 ageing, 0 stale",
+        "formula": "(fresh + ageing÷2) ÷ entities with a known date"
+      },
+      {
+        "name": "verification",
+        "value": 0.0,
+        "detail": "0 of 647 entities are not marked NEEDS_REVIEW — and no steward has recorded a review yet, so this measures the collector's confidence rather than a person's",
+        "formula": "entities without VST-NEEDS_REVIEW ÷ all entities"
+      },
+      {
+        "name": "research_completeness",
+        "value": 94.0,
+        "detail": "2460 of 40799 dataset cells hold PENDING_VERIFICATION",
+        "formula": "1 − (PENDING cells ÷ all cells)"
+      },
+      {
+        "name": "source_diversity",
+        "value": 97.6,
+        "detail": "7 source packages; the largest (Package008_MSME) supplies 25.8%",
+        "formula": "1 − Herfindahl index over rows per source package, normalised"
+      },
+      {
+        "name": "popularity",
+        "value": null,
+        "detail": "no popularity data — page views and search counts live in Supabase and are passed in, not fetched here",
+        "formula": "entities with at least one view ÷ all entities"
+      },
+      {
+        "name": "vocabulary_join",
+        "value": 41.1,
+        "detail": "83 of 202 user-facing terms resolve to an entity",
+        "formula": "resolved crosswalk terms ÷ all crosswalk terms"
+      }
+    ],
+    "concerns": [
+      "verification",
+      "vocabulary_join"
+    ]
+  },
+  "graph_validation": "PASS",
+  "engine_compatibility": "COMPATIBLE"
+}

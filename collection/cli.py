@@ -159,14 +159,18 @@ def cmd_queue(args):
     if not candidates:
         print("the queue is empty.")
         return 0
-    print(f"{'state':<14} {'type':<20} {'source':<18} title")
-    print("-" * 110)
+    print(f"{'':<6} {'state':<14} {'type':<20} {'source':<18} title")
+    print("-" * 116)
     for c in candidates:
-        print(f"{c.state:<14} {c.classified_as:<20} {c.source_id:<18} {c.title[:50]}")
+        stars = "★" * (c.priority_stars or 1) + "☆" * (5 - (c.priority_stars or 1))
+        print(f"{stars:<6} {c.state:<14} {c.classified_as:<20} {c.source_id:<18} "
+              f"{c.title[:46]}")
+        if c.priority_reason:
+            print(f"{'':<6} └─ {c.priority_reason[:100]}")
         if c.duplicate_of:
-            print(f"{'':<14} └─ duplicate of {c.duplicate_of} ({c.duplicate_reason})")
+                print(f"{'':<6} └─ duplicate of {c.duplicate_of} ({c.duplicate_reason})")
         if c.supersedes:
-            print(f"{'':<14} └─ appears to supersede {c.supersedes}")
+            print(f"{'':<6} └─ appears to supersede {c.supersedes}")
     print(f"\n  {json.dumps(review.summary(review.load()), ensure_ascii=False)}")
     print("\n  Approval happens in stewardship, not here:")
     print("      python3 -m stewardship.cli review <entity_id> --actor NAME --evidence URL")

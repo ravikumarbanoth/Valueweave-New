@@ -34,10 +34,10 @@
         "fixture-skill-0002": "69ffd5070878877e"
       },
       "last_changed": "2026-08-03T09:02:06+00:00",
-      "last_checked": "2026-08-03T09:09:09+00:00",
+      "last_checked": "2026-08-03T10:04:47+00:00",
       "last_error": "",
       "last_modified": "",
-      "last_ok": "2026-08-03T09:09:09+00:00"
+      "last_ok": "2026-08-03T10:04:47+00:00"
     },
     "fix-csv-001": {
       "consecutive_failures": 0,
@@ -50,10 +50,10 @@
         "FIXTURE-TP-003": "6d07c1ccb14128a3"
       },
       "last_changed": "2026-08-03T09:02:06+00:00",
-      "last_checked": "2026-08-03T09:09:09+00:00",
+      "last_checked": "2026-08-03T10:04:47+00:00",
       "last_error": "",
       "last_modified": "",
-      "last_ok": "2026-08-03T09:09:09+00:00"
+      "last_ok": "2026-08-03T10:04:47+00:00"
     },
     "fix-json-001": {
       "consecutive_failures": 0,
@@ -66,10 +66,10 @@
         "fixture-dic-0003": "eb62824cc51eb6ed"
       },
       "last_changed": "2026-08-03T09:02:06+00:00",
-      "last_checked": "2026-08-03T09:09:09+00:00",
+      "last_checked": "2026-08-03T10:04:47+00:00",
       "last_error": "",
       "last_modified": "",
-      "last_ok": "2026-08-03T09:09:09+00:00"
+      "last_ok": "2026-08-03T10:04:47+00:00"
     },
     "fix-rss-001": {
       "consecutive_failures": 0,
@@ -83,10 +83,10 @@
         "fixture-scheme-0004": "a54b473569512927"
       },
       "last_changed": "2026-08-03T09:02:06+00:00",
-      "last_checked": "2026-08-03T09:09:09+00:00",
+      "last_checked": "2026-08-03T10:04:47+00:00",
       "last_error": "",
       "last_modified": "",
-      "last_ok": "2026-08-03T09:09:09+00:00"
+      "last_ok": "2026-08-03T10:04:47+00:00"
     },
     "msme-gov-001": {
       "consecutive_failures": 0,
@@ -137,5 +137,5 @@
       "last_ok": ""
     }
   },
-  "written_at": "2026-08-03T09:09:09+00:00"
+  "written_at": "2026-08-03T10:04:47+00:00"
 }

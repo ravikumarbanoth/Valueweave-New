@@ -493,8 +493,21 @@ class NoDuplicationTest(unittest.TestCase):
         #
         # One parameterised route, six static params, no data access. If a
         # future step wants the old constraint back, it is one number.
+        #
+        # 81 -> 82 IN THE OPERATIONS MILESTONE, DELIBERATELY.
+        # ---------------------------------------------------------------
+        # /admin/knowledge-ops. Thirty admin pages existed and not one of them
+        # looked at the knowledge platform — every table they read is `public.*`
+        # application data, and the "Graph Dashboard" reads the older public.kg_*
+        # CMS tables. The 647 entities, the packages, the crosswalk, the sync
+        # manifest, the collection queue and the stewardship ledger had no admin
+        # view at all.
+        #
+        # It is an ADMIN route, behind the existing admin guard, adding no table
+        # and one query. It reads a committed artifact, so every number on it is
+        # reproducible with `python3 -m ops.cli status`.
         self.assertEqual(
-            len(pages), 81,
+            len(pages), 82,
             "a new route needs a reason; see the note above")
 
     def test_the_only_route_this_phase_added_is_the_audience_start_page(self):

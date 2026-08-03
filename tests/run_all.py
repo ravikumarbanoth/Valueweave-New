@@ -61,6 +61,8 @@ SUITES = {
     "stewardship": ("tests.test_stewardship", "Lifecycle, ledger and review queue"),
     "collection": ("tests.test_collection",
                    "Automated collection: registry, conditional fetch, review queue"),
+    "operations": ("tests.test_operations",
+                   "Knowledge ops: feed priority, quality score, integrity, dashboard"),
     "deployment": ("tests.test_deployment",
                    "Deployment: writer, scripts, migration 011"),
     "graph": ("tests.test_graph_integrity", "Graph integrity and the 11 G-checks"),

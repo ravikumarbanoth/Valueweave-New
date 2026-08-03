@@ -641,6 +641,37 @@ class ScheduledWorkflowTest(unittest.TestCase):
         self.assertNotIn("knowledge_sync", body)
         self.assertNotIn("scripts/sync", body)
 
+    def test_every_add_path_is_a_file_the_job_actually_writes(self):
+        """`add-paths` listed `research_backlog.json`, which only
+        `collection.cli backlog --write` creates and this job never runs.
+
+        One missing path is not a partial failure. It is a single `git add`, so
+        the pathspec error stages NOTHING — the commit then finds an empty index
+        and the action throws, and a run that collected perfectly well produces
+        no pull request. Naming a file here is a claim that the job writes it.
+        """
+        for step in self.workflow()["jobs"]["collect"]["steps"]:
+            paths = (step.get("with") or {}).get("add-paths")
+            if not paths:
+                continue
+            for path in paths.split():
+                with self.subTest(path=path):
+                    self.assertTrue(
+                        (ROOT / path).exists(),
+                        f"{path} is in add-paths but does not exist. Either the "
+                        f"job must write it or it must not be listed.")
+
+    def test_the_pull_request_body_names_commands_that_exist(self):
+        """The body told reviewers to run `stewardship.cli review <entity_id>`,
+        which cannot act on a candidate — it answers `no such entity` (and exits
+        0, so a wrapper would read it as success). Deciding about a candidate is
+        `collection.cli`."""
+        body = self.path.read_text(encoding="utf-8")
+        self.assertNotIn("stewardship.cli", body)
+        for verb in ("review", "approve", "reject"):
+            with self.subTest(verb=verb):
+                self.assertIn(f"collection.cli {verb}", body)
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

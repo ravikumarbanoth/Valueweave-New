@@ -97,11 +97,21 @@ jobs:
           base: main
           title: "Collection: new candidates for review"
           commit-message: "Collection: candidates from the scheduled run"
+          # Exactly the three files this job writes, and no more. A path that
+          # does not exist makes `git add` fail with a pathspec error, and
+          # because it is one `git add` for the whole list, NOTHING is staged —
+          # not even the three that are there. The commit then finds an empty
+          # index, and the action's tolerance for that only covers the wording
+          # `nothing to commit, working tree clean`; what git actually says here
+          # is `no changes added to commit`, so the step throws instead. The
+          # result is no pull request at all, from a run that collected fine.
+          #
+          # `research_backlog.json` was in this list and is written only by
+          # `collection.cli backlog --write`, which this job does not run.
           add-paths: |
             collection/state/review_queue.jsonl
             collection/state/fetch_state.json
             collection/state/last_run.json
-            collection/state/research_backlog.json
           labels: needs-review
           body: |
             Automated collection run. **Nothing here is published.**
@@ -115,17 +125,20 @@ jobs:
             python3 -m collection.cli health
             ```
 
-            Approving a candidate is a separate act and happens in stewardship,
-            against the append-only ledger:
+            Deciding about a candidate is a separate act. Each verb takes the
+            `candidate_id` from the queue and requires `--actor`, and each is
+            appended to `stewardship/review_ledger.csv`:
 
             ```
-            python3 -m stewardship.cli review <entity_id> --actor NAME --evidence URL
-            python3 -m stewardship.cli approve <entity_id> --actor NAME
+            python3 -m collection.cli review  <candidate_id> --actor NAME --evidence URL
+            python3 -m collection.cli approve <candidate_id> --actor NAME
+            python3 -m collection.cli reject  <candidate_id> --actor NAME --notes WHY
             ```
 
             Merging this pull request records what was collected. It does not
             put anything into a package, into the knowledge graph or into
-            Supabase — those remain manual, reviewed steps.
+            Supabase — those remain manual, reviewed steps. See
+            `docs/COLLECTION_RUNBOOK.md`.
 
       - name: Run log
         if: always()

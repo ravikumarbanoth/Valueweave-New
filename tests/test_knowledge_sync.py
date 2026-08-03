@@ -668,7 +668,23 @@ class PostgresTargetTest(unittest.TestCase):
 
         Each method used to `from psycopg import sql` directly, which bypassed
         the guarded import in `conn` and leaked the bare exception.
+
+        The absence is SIMULATED rather than assumed. This test used to rely on
+        psycopg genuinely not being installed, which meant it proved nothing on
+        any machine where somebody had installed it — and the first thing it did
+        there was open a real socket to a host called `h`. Blocking the import
+        exercises the guard in `_psycopg` on every machine, installed or not.
         """
+        import builtins                                        # noqa: PLC0415
+        from unittest import mock                               # noqa: PLC0415
+
+        real_import = builtins.__import__
+
+        def no_psycopg(name, *args, **kwargs):
+            if name == "psycopg" or name.startswith("psycopg."):
+                raise ModuleNotFoundError("No module named 'psycopg'")
+            return real_import(name, *args, **kwargs)
+
         t = PostgresTarget(dsn="postgresql://h/db")
         calls = (
             ("upsert", ("kg_entities", [{"sync_row_key": "k"}])),
@@ -679,9 +695,10 @@ class PostgresTargetTest(unittest.TestCase):
         )
         for name, args in calls:
             with self.subTest(method=name):
-                with self.assertRaises(TargetError) as ctx:
-                    getattr(t, name)(*args)
-                self.assertIn("psycopg", str(ctx.exception))
+                with mock.patch.object(builtins, "__import__", no_psycopg):
+                    with self.assertRaises(TargetError) as ctx:
+                        getattr(t, name)(*args)
+                self.assertIn("not installed", str(ctx.exception))
 
     def test_empty_batches_are_free(self):
         """No driver needed to do nothing — the engine calls these on no-op tables."""

@@ -26,15 +26,55 @@
 # would still be the wrong check here: it would sail past the read policies that
 # a real visitor has to satisfy.
 #
-# Exit: 0 healthy · 1 degraded (warnings) · 2 critical
+# EXIT CODES, AND WHY THE DEFAULT CHANGED
+# ---------------------------------------
+# This used to exit 1 on any warning. That is the right contract for a monitor,
+# which wants to know the moment anything degrades, and the wrong one for a
+# deployment gate, which is what the GitHub workflow uses it as.
 #
-#   ./scripts/health_check.sh            human-readable
-#   ./scripts/health_check.sh --json     one object, for a monitor
+# The consequence was a green deployment reported as a failed run: 1,812 records
+# synced, 202 crosswalk rows loaded, four checks OK, zero critical — and exit 1,
+# because PRODUCTION_URL was unset and user_intelligence had not been computed
+# yet. Neither of those means the deployment is broken. A CI job that goes red
+# when nothing is wrong teaches everyone to ignore it, and then it cannot report
+# the failure that matters.
+#
+# So the default is now: only CRITICAL fails. Warnings are printed exactly as
+# before, counted in the summary, and carried in the JSON — they are just no
+# longer fatal.
+#
+#   0  no critical findings (warnings may be present and are reported)
+#   1  warnings, and only with --strict
+#   2  at least one critical finding — always, in either mode
+#
+#   ./scripts/health_check.sh                human-readable, warnings tolerated
+#   ./scripts/health_check.sh --strict       warnings fail too (monitors, gates)
+#   ./scripts/health_check.sh --json         one object, for a monitor
+#   ./scripts/health_check.sh --json --strict
+#
+# `VW_HEALTH_STRICT=1` does the same as --strict, for callers that set
+# environment rather than arguments.
 source "$(dirname "${BASH_SOURCE[0]}")/_common.sh"
 cd "$VW_ROOT"
 
 JSON=0
-[[ "${1:-}" == "--json" ]] && JSON=1
+STRICT="${VW_HEALTH_STRICT:-0}"
+
+# A loop, not `[[ $1 == --json ]]`. The old form read only the first argument,
+# so `--json --strict` would have honoured the first and dropped the second
+# without saying so. An unknown flag is an error for the same reason: a typo
+# like `--stict` must not quietly leave strict mode off.
+while (($#)); do
+  case "$1" in
+    --json)   JSON=1 ;;
+    --strict) STRICT=1 ;;
+    -h|--help)
+      sed -n '2,/^source /p' "${BASH_SOURCE[0]}" | sed 's/^# \{0,1\}//;$d'
+      exit 0 ;;
+    *) printf 'health_check.sh: unknown option %s\n' "$1" >&2; exit 64 ;;
+  esac
+  shift
+done
 
 CRITICAL=0
 declare -a FINDINGS=()
@@ -163,9 +203,15 @@ print(json.dumps({
     "crosswalk": num(sys.argv[3]), "intelligence_users": num(sys.argv[4]),
     "recommendations": num(sys.argv[5]),
     "ok": sum(f["severity"] == "OK" for f in findings),
-    "warnings": warn, "critical": crit, "findings": findings,
+    "warnings": warn, "critical": crit,
+    # `status` is unchanged — a monitor still sees "degraded" on warnings.
+    # What changed is the process exit code, so the two are reported
+    # separately rather than the caller inferring one from the other.
+    "strict": sys.argv[6] == "1",
+    "exit_code": 2 if crit else (1 if (warn and sys.argv[6] == "1") else 0),
+    "findings": findings,
 }, indent=2))
-' "${ENTITIES:-}" "${EDGES:-}" "${VOCAB:-}" "${UI_USERS:-}" "${UI_RECS:-}"
+' "${ENTITIES:-}" "${EDGES:-}" "${VOCAB:-}" "${UI_USERS:-}" "${UI_RECS:-}" "$STRICT"
 else
   step "ValueWeave health check"
   for f in "${FINDINGS[@]}"; do
@@ -177,8 +223,18 @@ else
     esac
   done
   printf '\n  %d ok · %d warning(s) · %d critical\n' "$oks" "$warns" "$crits"
+  # Not when something critical fired: the run DID fail, and saying warnings
+  # are tolerated next to a red cross reads as though nothing went wrong.
+  if ((warns)) && ! ((STRICT)) && ! ((crits)); then
+    printf '  warnings do not fail this run — pass --strict to make them fatal\n'
+  fi
 fi
 
-((crits)) && exit 2
-((warns)) && exit 1
+# Critical always fails, in either mode. Warnings fail only under --strict.
+if ((crits)); then
+  exit 2
+fi
+if ((warns)) && ((STRICT)); then
+  exit 1
+fi
 exit 0

@@ -1,0 +1,106 @@
+# The weekly intelligence report, and the snapshot the dashboard reads.
+#
+# WHY A REPORT IN GIT AND NOT AN EMAIL
+# ------------------------------------
+# An email is read once and gone. `ops/reports/` is a series, and a series is
+# the only way anybody sees a TREND — which is the whole point of a weekly
+# report. `git log ops/reports/` is the history of the platform's health.
+#
+# It also needs no mail credential, no scheduler integration and no service to
+# be up, and the report is reviewable in the pull request that generates it.
+#
+# WHAT IT CANNOT DO
+# -----------------
+# Everything here reads committed artifacts. It does not sync, does not collect,
+# does not touch Supabase and does not publish. Its entire output is two files
+# and a pull request.
+
+name: Knowledge operations
+
+on:
+  schedule:
+    # Monday 05:00 UTC — after the 03:00 sync and the 04:00 collection run, so
+    # the week's report describes a week that has finished happening.
+    - cron: "0 5 * * 1"
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "knowledge_graph/**"
+      - "packages/**"
+      - "collection/**"
+      - "ops/**"
+      - "governance/vocabulary/**"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: knowledge-ops
+  cancel-in-progress: false
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python3 -m pip install -r requirements-dev.txt
+
+      - name: Operational status
+        # Exits 2 on a critical finding, which fails the job. Warnings do not —
+        # the same contract scripts/health_check.sh settled on, and for the same
+        # reason: a job that goes red when nothing is wrong gets ignored, and
+        # then it cannot report the failure that matters.
+        run: python3 -m ops.cli status
+
+      - name: Snapshot is current
+        # On pull requests only. The snapshot is committed and the admin
+        # dashboard imports it, so a change to the graph without a regenerated
+        # snapshot leaves the dashboard showing yesterday's numbers — which is
+        # worse than showing none, because it looks current.
+        if: github.event_name == 'pull_request'
+        run: python3 -m ops.cli snapshot --check
+
+      - name: Regenerate snapshot and weekly report
+        if: github.event_name != 'pull_request'
+        run: |
+          python3 -m ops.cli snapshot --write
+          python3 -m ops.cli report --write
+
+      - name: Open a report pull request
+        if: github.event_name != 'pull_request'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: ops/weekly-report
+          base: main
+          title: "Ops: weekly intelligence report"
+          commit-message: "Ops: weekly intelligence report and snapshot"
+          add-paths: |
+            ops/reports/
+            frontend/lib/ops/snapshot.json
+          labels: ops
+          body: |
+            The week's operational report, generated from committed artifacts.
+
+            ```
+            python3 -m ops.cli status
+            python3 -m ops.cli quality --verbose
+            python3 -m ops.cli integrity
+            ```
+
+            Every number is reproducible from this checkout. Nothing here is
+            published to readers, and merging this changes no knowledge — it
+            records the state of the platform and refreshes the snapshot the
+            admin dashboard reads.
+
+      - name: Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: knowledge-ops-report
+          path: ops/reports/
+          if-no-files-found: ignore
+          retention-days: 90

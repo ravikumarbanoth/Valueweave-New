@@ -410,6 +410,20 @@ class SuggestRouteTest(unittest.TestCase):
         """Nothing in the answer depends on the visitor."""
         self.assertIn("s-maxage", self.src)
 
+    def test_it_is_rate_limited(self):
+        """The only public API surface, and every request scans ~660 documents.
+        Cheap once, not cheap ten thousand times a second from one address."""
+        self.assertIn("MAX_PER_WINDOW", self.src)
+        self.assertIn("429", self.src)
+        self.assertIn("Retry-After", self.src)
+
+    def test_being_limited_leaves_the_box_usable(self):
+        """The client treats a failed request as "leave what is on screen", so
+        a limited visitor keeps their last suggestions and a working Search
+        button rather than getting an error."""
+        block = self.src[self.src.index("if (!allowed("):]
+        self.assertIn("items: []", block[:block.index("}\n")])
+
 
 # ═══════════════════════════ 7. the generated aliases
 class EntityAliasTest(unittest.TestCase):

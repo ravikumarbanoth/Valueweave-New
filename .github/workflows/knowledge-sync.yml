@@ -60,6 +60,20 @@ concurrency:
   group: knowledge-sync
   cancel-in-progress: false
 
+# Least privilege, declared rather than inherited.
+#
+# Without this block the workflow gets the repository's DEFAULT token scope,
+# which on many repositories is write access to contents, packages, issues and
+# more. This job reads the checkout and writes to Supabase with a secret; it has
+# no reason to be able to push a commit, and a workflow that CAN push is a
+# workflow that can be made to push.
+#
+# The two newer workflows (knowledge-collect, knowledge-ops) declare
+# `contents: write` because they genuinely open pull requests. This one does
+# not, so it does not.
+permissions:
+  contents: read
+
 jobs:
   sync:
     runs-on: ubuntu-latest

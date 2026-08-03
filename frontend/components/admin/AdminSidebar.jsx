@@ -13,6 +13,10 @@ import {
 const GROUPS = [
   { label: "OPERATIONS", items: [ { href: "/admin", label: "Control Center", icon: LayoutDashboard, exact: true }, { href: "/admin/notifications", label: "Notifications", icon: Bell, badge: true } ] },
   { label: "KNOWLEDGE GRAPH", items: [
+    // First in this group on purpose: it is the only page that looks at the
+    // knowledge platform itself — entities, packages, crosswalk, sync,
+    // collection queue. Everything below it reads public.* application data.
+    { href: "/admin/knowledge-ops", label: "Knowledge Ops", icon: Activity },
     { href: "/admin/knowledge-graph", label: "Graph Dashboard", icon: Network },
     { href: "/admin/districts-cms", label: "District CMS", icon: MapPin },
     { href: "/admin/skills", label: "Skills CMS", icon: Wrench },

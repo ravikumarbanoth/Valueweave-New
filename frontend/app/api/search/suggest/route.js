@@ -31,9 +31,72 @@ const CACHE = "public, s-maxage=60, stale-while-revalidate=300";
 //: to do unbounded work by a long URL.
 const MAX_QUERY = 80;
 
+// ─── Rate limiting ──────────────────────────────────────────────────────────
+//
+// This is the only public API surface the frontend has, and every request
+// scans ~660 documents. That is cheap once and not cheap ten thousand times a
+// second from one address, and there was no limit anywhere in the repository.
+//
+// In-process and deliberately simple. A shared store would be correct across
+// instances and would need Redis, a schema or a Supabase round trip per
+// keystroke — which would cost more than the abuse it prevents. Per instance
+// is enough to stop a script; a distributed attack needs a CDN or a WAF and
+// this is not the layer for it. Documented in docs/OPERATIONS.md §8 rather
+// than left as a surprise.
+//
+// The limit is generous against real use: the box debounces at 140ms, so a
+// fast typist makes about seven requests in ten seconds and this allows sixty.
+const WINDOW_MS = 10_000;
+const MAX_PER_WINDOW = 60;
+
+//: address -> [windowStartedAt, count]. Swept lazily on write so an idle
+//: process does not hold a map of every visitor it has ever seen.
+const buckets = new Map();
+let sweptAt = 0;
+
+function allowed(address) {
+  const now = Date.now();
+
+  if (now - sweptAt > WINDOW_MS) {
+    for (const [key, [startedAt]] of buckets) {
+      if (now - startedAt > WINDOW_MS) buckets.delete(key);
+    }
+    sweptAt = now;
+  }
+
+  const bucket = buckets.get(address);
+  if (!bucket || now - bucket[0] > WINDOW_MS) {
+    buckets.set(address, [now, 1]);
+    return true;
+  }
+  bucket[1] += 1;
+  return bucket[1] <= MAX_PER_WINDOW;
+}
+
+function callerAddress(request) {
+  // Behind a proxy the socket address is the proxy's. The first hop in
+  // `x-forwarded-for` is the client as the edge saw it — spoofable in general,
+  // and good enough here because the consequence of being wrong is one visitor
+  // sharing a bucket with another, not a security decision.
+  const forwarded = request.headers.get("x-forwarded-for");
+  return (forwarded ? forwarded.split(",")[0] : "").trim()
+    || request.headers.get("x-real-ip")
+    || "unknown";
+}
+
 export async function GET(request) {
   const raw = request.nextUrl.searchParams.get("q") || "";
   const q = raw.slice(0, MAX_QUERY).trim();
+
+  if (!allowed(callerAddress(request))) {
+    // Empty rather than an error body, and 429 rather than 200: the box treats
+    // a failed request as "leave what is on screen", so a limited visitor sees
+    // their last suggestions and a working Search button rather than an error.
+    return NextResponse.json({ query: q, resolved: null, items: [] }, {
+      status: 429,
+      headers: { "Retry-After": String(WINDOW_MS / 1000), "Cache-Control": "no-store" },
+    });
+  }
 
   if (q.length < MIN_QUERY) {
     // Not an error. Someone typed one letter; they are still going.

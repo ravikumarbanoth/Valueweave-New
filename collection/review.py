@@ -91,6 +91,12 @@ class Candidate:
     classified_reason: str
     is_entity: bool
     state: str = COLLECTED
+    #: Written by collection/priority.py after classification and dedupe, so a
+    #: reviewer opening review_queue.jsonl sees the ranking without running
+    #: anything. Zero until the run scores it.
+    priority: int = 0
+    priority_stars: int = 0
+    priority_reason: str = ""
     duplicate_of: str = ""
     duplicate_reason: str = ""
     supersedes: str = ""
@@ -137,8 +143,11 @@ def save(candidates, queue_path=None):
     """
     path = Path(queue_path or QUEUE_PATH)
     path.parent.mkdir(parents=True, exist_ok=True)
+    # Most important first, and NEEDS_REVIEW before everything else. The file
+    # is read by people as well as by software, and the order it is written in
+    # is the order they read it in.
     ordered = sorted(candidates, key=lambda c: (c.state != NEEDS_REVIEW,
-                                                c.source_id, c.candidate_id))
+                                                -c.priority, c.candidate_id))
     path.write_text("".join(c.to_json() + "\n" for c in ordered), encoding="utf-8")
     return path
 
@@ -200,12 +209,16 @@ def summary(candidates):
     counts = {}
     for candidate in candidates or []:
         counts[candidate.state] = counts.get(candidate.state, 0) + 1
-    by_type = {}
+    by_type, by_stars = {}, {}
     for candidate in candidates or []:
-        if candidate.state == NEEDS_REVIEW:
-            by_type[candidate.classified_as] = by_type.get(candidate.classified_as, 0) + 1
+        if candidate.state != NEEDS_REVIEW:
+            continue
+        by_type[candidate.classified_as] = by_type.get(candidate.classified_as, 0) + 1
+        stars = candidate.priority_stars or 1
+        by_stars[stars] = by_stars.get(stars, 0) + 1
     return {
         "total": len(candidates or []),
         "by_state": dict(sorted(counts.items())),
         "awaiting_review_by_type": dict(sorted(by_type.items(), key=lambda kv: -kv[1])),
+        "awaiting_review_by_stars": dict(sorted(by_stars.items(), reverse=True)),
     }

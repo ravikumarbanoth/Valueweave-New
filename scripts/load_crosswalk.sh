@@ -70,8 +70,23 @@ if [[ "$DRY_RUN" == "1" ]]; then summary "Crosswalk load (dry run)"; exit 0; fi
 step "Verifying"
 loaded=$(psql_scalar "select count(*) from knowledge.kg_vocabulary_map;")
 info "rows in table: $loaded (expected $EXPECTED_TOTAL)"
+# `group by term_kind`, NOT `group by 1`.
+#
+# The ordinal refers to the first SELECT ITEM, and the first select item here is
+# the whole concatenation — which contains count(*). PostgreSQL rejects that with
+# "aggregate functions are not allowed in GROUP BY", after the load has already
+# committed, so the sync succeeded and the workflow failed anyway.
+#
+# The two-column form quoted in the migration and in deploy_knowledge.sql —
+# `select term_kind, count(*) ... group by 1` — is correct, because there
+# ordinal 1 IS term_kind. Collapsing those two columns into one formatted string
+# for prettier CLI output silently changed what the ordinal pointed at. Naming
+# the column cannot drift that way.
 psql "$DATABASE_URL" -qtAX -c \
-  "select '    ' || term_kind || ': ' || count(*) from knowledge.kg_vocabulary_map group by 1 order by 1;"
+  "select '    ' || term_kind || ': ' || count(*)
+     from knowledge.kg_vocabulary_map
+    group by term_kind
+    order by term_kind;"
 
 [[ "$loaded" == "$EXPECTED_TOTAL" ]] \
   && ok "all $EXPECTED_TOTAL crosswalk rows present" \

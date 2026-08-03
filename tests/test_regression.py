@@ -12,6 +12,7 @@ original mistake was, rather than an anonymous assertion error.
 
 import csv
 import io
+import re
 import subprocess
 import sys
 import unittest
@@ -181,6 +182,116 @@ class PackageValidatorRegressionTest(unittest.TestCase):
                 self.assertEqual(result.returncode, 0,
                                  f"{validator.parent.name} validator failed:\n"
                                  f"{result.stdout[-2000:]}")
+
+
+class OrdinalGroupByRegressionTest(unittest.TestCase):
+    """`group by 1` where select item 1 contains an aggregate.
+
+    The crosswalk loader's reporting query was:
+
+        select '    ' || term_kind || ': ' || count(*)
+          from knowledge.kg_vocabulary_map group by 1 order by 1;
+
+    PostgreSQL rejects that with "aggregate functions are not allowed in GROUP
+    BY". The sync had already committed all 1,812 records and the crosswalk's
+    202 rows; only the report failed, so the workflow went red on a green
+    deployment.
+
+    The ordinal refers to the whole first SELECT ITEM, and that item is the
+    concatenation — which contains count(*). The two-column form quoted in the
+    migration and in deploy_knowledge.sql is correct, because there ordinal 1
+    IS term_kind. Collapsing the two columns into one formatted string for
+    prettier output silently changed what the ordinal pointed at, and nothing
+    could catch it before the query reached a server.
+    """
+
+    AGGREGATE = re.compile(
+        r"\b(count|sum|avg|min|max|array_agg|string_agg|jsonb_agg|bool_and|bool_or)\s*\(",
+        re.IGNORECASE)
+
+    @staticmethod
+    def _select_items(select_list):
+        """Split on top-level commas — an aggregate's own commas do not count."""
+        items, depth, current = [], 0, ""
+        for char in select_list:
+            if char == "(":
+                depth += 1
+            elif char == ")":
+                depth -= 1
+            if char == "," and depth == 0:
+                items.append(current)
+                current = ""
+            else:
+                current += char
+        items.append(current)
+        return items
+
+    @staticmethod
+    def _strip_comments(text):
+        """`--` and `#` line comments.
+
+        Both matter and the first draft of this test stripped neither, so the
+        scanner locked onto the word "select" inside a prose comment and read
+        the sentence after it as a select list. It reported nothing on a file
+        that did contain the bug.
+        """
+        out = []
+        for line in text.splitlines():
+            line = re.split(r"--", line, maxsplit=1)[0]
+            stripped = line.lstrip()
+            if stripped.startswith("#"):
+                continue
+            out.append(line)
+        return "\n".join(out)
+
+    def _offenders(self, text):
+        out = []
+        body = self._strip_comments(text)
+        for group in re.finditer(r"\bgroup\s+by\s+([0-9]+(?:\s*,\s*[0-9]+)*)",
+                                 body, re.IGNORECASE):
+            before = body[:group.start()]
+            # The NEAREST preceding `select`, not the first one in the file.
+            # Taking the first was the second half of why the draft missed it.
+            starts = [m.end() for m in re.finditer(r"\bselect\b", before, re.IGNORECASE)]
+            if not starts:
+                continue
+            select_list = before[starts[-1]:]
+            select_list = re.split(r"\bfrom\b", select_list, maxsplit=1,
+                                   flags=re.IGNORECASE)[0]
+            items = self._select_items(select_list)
+            for ordinal in [o.strip() for o in group.group(1).split(",")]:
+                index = int(ordinal) - 1
+                if index < len(items) and self.AGGREGATE.search(items[index]):
+                    out.append(f"group by {ordinal} -> {items[index].strip()[:60]}")
+        return out
+
+    def test_the_scanner_catches_the_query_that_broke_the_workflow(self):
+        """A positive control. Without it this test could pass on anything."""
+        broken = ("select '    ' || term_kind || ': ' || count(*) "
+                  "from knowledge.kg_vocabulary_map group by 1 order by 1;")
+        self.assertTrue(self._offenders(broken), "the scanner is not scanning")
+        good = "select term_kind, count(*) from t group by 1 order by 1;"
+        self.assertEqual(self._offenders(good), [],
+                         "the two-column form is correct and must not be flagged")
+
+    def test_no_shipped_query_groups_by_an_ordinal_that_is_an_aggregate(self):
+        offenders = []
+        for path in sorted(ROOT.rglob("*")):
+            if path.is_dir() or "node_modules" in path.parts or ".git" in path.parts:
+                continue
+            if path.suffix not in (".sh", ".sql", ".py"):
+                continue
+            if path.name == "test_regression.py":
+                continue
+            try:
+                text = path.read_text(encoding="utf-8")
+            except (UnicodeDecodeError, OSError):
+                continue
+            for hit in self._offenders(text):
+                offenders.append(f"{path.relative_to(ROOT)}: {hit}")
+        self.assertEqual(
+            offenders, [],
+            "name the column instead of its position:\n  " + "\n  ".join(offenders))
 
 
 if __name__ == "__main__":

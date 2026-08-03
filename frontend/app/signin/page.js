@@ -86,12 +86,12 @@ export default function SignInPage() {
             </button>
             {err && <div data-testid="signin-error" className="mt-4 text-sm text-rose-700 bg-rose-50 border border-rose-200 rounded-xl px-4 py-2.5">{err}</div>}
             <p className="text-xs text-stone-400 mt-5">
-              New to ValueWeave? <Link href="/get-started" className="text-amber-600 font-semibold hover:underline">Create your profile →</Link>
+              New to ValueWeave? <Link href="/get-started" className="inline-flex items-center min-h-[44px] text-amber-600 font-semibold hover:underline">Create your profile →</Link>
             </p>
           </>
         )}
 
-        <Link href="/" className="inline-block mt-8 text-xs text-muted hover:text-ink">← Back to home</Link>
+        <Link href="/" className="inline-flex items-center min-h-[44px] mt-6 text-xs text-muted hover:text-ink">← Back to home</Link>
       </div>
     </div>
   );

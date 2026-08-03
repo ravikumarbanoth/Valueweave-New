@@ -83,7 +83,7 @@ export function ResearchHubClient({ articles }) {
               key={key}
               data-testid={`research-cat-${key}`}
               onClick={() => { setSelectedCategory(key); setPage(1); }}
-              className={`shrink-0 px-4 py-1.5 rounded-full text-xs font-display font-semibold transition-colors min-h-[32px] ${
+              className={`shrink-0 px-4 py-1.5 rounded-full text-xs font-display font-semibold transition-colors min-h-[44px] ${
                 selectedCategory === key
                   ? "bg-ink text-white"
                   : "bg-stone-100 text-stone-600 hover:bg-stone-200"

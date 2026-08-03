@@ -48,7 +48,7 @@ export default function AudienceStartPage({ params }) {
       <main className="min-h-screen bg-cream font-body pb-16">
         <section className="bg-ink text-white px-4 sm:px-6 py-12 sm:py-14">
           <div className="max-w-3xl mx-auto">
-            <Link href="/" className="text-xs text-white/50 hover:text-white/80">
+            <Link href="/" className="inline-flex items-center min-h-[44px] text-xs text-white/50 hover:text-white/80">
               ← Back to home
             </Link>
             <p className="text-4xl mt-4 mb-3" aria-hidden="true">{audience.emoji}</p>

@@ -38,6 +38,21 @@ h1, h2, h3, h4, .font-display {
   .chip {
     @apply inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold;
   }
+  /* PX PHASE 10 — A CHIP THAT IS A CONTROL NEEDS A FINGER-SIZED BOX.
+     `.chip` is used 196 times for two different things: a static badge
+     ("Now Open · Bharat Edition", "STEP 1 OF 3") and a real control (the
+     category filters on /explore and /ideas, the search prompts on
+     /start/<audience>). Measured at 390px the controls came out 26-36px tall
+     against the 44px minimum, and on /explore and /ideas they are the PRIMARY
+     interaction on the page.
+     Selecting on the element rather than adding a class keeps badges exactly
+     as they were: a <span className="chip"> is untouched, an <a> or <button>
+     grows. Nothing else about the pill changes. */
+  a.chip,
+  button.chip,
+  label.chip {
+    @apply min-h-[44px] py-2;
+  }
   .card-base {
     @apply bg-white border border-stone-200 rounded-2xl;
   }

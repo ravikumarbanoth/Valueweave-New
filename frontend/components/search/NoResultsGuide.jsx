@@ -116,7 +116,7 @@ export default function NoResultsGuide({ guidance, query, scopeLabel, mode = "em
                 key={term}
                 href={`/knowledge?q=${encodeURIComponent(term)}`}
                 className="chip bg-white text-stone-600 border border-stone-200
-                           hover:border-amber-300 hover:bg-amber-50 transition-colors min-h-[36px]
+                           hover:border-amber-300 hover:bg-amber-50 transition-colors min-h-[44px]
                            inline-flex items-center"
               >
                 {term}

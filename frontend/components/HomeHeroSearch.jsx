@@ -220,7 +220,7 @@ export default function HomeHeroSearch({ heading, subheading }) {
               title={goal.hint}
               className="inline-flex items-center gap-1.5 rounded-full bg-white border border-stone-200
                          px-3.5 py-2 font-display font-medium text-[13px] text-stone-700
-                         hover:border-amber-400 hover:bg-amber-50 transition-colors min-h-[40px]"
+                         hover:border-amber-400 hover:bg-amber-50 transition-colors min-h-[44px]"
             >
               <span aria-hidden="true">{goal.emoji}</span>
               {goal.label}

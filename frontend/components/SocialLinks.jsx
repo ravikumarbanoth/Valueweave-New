@@ -105,7 +105,10 @@ export default function SocialLinks({ variant = "icon", size = 18, className = "
           data-testid={`social-${id}`}
           aria-label={`${label} — opens in a new tab`}
           title={label}
-          className={`group inline-flex items-center justify-center w-9 h-9 rounded-full border border-stone-200 bg-white text-stone-500 transition-all hover:-translate-y-0.5 ${hover}`}
+          // PX Phase 10: was w-9 h-9 (36px) — under the 44px tap minimum on
+          // every page that renders the footer. The visible circle is
+          // unchanged; only the touchable box grew.
+          className={`group inline-flex items-center justify-center w-11 h-11 rounded-full border border-stone-200 bg-white text-stone-500 transition-all hover:-translate-y-0.5 ${hover}`}
         >
           <Icon size={size} aria-hidden="true" />
         </a>

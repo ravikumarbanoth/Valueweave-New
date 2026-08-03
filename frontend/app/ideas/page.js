@@ -148,7 +148,7 @@ export default function IdeasPage() {
           <button
             data-testid="ideas-more-filters"
             onClick={() => setMoreOpen((o) => !o)}
-            className="inline-flex items-center gap-1.5 text-xs font-display font-semibold text-stone-600 hover:text-ink mt-1"
+            className="inline-flex items-center gap-1.5 min-h-[44px] text-xs font-display font-semibold text-stone-600 hover:text-ink"
           >
             <SlidersHorizontal size={13} /> {moreOpen ? "Fewer filters" : "More filters"}
             {!moreOpen && (invest || tag) && <span className="chip bg-amber-100 text-amber-700 ml-1">on</span>}
@@ -256,7 +256,7 @@ function FilterChip({ active, onClick, children, testid, disabled = false }) {
       onClick={onClick}
       disabled={disabled}
       aria-pressed={active}
-      className={`shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-display font-semibold whitespace-nowrap transition-colors min-h-[32px] ${
+      className={`shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-display font-semibold whitespace-nowrap transition-colors min-h-[44px] ${
         disabled
           ? "bg-stone-50 text-stone-300 cursor-not-allowed"
           : active

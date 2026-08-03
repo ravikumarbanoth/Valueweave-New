@@ -60,6 +60,8 @@ SUITES = {
                        "PX Phase 8: the five defects found walking seven personas"),
     "journey": ("tests.test_journey",
                 "PX Phase 9: the remembered audience and what it may reweight"),
+    "ux_audit": ("tests.test_ux_audit",
+                 "PX Phase 10: the defects found crawling the site at 390px"),
     "stewardship": ("tests.test_stewardship", "Lifecycle, ledger and review queue"),
     "collection": ("tests.test_collection",
                    "Automated collection: registry, conditional fetch, review queue"),

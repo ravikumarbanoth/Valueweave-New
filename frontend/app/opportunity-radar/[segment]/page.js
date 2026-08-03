@@ -71,7 +71,7 @@ export default function RadarSegmentPage({ params }) {
               <Link
                 key={seg}
                 href={`/opportunity-radar/${seg}`}
-                className={`shrink-0 px-4 py-1.5 rounded-full text-xs font-display font-semibold transition-colors min-h-[32px] inline-flex items-center ${
+                className={`shrink-0 px-4 py-1.5 rounded-full text-xs font-display font-semibold transition-colors min-h-[44px] inline-flex items-center ${
                   seg === segment ? "bg-ink text-white" : "bg-stone-100 text-stone-600 hover:bg-stone-200"
                 }`}
               >

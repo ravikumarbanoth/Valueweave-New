@@ -212,7 +212,7 @@ export default function DashboardPage() {
                 key={c.id || "all"}
                 data-testid={`filter-${c.id || "all"}`}
                 onClick={() => setCategory(c.id)}
-                className={`shrink-0 px-3.5 py-2 rounded-full text-xs font-display font-semibold whitespace-nowrap transition-colors min-h-[36px] ${
+                className={`shrink-0 px-3.5 py-2 rounded-full text-xs font-display font-semibold whitespace-nowrap transition-colors min-h-[44px] ${
                   category === c.id ? "bg-ink text-white" : "bg-stone-100 text-stone-600 hover:bg-stone-200"
                 }`}
               >

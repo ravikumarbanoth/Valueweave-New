@@ -152,14 +152,42 @@ class HeroSearchTest(unittest.TestCase):
         self.assertIn("encodeURIComponent", self.hero)
         self.assertNotIn("searchKnowledge", self.hero)
 
+    def prompts(self):
+        source = read(AUDIENCES_JS)
+        return re.findall(r'^  "([^"]+)",',
+                          source[source.index("export const HOME_PROMPTS = ["):],
+                          re.MULTILINE)
+
     def test_the_prompts_are_offered_because_an_empty_box_is_a_wall(self):
+        """PX Phase 10 changed which words these are, and why.
+
+        This used to require "AI" and "Manufacturing". Phase 9's goals row now
+        offers "AI careers" and "Manufacturing" directly beneath, so pinning
+        them here would pin a duplicate: the same words in two chips on one
+        screen going to two different pages.
+
+        The requirement is now the SPLIT — these are specific things a person
+        might type, the goals are areas they might want — so the named
+        examples are the specific ones.
+        """
         self.assertIn("HOME_PROMPTS", self.hero)
-        prompts = re.findall(r'^  "([^"]+)",', read(AUDIENCES_JS)[read(AUDIENCES_JS)
-                             .index("export const HOME_PROMPTS = ["):], re.MULTILINE)
+        prompts = self.prompts()
         self.assertGreaterEqual(len(prompts), 8)
-        for named in ("Electrician", "AI", "Medak", "Solar", "Manufacturing"):
+        for named in ("Electrician", "Medak", "Solar", "PMEGP", "Welding"):
             with self.subTest(prompt=named):
                 self.assertIn(named, prompts)
+
+    def test_no_word_appears_in_both_the_prompt_row_and_the_goal_row(self):
+        """Two chips reading "Government schemes" a centimetre apart, opening
+        different pages, is not a shortcut — it is a puzzle. Found by crawling
+        the built page at 390px in the Phase 10 audit."""
+        source = read(AUDIENCES_JS)
+        goals = re.findall(r'label:\s*"([^"]+)"', source)
+        self.assertGreaterEqual(len(goals), 9, "GOALS did not parse")
+        lower_goals = {g.lower() for g in goals}
+        for prompt in self.prompts():
+            with self.subTest(prompt=prompt):
+                self.assertNotIn(prompt.lower(), lower_goals)
 
     def test_the_decoration_that_pushed_the_fold_down_is_gone(self):
         self.assertNotIn("FLOATING_CARDS", self.page)

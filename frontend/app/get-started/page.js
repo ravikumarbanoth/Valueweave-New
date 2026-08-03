@@ -42,7 +42,7 @@ export default function GetStartedPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-cream to-warm py-12 px-6">
       <div className="max-w-4xl mx-auto">
-        <Link href="/" data-testid="back-to-home" className="inline-flex items-center gap-1.5 text-sm font-semibold text-muted hover:text-ink mb-8">
+        <Link href="/" data-testid="back-to-home" className="inline-flex items-center gap-1.5 min-h-[44px] text-sm font-semibold text-muted hover:text-ink mb-6">
           ← Back to home
         </Link>
 
@@ -88,7 +88,7 @@ export default function GetStartedPage() {
           </div>
 
           <p className="mt-4 text-sm text-stone-500">
-            Already a member? <Link href="/signin" data-testid="getstarted-signin-link" className="text-amber-600 font-semibold hover:underline">Sign in →</Link>
+            Already a member? <Link href="/signin" data-testid="getstarted-signin-link" className="inline-flex items-center min-h-[44px] text-amber-600 font-semibold hover:underline">Sign in →</Link>
           </p>
         </div>
 

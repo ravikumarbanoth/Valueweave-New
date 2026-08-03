@@ -170,15 +170,23 @@ export const GOALS = [
 //: The example searches under the homepage box. Half are the words the brief
 //: named; the rest are what the graph is strongest at, so a first click is
 //: unlikely to land on an empty page.
+//:
+//: PX PHASE 10 — DE-DUPLICATED AGAINST `GOALS`. This list held "Government
+//: schemes", "Manufacturing", "AI" and "Farming", and the goals row beneath it
+//: now offers "Government schemes", "Manufacturing", "AI careers" and
+//: "Agriculture". Two of those were the SAME WORDS in two chips on one screen
+//: pointing at two different pages, which is not a shortcut, it is a puzzle.
+//:
+//: The two rows now do different jobs: these are specific things you might
+//: TYPE, the goals are areas you might want. Every one still returns results —
+//: checked with the real ranker and asserted in tests/test_landing.py.
 export const HOME_PROMPTS = [
   "Electrician",
-  "AI",
-  "Government schemes",
-  "Medak",
-  "Farming",
-  "Solar",
-  "Manufacturing",
-  "PMEGP",
   "Welding",
+  "Tailoring",
+  "Solar",
+  "PMEGP",
   "Turmeric",
+  "Food processing",
+  "Medak",
 ];

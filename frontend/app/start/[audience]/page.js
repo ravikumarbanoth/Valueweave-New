@@ -13,9 +13,13 @@
 //
 // Phase 9 turns the same six into an onboarding flow. This is the routing and
 // the copy; that adds the memory.
+//
+// Phase 9: the memory is `<RememberAudience>` below — a client island with no
+// markup, so this page stays static and renders exactly as it did.
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import AppNavbar from "@/components/AppNavbar";
+import RememberAudience from "@/components/RememberAudience";
 import { AUDIENCES, AUDIENCE_BY_SLUG } from "@/lib/audiences";
 import { buildBaseMetadata, BASE_URL } from "@/lib/seo";
 
@@ -39,6 +43,7 @@ export default function AudienceStartPage({ params }) {
 
   return (
     <>
+      <RememberAudience slug={audience.slug} />
       <AppNavbar />
       <main className="min-h-screen bg-cream font-body pb-16">
         <section className="bg-ink text-white px-4 sm:px-6 py-12 sm:py-14">

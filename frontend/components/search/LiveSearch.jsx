@@ -42,6 +42,7 @@ import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Search, Loader2, CornerDownLeft } from "lucide-react";
 import { trackSearch } from "@/lib/search-tracking";
+import { recall } from "@/lib/journey";
 
 //: Matches MIN_QUERY on the server. Suggesting after one character means
 //: suggesting from a query the ranker will not answer.
@@ -145,7 +146,15 @@ export default function LiveSearch({
     setLoading(true);
     const timer = setTimeout(async () => {
       try {
-        const response = await fetch(`/api/search/suggest?q=${encodeURIComponent(q)}`);
+        // Phase 9. `as` is the audience this visitor told us they were, or
+        // nothing at all. It goes in the URL rather than a header or a cookie
+        // because the route is a shared public cache: two students typing
+        // "elec" must hit one cache entry, and a student and a farmer must hit
+        // two. A header would have made every one of them cache-identical and
+        // served the farmer the student's order.
+        const as = recall();
+        const response = await fetch(
+          `/api/search/suggest?q=${encodeURIComponent(q)}${as ? `&as=${as}` : ""}`);
         const data = await response.json();
         if (mine !== seq.current) return;
         setItems(data.items || []);

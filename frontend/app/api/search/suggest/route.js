@@ -20,10 +20,13 @@
 
 import { NextResponse } from "next/server";
 import { suggest, MIN_QUERY } from "@/lib/search/universal.js";
+import { boostFor, isAudience } from "@/lib/journey";
 
-//: Nothing in the answer depends on the visitor, so two people typing "elec"
-//: in the same minute should cost one computation. Short, because a package
-//: release should show up in the box quickly, and s-maxage rather than
+//: Everything the answer depends on is in the URL — the query and, since
+//: Phase 9, the audience — so two people typing "elec" as a student in the
+//: same minute still cost one computation, and a farmer typing the same thing
+//: gets their own entry rather than the student's order. Short, because a
+//: package release should show up in the box quickly, and s-maxage rather than
 //: max-age so a browser back-button never shows a stale list.
 const CACHE = "public, s-maxage=60, stale-while-revalidate=300";
 
@@ -104,8 +107,14 @@ export async function GET(request) {
                              { headers: { "Cache-Control": CACHE } });
   }
 
+  // Phase 9. An unknown, absent or malformed `as` yields no boost at all, so
+  // a hand-typed URL cannot reweight anything and the anonymous path stays
+  // byte-identical to what it returned before this parameter existed.
+  const as = request.nextUrl.searchParams.get("as");
+  const boost = isAudience(as) ? boostFor(as) : undefined;
+
   try {
-    const payload = await suggest(q);
+    const payload = await suggest(q, { boost });
     return NextResponse.json(payload, { headers: { "Cache-Control": CACHE } });
   } catch {
     // The same contract as every read in lib/knowledge.js: empty, never a

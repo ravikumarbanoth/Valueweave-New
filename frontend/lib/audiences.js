@@ -131,6 +131,42 @@ export const AUDIENCES = [
 
 export const AUDIENCE_BY_SLUG = Object.fromEntries(AUDIENCES.map((a) => [a.slug, a]));
 
+/**
+ * The nine goals the Phase 9 brief named, as a second row under the six.
+ *
+ * WHY BOTH ROWS
+ * -------------
+ * The brief's list mixes two different questions — "Looking for a Job" is who
+ * you are, "Government Schemes" is what you want — and the six personas answer
+ * only the first. Somebody who knows exactly what they came for should not
+ * have to describe themselves first to get it: a farmer looking up PM Kisan
+ * and a student looking up PM Kisan want the same page.
+ *
+ * So the personas stay the primary question and these sit beneath as the
+ * shortcut. Picking a goal does NOT set an audience — it is a destination, not
+ * a claim about who you are, and quietly deciding somebody is a farmer because
+ * they tapped Agriculture is the kind of inference that makes personalisation
+ * feel like surveillance.
+ *
+ * EVERY COUNT BELOW IS REAL
+ * -------------------------
+ * Checked against the built graph, and asserted in tests/test_journey.py —
+ * the `type=` goals against the entity counts, the two free-text goals by
+ * running the real ranker. A goal chip that opens an empty page is worse than
+ * no chip, which is the same rule `starts` above is held to.
+ */
+export const GOALS = [
+  { label: "Looking for a job", emoji: "🧭", href: "/knowledge?type=msme", hint: "40 researched employers" },
+  { label: "Start a business", emoji: "🚀", href: "/knowledge?type=business", hint: "45 with investment ranges" },
+  { label: "Learn a skill", emoji: "🎓", href: "/knowledge?type=skill", hint: "45 skills" },
+  { label: "Government schemes", emoji: "🏛️", href: "/knowledge?type=scheme", hint: "40 schemes" },
+  { label: "Agriculture", emoji: "🌾", href: "/knowledge?type=crop", hint: "45 crops" },
+  { label: "AI careers", emoji: "🤖", href: "/knowledge?q=AI", hint: "27 results" },
+  { label: "Manufacturing", emoji: "🏭", href: "/knowledge?q=manufacturing", hint: "48 results" },
+  { label: "My district", emoji: "📍", href: "/knowledge?type=district", hint: "61 districts" },
+  { label: "Explore everything", emoji: "🌍", href: "/knowledge", hint: "647 researched entries" },
+];
+
 //: The example searches under the homepage box. Half are the words the brief
 //: named; the rest are what the graph is strongest at, so a first click is
 //: unlikely to land on an empty page.

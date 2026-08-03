@@ -58,6 +58,8 @@ SUITES = {
                        "PX Phase 7: entry-page headings a student can act on"),
     "persona_review": ("tests.test_persona_review",
                        "PX Phase 8: the five defects found walking seven personas"),
+    "journey": ("tests.test_journey",
+                "PX Phase 9: the remembered audience and what it may reweight"),
     "stewardship": ("tests.test_stewardship", "Lifecycle, ledger and review queue"),
     "collection": ("tests.test_collection",
                    "Automated collection: registry, conditional fetch, review queue"),

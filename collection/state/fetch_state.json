@@ -1,0 +1,141 @@
+{
+  "sources": {
+    "ap-industries-001": {
+      "consecutive_failures": 0,
+      "content_hash": "",
+      "etag": "",
+      "item_count": 0,
+      "item_hashes": {},
+      "last_changed": "",
+      "last_checked": "",
+      "last_error": "",
+      "last_modified": "",
+      "last_ok": ""
+    },
+    "data-gov-001": {
+      "consecutive_failures": 0,
+      "content_hash": "",
+      "etag": "",
+      "item_count": 0,
+      "item_hashes": {},
+      "last_changed": "",
+      "last_checked": "",
+      "last_error": "",
+      "last_modified": "",
+      "last_ok": ""
+    },
+    "fix-atom-001": {
+      "consecutive_failures": 0,
+      "content_hash": "e2b457407fc43d00",
+      "etag": "",
+      "item_count": 2,
+      "item_hashes": {
+        "fixture-skill-0001": "12292992cc8c55de",
+        "fixture-skill-0002": "69ffd5070878877e"
+      },
+      "last_changed": "2026-08-03T09:02:06+00:00",
+      "last_checked": "2026-08-03T09:09:09+00:00",
+      "last_error": "",
+      "last_modified": "",
+      "last_ok": "2026-08-03T09:09:09+00:00"
+    },
+    "fix-csv-001": {
+      "consecutive_failures": 0,
+      "content_hash": "6f3420fee2b5abe6",
+      "etag": "",
+      "item_count": 3,
+      "item_hashes": {
+        "FIXTURE-TP-001": "0c8da96623bc3a30",
+        "FIXTURE-TP-002": "0a1f546fabfe66c4",
+        "FIXTURE-TP-003": "6d07c1ccb14128a3"
+      },
+      "last_changed": "2026-08-03T09:02:06+00:00",
+      "last_checked": "2026-08-03T09:09:09+00:00",
+      "last_error": "",
+      "last_modified": "",
+      "last_ok": "2026-08-03T09:09:09+00:00"
+    },
+    "fix-json-001": {
+      "consecutive_failures": 0,
+      "content_hash": "b279dee0fa8f3226",
+      "etag": "",
+      "item_count": 3,
+      "item_hashes": {
+        "fixture-dic-0001": "95935d71ae06a10d",
+        "fixture-dic-0002": "f16635ed0d4c14bc",
+        "fixture-dic-0003": "eb62824cc51eb6ed"
+      },
+      "last_changed": "2026-08-03T09:02:06+00:00",
+      "last_checked": "2026-08-03T09:09:09+00:00",
+      "last_error": "",
+      "last_modified": "",
+      "last_ok": "2026-08-03T09:09:09+00:00"
+    },
+    "fix-rss-001": {
+      "consecutive_failures": 0,
+      "content_hash": "680b03cf4f410be1",
+      "etag": "",
+      "item_count": 4,
+      "item_hashes": {
+        "fixture-scheme-0001": "82984223f0a889c9",
+        "fixture-scheme-0002": "cdbf4764cf9207a1",
+        "fixture-scheme-0003": "400744a5374e958e",
+        "fixture-scheme-0004": "a54b473569512927"
+      },
+      "last_changed": "2026-08-03T09:02:06+00:00",
+      "last_checked": "2026-08-03T09:09:09+00:00",
+      "last_error": "",
+      "last_modified": "",
+      "last_ok": "2026-08-03T09:09:09+00:00"
+    },
+    "msme-gov-001": {
+      "consecutive_failures": 0,
+      "content_hash": "",
+      "etag": "",
+      "item_count": 0,
+      "item_hashes": {},
+      "last_changed": "",
+      "last_checked": "",
+      "last_error": "",
+      "last_modified": "",
+      "last_ok": ""
+    },
+    "ncs-jobs-001": {
+      "consecutive_failures": 0,
+      "content_hash": "",
+      "etag": "",
+      "item_count": 0,
+      "item_hashes": {},
+      "last_changed": "",
+      "last_checked": "",
+      "last_error": "",
+      "last_modified": "",
+      "last_ok": ""
+    },
+    "pib-msme-001": {
+      "consecutive_failures": 0,
+      "content_hash": "",
+      "etag": "",
+      "item_count": 0,
+      "item_hashes": {},
+      "last_changed": "",
+      "last_checked": "",
+      "last_error": "",
+      "last_modified": "",
+      "last_ok": ""
+    },
+    "tg-industries-001": {
+      "consecutive_failures": 0,
+      "content_hash": "",
+      "etag": "",
+      "item_count": 0,
+      "item_hashes": {},
+      "last_changed": "",
+      "last_checked": "",
+      "last_error": "",
+      "last_modified": "",
+      "last_ok": ""
+    }
+  },
+  "written_at": "2026-08-03T09:09:09+00:00"
+}

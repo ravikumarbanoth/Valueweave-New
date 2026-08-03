@@ -1,0 +1,197 @@
+{
+  "started_at": "2026-08-03T09:09:09+00:00",
+  "finished_at": "2026-08-03T09:09:09+00:00",
+  "dry_run": false,
+  "sources": [
+    {
+      "source_id": "fix-rss-001",
+      "status": "ok",
+      "error": "",
+      "http_status": 0,
+      "duration_ms": 20,
+      "records": 4,
+      "changes": {
+        "source_id": "fix-rss-001",
+        "not_modified": false,
+        "payload_changed": false,
+        "new": 0,
+        "updated": 0,
+        "unchanged": 4,
+        "disappeared": 0
+      },
+      "classified": {},
+      "duplicates": {
+        "groups": 0,
+        "duplicates": 0,
+        "version_updates": 0
+      },
+      "queued": 0
+    },
+    {
+      "source_id": "fix-atom-001",
+      "status": "ok",
+      "error": "",
+      "http_status": 0,
+      "duration_ms": 0,
+      "records": 2,
+      "changes": {
+        "source_id": "fix-atom-001",
+        "not_modified": false,
+        "payload_changed": false,
+        "new": 0,
+        "updated": 0,
+        "unchanged": 2,
+        "disappeared": 0
+      },
+      "classified": {},
+      "duplicates": {
+        "groups": 0,
+        "duplicates": 0,
+        "version_updates": 0
+      },
+      "queued": 0
+    },
+    {
+      "source_id": "fix-json-001",
+      "status": "ok",
+      "error": "",
+      "http_status": 0,
+      "duration_ms": 0,
+      "records": 3,
+      "changes": {
+        "source_id": "fix-json-001",
+        "not_modified": false,
+        "payload_changed": false,
+        "new": 0,
+        "updated": 0,
+        "unchanged": 3,
+        "disappeared": 0
+      },
+      "classified": {},
+      "duplicates": {
+        "groups": 0,
+        "duplicates": 0,
+        "version_updates": 0
+      },
+      "queued": 0
+    },
+    {
+      "source_id": "fix-csv-001",
+      "status": "ok",
+      "error": "",
+      "http_status": 0,
+      "duration_ms": 0,
+      "records": 3,
+      "changes": {
+        "source_id": "fix-csv-001",
+        "not_modified": false,
+        "payload_changed": false,
+        "new": 0,
+        "updated": 0,
+        "unchanged": 3,
+        "disappeared": 0
+      },
+      "classified": {},
+      "duplicates": {
+        "groups": 0,
+        "duplicates": 0,
+        "version_updates": 0
+      },
+      "queued": 0
+    },
+    {
+      "source_id": "pib-msme-001",
+      "status": "skipped",
+      "error": "status=PENDING_VERIFICATION",
+      "http_status": 0,
+      "duration_ms": 0,
+      "records": 0,
+      "changes": {},
+      "classified": {},
+      "duplicates": {},
+      "queued": 0
+    },
+    {
+      "source_id": "msme-gov-001",
+      "status": "skipped",
+      "error": "status=PENDING_VERIFICATION",
+      "http_status": 0,
+      "duration_ms": 0,
+      "records": 0,
+      "changes": {},
+      "classified": {},
+      "duplicates": {},
+      "queued": 0
+    },
+    {
+      "source_id": "ncs-jobs-001",
+      "status": "skipped",
+      "error": "status=PENDING_VERIFICATION",
+      "http_status": 0,
+      "duration_ms": 0,
+      "records": 0,
+      "changes": {},
+      "classified": {},
+      "duplicates": {},
+      "queued": 0
+    },
+    {
+      "source_id": "tg-industries-001",
+      "status": "skipped",
+      "error": "status=PENDING_VERIFICATION",
+      "http_status": 0,
+      "duration_ms": 0,
+      "records": 0,
+      "changes": {},
+      "classified": {},
+      "duplicates": {},
+      "queued": 0
+    },
+    {
+      "source_id": "ap-industries-001",
+      "status": "skipped",
+      "error": "status=PENDING_VERIFICATION",
+      "http_status": 0,
+      "duration_ms": 0,
+      "records": 0,
+      "changes": {},
+      "classified": {},
+      "duplicates": {},
+      "queued": 0
+    },
+    {
+      "source_id": "data-gov-001",
+      "status": "skipped",
+      "error": "status=PENDING_VERIFICATION",
+      "http_status": 0,
+      "duration_ms": 0,
+      "records": 0,
+      "changes": {},
+      "classified": {},
+      "duplicates": {},
+      "queued": 0
+    }
+  ],
+  "queue": {
+    "total": 12,
+    "by_state": {
+      "DUPLICATE": 1,
+      "NEEDS_REVIEW": 11
+    },
+    "awaiting_review_by_type": {
+      "TrainingProvider": 4,
+      "BusinessOpportunity": 3,
+      "Certification": 1,
+      "Skill": 1,
+      "Machinery": 1,
+      "GovernmentScheme": 1
+    }
+  },
+  "merged": {
+    "added": 0,
+    "reopened": 0,
+    "kept_decided": 0,
+    "promoted_to_review": 0
+  },
+  "failures": 0
+}

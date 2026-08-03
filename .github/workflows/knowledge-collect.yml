@@ -1,0 +1,137 @@
+# Automated collection — sources in, pull request out.
+#
+# WHAT THIS DOES NOT DO
+# ---------------------
+# It does not sync. It does not touch Supabase. It does not commit to main. It
+# opens a pull request whose diff IS the review queue, and stops.
+#
+# That separation is the whole safety property. `knowledge-sync.yml` runs on a
+# push to main and projects packages into Supabase; if this workflow committed
+# to main, collected material would be one cron away from the live site with no
+# person in between. So this one ends at a pull request, and a human merging it
+# is the approval step the brief requires.
+#
+# WHY IT RUNS AT ALL WHEN NOTHING IS ACTIVE
+# ------------------------------------------
+# Six of the ten registered sources are PENDING_VERIFICATION and are skipped by
+# design. The four that run are local fixtures, and running them proves the
+# scheduled path itself works — the pipeline, the state file, the queue, the
+# pull request — before a real feed is ever pointed at it. A collection system
+# whose first exercise of its own schedule is with live data is a system whose
+# first failure is with live data.
+
+name: Knowledge collection
+
+on:
+  schedule:
+    # 04:00 UTC daily — after the 03:00 Monday sync in knowledge-sync.yml, so
+    # the two never contend for the same checkout on the day they coincide.
+    - cron: "0 4 * * *"
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Check every active source regardless of its schedule"
+        type: boolean
+        default: false
+  # On a change to the registry or the collection code, so a new source is
+  # exercised in the pull request that adds it rather than a day later.
+  pull_request:
+    paths:
+      - "collection/**"
+      - "knowledge_engine/collectors/**"
+      - "knowledge_engine/parsers/**"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  # One run at a time. Two concurrent runs would both read the queue, both
+  # merge into it, and the second would overwrite the first's candidates.
+  group: knowledge-collection
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install test dependencies
+        run: python3 -m pip install -r requirements-dev.txt
+
+      - name: Registry integrity
+        # Before fetching anything. A registry row naming a class that cannot
+        # be imported would otherwise fail per-source, mid-run, as an error
+        # against the source rather than against the row.
+        run: python3 -m collection.cli sources
+
+      - name: Dry run
+        # Always, on every trigger including a pull request, because the report
+        # is the useful artefact for a reviewer adding a source.
+        run: python3 -m collection.cli run ${{ inputs.force && '--force' || '' }}
+
+      - name: Collect
+        if: github.event_name != 'pull_request'
+        run: |
+          python3 -m collection.cli run --write ${{ inputs.force && '--force' || '' }}
+
+      - name: Feed health
+        # `always()`, because health matters most on the runs that failed.
+        if: always()
+        run: python3 -m collection.cli health
+
+      - name: Open a review pull request
+        if: github.event_name != 'pull_request'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: collection/review-queue
+          # One long-lived branch that accumulates until somebody merges it,
+          # rather than a branch per run. Twelve open pull requests is a queue
+          # nobody reads, which is the failure this whole design is built to
+          # avoid.
+          base: main
+          title: "Collection: new candidates for review"
+          commit-message: "Collection: candidates from the scheduled run"
+          add-paths: |
+            collection/state/review_queue.jsonl
+            collection/state/fetch_state.json
+            collection/state/last_run.json
+            collection/state/research_backlog.json
+          labels: needs-review
+          body: |
+            Automated collection run. **Nothing here is published.**
+
+            The diff is the review queue. Each candidate carries the source it
+            came from, the words that classified it, and the raw record
+            verbatim — read `collection/state/review_queue.jsonl`.
+
+            ```
+            python3 -m collection.cli queue
+            python3 -m collection.cli health
+            ```
+
+            Approving a candidate is a separate act and happens in stewardship,
+            against the append-only ledger:
+
+            ```
+            python3 -m stewardship.cli review <entity_id> --actor NAME --evidence URL
+            python3 -m stewardship.cli approve <entity_id> --actor NAME
+            ```
+
+            Merging this pull request records what was collected. It does not
+            put anything into a package, into the knowledge graph or into
+            Supabase — those remain manual, reviewed steps.
+
+      - name: Run log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: collection-run-log
+          path: collection/state/last_run.json
+          if-no-files-found: ignore
+          retention-days: 30

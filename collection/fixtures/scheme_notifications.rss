@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  A fixture, not a capture. Every item below is invented for testing and is
+  labelled as such in its title, so that a row escaping into a package would be
+  obvious rather than plausible. The SHAPE is real RSS 2.0; the CONTENT is not
+  a claim about anything.
+-->
+<rss version="2.0">
+  <channel>
+    <title>FIXTURE — Scheme notifications</title>
+    <link>https://example.invalid/schemes</link>
+    <description>Test fixture for collection/. Not a real feed.</description>
+    <lastBuildDate>Mon, 03 Aug 2026 04:00:00 +0000</lastBuildDate>
+    <item>
+      <guid isPermaLink="false">fixture-scheme-0001</guid>
+      <title>FIXTURE Margin Money Subsidy Scheme for micro enterprises</title>
+      <link>https://example.invalid/schemes/0001</link>
+      <pubDate>Mon, 03 Aug 2026 03:00:00 +0000</pubDate>
+      <description>Fixture text. A subsidy scheme for micro enterprises with a loan component and an online application portal.</description>
+      <category>Scheme</category>
+    </item>
+    <item>
+      <guid isPermaLink="false">fixture-scheme-0002</guid>
+      <title>FIXTURE Skill training centre empanelment for ITI graduates</title>
+      <link>https://example.invalid/schemes/0002</link>
+      <pubDate>Sun, 02 Aug 2026 09:30:00 +0000</pubDate>
+      <description>Fixture text. Empanelment of training providers offering NSQF aligned courses and apprenticeship placement.</description>
+      <category>Training</category>
+    </item>
+    <item>
+      <guid isPermaLink="false">fixture-scheme-0003</guid>
+      <title>FIXTURE Solar rooftop installation opportunity in Medak district</title>
+      <link>https://example.invalid/schemes/0003</link>
+      <pubDate>Sat, 01 Aug 2026 11:15:00 +0000</pubDate>
+      <description>Fixture text. Rooftop solar installation and maintenance work available for licensed electrical contractors in Medak district.</description>
+      <category>Opportunity</category>
+    </item>
+    <item>
+      <guid isPermaLink="false">fixture-scheme-0004</guid>
+      <title>FIXTURE Margin Money Subsidy Scheme for micro enterprises</title>
+      <link>https://example.invalid/schemes/0004</link>
+      <pubDate>Mon, 03 Aug 2026 03:05:00 +0000</pubDate>
+      <description>Fixture text. Republished announcement of the same subsidy scheme under a second notification number.</description>
+      <category>Scheme</category>
+    </item>
+  </channel>
+</rss>

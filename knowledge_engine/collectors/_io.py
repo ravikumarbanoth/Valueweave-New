@@ -23,6 +23,22 @@ def read_source(source: str, timeout: float = 15.0, headers: dict[str, str] | No
     Returns (content_bytes, metadata). Raises FetchError on any failure — callers are expected to
     catch this and convert it into a `FetchResult(status="error")` rather than letting it propagate,
     per `BaseCollector.fetch`'s contract.
+
+    CONDITIONAL REQUESTS (added for collection/, Platform v3.1)
+    ----------------------------------------------------------
+    `headers` was already accepted and is now actually useful: the validators a
+    server sends back — `ETag` and `Last-Modified` — are returned in the
+    metadata, and a `304 Not Modified` is a SUCCESS with empty content and
+    `not_modified: True`, not an error.
+
+    That last part is the whole point. A polite collector sends
+    `If-None-Match`/`If-Modified-Since` and a well-behaved server answers 304
+    with no body — which `urllib` raises as an HTTPError. Treating it as a
+    failure would mark every unchanged feed as broken, which is the exact
+    inverse of the truth and would drown a monitoring dashboard in false alarms.
+
+    Nothing about the unconditional path changed, so every existing caller
+    behaves identically.
     """
     if source.startswith("http://") or source.startswith("https://"):
         request = urllib.request.Request(source, headers=headers or {"User-Agent": "ValueWeave-KnowledgeEngine/0.1.0"})
@@ -32,9 +48,22 @@ def read_source(source: str, timeout: float = 15.0, headers: dict[str, str] | No
                 metadata = {
                     "http_status": response.status,
                     "content_type": response.headers.get("Content-Type"),
+                    "etag": response.headers.get("ETag"),
+                    "last_modified": response.headers.get("Last-Modified"),
+                    "not_modified": False,
                 }
                 return content, metadata
-        except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError) as exc:
+        except urllib.error.HTTPError as exc:
+            if exc.code == 304:
+                return b"", {
+                    "http_status": 304,
+                    "content_type": exc.headers.get("Content-Type") if exc.headers else None,
+                    "etag": exc.headers.get("ETag") if exc.headers else None,
+                    "last_modified": exc.headers.get("Last-Modified") if exc.headers else None,
+                    "not_modified": True,
+                }
+            raise FetchError(f"HTTP fetch failed for {source}: {exc}") from exc
+        except (urllib.error.URLError, TimeoutError) as exc:
             raise FetchError(f"HTTP fetch failed for {source}: {exc}") from exc
 
     path = Path(source)

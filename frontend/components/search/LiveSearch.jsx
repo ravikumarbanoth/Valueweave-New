@@ -41,6 +41,7 @@
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Search, Loader2, CornerDownLeft } from "lucide-react";
+import { trackSearch } from "@/lib/search-tracking";
 
 //: Matches MIN_QUERY on the server. Suggesting after one character means
 //: suggesting from a query the ranker will not answer.
@@ -151,6 +152,20 @@ export default function LiveSearch({
         setResolved(data.resolved || null);
         setOpen(true);
         setActive(-1);
+        // The signal the research backlog reads.
+        //
+        // `search_events` and `lib/search-tracking.js` have both existed since
+        // migration 004, and `trackSearch` had ZERO callers — the admin page
+        // at /admin/search-intelligence renders a "No-Results Searches —
+        // content gaps" panel over an empty table and says so in its own copy.
+        // Every no-result search since launch was discarded at the moment it
+        // happened.
+        //
+        // Recorded on the SETTLED query only: the debounce means "electrician"
+        // produces one event rather than eleven, and a prefix of a word nobody
+        // finished typing is not a content gap. Fire-and-forget — trackSearch
+        // swallows its own errors and this must never delay the list.
+        trackSearch({ query: q, page: "search", resultsCount: (data.items || []).length });
       } catch {
         // Offline, or the route is down. Leave whatever is on screen and let
         // the Search button do its job — the form still works without this.

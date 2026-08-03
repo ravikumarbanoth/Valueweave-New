@@ -44,11 +44,18 @@ export default function OpportunityRadarPage() {
             <span className="chip bg-teal-500/20 text-teal-300 border border-teal-500/30 mb-4">
               VALUEWEAVE OPPORTUNITY RADAR
             </span>
+            {/* PX Phase 8. Was "Ranked. Scored. Ready for You to Build." over a
+                subtitle naming the Idea Library and the Research Hub — two more
+                product areas. This is where /start/entrepreneur sends someone,
+                so it is the first real page a would-be founder sees, and Phase
+                7's plain-language pass was scoped to the homepage and did not
+                reach it. */}
             <h1 data-testid="radar-title" className="font-display font-extrabold tracking-tight text-3xl sm:text-4xl md:text-5xl text-white leading-tight mb-4">
-              Ranked. Scored. Ready<br className="hidden md:block" /> for You to Build.
+              Business ideas,<br className="hidden md:block" /> best first.
             </h1>
             <p className="text-white/60 text-base sm:text-lg max-w-xl mx-auto">
-              Business ideas ranked by fit score, market demand, and district suitability — connected to the Idea Library and Research Hub.
+              Ordered by how well each one fits your district and how much demand
+              there is. Every one says what it costs to start.
             </p>
           </div>
         </section>

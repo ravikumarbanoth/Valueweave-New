@@ -128,17 +128,34 @@ export default async function KnowledgeExplorerPage({ searchParams }) {
     <>
       <AppNavbar />
       <main className="max-w-5xl mx-auto px-4 sm:px-6 py-8 flex flex-col gap-6">
+        {/* PX Phase 8. The heading did not know a search had happened. Someone
+            who typed "Electrician" and pressed Search landed on a page headed
+            "What would you like to explore?" above a paragraph inviting them to
+            explore — which is what a page looks like when it has ignored you,
+            and is exactly what this route did until the search fix. Even now
+            that the results are correct, the heading argues with them.
+
+            The invitation is right for someone who arrived with no query and
+            wrong for someone who arrived with one. */}
         <div>
-          <p className="text-[11px] uppercase tracking-widest text-muted">Explore</p>
-          <h1 className="font-display font-bold text-2xl sm:text-3xl text-ink">
-            {entityType ? BROWSE_LABEL(entityType) : "What would you like to explore?"}
-          </h1>
-          <p className="text-sm text-muted mt-1 max-w-2xl">
-            Districts to build in, businesses you could start, skills worth learning,
-            government schemes you may qualify for and crops that grow well here —
-            across Telangana and Andhra Pradesh. Everything here was checked against
-            an official public source.
+          <p className="text-[11px] uppercase tracking-widest text-muted">
+            {searching ? "Search results" : "Explore"}
           </p>
+          <h1 className="font-display font-bold text-2xl sm:text-3xl text-ink">
+            {searching
+              ? `“${q}”`
+              : entityType
+                ? BROWSE_LABEL(entityType)
+                : "What would you like to explore?"}
+          </h1>
+          {!searching && (
+            <p className="text-sm text-muted mt-1 max-w-2xl">
+              Districts to build in, businesses you could start, skills worth learning,
+              government schemes you may qualify for and crops that grow well here —
+              across Telangana and Andhra Pradesh. Everything here was checked against
+              an official public source.
+            </p>
+          )}
         </div>
 
         <SearchBar q={q} urlType={urlType} />

@@ -22,6 +22,7 @@ import {
   getEntityBySlug,
   getEntityDetail,
   getConnectedKnowledge,
+  knowledgeAvailable,
   hrefFor,
 } from "@/lib/knowledge";
 import EntityHeader from "@/components/knowledge/EntityHeader";
@@ -236,14 +237,33 @@ async function GraphDetail({ params }) {
   const entity = await getEntityBySlug(params.type, params.slug);
 
   if (!entity) {
+    // PX Phase 8. This said SCHEMA_UNREACHABLE unconditionally, so a mistyped
+    // or stale URL rendered "More is on the way" — the platform-is-not-ready
+    // message — with no heading at all. The two causes look identical from
+    // here and mean opposite things to the reader, so ask which it is: one
+    // extra query, on a path that is already an error.
+    const availability = await knowledgeAvailable();
+    const label = TYPE_LABEL_PLURAL[TYPE_BY_URL[params.type]];
     return (
       <>
         <AppNavbar />
         <main className="max-w-4xl mx-auto px-4 sm:px-6 py-10 flex flex-col gap-4">
           <Link href="/knowledge" className="text-[12px] text-muted hover:text-ink w-fit">
-            ← Knowledge Explorer
+            ← Back to everything we have researched
           </Link>
-          <KnowledgeEmptyState reason="SCHEMA_UNREACHABLE" entityLabel="record" />
+          <KnowledgeEmptyState
+            reason={availability.available ? "NOT_FOUND" : "SCHEMA_UNREACHABLE"}
+            entityLabel="page"
+            action={
+              availability.available && label ? (
+                <Link href={`/knowledge?type=${params.type}`}
+                      data-testid="not-found-category"
+                      className="btn-secondary text-sm mt-3">
+                  Browse all {label.toLowerCase()} →
+                </Link>
+              ) : undefined
+            }
+          />
         </main>
       </>
     );

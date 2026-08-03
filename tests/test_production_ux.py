@@ -437,8 +437,11 @@ class EmptyStatesPointSomewhereTest(unittest.TestCase):
         src = code(COMPONENTS / "knowledge" / "KnowledgeEmptyState.jsx")
         block = src[src.index("const states = {"):src.index("const copy = states[key]")]
         states = re.findall(r"^    ([A-Z_]+): \{", block, re.MULTILINE)
+        # NOT_FOUND joined in PX Phase 8: a mistyped or stale detail URL used to
+        # render NOT_DEPLOYED, telling the reader the platform was not ready
+        # when the truth was that one address was wrong.
         self.assertEqual(sorted(states),
-                         ["EMPTY", "NOT_AVAILABLE_YET", "NOT_DEPLOYED",
+                         ["EMPTY", "NOT_AVAILABLE_YET", "NOT_DEPLOYED", "NOT_FOUND",
                           "NO_DATA_SOURCE", "NO_MATCH"])
         self.assertEqual(len(re.findall(r"nextStep:", block)), len(states),
                          "every state needs a way out, not most of them")

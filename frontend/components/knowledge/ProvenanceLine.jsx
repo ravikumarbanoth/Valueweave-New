@@ -22,7 +22,9 @@
 // SourceBadge and ConfidenceBadge, which say it in words a reader can use.
 import { PACKAGE_LABELS } from "@/lib/knowledge";
 
-export default function ProvenanceLine({ package: pkg, dataset, rowId, className = "" }) {
+//: `srOnly` keeps the element and its data attributes and drops the visible
+//: text — for the one caller that already shows the same fact as a chip.
+export default function ProvenanceLine({ package: pkg, dataset, rowId, srOnly = false, className = "" }) {
   if (!pkg && !dataset && !rowId) return null;
 
   const label = PACKAGE_LABELS[pkg];
@@ -36,7 +38,7 @@ export default function ProvenanceLine({ package: pkg, dataset, rowId, className
       data-source-package={pkg || undefined}
       data-source-dataset={dataset || undefined}
       data-source-row={rowId || undefined}
-      className={`text-[10px] text-stone-400 truncate ${className}`}
+      className={srOnly ? "sr-only" : `text-[10px] text-stone-400 truncate ${className}`}
       title={[pkg, dataset, rowId].filter(Boolean).join(" / ")}
     >
       {text}

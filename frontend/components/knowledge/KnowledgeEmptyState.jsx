@@ -47,6 +47,7 @@ import Link from "next/link";
 const ALIASES = { SCHEMA_UNREACHABLE: "NOT_DEPLOYED", NO_MATCHES: "NO_MATCH" };
 
 export const EMPTY_STATES = [
+  "NOT_FOUND",
   "NOT_DEPLOYED",
   "EMPTY",
   "NO_MATCH",
@@ -91,6 +92,19 @@ export function emptyStateCopy(reason, { entityLabel = "information", query, dep
         "In the meantime, here is where most people start.",
       nextStep: RADAR,
       operatorNote: "Research database connected but empty — the data load has not run.",
+    },
+    // PX Phase 8. A detail page whose entity does not exist used to render
+    // NOT_DEPLOYED — "More is on the way" — which tells a reader the platform
+    // is still being built when the truth is that one address is wrong. Anyone
+    // following a stale bookmark, a shared link or an old search result got a
+    // sentence about our rollout instead of a way back to what they wanted.
+    NOT_FOUND: {
+      title: "We could not find that page",
+      body:
+        "The link may be old, or the address may have a typo in it. Everything " +
+        "else is still here.",
+      nextStep: EXPLORE,
+      operatorNote: "Slug did not resolve to an entity; the projection is reachable.",
     },
     NO_MATCH: {
       title: query ? `No match for “${query}” yet` : `More ${entityLabel} coming soon`,

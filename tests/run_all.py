@@ -52,6 +52,8 @@ SUITES = {
                 "PX Phase 6: hero search, audience routes and their destinations"),
     "plain_language": ("tests.test_plain_language",
                        "PX Phase 7: entry-page headings a student can act on"),
+    "persona_review": ("tests.test_persona_review",
+                       "PX Phase 8: the five defects found walking seven personas"),
     "stewardship": ("tests.test_stewardship", "Lifecycle, ledger and review queue"),
     "deployment": ("tests.test_deployment",
                    "Deployment: writer, scripts, migration 011"),

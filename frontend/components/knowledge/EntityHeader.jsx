@@ -21,7 +21,23 @@ const TYPE_LABEL = {
   Institution: "Institution",
 };
 
-export default function EntityHeader({ entity, detail, backHref = "/knowledge", backLabel = "Knowledge Explorer" }) {
+// PX Phase 8. Two changes from reading this header as a 17-year-old would.
+//
+// The back link said "← Knowledge Explorer". That is the name of a product
+// area, and a student who arrived from a search result has never seen it —
+// they cannot tell whether it goes back to their results, to a category, or
+// somewhere new.
+//
+// And the source was stated twice, three lines apart: a "Skills & training
+// research" chip, then "From our skills & training research" underneath it.
+// Saying it once is provenance; saying it twice reads as a rendering fault
+// and pushes the actual content further down the phone.
+export default function EntityHeader({
+  entity,
+  detail,
+  backHref = "/knowledge",
+  backLabel = "Back to everything we have researched",
+}) {
   if (!entity) return null;
   const unverified = String(entity.verification_status || "").includes("NEEDS_REVIEW");
   return (
@@ -51,10 +67,16 @@ export default function EntityHeader({ entity, detail, backHref = "/knowledge", 
         {detail?.category_name && <span className="chip">{detail.category_name}</span>}
       </div>
 
+      {/* The visible half of this duplicated the SourceBadge above. The
+          identifiers it carries are still wanted — support quotes them and
+          tests assert on them — so the element stays and only its text goes:
+          `data-source-package`, `data-source-dataset`, `data-source-row` and
+          the hover title are all unchanged. */}
       <ProvenanceLine
         package={entity.source_package}
         dataset={detail?.data_source}
         rowId={entity.package_local_id}
+        srOnly
       />
 
       {detail?.source_url && String(detail.source_url).startsWith("http") && (

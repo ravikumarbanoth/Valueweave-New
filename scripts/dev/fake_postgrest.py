@@ -37,10 +37,32 @@ ENTITIES = load(f"{ROOT}/knowledge_graph/entities/entities.csv")
 for e in ENTITIES:
     e["confidence_score"] = int(e["confidence_score"] or 0)
 RELS = load(f"{ROOT}/knowledge_graph/relationships/relationships.csv")
+# The per-type detail tables. `getEntityDetail` joins these on
+# `package_local_id`, and they carry everything a reader actually came for —
+# an NSQF level, a benefit summary, an investment range. Serving them empty
+# made every detail page look like it had no content, which is a defect in the
+# rig, not the product. Sourced from the same package CSVs knowledge_sync
+# projects (see knowledge_sync/config.py TABLE_SPECS).
+PKG = f"{ROOT}/packages"
+DETAIL = {
+    "kg_districts":  f"{PKG}/Package001_Geography/datasets/district.csv",
+    "kg_skills":     f"{PKG}/Package006_Skills_and_Training/datasets/skills.csv",
+    "kg_schemes":    f"{PKG}/Package007_Government_Schemes/datasets/government_schemes.csv",
+}
+
+
+def load_optional(path):
+    try:
+        return load(path)
+    except FileNotFoundError:
+        print(f"  (no {path} — detail pages for it will look empty)", flush=True)
+        return []
+
+
 TABLES = {"kg_entities": ENTITIES, "kg_relationships": RELS,
-          "kg_vocabulary_map": [], "kg_districts": [], "kg_skills": [],
-          "kg_schemes": [], "kg_businesses": [], "kg_industries": [],
+          "kg_vocabulary_map": [], "kg_businesses": [], "kg_industries": [],
           "kg_agriculture": []}
+TABLES.update({name: load_optional(path) for name, path in DETAIL.items()})
 UNHANDLED = []
 
 class Unhandled(Exception):

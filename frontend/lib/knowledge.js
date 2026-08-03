@@ -239,6 +239,19 @@ async function searchIndex() {
 }
 
 /**
+ * The same index, for callers that rank it themselves.
+ *
+ * lib/search/universal.js unions this with research articles and anything else
+ * the source registry declares. It reads this function rather than issuing its
+ * own query so that there is one Supabase client, one soft-delete filter and
+ * one process-lifetime cache — three things that would each be a way for the
+ * two indexes to disagree about what exists.
+ */
+export async function knowledgeIndex() {
+  return searchIndex();
+}
+
+/**
  * Search the researched knowledge.
  *
  * Signature unchanged. Results gain `_match`, `_score` and `_via`, which the UI

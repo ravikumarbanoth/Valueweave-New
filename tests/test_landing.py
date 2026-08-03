@@ -98,10 +98,17 @@ class HeroSearchTest(unittest.TestCase):
     def setUp(self):
         self.page = code(APP / "page.js")
         self.hero = code(COMPONENTS / "HomeHeroSearch.jsx")
+        # The box itself is LiveSearch now, shared with /knowledge. The hero
+        # supplies the label, the placeholder and the testid prefix; the input
+        # element lives one file down.
+        self.box = code(COMPONENTS / "search" / "LiveSearch.jsx")
 
     def test_the_hero_renders_the_search(self):
         self.assertIn("<HomeHeroSearch", self.page)
-        self.assertIn('data-testid="home-search-input"', self.hero)
+        self.assertIn("<LiveSearch", self.hero)
+        self.assertIn('testId="home-search"', self.hero)
+        self.assertIn("data-testid={`${testId}-input`}", self.box,
+                      "home-search-input must still exist on the page")
 
     def test_the_search_comes_before_every_other_section(self):
         """Being present is not the same as being first."""
@@ -122,9 +129,16 @@ class HeroSearchTest(unittest.TestCase):
         cut in half. It is a visible <label> now.
         """
         self.assertIn("What opportunity are you looking for today?", self.hero)
+        self.assertNotIn("hiddenLabel", self.hero,
+                         "the hero label must stay visible")
         self.assertNotIn('className="sr-only"', self.hero,
                          "the question must be visible, not only announced")
-        self.assertIn('htmlFor="home-search"', self.hero)
+        # The <label> itself lives in LiveSearch, bound to the input by a
+        # generated id; the hero supplies its text and its class. Both halves
+        # are asserted so neither can quietly become a placeholder again.
+        self.assertIn("labelClassName=", self.hero)
+        self.assertIn("<label", self.box)
+        self.assertIn("htmlFor={`${listboxId}-input`}", self.box)
 
     def test_it_navigates_rather_than_querying_as_you_type(self):
         """A live index fetch in the hero is a cost on every visitor.

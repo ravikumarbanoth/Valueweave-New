@@ -11,17 +11,24 @@
 // control was below eight screens of pitch, and a visitor who knew exactly what
 // they wanted — "PMEGP", "electrician", "Medak" — had no way to say so.
 //
-// WHY A FORM AND NOT THE LIVE SEARCH COMPONENT
-// --------------------------------------------
-// KnowledgeSearch queries as you type, which is right where it sits: inside a
-// page you already chose to be on. In the hero it would be wrong twice. It
-// fetches the whole 647-row index on first keystroke, which is a cost to put on
-// every landing-page visitor including the ones who scroll straight past; and
-// when the projection is unreachable it would render an empty state at the top
-// of the homepage.
+// THE BOX IS NOW LIVE, AND THE OBJECTION THAT KEPT IT STATIC IS GONE
+// -------------------------------------------------------------------
+// This was a plain form, deliberately: the old live component fetched the
+// whole 647-row index into the browser on the first keystroke, which is a cost
+// to put on every landing-page visitor including the ones who scroll straight
+// past, and it rendered an empty state at the top of the homepage whenever the
+// projection was unreachable.
 //
-// A form navigates to /knowledge?q=… instead. No fetch until someone means it,
-// the result lands on the page built to show results, and the URL is shareable.
+// LiveSearch has neither problem. The index stays on the server and the wire
+// carries two characters out and eight rows back — under 2 KB — and when the
+// route fails it returns an empty list, so the box degrades to exactly the
+// form this used to be. The submit button still navigates to /knowledge?q=…,
+// so the URL is still shareable and the results page is still the place
+// results are shown.
+//
+// Which matters here more than anywhere: this is the first control a first-time
+// visitor sees, and "type three letters and watch the platform answer" teaches
+// what ValueWeave is faster than any paragraph above it can.
 //
 // THE SIX CHIPS ARE THE POINT
 // ---------------------------
@@ -31,14 +38,12 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 import Link from "next/link";
-import { Search } from "lucide-react";
+import LiveSearch from "@/components/search/LiveSearch";
 import { AUDIENCES, HOME_PROMPTS } from "@/lib/audiences";
 
 export default function HomeHeroSearch({ heading, subheading }) {
   const router = useRouter();
-  const [query, setQuery] = useState("");
 
   const go = (term) => {
     const q = String(term || "").trim();
@@ -63,55 +68,19 @@ export default function HomeHeroSearch({ heading, subheading }) {
         {subheading}
       </p>
 
-      <form
-        onSubmit={(event) => {
-          event.preventDefault();
-          go(query);
-        }}
-        role="search"
-        className="max-w-2xl mx-auto"
-      >
-        {/* The question is visible, not just an accessible label. It is the one
+      <div className="max-w-2xl mx-auto text-left">
+        {/* The question is a visible label, not a placeholder. It is the one
             sentence the brief asks the page to open with, and a placeholder
-            cannot carry it — a placeholder disappears the moment anyone types. */}
-        <label
-          htmlFor="home-search"
-          className="block font-display font-bold text-[15px] text-ink mb-3"
-        >
-          What opportunity are you looking for today?
-        </label>
-
-        <div className="relative">
-          <Search
-            size={20}
-            aria-hidden="true"
-            className="absolute left-5 top-[1.4rem] sm:top-1/2 sm:-translate-y-1/2 text-stone-400 pointer-events-none"
-          />
-          <input
-            id="home-search"
-            value={query}
-            onChange={(event) => setQuery(event.target.value)}
-            data-testid="home-search-input"
-            placeholder="Electrician, PMEGP, Medak…"
-            autoComplete="off"
-            className="w-full rounded-full border-2 border-stone-200 bg-white pl-14 pr-5 sm:pr-32 py-4 sm:py-5
-                       text-base sm:text-lg text-ink placeholder:text-stone-400
-                       focus:border-amber-400 focus:outline-none focus:ring-4 focus:ring-amber-500/10
-                       shadow-sm transition-colors"
-          />
-          {/* Inside the pill from `sm` up, a full-width button below it on a
-              phone. At 390px the absolute button left about 160px of usable
-              field and truncated the placeholder mid-word. */}
-          <button
-            type="submit"
-            data-testid="home-search-submit"
-            className="btn-primary w-full mt-3 sm:mt-0 sm:w-auto
-                       sm:absolute sm:right-2 sm:top-1/2 sm:-translate-y-1/2 sm:!px-6 !py-3 sm:!py-2.5"
-          >
-            Search
-          </button>
-        </div>
-      </form>
+            cannot carry it — a placeholder disappears the moment anyone
+            types. Centred, because everything else in the hero is. */}
+        <LiveSearch
+          testId="home-search"
+          size="hero"
+          label="What opportunity are you looking for today?"
+          labelClassName="block font-display font-bold text-[15px] text-ink mb-3 text-center"
+          placeholder="Electrician, PMEGP, Medak…"
+        />
+      </div>
 
       {/* An empty box is a wall. These are the words people actually arrive
           with, and every one of them returns something from the graph. */}

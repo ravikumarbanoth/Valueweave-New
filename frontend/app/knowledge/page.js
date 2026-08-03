@@ -12,20 +12,22 @@ import Link from "next/link";
 import AppNavbar from "@/components/AppNavbar";
 import {
   listEntities,
-  searchKnowledge,
-  suggestRelatedSearches,
   typeCounts,
   knowledgeAvailable,
   hrefFor,
   URL_BY_TYPE,
   TYPE_BY_URL,
-  PACKAGE_LABELS,
 } from "@/lib/knowledge";
+import { searchGrouped, guidance } from "@/lib/search/universal.js";
+import { resolveQuery, describeResolution } from "@/lib/search-vocabulary.js";
 import SourceBadge from "@/components/knowledge/SourceBadge";
 import ConfidenceBadge from "@/components/knowledge/ConfidenceBadge";
 import KnowledgePagination from "@/components/knowledge/KnowledgePagination";
 import KnowledgeEmptyState from "@/components/knowledge/KnowledgeEmptyState";
 import TrustPanel from "@/components/knowledge/TrustPanel";
+import LiveSearch from "@/components/search/LiveSearch";
+import GroupedResults from "@/components/search/GroupedResults";
+import NoResultsGuide from "@/components/search/NoResultsGuide";
 import { buildBaseMetadata, BASE_URL } from "@/lib/seo";
 
 export const revalidate = 300;
@@ -40,6 +42,10 @@ export const metadata = buildBaseMetadata({
 });
 
 const PAGE_SIZE = 24;
+
+//: Fewer than this and the page offers guidance as well as results. Not zero:
+//: a single row is a coverage gap wearing the costume of an answer.
+const THIN_RESULTS = 3;
 
 //: The browse taxonomy — Step 4.
 //:
@@ -158,7 +164,7 @@ export default async function KnowledgeExplorerPage({ searchParams }) {
           )}
         </div>
 
-        <SearchBar q={q} urlType={urlType} />
+        <SearchBar q={q} urlType={urlType} searching={searching} />
 
         {/* PRODUCTION BUG, FIXED HERE — SEARCH NEVER RAN
             ------------------------------------------------
@@ -209,23 +215,31 @@ function BROWSE_LABEL(entityType) {
   return entityType;
 }
 
-function SearchBar({ q, urlType }) {
+// The plain form became a live one. It is the same control — a box, a Search
+// button, and a URL you can share — with a list under it after two characters,
+// so trying a second word costs a keystroke instead of a page load.
+//
+// The type filter is dropped from the box on purpose. A live suggestion
+// restricted to one category, on a page whose whole point is that you should
+// not have to know the category, is the database asking the question again.
+// The filter still applies to the RESULTS below; see SearchResults.
+function SearchBar({ q, urlType, searching }) {
   return (
-    <form action="/knowledge" method="get" data-testid="knowledge-explorer-search"
-          className="flex flex-wrap gap-2">
-      {urlType && <input type="hidden" name="type" value={urlType} />}
-      <input
-        name="q"
-        defaultValue={q}
-        placeholder="Try a district, a skill, or a business idea…"
-        aria-label="Search"
-        className="input-field flex-1 min-w-[200px]"
+    <div className="flex flex-col gap-2" data-testid="knowledge-explorer-search">
+      <LiveSearch
+        initialQuery={q}
+        size="compact"
+        testId="explorer-search"
+        label="Search everything we have researched"
+        hiddenLabel
+        placeholder="A district, a skill, a scheme, a business idea…"
       />
-      <button type="submit" className="btn-primary">Search</button>
-      {(q || urlType) && (
-        <Link href="/knowledge" className="btn-secondary">Clear</Link>
+      {(searching || urlType) && (
+        <Link href="/knowledge" className="text-[12px] text-muted hover:text-ink w-fit">
+          Clear
+        </Link>
       )}
-    </form>
+    </div>
   );
 }
 
@@ -271,110 +285,82 @@ async function TypeIndex() {
 }
 
 /**
- * One query, one engine.
+ * One query, one engine — now over everything, not only the graph.
  *
- * `searchKnowledge` is the ladder in lib/knowledge-search.js: exact, prefix,
- * word, contains, vocabulary expansion, then fuzzy — with a floor on substring
- * matching so a two-letter query cannot land inside an unrelated word. It reads
- * the index once per server process rather than per keystroke, which is why it
- * is safe to call from a server component.
+ * `searchGrouped` is the same ladder in lib/knowledge-search.js (exact,
+ * prefix, word, contains, vocabulary expansion, fuzzy, with a floor on
+ * substring matching) applied to the union of every source in
+ * lib/search/registry.js: the 647 researched entities AND the research
+ * articles, which until now the search box could not see at all.
  *
- * `suggestRelatedSearches` was written alongside it and, until this fix, had no
- * caller outside the client component. A no-match page that offers the terms
- * that WOULD have worked is the difference between a dead end and a redirect.
+ * Two things changed about what a reader gets:
+ *
+ *   grouped     nine labelled sections in best-result order, instead of one
+ *               flat grid mixing districts, skills, schemes and articles and
+ *               asking the reader to sort it.
+ *
+ *   guided      when nothing matches, `guidance` runs instead of a sentence —
+ *               a correction, related rows that actually exist, the terms that
+ *               would have worked, and a one-tap request. Never a dead end.
  */
 async function SearchResults({ q, entityType, urlType }) {
-  const [rows, related] = await Promise.all([
-    searchKnowledge(q, { entityType: entityType || undefined, limit: 24 }),
-    suggestRelatedSearches(q, { limit: 6 }),
-  ]);
+  const scopeLabel = entityType ? BROWSE_LABEL(entityType).toLowerCase() : "";
 
-  const scope = entityType ? ` in ${BROWSE_LABEL(entityType).toLowerCase()}` : "";
+  // The type filter is applied AFTER grouping is computed, because a filtered
+  // search that finds nothing should still be able to say "there are eleven of
+  // these if you drop the filter" — which is the useful thing to say and was
+  // impossible when the filter was pushed into the query.
+  const { rows, groups } = await searchGrouped(q, { limit: 60, perGroup: 8 });
+  const visible = entityType ? rows.filter((r) => r.entity_type === entityType) : rows;
 
-  if (rows.length === 0) {
+  if (visible.length === 0) {
+    const help = await guidance(q);
     return (
-      <div className="flex flex-col gap-4" data-testid="search-results">
-        <KnowledgeEmptyState
-          reason="NO_MATCH"
-          entityLabel={entityType ? BROWSE_LABEL(entityType).toLowerCase() : "results"}
-          query={q}
-          action={
-            related.length > 0 ? (
-              <div className="flex flex-wrap justify-center gap-2 mt-3"
-                   data-testid="search-suggestions">
-                {related.map((term) => (
-                  <Link
-                    key={term}
-                    href={`/knowledge?q=${encodeURIComponent(term)}`}
-                    className="chip bg-white text-stone-600 border border-stone-200 hover:border-amber-300 hover:bg-amber-50 transition-colors"
-                  >
-                    {term}
-                  </Link>
-                ))}
-              </div>
-            ) : undefined
-          }
-        />
-        {entityType && (
+      <div className="flex flex-col gap-4">
+        <NoResultsGuide guidance={help} query={q} scopeLabel={scopeLabel} />
+        {entityType && rows.length > 0 && (
           <Link href={`/knowledge?q=${encodeURIComponent(q)}`}
                 data-testid="search-drop-filter"
-                className="text-sm font-display font-bold text-amber-700 hover:text-amber-600 w-fit mx-auto">
-            Search everything instead →
+                className="text-sm font-display font-bold text-amber-700 hover:text-amber-600 w-fit">
+            {rows.length} {rows.length === 1 ? "result" : "results"} outside {scopeLabel} — search everything →
           </Link>
         )}
       </div>
     );
   }
 
+  const shown = entityType
+    ? [{ id: entityType, label: BROWSE_LABEL(entityType), total: visible.length,
+         items: visible.slice(0, 24), best: visible[0]._score }]
+    : groups;
+
+  // One result is not "found it", it is "we barely cover this". "Dairy" is the
+  // standing example: the graph holds a single dairy-adjacent row, and a page
+  // showing only that row tells the reader we have a dairy section when we do
+  // not. Below the threshold the guidance renders underneath the results, so
+  // the answer is honest AND the reader still has somewhere to go.
+  const thin = visible.length < THIN_RESULTS;
+  const help = thin
+    ? await guidance(q, { exclude: visible.map((r) => r.global_entity_id) })
+    : null;
+
   return (
-    <div className="flex flex-col gap-4" data-testid="search-results">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <Link href="/knowledge" className="text-[12px] text-muted hover:text-ink">
-          ← All knowledge
-        </Link>
-        <p className="text-[12px] text-muted" data-testid="search-count">
-          {rows.length} {rows.length === 1 ? "result" : "results"} for “{q}”{scope}
-        </p>
-      </div>
-
-      <ul data-testid="search-list" className="grid gap-3 sm:grid-cols-2">
-        {rows.map((e) => (
-          <li key={e.global_entity_id}>
-            <Link href={hrefFor(e)} data-testid="search-item"
-                  className="card-base p-4 flex flex-col gap-2 h-full hover:border-stone-300 transition-colors">
-              <div className="flex items-start justify-between gap-2">
-                <span className="font-display font-bold text-ink text-[15px] leading-snug">
-                  {e.canonical_name}
-                </span>
-                <ConfidenceBadge confidence={e.confidence_score} />
-              </div>
-              {/* Why a result that does not contain the typed word is here.
-                  Without this, "electrician" returning "Power Distribution
-                  Technician" looks like a bug rather than the point. */}
-              {e._via && (
-                <p className="text-[11px] text-stone-400" data-testid="search-via">
-                  related to “{e._via}”
-                </p>
-              )}
-              <SourceBadge sourcePackage={e.source_package} className="w-fit" />
-            </Link>
-          </li>
-        ))}
-      </ul>
-
-      {related.length > 0 && (
-        <div className="flex flex-wrap items-center gap-2 pt-2"
-             data-testid="search-related">
-          <span className="text-[11px] text-muted">Also try:</span>
-          {related.map((term) => (
-            <Link
-              key={term}
-              href={`/knowledge?q=${encodeURIComponent(term)}`}
-              className="chip bg-white text-stone-600 border border-stone-200 hover:border-amber-300 hover:bg-amber-50 transition-colors"
-            >
-              {term}
-            </Link>
-          ))}
+    <div className="flex flex-col gap-6">
+      <Link href="/knowledge" className="text-[12px] text-muted hover:text-ink w-fit">
+        ← All knowledge
+      </Link>
+      <GroupedResults
+        groups={shown}
+        total={visible.length}
+        query={q}
+        resolved={describeResolution(resolveQuery(q))}
+      />
+      {help && (
+        <div className="border-t border-stone-200 pt-6" data-testid="thin-results">
+          <p className="text-sm text-muted mb-4">
+            That is all we have researched on this so far. Here is what is nearby.
+          </p>
+          <NoResultsGuide guidance={help} query={q} scopeLabel={scopeLabel} mode="thin" />
         </div>
       )}
     </div>

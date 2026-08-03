@@ -111,3 +111,7 @@ credentials.json
 
 # Runtime state written by the user-intelligence Supabase writer (append-only log)
 user_intelligence/state/
+
+# tests/js_harness.py stages a mirror of frontend/lib here so that bare
+# imports resolve against frontend/node_modules. Removed on cleanup.
+frontend/.js-harness-*/

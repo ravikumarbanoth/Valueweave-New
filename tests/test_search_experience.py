@@ -33,56 +33,48 @@ shipped code broke.
     python3 tests/run_all.py --suite search_experience
 """
 
-import csv
 import json
 import os
 import re
-import shutil
-import subprocess
-import textwrap
 import unittest
 from pathlib import Path
 
+from tests.js_harness import NODE, JsHarness, entities
+
 ROOT = Path(__file__).resolve().parent.parent
 FE = ROOT / "frontend"
-ENTITIES = ROOT / "knowledge_graph" / "entities" / "entities.csv"
-NODE = shutil.which("node")
-
-
-def entities():
-    with open(ENTITIES, encoding="utf-8", newline="") as fh:
-        return list(csv.DictReader(fh))
 
 
 class SearchHarness:
-    """Runs the shipped modules in node, with `@/lib/...` rewritten to paths."""
+    """Runs the shipped modules in node.
 
-    _dir = None
+    Staging moved to tests/js_harness.py, which mirrors the whole of
+    frontend/lib rather than a hand-listed subset — this class used to name
+    the two files it needed, and broke the day one of them imported a third.
+    """
+
+    _h = None
 
     @classmethod
-    def prepare(cls, tmp):
-        cls._dir = Path(tmp)
-        for name in ("search-vocabulary.js", "knowledge-search.js"):
-            src = (FE / "lib" / name).read_text(encoding="utf-8")
-            src = re.sub(r'@/lib/([a-z-]+)', r'./\1.js', src)
-            (cls._dir / name).write_text(src, encoding="utf-8")
-        (cls._dir / "entities.json").write_text(json.dumps(entities()), encoding="utf-8")
+    def prepare(cls, _tmp=None):
+        cls._h = JsHarness()
+        cls._h.dataset("entities.json", entities())
+
+    @classmethod
+    def close(cls):
+        if cls._h:
+            cls._h.cleanup()
+            cls._h = None
 
     @classmethod
     def run(cls, body):
-        script = cls._dir / "run.mjs"
-        script.write_text(textwrap.dedent(f"""
-            import fs from "node:fs";
+        return cls._h.run(f"""
             const {{ rankEntities, relatedSearches, matchTerm, editDistance }} =
-              await import("{cls._dir}/knowledge-search.js");
-            const {{ expandQuery }} = await import("{cls._dir}/search-vocabulary.js");
-            const ents = JSON.parse(fs.readFileSync("{cls._dir}/entities.json", "utf8"));
+              await import("$LIB/knowledge-search.js");
+            const {{ expandQuery }} = await import("$LIB/search-vocabulary.js");
+            const ents = JSON.parse(fs.readFileSync("$DIR/entities.json", "utf8"));
             {body}
-        """), encoding="utf-8")
-        r = subprocess.run([NODE, str(script)], capture_output=True, text=True, timeout=60)
-        if r.returncode != 0:
-            raise AssertionError(f"node failed:\n{r.stdout}\n{r.stderr}")
-        return json.loads(r.stdout)
+        """)
 
     @classmethod
     def search(cls, query, limit=24):
@@ -97,13 +89,11 @@ class SearchQualityTest(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        import tempfile                                            # noqa: PLC0415
-        cls._tmp = tempfile.TemporaryDirectory()
-        SearchHarness.prepare(cls._tmp.name)
+        SearchHarness.prepare()
 
     @classmethod
     def tearDownClass(cls):
-        cls._tmp.cleanup()
+        SearchHarness.close()
 
     def names(self, query, limit=24):
         return [r["canonical_name"] for r in SearchHarness.search(query, limit)]
@@ -183,13 +173,11 @@ class SearchRulesTest(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        import tempfile                                            # noqa: PLC0415
-        cls._tmp = tempfile.TemporaryDirectory()
-        SearchHarness.prepare(cls._tmp.name)
+        SearchHarness.prepare()
 
     @classmethod
     def tearDownClass(cls):
-        cls._tmp.cleanup()
+        SearchHarness.close()
 
     def test_short_queries_must_land_on_a_word_boundary(self):
         out = SearchHarness.run(
@@ -232,8 +220,8 @@ class SearchRulesTest(unittest.TestCase):
         front of a student.
         """
         out = SearchHarness.run(
-            'const { EXPANSIONS } = await import("%s/search-vocabulary.js");\n'
-            'const { humaniseType } = await import("%s/knowledge-search.js");\n'
+            'const { EXPANSIONS } = await import("$LIB/search-vocabulary.js");\n'
+            'const { humaniseType } = await import("$LIB/knowledge-search.js");\n'
             'const dead = [];\n'
             'for (const [key, terms] of Object.entries(EXPANSIONS))\n'
             '  for (const t of terms) {\n'
@@ -241,7 +229,7 @@ class SearchRulesTest(unittest.TestCase):
             '    const byType = ents.some((e) => humaniseType(e.entity_type) === t);\n'
             '    if (!byName && !byType) dead.push(`${key} -> ${t}`);\n'
             '  }\n'
-            'console.log(JSON.stringify(dead));' % (SearchHarness._dir, SearchHarness._dir))
+            'console.log(JSON.stringify(dead));')
         self.assertEqual(out, [], f"expansions that reach nothing: {out}")
 
     def test_a_type_word_returns_the_whole_category(self):

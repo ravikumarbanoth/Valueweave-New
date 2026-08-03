@@ -30,6 +30,16 @@
 // Every right-hand term below was checked against the live graph — an expansion
 // that matches nothing is a lie that costs a query. tests/test_search_experience
 // asserts that.
+//
+// WHERE THE OTHER TWO LANGUAGES LIVE
+// ----------------------------------
+// This table is English. Telugu script and Tanglish are resolved in
+// lib/search/multilingual.js against lib/search/vocabulary/concepts.js, and
+// the result is merged into `expandQuery` below as though it had been typed in
+// English. Nothing about the tables here changed to make that work, and
+// nothing downstream of `expandQuery` knows there is more than one language.
+
+import { resolveQuery } from "./search/multilingual.js";
 
 //: Query term -> terms to also search for. Matched on whole words after
 //: normalisation, so "ai" expands and "maize" does not.
@@ -183,8 +193,13 @@ export const CORRECTIONS = {
 /** Lower-case, strip punctuation, collapse whitespace. */
 export function normaliseTerm(text) {
   return String(text || "")
+    .normalize("NFC")
+    // Zero-width joiners. Telugu conjuncts are commonly typed with a U+200C
+    // between syllables and just as commonly without, and two strings that
+    // render identically must compare equal.
+    .replace(/[​-‍﻿]/g, "")
     .toLowerCase()
-    .replace(/[^\p{L}\p{N}\s]/gu, " ")
+    .replace(/[^\p{L}\p{N}\p{M}\s]/gu, " ")
     .replace(/\s+/g, " ")
     .trim();
 }
@@ -232,8 +247,32 @@ export function expandQuery(raw) {
       if (CORRECTIONS[w]) add(CORRECTIONS[w], 0.8, "typed");
       if (ACRONYMS[w]) add(ACRONYMS[w], 0.7, "acronym");
       for (const term of EXPANSIONS[w] || []) add(term, 0.45, "related");
+      // The words themselves, at a weight that cannot outrank the phrase.
+      //
+      // Without this, a query the graph half-covers returned nothing at all.
+      // "lift technician" is the case that exposed it: we hold no lift
+      // technician, but we do hold "Forklift and Material Handling
+      // Equipment", and the multi-word rule in matchTerm needs EVERY word
+      // present, so the phrase matched nothing and neither word was ever
+      // tried on its own. Half an answer beats a blank page, and the phrase
+      // still wins wherever the phrase exists.
+      add(w, 0.4, "related");
     }
   }
 
+  // Telugu and Tanglish. Merged last and only where it wins: `add` keeps the
+  // higher weight, so a query already understood in English is unaffected and
+  // this cannot reorder any existing result.
+  for (const { term, weight, kind } of resolveQuery(raw).terms) add(term, weight, kind);
+
   return [...out].map(([term, { weight, kind }]) => ({ term, weight, kind }));
 }
+
+/**
+ * What the query turned out to mean, for the UI to echo back.
+ *
+ * Separate from `expandQuery` on purpose: the ranker wants terms and the page
+ * wants a sentence, and folding both into one return value would put a
+ * presentation concern inside the matcher.
+ */
+export { resolveQuery, describeResolution } from "./search/multilingual.js";

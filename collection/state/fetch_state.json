@@ -124,6 +124,18 @@
       "last_modified": "",
       "last_ok": ""
     },
+    "pypi-rss-001": {
+      "consecutive_failures": 0,
+      "content_hash": "",
+      "etag": "",
+      "item_count": 0,
+      "item_hashes": {},
+      "last_changed": "",
+      "last_checked": "",
+      "last_error": "",
+      "last_modified": "",
+      "last_ok": ""
+    },
     "tg-industries-001": {
       "consecutive_failures": 0,
       "content_hash": "",
@@ -137,5 +149,5 @@
       "last_ok": ""
     }
   },
-  "written_at": "2026-08-03T10:04:47+00:00"
+  "written_at": "2026-08-03T15:37:58+00:00"
 }

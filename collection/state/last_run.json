@@ -1,8 +1,57 @@
 {
-  "started_at": "2026-08-03T15:37:58+00:00",
-  "finished_at": "2026-08-03T15:37:58+00:00",
+  "started_at": "2026-08-05T07:16:41+00:00",
+  "finished_at": "2026-08-05T07:16:41+00:00",
   "dry_run": false,
-  "sources": [],
+  "sources": [
+    {
+      "source_id": "fix-rss-001",
+      "status": "ok",
+      "error": "",
+      "http_status": 0,
+      "duration_ms": 20,
+      "records": 4,
+      "changes": {
+        "source_id": "fix-rss-001",
+        "not_modified": false,
+        "payload_changed": false,
+        "new": 0,
+        "updated": 0,
+        "unchanged": 4,
+        "disappeared": 0
+      },
+      "classified": {},
+      "duplicates": {
+        "groups": 0,
+        "duplicates": 0,
+        "version_updates": 0
+      },
+      "queued": 0
+    },
+    {
+      "source_id": "fix-atom-001",
+      "status": "ok",
+      "error": "",
+      "http_status": 0,
+      "duration_ms": 0,
+      "records": 2,
+      "changes": {
+        "source_id": "fix-atom-001",
+        "not_modified": false,
+        "payload_changed": false,
+        "new": 0,
+        "updated": 0,
+        "unchanged": 2,
+        "disappeared": 0
+      },
+      "classified": {},
+      "duplicates": {
+        "groups": 0,
+        "duplicates": 0,
+        "version_updates": 0
+      },
+      "queued": 0
+    }
+  ],
   "queue": {
     "total": 12,
     "by_state": {

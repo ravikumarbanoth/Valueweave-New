@@ -200,6 +200,173 @@ class VocabularyIntegrityTest(unittest.TestCase):
                     self.assertGreaterEqual(len(term.strip()), 2)
 
 
+@unittest.skipUnless(NODE, NODE_REASON)
+class ConstructionSearchTest(unittest.TestCase):
+    """The construction dataset's contribution, which was almost entirely
+    correcting wrong answers rather than adding coverage.
+
+    16 of 22 probe queries changed: 7 went from nothing to something, and NINE
+    had a confident wrong answer. That ratio is the opposite of the electrician
+    document's, and for a clear reason — the graph holds none of these fifteen
+    trades as skills, so every query about them was landing on whatever the
+    fuzzy rung could reach.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        cls.h = JsHarness()
+        cls.h.dataset("entities.json", entities())
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.h.cleanup()
+
+    def top(self, queries):
+        return self.h.run("""
+            const { rankEntities } = await import("$LIB/knowledge-search.js");
+            const rows = JSON.parse(fs.readFileSync("$DIR/entities.json", "utf8"));
+            const out = {};
+            for (const q of %s) {
+              const r = rankEntities(rows, q, { limit: 1 })[0];
+              out[q] = r ? r.canonical_name : null;
+            }
+            console.log(JSON.stringify(out));
+        """ % json.dumps(list(queries)))
+
+    def test_crane_operator_no_longer_returns_maize(self):
+        """The worst single result found in this whole exercise, and a real bug
+        rather than a gap.
+
+        `crane` and `corn` reduce to the SAME consonant skeleton — `krn` — so
+        the phonetic layer resolved "crane operator" to the `maize` concept,
+        whose English alias is "corn", and returned **Maize** on an EXACT
+        match. Confidently, at the top, for a trade that builds the Hyderabad
+        metro.
+
+        The fix is the mechanism the vocabulary already provides: an explicit
+        alias resolves through the ALIAS layer, which outranks phonetic, so the
+        collision never gets a chance to fire.
+
+        THE BARE WORD `crane` IS NOT FIXED, AND DELIBERATELY SO.
+        Adding it as an alias was tried and rejected by
+        `test_no_two_concepts_share_a_phonetic_key`: two concepts may not claim
+        one key, because a collision silently disables one of their Tanglish
+        paths. So "corn" and "crane" cannot both be aliases, and "corn" is the
+        English name of a crop grown across both states — a farmer looking up
+        maize outranks the one-word form of a query that works in every other
+        phrasing.
+
+        Fixing it properly means changing when the phonetic layer is allowed to
+        fire, which is a search-engine change and out of scope here. Recorded
+        in docs/TRADE_ENRICHMENT_REPORT.md as a known limit with its cause.
+        """
+        got = self.top(["crane operator", "tower crane"])
+        for query, name in got.items():
+            with self.subTest(query=query):
+                self.assertIsNotNone(name)
+                self.assertNotEqual(name, "Maize",
+                                    "the corn/crane phonetic collision is back")
+
+    def test_the_bare_word_crane_is_a_known_and_recorded_limitation(self):
+        """Asserted so the trade-off stays visible. If somebody later changes
+        the phonetic layer and this starts passing, the report is stale and
+        should be updated — a failing test here is good news."""
+        got = self.top(["crane"])
+        self.assertEqual(
+            got["crane"], "Maize",
+            "the corn/crane collision appears to be fixed — update "
+            "docs/TRADE_ENRICHMENT_REPORT.md and delete this test")
+
+    def test_the_eight_other_confidently_wrong_answers_are_gone(self):
+        """Each of these returned something unrelated with conviction."""
+        was_wrong = {
+            "road roller": "Microcontroller Programming",
+            "jcb driver": "PLC, Drives, Sensors and Cabling",
+            "pump technician": "Field Technician - Computing & Peripherals - ELE/Q4601",
+            "borewell technician": "Field Technician - Computing & Peripherals - ELE/Q4601",
+            "modular kitchen": "Cloud Kitchen",
+            "aluminium fabricator": "Welding (MIG/TIG/Arc)",
+            "pop plasterer": "Masonry & Brickwork",
+        }
+        got = self.top(was_wrong)
+        for query, old in was_wrong.items():
+            with self.subTest(query=query):
+                self.assertIsNotNone(got[query], f"{query!r} returns nothing")
+                self.assertNotEqual(got[query], old,
+                                    f"{query!r} is back to its old wrong answer")
+
+    def test_a_trade_reaches_the_business_the_graph_already_holds(self):
+        """The gap this document exposes: five trades exist as BUSINESSES you
+        could start and not as skills you could learn. Until the candidates are
+        reviewed, the least a search can do is reach the business."""
+        expected = {
+            "gypsum": "POP Works",
+            "drywall": "POP Works",
+            "false ceiling": "POP Works",
+            "glazier": "Aluminium Fabrication",
+            "upvc window": "Aluminium Fabrication",
+            "borewell technician": "Borewell Drilling Services",
+            "pump technician": "Submersible Pump Installation & Repair",
+        }
+        got = self.top(expected)
+        for query, fragment in expected.items():
+            with self.subTest(query=query):
+                self.assertIsNotNone(got[query], f"{query!r} returns nothing")
+                self.assertIn(fragment.lower(), got[query].lower())
+
+
+class ConstructionSourceTest(unittest.TestCase):
+    """What the construction source module has to keep recording."""
+
+    def setUp(self):
+        import sys                                                # noqa: PLC0415
+        sys.path.insert(0, str(ROOT))
+        from research.sources import construction_trades_2026     # noqa: PLC0415
+        self.mod = construction_trades_2026
+        self.text = (ROOT / "research" / "sources"
+                     / "construction_trades_2026.py").read_text(encoding="utf-8")
+
+    def test_all_fifteen_trades_are_new(self):
+        self.assertEqual(len(self.mod.ROLES), 15)
+        self.assertEqual(len(self.mod.new_roles()), 15)
+        self.assertEqual(self.mod.merge_roles(), [])
+
+    def test_the_five_business_pairings_point_at_real_entities(self):
+        """"A business you cannot learn" is only a finding if the business is
+        actually there."""
+        known = {e["canonical_name"] for e in entities()}
+        pairings = self.mod.businesses_without_a_skill()
+        self.assertEqual(len(pairings), 5)
+        for slug, business in pairings.items():
+            with self.subTest(slug=slug):
+                self.assertIn(business, known)
+
+    def test_the_copy_pasted_aliases_were_not_carried_across(self):
+        """ROLE 3 (Aluminium Fabricator) lists ROLE 4's uPVC alternative titles
+        verbatim — a copy-paste defect in the source, visible because the two
+        roles' own tool tables disagree. The wrong aliases must not ship."""
+        aluminium = next(r for r in self.mod.ROLES
+                         if r["slug"] == "aluminium-fabricator")
+        for wrong in ("uPVC Window Technician", "uPVC Fitting Specialist",
+                      "Fenestration Installer"):
+            with self.subTest(alias=wrong):
+                self.assertNotIn(wrong, aluminium["aliases"])
+        self.assertIn("SOURCE DEFECT", aluminium["notes"])
+
+    def test_it_records_that_declaring_no_limits_is_not_reassurance(self):
+        """This document, unlike the electrician one, admits nothing about
+        itself. That makes it less self-aware, not more reliable, and the next
+        reader needs to be told so."""
+        self.assertEqual(self.mod.SOURCE["self_declared_limits"], [])
+        self.assertIn("Absence of a caveat is not evidence of accuracy",
+                      self.text)
+
+    def test_confidence_still_respects_the_secondary_source_ceiling(self):
+        for value in re.findall(r'"confidence":\s*(\d+)', self.text):
+            with self.subTest(confidence=value):
+                self.assertLessEqual(int(value), 60)
+
+
 class SourceProvenanceTest(unittest.TestCase):
     """The research file has to keep saying where it came from and what it is."""
 

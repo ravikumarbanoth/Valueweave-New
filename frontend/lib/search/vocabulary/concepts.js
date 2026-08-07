@@ -101,7 +101,6 @@ export default Object.freeze({
         "woodworker",
         "joiner",
         "furniture carpenter",
-        "modular kitchen installer",
         "wood turner"
       ],
       "te": [
@@ -211,8 +210,7 @@ export default Object.freeze({
         "building painter",
         "decorative painter",
         "industrial painter",
-        "wall putty applicator",
-        "waterproofing"
+        "wall putty applicator"
       ],
       "te": [
         "పెయింటర్",
@@ -1304,6 +1302,150 @@ export default Object.freeze({
         "plc programming",
         "industrial automation",
         "automation"
+      ]
+    },
+    {
+      "id": "false-ceiling",
+      "en_canonical": "false ceiling",
+      "en": [
+        "pop ceiling",
+        "gypsum board",
+        "gypsum",
+        "drywall",
+        "ceiling technician",
+        "pop plasterer",
+        "gypsum finisher",
+        "suspended ceiling"
+      ],
+      "te": [],
+      "tanglish": [],
+      "expands_to": [
+        "false ceiling",
+        "masonry"
+      ]
+    },
+    {
+      "id": "aluminium-fabrication",
+      "en_canonical": "aluminium fabrication",
+      "en": [
+        "aluminium fabricator",
+        "aluminium fitter",
+        "upvc window",
+        "fenestration",
+        "glazier",
+        "glass installer",
+        "window fitter",
+        "facade glass"
+      ],
+      "te": [],
+      "tanglish": [],
+      "expands_to": [
+        "aluminium fabrication",
+        "fabrication"
+      ]
+    },
+    {
+      "id": "borewell",
+      "en_canonical": "borewell",
+      "en": [
+        "borewell technician",
+        "rig operator",
+        "groundwater drilling",
+        "driller",
+        "bore well"
+      ],
+      "te": [],
+      "tanglish": [],
+      "expands_to": [
+        "borewell",
+        "borewell drilling"
+      ]
+    },
+    {
+      "id": "pump-technician",
+      "en_canonical": "pump technician",
+      "en": [
+        "submersible pump",
+        "water pump mechanic",
+        "pump fitter",
+        "motor winder",
+        "pump repair"
+      ],
+      "te": [],
+      "tanglish": [],
+      "expands_to": [
+        "submersible pump",
+        "pump"
+      ]
+    },
+    {
+      "id": "heavy-equipment-operator",
+      "en_canonical": "heavy equipment operator",
+      "en": [
+        "crane operator",
+        "excavator operator",
+        "jcb",
+        "jcb driver",
+        "earthmover",
+        "road roller",
+        "paver operator",
+        "grader operator",
+        "backhoe",
+        "tower crane",
+        "rigging"
+      ],
+      "te": [],
+      "tanglish": [],
+      "expands_to": [
+        "material handling",
+        "construction"
+      ]
+    },
+    {
+      "id": "waterproofing",
+      "en_canonical": "waterproofing",
+      "en": [
+        "waterproofing technician",
+        "leakage treatment",
+        "damp proofing",
+        "terrace waterproofing"
+      ],
+      "te": [],
+      "tanglish": [],
+      "expands_to": [
+        "painting",
+        "construction"
+      ]
+    },
+    {
+      "id": "modular-kitchen",
+      "en_canonical": "modular kitchen",
+      "en": [
+        "modular kitchen installer",
+        "cabinetry technician",
+        "kitchen carpenter",
+        "modular furniture fitter"
+      ],
+      "te": [],
+      "tanglish": [],
+      "expands_to": [
+        "carpentry"
+      ]
+    },
+    {
+      "id": "roofing",
+      "en_canonical": "roofing",
+      "en": [
+        "roofing technician",
+        "sheet roofing",
+        "industrial shed erector",
+        "roofing fabricator"
+      ],
+      "te": [],
+      "tanglish": [],
+      "expands_to": [
+        "construction",
+        "fabrication"
       ]
     }
   ]

@@ -1,8 +1,21 @@
-# Trade Enrichment Report — Electrician & Allied Trades
+# Trade Enrichment Report — Skilled Trades
 
-What a 36-page career dataset covering 20 skilled trades contributed to the
-ValueWeave Knowledge Graph, what it could not contribute, and why the line
-falls where it does.
+What two supplied career datasets — 35 skilled trades across 84 pages —
+contributed to the ValueWeave Knowledge Graph, what they could not contribute,
+and why the line falls where it does.
+
+| | document A | document B |
+|---|---|---|
+| subject | Electrician & Allied Trades | Construction & Infrastructure |
+| pages | 36 | 48 |
+| roles | 20 | 15 |
+| against the graph | 12 merge, 8 new | **15 new, 0 merge** |
+| queries corrected | 4 | **9** |
+| queries newly answered | 4 | 7 |
+
+Document B is the more valuable of the two, for a reason worth stating: the
+graph holds **none** of its fifteen trades, so every query about them was
+landing on whatever the fuzzy rung could reach. Details in §9.
 
 ---
 
@@ -246,3 +259,142 @@ single place. Salary and fee figures need a second source and should stay
 `PENDING_VERIFICATION` until they have one.
 
 See `docs/COLLECTION_RUNBOOK.md`.
+
+---
+
+## 9. Document B — Construction & Infrastructure
+
+*48 pages, 15 trades, TG/AP focus. Normalised to
+`research/sources/construction_trades_2026.py`.*
+
+### It is the better-made document, and that cuts both ways
+
+| | document A | document B |
+|---|---|---|
+| `XXXX` placeholder contacts | 5 institutes | **none** |
+| institute web addresses | invented | real (`itimallepally.telangana.gov.in`, `iti.ap.gov.in`) |
+| self-declared confidence caveat | yes | **none** |
+
+The last row is not a point in its favour. Document A told the reader where it
+was weak; B does not, which makes it *less* self-aware rather than more
+reliable. Its salary tables are uncited all the same. Confidence ceiling stays
+**60**, and the reviewer note on every candidate says so explicitly:
+*"absence of a caveat is not evidence of accuracy."*
+
+### The finding that matters: a business you cannot learn
+
+All fifteen trades are absent from the graph as Skills. **Five already exist as
+businesses:**
+
+| trade (no Skill) | business the graph already offers |
+|---|---|
+| False Ceiling Installer | POP Works / False Ceiling Installation |
+| POP Gypsum Technician | POP Works / False Ceiling Installation |
+| Aluminium Fabricator | Aluminium Fabrication |
+| Borewell Technician | Borewell Drilling Services |
+| Pump Technician | Submersible Pump Installation & Repair |
+
+So today a reader can find *"you could start a borewell drilling business"* and
+nothing at all about learning to do the work. That asymmetry is the single most
+useful thing this document exposes, and it is what the candidates point at —
+each one's `classified_reason` names the orphaned business.
+
+### A copy-paste defect in the source, caught and not propagated
+
+**ROLE 3 (Aluminium Fabricator) lists ROLE 4's alternative job titles verbatim**
+— *"uPVC Window Technician, Fenestration Installer, uPVC Fitting Specialist"*.
+Aluminium fabrication and uPVC fitting are different trades with different
+materials, and the document's own tool tables for the two roles disagree, which
+is what makes the copy-paste visible.
+
+The wrong aliases are not carried across. That role's confidence is dropped to
+**45** and its `notes` field records the defect.
+
+### What it fixed — 16 of 22 queries, 9 of them wrong answers
+
+| query | before | after |
+|---|---|---|
+| `crane operator` | **Maize** (EXACT) | Construction & Skilled Trades |
+| `tower crane` | **Maize** (EXACT) | Construction & Skilled Trades |
+| `road roller` | **Microcontroller Programming** | Construction & Skilled Trades |
+| `jcb driver` | **PLC, Drives, Sensors and Cabling** | Construction & Skilled Trades |
+| `pump technician` | **Field Technician – Computing & Peripherals** | Submersible Pump Installation & Repair |
+| `borewell technician` | **Field Technician – Computing & Peripherals** | Borewell Drilling Services |
+| `modular kitchen` | **Cloud Kitchen** | Carpentry |
+| `aluminium fabricator` | **Welding (MIG/TIG/Arc)** | Aluminium Fabrication (EXACT) |
+| `pop plasterer` | **Masonry & Brickwork** | POP Works / False Ceiling Installation |
+
+Newly answered (returned nothing before): `gypsum`, `drywall`, `glazier`,
+`upvc window`, `jcb`, `roofing`, `earthmover`. **No regressions.**
+
+Eight new concepts: `false-ceiling`, `aluminium-fabrication`, `borewell`,
+`pump-technician`, `heavy-equipment-operator`, `waterproofing`,
+`modular-kitchen`, `roofing`.
+
+### A real search bug this exposed: crane → Maize
+
+`crane` and `corn` reduce to the same consonant skeleton, **`krn`**. The
+phonetic layer therefore resolved "crane operator" to the `maize` concept —
+whose English alias is "corn" — and returned **Maize** on an EXACT match, at
+the top, for a trade that builds the Hyderabad metro.
+
+The multi-word forms are fixed by explicit aliases, which resolve through the
+ALIAS layer and never let the phonetic layer fire.
+
+**The bare word `crane` is NOT fixed, deliberately.** Adding it was tried and
+rejected by `test_no_two_concepts_share_a_phonetic_key`: two concepts may not
+claim one key, because a collision silently disables one of their Tanglish
+paths. So "corn" and "crane" cannot both be aliases — and "corn" is the English
+name of a crop grown across both states. A farmer looking up maize outranks the
+one-word form of a query that works in every other phrasing.
+
+Fixing it properly means changing when the phonetic layer may fire, which is a
+search-engine change and out of scope. `test_the_bare_word_crane_is_a_known_and_recorded_limitation`
+pins it: **if that test ever fails, the bug has been fixed and this section is
+stale.**
+
+### Three concepts considered and rejected
+
+| concept | why not |
+|---|---|
+| `granite` | "granite" and "grant" both key to `grnt`. A reader looking for a government grant is a query this platform exists to answer; "granite cutter" already reaches Tiles Fixing on a PREFIX match with no concept at all. |
+| `digger` (in heavy equipment) | keys to `dgr`, same as "degree" under `education`. "excavator", "jcb" and "backhoe" reach the same place. |
+| `waterproofing` → itself | no entity is named waterproofing, so the expansion cost a query and returned silence. Repointed at `painting` + `construction`. |
+
+### Machinery was not created as entities
+
+The document prices thirteen machines from ₹22 lakh (soil compactor) to ₹90
+lakh (asphalt paver). These are **capital plant, not a toolkit**, and the
+distinction matters: telling a student a trade needs "₹90 lakh of tools" when
+the employer owns the machine would misrepresent the entry cost of the job.
+Recorded in each role's `tools` as employer-owned and flagged in `notes`.
+
+---
+
+## 10. Combined position
+
+| | |
+|---|---|
+| documents processed | 2 |
+| trades read | 35 |
+| review candidates | **23** (8 + 15), all `NEEDS_REVIEW` |
+| concepts added | 11 |
+| aliases added | 63 |
+| queries corrected from a wrong answer | **13** |
+| queries newly answered | 11 |
+| regressions | 0 |
+| entities overwritten | 0 |
+| packages modified | 0 |
+
+```bash
+python3 -m research.sources.emit_candidates --doc construction   # dry
+python3 -m research.sources.emit_candidates --write              # both
+python3 -m collection.cli queue --state NEEDS_REVIEW
+```
+
+The DGT trade list remains the right primary source for the electrician set.
+For the construction set the better anchors are the **NSQF/NCVT qualification
+packs** for construction trades and the **CSDCI** (Construction Skill
+Development Council of India) role list — several of these trades (False
+Ceiling Installer, Glazier, Bar Bender) are CSDCI-recognised job roles, which
+makes the existence claim checkable in one place.

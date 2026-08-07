@@ -1,24 +1,31 @@
 # Trade Enrichment Report — Skilled Trades
 
-What four supplied career datasets — 65 skilled trades across 177 pages —
+What five supplied career datasets — 80 skilled trades across 205 pages —
 contributed to the ValueWeave Knowledge Graph, what they could not contribute,
 and why the line falls where it does.
 
-| | A · Electrician | B · Construction | C · Manufacturing | D · Automobile |
-|---|---|---|---|---|
-| pages | 36 | 48 | 56 | 37 |
-| roles | 20 | 15 | 15 | 15 |
-| against the graph | 12 merge, 8 new | 15 new | 4 merge, 11 new | 5 merge, 10 new |
-| concepts kept | 3 | 8 | **2 of 9 written** | 3 of 5 written |
-| queries corrected | 4 | **9** | 4 | **10** |
-| queries newly answered | 4 | 7 | 1 | 0 |
+| | A · Electrician | B · Construction | C · Manufacturing | D · Automobile | E · Electronics |
+|---|---|---|---|---|---|
+| pages | 36 | 48 | 56 | 37 | 28 |
+| roles | 20 | 15 | 15 | 15 | 15 |
+| against the graph | 12 merge, 8 new | 15 new | 4 merge, 11 new | 5 merge, 10 new | 7 merge, 8 new |
+| concepts kept | 3 | 8 | **2 of 9 written** | 3 of 5 written | 3 of 3 written |
+| queries corrected | 4 | 9 | 4 | 10 | **22** |
+| queries newly answered | 4 | 7 | 1 | 0 | 0 |
 
-**B and D gave the most; C gave the least and cost the most to find that out.**
-Nine concepts were written for C, measured, and six deleted because they made
-results *worse* — §11, the most useful passage in this report.
+**E gave the most by a distance, because it started from the worst place.** All
+four of its target Skills already existed and every probe query reached the
+wrong one — `mobile repair` returned *Mobile App Development*, `smart home`
+returned *Telangana Homestays*. Twenty-two wrong answers, three concepts, no
+collisions to work around (§15).
 
-**Document D is the only one of the four whose stated method survives checking
-against its own body** (§13).
+**C gave the least and cost the most to find that out.** Nine concepts were
+written for it, measured, and six deleted because they made results *worse* —
+§11, the most useful passage in this report.
+
+**Document D is the only one of the five whose stated method survives checking
+against its own body** (§13). Document E is the only one that grades its own
+confidence, and grades it highest while auditing itself least (§15).
 
 ---
 
@@ -666,7 +673,8 @@ cannot do heavy physical work, and the graph has nothing like it.
 
 1. **The copy-paste defect is systemic** — B and C each carry a role whose
    alternative titles belong to its neighbour. Check the tool tables against
-   each other; that is what makes it visible.
+   each other; that is what makes it visible. *(Overtaken by document E, which
+   has fifteen clean alias lists: common, not universal — see §16.)*
 2. **The deduper only sees titles.** Two documents can queue the same trade
    under different names and nothing notices (§11).
 3. **A concept needs a thing, not a sector.** Reaching for a broad anchor when
@@ -692,3 +700,193 @@ Skills Development Council (ASDC)** qualification packs — Automotive Battery
 Technician, Tyre Service Technician and Service Advisor are all named ASDC job
 roles with published NSQF levels, which the document itself cites and which
 makes both the existence claim and the level checkable in one place.
+
+---
+
+## 15. Document E — Electrical & Electronics Careers
+
+*28 pages, 15 electronics-service and low-voltage trades. Normalised to
+`research/sources/electronics_trades_2026.py`.*
+
+### The boldest claim paired with the thinnest self-audit
+
+This is the only one of the five that grades itself:
+
+> *"Confidence Level: **High**. Salary ranges reflect 2025-2026 Indian market
+> realities for tier-1/tier-2 cities in TS/AP."*
+> *"Research Gaps: Exact district-wise hiring numbers for private local
+> integrators are not centrally tracked."*
+> *"Graph Optimization: Headings and sub-bullets are standardized for
+> automated JSON/Knowledge Graph extraction."*
+
+The third line is the interesting one — the author wrote this expecting a
+pipeline like ours to read it, and the structure is genuinely the cleanest of
+the five: every role carries the same headings in the same order, which is why
+extraction needed no per-role special cases.
+
+The first two are the problem. **High confidence, and exactly ONE flagged
+research gap across 15 roles.** Document D made a weaker claim and marked 23
+gaps in 37 pages. A document that audits itself *less* is not more reliable.
+
+Well-structured is not well-sourced. A document that is easy to parse invites
+you to trust it, which is exactly when to check. **Ceiling stays 60**, and
+`test_being_easy_to_parse_did_not_raise_the_ceiling` says so in the suite.
+
+### The first document with no copy-paste defect
+
+B and C each carried a role whose alternative titles belonged to its
+neighbour. After two occurrences the defect looked systemic. This one does not
+have it: all fifteen roles carry distinct, appropriate alias lists, and
+`test_this_is_the_first_document_with_no_copy_paste_defect` checks it by
+collision rather than asserting it in prose. **Common, then, but not
+universal** — worth correcting the earlier conclusion.
+
+One real overlap remains: **"Security System Installer" is an alt title of role
+1 (CCTV Technician) and is also role 4**, with its own distinct aliases
+("Physical Security Technician, Access Control Tech"). Reading both, role 1 is
+surveillance and role 4 is access control — adjacent in the field, and
+distinguishable. Recorded in role 4's `notes` rather than resolved: how a
+Telangana integrator actually splits that work is a question for somebody who
+has hired one, and the two candidates should be decided together.
+
+### 7 merge, 8 new
+
+| document role | existing entity |
+|---|---|
+| Mobile Phone Repair, Laptop Repair, LED TV Repair, Electronics Service | Electronics Repair & Maintenance |
+| PCB Repair Technician | PCB Assembly & Soldering |
+| Home Automation Technician | IoT Systems Development |
+| Solar Inverter Technician | Solar Panel Installation & Maintenance |
+
+New: CCTV Technician · Fire Alarm Technician · Security System Installer ·
+Inverter Technician · UPS Technician · Networking Technician · Fiber Optic
+Technician · Telecom Tower Technician.
+
+**Four roles are one skill.** Mobile, laptop, LED TV and general electronics
+service are the same bench, the same meter, the same rework station. The same
+over-splitting document C showed with the lathe trades — the document sells
+specialisations as careers and the graph is right to hold one. Named in
+`COLLAPSES_ONTO_ELECTRONICS_REPAIR` so a later reader does not promote four.
+
+### What it fixed — 22 of 32 queries, every one of them a wrong answer
+
+The worst baseline of the five. Nine probe queries landed on *Field Technician
+– Computing & Peripherals*, and the ones that missed that magnet were worse:
+
+| query | before | after |
+|---|---|---|
+| `mobile repair` | **Mobile App Development** | Electronics Repair & Maintenance |
+| `phone repair` | Automotive Repair & Services | Electronics Repair & Maintenance |
+| `laptop repair` | Automotive Repair & Services | Electronics Repair & Maintenance |
+| `tv repair` | Automotive Repair & Services | Electronics Repair & Maintenance |
+| `appliance repair` | Automotive Repair & Services | Electronics Repair & Maintenance |
+| `electronics service technician` | Freelance Software/IT Consultant | Electronics Repair & Maintenance |
+| `smt technician` | **Field Technician – Computing** | PCB Assembly & Soldering |
+| `chip level repair` | **NIELIT 'A' Level** | PCB Assembly & Soldering |
+| `board repair` | Automotive Repair & Services | PCB Assembly & Soldering |
+| `smart home` | **Telangana Homestays** | IoT Systems Development |
+| `home automation` | **Robotics** *(EXACT match)* | IoT Systems Development |
+| `building automation` | **Construction** | IoT Systems Development |
+
+**22 corrected, 0 newly answered, 0 regressions.** Nothing was unreachable —
+the graph already held all four target Skills. Everything was reachable and
+wrong.
+
+`mobile repair` → *Mobile App Development* is the single most damaging answer
+in the batch. Phone repair is the lowest-capital electronics shop there is,
+and the platform was sending that reader to a software career. The two share
+one word and share nothing else: entry qualification, capital, tools,
+customers.
+
+`smart home` → *Telangana Homestays* is the funniest and the same failure: the
+word "home" won.
+
+### Three concepts, no collisions
+
+`electronics-repair` (12 aliases), `pcb-repair` (5), `home-automation` (5).
+Measured before and after against the real graph, as every document has been.
+This is the first of the five where nothing had to be dropped for a substring
+collision — the vocabulary of electronics service happens not to overlap
+anything the graph already names.
+
+Two aliases were added beyond the document's own tables — `phone repair` and
+`smartphone repair` — because both returned *Automotive Repair & Services* and
+both are what a person actually types. Neither is a claim about the world.
+
+### Eight trades left with no vocabulary, on purpose
+
+`cctv technician`, `fire alarm technician`, `inverter technician`, `ups
+technician`, `networking technician`, `fiber optic technician` and `telecom
+tower technician` **all still return *Field Technician – Computing &
+Peripherals***. No Skill entity exists to send a reader to, and pointing them
+at an approximately-related entity is the confidently-wrong failure this whole
+exercise is against — the mistake §11 records making. They are fixed by
+approving the candidates, not by writing aliases.
+
+`test_the_queued_trades_are_honestly_still_unreachable` pins the gap so it is
+read as a decision rather than an oversight, and tells whoever promotes one of
+these to retire it.
+
+### One alias refused
+
+The document lists **"Network Engineer"** as an alternative title for
+Networking Technician. It is not carried across. An engineer designs the
+network and a technician installs it; the first is a degree-entry job. Treating
+them as the same word would send a 10th-pass reader somewhere they cannot go —
+which is the exact harm the ITI-to-engineer confusion does in the field.
+
+---
+
+## 16. Combined position — five documents
+
+| | |
+|---|---|
+| documents processed | 5 |
+| pages read | 205 |
+| trades read | 80 |
+| review candidates | **52** (8 + 15 + 11 + 10 + 8), all `NEEDS_REVIEW` |
+| concepts | 19 kept, 9 written-and-deleted, 2 folded |
+| aliases added | 93 |
+| queries corrected from a wrong answer | **49** |
+| queries newly answered | 12 |
+| regressions | 0 |
+| entities overwritten | 0 |
+| packages modified | 0 |
+| tests | 1097 pass |
+
+### What five documents taught that four could not
+
+1. **The copy-paste defect is common, not systemic.** §14 called it systemic on
+   two occurrences out of three. Document E has fifteen clean alias lists.
+   Two out of five is a pattern to check for, not a law — and the correction
+   is worth more than the original claim.
+2. **Clean structure is a reason to trust the extraction, never the content.**
+   Document E was written for a machine to read and says so. It parsed
+   perfectly and audits itself least of the five. Those facts are unrelated,
+   and the first one makes the second easier to miss.
+3. **A self-graded confidence level is not evidence.** Only one document grades
+   itself, and it gives itself "High". Count the research gaps instead: D
+   claimed less and marked 23; E claimed more and marked one.
+4. **The worst answers are in the most ordinary queries.** `car mechanic` →
+   Carpentry (D). `mobile repair` → Mobile App Development (E). Not obscure
+   trades — the two things a school-leaver in Telangana is most likely to
+   type. Both were fixed by one alias line each.
+5. **Refusing to write an alias is a deliverable.** Eight electronics trades
+   and five automotive ones were left returning nonsense because no entity
+   exists to send a reader to. The tests record the gaps so nobody quietly
+   "fixes" them with a sector expansion.
+
+```bash
+python3 -m research.sources.emit_candidates --doc electronics   # dry
+python3 -m research.sources.emit_candidates --write             # all five
+python3 -m collection.cli queue --state NEEDS_REVIEW --limit 70
+```
+
+Primary sources to review against: **DGT trade list** (A), **CSDCI role list**
+(B), **Capital Goods Skill Council** packs (C), **ASDC** packs (D), and for E
+the **Electronics Sector Skills Council of India (ESSCI)** and **Telecom Sector
+Skill Council (TSSC)** qualification packs — CCTV/Field Technician, Fibre
+Splicer and Tower Technician are all named QPs with published NSQF levels, so
+the existence claim and the level are checkable in one place. Fire-alarm work
+additionally sits under state fire-services licensing, which is a second
+authority and worth checking separately.

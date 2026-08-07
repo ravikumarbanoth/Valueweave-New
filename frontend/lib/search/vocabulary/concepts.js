@@ -1538,6 +1538,62 @@ export default Object.freeze({
       "expands_to": [
         "automobile mechanic"
       ]
+    },
+    {
+      "id": "electronics-repair",
+      "en_canonical": "electronics repair",
+      "en": [
+        "mobile repair",
+        "mobile phone repair",
+        "phone repair",
+        "smartphone repair",
+        "handset technician",
+        "laptop repair",
+        "laptop service engineer",
+        "led tv repair",
+        "tv repair",
+        "electronics service technician",
+        "consumer electronics technician",
+        "appliance repair"
+      ],
+      "te": [],
+      "tanglish": [],
+      "expands_to": [
+        "electronics repair"
+      ]
+    },
+    {
+      "id": "pcb-repair",
+      "en_canonical": "pcb repair",
+      "en": [
+        "smt technician",
+        "component level repair",
+        "pcb rework",
+        "board repair",
+        "chip level repair"
+      ],
+      "te": [],
+      "tanglish": [],
+      "expands_to": [
+        "pcb assembly",
+        "soldering"
+      ]
+    },
+    {
+      "id": "home-automation",
+      "en_canonical": "home automation",
+      "en": [
+        "smart home",
+        "smart home integrator",
+        "iot technician",
+        "home automation technician",
+        "building automation"
+      ],
+      "te": [],
+      "tanglish": [],
+      "expands_to": [
+        "iot systems"
+      ]
     }
   ]
 });

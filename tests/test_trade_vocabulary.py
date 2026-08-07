@@ -668,6 +668,212 @@ class AutomobileSourceTest(unittest.TestCase):
                 self.assertLessEqual(int(value), 60)
 
 
+@unittest.skipUnless(NODE, NODE_REASON)
+class ElectronicsSearchTest(unittest.TestCase):
+    """The electrical & electronics dataset. The worst baseline of the five —
+    nine of the probe queries landed on *Field Technician - Computing &
+    Peripherals*, and the three that did not were worse than that."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.h = JsHarness()
+        cls.h.dataset("entities.json", entities())
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.h.cleanup()
+
+    def top(self, queries):
+        return self.h.run("""
+            const { rankEntities } = await import("$LIB/knowledge-search.js");
+            const rows = JSON.parse(fs.readFileSync("$DIR/entities.json", "utf8"));
+            const out = {};
+            for (const q of %s) {
+              const r = rankEntities(rows, q, { limit: 1 })[0];
+              out[q] = r ? r.canonical_name : null;
+            }
+            console.log(JSON.stringify(out));
+        """ % json.dumps(list(queries)))
+
+    def test_mobile_repair_is_not_mobile_app_development(self):
+        """The single most damaging answer in this batch. A student who wants
+        to learn phone repair — the lowest-capital electronics shop there is —
+        was being sent to a software career. The two share one word and share
+        nothing else: entry qualification, capital, tools, customers.
+        """
+        got = self.top(["mobile repair", "mobile phone repair",
+                        "handset technician", "phone repair",
+                        "smartphone repair"])
+        for query, name in got.items():
+            with self.subTest(query=query):
+                self.assertIsNotNone(name)
+                self.assertNotIn("app development", name.lower())
+                self.assertIn("electronics repair", name.lower())
+
+    def test_four_specialisations_all_reach_the_one_skill_that_teaches_them(self):
+        """The document sells mobile, laptop, LED TV and general electronics
+        service as four careers. The graph holds one Skill, and it is right to:
+        they are the same bench, the same meter, the same rework station. The
+        concept's job is to make all four sets of words reach it."""
+        got = self.top(["laptop repair", "tv repair", "led tv repair",
+                        "appliance repair", "electronics service technician",
+                        "consumer electronics technician"])
+        for query, name in got.items():
+            with self.subTest(query=query):
+                self.assertEqual(name, "Electronics Repair & Maintenance")
+
+    def test_smart_home_is_not_a_homestay(self):
+        """`smart home` returned *Telangana Homestays* — the word "home" won,
+        and a person asking about building automation was offered rural
+        tourism. `home automation` returned *Robotics* on an EXACT concept
+        match, which is at least a machine, and `building automation`
+        returned *Construction*."""
+        got = self.top(["smart home", "home automation", "building automation",
+                        "iot technician", "smart home integrator"])
+        for query, name in got.items():
+            with self.subTest(query=query):
+                self.assertEqual(name, "IoT Systems Development")
+
+    def test_board_level_words_reach_the_soldering_skill(self):
+        """Chip-level, component-level, SMT and board repair are what the
+        trade calls itself in a Hyderabad service market. None of them
+        contained the letters "PCB", so none of them reached the entity."""
+        got = self.top(["pcb repair", "smt technician", "board repair",
+                        "component level repair", "chip level repair",
+                        "pcb rework"])
+        for query, name in got.items():
+            with self.subTest(query=query):
+                self.assertEqual(name, "PCB Assembly & Soldering")
+
+    def test_the_queued_trades_are_honestly_still_unreachable(self):
+        """Eight roles have no Skill entity, so no vocabulary can make them
+        findable — CCTV, fire alarm, inverter, UPS, networking, fibre and
+        tower work all still land on the *Field Technician* magnet. Writing
+        aliases that pointed them at an approximately-related entity would be
+        the "confidently wrong" failure this whole exercise is against. They
+        are queued for review instead, and this test records the gap so it is
+        not mistaken for an oversight.
+        """
+        got = self.top(["cctv technician", "fire alarm technician",
+                        "inverter technician", "ups technician",
+                        "networking technician", "fiber optic technician",
+                        "telecom tower technician"])
+        unreachable = [q for q, name in got.items()
+                       if name and "field technician" in name.lower()]
+        self.assertEqual(len(unreachable), len(got),
+                         "a queued trade became reachable — if a Skill entity "
+                         "was promoted for it, retire this test and write the "
+                         "real one")
+
+    def test_solar_inverter_still_reaches_the_solar_skill_not_the_backup_one(self):
+        """A regression guard on the neighbouring concept: `inverter` words
+        must not drag a rooftop-solar question onto power-backup work."""
+        got = self.top(["solar inverter", "solar inverter technician"])
+        for query, name in got.items():
+            with self.subTest(query=query):
+                self.assertIsNotNone(name)
+                self.assertIn("solar", name.lower())
+
+
+class ElectronicsSourceTest(unittest.TestCase):
+    """What the electronics source module has to keep recording."""
+
+    def setUp(self):
+        import sys                                                # noqa: PLC0415
+        sys.path.insert(0, str(ROOT))
+        from research.sources import electronics_trades_2026      # noqa: PLC0415
+        self.mod = electronics_trades_2026
+        self.text = (ROOT / "research" / "sources"
+                     / "electronics_trades_2026.py").read_text(encoding="utf-8")
+
+    def test_seven_merge_and_eight_are_new(self):
+        self.assertEqual(len(self.mod.ROLES), 15)
+        self.assertEqual(len(self.mod.merge_roles()), 7)
+        self.assertEqual(len(self.mod.new_roles()), 8)
+
+    def test_every_merge_target_is_an_entity_the_graph_actually_holds(self):
+        known = {e["canonical_name"] for e in entities()}
+        for role in self.mod.merge_roles():
+            with self.subTest(role=role["title"]):
+                self.assertIn(role["existing"], known)
+
+    def test_the_four_way_collapse_is_named(self):
+        """Same over-splitting as document C's lathe trades. Naming the four
+        in one tuple is what keeps a later reader from promoting them as four
+        Skills because the document presented them that way."""
+        self.assertEqual(len(self.mod.COLLAPSES_ONTO_ELECTRONICS_REPAIR), 4)
+        for slug in self.mod.COLLAPSES_ONTO_ELECTRONICS_REPAIR:
+            role = next(r for r in self.mod.ROLES if r["slug"] == slug)
+            with self.subTest(role=slug):
+                self.assertEqual(role["existing"],
+                                 "Electronics Repair & Maintenance")
+
+    def test_the_boldest_claim_with_the_thinnest_audit_is_recorded(self):
+        """This is the only document that grades itself, and it gives itself
+        "Confidence Level: High" while flagging exactly ONE research gap in 15
+        roles. Document D made a weaker claim and marked 23. The comparison is
+        the point: a document that audits itself less is not more reliable,
+        and a reviewer reading the candidates needs to be told which one this
+        is."""
+        flat = " ".join(self.text.split())
+        self.assertIn("Confidence Level: High", flat)
+        self.assertIn("ONE flagged research gap", " ".join(
+            " ".join(self.mod.SOURCE["self_declared_limits"]).split()))
+
+    def test_being_easy_to_parse_did_not_raise_the_ceiling(self):
+        """The document was written for a pipeline like ours — it says so.
+        Clean structure is a reason to trust the EXTRACTION, never the
+        CONTENT, and 60 is still one uncorroborated secondary source."""
+        for value in re.findall(r'"confidence":\s*(\d+)', self.text):
+            with self.subTest(confidence=value):
+                self.assertLessEqual(int(value), 60)
+
+    def test_this_is_the_first_document_with_no_copy_paste_defect(self):
+        """B and C each carried a role whose alternative titles belonged to
+        its neighbour. After two occurrences it looked systemic; this document
+        shows it is not. Checked rather than asserted in prose: no two roles
+        may share an alias."""
+        owner = {}
+        clashes = []
+        for role in self.mod.ROLES:
+            for alias in role["aliases"]:
+                key = alias.lower().strip()
+                if key in owner:
+                    clashes.append(f"{key!r}: {owner[key]} / {role['slug']}")
+                owner[key] = role["slug"]
+        self.assertEqual(clashes, [])
+
+    def test_the_one_real_overlap_is_recorded_not_silently_resolved(self):
+        """"Security System Installer" is both an alt title of role 1 and role
+        4 in its own right. Reading both, one is surveillance and one is
+        access control. Which way a Telangana integrator actually splits the
+        work is a question for somebody who has hired one, so the module says
+        so and the reviewer decides the pair together."""
+        installer = next(r for r in self.mod.ROLES
+                         if r["slug"] == "security-system-installer")
+        cctv = next(r for r in self.mod.ROLES if r["slug"] == "cctv-technician")
+        self.assertIn("OVERLAPS ROLE 1", installer["notes"])
+        self.assertNotIn("Security System Installer", cctv["aliases"])
+
+    def test_network_engineer_was_not_carried_across_as_an_alias(self):
+        """The document lists it as an alternative title for Networking
+        Technician. An engineer designs the network and a technician installs
+        it; the first is a degree-entry job. Treating them as the same word
+        would send a 10th-pass reader somewhere they cannot go."""
+        role = next(r for r in self.mod.ROLES
+                    if r["slug"] == "networking-technician")
+        self.assertNotIn("Network Engineer", role["aliases"])
+        self.assertIn("Network Engineer", role["notes"])
+        blob = json.dumps(load_concepts())
+        self.assertNotIn("network engineer", blob.lower())
+
+    def test_no_institute_contact_or_salary_figure_was_carried_across(self):
+        """The document's salary tables are the part it is least entitled to
+        assert. None of them are in this module; they are in the queue."""
+        self.assertIn("UNVERIFIED_FIELDS", self.text)
+        self.assertNotIn("₹", self.text)
+
+
 class ReviewerNoteTest(unittest.TestCase):
     """Every candidate must quote ITS OWN document's limits."""
 
@@ -688,6 +894,10 @@ class ReviewerNoteTest(unittest.TestCase):
         self.assertNotIn("XXXX", notes["construction"])
         self.assertIn("declares no limits on itself", notes["construction"])
         self.assertIn("market surveys", notes["manufacturing"])
+        #: The electronics document's limit is the strangest of the five: the
+        #: thing a reviewer most needs warning about is its own confidence.
+        self.assertIn("Confidence Level: High", notes["electronics"])
+        self.assertNotIn("XXXX", notes["electronics"])
 
 
 class SourceProvenanceTest(unittest.TestCase):

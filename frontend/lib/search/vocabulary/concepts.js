@@ -43,7 +43,10 @@ export default Object.freeze({
         "domestic wiring",
         "electrical contractor",
         "electrical technician",
-        "house wiring"
+        "house wiring",
+        "domestic electrician",
+        "panel wiring",
+        "electrical supervisor"
       ],
       "te": [
         "ఎలక్ట్రిషియన్",
@@ -70,7 +73,13 @@ export default Object.freeze({
       "en": [
         "plumbing",
         "pipe fitting",
-        "sanitary work"
+        "sanitary work",
+        "pipe fitter",
+        "sanitary installer",
+        "plumbing technician",
+        "steam fitter",
+        "plumer",
+        "plummer"
       ],
       "te": [
         "ప్లంబర్",
@@ -88,7 +97,12 @@ export default Object.freeze({
       "en": [
         "carpentry",
         "wood work",
-        "furniture making"
+        "furniture making",
+        "woodworker",
+        "joiner",
+        "furniture carpenter",
+        "modular kitchen installer",
+        "wood turner"
       ],
       "te": [
         "వడ్రంగి",
@@ -106,7 +120,15 @@ export default Object.freeze({
       "en": [
         "welding",
         "metal fabrication",
-        "fabricator"
+        "fabricator",
+        "arc welder",
+        "mig welder",
+        "tig welder",
+        "coded welder",
+        "fitter welder",
+        "sheet metal worker",
+        "structural fabricator",
+        "welda"
       ],
       "te": [
         "వెల్డర్",
@@ -126,7 +148,15 @@ export default Object.freeze({
       "en": [
         "masonry",
         "brickwork",
-        "building work"
+        "building work",
+        "brick mason",
+        "construction mason",
+        "bricklayer",
+        "plasterer",
+        "steel fixer",
+        "bar bender",
+        "rebar fixer",
+        "scaffolder"
       ],
       "te": [
         "తాపీ మేస్త్రి",
@@ -149,7 +179,12 @@ export default Object.freeze({
         "tile mason",
         "tile fitting",
         "flooring",
-        "tiling"
+        "tiling",
+        "tile setter",
+        "flooring technician",
+        "marble polisher",
+        "tiles fitter",
+        "granite cutter"
       ],
       "te": [
         "టైల్స్",
@@ -172,7 +207,12 @@ export default Object.freeze({
       "en": [
         "painting",
         "wall painting",
-        "house painting"
+        "house painting",
+        "building painter",
+        "decorative painter",
+        "industrial painter",
+        "wall putty applicator",
+        "waterproofing"
       ],
       "te": [
         "పెయింటర్",
@@ -191,7 +231,13 @@ export default Object.freeze({
         "ac repair",
         "air conditioning",
         "refrigeration",
-        "ac mechanic"
+        "ac mechanic",
+        "rac mechanic",
+        "cooling system technician",
+        "fridge mechanic",
+        "ac technician",
+        "refrigeration mechanic",
+        "vrf technician"
       ],
       "te": [
         "ఏసీ రిపేర్",
@@ -260,7 +306,12 @@ export default Object.freeze({
         "robot",
         "industrial robotics",
         "automation",
-        "robotic process automation"
+        "robotic process automation",
+        "robot programmer",
+        "robotics service engineer",
+        "robotics technician",
+        "cobot",
+        "robot maintenance"
       ],
       "te": [
         "రోబోటిక్స్",
@@ -895,7 +946,13 @@ export default Object.freeze({
         "solar panel",
         "rooftop solar",
         "renewable energy",
-        "surya ghar"
+        "surya ghar",
+        "solar technician",
+        "rooftop solar installer",
+        "solar installer",
+        "pv system integrator",
+        "suryamitra",
+        "solar pv"
       ],
       "te": [
         "సౌర విద్యుత్",
@@ -916,7 +973,13 @@ export default Object.freeze({
         "ev",
         "e vehicle",
         "ev charging",
-        "ev repair"
+        "ev repair",
+        "ev technician",
+        "ev service technician",
+        "electric vehicle mechanic",
+        "ev repair specialist",
+        "battery technician",
+        "ev mechanic"
       ],
       "te": [
         "ఎలక్ట్రిక్ వాహనం",
@@ -1181,6 +1244,66 @@ export default Object.freeze({
         "women",
         "mahila",
         "entrepreneurship"
+      ]
+    },
+    {
+      "id": "cnc",
+      "en_canonical": "cnc",
+      "en": [
+        "cnc operator",
+        "cnc machinist",
+        "vmc operator",
+        "turn mill operator",
+        "cnc programming",
+        "lathe operator"
+      ],
+      "te": [
+        "సీఎన్‌సీ ఆపరేటర్"
+      ],
+      "tanglish": [],
+      "expands_to": [
+        "cnc machine operator",
+        "lathe operation",
+        "machinery"
+      ]
+    },
+    {
+      "id": "industrial-electrician",
+      "en_canonical": "industrial electrician",
+      "en": [
+        "factory electrician",
+        "maintenance electrician",
+        "plant electrician",
+        "electrical fitter",
+        "motor control",
+        "switchgear"
+      ],
+      "te": [],
+      "tanglish": [],
+      "expands_to": [
+        "industrial electrician",
+        "electrician",
+        "power distribution"
+      ]
+    },
+    {
+      "id": "plc-automation",
+      "en_canonical": "plc automation",
+      "en": [
+        "plc",
+        "plc programmer",
+        "scada",
+        "automation technician",
+        "hmi",
+        "control systems",
+        "industrial automation technician"
+      ],
+      "te": [],
+      "tanglish": [],
+      "expands_to": [
+        "plc programming",
+        "industrial automation",
+        "automation"
       ]
     }
   ]

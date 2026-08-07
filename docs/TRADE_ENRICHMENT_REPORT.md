@@ -1,0 +1,248 @@
+# Trade Enrichment Report — Electrician & Allied Trades
+
+What a 36-page career dataset covering 20 skilled trades contributed to the
+ValueWeave Knowledge Graph, what it could not contribute, and why the line
+falls where it does.
+
+---
+
+## 1. The source, and what it says about itself
+
+| | |
+|---|---|
+| document | *Electrician and Similar Role Career Decision Dataset* |
+| pages | 36 |
+| roles covered | 20 |
+| origin | DeepSeek-generated, supplied by the maintainer |
+| normalised to | `research/sources/electrician_trades_2026.py` |
+
+Three things the document states about itself decide how it is treated:
+
+> *"Contacts replaced with placeholder XXXX; verify from official websites."*
+
+> *"Confidence is moderate for salary and fees, based on typical ranges."*
+
+> *"I will now generate datasets for the remaining 18 roles… Due to length
+> constraints, I will now output the remaining 16 datasets in a compact form."*
+
+The third is the author narrating their own token budget. It is a useful
+signal: detail falls off sharply after role four, and the last twelve roles are
+a paragraph each. Confidence is scored accordingly and nothing exceeds **60**,
+the repository's ceiling for a single uncorroborated secondary source.
+
+### A defect in the source that had to be caught
+
+**The Telugu in the PDF is damaged and none of it was used.** Text extraction
+dropped the conjunct clusters:
+
+| the document means | what extraction produced |
+|---|---|
+| ఎలక్ట్రిషియన్ | `ఎలక` |
+| టెక్నీషియన్ | `టెక` |
+| వ్యక్తి | `వ్యక` |
+| లిఫ్ట్ | `లి ్ట` |
+
+Copying any of it into the search index would have created permanent dead
+entries — strings no reader will ever type. Every Telugu term used is either
+already present and correct in `concepts.js` or verified character by character.
+`tests/test_trade_vocabulary.py` asserts the damaged fragments never appear.
+
+---
+
+## 2. Entity enrichment — 12 merge, 8 new
+
+Determined by reading `knowledge_graph/entities/entities.csv`, not by guessing
+from names. Two roles that looked new — **Painter** and **Tile & Marble Fixer** —
+have a `BusinessOpportunity` but no `Skill`, so they are new *as skills*.
+
+### Merge onto an existing Skill (12)
+
+| document role | existing entity | what it adds |
+|---|---|---|
+| Electrician | Electrician (Domestic Wiring) | 6 aliases, tools, 3-tier skills, 8-step ladder, 15 related careers |
+| EV Technician | EV Technician | 4 aliases, HV safety tools, CAN/BMS skills, 13 related |
+| Solar PV Installer | Solar Panel Installation & Maintenance | Suryamitra term, MC4 toolkit, 15 related |
+| AC & Refrigeration | HVAC Technician | RAC/fridge terms, gauge manifold set, 14 related |
+| Plumber | Plumbing | pipe fitter/steam fitter, threading tools |
+| Welder | Welding (MIG/TIG/Arc) | arc/MIG/TIG/coded grades, 9 related |
+| Carpenter | Carpentry | joiner, modular kitchen installer |
+| Mason | Masonry & Brickwork | bricklayer, plasterer |
+| CNC Machine Operator | CNC Machine Operator | VMC/turn-mill, 5-axis progression |
+| Industrial Electrician | Industrial Electrician | megger/clamp meter, VFD & switchgear |
+| Industrial Automation (PLC) | PLC Programming & Control Systems | SCADA/HMI, integrator path |
+| Robotics Technician | Industrial Robotics | cobot, teach pendant, RoboDK |
+
+**No existing entity was overwritten.** The enrichment that shipped is
+vocabulary only; the field-level content above is attached to review candidates
+where it needs a person.
+
+### New — queued for review (8)
+
+`lift-technician` · `tile-marble-fixer` · `fabricator` · `painter` ·
+`steel-fixer` · `scaffolding-technician` · `machine-maintenance-technician` ·
+`mechatronics-technician`
+
+These are in `collection/state/review_queue.jsonl` as `NEEDS_REVIEW`, each
+carrying the full extracted role as its raw record. They are **not** in any
+package and no reader can see them.
+
+---
+
+## 3. What shipped, and what it actually fixed
+
+The **vocabulary** shipped. That an employer says "RAC mechanic" and a student
+says "fridge mechanic" and both mean the HVAC trade is not a claim needing a
+citation — it is how the words are used, and it is checkable by asking the
+search engine.
+
+**63 English aliases** across 11 concepts, plus **3 new concepts**
+(`cnc`, `industrial-electrician`, `plc-automation`) — each added only because
+its entity already exists, which is the concept table's own rule.
+
+### Measured against the real 647-entity graph, before and after
+
+Coverage barely moved — 4 of 22 probe queries went from nothing to something
+(`suryamitra`, `joiner`, `scaffolder`, `bricklayer`). The ranker's fuzzy and
+related rungs already reached most terms.
+
+**The gain was in being right.** Four queries had a confident wrong answer:
+
+| query | before | after |
+|---|---|---|
+| `rac mechanic` | **Automobile Mechanic** (RELATED 127) | HVAC Technician (EXACT 1033) |
+| `fridge mechanic` | **Automobile Mechanic** (RELATED 127) | HVAC Technician (EXACT 1033) |
+| `factory electrician` | **Manufacturing** (EXACT 928) | Industrial Electrician (EXACT 1039) |
+| `pipe fitter` | **Filter Press** (RELATED 121) | Plumbing (RELATED 170) |
+
+A search that returns nothing tells a student to try other words. A search that
+confidently returns *Filter Press* for "pipe fitter" tells them the platform
+knows nothing useful, and they leave.
+
+Two further promotions: `vmc operator` and `tile setter` moved from RELATED to
+PREFIX; `cobot` from FUZZY to EXACT. **No regressions** across 22 queries.
+
+### Two defects found while doing this
+
+**Phonetic collisions.** Putting "factory electrician", "maintenance
+electrician" and "electrical fitter" on *both* `electrician` and
+`industrial-electrician` made those phrases ambiguous. `test_multilingual_search`
+refused the build. They belong on the specific concept.
+
+**The silent b in "plumber".** `plumer` and `plummer` returned **nothing**. The
+phonetic key is a consonant skeleton, so it fixes vowel errors for free
+(`solor`, `masson`, `tiels`, `electrition` all resolve) but cannot bridge a
+*missing consonant*: `plmr` never meets `plmbr`. Isolated by testing `plumbr`
+(b kept, e dropped), which resolves fine.
+
+"Plumber" has a silent b. Dropping it is not a typo — it is a phonetically
+correct spelling by somebody who has heard the word and not read it, which is
+exactly this platform's reader. This is the one documented exception to the
+concept table's "do not enumerate spellings" rule, licensed by that rule's own
+rationale failing here.
+
+---
+
+## 4. Connected Knowledge
+
+The document's per-role **"Related Careers"** lists are its richest structural
+content: **119 distinct career mentions** across 20 roles, hand-written as
+trade adjacency rather than derived from a co-occurrence statistic.
+
+**19 already match an entity in the graph** and are proposable edges today.
+The rest name trades ValueWeave does not hold (Cable Jointer, Boilermaker,
+Energy Auditor, Metro Rail Technician…) and are **research backlog**, not edges.
+
+Relationship type for all of them: `RELATED_SKILL` — the document asserts
+adjacency, not prerequisite. Reading "Electrician → Solar PV Installer" as
+`REQUIRES` would invent a dependency the source never claimed.
+
+**Not written.** Edges belong to the graph builder, and proposing 119 of them
+from one secondary source would swamp the review queue with material whose
+correct disposition is mostly "yes, obviously" — which trains reviewers to
+approve without reading. They are recorded here and in the candidates' raw
+records for a person to work through deliberately.
+
+---
+
+## 5. RSS readiness
+
+The document's **17 official references** are the genuinely verifiable content
+in it — well-known government domains, checkable in a browser:
+
+`nsdcindia.org` · `skillindia.gov.in` · `pmkvyofficial.org` · `msde.gov.in` ·
+`dgt.gov.in` · `ititelangana.gov.in` · `itiap.gov.in` ·
+`apprenticeshipindia.gov.in` · `tssouthernpower.com` · `apeasternpower.com` ·
+`asdc.org.in` · `task.telangana.gov.in` · `apssdc.in` · `mnre.gov.in` ·
+`nise.res.in` · `tsredco.telangana.gov.in` · `nredcap.in`
+
+They are in `OFFICIAL_REFERENCES` and are good seeds for
+`collection/registry/monitored_sources.csv`.
+
+**Not registered as sources yet, deliberately.** Every one needs
+`collection.cli verify` run against it from a network that can reach it, and
+this sandbox's proxy 403s all government hosts. Registering ten unverified
+sources would put ten rows in the registry that have never been fetched. The
+runbook's rule stands: one source per pull request, verified first.
+
+Tracking keywords for when they are: *ITI admission, apprenticeship
+notification, PMKVY batch, Suryamitra training, electrical contractor licence,
+skill development tender, RAC trade, lift mechanic curriculum, EV technician
+certification, ASDC.*
+
+---
+
+## 6. What was deliberately NOT taken
+
+| content | why not |
+|---|---|
+| Salary bands (all 20 roles) | self-declared estimates; a student planning on a wrong number is worse served than one told nothing |
+| Course fees | same |
+| Institute phone numbers | literal `XXXX` placeholders in the source |
+| Institute websites, placement claims | unverified against the institutions |
+| Named hiring companies | recruitment claims change monthly and this is a static document |
+| Telugu strings | extraction-damaged (§1) |
+| 70 tools as `Machinery` entities | tools are attributes of a trade, not entities; `Machinery` in this graph means industrial plant |
+
+`UNVERIFIED_FIELDS` in the source module names the first four so the promoter
+blanks them mechanically rather than relying on anyone to remember.
+
+---
+
+## 7. Files changed
+
+| file | change |
+|---|---|
+| `research/sources/electrician_trades_2026.py` | **new** — normalised 20 roles with provenance and per-role confidence |
+| `research/sources/emit_candidates.py` | **new** — the 8 new roles into the review queue |
+| `frontend/lib/search/vocabulary/concepts.js` | 63 aliases across 11 concepts, 3 new concepts |
+| `tests/test_trade_vocabulary.py` | **new** — 12 tests |
+| `collection/state/review_queue.jsonl` | +8 candidates, `NEEDS_REVIEW` |
+
+Architecture unchanged. No package modified, no entity overwritten, no
+relationship written, no schema touched.
+
+---
+
+## 8. What a person should do next
+
+```bash
+# read the eight proposed trades
+python3 -m collection.cli queue --state NEEDS_REVIEW
+
+# for one you want, check it against DGT's trade list, then
+python3 -m collection.cli review  doc-electrician-trades-2026:lift-technician \
+    --actor YOUR.NAME --evidence https://dgt.gov.in/...
+python3 -m collection.cli approve doc-electrician-trades-2026:lift-technician \
+    --actor YOUR.NAME
+
+# see the package row it becomes, then write it
+python3 -m collection.cli promote
+python3 -m collection.cli promote --write
+```
+
+The DGT trade list is the right primary source for all eight: every one is or
+maps to a recognised ITI trade, which makes the existence claim verifiable in a
+single place. Salary and fee figures need a second source and should stay
+`PENDING_VERIFICATION` until they have one.
+
+See `docs/COLLECTION_RUNBOOK.md`.

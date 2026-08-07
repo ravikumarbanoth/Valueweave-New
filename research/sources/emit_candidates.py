@@ -37,8 +37,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 
 from collection import review                                     # noqa: E402
 from research.sources import (                                    # noqa: E402
-    construction_trades_2026, electrician_trades_2026,
-    manufacturing_trades_2026)
+    automobile_trades_2026, construction_trades_2026,
+    electrician_trades_2026, manufacturing_trades_2026)
 
 #: Each document is one file, read once. `item_key` is the role slug and the
 #: candidate id is prefixed by the document, so a second run over a corrected
@@ -48,6 +48,7 @@ DOCUMENTS = {
     "electrician": electrician_trades_2026,
     "construction": construction_trades_2026,
     "manufacturing": manufacturing_trades_2026,
+    "automobile": automobile_trades_2026,
 }
 
 

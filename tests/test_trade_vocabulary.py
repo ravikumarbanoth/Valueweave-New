@@ -526,6 +526,148 @@ class ManufacturingSourceTest(unittest.TestCase):
                 self.assertLessEqual(int(value), 60)
 
 
+@unittest.skipUnless(NODE, NODE_REASON)
+class AutomobileSearchTest(unittest.TestCase):
+    """The automobile dataset. Ten of twenty-one probe queries corrected, no
+    new coverage — the graph already had three automotive Skills, so nothing
+    was unreachable; a great deal was reachable and wrong."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.h = JsHarness()
+        cls.h.dataset("entities.json", entities())
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.h.cleanup()
+
+    def top(self, queries):
+        return self.h.run("""
+            const { rankEntities } = await import("$LIB/knowledge-search.js");
+            const rows = JSON.parse(fs.readFileSync("$DIR/entities.json", "utf8"));
+            const out = {};
+            for (const q of %s) {
+              const r = rankEntities(rows, q, { limit: 1 })[0];
+              out[q] = r ? r.canonical_name : null;
+            }
+            console.log(JSON.stringify(out));
+        """ % json.dumps(list(queries)))
+
+    def test_car_mechanic_no_longer_returns_carpentry(self):
+        """One of the most ordinary queries this platform will ever receive,
+        and it returned a woodworking trade."""
+        got = self.top(["car mechanic", "motor mechanic", "auto mechanic",
+                        "automotive technician"])
+        for query, name in got.items():
+            with self.subTest(query=query):
+                self.assertIsNotNone(name)
+                self.assertIn("automobile", name.lower())
+
+    def test_a_bike_mechanic_reaches_the_two_wheeler_trade(self):
+        """It reached *Automobile Mechanic* — the car trade. Both are
+        mechanics; only one is the job."""
+        got = self.top(["bike mechanic", "scooter mechanic",
+                        "motorcycle mechanic"])
+        for query, name in got.items():
+            with self.subTest(query=query):
+                self.assertEqual(name, "Two-Wheeler Mechanic")
+
+    def test_the_field_technician_magnet_lets_go(self):
+        """*Field Technician - Computing & Peripherals* was the top hit for
+        `heavy vehicle technician`, `bms technician`, `tyre technician`,
+        `denting technician` and `diagnostic technician` — anything ending in
+        the word. Two of those are now right; the rest have no entity to reach
+        and are queued instead."""
+        got = self.top(["heavy vehicle technician", "bms technician"])
+        for query, name in got.items():
+            with self.subTest(query=query):
+                self.assertIsNotNone(name)
+                self.assertNotIn("computing", name.lower())
+
+    def test_tractor_mechanic_is_not_electrical_contracting(self):
+        """A substring collision, and a funny one: **"tractor" is inside
+        "con-TRACTOR-ing"**, so expanding a tractor query to the word `tractor`
+        CONTAINS-matched *Electrical Contracting (Licensed Supervisor/
+        Contractor)* at 300 — beating the 220 the actual trade scored.
+
+        The expansion was dropped. A tractor mechanic wants the mechanic trade,
+        not the machine, so it cost everything and bought nothing.
+        """
+        got = self.top(["tractor mechanic", "farm equipment mechanic"])
+        for query, name in got.items():
+            with self.subTest(query=query):
+                self.assertIsNotNone(name)
+                self.assertNotIn("contracting", name.lower())
+
+    def test_no_concept_expands_to_the_word_tractor(self):
+        """Guarding the substring collision at its cause rather than its
+        symptom, because any future concept reaching for `tractor` would
+        reintroduce it."""
+        for concept in load_concepts()["concepts"]:
+            if concept["id"] in ("agriculture", "farmer"):
+                continue                      # the farming concepts may mean it
+            with self.subTest(concept=concept["id"]):
+                self.assertNotIn("tractor", concept["expands_to"])
+
+
+class AutomobileSourceTest(unittest.TestCase):
+    """What the automobile source module has to keep recording."""
+
+    def setUp(self):
+        import sys                                                # noqa: PLC0415
+        sys.path.insert(0, str(ROOT))
+        from research.sources import automobile_trades_2026       # noqa: PLC0415
+        self.mod = automobile_trades_2026
+        self.text = (ROOT / "research" / "sources"
+                     / "automobile_trades_2026.py").read_text(encoding="utf-8")
+
+    def test_five_merge_and_ten_are_new(self):
+        self.assertEqual(len(self.mod.ROLES), 15)
+        self.assertEqual(len(self.mod.merge_roles()), 5)
+        self.assertEqual(len(self.mod.new_roles()), 10)
+
+    def test_it_is_recorded_as_the_only_document_that_kept_its_claim(self):
+        """Documents C and D make the same promise. Only D honours it — 23
+        `Research Gap` markers against C's eight `Confidence` notes. That is
+        worth writing down, because it is the one quality signal in this batch
+        that could be checked rather than taken on trust."""
+        flat = " ".join(self.text.split())
+        self.assertIn("23", flat)
+        self.assertIn("Research Gap", flat)
+
+    def test_the_battery_technician_disagreement_is_recorded_not_resolved(self):
+        """Document A calls it an alias of EV Technician; this one makes it a
+        career. The graph has neither entity to settle it, so the module says
+        so and the reviewer decides — rather than whichever alias list was
+        edited last deciding by accident."""
+        self.assertIn("battery-technician", self.mod.DISPUTED_WITH_ELECTRICIAN_DOC)
+        battery = next(r for r in self.mod.ROLES
+                       if r["slug"] == "battery-technician")
+        self.assertIn("DISPUTED", battery["notes"])
+
+    def test_the_two_painters_are_kept_apart(self):
+        """A building painter and an automotive refinisher share a word and
+        nothing else — different materials, different booth, different
+        certification."""
+        painter = next(r for r in self.mod.ROLES
+                       if r["slug"] == "auto-painting-technician")
+        self.assertIn("Do not merge them", painter["notes"])
+
+    def test_reconstructed_aliases_are_marked_as_such(self):
+        """Only roles 1 and 2 have alias tables; the document condenses the
+        rest 'for brevity'. Where the aliases are the trade's rather than the
+        document's, the row says so — a reviewer checking provenance needs to
+        know which is which."""
+        reconstructed = [r for r in self.mod.ROLES
+                         if "reconstructed" in (r.get("notes") or "")]
+        self.assertGreaterEqual(len(reconstructed), 5)
+
+    def test_confidence_still_respects_the_secondary_source_ceiling(self):
+        for value in re.findall(r'"confidence":\s*(\d+)', self.text):
+            with self.subTest(confidence=value):
+                self.assertLessEqual(int(value), 60)
+
+
 class ReviewerNoteTest(unittest.TestCase):
     """Every candidate must quote ITS OWN document's limits."""
 

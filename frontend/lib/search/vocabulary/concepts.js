@@ -977,7 +977,15 @@ export default Object.freeze({
         "electric vehicle mechanic",
         "ev repair specialist",
         "battery technician",
-        "ev mechanic"
+        "ev mechanic",
+        "bms technician",
+        "battery refurbishment",
+        "battery pack technician",
+        "battery management system",
+        "cell balancing",
+        "charging point operator",
+        "charger installer",
+        "charging station technician"
       ],
       "te": [
         "ఎలక్ట్రిక్ వాహనం",
@@ -1478,6 +1486,57 @@ export default Object.freeze({
       "tanglish": [],
       "expands_to": [
         "sheet metal"
+      ]
+    },
+    {
+      "id": "automobile-mechanic",
+      "en_canonical": "automobile mechanic",
+      "en": [
+        "car mechanic",
+        "motor mechanic",
+        "automotive technician",
+        "auto mechanic",
+        "garage mechanic",
+        "service technician",
+        "truck mechanic",
+        "heavy vehicle technician",
+        "diesel mechanic",
+        "auto electrician"
+      ],
+      "te": [],
+      "tanglish": [],
+      "expands_to": [
+        "automobile mechanic"
+      ]
+    },
+    {
+      "id": "two-wheeler",
+      "en_canonical": "two wheeler mechanic",
+      "en": [
+        "bike mechanic",
+        "scooter mechanic",
+        "motorcycle mechanic",
+        "two wheeler repair",
+        "bike repair"
+      ],
+      "te": [],
+      "tanglish": [],
+      "expands_to": [
+        "two-wheeler mechanic"
+      ]
+    },
+    {
+      "id": "tractor-mechanic",
+      "en_canonical": "tractor mechanic",
+      "en": [
+        "farm equipment mechanic",
+        "tractor repair",
+        "agricultural machinery mechanic"
+      ],
+      "te": [],
+      "tanglish": [],
+      "expands_to": [
+        "automobile mechanic"
       ]
     }
   ]

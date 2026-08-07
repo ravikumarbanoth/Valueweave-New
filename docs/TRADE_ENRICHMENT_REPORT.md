@@ -1,22 +1,24 @@
 # Trade Enrichment Report — Skilled Trades
 
-What three supplied career datasets — 50 skilled trades across 140 pages —
+What four supplied career datasets — 65 skilled trades across 177 pages —
 contributed to the ValueWeave Knowledge Graph, what they could not contribute,
 and why the line falls where it does.
 
-| | A · Electrician | B · Construction | C · Manufacturing |
-|---|---|---|---|
-| pages | 36 | 48 | 56 |
-| roles | 20 | 15 | 15 |
-| against the graph | 12 merge, 8 new | 15 new, 0 merge | 4 merge, 11 new |
-| concepts kept | 3 | 8 | **2 of 9 written** |
-| queries corrected | 4 | **9** | 4 |
-| queries newly answered | 4 | 7 | 1 |
+| | A · Electrician | B · Construction | C · Manufacturing | D · Automobile |
+|---|---|---|---|---|
+| pages | 36 | 48 | 56 | 37 |
+| roles | 20 | 15 | 15 | 15 |
+| against the graph | 12 merge, 8 new | 15 new | 4 merge, 11 new | 5 merge, 10 new |
+| concepts kept | 3 | 8 | **2 of 9 written** | 3 of 5 written |
+| queries corrected | 4 | **9** | 4 | **10** |
+| queries newly answered | 4 | 7 | 1 | 0 |
 
-**Document B gave the most. Document C gave the least — and cost the most to
-find that out.** Nine concepts were written for C, measured, and six deleted
-again because they made results *worse*. That episode is §11 and is the most
-useful thing in this report.
+**B and D gave the most; C gave the least and cost the most to find that out.**
+Nine concepts were written for C, measured, and six deleted because they made
+results *worse* — §11, the most useful passage in this report.
+
+**Document D is the only one of the four whose stated method survives checking
+against its own body** (§13).
 
 ---
 
@@ -534,4 +536,159 @@ Primary sources to review against: **DGT trade list** (document A), **CSDCI
 role list** (document B), and for document C the **Capital Goods Skill Council**
 qualification packs — Lathe Operator, Fitter, Tool & Die Maker and Quality
 Inspector are all CGSC-recognised job roles with published NSQF levels, which
+makes both the existence claim and the level checkable in one place.
+
+---
+
+## 13. Document D — Automobile & Mobility Careers
+
+*37 pages, 15 automotive and EV-service trades. Normalised to
+`research/sources/automobile_trades_2026.py`.*
+
+### The only document whose stated method survives checking
+
+It makes the same promise document C made:
+
+> *"Where data gaps exist, 'Research Gap' is noted. **No statistics are
+> invented.**"*
+
+The difference is that it keeps it. **`Research Gap` appears 23 times across 37
+pages.** Document C's equivalent marker appeared eight times across 56. That is
+the one quality signal in this batch that could be checked against the body
+rather than taken on trust — and it is the reason to read this document's gaps
+as real gaps rather than as omissions.
+
+It still ends with the familiar admission — *"for brevity, later role sections
+assumed similar thoroughness"* — and the structure shows it: roles 1 and 2 have
+full alias tables, roles 3 onward are condensed bullets. Where aliases are the
+trade's rather than the document's, the row says so, and
+`test_reconstructed_aliases_are_marked_as_such` holds that line.
+
+Ceiling stays 60. Marking a gap honestly is good practice, not a citation.
+
+### 5 merge, 10 new
+
+Merging onto three existing Skills:
+
+| document role | existing entity |
+|---|---|
+| Automobile Mechanic, Diesel Mechanic | Automobile Mechanic (Diesel/Petrol) |
+| Bike Mechanic | Two-Wheeler Mechanic |
+| BMS Technician, Diagnostic Technician | EV Technician |
+
+New: Tractor Mechanic · Heavy Vehicle Technician · Battery Technician · Battery
+Refurbishment · **EV Charging Station Technician** · Tyre Technician · Wheel
+Alignment · Denting · Automotive Painting · Service Advisor.
+
+**EV Charging Station Technician** is another *business you cannot learn* —
+`EV Charging Station Operator` exists as an MSME with no matching skill.
+
+### A disagreement between two documents, recorded rather than resolved
+
+Document A lists **"Battery Technician"** as an *alias* of EV Technician. This
+one makes it role 6 — a separate career with its own salary band and its own
+PMKVY course.
+
+Both readings are defensible; whether a specialisation is a career depends on
+whether anyone hires for it alone. The graph has no Battery Technician entity
+to settle it, so:
+
+* **search follows document A** — the term resolves to the EV trade today;
+* **the candidate follows document D** — a reviewer gets to decide.
+
+Search should not wait on a taxonomy question, and a taxonomy question should
+not be settled by whichever alias list was edited last.
+
+### What it fixed — 10 of 21 queries, all of them wrong answers
+
+| query | before | after |
+|---|---|---|
+| `car mechanic` | **Carpentry** | Automobile Mechanic |
+| `bike mechanic` | Automobile Mechanic *(the car trade)* | Two-Wheeler Mechanic |
+| `tractor mechanic` | **Electrical Contracting** | Automobile Mechanic |
+| `heavy vehicle technician` | **Field Technician – Computing** | Automobile Mechanic |
+| `bms technician` | **Field Technician – Computing** | Electric Vehicles |
+| `auto electrician` | Electrician *(domestic wiring)* | Automobile Mechanic |
+
+Zero newly-answered queries and zero regressions: the graph already had three
+automotive Skills, so nothing was unreachable — a great deal was reachable and
+wrong. `car mechanic` returning a woodworking trade is about as ordinary a
+query as this platform will ever receive.
+
+### A substring collision, and a funny one
+
+**"tractor" is inside "con-TRACTOR-ing."** Expanding a tractor query to the
+word `tractor` CONTAINS-matched *Electrical Contracting (Licensed Supervisor/
+Contractor)* at 300, beating the 220 the actual trade scored. The expansion was
+dropped — a tractor mechanic wants the mechanic trade, not the machine.
+
+`test_no_concept_expands_to_the_word_tractor` guards the cause rather than the
+symptom, exempting the farming concepts that legitimately mean the machine.
+
+### Two concepts folded rather than added
+
+`battery-technician` and `ev-charging` were written, collided with the existing
+`electric-vehicle` concept, and were **merged into it** instead of competing.
+That is also how the document-A disagreement above got its search-side answer:
+the graph holds one EV trade, so the vocabulary holds one EV concept.
+
+### Five trades left with no vocabulary
+
+`tyre technician`, `wheel alignment`, `denting technician`, `service advisor`
+and `puncture shop` still return nonsense — *Field Technician – Computing*,
+*Instagram Shopping*. No entity exists to send a reader to, and pointing at a
+sector is what made document C worse. They are fixed by approving the
+candidates.
+
+**Service Advisor is worth approving first.** It is the only non-manual role in
+any of the four documents — the one automotive career reachable by somebody who
+cannot do heavy physical work, and the graph has nothing like it.
+
+---
+
+## 14. Combined position — four documents
+
+| | |
+|---|---|
+| documents processed | 4 |
+| pages read | 177 |
+| trades read | 65 |
+| review candidates | **44** (8 + 15 + 11 + 10), all `NEEDS_REVIEW` |
+| concepts | 16 kept, 9 written-and-deleted, 2 folded |
+| aliases added | 71 |
+| queries corrected from a wrong answer | **27** |
+| queries newly answered | 12 |
+| regressions | 0 |
+| entities overwritten | 0 |
+| packages modified | 0 |
+
+### What four documents taught that one could not
+
+1. **The copy-paste defect is systemic** — B and C each carry a role whose
+   alternative titles belong to its neighbour. Check the tool tables against
+   each other; that is what makes it visible.
+2. **The deduper only sees titles.** Two documents can queue the same trade
+   under different names and nothing notices (§11).
+3. **A concept needs a thing, not a sector.** Reaching for a broad anchor when
+   a trade has none makes search worse than leaving it alone (§11).
+4. **Substrings bite.** `tractor` ⊂ `contractor`, `crane` ≈ `corn`,
+   `granite` ≈ `grant`, `turning` ≈ `training`, `digger` ≈ `degree`. Five
+   collisions across four documents — measure every expansion before keeping it.
+5. **Documents disagree with each other, and that is information.** Battery
+   Technician is an alias in A and a career in D. Record the disagreement;
+   do not let the last edit win.
+6. **A self-declared caveat can be checked.** C and D make the same promise;
+   only D keeps it. Count the markers.
+
+```bash
+python3 -m research.sources.emit_candidates --doc automobile   # dry
+python3 -m research.sources.emit_candidates --write            # all four
+python3 -m collection.cli queue --state NEEDS_REVIEW --limit 60
+```
+
+Primary sources to review against: **DGT trade list** (A), **CSDCI role list**
+(B), **Capital Goods Skill Council** packs (C), and for D the **Automotive
+Skills Development Council (ASDC)** qualification packs — Automotive Battery
+Technician, Tyre Service Technician and Service Advisor are all named ASDC job
+roles with published NSQF levels, which the document itself cites and which
 makes both the existence claim and the level checkable in one place.

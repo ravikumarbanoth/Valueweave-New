@@ -1252,8 +1252,7 @@ export default Object.freeze({
         "cnc machinist",
         "vmc operator",
         "turn mill operator",
-        "cnc programming",
-        "lathe operator"
+        "cnc programming"
       ],
       "te": [
         "సీఎన్‌సీ ఆపరేటర్"
@@ -1446,6 +1445,39 @@ export default Object.freeze({
       "expands_to": [
         "construction",
         "fabrication"
+      ]
+    },
+    {
+      "id": "lathe",
+      "en_canonical": "lathe",
+      "en": [
+        "lathe operator",
+        "turner",
+        "machinist",
+        "lathe machine operator",
+        "conventional turner",
+        "all round machinist"
+      ],
+      "te": [],
+      "tanglish": [],
+      "expands_to": [
+        "lathe operation",
+        "cnc machine operator"
+      ]
+    },
+    {
+      "id": "press-operator",
+      "en_canonical": "press machine operator",
+      "en": [
+        "power press operator",
+        "stamping press",
+        "press shop",
+        "sheet metal press operator"
+      ],
+      "te": [],
+      "tanglish": [],
+      "expands_to": [
+        "sheet metal"
       ]
     }
   ]

@@ -367,6 +367,187 @@ class ConstructionSourceTest(unittest.TestCase):
                 self.assertLessEqual(int(value), 60)
 
 
+@unittest.skipUnless(NODE, NODE_REASON)
+class ManufacturingSearchTest(unittest.TestCase):
+    """The manufacturing dataset contributed the LEAST vocabulary of the three,
+    and finding that out is the point.
+
+    Its fifteen trades are machine-shop roles the graph holds almost nothing
+    about. Eleven of them have no entity to point a concept at, so nine
+    concepts were written, measured, and six were deleted again — see
+    `test_a_concept_must_name_a_thing_not_a_sector`.
+
+    Two survived. Both were kept because the measurement showed them helping,
+    not because they seemed reasonable.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        cls.h = JsHarness()
+        cls.h.dataset("entities.json", entities())
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.h.cleanup()
+
+    def top(self, queries):
+        return self.h.run("""
+            const { rankEntities } = await import("$LIB/knowledge-search.js");
+            const rows = JSON.parse(fs.readFileSync("$DIR/entities.json", "utf8"));
+            const out = {};
+            for (const q of %s) {
+              const r = rankEntities(rows, q, { limit: 1 })[0];
+              out[q] = r ? r.canonical_name : null;
+            }
+            console.log(JSON.stringify(out));
+        """ % json.dumps(list(queries)))
+
+    def test_the_lathe_trade_resolves_to_the_one_skill_it_is(self):
+        """The document splits one trade across three careers — Lathe Machine
+        Operator, Turner and Machinist — and even lists "Turner" as an alias of
+        the first. The graph is right and the document is wrong: `Lathe
+        Operation` is one Skill. All three names now reach it.
+
+        Before: "turner" returned NOTHING and "machinist" returned *CNC
+        Machining Job Shop* — a business, not a trade to learn.
+        """
+        got = self.top(["turner", "machinist", "lathe operator",
+                        "conventional turner", "all round machinist"])
+        for query, name in got.items():
+            with self.subTest(query=query):
+                self.assertEqual(name, "Lathe Operation")
+
+    def test_a_press_operator_reaches_sheet_metal_not_groundnut_oil(self):
+        """"press operator" returned *Cold-Pressed Groundnut/Sesame Oil (Kachi
+        Ghani) Unit*. Both senses of "press" are real; only one is a factory
+        job."""
+        got = self.top(["press operator", "power press operator"])
+        for query, name in got.items():
+            with self.subTest(query=query):
+                self.assertIsNotNone(name)
+                self.assertIn("sheet metal", name.lower())
+
+    def test_a_concept_must_name_a_thing_not_a_sector(self):
+        """The mistake this document caught me making.
+
+        Six concepts were given `expands_to: ["manufacturing"]` because their
+        trades had no better anchor. That term matches every entity with the
+        word in its name, and **"Masala Powder Manufacturing Unit" became the
+        top hit for eleven separate queries** — tool and die maker, quality
+        inspector, hydraulic technician, assembly line, bench fitter and more.
+        Worse than the wrong answers they replaced.
+
+        All six were deleted. An expansion has to name a THING the graph holds,
+        not the sector it sits in — which is the rule document A already stated
+        and this is the measurement that proves it has teeth.
+        """
+        by_id = {c["id"]: c for c in load_concepts()["concepts"]}
+        for dropped in ("tool-and-die", "fitter", "quality-inspector",
+                        "fluid-power", "moulding", "assembly-line", "milling"):
+            with self.subTest(concept=dropped):
+                self.assertNotIn(dropped, by_id)
+
+        # And no TRADE concept may expand to a bare sector word. The
+        # `manufacturing` concept itself is exempt: it is the sector, and
+        # expanding to its own name is what it is for.
+        for concept in load_concepts()["concepts"]:
+            if concept["id"] == "manufacturing":
+                continue
+            with self.subTest(concept=concept["id"]):
+                self.assertNotIn("manufacturing", concept["expands_to"],
+                                 "a bare sector expansion drags in every entity "
+                                 "whose name contains the word")
+
+    def test_masala_powder_is_not_the_answer_to_a_machine_shop_question(self):
+        """A named guard for the specific regression, because it was mine."""
+        got = self.top(["tool and die maker", "quality inspector",
+                        "hydraulic technician", "assembly line", "bench fitter"])
+        for query, name in got.items():
+            with self.subTest(query=query):
+                if name:
+                    self.assertNotIn("masala", name.lower())
+
+
+class ManufacturingSourceTest(unittest.TestCase):
+    """What the manufacturing source module has to keep recording."""
+
+    def setUp(self):
+        import sys                                                # noqa: PLC0415
+        sys.path.insert(0, str(ROOT))
+        from research.sources import manufacturing_trades_2026    # noqa: PLC0415
+        self.mod = manufacturing_trades_2026
+        self.text = (ROOT / "research" / "sources"
+                     / "manufacturing_trades_2026.py").read_text(encoding="utf-8")
+
+    def test_three_roles_collapse_onto_one_lathe_skill(self):
+        """The document over-splits: it presents one trade as three careers and
+        separately names one of them as an alias of another."""
+        self.assertEqual(len(self.mod.ROLES), 15)
+        lathe = [r for r in self.mod.ROLES
+                 if r["existing"] == "Lathe Operation"]
+        self.assertEqual(len(lathe), 3)
+        self.assertEqual({r["slug"] for r in lathe},
+                         set(self.mod.COLLAPSES_ONTO_LATHE))
+
+    def test_the_turner_copy_paste_was_not_propagated(self):
+        """Role 11 (Turner) carries role 12's machinist alternative titles."""
+        turner = next(r for r in self.mod.ROLES if r["slug"] == "turner")
+        for wrong in ("All-round Machinist", "Machine Shop Machinist",
+                      "General Machinist"):
+            with self.subTest(alias=wrong):
+                self.assertNotIn(wrong, turner["aliases"])
+        self.assertIn("SOURCE DEFECT", turner["notes"])
+
+    def test_the_cross_document_overlap_is_surfaced_by_hand(self):
+        """`Fitter` here and `machine-maintenance-technician` from the
+        electrician document share two alternative titles and are close to the
+        same trade.
+
+        `collection/dedupe.py` scores the two TITLES at 0.00 against its 0.80
+        threshold — it compares titles, and these are two different words for
+        one job. Nothing automatic will catch it, so the candidate says so.
+        """
+        fitter = next(r for r in self.mod.ROLES if r["slug"] == "fitter")
+        self.assertIn("CROSS-DOCUMENT OVERLAP", fitter["notes"])
+        self.assertIn("0.00", fitter["notes"])
+        self.assertIn("fitter", self.mod.CROSS_DOCUMENT_OVERLAP)
+
+    def test_the_strong_self_claim_is_recorded_and_qualified(self):
+        """It claims "No statistics are invented" — the boldest of the three.
+        The module has to say both that it claims this and why that is still
+        not a citation."""
+        flat = " ".join(self.text.split())
+        self.assertIn("No statistics are invented", flat)
+        self.assertIn("names no survey and links to nothing", flat)
+
+    def test_confidence_still_respects_the_secondary_source_ceiling(self):
+        for value in re.findall(r'"confidence":\s*(\d+)', self.text):
+            with self.subTest(confidence=value):
+                self.assertLessEqual(int(value), 60)
+
+
+class ReviewerNoteTest(unittest.TestCase):
+    """Every candidate must quote ITS OWN document's limits."""
+
+    def test_each_document_gets_its_own_caveat(self):
+        """A first version branched on whether the limits list was empty and
+        then hard-coded the ELECTRICIAN document's caveat for every document
+        that had one — so manufacturing candidates claimed their contacts were
+        `XXXX` placeholders, which is the one thing that document does not do.
+        """
+        import sys                                                # noqa: PLC0415
+        sys.path.insert(0, str(ROOT))
+        from research.sources.emit_candidates import (            # noqa: PLC0415
+            DOCUMENTS, candidates)
+        notes = {name: candidates(mod)[0].raw["_reviewer_note"]
+                 for name, mod in DOCUMENTS.items()}
+        self.assertIn("XXXX", notes["electrician"])
+        self.assertNotIn("XXXX", notes["manufacturing"])
+        self.assertNotIn("XXXX", notes["construction"])
+        self.assertIn("declares no limits on itself", notes["construction"])
+        self.assertIn("market surveys", notes["manufacturing"])
+
+
 class SourceProvenanceTest(unittest.TestCase):
     """The research file has to keep saying where it came from and what it is."""
 

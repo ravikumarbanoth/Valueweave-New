@@ -37,7 +37,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 
 from collection import review                                     # noqa: E402
 from research.sources import (                                    # noqa: E402
-    construction_trades_2026, electrician_trades_2026)
+    construction_trades_2026, electrician_trades_2026,
+    manufacturing_trades_2026)
 
 #: Each document is one file, read once. `item_key` is the role slug and the
 #: candidate id is prefixed by the document, so a second run over a corrected
@@ -46,6 +47,7 @@ from research.sources import (                                    # noqa: E402
 DOCUMENTS = {
     "electrician": electrician_trades_2026,
     "construction": construction_trades_2026,
+    "manufacturing": manufacturing_trades_2026,
 }
 
 
@@ -57,13 +59,17 @@ def candidates(module):
     pairings = (module.businesses_without_a_skill()
                 if hasattr(module, "businesses_without_a_skill") else {})
 
-    #: The reviewer note names THIS document's weak points, not a generic
-    #: warning. The electrician dataset admits its contacts are placeholders;
-    #: the construction one admits nothing, which needs saying differently.
+    #: The reviewer note quotes THIS document's own declared limits rather
+    #: than a stock sentence. An earlier version branched on whether the list
+    #: was empty and then hard-coded the ELECTRICIAN document's caveat for
+    #: every document that had one — so the manufacturing candidates claimed
+    #: their contacts were `XXXX` placeholders, which is the one thing that
+    #: document does not do. Reading the field is the only way the note can
+    #: stay true as documents are added.
+    limits = SOURCE["self_declared_limits"]
     note = ("Salary, course fees and institute contacts are NOT included. "
-            + ("This document states its contacts are XXXX placeholders and "
-               "its salary figures are estimates."
-               if SOURCE["self_declared_limits"] else
+            + ("This document says of itself: " + "; ".join(limits) + "."
+               if limits else
                "This document declares no limits on itself, but its salary "
                "tables are uncited all the same — absence of a caveat is not "
                "evidence of accuracy.")

@@ -1,21 +1,22 @@
 # Trade Enrichment Report — Skilled Trades
 
-What two supplied career datasets — 35 skilled trades across 84 pages —
+What three supplied career datasets — 50 skilled trades across 140 pages —
 contributed to the ValueWeave Knowledge Graph, what they could not contribute,
 and why the line falls where it does.
 
-| | document A | document B |
-|---|---|---|
-| subject | Electrician & Allied Trades | Construction & Infrastructure |
-| pages | 36 | 48 |
-| roles | 20 | 15 |
-| against the graph | 12 merge, 8 new | **15 new, 0 merge** |
-| queries corrected | 4 | **9** |
-| queries newly answered | 4 | 7 |
+| | A · Electrician | B · Construction | C · Manufacturing |
+|---|---|---|---|
+| pages | 36 | 48 | 56 |
+| roles | 20 | 15 | 15 |
+| against the graph | 12 merge, 8 new | 15 new, 0 merge | 4 merge, 11 new |
+| concepts kept | 3 | 8 | **2 of 9 written** |
+| queries corrected | 4 | **9** | 4 |
+| queries newly answered | 4 | 7 | 1 |
 
-Document B is the more valuable of the two, for a reason worth stating: the
-graph holds **none** of its fifteen trades, so every query about them was
-landing on whatever the fuzzy rung could reach. Details in §9.
+**Document B gave the most. Document C gave the least — and cost the most to
+find that out.** Nine concepts were written for C, measured, and six deleted
+again because they made results *worse*. That episode is §11 and is the most
+useful thing in this report.
 
 ---
 
@@ -398,3 +399,139 @@ packs** for construction trades and the **CSDCI** (Construction Skill
 Development Council of India) role list — several of these trades (False
 Ceiling Installer, Glazier, Bar Bender) are CSDCI-recognised job roles, which
 makes the existence claim checkable in one place.
+
+---
+
+## 11. Document C — Manufacturing & Factory Careers
+
+*56 pages, 15 machine-shop and factory-floor trades. Normalised to
+`research/sources/manufacturing_trades_2026.py`.*
+
+### It makes the strongest self-claim of the three
+
+Its first page:
+
+> *"Where exact data is unavailable, a confidence note is added.
+> **No statistics are invented.**"*
+
+and it closes with the most candid provenance note of the three documents —
+naming Naukri and Indeed as salary sources, dating them to 2025, and saying
+institute contacts should still be confirmed.
+
+That is genuinely better than either of the others. It is still not a citation:
+*"based on market surveys"* names no survey and links to nothing, and
+*"verified"* is the author's assertion about their own process. The claim is
+also only sparsely honoured — the string "Confidence" appears **eight times
+across 56 pages and fifteen roles**. Ceiling stays 60.
+
+### Three roles are one trade
+
+The document presents **Lathe Machine Operator (1)**, **Turner (11)** and
+**Machinist (12)** as separate careers — while role 1 lists *"Turner"* among
+its own alternative job titles. The graph is right: `Lathe Operation` is one
+Skill. All three are recorded as merges onto it.
+
+Role 11 also carries **role 12's alternative titles verbatim** ("All-round
+Machinist, Machine Shop Machinist, General Machinist"). That is the third
+copy-paste defect across three documents — after document B's ROLE 3 — which
+makes it a property of how these files are generated rather than a one-off.
+Not propagated; confidence dropped to 45.
+
+### A cross-document collision the deduper cannot see
+
+Role 10 **Fitter** shares *"Mechanical Fitter"* and *"Maintenance Fitter"* with
+`machine-maintenance-technician`, already queued from document A. They are
+close to the same trade.
+
+**`collection/dedupe.py` scores the two titles at 0.00 against its 0.80
+threshold.** It compares *titles*, and these are two different words for one
+job. Nothing automatic will catch it — a real limit of the deduper, visible
+only once there were three documents instead of one. Surfaced by hand in the
+candidate's raw record so the reviewer decides them together.
+
+### The mistake this document caught me making
+
+Eleven of its fifteen trades have no entity to point a concept at. I reached
+for `expands_to: ["manufacturing"]` as a catch-all on six concepts.
+
+That term matches every entity with the word in its name, and
+**"Masala Powder Manufacturing Unit" became the top hit for eleven separate
+queries** — tool and die maker, quality inspector, hydraulic technician,
+assembly line, bench fitter, die maker and more. *Worse* than the wrong answers
+it replaced.
+
+All six were deleted, plus `milling`, which moved "milling machine operator"
+from *Tractor* to *Dal Milling Unit* — differently wrong, not better.
+
+**The rule, now tested:** an expansion must name a THING the graph holds, not
+the sector it sits in. Document A stated it; this is the measurement that gave
+it teeth. `test_a_concept_must_name_a_thing_not_a_sector` enforces it, and
+`test_masala_powder_is_not_the_answer_to_a_machine_shop_question` guards the
+specific regression.
+
+### What survived — two concepts
+
+| query | before | after |
+|---|---|---|
+| `turner` | **— nothing —** | Lathe Operation |
+| `machinist` | **CNC Machining Job Shop** (a business) | Lathe Operation |
+| `lathe operator` | CNC Machine Operator | Lathe Operation |
+| `press operator` | **Cold-Pressed Groundnut/Sesame Oil Unit** | Sheet Metal Fabrication Unit |
+
+Both senses of "press" are real; only one is a factory job.
+
+### Eleven trades left with no vocabulary, on purpose
+
+`tool and die maker` still returns *Telangana Homestays*. `assembly line` still
+returns *Alkaline*. `bench fitter` still returns *Bank of Baroda*. These are
+bad results and they are **not fixable by vocabulary** — there is no entity in
+the graph for a reader to be sent to. Inventing one would be fabrication;
+pointing at a sector made it worse.
+
+They are fixed by **approving the candidates**, which creates the entities the
+words can then point at. That is the queue's job, and it is the clearest
+demonstration in this whole exercise of why the split exists.
+
+---
+
+## 12. Combined position — three documents
+
+| | |
+|---|---|
+| documents processed | 3 |
+| pages read | 140 |
+| trades read | 50 |
+| review candidates | **34** (8 + 15 + 11), all `NEEDS_REVIEW` |
+| concepts added | 13 kept, 7 written-and-deleted |
+| aliases added | 63 |
+| queries corrected from a wrong answer | **17** |
+| queries newly answered | 12 |
+| regressions | 0 |
+| entities overwritten | 0 |
+| packages modified | 0 |
+
+### What three documents taught that one could not
+
+1. **The copy-paste defect is systemic.** Documents B and C each carry a role
+   whose alternative titles belong to its neighbour. Expect it in the next one
+   and check the tool tables against each other — that is what makes it visible.
+2. **The deduper only sees titles.** Two documents can queue the same trade
+   under different names and nothing will notice.
+3. **A concept needs a thing, not a sector.** Reaching for a broad anchor when
+   a trade has none makes search worse than leaving it alone.
+4. **Self-declared caveats vary and must be quoted, not summarised.** An early
+   version of the reviewer note hard-coded document A's `XXXX` caveat for every
+   document that declared anything, so document C's candidates claimed
+   placeholder contacts it does not have. Fixed; `ReviewerNoteTest` pins it.
+
+```bash
+python3 -m research.sources.emit_candidates --doc manufacturing   # dry
+python3 -m research.sources.emit_candidates --write               # all three
+python3 -m collection.cli queue --state NEEDS_REVIEW
+```
+
+Primary sources to review against: **DGT trade list** (document A), **CSDCI
+role list** (document B), and for document C the **Capital Goods Skill Council**
+qualification packs — Lathe Operator, Fitter, Tool & Die Maker and Quality
+Inspector are all CGSC-recognised job roles with published NSQF levels, which
+makes both the existence claim and the level checkable in one place.

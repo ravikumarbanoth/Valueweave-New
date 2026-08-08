@@ -39,7 +39,7 @@ from collection import review                                     # noqa: E402
 from research.sources import (                                    # noqa: E402
     automobile_trades_2026, construction_trades_2026,
     electrician_trades_2026, electronics_trades_2026,
-    manufacturing_trades_2026)
+    entrepreneurship_businesses_2026, manufacturing_trades_2026)
 
 #: Each document is one file, read once. `item_key` is the role slug and the
 #: candidate id is prefixed by the document, so a second run over a corrected
@@ -51,6 +51,7 @@ DOCUMENTS = {
     "manufacturing": manufacturing_trades_2026,
     "automobile": automobile_trades_2026,
     "electronics": electronics_trades_2026,
+    "entrepreneurship": entrepreneurship_businesses_2026,
 }
 
 
@@ -81,6 +82,14 @@ def candidates(module):
     for role in module.new_roles():
         aliases = ", ".join(role["aliases"][:4])
         business = pairings.get(role["slug"])
+        #: The five trade documents all propose Skills, so `Skill` stays the
+        #: default and their candidates are byte-identical to before. The
+        #: entrepreneurship document proposes BusinessOpportunity, MSME and
+        #: GovernmentScheme rows, and a reviewer deciding "is this a business
+        #: or a skill" needs the classifier to have already said which — that
+        #: distinction is the whole point of the entity types.
+        kind = role.get("entity_type", "Skill")
+        noun = role.get("queue_noun", "trade")
         out.append(review.Candidate(
             candidate_id=f"{SOURCE_ID}:{role['slug']}",
             source_id=SOURCE_ID,
@@ -93,11 +102,11 @@ def candidates(module):
             url="",
             published_at=SOURCE["retrieved"],
             change="NEW",
-            classified_as="Skill",
+            classified_as=kind,
             classified_reason=(
                 (f"the graph offers “{business}” as a business but cannot "
                  f"teach the trade; also known as {aliases}") if business else
-                (f"a trade with no Skill entity in the graph; "
+                (f"a {noun} with no {kind} entity in the graph; "
                  f"also known as {aliases}")),
             is_entity=True,
             state=review.NEEDS_REVIEW,
@@ -113,6 +122,9 @@ def candidates(module):
             raw={k: v for k, v in {
                 "title": role["title"],
                 "aliases": role["aliases"],
+                "proposed_entity_type": kind,
+                "industry": role.get("industry"),
+                "administering_body": role.get("body"),
                 "industries": role.get("industries"),
                 "nature_of_work": role.get("nature"),
                 "future_demand": role.get("future_demand"),
@@ -155,7 +167,9 @@ def main(argv=None):
         rows = candidates(module)
         incoming.extend(rows)
         print(f"\n  {module.SOURCE['title'][:78]}")
-        print(f"  {len(rows)} candidate(s) — roles with no Skill entity\n")
+        kinds = sorted({c.classified_as for c in rows})
+        print(f"  {len(rows)} candidate(s) — nothing comparable in the graph "
+              f"({', '.join(kinds)})\n")
         for c in rows:
             print(f"    {c.title:36} {c.classified_reason[:74]}")
 

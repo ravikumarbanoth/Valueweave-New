@@ -79,7 +79,9 @@ export default Object.freeze({
         "plumbing technician",
         "steam fitter",
         "plumer",
-        "plummer"
+        "plummer",
+        "plumbing contractor",
+        "sanitary contractor"
       ],
       "te": [
         "ప్లంబర్",
@@ -127,7 +129,11 @@ export default Object.freeze({
         "fitter welder",
         "sheet metal worker",
         "structural fabricator",
-        "welda"
+        "welda",
+        "fabrication workshop",
+        "fabrication shop",
+        "gate and grill fabrication",
+        "grill fabrication"
       ],
       "te": [
         "వెల్డర్",
@@ -183,7 +189,8 @@ export default Object.freeze({
         "flooring technician",
         "marble polisher",
         "tiles fitter",
-        "granite cutter"
+        "granite cutter",
+        "granite contractor"
       ],
       "te": [
         "టైల్స్",
@@ -235,11 +242,16 @@ export default Object.freeze({
         "fridge mechanic",
         "ac technician",
         "refrigeration mechanic",
-        "vrf technician"
+        "vrf technician",
+        "ac service",
+        "ac servicing",
+        "ac amc",
+        "ac service business"
       ],
       "te": [
         "ఏసీ రిపేర్",
-        "ఎయిర్ కండిషనింగ్"
+        "ఎయిర్ కండిషనింగ్",
+        "ఏసీ సర్వీస్"
       ],
       "tanglish": [
         "ac repair pani"
@@ -1553,9 +1565,17 @@ export default Object.freeze({
         "tv repair",
         "electronics service technician",
         "consumer electronics technician",
-        "appliance repair"
+        "appliance repair",
+        "mobile repair shop",
+        "computer repair",
+        "computer service",
+        "computer service center",
+        "desktop repair",
+        "laptop service centre"
       ],
-      "te": [],
+      "te": [
+        "కంప్యూటర్ రిపేర్"
+      ],
       "tanglish": [],
       "expands_to": [
         "electronics repair"
@@ -1592,6 +1612,21 @@ export default Object.freeze({
       "tanglish": [],
       "expands_to": [
         "iot systems"
+      ]
+    },
+    {
+      "id": "cold-storage",
+      "en_canonical": "cold storage",
+      "en": [
+        "cold storage business",
+        "cold chain storage"
+      ],
+      "te": [
+        "కోల్డ్ స్టోరేజ్"
+      ],
+      "tanglish": [],
+      "expands_to": [
+        "cold storage"
       ]
     }
   ]

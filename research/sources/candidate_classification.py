@@ -145,8 +145,14 @@ CANDIDATES = {
     # ---- document A · Electrician & Allied Trades ----------------------
     "doc-electrician-trades-2026:lift-technician": {
         "cls": NEW, "merge_target": None,
-        "why": "no comparable entity; lift work is licensed separately",
-        "primary_source": "Telangana Lifts & Escalators Act licensing; NCO-2015",
+        "why": ("no comparable entity. VERIFIED: DGT runs 'Lift & Escalator "
+                "Mechanic' as a named craftsman trade at NSQF 4 — see "
+                "verified_candidates.py. My earlier note here claimed no "
+                "sector qualification existed and pointed only at state "
+                "licensing; that was wrong"),
+        "primary_source": ("DGT/NCVT CTS 2.0 — Lift & Escalator Mechanic "
+                           "(NSQF 4). State lifts-and-escalators licensing "
+                           "governs sign-off and is a separate check"),
     },
     "doc-electrician-trades-2026:tile-marble-fixer": {
         "cls": MERGE, "merge_target": "Tiles Fixing (Tile Mason)",
@@ -369,8 +375,15 @@ CANDIDATES = {
     "doc-automobile-trades-2026:ev-charging-station-technician": {
         "cls": NEW, "merge_target": None,
         "why": ("'EV Charging Station Operator' exists as an MSME with no "
-                "skill that teaches the installation and service work"),
-        "primary_source": "ASDC QP list",
+                "skill that teaches the installation and service work. "
+                "VERIFIED, and it moved sector: this is POWER, not "
+                "automotive — a different regulator and a different training "
+                "route from the graph's existing EV Technician, which is the "
+                "reason to hold it separately"),
+        "primary_source": ("Power Sector Skill Council (PSSC) — NOT ASDC. "
+                           "'EV Charging Station Technician' on the National "
+                           "Qualification Register, approved at the 14th NSQC "
+                           "meeting; the exact QP code is not yet pinned"),
     },
     "doc-automobile-trades-2026:tyre-technician": {
         "cls": DUPLICATE, "merge_target": None,
@@ -411,10 +424,21 @@ CANDIDATES = {
         "primary_source": "ESSCI QP list — CCTV Installation Technician",
     },
     "doc-electronics-trades-2026:fire-alarm-technician": {
-        "cls": NEW, "merge_target": None,
-        "why": "life-safety work; statutory testing is part of the job",
-        "primary_source": ("ESSCI QP list AND Telangana / Andhra Pradesh Fire "
-                           "Services licensing — two authorities, check both"),
+        "cls": DISPUTED, "merge_target": None,
+        "why": ("RECLASSIFIED B -> D BY VERIFICATION. I predicted an ESSCI "
+                "qualification pack; searching ESSCI and the National "
+                "Qualification Register found none. The adjacent national "
+                "qualifications — Firefighter, Fire Safety Officer, Fire "
+                "Safety Technician (Oil & Gas) — are about responding to "
+                "fire, not installing detection, and the only fire-alarm "
+                "credential found is a commercial certificate. The occupation "
+                "plainly exists; its credential does not, from here. Whether "
+                "it sits under state fire-services licensing or inside a "
+                "broader security-systems pack is a decision for a person"),
+        "primary_source": ("NOT ESTABLISHED. Try: Telangana / Andhra Pradesh "
+                           "Fire Services licensing; the full ESSCI pack list "
+                           "for a security-systems qualification that "
+                           "subsumes it"),
     },
     "doc-electronics-trades-2026:security-system-installer": {
         "cls": DISPUTED, "merge_target": None,

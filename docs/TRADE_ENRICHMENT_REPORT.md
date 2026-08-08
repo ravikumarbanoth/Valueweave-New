@@ -1005,10 +1005,13 @@ are still `NEEDS_REVIEW` and a test fails if any of them stops being so.
 | class | meaning | count |
 |---|---|---|
 | **A** | likely merge into an existing entity after a primary-source check | 7 |
-| **B** | likely requires a new Skill entity | 23 |
+| **B** | likely requires a new Skill entity | 22 |
 | **C** | duplicate — decide with its group | 17 |
-| **D** | disputed — requires a human decision | 4 |
+| **D** | disputed — requires a human decision | 5 |
 | **E** | reject | 1 |
+
+*(B and D shifted by one after §19: Fire Alarm Technician was reclassified when
+verification failed to find a national qualification for it.)*
 
 "Likely" is load-bearing. A and B are predictions about what a reviewer will
 conclude *after* checking a primary source, not permission to skip the check.
@@ -1094,3 +1097,316 @@ demand estimates. Five LLM-generated secondary documents, zero citations. The
 role names and aliases are observable facts about how words are used and were
 verifiable here; the numbers are claims about the world and are not. They live
 in the queue's raw records and nowhere else.
+
+---
+
+## 19. Primary-source verification — the top ten candidates
+
+Recorded in `research/sources/verified_candidates.py`, held by
+`VerifiedCandidateTest` and `FieldTechnicianFamilyTest`. **Nothing promoted, no
+entity created, no alias written.**
+
+### What "verified" means here, and what it does not
+
+Each record names a government qualification — a DGT/NCVT craftsman trade or an
+NSQC-approved Sector Skill Council qualification pack — with its code, its NSQF
+level and the URL of the official document. That is a real step up from the
+five datasets, which asserted role names with no citation at all: a QP code and
+a gov.in URL can be checked by one person in one click.
+
+**It is not a direct read of those documents.** This environment's egress proxy
+blocks `dgt.gov.in`, `nqr.gov.in`, `essc-india.org`, `asdc.org.in` and
+`nsdcindia.org`; every WebFetch was attempted and refused. The codes and levels
+below are quoted from a search index's extract of the official document,
+corroborated by a second independent search pass. The repository already has
+precedent for exactly this — the UGC row in `entities.csv` carries the note
+*"Website content could not be directly re-fetched due to proxy access
+restriction on gov.in domains"* — and the same discipline applies:
+
+> **Confidence ceiling 75.** Above the 60 given to an uncited secondary
+> document; below the 88 the repository gives a fact it fetched itself.
+
+### Nine of ten confirmed
+
+| candidate | authority | code | NSQF | decision |
+|---|---|---|---|---|
+| Service Advisor | ASDC | **ASC/Q1426** v2.0 | 4.5 | **B** new Skill |
+| Fitter | DGT/NCVT CTS 2.0 | Fitter (2 yr) | 4 | **C** settles its group |
+| Tool & Die Maker | DGT/NCVT CTS 2.0 | TDM (Dies & Moulds); TDM (Press Tools, Jigs & Fixtures) | 4 / 5 | **B** new Skill |
+| Painter | DGT/NCVT CTS 2.0 | Painter (General); Domestic Painter; Industrial Painter | 4 / 3 / 3 | **B** new Skill |
+| Mechatronics Technician | DGT/NCVT CTS 2.0 | Technician Mechatronics (2 yr) | 4 | **B** new Skill |
+| Lift Technician | DGT/NCVT CTS 2.0 | Lift & Escalator Mechanic | 4 | **B** new Skill |
+| CCTV Technician | ESSCI | **ELE/Q4605** v4.0 | 3.5 | **C** settles its group |
+| Networking Technician | ESSCI | **ELE/Q4606** v3.0 | 4 | **B** new Skill |
+| EV Charging Station Technician | **PSSC**, not ASDC | NQR, 14th NSQC | not established | **B** new Skill |
+| Fire Alarm Technician | **not found** | — | — | **D** reclassified |
+
+### The three results worth reading
+
+**Painter settles a KEEP_DISTINCT pair with a primary source.** DGT runs
+building painting and automotive refinishing as *separate craftsman trades* —
+Painter (General) / Domestic Painter / Industrial Painter on one side, Mechanic
+Auto Body Painting (NSQF 3.5) on the other. The source modules said keep them
+apart on judgement; the national trade structure agrees. Search currently
+returns *Painting Services* for both, and promoting these must fix that.
+
+**CCTV narrows its group.** ESSCI holds **one** qualification covering
+surveillance installation, so document E's split into "CCTV Technician" and
+"Security System Installer" is not reflected in the national structure. The
+pair should resolve to one entity unless a reviewer finds a separate
+access-control QP.
+
+**Fire Alarm Technician did not verify, and that is the honest result.**
+Searching ESSCI and the National Qualification Register returns Firefighter,
+Fire Safety Officer and Fire Safety Technician (Oil & Gas) — all about
+*responding* to fire, none about installing detection. The only fire-alarm
+credential found is a commercial certificate from a private training company,
+which is not a national qualification and must not be recorded as one. The
+occupation plainly exists; its credential could not be located from here.
+Reclassified **B → D**.
+
+### Three corrections verification forced, two of them mine
+
+| candidate | was | is | whose error |
+|---|---|---|---|
+| EV Charging Station Technician | ASDC | **PSSC** (Ministry of Power / MNRE) | mine — I assigned the authority from the document the role arrived in, not from the work |
+| Lift Technician | "no sector qualification; state licensing only" | **DGT CTS Lift & Escalator Mechanic, NSQF 4** | mine — I assumed no craftsman trade existed because no sector council covers lifts |
+| Fire Alarm Technician | class B, "ESSCI QP list" | class D, authority not established | new information |
+| Tool & Die Maker | one role | **two DGT trades at two NSQF levels** | new information |
+
+### The Field Technician magnet, diagnosed
+
+§18 recorded it as a knowledge-coverage problem. Verification says what the
+coverage problem *is*, and it is sharper than "some skills are missing".
+
+ESSCI publishes a family of **After Sales Support** qualifications sharing the
+`ELE/Q46xx` prefix:
+
+| QP | title | NSQF | in the graph |
+|---|---|---|---|
+| **ELE/Q4601** | Field Technician — Computing & Peripherals | 4 | yes — as a **Certification** |
+| ELE/Q4605 | CCTV Installation Technician | 3.5 | no — queued |
+| ELE/Q4606 | Field Technician — Networking & Storage | 4 | no — queued |
+
+The graph holds **exactly one** member of the family, as a Certification, and
+holds **no Skill for any trade in it**. So a query ending in "technician" with
+no Skill to reach finds the one row that contains the word. That is not a
+ranking bug; it is an import asymmetry — *qualification packs were imported as
+Certification entities without the corresponding trades as Skills.*
+
+The same asymmetry produced a **second magnet**: `Automotive Service Technician
+(Two and Three Wheelers) - ASC/Q1411` is also a Certification with no matching
+Skill of its own name, and it too surfaced as a wrong top hit during the
+five-document work. It is half fixed — the graph does hold *Two-Wheeler
+Mechanic*, and document D's vocabulary now routes the bike queries there.
+
+**The fix is coverage.** Two of the three family members are already queued;
+promoting them removes their queries from the magnet and gives the vocabulary
+somewhere true to point. No alias can do this.
+
+### Vocabulary prepared, deliberately not shipped
+
+None of the ten is a class-A merge, so not one of them has an existing Skill to
+point at. Writing these aliases today would send readers to an
+approximately-related entity — the exact failure the magnet gap forbids — and
+`test_the_magnet_is_not_being_papered_over_with_aliases` would fail, correctly.
+
+`PROPOSED_VOCABULARY` therefore holds English, Telugu and Tanglish terms for
+the nine verified roles and **nothing at all** for the unverified one, so that
+promotion is one step rather than a rediscovery. Fire Alarm Technician's entry
+is empty on purpose: an unverified role with ready-made aliases is an
+invitation to ship it.
+
+**The Telugu is PROPOSED and needs a Telugu-speaking reviewer.** The terms are
+transliterated loanwords — లిఫ్ట్ మెకానిక్, సీసీటీవీ, నెట్‌వర్కింగ్ — which is
+the register a Hyderabad technician actually uses rather than a Sanskritic
+coinage. That is a checkable claim about usage, but not checkable by me and not
+by a search engine. Nothing is indexed until a person confirms it. The
+`<trade> pani` Tanglish forms follow the convention already in the table
+(`current pani`, `tiles pani`, `ac repair pani`).
+
+One entry carries `repoint_existing_concept`: the `painter` concept already
+claims "painter" and "house painting" and points at the Painting Services
+business. When the Skill lands that concept must be **re-pointed, not
+duplicated** — two concepts claiming one alias fails the integrity test.
+
+---
+
+## 20. Document F — Entrepreneurship Decision Datasets
+
+*49 pages, 20 employment-generating businesses. Normalised to
+`research/sources/entrepreneurship_businesses_2026.py`.*
+
+### A different shape from the first five
+
+Those described **trades** — things a person learns. This describes
+**businesses** — things a person starts. That changes what may be extracted:
+
+* business names, alternative names and sectors are vocabulary, checkable here;
+* investment ranges, revenue scenarios, margins, break-even periods, licence
+  fees, subsidy percentages and employment counts are the *bulk of the
+  document* and are all uncited estimates.
+
+It is the first source whose subject matter **is money**. Every one of the
+twenty entries leads with an investment range and a profit scenario — exactly
+the material a reader is most likely to act on, and exactly the material with
+least behind it. `UNVERIFIED_FIELDS` is therefore longer here (18 entries) than
+in any trade module, and a test asserts no rupee figure, salary range or
+percentage margin reached the module at all.
+
+It also carries **140 star ratings** — seven per business, for demand,
+investment, skill, profit, employment, competition and risk. Not one is a
+measurement. `STAR_RATINGS_ARE_NOT_DATA` names them and a test asserts the `★`
+character appears nowhere in the module.
+
+### What it says about itself — better than average
+
+> *"All data is based on publicly available information, Indian regulatory
+> frameworks, and industry estimates. Research Gaps have been clearly marked
+> where verified sources are unavailable."*
+
+`Research Gap` appears **10 times across 49 pages**, plus one explicit "Not
+publicly verified" and seven "verify" instructions. Thinner than document D's
+23 markers in 37 pages, but honest in kind — and unlike document E it makes no
+claim of high confidence. **Ceiling stays 60.**
+
+### The highest overlap of the six — 11 of 20 already exist
+
+This is why a 49-page document queues only 12 rows. Every merge target was
+checked against `entities.csv`, and a test holds each one:
+
+| document business | existing entity | type |
+|---|---|---|
+| Solar Installation Business | Solar Rooftop EPC Contractor | MSME |
+| Electrical Contractor | Electrical Contracting (Licensed Supervisor/Contractor) | BusinessOpportunity |
+| Plumbing Contractor | Plumbing Services | BusinessOpportunity |
+| Computer Service Center | IT Hardware and Network Services | MSME |
+| CNC Job Work Unit | CNC Machining Job Shop | MSME |
+| Fabrication Workshop · Welding Shop | Welding & Metal Fabrication | BusinessOpportunity |
+| Granite & Tiles Contracting | Tiles Fixing (Tile Mason) | BusinessOpportunity |
+| Borewell Services | Borewell Drilling Services | BusinessOpportunity |
+| Cold Storage Business | Cold Storage Facility | MSME |
+| EV Garage | EV Two-Wheeler Service Centre | MSME *(partial — see below)* |
+
+**EV Garage is a partial overlap, not a clean duplicate.** The graph's entity
+is two-wheeler specific; the document covers 2/3/4-wheelers and e-buses.
+Whether to broaden the existing MSME or hold a second wider entity is a
+curation decision — recorded, not taken.
+
+**Fabrication Workshop and Welding Shop are the same entity as each other** —
+the document splits into two businesses what the graph rightly holds as one.
+The same over-splitting the trade documents showed.
+
+### 12 queued — and the first candidates that are not Skills
+
+| type | n | candidates |
+|---|---|---|
+| BusinessOpportunity | 7 | Lift Installation · AC Service · Civil Contractor · Interior Contractor · CCTV Installation · Mobile Repair Shop · Water Purification (RO) |
+| MSME | 2 | Battery Recycling Unit · Dairy Processing Unit |
+| GovernmentScheme | 3 | CLCSS · NABARD DEDS · MIDH |
+
+Five documents proposed only Skills, so `Skill` was the emitter's hardcoded
+classification. **One field changed** — `entity_type`, defaulting to `Skill` —
+so the reviewer is asked *"should ValueWeave hold this as a business"* rather
+than the wrong question. A test asserts the five trade documents still classify
+as `Skill` with a word-for-word identical reason sentence. No new pipeline, no
+schema, no migration.
+
+**DEDS carries the lowest confidence in the module (35) and says why:** it has
+been reported discontinued or restructured in some years, and a scheme entity
+that no longer accepts applications is worse than no entity — a reader would
+waste a trip to a bank.
+
+### Two pairs that must be decided together
+
+`lift-installation-business` pairs with the queued **Lift Technician** Skill;
+`cctv-installation-business` pairs with the queued and ESSCI-verified **CCTV
+Technician**. Approving one without the other recreates the "business you
+cannot learn" gap in reverse — a business nobody is trained for.
+
+### The inverse of the recurring pattern
+
+Five documents kept finding businesses the graph holds with no Skill teaching
+them. **AC Service Business is the mirror image:** the graph holds *HVAC
+Technician* as a Skill and has no business a trained person could start.
+
+### It also settles an open class-D question
+
+The construction document queued *Interior Finishing Technician* and §18 marked
+it **DISPUTED** because "interior finishing" read as an umbrella over false
+ceiling, painting, tiling and joinery rather than one trade. This document
+independently treats interior work as a **business that coordinates those
+trades** — evidence for the umbrella reading. Two documents, two framings, and
+they agree once the trade question is separated from the business question.
+
+### What it fixed — 17 corrections, 5 newly answered, 0 regressions
+
+| query | before | after |
+|---|---|---|
+| `ac service` | Freelance Software/IT Consultant | HVAC Technician |
+| `ac service business` | **Instagram Shopping / WhatsApp Business** | HVAC Technician |
+| `computer repair` | **Course on Computer Concepts (CCC)** | Electronics Repair & Maintenance |
+| `desktop repair` | Automotive Repair & Services | Electronics Repair & Maintenance |
+| `mobile repair shop` | **Instagram Shopping** | Electronics Repair & Maintenance |
+| `fabrication workshop` | **Masala Powder Manufacturing Unit** | Welding (MIG/TIG/Arc) |
+| `gate and grill fabrication` | **Masala Powder Manufacturing Unit** | Welding (MIG/TIG/Arc) |
+| `plumbing contractor` | Construction *(sector)* | Plumbing |
+| `granite contractor` | Construction *(sector)* | Tiles Fixing (Tile Mason) |
+| `cold storage business` | **Instagram Shopping** | Cold Storage Facility |
+| `ఏసీ సర్వీస్` | *(nothing)* | HVAC Technician |
+| `కంప్యూటర్ రిపేర్` | *(nothing)* | Electronics Repair & Maintenance |
+| `కోల్డ్ స్టోరేజ్` | *(nothing)* | Cold Storage Facility |
+
+`computer repair` → *Course on Computer Concepts* is the sharpest of these: a
+certification about **using** a computer, offered to somebody who wants to
+**fix** one.
+
+**One new concept only** — `cold-storage`, with two aliases. `cold storage
+unit` was deliberately left out of it: the graph holds *Cold Storage Unit* as
+**Machinery** and *Cold Storage Facility* as an **MSME**, two different things
+one word apart, and a test pins the machinery query so the new concept cannot
+swallow it.
+
+**Three Telugu terms, and one rejected.** ఏసీ సర్వీస్, కంప్యూటర్ రిపేర్ and
+కోల్డ్ స్టోరేజ్ each took a query from nothing to the right entity. మొబైల్
+రిపేర్ was written and **removed**: it already resolves through
+transliteration, so it would have been a row that does no work — which is the
+rule the concept table's own header states.
+
+### What was refused
+
+* **Nine businesses got no alias at all.** `ro plant` returns *Tractor (35-45
+  HP)* and `dairy processing` returns *Cattle Dung and Farm Waste*. Both are
+  embarrassing and both were left alone — no entity exists to point at, and a
+  sector expansion is what §11 forbids and §17 proved still bites. Approving
+  the candidates is the fix. A test pins the gap.
+* **Four localities refused as districts.** Ranigunj, Secunderabad, Balanagar
+  and Mallepally are neighbourhoods inside Hyderabad, not districts. The
+  graph's 61-district hierarchy would be corrupted by adding them.
+* **Seven named institutes and six named companies not carried across.** ATI
+  Hyderabad, TASK, ITI Mallepally, APSSDC, NDRI, IIFPT, Sri Venkateswara
+  Polytechnic; Bosch, Ather, Ola, Hikvision, CP Plus, Tata Power. The
+  institutions are checkable and some may deserve TrainingProvider entities —
+  what may never be promoted is the *course claim* attached to them, which the
+  document itself marks "Not publicly verified".
+* **Every figure.** Investment, revenue, margin, break-even, subsidy
+  percentage, employment count, rental rate, licence fee.
+
+### Combined position — six documents
+
+| | |
+|---|---|
+| documents processed | 6 |
+| pages read | 254 |
+| trades and businesses read | 100 |
+| review candidates | **64** (52 trades + 12 businesses/schemes), all `NEEDS_REVIEW` |
+| concepts | 20 new + 11 pre-existing extended |
+| aliases added | 209 |
+| probe terms measured | 229 |
+| queries corrected | **133** |
+| queries newly answered | **38** |
+| queries that lost an answer | 0 |
+| regressions | 0 |
+| entities created / overwritten | 0 / 0 |
+| packages, schema, migrations changed | 0 |
+| tests | 1157 pass |

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-08T01:08:03+00:00",
+  "generated_at": "2026-08-08T01:12:05+00:00",
   "overview": {
     "entities": 647,
     "relationships": 865,
@@ -307,62 +307,62 @@
       },
       {
         "stars": 3,
-        "type": "BusinessOpportunity",
-        "title": "FIXTURE Solar rooftop installation opportunity in Medak district",
-        "source": "fix-rss-001",
-        "why": "BusinessOpportunity is worth 30; a TG source; names Medak"
-      },
-      {
-        "stars": 3,
         "type": "TrainingProvider",
         "title": "FIXTURE Skill training centre empanelment for ITI graduates",
         "source": "fix-rss-001",
         "why": "TrainingProvider is worth 24; reads as “empanelment”; a TG source"
       },
       {
+        "stars": 3,
+        "type": "BusinessOpportunity",
+        "title": "FIXTURE Solar rooftop installation opportunity in Medak district",
+        "source": "fix-rss-001",
+        "why": "BusinessOpportunity is worth 30; a TG source; names Medak"
+      },
+      {
         "stars": 2,
         "type": "BusinessOpportunity",
         "title": "FIXTURE Semiconductor assembly unit registration window opens",
         "source": "fix-json-001",
-        "why": "BusinessOpportunity is worth 30; a AP source; published 6 days ago"
+        "why": "BusinessOpportunity is worth 30; a AP source; published 8 days ago"
       },
       {
         "stars": 2,
         "type": "TrainingProvider",
         "title": "FIXTURE Government ITI (example)",
         "source": "fix-csv-001",
-        "why": "TrainingProvider is worth 24; a TG source; published 0 days ago"
+        "why": "TrainingProvider is worth 24; a TG source; published 1 day ago"
       },
       {
         "stars": 2,
         "type": "TrainingProvider",
         "title": "FIXTURE Skill Development Centre (example)",
         "source": "fix-csv-001",
-        "why": "TrainingProvider is worth 24; a TG source; published 0 days ago"
+        "why": "TrainingProvider is worth 24; a TG source; published 1 day ago"
       },
       {
         "stars": 2,
         "type": "TrainingProvider",
         "title": "FIXTURE Polytechnic College (example)",
         "source": "fix-csv-001",
-        "why": "TrainingProvider is worth 24; a TG source; published 0 days ago"
+        "why": "TrainingProvider is worth 24; a TG source; published 1 day ago"
       },
       {
         "stars": 2,
         "type": "Skill",
         "title": "FIXTURE Lift and elevator technician qualification under review",
         "source": "fix-atom-001",
-        "why": "Skill is worth 26; published 2 days ago"
+        "why": "Skill is worth 26; published 3 days ago"
       },
       {
         "stars": 2,
         "type": "Certification",
         "title": "FIXTURE New qualification pack for drone maintenance technician",
         "source": "fix-atom-001",
-        "why": "Certification is worth 22; published 1 day ago"
+        "why": "Certification is worth 22; published 2 days ago"
       }
     ],
-    "last_run": "2026-08-03T10:04:47+00:00"
+    "last_run": "2026-08-05T07:16:41+00:00"
   },
   "sync": {
     "runs_recorded": 51,

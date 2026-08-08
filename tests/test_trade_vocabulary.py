@@ -1285,6 +1285,244 @@ class ResearchGapTest(unittest.TestCase):
                 self.assertIn(current, known)
 
 
+class VerifiedCandidateTest(unittest.TestCase):
+    """Primary-source verification of the ten highest-value candidates.
+
+    The thing these tests defend is not the research — it is the HONESTY of
+    the research. A verification record that quietly loses its URL, or claims
+    a confidence the method does not support, or grows vocabulary for a role
+    that was never confirmed, is more dangerous than no verification at all,
+    because the next reader takes it on trust.
+    """
+
+    def setUp(self):
+        import sys                                                # noqa: PLC0415
+        sys.path.insert(0, str(ROOT))
+        from research.sources import (candidate_classification,   # noqa: PLC0415
+                                      verified_candidates)
+        self.vc = verified_candidates
+        self.cc = candidate_classification
+
+    def test_the_ten_named_candidates_are_all_present(self):
+        expected = {
+            "doc-automobile-trades-2026:service-advisor",
+            "doc-manufacturing-trades-2026:fitter",
+            "doc-manufacturing-trades-2026:tool-and-die-maker",
+            "doc-electrician-trades-2026:painter",
+            "doc-electrician-trades-2026:mechatronics-technician",
+            "doc-electrician-trades-2026:lift-technician",
+            "doc-electronics-trades-2026:cctv-technician",
+            "doc-electronics-trades-2026:fire-alarm-technician",
+            "doc-electronics-trades-2026:networking-technician",
+            "doc-automobile-trades-2026:ev-charging-station-technician",
+        }
+        self.assertEqual(set(self.vc.VERIFIED), expected)
+
+    def test_every_record_is_a_real_queued_candidate(self):
+        for cid in self.vc.VERIFIED:
+            with self.subTest(candidate=cid):
+                self.assertIn(cid, self.cc.CANDIDATES)
+
+    def test_a_confirmed_role_carries_an_authority_a_code_and_a_url(self):
+        """The whole value of this pass over the five documents is that a
+        person can check it. A record without a URL is an assertion, which is
+        what the documents already gave us."""
+        for cid, row in self.vc.verified().items():
+            with self.subTest(candidate=cid):
+                self.assertTrue(row["authority"])
+                self.assertTrue(row["code"])
+                self.assertTrue(row["url"].startswith("https://"))
+                self.assertGreater(len(row["note"]), 60)
+
+    def test_confidence_respects_the_indirect_verification_ceiling(self):
+        """75, not 88. The codes were read from a search index quoting the
+        official document, because this environment's egress proxy blocks
+        dgt.gov.in, nqr.gov.in, essc-india.org, asdc.org.in and nsdcindia.org.
+        A citation you have not opened is better evidence than none and worse
+        evidence than one you have."""
+        self.assertEqual(self.vc.CEILING, 75)
+        for cid, row in self.vc.VERIFIED.items():
+            with self.subTest(candidate=cid):
+                self.assertLessEqual(row["confidence"], self.vc.CEILING)
+
+    def test_the_method_admits_that_direct_fetch_was_blocked(self):
+        """If this sentence goes missing, the next reader will assume the PDFs
+        were read."""
+        self.assertIn("BLOCKED", self.vc.METHOD)
+        for domain in ("dgt.gov.in", "essc-india.org", "asdc.org.in"):
+            with self.subTest(domain=domain):
+                self.assertIn(domain, self.vc.METHOD)
+
+    def test_the_unverified_role_is_marked_and_kept_out(self):
+        """Fire Alarm Technician is the one of the ten that verification did
+        NOT confirm — the adjacent national qualifications are firefighting
+        roles, and the only fire-alarm credential found is commercial. It has
+        to stay visibly unverified, carry low confidence, and propose no
+        entity."""
+        unverified = self.vc.unverified()
+        self.assertEqual(list(unverified),
+                         ["doc-electronics-trades-2026:fire-alarm-technician"])
+        row = unverified["doc-electronics-trades-2026:fire-alarm-technician"]
+        self.assertIsNone(row["code"])
+        self.assertIsNone(row["proposed_entity"])
+        self.assertEqual(row["decision"], self.vc.DISPUTED)
+        self.assertLess(row["confidence"], 50)
+
+    def test_no_vocabulary_was_prepared_for_the_unverified_role(self):
+        """An unverified role with ready-made aliases is an invitation to ship
+        it. Empty is the correct content."""
+        for cid in self.vc.unverified():
+            vocab = self.vc.PROPOSED_VOCABULARY[cid]
+            with self.subTest(candidate=cid):
+                self.assertEqual(vocab["en"] + vocab["te"] + vocab["tanglish"], [])
+
+    def test_every_verified_role_has_prepared_vocabulary(self):
+        for cid in self.vc.verified():
+            with self.subTest(candidate=cid):
+                self.assertIn(cid, self.vc.PROPOSED_VOCABULARY)
+                self.assertTrue(self.vc.PROPOSED_VOCABULARY[cid]["en"])
+
+    def test_the_prepared_vocabulary_is_not_in_the_live_concept_table(self):
+        """The point of preparing it is that it does NOT ship until the Skill
+        exists. None of these ten is a class-A merge, so there is nothing in
+        the graph for them to point at, and an alias pointing at an
+        approximately-related entity is the Field Technician failure.
+
+        One exception is expected and is named in the data: the `painter`
+        concept ALREADY claims "painter" and "house painting" and points at
+        the Painting Services business. That is why its record carries
+        `repoint_existing_concept` — the fix is to re-point that concept when
+        the Skill lands, never to add a second concept claiming the same
+        words, which the integrity test would reject.
+        """
+        live = set()
+        for concept in load_concepts()["concepts"]:
+            live.update(t.lower() for t in concept["en"])
+        for cid, vocab in self.vc.PROPOSED_VOCABULARY.items():
+            allowed = vocab.get("repoint_existing_concept")
+            for term in vocab["en"]:
+                if term.lower() in live and allowed:
+                    continue
+                with self.subTest(candidate=cid, term=term):
+                    self.assertNotIn(term.lower(), live,
+                                     "prepared vocabulary shipped before its "
+                                     "Skill exists")
+
+    def test_no_verified_candidate_was_promoted(self):
+        """Verification is not approval. Every one of the ten is still in the
+        queue waiting for a named person, and none is an entity."""
+        queue = ROOT / "collection" / "state" / "review_queue.jsonl"
+        rows = {json.loads(line)["candidate_id"]: json.loads(line)
+                for line in queue.read_text(encoding="utf-8").splitlines()
+                if line.strip()}
+        known = {e["canonical_name"] for e in entities()}
+        for cid, row in self.vc.VERIFIED.items():
+            with self.subTest(candidate=cid):
+                self.assertEqual(rows[cid]["state"], "NEEDS_REVIEW")
+                if row["proposed_entity"]:
+                    self.assertNotIn(row["proposed_entity"], known,
+                                     "a proposed entity already exists — "
+                                     "either it was promoted, or the proposal "
+                                     "duplicates something the graph holds")
+
+    def test_no_salary_fee_or_contact_was_carried_across(self):
+        """Verification confirms that a trade and its qualification exist. It
+        says nothing about what the job pays, and the documents' numbers are
+        still uncited.
+
+        Checking for the WORD "salary" was the first version of this test and
+        it failed on the module's own disclaimer — the sentence promising not
+        to import salaries contains the word. What must be absent is the DATA:
+        a currency figure, a monthly rate, a phone number, an email address.
+        """
+        text = (ROOT / "research" / "sources"
+                / "verified_candidates.py").read_text(encoding="utf-8")
+        forbidden = {
+            "a rupee figure": r"₹\s*[\d,]+",
+            "a monthly rate": r"[\d,]{4,}\s*(?:per month|/month|pm\b)",
+            "a salary range": r"\b\d{2},\d{3}\s*[-–]\s*\d{2},\d{3}",
+            "a phone number": r"\b(?:\+91[\s-]?)?[6-9]\d{9}\b|\b0\d{2,4}[\s-]\d{6,8}\b",
+            "an email address": r"[\w.-]+@[\w.-]+\.\w+",
+        }
+        for what, pattern in forbidden.items():
+            with self.subTest(what=what):
+                self.assertIsNone(re.search(pattern, text),
+                                  f"{what} reached the verification register")
+
+    def test_the_changes_verification_made_are_recorded(self):
+        """Two of these were my errors — assigning EV charging to ASDC because
+        the role arrived in an automobile document, and assuming no craftsman
+        trade existed for lifts. A register that silently corrects itself
+        teaches nobody why the check was worth running."""
+        self.assertGreaterEqual(len(self.vc.CLASSIFICATION_CHANGES), 4)
+        for cid, why in self.vc.CLASSIFICATION_CHANGES.items():
+            with self.subTest(candidate=cid):
+                self.assertIn(cid, self.vc.VERIFIED)
+                self.assertGreater(len(why), 40)
+
+
+@unittest.skipUnless(NODE, NODE_REASON)
+class FieldTechnicianFamilyTest(unittest.TestCase):
+    """The magnet, diagnosed rather than described.
+
+    §18 recorded it as a knowledge-coverage problem. Verification says what
+    the coverage problem IS: ESSCI publishes a family of "After Sales Support"
+    qualifications sharing the ELE/Q46xx prefix, and the graph holds exactly
+    one of them — as a Certification, with no Skill for any trade in the
+    family. A query ending in "technician" with no Skill to reach finds the
+    one row that contains the word.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        cls.h = JsHarness()
+        cls.h.dataset("entities.json", entities())
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.h.cleanup()
+
+    def setUp(self):
+        import sys                                                # noqa: PLC0415
+        sys.path.insert(0, str(ROOT))
+        from research.sources import verified_candidates          # noqa: PLC0415
+        self.vc = verified_candidates
+
+    def test_the_graph_holds_exactly_one_member_of_the_family(self):
+        known = {e["canonical_name"]: e["entity_type"] for e in entities()}
+        in_graph = [code for code, row in self.vc.FIELD_TECHNICIAN_FAMILY.items()
+                    if any(code in name for name in known)]
+        self.assertEqual(in_graph, ["ELE/Q4601"])
+        self.assertEqual(
+            known["Field Technician - Computing & Peripherals - ELE/Q4601"],
+            "Certification")
+
+    def test_no_family_member_is_held_as_a_skill(self):
+        """The asymmetry itself. A Certification without its Skill becomes a
+        magnet, and this is the mechanism — not a ranking bug."""
+        skills = {e["canonical_name"] for e in entities()
+                  if e["entity_type"] == "Skill"}
+        for code, row in self.vc.FIELD_TECHNICIAN_FAMILY.items():
+            with self.subTest(qp=code):
+                self.assertFalse(any(row["title"].split(" — ")[0] in s
+                                     for s in skills))
+
+    def test_the_second_magnet_follows_the_same_pattern(self):
+        """Recorded so the pattern is visible rather than looking like one
+        odd row: the automotive Certification is also in the graph without a
+        matching Skill of its own name."""
+        known = {e["canonical_name"]: e["entity_type"] for e in entities()}
+        self.assertEqual(known[self.vc.SECOND_MAGNET["entity"]], "Certification")
+        self.assertIn(self.vc.SECOND_MAGNET["matching_skill_in_graph"], known)
+
+    def test_two_of_the_three_family_trades_are_already_queued(self):
+        """Which is why the fix is coverage and not ranking: promoting the
+        queued candidates removes their queries from the magnet."""
+        queued = {row["status"] for row in
+                  self.vc.FIELD_TECHNICIAN_FAMILY.values()}
+        self.assertEqual(len([s for s in queued if s.startswith("queued as")]), 2)
+
+
 class ReviewerNoteTest(unittest.TestCase):
     """Every candidate must quote ITS OWN document's limits."""
 

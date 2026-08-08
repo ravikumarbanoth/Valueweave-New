@@ -1005,10 +1005,13 @@ are still `NEEDS_REVIEW` and a test fails if any of them stops being so.
 | class | meaning | count |
 |---|---|---|
 | **A** | likely merge into an existing entity after a primary-source check | 7 |
-| **B** | likely requires a new Skill entity | 23 |
+| **B** | likely requires a new Skill entity | 22 |
 | **C** | duplicate — decide with its group | 17 |
-| **D** | disputed — requires a human decision | 4 |
+| **D** | disputed — requires a human decision | 5 |
 | **E** | reject | 1 |
+
+*(B and D shifted by one after §19: Fire Alarm Technician was reclassified when
+verification failed to find a national qualification for it.)*
 
 "Likely" is load-bearing. A and B are predictions about what a reviewer will
 conclude *after* checking a primary source, not permission to skip the check.
@@ -1094,3 +1097,135 @@ demand estimates. Five LLM-generated secondary documents, zero citations. The
 role names and aliases are observable facts about how words are used and were
 verifiable here; the numbers are claims about the world and are not. They live
 in the queue's raw records and nowhere else.
+
+---
+
+## 19. Primary-source verification — the top ten candidates
+
+Recorded in `research/sources/verified_candidates.py`, held by
+`VerifiedCandidateTest` and `FieldTechnicianFamilyTest`. **Nothing promoted, no
+entity created, no alias written.**
+
+### What "verified" means here, and what it does not
+
+Each record names a government qualification — a DGT/NCVT craftsman trade or an
+NSQC-approved Sector Skill Council qualification pack — with its code, its NSQF
+level and the URL of the official document. That is a real step up from the
+five datasets, which asserted role names with no citation at all: a QP code and
+a gov.in URL can be checked by one person in one click.
+
+**It is not a direct read of those documents.** This environment's egress proxy
+blocks `dgt.gov.in`, `nqr.gov.in`, `essc-india.org`, `asdc.org.in` and
+`nsdcindia.org`; every WebFetch was attempted and refused. The codes and levels
+below are quoted from a search index's extract of the official document,
+corroborated by a second independent search pass. The repository already has
+precedent for exactly this — the UGC row in `entities.csv` carries the note
+*"Website content could not be directly re-fetched due to proxy access
+restriction on gov.in domains"* — and the same discipline applies:
+
+> **Confidence ceiling 75.** Above the 60 given to an uncited secondary
+> document; below the 88 the repository gives a fact it fetched itself.
+
+### Nine of ten confirmed
+
+| candidate | authority | code | NSQF | decision |
+|---|---|---|---|---|
+| Service Advisor | ASDC | **ASC/Q1426** v2.0 | 4.5 | **B** new Skill |
+| Fitter | DGT/NCVT CTS 2.0 | Fitter (2 yr) | 4 | **C** settles its group |
+| Tool & Die Maker | DGT/NCVT CTS 2.0 | TDM (Dies & Moulds); TDM (Press Tools, Jigs & Fixtures) | 4 / 5 | **B** new Skill |
+| Painter | DGT/NCVT CTS 2.0 | Painter (General); Domestic Painter; Industrial Painter | 4 / 3 / 3 | **B** new Skill |
+| Mechatronics Technician | DGT/NCVT CTS 2.0 | Technician Mechatronics (2 yr) | 4 | **B** new Skill |
+| Lift Technician | DGT/NCVT CTS 2.0 | Lift & Escalator Mechanic | 4 | **B** new Skill |
+| CCTV Technician | ESSCI | **ELE/Q4605** v4.0 | 3.5 | **C** settles its group |
+| Networking Technician | ESSCI | **ELE/Q4606** v3.0 | 4 | **B** new Skill |
+| EV Charging Station Technician | **PSSC**, not ASDC | NQR, 14th NSQC | not established | **B** new Skill |
+| Fire Alarm Technician | **not found** | — | — | **D** reclassified |
+
+### The three results worth reading
+
+**Painter settles a KEEP_DISTINCT pair with a primary source.** DGT runs
+building painting and automotive refinishing as *separate craftsman trades* —
+Painter (General) / Domestic Painter / Industrial Painter on one side, Mechanic
+Auto Body Painting (NSQF 3.5) on the other. The source modules said keep them
+apart on judgement; the national trade structure agrees. Search currently
+returns *Painting Services* for both, and promoting these must fix that.
+
+**CCTV narrows its group.** ESSCI holds **one** qualification covering
+surveillance installation, so document E's split into "CCTV Technician" and
+"Security System Installer" is not reflected in the national structure. The
+pair should resolve to one entity unless a reviewer finds a separate
+access-control QP.
+
+**Fire Alarm Technician did not verify, and that is the honest result.**
+Searching ESSCI and the National Qualification Register returns Firefighter,
+Fire Safety Officer and Fire Safety Technician (Oil & Gas) — all about
+*responding* to fire, none about installing detection. The only fire-alarm
+credential found is a commercial certificate from a private training company,
+which is not a national qualification and must not be recorded as one. The
+occupation plainly exists; its credential could not be located from here.
+Reclassified **B → D**.
+
+### Three corrections verification forced, two of them mine
+
+| candidate | was | is | whose error |
+|---|---|---|---|
+| EV Charging Station Technician | ASDC | **PSSC** (Ministry of Power / MNRE) | mine — I assigned the authority from the document the role arrived in, not from the work |
+| Lift Technician | "no sector qualification; state licensing only" | **DGT CTS Lift & Escalator Mechanic, NSQF 4** | mine — I assumed no craftsman trade existed because no sector council covers lifts |
+| Fire Alarm Technician | class B, "ESSCI QP list" | class D, authority not established | new information |
+| Tool & Die Maker | one role | **two DGT trades at two NSQF levels** | new information |
+
+### The Field Technician magnet, diagnosed
+
+§18 recorded it as a knowledge-coverage problem. Verification says what the
+coverage problem *is*, and it is sharper than "some skills are missing".
+
+ESSCI publishes a family of **After Sales Support** qualifications sharing the
+`ELE/Q46xx` prefix:
+
+| QP | title | NSQF | in the graph |
+|---|---|---|---|
+| **ELE/Q4601** | Field Technician — Computing & Peripherals | 4 | yes — as a **Certification** |
+| ELE/Q4605 | CCTV Installation Technician | 3.5 | no — queued |
+| ELE/Q4606 | Field Technician — Networking & Storage | 4 | no — queued |
+
+The graph holds **exactly one** member of the family, as a Certification, and
+holds **no Skill for any trade in it**. So a query ending in "technician" with
+no Skill to reach finds the one row that contains the word. That is not a
+ranking bug; it is an import asymmetry — *qualification packs were imported as
+Certification entities without the corresponding trades as Skills.*
+
+The same asymmetry produced a **second magnet**: `Automotive Service Technician
+(Two and Three Wheelers) - ASC/Q1411` is also a Certification with no matching
+Skill of its own name, and it too surfaced as a wrong top hit during the
+five-document work. It is half fixed — the graph does hold *Two-Wheeler
+Mechanic*, and document D's vocabulary now routes the bike queries there.
+
+**The fix is coverage.** Two of the three family members are already queued;
+promoting them removes their queries from the magnet and gives the vocabulary
+somewhere true to point. No alias can do this.
+
+### Vocabulary prepared, deliberately not shipped
+
+None of the ten is a class-A merge, so not one of them has an existing Skill to
+point at. Writing these aliases today would send readers to an
+approximately-related entity — the exact failure the magnet gap forbids — and
+`test_the_magnet_is_not_being_papered_over_with_aliases` would fail, correctly.
+
+`PROPOSED_VOCABULARY` therefore holds English, Telugu and Tanglish terms for
+the nine verified roles and **nothing at all** for the unverified one, so that
+promotion is one step rather than a rediscovery. Fire Alarm Technician's entry
+is empty on purpose: an unverified role with ready-made aliases is an
+invitation to ship it.
+
+**The Telugu is PROPOSED and needs a Telugu-speaking reviewer.** The terms are
+transliterated loanwords — లిఫ్ట్ మెకానిక్, సీసీటీవీ, నెట్‌వర్కింగ్ — which is
+the register a Hyderabad technician actually uses rather than a Sanskritic
+coinage. That is a checkable claim about usage, but not checkable by me and not
+by a search engine. Nothing is indexed until a person confirms it. The
+`<trade> pani` Tanglish forms follow the convention already in the table
+(`current pani`, `tiles pani`, `ac repair pani`).
+
+One entry carries `repoint_existing_concept`: the `painter` concept already
+claims "painter" and "house painting" and points at the Painting Services
+business. When the Skill lands that concept must be **re-pointed, not
+duplicated** — two concepts claiming one alias fails the integrity test.

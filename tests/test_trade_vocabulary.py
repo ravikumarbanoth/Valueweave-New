@@ -1050,13 +1050,35 @@ class CandidateClassificationTest(unittest.TestCase):
         queue = ROOT / "collection" / "state" / "review_queue.jsonl"
         self.queue = [json.loads(line) for line in
                       queue.read_text(encoding="utf-8").splitlines() if line.strip()]
-        self.from_docs = {r["candidate_id"] for r in self.queue
-                          if r["source_id"].startswith("doc-")}
+        #: This register is the output of the five-TRADE-document review and
+        #: covers those 52 candidates. The entrepreneurship document proposes
+        #: businesses and schemes, not trades, and carries its own dedupe
+        #: record in its own source module — folding it in here would dilute
+        #: a register whose classes, duplicate groups and research gaps were
+        #: all derived from trade candidates.
+        self.from_trade_docs = {r["candidate_id"] for r in self.queue
+                                if r["source_id"].startswith("doc-")
+                                and r["source_id"].endswith("-trades-2026")}
 
-    def test_every_queued_candidate_is_classified_exactly_once(self):
-        self.assertEqual(len(self.from_docs), 52)
-        self.assertEqual(set(self.cc.CANDIDATES), self.from_docs,
+    def test_every_queued_trade_candidate_is_classified_exactly_once(self):
+        self.assertEqual(len(self.from_trade_docs), 52)
+        self.assertEqual(set(self.cc.CANDIDATES), self.from_trade_docs,
                          "the classification and the queue have drifted apart")
+
+    def test_no_document_candidate_is_left_unaccounted_for(self):
+        """Every queued candidate is covered by SOME register — the trade ones
+        by this classification, the rest by their own source module. A
+        candidate belonging to neither is one nobody has looked at."""
+        import sys                                                # noqa: PLC0415
+        sys.path.insert(0, str(ROOT))
+        from research.sources.emit_candidates import DOCUMENTS     # noqa: PLC0415
+        accounted = set(self.cc.CANDIDATES)
+        for module in DOCUMENTS.values():
+            sid = module.SOURCE["source_id"]
+            accounted |= {f"{sid}:{r['slug']}" for r in module.new_roles()}
+        queued = {r["candidate_id"] for r in self.queue
+                  if r["source_id"].startswith("doc-")}
+        self.assertEqual(queued - accounted, set())
 
     def test_every_classification_is_one_of_the_five(self):
         """A row either explains itself or points at the group that does.
@@ -1077,7 +1099,7 @@ class CandidateClassificationTest(unittest.TestCase):
         """The whole point. Classifying is not deciding: every one of the 52
         must still be sitting in the queue waiting for a named person."""
         for row in self.queue:
-            if row["candidate_id"] in self.from_docs:
+            if row["candidate_id"] in self.from_trade_docs:
                 with self.subTest(candidate=row["candidate_id"]):
                     self.assertEqual(row["state"], "NEEDS_REVIEW")
 
@@ -1521,6 +1543,272 @@ class FieldTechnicianFamilyTest(unittest.TestCase):
         queued = {row["status"] for row in
                   self.vc.FIELD_TECHNICIAN_FAMILY.values()}
         self.assertEqual(len([s for s in queued if s.startswith("queued as")]), 2)
+
+
+@unittest.skipUnless(NODE, NODE_REASON)
+class EntrepreneurshipSearchTest(unittest.TestCase):
+    """The sixth document — businesses rather than trades.
+
+    It is the first source whose subject is what a person STARTS rather than
+    what they learn, and the first whose own subject matter is money. The
+    vocabulary it contributed is small on purpose: eight of its twenty
+    businesses already exist in the graph, and for the ones that do not, no
+    alias was written at all.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        cls.h = JsHarness()
+        cls.h.dataset("entities.json", entities())
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.h.cleanup()
+
+    def top(self, queries):
+        return self.h.run("""
+            const { rankEntities } = await import("$LIB/knowledge-search.js");
+            const rows = JSON.parse(fs.readFileSync("$DIR/entities.json", "utf8"));
+            const out = {};
+            for (const q of %s) {
+              const r = rankEntities(rows, q, { limit: 1 })[0];
+              out[q] = r ? r.canonical_name : null;
+            }
+            console.log(JSON.stringify(out));
+        """ % json.dumps(list(queries)))
+
+    def test_ac_service_reaches_the_hvac_trade(self):
+        """`ac service` returned *Freelance Software/IT Services Consultant*
+        and `ac service business` returned *Instagram Shopping*. The concept
+        already had "ac repair" and "ac technician"; the word people actually
+        use for the recurring job — service, servicing, AMC — was missing."""
+        got = self.top(["ac service", "ac servicing", "ac amc",
+                        "ac service business", "ఏసీ సర్వీస్"])
+        for query, name in got.items():
+            with self.subTest(query=query):
+                self.assertEqual(name, "HVAC Technician")
+
+    def test_computer_repair_is_not_a_computer_course(self):
+        """`computer repair` returned *Course on Computer Concepts (CCC)* — a
+        certification about using a computer, offered to somebody who wants to
+        fix one. `desktop repair` returned *Automotive Repair & Services*."""
+        got = self.top(["computer repair", "computer service",
+                        "computer service center", "desktop repair",
+                        "laptop service centre", "mobile repair shop",
+                        "కంప్యూటర్ రిపేర్"])
+        for query, name in got.items():
+            with self.subTest(query=query):
+                self.assertEqual(name, "Electronics Repair & Maintenance")
+
+    def test_a_fabrication_workshop_is_not_a_masala_unit(self):
+        """*Masala Powder Manufacturing Unit* again — the same entity §11
+        records making the top hit for eleven machine-shop queries. It was
+        never fixed for these four phrases because no trade document used
+        them; an entrepreneurship document does."""
+        got = self.top(["fabrication workshop", "fabrication shop",
+                        "gate and grill fabrication", "grill fabrication"])
+        for query, name in got.items():
+            with self.subTest(query=query):
+                self.assertEqual(name, "Welding (MIG/TIG/Arc)")
+
+    def test_contractor_words_reach_the_trade_not_the_sector(self):
+        """`plumbing contractor`, `sanitary contractor` and `granite
+        contractor` all returned the bare *Construction* Industry — a sector
+        answer, which is the failure §11 names."""
+        got = self.top(["plumbing contractor", "sanitary contractor"])
+        for query, name in got.items():
+            with self.subTest(query=query):
+                self.assertEqual(name, "Plumbing")
+        got = self.top(["granite contractor"])
+        self.assertEqual(got["granite contractor"], "Tiles Fixing (Tile Mason)")
+
+    def test_cold_storage_business_reaches_the_facility(self):
+        """Bare `cold storage` already worked; adding the word "business"
+        sent it to *Instagram Shopping*."""
+        got = self.top(["cold storage business", "cold chain storage",
+                        "కోల్డ్ స్టోరేజ్", "cold storage"])
+        for query, name in got.items():
+            with self.subTest(query=query):
+                self.assertEqual(name, "Cold Storage Facility")
+
+    def test_cold_storage_unit_still_reaches_the_machinery(self):
+        """The graph holds 'Cold Storage Unit' as MACHINERY and 'Cold Storage
+        Facility' as an MSME — two different things one letter apart in
+        speech. The new concept must not swallow the machinery query, which is
+        why that phrase was deliberately left out of its alias list."""
+        got = self.top(["cold storage unit"])
+        self.assertEqual(got["cold storage unit"], "Cold Storage Unit")
+
+    def test_the_businesses_with_no_entity_are_honestly_unreachable(self):
+        """Nine businesses have nothing comparable in the graph, so no alias
+        can make them findable. `ro plant` returns *Tractor (35-45 HP)* and
+        `dairy processing` returns *Cattle Dung and Farm Waste* — both
+        embarrassing, both left alone. Pointing them at a sector is what §11
+        forbids and what §17 proved still bites. They are queued instead.
+        """
+        got = self.top(["ro plant", "water purifier", "dairy processing",
+                        "mini dairy", "milk processing", "civil contractor",
+                        "interior contractor", "lift installation"])
+        wrong = [q for q, name in got.items() if name in (
+            "Water Purification Services (RO Plant Service & Supply)",
+            "Dairy Processing Unit (Mini Dairy)", "Civil Contractor",
+            "Interior Contractor / Interior Works")]
+        self.assertEqual(wrong, [],
+                         "a queued business became reachable — if it was "
+                         "approved, replace this test with the real one; if "
+                         "an alias was added instead, that is the failure "
+                         "this test exists to catch")
+
+
+class EntrepreneurshipSourceTest(unittest.TestCase):
+    """What the entrepreneurship source module has to keep recording."""
+
+    def setUp(self):
+        import sys                                                # noqa: PLC0415
+        sys.path.insert(0, str(ROOT))
+        from research.sources import entrepreneurship_businesses_2026  # noqa: PLC0415
+        self.mod = entrepreneurship_businesses_2026
+        self.text = (ROOT / "research" / "sources"
+                     / "entrepreneurship_businesses_2026.py").read_text(encoding="utf-8")
+
+    def test_eleven_merge_and_nine_are_new(self):
+        self.assertEqual(len(self.mod.BUSINESSES), 20)
+        self.assertEqual(len(self.mod.merge_businesses()), 11)
+        self.assertEqual(len(self.mod.new_businesses()), 9)
+        self.assertEqual(len(self.mod.new_schemes()), 3)
+        self.assertEqual(len(self.mod.new_roles()), 12)
+
+    def test_every_merge_target_is_an_entity_the_graph_holds(self):
+        """Eleven of twenty already exist — the highest overlap of the six
+        documents, and the reason this one queues far fewer rows than its 49
+        pages suggest. Claiming a merge onto an entity that is not there would
+        hide a candidate that should have been queued."""
+        known = {e["canonical_name"] for e in entities()}
+        for b in self.mod.merge_businesses():
+            with self.subTest(business=b["title"]):
+                self.assertIn(b["existing"], known)
+
+    def test_nothing_proposed_already_exists(self):
+        known = {e["canonical_name"] for e in entities()}
+        for row in self.mod.new_roles():
+            with self.subTest(row=row["title"]):
+                self.assertNotIn(row["title"], known)
+
+    def test_candidates_carry_a_real_entity_type_not_a_default(self):
+        """A reviewer opening this queue is being asked "should ValueWeave
+        hold this as a BUSINESS", which is a different question from the one
+        the five trade documents asked. If these rows arrived classified as
+        Skill — the emitter's default — the queue would be asking the wrong
+        question of every one of them."""
+        import sys                                                # noqa: PLC0415
+        sys.path.insert(0, str(ROOT))
+        from research.sources.emit_candidates import candidates    # noqa: PLC0415
+        kinds = {c.classified_as for c in candidates(self.mod)}
+        self.assertEqual(kinds, {"BusinessOpportunity", "MSME",
+                                 "GovernmentScheme"})
+        self.assertNotIn("Skill", kinds)
+
+    def test_the_trade_documents_still_classify_as_skill(self):
+        """The emitter change had to be invisible to the five documents that
+        came before it. Their default is unchanged and their reason sentence
+        is word-for-word what it was."""
+        import sys                                                # noqa: PLC0415
+        sys.path.insert(0, str(ROOT))
+        from research.sources.emit_candidates import (             # noqa: PLC0415
+            DOCUMENTS, candidates)
+        for name, module in DOCUMENTS.items():
+            if name == "entrepreneurship":
+                continue
+            rows = candidates(module)
+            with self.subTest(document=name):
+                self.assertEqual({c.classified_as for c in rows}, {"Skill"})
+                self.assertTrue(any("a trade with no Skill entity in the graph"
+                                    in c.classified_reason for c in rows))
+
+    def test_the_money_fields_are_named_so_they_can_be_blanked(self):
+        """This is the first document whose subject matter IS money — every
+        one of the twenty entries leads with an investment range and a profit
+        scenario. That is the material a reader is most likely to act on and
+        the material with the least behind it, so the unverified list is
+        longer here than in any trade module."""
+        self.assertGreater(len(self.mod.UNVERIFIED_FIELDS), 12)
+        for field in ("investment_range", "revenue_range", "gross_margin",
+                      "break_even_months", "subsidy_percentage",
+                      "employment_count", "rental_rate"):
+            with self.subTest(field=field):
+                self.assertIn(field, self.mod.UNVERIFIED_FIELDS)
+
+    def test_no_money_figure_reached_the_module(self):
+        """Naming the fields is not enough if the numbers are in the prose."""
+        for pattern in (r"₹\s*[\d,]+\s*(?:Lakh|Cr|crore)",
+                        r"\b\d{2},\d{3}\s*[-–]\s*\d{2},\d{3}",
+                        r"\b\d{1,3}\s*%\s*(?:margin|subsidy)"):
+            with self.subTest(pattern=pattern):
+                self.assertIsNone(re.search(pattern, self.text))
+
+    def test_star_ratings_are_marked_as_not_being_data(self):
+        """Seven star ratings per business, 140 in all, and not one of them is
+        a measurement. Naming them stops a later reader treating
+        'Demand ★★★★★' as a demand figure."""
+        self.assertEqual(len(self.mod.STAR_RATINGS_ARE_NOT_DATA), 7)
+        self.assertNotIn("★", self.text)
+
+    def test_localities_are_refused_as_districts(self):
+        """The document names Ranigunj, Secunderabad, Balanagar and Mallepally
+        as sourcing and training locations. They are neighbourhoods inside
+        Hyderabad, not districts, and the graph's 61-district hierarchy would
+        be corrupted by adding them."""
+        known = {e["canonical_name"] for e in entities()
+                 if e["entity_type"] == "District"}
+        for locality in self.mod.LOCALITIES_NOT_DISTRICTS:
+            with self.subTest(locality=locality):
+                self.assertNotIn(locality, known)
+                self.assertNotIn(locality, {r["title"] for r
+                                            in self.mod.new_roles()})
+
+    def test_named_companies_and_institutes_were_not_carried_across(self):
+        """The document lists Bosch, Ather, Ola, Hikvision and CP Plus as
+        training and internship routes, and seven named institutes. A
+        company's current hiring is the most perishable fact there is, and the
+        document marks the institute rows 'Not publicly verified' itself."""
+        proposed = {r["title"] for r in self.mod.new_roles()}
+        for name in ("Bosch", "Ather", "Ola Electric", "Hikvision", "CP Plus",
+                     "Tata Power"):
+            with self.subTest(company=name):
+                self.assertFalse(any(name in t for t in proposed))
+        self.assertGreaterEqual(len(self.mod.TRAINING_ROUTES_NOT_PROMOTED), 7)
+
+    def test_the_discontinued_scheme_risk_is_recorded(self):
+        """DEDS has been reported discontinued or restructured in some years.
+        A scheme entity that no longer accepts applications is worse than no
+        entity — a reader would waste a trip to a bank — so it carries the
+        lowest confidence in the module and says why."""
+        deds = next(s for s in self.mod.new_schemes() if s["slug"] == "nabard-deds")
+        self.assertIn("discontinued", deds["notes"])
+        self.assertLess(deds["confidence"], 40)
+
+    def test_confidence_respects_the_secondary_source_ceiling(self):
+        for value in re.findall(r'"confidence":\s*(\d+)', self.text):
+            with self.subTest(confidence=value):
+                self.assertLessEqual(int(value), 60)
+
+    def test_the_two_pairs_that_must_be_decided_together_are_named(self):
+        """Two businesses here pair with Skills already queued from the trade
+        documents. Approving one without the other recreates the 'business you
+        cannot learn' gap in reverse — a business nobody is trained for."""
+        for slug, queued in (("lift-installation-business", "lift-technician"),
+                             ("cctv-installation-business", "cctv-technician")):
+            row = next(b for b in self.mod.BUSINESSES if b["slug"] == slug)
+            with self.subTest(business=slug):
+                self.assertIn(queued, row["notes"])
+
+    def test_the_inverse_pattern_is_recorded(self):
+        """Five documents found businesses the graph holds with no Skill.
+        This one found the mirror image: HVAC Technician exists as a Skill
+        with no business a trained person could start."""
+        ac = next(b for b in self.mod.BUSINESSES
+                  if b["slug"] == "ac-service-business")
+        self.assertIn("INVERSE", ac["notes"])
 
 
 class ReviewerNoteTest(unittest.TestCase):

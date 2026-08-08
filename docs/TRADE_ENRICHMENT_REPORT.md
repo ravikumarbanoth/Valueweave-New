@@ -1229,3 +1229,184 @@ One entry carries `repoint_existing_concept`: the `painter` concept already
 claims "painter" and "house painting" and points at the Painting Services
 business. When the Skill lands that concept must be **re-pointed, not
 duplicated** — two concepts claiming one alias fails the integrity test.
+
+---
+
+## 20. Document F — Entrepreneurship Decision Datasets
+
+*49 pages, 20 employment-generating businesses. Normalised to
+`research/sources/entrepreneurship_businesses_2026.py`.*
+
+### A different shape from the first five
+
+Those described **trades** — things a person learns. This describes
+**businesses** — things a person starts. That changes what may be extracted:
+
+* business names, alternative names and sectors are vocabulary, checkable here;
+* investment ranges, revenue scenarios, margins, break-even periods, licence
+  fees, subsidy percentages and employment counts are the *bulk of the
+  document* and are all uncited estimates.
+
+It is the first source whose subject matter **is money**. Every one of the
+twenty entries leads with an investment range and a profit scenario — exactly
+the material a reader is most likely to act on, and exactly the material with
+least behind it. `UNVERIFIED_FIELDS` is therefore longer here (18 entries) than
+in any trade module, and a test asserts no rupee figure, salary range or
+percentage margin reached the module at all.
+
+It also carries **140 star ratings** — seven per business, for demand,
+investment, skill, profit, employment, competition and risk. Not one is a
+measurement. `STAR_RATINGS_ARE_NOT_DATA` names them and a test asserts the `★`
+character appears nowhere in the module.
+
+### What it says about itself — better than average
+
+> *"All data is based on publicly available information, Indian regulatory
+> frameworks, and industry estimates. Research Gaps have been clearly marked
+> where verified sources are unavailable."*
+
+`Research Gap` appears **10 times across 49 pages**, plus one explicit "Not
+publicly verified" and seven "verify" instructions. Thinner than document D's
+23 markers in 37 pages, but honest in kind — and unlike document E it makes no
+claim of high confidence. **Ceiling stays 60.**
+
+### The highest overlap of the six — 11 of 20 already exist
+
+This is why a 49-page document queues only 12 rows. Every merge target was
+checked against `entities.csv`, and a test holds each one:
+
+| document business | existing entity | type |
+|---|---|---|
+| Solar Installation Business | Solar Rooftop EPC Contractor | MSME |
+| Electrical Contractor | Electrical Contracting (Licensed Supervisor/Contractor) | BusinessOpportunity |
+| Plumbing Contractor | Plumbing Services | BusinessOpportunity |
+| Computer Service Center | IT Hardware and Network Services | MSME |
+| CNC Job Work Unit | CNC Machining Job Shop | MSME |
+| Fabrication Workshop · Welding Shop | Welding & Metal Fabrication | BusinessOpportunity |
+| Granite & Tiles Contracting | Tiles Fixing (Tile Mason) | BusinessOpportunity |
+| Borewell Services | Borewell Drilling Services | BusinessOpportunity |
+| Cold Storage Business | Cold Storage Facility | MSME |
+| EV Garage | EV Two-Wheeler Service Centre | MSME *(partial — see below)* |
+
+**EV Garage is a partial overlap, not a clean duplicate.** The graph's entity
+is two-wheeler specific; the document covers 2/3/4-wheelers and e-buses.
+Whether to broaden the existing MSME or hold a second wider entity is a
+curation decision — recorded, not taken.
+
+**Fabrication Workshop and Welding Shop are the same entity as each other** —
+the document splits into two businesses what the graph rightly holds as one.
+The same over-splitting the trade documents showed.
+
+### 12 queued — and the first candidates that are not Skills
+
+| type | n | candidates |
+|---|---|---|
+| BusinessOpportunity | 7 | Lift Installation · AC Service · Civil Contractor · Interior Contractor · CCTV Installation · Mobile Repair Shop · Water Purification (RO) |
+| MSME | 2 | Battery Recycling Unit · Dairy Processing Unit |
+| GovernmentScheme | 3 | CLCSS · NABARD DEDS · MIDH |
+
+Five documents proposed only Skills, so `Skill` was the emitter's hardcoded
+classification. **One field changed** — `entity_type`, defaulting to `Skill` —
+so the reviewer is asked *"should ValueWeave hold this as a business"* rather
+than the wrong question. A test asserts the five trade documents still classify
+as `Skill` with a word-for-word identical reason sentence. No new pipeline, no
+schema, no migration.
+
+**DEDS carries the lowest confidence in the module (35) and says why:** it has
+been reported discontinued or restructured in some years, and a scheme entity
+that no longer accepts applications is worse than no entity — a reader would
+waste a trip to a bank.
+
+### Two pairs that must be decided together
+
+`lift-installation-business` pairs with the queued **Lift Technician** Skill;
+`cctv-installation-business` pairs with the queued and ESSCI-verified **CCTV
+Technician**. Approving one without the other recreates the "business you
+cannot learn" gap in reverse — a business nobody is trained for.
+
+### The inverse of the recurring pattern
+
+Five documents kept finding businesses the graph holds with no Skill teaching
+them. **AC Service Business is the mirror image:** the graph holds *HVAC
+Technician* as a Skill and has no business a trained person could start.
+
+### It also settles an open class-D question
+
+The construction document queued *Interior Finishing Technician* and §18 marked
+it **DISPUTED** because "interior finishing" read as an umbrella over false
+ceiling, painting, tiling and joinery rather than one trade. This document
+independently treats interior work as a **business that coordinates those
+trades** — evidence for the umbrella reading. Two documents, two framings, and
+they agree once the trade question is separated from the business question.
+
+### What it fixed — 17 corrections, 5 newly answered, 0 regressions
+
+| query | before | after |
+|---|---|---|
+| `ac service` | Freelance Software/IT Consultant | HVAC Technician |
+| `ac service business` | **Instagram Shopping / WhatsApp Business** | HVAC Technician |
+| `computer repair` | **Course on Computer Concepts (CCC)** | Electronics Repair & Maintenance |
+| `desktop repair` | Automotive Repair & Services | Electronics Repair & Maintenance |
+| `mobile repair shop` | **Instagram Shopping** | Electronics Repair & Maintenance |
+| `fabrication workshop` | **Masala Powder Manufacturing Unit** | Welding (MIG/TIG/Arc) |
+| `gate and grill fabrication` | **Masala Powder Manufacturing Unit** | Welding (MIG/TIG/Arc) |
+| `plumbing contractor` | Construction *(sector)* | Plumbing |
+| `granite contractor` | Construction *(sector)* | Tiles Fixing (Tile Mason) |
+| `cold storage business` | **Instagram Shopping** | Cold Storage Facility |
+| `ఏసీ సర్వీస్` | *(nothing)* | HVAC Technician |
+| `కంప్యూటర్ రిపేర్` | *(nothing)* | Electronics Repair & Maintenance |
+| `కోల్డ్ స్టోరేజ్` | *(nothing)* | Cold Storage Facility |
+
+`computer repair` → *Course on Computer Concepts* is the sharpest of these: a
+certification about **using** a computer, offered to somebody who wants to
+**fix** one.
+
+**One new concept only** — `cold-storage`, with two aliases. `cold storage
+unit` was deliberately left out of it: the graph holds *Cold Storage Unit* as
+**Machinery** and *Cold Storage Facility* as an **MSME**, two different things
+one word apart, and a test pins the machinery query so the new concept cannot
+swallow it.
+
+**Three Telugu terms, and one rejected.** ఏసీ సర్వీస్, కంప్యూటర్ రిపేర్ and
+కోల్డ్ స్టోరేజ్ each took a query from nothing to the right entity. మొబైల్
+రిపేర్ was written and **removed**: it already resolves through
+transliteration, so it would have been a row that does no work — which is the
+rule the concept table's own header states.
+
+### What was refused
+
+* **Nine businesses got no alias at all.** `ro plant` returns *Tractor (35-45
+  HP)* and `dairy processing` returns *Cattle Dung and Farm Waste*. Both are
+  embarrassing and both were left alone — no entity exists to point at, and a
+  sector expansion is what §11 forbids and §17 proved still bites. Approving
+  the candidates is the fix. A test pins the gap.
+* **Four localities refused as districts.** Ranigunj, Secunderabad, Balanagar
+  and Mallepally are neighbourhoods inside Hyderabad, not districts. The
+  graph's 61-district hierarchy would be corrupted by adding them.
+* **Seven named institutes and six named companies not carried across.** ATI
+  Hyderabad, TASK, ITI Mallepally, APSSDC, NDRI, IIFPT, Sri Venkateswara
+  Polytechnic; Bosch, Ather, Ola, Hikvision, CP Plus, Tata Power. The
+  institutions are checkable and some may deserve TrainingProvider entities —
+  what may never be promoted is the *course claim* attached to them, which the
+  document itself marks "Not publicly verified".
+* **Every figure.** Investment, revenue, margin, break-even, subsidy
+  percentage, employment count, rental rate, licence fee.
+
+### Combined position — six documents
+
+| | |
+|---|---|
+| documents processed | 6 |
+| pages read | 254 |
+| trades and businesses read | 100 |
+| review candidates | **64** (52 trades + 12 businesses/schemes), all `NEEDS_REVIEW` |
+| concepts | 20 new + 11 pre-existing extended |
+| aliases added | 209 |
+| probe terms measured | 229 |
+| queries corrected | **133** |
+| queries newly answered | **38** |
+| queries that lost an answer | 0 |
+| regressions | 0 |
+| entities created / overwritten | 0 / 0 |
+| packages, schema, migrations changed | 0 |
+| tests | 1157 pass |

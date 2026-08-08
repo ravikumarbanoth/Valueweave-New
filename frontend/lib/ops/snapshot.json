@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-08T01:12:05+00:00",
+  "generated_at": "2026-08-08T01:38:45+00:00",
   "overview": {
     "entities": 647,
     "relationships": 865,
@@ -224,13 +224,13 @@
         "check": "stale",
         "severity": "WARN",
         "source_id": "fix-rss-001",
-        "detail": "nothing new for 112h against a daily cadence (24h) — publishing may have stopped"
+        "detail": "nothing new for 113h against a daily cadence (24h) — publishing may have stopped"
       },
       {
         "check": "stale",
         "severity": "WARN",
         "source_id": "fix-atom-001",
-        "detail": "nothing new for 112h against a daily cadence (24h) — publishing may have stopped"
+        "detail": "nothing new for 113h against a daily cadence (24h) — publishing may have stopped"
       },
       {
         "check": "never_verified",
@@ -270,16 +270,17 @@
       }
     ],
     "queue": {
-      "total": 64,
+      "total": 76,
       "by_state": {
         "DUPLICATE": 1,
-        "NEEDS_REVIEW": 63
+        "NEEDS_REVIEW": 75
       },
       "awaiting_review_by_type": {
         "Skill": 53,
+        "BusinessOpportunity": 10,
+        "GovernmentScheme": 4,
         "TrainingProvider": 4,
-        "BusinessOpportunity": 3,
-        "GovernmentScheme": 1,
+        "MSME": 2,
         "Certification": 1,
         "Machinery": 1
       },
@@ -287,7 +288,7 @@
         "4": 1,
         "3": 3,
         "2": 6,
-        "1": 53
+        "1": 65
       }
     },
     "top_of_queue": [

@@ -874,6 +874,417 @@ class ElectronicsSourceTest(unittest.TestCase):
         self.assertNotIn("₹", self.text)
 
 
+#: Concepts allowed to expand to a bare sector word, and why. Every entry is a
+#: concept that IS the sector — expanding to its own name is what it exists for
+#: — or a pre-existing entry that predates the five trade documents and was
+#: measured to be harmless. Adding a row here is a decision, not a formality:
+#: the consolidated review found that a bare sector word in `expands_to` is the
+#: single most reliable way to make search worse, and it has now done so twice.
+SECTOR_EXPANSION_EXEMPT = {
+    "manufacturing": "is the manufacturing sector",
+    "construction": "is the construction sector",
+    "agriculture": "is the agriculture sector",
+    "farmer": "a farmer's query legitimately means the whole sector",
+    "robotics": "pre-existing `automation` expansion; measured — every robotics "
+                "alias still resolves to Robotics, not to a business with the "
+                "word in its name. Pinned by a test below rather than trusted.",
+    "mason": "pre-existing `construction`; measured, resolves to Masonry",
+    "tiles": "pre-existing `construction`; measured, resolves to Tiles Fixing",
+    "heavy-equipment-operator": "accepted approximation — no plant-operator "
+                                "Skill exists; recorded as a research gap",
+    "waterproofing": "accepted approximation — no waterproofing Skill exists",
+    "roofing": "accepted approximation — no roofing Skill exists",
+}
+
+#: Bare sector words that must not appear in any non-exempt `expands_to`.
+BARE_SECTOR_WORDS = ("manufacturing", "automation", "construction",
+                     "agriculture", "services", "industry", "skilled trades")
+
+
+@unittest.skipUnless(NODE, NODE_REASON)
+class AutomationExpansionRegressionTest(unittest.TestCase):
+    """The blocker the consolidated five-document review found.
+
+    `plc-automation` shipped with `expands_to: [..., "automation"]`. That bare
+    word CONTAINS-matched a BusinessOpportunity, and **five queries returned
+    "WhatsApp Business Automation / Digital Catalog & Storefront Apps"**:
+
+        plc automation                    Robotics            -> WhatsApp …
+        plc programmer                    Freelance IT        -> WhatsApp …
+        automation technician             Robotics            -> WhatsApp …
+        industrial automation technician  Robotics            -> WhatsApp …
+        scada                             (nothing)           -> WhatsApp …
+
+    Worse than the Masala Powder incident §11 records, because the graph HOLDS
+    the right answer — `PLC Programming & Control Systems`, a Skill — and the
+    expansion dragged five queries away from an entity that already existed.
+
+    It survived four rounds of per-document measurement because each document
+    was probed against its own curated query set, and `plc-automation` came
+    from document A — written before document C established the rule that
+    caught it. Measuring the COMPLETE alias set against the pre-enrichment
+    baseline is what found it, and is why these tests exist.
+
+    One string was deleted. Five queries fixed, nothing else moved.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        cls.h = JsHarness()
+        cls.h.dataset("entities.json", entities())
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.h.cleanup()
+
+    def top(self, queries):
+        return self.h.run("""
+            const { rankEntities } = await import("$LIB/knowledge-search.js");
+            const rows = JSON.parse(fs.readFileSync("$DIR/entities.json", "utf8"));
+            const out = {};
+            for (const q of %s) {
+              const r = rankEntities(rows, q, { limit: 1 })[0];
+              out[q] = r ? r.canonical_name : null;
+            }
+            console.log(JSON.stringify(out));
+        """ % json.dumps(list(queries)))
+
+    def test_the_five_regressed_queries_reach_the_plc_skill(self):
+        """The named five. Any of these returning a business with "Automation"
+        in its name means the expansion is back."""
+        got = self.top(["plc automation", "plc programmer", "scada",
+                        "automation technician",
+                        "industrial automation technician"])
+        for query, name in got.items():
+            with self.subTest(query=query):
+                self.assertEqual(name, "PLC Programming & Control Systems")
+
+    def test_no_automation_query_reaches_a_whatsapp_business(self):
+        """Guarding the symptom by name as well as the cause. The offending
+        entity is a real BusinessOpportunity and belongs in the graph; it just
+        must never be the answer to a factory-floor question."""
+        got = self.top(["plc automation", "plc programmer", "scada",
+                        "automation technician",
+                        "industrial automation technician",
+                        "plc", "control systems", "hmi",
+                        "industrial automation", "robotics technician",
+                        "robot programmer", "cobot"])
+        for query, name in got.items():
+            with self.subTest(query=query):
+                self.assertIsNotNone(name)
+                self.assertNotIn("whatsapp", name.lower())
+
+    def test_the_fix_removed_the_expansion_and_nothing_else(self):
+        """The seven aliases are the vocabulary — the words a person types.
+        Only the EXPANSION was wrong. Deleting an alias to fix a ranking bug
+        would have thrown away the discovery this document paid for."""
+        concept = {c["id"]: c for c in load_concepts()["concepts"]}["plc-automation"]
+        for alias in ("plc", "plc programmer", "scada", "automation technician",
+                      "hmi", "control systems",
+                      "industrial automation technician"):
+            with self.subTest(alias=alias):
+                self.assertIn(alias, concept["en"])
+        self.assertEqual(concept["expands_to"],
+                         ["plc programming", "industrial automation"])
+
+    def test_the_neighbouring_robotics_concept_still_resolves(self):
+        """`robotics` also carries a bare `automation` expansion and predates
+        all five documents. It is exempted rather than changed — the brief was
+        one string — but exempting it without measuring it would be taking the
+        same risk twice."""
+        got = self.top(["robotics technician", "robot programmer", "cobot",
+                        "robot maintenance", "robotics service engineer"])
+        for query, name in got.items():
+            with self.subTest(query=query):
+                self.assertEqual(name, "Robotics")
+
+
+class SectorExpansionGuardTest(unittest.TestCase):
+    """A concept must expand to a THING the graph holds, not to the sector it
+    sits in. Stated in document A, proved by document C's Masala Powder
+    incident (§11), and broken again by document A's own `plc-automation`
+    (§17). Two occurrences make it a rule worth enforcing generally."""
+
+    def test_no_concept_expands_to_a_bare_sector_word(self):
+        offenders = []
+        for concept in load_concepts()["concepts"]:
+            if concept["id"] in SECTOR_EXPANSION_EXEMPT:
+                continue
+            for word in BARE_SECTOR_WORDS:
+                if word in concept["expands_to"]:
+                    offenders.append(f"{concept['id']} -> {word!r}")
+        self.assertEqual(offenders, [], (
+            "a bare sector expansion matches every entity with the word in its "
+            "name and outranks the specific trade. If the expansion is really "
+            "wanted, add the concept to SECTOR_EXPANSION_EXEMPT with a reason "
+            "AND a measurement, the way `robotics` is: " + str(offenders)))
+
+    def test_plc_automation_is_not_quietly_exempted(self):
+        """The cheapest way to 'fix' the test above is to add the offender to
+        the exemption list. This one concept may not be, because its exemption
+        is exactly the bug."""
+        self.assertNotIn("plc-automation", SECTOR_EXPANSION_EXEMPT)
+
+    def test_every_exemption_carries_a_reason(self):
+        for cid, reason in SECTOR_EXPANSION_EXEMPT.items():
+            with self.subTest(concept=cid):
+                self.assertGreater(len(reason), 20,
+                                   "an exemption without a reason is a silent "
+                                   "re-introduction of the bug")
+
+
+class CandidateClassificationTest(unittest.TestCase):
+    """The reviewer's map of the 52 queued candidates, checked against the
+    queue and the graph rather than trusted as prose.
+
+    A classification document that drifts from the queue is worse than none:
+    it tells a reviewer that a decision has been thought about when the row it
+    describes no longer exists. These tests are what keep the two in step.
+    """
+
+    def setUp(self):
+        import sys                                                # noqa: PLC0415
+        sys.path.insert(0, str(ROOT))
+        from research.sources import candidate_classification     # noqa: PLC0415
+        self.cc = candidate_classification
+        queue = ROOT / "collection" / "state" / "review_queue.jsonl"
+        self.queue = [json.loads(line) for line in
+                      queue.read_text(encoding="utf-8").splitlines() if line.strip()]
+        self.from_docs = {r["candidate_id"] for r in self.queue
+                          if r["source_id"].startswith("doc-")}
+
+    def test_every_queued_candidate_is_classified_exactly_once(self):
+        self.assertEqual(len(self.from_docs), 52)
+        self.assertEqual(set(self.cc.CANDIDATES), self.from_docs,
+                         "the classification and the queue have drifted apart")
+
+    def test_every_classification_is_one_of_the_five(self):
+        """A row either explains itself or points at the group that does.
+        `"group `battery`"` is a complete reason — the group carries the
+        argument, and duplicating it into every member is how the two drift
+        apart."""
+        for cid, row in self.cc.CANDIDATES.items():
+            with self.subTest(candidate=cid):
+                self.assertIn(row["cls"], self.cc.CLASSES)
+                self.assertTrue(row["primary_source"])
+                if row["why"].startswith("group "):
+                    self.assertIsNotNone(self.cc.group_of(cid),
+                                         "cites a group it is not in")
+                else:
+                    self.assertGreater(len(row["why"]), 20)
+
+    def test_nothing_is_approved_or_promoted(self):
+        """The whole point. Classifying is not deciding: every one of the 52
+        must still be sitting in the queue waiting for a named person."""
+        for row in self.queue:
+            if row["candidate_id"] in self.from_docs:
+                with self.subTest(candidate=row["candidate_id"]):
+                    self.assertEqual(row["state"], "NEEDS_REVIEW")
+
+    def test_no_candidate_became_an_entity(self):
+        """The invariant that matters: none of the 52 roles is in the
+        knowledge graph.
+
+        Two earlier versions of this test were wrong, both by being too loose.
+        Searching packages/ for the FIELD names failed on `salary_range`, a
+        legitimate long-standing column in Package006. Searching every CSV
+        cell for the role TITLES failed on "Fabricator", a free-text
+        `who_needs_it` value in Package008's skill mapping written in July and
+        unrelated to any of this. Neither is a promotion.
+
+        A promotion means the role exists as a graph entity, so that is what
+        this checks — the same set `emit_candidates` consults when it decides
+        a role has no Skill and belongs in the queue.
+        """
+        import sys                                                # noqa: PLC0415
+        sys.path.insert(0, str(ROOT))
+        from research.sources.emit_candidates import DOCUMENTS    # noqa: PLC0415
+        titles = {role["title"] for module in DOCUMENTS.values()
+                  for role in module.new_roles()}
+        promoted = sorted(titles & {e["canonical_name"] for e in entities()})
+        self.assertEqual(promoted, [],
+                         f"queued candidates are in the graph: {promoted} — "
+                         "promoted without a review decision")
+
+    def test_the_forbidden_fields_are_still_named(self):
+        """The list itself has to survive. Each source module blanks these
+        mechanically; losing a name here means one of them gets carried
+        across by whoever writes the promoter."""
+        for field in ("salary_range", "course_fees", "institute_contact",
+                      "placement_claim", "employer_list", "demand_estimate"):
+            with self.subTest(field=field):
+                self.assertIn(field, self.cc.NEVER_PROMOTE_FIELDS)
+
+    def test_every_merge_target_is_an_entity_the_graph_holds(self):
+        """A class-A row names where the trade should go. Naming an entity
+        that does not exist would be exactly the fabrication this pipeline
+        exists to prevent — and it is an easy mistake to make from memory."""
+        known = {e["canonical_name"] for e in entities()}
+        for cid, row in self.cc.CANDIDATES.items():
+            if row["cls"] != self.cc.MERGE:
+                continue
+            with self.subTest(candidate=cid):
+                self.assertIsNotNone(row["merge_target"])
+                self.assertIn(row["merge_target"], known)
+
+    def test_only_class_A_names_a_merge_target(self):
+        for cid, row in self.cc.CANDIDATES.items():
+            if row["cls"] == self.cc.MERGE:
+                continue
+            with self.subTest(candidate=cid):
+                self.assertIsNone(row["merge_target"])
+
+    def test_the_eight_duplicate_groups_are_preserved(self):
+        """The groups are the difference between 52 decisions and 38, and
+        between approving a trade once and approving it twice under two
+        names."""
+        self.assertEqual(len(self.cc.DUPLICATE_GROUPS), 8)
+        seen = set()
+        for name, group in self.cc.DUPLICATE_GROUPS.items():
+            with self.subTest(group=name):
+                self.assertGreaterEqual(len(group["members"]), 2)
+                self.assertGreater(len(group["why"]), 30)
+                self.assertTrue(group["primary_source"])
+                for member in group["members"]:
+                    self.assertIn(member, self.cc.CANDIDATES,
+                                  "a group names a candidate that is not queued")
+                    self.assertNotIn(member, seen,
+                                     "a candidate is in two groups")
+                    seen.add(member)
+
+    def test_every_grouped_candidate_is_class_C_or_class_D(self):
+        """A grouped candidate may be DISPUTED — `battery-technician` and
+        `security-system-installer` both are — but it may never be filed as a
+        straightforward merge or a straightforward new entity, because that is
+        the decision the group exists to prevent being made alone."""
+        for name, group in self.cc.DUPLICATE_GROUPS.items():
+            for member in group["members"]:
+                with self.subTest(group=name, candidate=member):
+                    self.assertIn(self.cc.CANDIDATES[member]["cls"],
+                                  (self.cc.DUPLICATE, self.cc.DISPUTED))
+
+    def test_the_pairs_that_must_stay_distinct_are_not_grouped(self):
+        """Painter / Auto Painting Technician and Fabricator / Aluminium
+        Fabricator share a word and nothing else. Putting either pair in a
+        duplicate group would invite exactly the merge the source modules
+        forbid — a long queue makes merging feel like progress."""
+        self.assertEqual(len(self.cc.KEEP_DISTINCT), 2)
+        for pair, reason in self.cc.KEEP_DISTINCT.items():
+            first, second = pair
+            with self.subTest(pair=pair):
+                self.assertIn(first, self.cc.CANDIDATES)
+                self.assertIn(second, self.cc.CANDIDATES)
+                self.assertGreater(len(reason), 40)
+                #: Not "neither may be grouped" — `aluminium-fabricator` is
+                #: legitimately in the `fenestration` group with the uPVC and
+                #: glass roles. The rule is narrower and is the one that
+                #: matters: these two may never land in the SAME group.
+                groups = (self.cc.group_of(first), self.cc.group_of(second))
+                self.assertFalse(groups[0] is not None and groups[0] == groups[1],
+                                 f"{first} and {second} share group {groups[0]}")
+
+    def test_production_operator_stays_rejected(self):
+        """Sector-shaped rather than a defined trade. Named here so that a
+        later pass through the queue cannot quietly promote it — the reason it
+        was rejected is a definition, and definitions do not change when
+        somebody wants a shorter queue."""
+        row = self.cc.CANDIDATES["doc-manufacturing-trades-2026:production-operator"]
+        self.assertEqual(row["cls"], self.cc.REJECT)
+        self.assertEqual(list(self.cc.by_class(self.cc.REJECT)),
+                         ["doc-manufacturing-trades-2026:production-operator"])
+
+    def test_the_classes_add_up_to_fifty_two(self):
+        self.assertEqual(sum(self.cc.counts().values()), 52)
+
+
+@unittest.skipUnless(NODE, NODE_REASON)
+class ResearchGapTest(unittest.TestCase):
+    """The two gaps the consolidated review recorded, verified against the
+    live graph rather than asserted."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.h = JsHarness()
+        cls.h.dataset("entities.json", entities())
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.h.cleanup()
+
+    def setUp(self):
+        import sys                                                # noqa: PLC0415
+        sys.path.insert(0, str(ROOT))
+        from research.sources import candidate_classification     # noqa: PLC0415
+        self.cc = candidate_classification
+
+    def top(self, queries):
+        return self.h.run("""
+            const { rankEntities } = await import("$LIB/knowledge-search.js");
+            const rows = JSON.parse(fs.readFileSync("$DIR/entities.json", "utf8"));
+            const out = {};
+            for (const q of %s) {
+              const r = rankEntities(rows, q, { limit: 1 })[0];
+              out[q] = r ? r.canonical_name : null;
+            }
+            console.log(JSON.stringify(out));
+        """ % json.dumps(list(queries)))
+
+    def test_the_field_technician_magnet_is_recorded_and_real(self):
+        """Eighteen of the 52 — more than a third — return the same unrelated
+        Certification. Measured, not remembered: if a Skill is promoted for one
+        of these the count drops and this test says so, which is the signal
+        that the gap is closing."""
+        gap = self.cc.FIELD_TECHNICIAN_MAGNET
+        self.assertEqual(len(gap["candidates"]), 18)
+        self.assertEqual(gap["kind"], "knowledge-coverage")
+        self.assertEqual(gap["do_not_fix_with"], "aliases")
+
+        titles = {}
+        import sys                                                # noqa: PLC0415
+        sys.path.insert(0, str(ROOT))
+        from research.sources.emit_candidates import DOCUMENTS    # noqa: PLC0415
+        for module in DOCUMENTS.values():
+            for role in module.new_roles():
+                titles[f"{module.SOURCE['source_id']}:{role['slug']}"] = role["title"]
+
+        got = self.top([titles[c] for c in gap["candidates"]])
+        still_magnetised = [q for q, name in got.items()
+                            if name and "field technician" in name.lower()]
+        self.assertEqual(sorted(still_magnetised), sorted(got),
+                         "a candidate left the magnet — if a Skill was "
+                         "promoted for it, remove it from the list; if an "
+                         "alias was added instead, that is the fix this gap "
+                         "explicitly forbids")
+
+    def test_the_magnet_is_not_being_papered_over_with_aliases(self):
+        """The tempting fix. Pointing these words at an approximately-related
+        entity replaces a visibly wrong answer with an invisibly wrong one,
+        and a student cannot tell the difference until they have wasted a
+        term."""
+        magnetised = {c.rsplit(":", 1)[1] for c
+                      in self.cc.FIELD_TECHNICIAN_MAGNET["candidates"]}
+        for concept in load_concepts()["concepts"]:
+            for term in concept["en"]:
+                slug = term.replace(" ", "-")
+                with self.subTest(concept=concept["id"], term=term):
+                    self.assertNotIn(slug, magnetised,
+                                     "an alias was written for a trade that "
+                                     "has no entity to reach")
+
+    def test_promotion_obliges_a_vocabulary_repoint(self):
+        """For these candidates the words already resolve to an approximate
+        existing entity. Promote the Skill without re-pointing the concept and
+        the new entity is unreachable by the very words added for it —
+        promotion is two edits, and nothing else in the pipeline says so."""
+        known = {e["canonical_name"] for e in entities()}
+        concepts = {c["id"] for c in load_concepts()["concepts"]}
+        for cid, (concept, current) in self.cc.REPOINT_ON_PROMOTION.items():
+            with self.subTest(candidate=cid):
+                self.assertIn(cid, self.cc.CANDIDATES)
+                self.assertIn(concept, concepts)
+                self.assertIn(current, known)
+
+
 class ReviewerNoteTest(unittest.TestCase):
     """Every candidate must quote ITS OWN document's limits."""
 

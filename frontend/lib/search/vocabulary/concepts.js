@@ -1307,8 +1307,7 @@ export default Object.freeze({
       "tanglish": [],
       "expands_to": [
         "plc programming",
-        "industrial automation",
-        "automation"
+        "industrial automation"
       ]
     },
     {

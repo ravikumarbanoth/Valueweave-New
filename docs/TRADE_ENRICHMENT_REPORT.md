@@ -839,20 +839,49 @@ which is the exact harm the ITI-to-engineer confusion does in the field.
 
 ## 16. Combined position — five documents
 
+> **The figures in this section were wrong and have been corrected.** An
+> earlier version of this table read *93 aliases, 49 corrected, 12 newly
+> answered, 0 regressions*. Every one of those numbers was too low, and the
+> last one was not merely low but false.
+>
+> **Why they were wrong.** Each document was measured against its own curated
+> probe set — the twenty to thirty queries that document's table reports. That
+> is a sound way to check one document and a bad way to total five: the probes
+> overlapped unevenly, additions to pre-existing concepts were counted for some
+> documents and not others, and no document's probe set contained another
+> document's terms. The revised figures come from a single measurement over the
+> **complete alias set** — all 206 terms added or changed by the five commits —
+> run against the pre-enrichment baseline `fcc2364^` on the real 647-entity
+> graph.
+>
+> **What the wider measurement found that the narrow ones could not:** five
+> live regressions, all from one concept in document A, invisible to every
+> per-document probe set because they came from a document written before the
+> rule that catches them existed. They are described in §17 and are fixed.
+>
+> The corrected figures are below. They are larger, not smaller — the narrow
+> measurement had been understating the gain as well as hiding the harm.
+
 | | |
 |---|---|
 | documents processed | 5 |
 | pages read | 205 |
 | trades read | 80 |
 | review candidates | **52** (8 + 15 + 11 + 10 + 8), all `NEEDS_REVIEW` |
-| concepts | 19 kept, 9 written-and-deleted, 2 folded |
-| aliases added | 93 |
-| queries corrected from a wrong answer | **49** |
-| queries newly answered | 12 |
-| regressions | 0 |
+| concepts | 19 new + 11 pre-existing extended · 9 written-and-deleted · 2 folded |
+| aliases added | **187** *(was reported as 93)* |
+| probe terms measured | 206 |
+| queries corrected from a wrong answer | **116** *(was reported as 49)* |
+| queries newly answered | **33** *(was reported as 12)* |
+| queries that lost an answer | 0 |
+| queries unchanged | 57 |
+| regressions found by the consolidated measurement | **5** *(was reported as 0)* |
+| regressions after the §17 fix | **0** |
 | entities overwritten | 0 |
+| entities created | 0 |
+| candidates promoted | 0 |
 | packages modified | 0 |
-| tests | 1097 pass |
+| schema / migration changes | 0 |
 
 ### What five documents taught that four could not
 
@@ -875,6 +904,12 @@ which is the exact harm the ITI-to-engineer confusion does in the field.
    and five automotive ones were left returning nonsense because no entity
    exists to send a reader to. The tests record the gaps so nobody quietly
    "fixes" them with a sector expansion.
+6. **Per-document measurement cannot find cross-document harm.** Five
+   regressions sat in the branch through four rounds of careful before-and-
+   after work, because each round asked "did MY probes get better" and none
+   asked "did anything get worse". The only measurement that finds this is the
+   whole alias set against the original baseline, and it costs one script run.
+   Do it before every merge, not after every document.
 
 ```bash
 python3 -m research.sources.emit_candidates --doc electronics   # dry
@@ -890,3 +925,172 @@ Splicer and Tower Technician are all named QPs with published NSQF levels, so
 the existence claim and the level are checkable in one place. Fire-alarm work
 additionally sits under state fire-services licensing, which is a second
 authority and worth checking separately.
+
+---
+
+## 17. The blocker the consolidated review found
+
+### One string, five wrong answers
+
+`plc-automation` shipped from document A with:
+
+```json
+"expands_to": ["plc programming", "industrial automation", "automation"]
+```
+
+The bare word **`automation`** CONTAINS-matches a real BusinessOpportunity, and
+five queries landed on it:
+
+| query | before the documents | on the branch | after the fix |
+|---|---|---|---|
+| `plc automation` | Robotics | **WhatsApp Business Automation** | PLC Programming & Control Systems |
+| `plc programmer` | Freelance Software/IT Consultant | **WhatsApp Business Automation** | PLC Programming & Control Systems |
+| `automation technician` | Robotics | **WhatsApp Business Automation** | PLC Programming & Control Systems |
+| `industrial automation technician` | Robotics | **WhatsApp Business Automation** | PLC Programming & Control Systems |
+| `scada` | *(nothing)* | **WhatsApp Business Automation** | PLC Programming & Control Systems |
+
+This is worse than the Masala Powder incident §11 records. There, six concepts
+reached for a sector because their trades had no anchor at all. Here **the
+graph holds the right answer** — `PLC Programming & Control Systems`, a Skill —
+and the expansion dragged five queries off it. `scada` is the sharpest case: it
+was counted in the "newly answered" column as a gain, and it was a new harm.
+
+### Why four rounds of measurement missed it
+
+Each document was probed against its own curated query set. `plc-automation`
+came from document **A**, written before document **C** established the rule
+that catches it, and no later document's probe set contained the words `plc`,
+`scada` or `automation technician`. Every round asked *did my probes improve*;
+none asked *did anything get worse*.
+
+The fix is not a better rule — the rule was already written. It is a better
+measurement, and it is one script: the complete alias set against the
+pre-enrichment baseline, before merge.
+
+### What changed
+
+One string deleted. **No alias was touched** — `plc`, `plc programmer`, `scada`,
+`automation technician`, `hmi`, `control systems` and `industrial automation
+technician` are the vocabulary this document paid for and all seven remain.
+Only the expansion was wrong.
+
+Re-measured across all 206 probe terms afterwards: **116 corrected, 33 newly
+answered, 0 lost, 0 landing on a business with "Automation" in its name.**
+
+### Guarded so it cannot come back
+
+`AutomationExpansionRegressionTest` pins the five queries to the PLC Skill and
+asserts the seven aliases survive. `SectorExpansionGuardTest` generalises it:
+no concept may expand to a bare sector word unless it is in
+`SECTOR_EXPANSION_EXEMPT` **with a written reason**, and `plc-automation` is
+explicitly barred from that list — adding the offender to the exemption is the
+cheapest way to make a guard test pass, so the guard refuses it.
+
+The neighbouring `robotics` concept also carries a bare `automation` expansion.
+It predates all five documents and the brief was one string, so it is exempted
+rather than changed — but exempting it without measuring it would be taking the
+same risk twice, so its five aliases are pinned to `Robotics` by test.
+
+---
+
+## 18. The 52 candidates — classification and research gaps
+
+Recorded in `research/sources/candidate_classification.py`, checked against the
+queue and the graph by `CandidateClassificationTest` and `ResearchGapTest`.
+**Nothing is approved. Nothing is promoted. No entity was created.** All 52 rows
+are still `NEEDS_REVIEW` and a test fails if any of them stops being so.
+
+### Five classes
+
+| class | meaning | count |
+|---|---|---|
+| **A** | likely merge into an existing entity after a primary-source check | 7 |
+| **B** | likely requires a new Skill entity | 23 |
+| **C** | duplicate — decide with its group | 17 |
+| **D** | disputed — requires a human decision | 4 |
+| **E** | reject | 1 |
+
+"Likely" is load-bearing. A and B are predictions about what a reviewer will
+conclude *after* checking a primary source, not permission to skip the check.
+
+**Class A (7)** — each names a target that exists in the graph today, and a
+test verifies it: Tile & Marble Fixer → *Tiles Fixing* · Fabricator → *Welding
+(MIG/TIG/Arc)* · Steel Fixer → *Masonry & Brickwork* · Modular Kitchen
+Installer → *Carpentry* · Granite Cutter → *Tiles Fixing* · Milling Machine
+Operator → *Lathe Operation* · Heavy Vehicle Technician → *Automobile Mechanic
+(Diesel/Petrol)*.
+
+**Class D (4)** — the ones no source settles:
+
+* `battery-technician` — document A calls it an alias of EV Technician,
+  document D makes it a career. Search follows A, the candidate follows D, on
+  purpose: a taxonomy question should not be decided by whichever alias list
+  was edited last.
+* `security-system-installer` — document E lists it as both an alias of CCTV
+  Technician and a role in its own right.
+* `auto-painting-technician` — must stay distinct from the building Painter;
+  search currently returns *Painting Services* for both, contradicting the
+  source module.
+* `interior-finishing-technician` — reads as an umbrella over four trades
+  document B also queues separately. Trade or category is a judgement.
+
+**Class E (1)** — `production-operator`. Sector-shaped rather than a defined
+trade; search returns *Manufacturing*, which is the honest answer. Creating it
+would repeat §11's mistake at the entity layer. A test pins it rejected,
+because the reason is a definition and definitions do not change when somebody
+wants a shorter queue.
+
+### Eight duplicate groups — 52 decisions become about 38
+
+`maintenance-fitter` · `false-ceiling` · `fenestration` · `plant-operator` ·
+`fluid-power` · `battery` · `tyre-and-alignment` · `physical-security`.
+
+Each carries its members, its reason and the primary source that settles the
+group. Tests hold that no candidate sits in two groups and that every grouped
+candidate is class C or D — never a straightforward merge or a straightforward
+new entity, because deciding it alone is exactly what the group prevents.
+
+**Two pairs must stay distinct**, recorded because the pressure runs the other
+way — a long queue makes merging feel like progress:
+
+* **Painter** ≠ **Auto Painting Technician** — different materials, booth,
+  certification, customer.
+* **Fabricator** ≠ **Aluminium Fabricator** — different metals, joining
+  methods and sites.
+
+### Research gap 1 — the Field Technician magnet
+
+**Eighteen of the 52** — more than a third — return the same top result:
+
+> `Field Technician - Computing & Peripherals - ELE/Q4601` *(Certification)*
+
+**This must not be fixed with aliases.** Every one of these is a trade with no
+Skill entity to point at; an alias would only move the wrong answer somewhere
+else, which is the confidently-wrong failure §11 records and §17 repeats. It is
+a **knowledge-coverage** problem: the graph has nothing to return and one broad
+certification wins by default because it contains the word "Technician".
+
+It resolves as the queue resolves — each promoted Skill takes its queries off
+the list, and the test says so. Whatever remains afterwards is a ranking
+question about occupational suffixes and belongs in the search backlog.
+
+### Research gap 2 — promotion is two edits, not one
+
+For **18 candidates** the vocabulary already resolves the trade's words to an
+approximate existing entity, usually a BusinessOpportunity or an Industry
+rather than a learnable Skill. That is the "business you cannot learn" gap and
+it is the strongest case for promoting them.
+
+It also carries an obligation nothing in the pipeline tracks: **promote the
+Skill without re-pointing the concept and the new entity is unreachable by the
+very words that were added for it.** `REPOINT_ON_PROMOTION` names each
+candidate with its concept and the entity that currently answers, and a test
+verifies all three still exist.
+
+### Nothing factual may be promoted from these documents
+
+Salaries, course fees, institute contacts, placement claims, employer names and
+demand estimates. Five LLM-generated secondary documents, zero citations. The
+role names and aliases are observable facts about how words are used and were
+verifiable here; the numbers are claims about the world and are not. They live
+in the queue's raw records and nowhere else.

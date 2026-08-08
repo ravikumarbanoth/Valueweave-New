@@ -43,7 +43,10 @@ export default Object.freeze({
         "domestic wiring",
         "electrical contractor",
         "electrical technician",
-        "house wiring"
+        "house wiring",
+        "domestic electrician",
+        "panel wiring",
+        "electrical supervisor"
       ],
       "te": [
         "ఎలక్ట్రిషియన్",
@@ -70,7 +73,13 @@ export default Object.freeze({
       "en": [
         "plumbing",
         "pipe fitting",
-        "sanitary work"
+        "sanitary work",
+        "pipe fitter",
+        "sanitary installer",
+        "plumbing technician",
+        "steam fitter",
+        "plumer",
+        "plummer"
       ],
       "te": [
         "ప్లంబర్",
@@ -88,7 +97,11 @@ export default Object.freeze({
       "en": [
         "carpentry",
         "wood work",
-        "furniture making"
+        "furniture making",
+        "woodworker",
+        "joiner",
+        "furniture carpenter",
+        "wood turner"
       ],
       "te": [
         "వడ్రంగి",
@@ -106,7 +119,15 @@ export default Object.freeze({
       "en": [
         "welding",
         "metal fabrication",
-        "fabricator"
+        "fabricator",
+        "arc welder",
+        "mig welder",
+        "tig welder",
+        "coded welder",
+        "fitter welder",
+        "sheet metal worker",
+        "structural fabricator",
+        "welda"
       ],
       "te": [
         "వెల్డర్",
@@ -126,7 +147,15 @@ export default Object.freeze({
       "en": [
         "masonry",
         "brickwork",
-        "building work"
+        "building work",
+        "brick mason",
+        "construction mason",
+        "bricklayer",
+        "plasterer",
+        "steel fixer",
+        "bar bender",
+        "rebar fixer",
+        "scaffolder"
       ],
       "te": [
         "తాపీ మేస్త్రి",
@@ -149,7 +178,12 @@ export default Object.freeze({
         "tile mason",
         "tile fitting",
         "flooring",
-        "tiling"
+        "tiling",
+        "tile setter",
+        "flooring technician",
+        "marble polisher",
+        "tiles fitter",
+        "granite cutter"
       ],
       "te": [
         "టైల్స్",
@@ -172,7 +206,11 @@ export default Object.freeze({
       "en": [
         "painting",
         "wall painting",
-        "house painting"
+        "house painting",
+        "building painter",
+        "decorative painter",
+        "industrial painter",
+        "wall putty applicator"
       ],
       "te": [
         "పెయింటర్",
@@ -191,7 +229,13 @@ export default Object.freeze({
         "ac repair",
         "air conditioning",
         "refrigeration",
-        "ac mechanic"
+        "ac mechanic",
+        "rac mechanic",
+        "cooling system technician",
+        "fridge mechanic",
+        "ac technician",
+        "refrigeration mechanic",
+        "vrf technician"
       ],
       "te": [
         "ఏసీ రిపేర్",
@@ -260,7 +304,12 @@ export default Object.freeze({
         "robot",
         "industrial robotics",
         "automation",
-        "robotic process automation"
+        "robotic process automation",
+        "robot programmer",
+        "robotics service engineer",
+        "robotics technician",
+        "cobot",
+        "robot maintenance"
       ],
       "te": [
         "రోబోటిక్స్",
@@ -895,7 +944,13 @@ export default Object.freeze({
         "solar panel",
         "rooftop solar",
         "renewable energy",
-        "surya ghar"
+        "surya ghar",
+        "solar technician",
+        "rooftop solar installer",
+        "solar installer",
+        "pv system integrator",
+        "suryamitra",
+        "solar pv"
       ],
       "te": [
         "సౌర విద్యుత్",
@@ -916,7 +971,21 @@ export default Object.freeze({
         "ev",
         "e vehicle",
         "ev charging",
-        "ev repair"
+        "ev repair",
+        "ev technician",
+        "ev service technician",
+        "electric vehicle mechanic",
+        "ev repair specialist",
+        "battery technician",
+        "ev mechanic",
+        "bms technician",
+        "battery refurbishment",
+        "battery pack technician",
+        "battery management system",
+        "cell balancing",
+        "charging point operator",
+        "charger installer",
+        "charging station technician"
       ],
       "te": [
         "ఎలక్ట్రిక్ వాహనం",
@@ -1181,6 +1250,348 @@ export default Object.freeze({
         "women",
         "mahila",
         "entrepreneurship"
+      ]
+    },
+    {
+      "id": "cnc",
+      "en_canonical": "cnc",
+      "en": [
+        "cnc operator",
+        "cnc machinist",
+        "vmc operator",
+        "turn mill operator",
+        "cnc programming"
+      ],
+      "te": [
+        "సీఎన్‌సీ ఆపరేటర్"
+      ],
+      "tanglish": [],
+      "expands_to": [
+        "cnc machine operator",
+        "lathe operation",
+        "machinery"
+      ]
+    },
+    {
+      "id": "industrial-electrician",
+      "en_canonical": "industrial electrician",
+      "en": [
+        "factory electrician",
+        "maintenance electrician",
+        "plant electrician",
+        "electrical fitter",
+        "motor control",
+        "switchgear"
+      ],
+      "te": [],
+      "tanglish": [],
+      "expands_to": [
+        "industrial electrician",
+        "electrician",
+        "power distribution"
+      ]
+    },
+    {
+      "id": "plc-automation",
+      "en_canonical": "plc automation",
+      "en": [
+        "plc",
+        "plc programmer",
+        "scada",
+        "automation technician",
+        "hmi",
+        "control systems",
+        "industrial automation technician"
+      ],
+      "te": [],
+      "tanglish": [],
+      "expands_to": [
+        "plc programming",
+        "industrial automation"
+      ]
+    },
+    {
+      "id": "false-ceiling",
+      "en_canonical": "false ceiling",
+      "en": [
+        "pop ceiling",
+        "gypsum board",
+        "gypsum",
+        "drywall",
+        "ceiling technician",
+        "pop plasterer",
+        "gypsum finisher",
+        "suspended ceiling"
+      ],
+      "te": [],
+      "tanglish": [],
+      "expands_to": [
+        "false ceiling",
+        "masonry"
+      ]
+    },
+    {
+      "id": "aluminium-fabrication",
+      "en_canonical": "aluminium fabrication",
+      "en": [
+        "aluminium fabricator",
+        "aluminium fitter",
+        "upvc window",
+        "fenestration",
+        "glazier",
+        "glass installer",
+        "window fitter",
+        "facade glass"
+      ],
+      "te": [],
+      "tanglish": [],
+      "expands_to": [
+        "aluminium fabrication",
+        "fabrication"
+      ]
+    },
+    {
+      "id": "borewell",
+      "en_canonical": "borewell",
+      "en": [
+        "borewell technician",
+        "rig operator",
+        "groundwater drilling",
+        "driller",
+        "bore well"
+      ],
+      "te": [],
+      "tanglish": [],
+      "expands_to": [
+        "borewell",
+        "borewell drilling"
+      ]
+    },
+    {
+      "id": "pump-technician",
+      "en_canonical": "pump technician",
+      "en": [
+        "submersible pump",
+        "water pump mechanic",
+        "pump fitter",
+        "motor winder",
+        "pump repair"
+      ],
+      "te": [],
+      "tanglish": [],
+      "expands_to": [
+        "submersible pump",
+        "pump"
+      ]
+    },
+    {
+      "id": "heavy-equipment-operator",
+      "en_canonical": "heavy equipment operator",
+      "en": [
+        "crane operator",
+        "excavator operator",
+        "jcb",
+        "jcb driver",
+        "earthmover",
+        "road roller",
+        "paver operator",
+        "grader operator",
+        "backhoe",
+        "tower crane",
+        "rigging"
+      ],
+      "te": [],
+      "tanglish": [],
+      "expands_to": [
+        "material handling",
+        "construction"
+      ]
+    },
+    {
+      "id": "waterproofing",
+      "en_canonical": "waterproofing",
+      "en": [
+        "waterproofing technician",
+        "leakage treatment",
+        "damp proofing",
+        "terrace waterproofing"
+      ],
+      "te": [],
+      "tanglish": [],
+      "expands_to": [
+        "painting",
+        "construction"
+      ]
+    },
+    {
+      "id": "modular-kitchen",
+      "en_canonical": "modular kitchen",
+      "en": [
+        "modular kitchen installer",
+        "cabinetry technician",
+        "kitchen carpenter",
+        "modular furniture fitter"
+      ],
+      "te": [],
+      "tanglish": [],
+      "expands_to": [
+        "carpentry"
+      ]
+    },
+    {
+      "id": "roofing",
+      "en_canonical": "roofing",
+      "en": [
+        "roofing technician",
+        "sheet roofing",
+        "industrial shed erector",
+        "roofing fabricator"
+      ],
+      "te": [],
+      "tanglish": [],
+      "expands_to": [
+        "construction",
+        "fabrication"
+      ]
+    },
+    {
+      "id": "lathe",
+      "en_canonical": "lathe",
+      "en": [
+        "lathe operator",
+        "turner",
+        "machinist",
+        "lathe machine operator",
+        "conventional turner",
+        "all round machinist"
+      ],
+      "te": [],
+      "tanglish": [],
+      "expands_to": [
+        "lathe operation",
+        "cnc machine operator"
+      ]
+    },
+    {
+      "id": "press-operator",
+      "en_canonical": "press machine operator",
+      "en": [
+        "power press operator",
+        "stamping press",
+        "press shop",
+        "sheet metal press operator"
+      ],
+      "te": [],
+      "tanglish": [],
+      "expands_to": [
+        "sheet metal"
+      ]
+    },
+    {
+      "id": "automobile-mechanic",
+      "en_canonical": "automobile mechanic",
+      "en": [
+        "car mechanic",
+        "motor mechanic",
+        "automotive technician",
+        "auto mechanic",
+        "garage mechanic",
+        "service technician",
+        "truck mechanic",
+        "heavy vehicle technician",
+        "diesel mechanic",
+        "auto electrician"
+      ],
+      "te": [],
+      "tanglish": [],
+      "expands_to": [
+        "automobile mechanic"
+      ]
+    },
+    {
+      "id": "two-wheeler",
+      "en_canonical": "two wheeler mechanic",
+      "en": [
+        "bike mechanic",
+        "scooter mechanic",
+        "motorcycle mechanic",
+        "two wheeler repair",
+        "bike repair"
+      ],
+      "te": [],
+      "tanglish": [],
+      "expands_to": [
+        "two-wheeler mechanic"
+      ]
+    },
+    {
+      "id": "tractor-mechanic",
+      "en_canonical": "tractor mechanic",
+      "en": [
+        "farm equipment mechanic",
+        "tractor repair",
+        "agricultural machinery mechanic"
+      ],
+      "te": [],
+      "tanglish": [],
+      "expands_to": [
+        "automobile mechanic"
+      ]
+    },
+    {
+      "id": "electronics-repair",
+      "en_canonical": "electronics repair",
+      "en": [
+        "mobile repair",
+        "mobile phone repair",
+        "phone repair",
+        "smartphone repair",
+        "handset technician",
+        "laptop repair",
+        "laptop service engineer",
+        "led tv repair",
+        "tv repair",
+        "electronics service technician",
+        "consumer electronics technician",
+        "appliance repair"
+      ],
+      "te": [],
+      "tanglish": [],
+      "expands_to": [
+        "electronics repair"
+      ]
+    },
+    {
+      "id": "pcb-repair",
+      "en_canonical": "pcb repair",
+      "en": [
+        "smt technician",
+        "component level repair",
+        "pcb rework",
+        "board repair",
+        "chip level repair"
+      ],
+      "te": [],
+      "tanglish": [],
+      "expands_to": [
+        "pcb assembly",
+        "soldering"
+      ]
+    },
+    {
+      "id": "home-automation",
+      "en_canonical": "home automation",
+      "en": [
+        "smart home",
+        "smart home integrator",
+        "iot technician",
+        "home automation technician",
+        "building automation"
+      ],
+      "te": [],
+      "tanglish": [],
+      "expands_to": [
+        "iot systems"
       ]
     }
   ]

@@ -62,6 +62,8 @@ SUITES = {
                 "PX Phase 9: the remembered audience and what it may reweight"),
     "ux_audit": ("tests.test_ux_audit",
                  "PX Phase 10: the defects found crawling the site at 390px"),
+    "trade_vocabulary": ("tests.test_trade_vocabulary",
+                         "Skilled-trade aliases and what the trades document may claim"),
     "stewardship": ("tests.test_stewardship", "Lifecycle, ledger and review queue"),
     "collection": ("tests.test_collection",
                    "Automated collection: registry, conditional fetch, review queue"),

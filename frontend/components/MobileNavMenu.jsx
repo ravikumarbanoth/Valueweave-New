@@ -51,7 +51,7 @@ export default function MobileNavMenu() {
         <nav className="px-4 py-3 flex flex-col gap-0.5 max-h-[calc(100vh-5rem)] overflow-y-auto">
           {links.map((l) => (
             <Link key={l.href} href={l.href} onClick={() => setOpen(false)} className="flex items-center px-3 py-3 rounded-xl text-sm font-display font-semibold text-ink hover:bg-amber-50 hover:text-amber-700 transition-colors min-h-[44px]">
-              {t(`nav.${l.label.toLowerCase().replaceAll(" ", "-")}`)}
+              {t(`nav.${l.label.toLowerCase().replaceAll(" ", "-")}`, l.label)}
             </Link>
           ))}
           <div className="border-t border-stone-100 my-2" />
@@ -59,8 +59,8 @@ export default function MobileNavMenu() {
             <LanguageSelector />
           </div>
           <div className="border-t border-stone-100 my-2" />
-          <Link href="/signin" onClick={() => setOpen(false)} className="btn-secondary w-full justify-center text-sm">Sign in</Link>
-          <Link href="/get-started" onClick={() => setOpen(false)} className="btn-primary w-full justify-center text-sm mt-1">Join ValueWeave →</Link>
+          <Link href="/signin" onClick={() => setOpen(false)} className="btn-secondary w-full justify-center text-sm">{t('nav.signin', 'Sign in')}</Link>
+          <Link href="/get-started" onClick={() => setOpen(false)} className="btn-primary w-full justify-center text-sm mt-1">{t('nav.join', 'Join ValueWeave →')}</Link>
         </nav>
       </div>
     </>

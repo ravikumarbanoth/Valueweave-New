@@ -156,7 +156,7 @@ class BackwardCompatibilityRegressionTest(unittest.TestCase):
         for rel in self.TOUCHED:
             with self.subTest(dataset=rel):
                 before = subprocess.run(["git", "show", f"main:{rel}"], cwd=ROOT,
-                                        capture_output=True, text=True)
+                                        capture_output=True, text=True, encoding="utf-8")
                 if before.returncode != 0:
                     self.skipTest("main is not available for comparison")
                 old = list(csv.DictReader(io.StringIO(before.stdout)))

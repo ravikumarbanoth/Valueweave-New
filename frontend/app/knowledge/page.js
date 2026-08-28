@@ -20,6 +20,7 @@ import {
 } from "@/lib/knowledge";
 import { searchGrouped, guidance } from "@/lib/search/universal.js";
 import { resolveQuery, describeResolution } from "@/lib/search-vocabulary.js";
+import { analyzeSearchQuery } from "@/lib/search/intelligence.js";
 import SourceBadge from "@/components/knowledge/SourceBadge";
 import ConfidenceBadge from "@/components/knowledge/ConfidenceBadge";
 import KnowledgePagination from "@/components/knowledge/KnowledgePagination";
@@ -312,6 +313,7 @@ async function SearchResults({ q, entityType, urlType }) {
   // impossible when the filter was pushed into the query.
   const { rows, groups } = await searchGrouped(q, { limit: 60, perGroup: 8 });
   const visible = entityType ? rows.filter((r) => r.entity_type === entityType) : rows;
+  const analysis = analyzeSearchQuery(q, groups);
 
   if (visible.length === 0) {
     const help = await guidance(q);
@@ -354,6 +356,7 @@ async function SearchResults({ q, entityType, urlType }) {
         total={visible.length}
         query={q}
         resolved={describeResolution(resolveQuery(q))}
+        analysis={analysis}
       />
       {help && (
         <div className="border-t border-stone-200 pt-6" data-testid="thin-results">

@@ -89,6 +89,10 @@ SUITES = {
                       "v1.0 UX polish: no internal vocabulary reaches a user"),
     "knowledge_pipeline": ("tests.test_knowledge_pipeline",
                            "v1.0 audit: the import exists, is invoked, and can read"),
+    "language_support": ("tests.test_language_support",
+                         "Bilingual UI language support and fallback hierarchy"),
+    "search_intelligence": ("tests.test_search_intelligence",
+                           "Multilingual query intelligence, intent, and location extraction"),
 }
 
 
@@ -102,6 +106,7 @@ def load(name):
 
 
 def main(argv=None):
+    import os
     ap = argparse.ArgumentParser()
     ap.add_argument("--suite", nargs="*", choices=sorted(SUITES), default=sorted(SUITES))
     ap.add_argument("--quiet", action="store_true")
@@ -114,7 +119,7 @@ def main(argv=None):
     for name in args.suite:
         _module, description = SUITES[name]
         suite = load(name)
-        stream = open("/dev/null", "w") if args.quiet else sys.stderr
+        stream = open(os.devnull, "w") if args.quiet else sys.stderr
         runner = unittest.TextTestRunner(stream=stream, verbosity=0)
         t0 = time.time()
         result = runner.run(suite)

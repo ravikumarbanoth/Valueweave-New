@@ -245,9 +245,11 @@ class RankingTest(unittest.TestCase):
 
     def run_js(self, body):
         script = self.dir / "run.mjs"
+        # Use a file:// URI for the import so Node's ESM loader accepts it on Windows
+        import_uri = Path(self.dir).as_uri()
         script.write_text(textwrap.dedent(f"""
             const {{ intentSections, scoreNeighbour, MAX_PER_SECTION }} =
-              await import("{self.dir}/related-intent.js");
+              await import("{import_uri}/related-intent.js");
             {body}
         """), encoding="utf-8")
         r = subprocess.run([NODE, str(script)], capture_output=True, text=True, timeout=60)

@@ -147,6 +147,25 @@ class SameAnswerEveryLanguageTest(MultilingualBase):
         self.assertIn("medak", joined)
         self.assertIn("electrician", joined)
 
+    def test_natural_telugu_and_tanglish_sentences_find_trade_and_district(self):
+        """Natural language sentences with conversational particles and locatives."""
+        # 1. Natural sentence with conversational filler ("నాకు ... కావాలి")
+        names1 = self.names("నాకు electrician course కావాలి", 10)
+        joined1 = " | ".join(names1).lower()
+        self.assertIn("electrician", joined1)
+
+        # 2. Tanglish query with postposition ("medak lo electrician course")
+        names2 = self.names("medak lo electrician course", 10)
+        joined2 = " | ".join(names2).lower()
+        self.assertIn("medak", joined2)
+        self.assertIn("electrician", joined2)
+
+        # 3. Telugu suffixed district ("మెదక్లో ఎలక్ట్రిషియన్ కోర్స్")
+        names3 = self.names("మెదక్లో ఎలక్ట్రిషియన్ కోర్స్", 10)
+        joined3 = " | ".join(names3).lower()
+        self.assertIn("medak", joined3)
+        self.assertIn("electrician", joined3)
+
 
 # ═══════════════════════════ 2. the table cannot rot
 class ConceptTableIntegrityTest(MultilingualBase):

@@ -110,9 +110,9 @@ export default function HomeHeroSearch({ heading, subheading }) {
         <LiveSearch
           testId="home-search"
           size="hero"
-          label={t("search.search_everything")}
+          label={t("search.hero_label", "What opportunity are you looking for today?")}
           labelClassName="block font-display font-bold text-[15px] text-ink mb-3 text-center"
-          placeholder={t("search.placeholder")}
+          placeholder={t("search.placeholder", "What do you want to learn, build or earn?")}
         />
       </div>
 
@@ -183,7 +183,7 @@ export default function HomeHeroSearch({ heading, subheading }) {
       ) : (
         <div className="mt-10">
           <p className="text-sm font-display font-bold text-ink mb-3">
-            {choosing ? "Who are you now?" : "Or tell us who you are"}
+            {choosing ? t("home.who_are_you", "Who are you now?") : t("home.tell_us_who", "Or tell us who you are")}
           </p>
           <div className="flex flex-wrap justify-center gap-2.5" data-testid="home-audiences">
             {AUDIENCES.map((option) => (
@@ -211,7 +211,7 @@ export default function HomeHeroSearch({ heading, subheading }) {
           destination, not a claim about who you are. */}
       <div className="mt-10">
         <p className="text-sm font-display font-bold text-ink mb-3">
-          Popular goals
+          {t("home.popular_goals", "Popular goals")}
         </p>
         <div className="flex flex-wrap justify-center gap-2" data-testid="home-goals">
           {GOALS.map((goal) => (

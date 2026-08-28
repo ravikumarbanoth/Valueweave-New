@@ -124,10 +124,16 @@ class JsHarness:
         so a caller never has to know where the temporary copy landed.
         """
         script = self.dir / "run.mjs"
-        source = textwrap.dedent(body).replace("$LIB", str(self.lib)).replace("$DIR", str(self.dir))
+        # Use file:// URIs for absolute paths so Node's ESM loader accepts them
+        lib_uri = self.lib.as_uri()
+        # Use a filesystem path for $DIR so fs.readFileSync receives a normal path
+        # Use POSIX-style path for $DIR so backslashes don't create escape issues
+        dir_path = Path(self.dir).as_posix()
+        source = textwrap.dedent(body).replace("$LIB", lib_uri).replace("$DIR", dir_path)
         script.write_text('import fs from "node:fs";\n' + source, encoding="utf-8")
         result = subprocess.run([NODE, str(script)], capture_output=True,
-                                text=True, timeout=timeout)
+                    text=True, encoding="utf-8", errors="replace",
+                    timeout=timeout)
         if result.returncode != 0:
             raise AssertionError(f"node failed:\n{result.stdout}\n{result.stderr}")
         return json.loads(result.stdout)

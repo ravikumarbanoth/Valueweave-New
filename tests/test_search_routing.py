@@ -163,7 +163,9 @@ class RouteCallsTheSearchEngineTest(unittest.TestCase):
         """
         self.assertIn("THIN_RESULTS", self.src)
         self.assertRegex(self.src, r"visible\.length < THIN_RESULTS")
-
+    def test_search_intelligence_is_attached_to_the_results_page(self):
+        self.assertIn("analyzeSearchQuery", self.src)
+        self.assertIn("analysis={analysis}", self.src)
 
 # ═══════════════════════════════════════ 2. exactly one search implementation
 class OneSearchPathTest(unittest.TestCase):

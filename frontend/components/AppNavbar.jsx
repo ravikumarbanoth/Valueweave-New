@@ -86,7 +86,7 @@ export default function AppNavbar({ initialProfile = null }) {
               <div className="hidden lg:flex items-center gap-1">
                 {PUBLIC_LINKS.map((link) => (
                   <Link key={link.href} href={link.href} className={`btn-ghost text-xs ${isActive(link.href) ? "!bg-amber-100 !text-amber-700" : ""}`}>
-                    {t(`nav.${link.label.toLowerCase()}`)}
+                    {t(`nav.${link.label.toLowerCase().replaceAll(" ", "-")}`, link.label)}
                   </Link>
                 ))}
               </div>

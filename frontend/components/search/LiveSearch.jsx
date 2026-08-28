@@ -43,6 +43,7 @@ import { useRouter } from "next/navigation";
 import { Search, Loader2, CornerDownLeft } from "lucide-react";
 import { trackSearch } from "@/lib/search-tracking";
 import { recall } from "@/lib/journey";
+import { useLanguage } from "@/lib/language";
 
 //: Matches MIN_QUERY on the server. Suggesting after one character means
 //: suggesting from a query the ranker will not answer.
@@ -104,6 +105,7 @@ export default function LiveSearch({
 }) {
   const router = useRouter();
   const listboxId = useId();
+  const { t } = useLanguage();
 
   const [query, setQuery] = useState(initialQuery);
   const [items, setItems] = useState([]);
@@ -311,7 +313,7 @@ export default function LiveSearch({
                  sm:-translate-y-1/2 sm:!px-6 !py-3 sm:!py-2.5`
               : "btn-primary mt-2 w-full sm:w-auto sm:ml-2"}`}
           >
-            Search
+            {t("search.button")}
           </button>
 
           {open && items.length > 0 && (
@@ -328,7 +330,7 @@ export default function LiveSearch({
                 </p>
               )}
 
-              <ul id={listboxId} role="listbox" aria-label="Suggestions"
+              <ul id={listboxId} role="listbox" aria-label={t("search.suggestions")}
                   className="max-h-[60vh] overflow-y-auto">
                 {items.map((item, index) => {
                   const heading = item.groupLabel !== previousGroup ? item.groupLabel : null;
@@ -382,7 +384,7 @@ export default function LiveSearch({
                            text-[13px] font-display font-bold text-amber-700 border-t border-stone-100
                            hover:bg-amber-50 transition-colors"
               >
-                See everything for “{query.trim()}”
+                {t("search.see_all")} “{query.trim()}”
                 <CornerDownLeft size={14} aria-hidden="true" />
               </button>
             </div>

@@ -63,6 +63,7 @@ import Link from "next/link";
 import LiveSearch from "@/components/search/LiveSearch";
 import { AUDIENCES, AUDIENCE_BY_SLUG, GOALS, HOME_PROMPTS } from "@/lib/audiences";
 import { recall, remember, forget } from "@/lib/journey";
+import { useLanguage } from "@/lib/language";
 
 export default function HomeHeroSearch({ heading, subheading }) {
   const router = useRouter();
@@ -70,6 +71,7 @@ export default function HomeHeroSearch({ heading, subheading }) {
   //: "Change" reopens the six without forgetting first, so a visitor who
   //: opens it and changes their mind still has the answer they gave.
   const [choosing, setChoosing] = useState(false);
+  const { t } = useLanguage();
 
   useEffect(() => {
     setKnown(recall());
@@ -108,16 +110,16 @@ export default function HomeHeroSearch({ heading, subheading }) {
         <LiveSearch
           testId="home-search"
           size="hero"
-          label="What opportunity are you looking for today?"
+          label={t("search.search_everything")}
           labelClassName="block font-display font-bold text-[15px] text-ink mb-3 text-center"
-          placeholder="Electrician, PMEGP, Medak…"
+          placeholder={t("search.placeholder")}
         />
       </div>
 
       {/* An empty box is a wall. These are the words people actually arrive
           with, and every one of them returns something from the graph. */}
       <div className="flex flex-wrap justify-center gap-2 mt-5" data-testid="home-search-prompts">
-        <span className="text-xs text-stone-400 self-center mr-1">Try:</span>
+        <span className="text-xs text-stone-400 self-center mr-1">{t("search.try")}</span>
         {HOME_PROMPTS.map((prompt) => (
           <button
             key={prompt}

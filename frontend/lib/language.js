@@ -1,0 +1,222 @@
+"use client";
+
+import { useEffect, useState } from 'react';
+
+/**
+ * Lightweight UI language support.
+ *
+ * English is the default. Telugu can be selected.
+ * Language preference is persisted in localStorage.
+ * Translations are applied to UI labels only, not to factual knowledge.
+ * document.lang is updated to reflect the current language.
+ *
+ * This layer does NOT affect search, ranking, or the knowledge graph.
+ */
+
+const SUPPORTED_LANGUAGES = ['en', 'te'];
+export { SUPPORTED_LANGUAGES };
+export const DEFAULT_LANGUAGE = 'en';
+const STORAGE_KEY = 'vw_ui_language';
+const LANGUAGE_EVENT = 'vw:language-change';
+
+/**
+ * Get the current UI language from localStorage or return default.
+ * Only returns a supported language; unknown values default to English.
+ */
+export function getStoredLanguage() {
+  if (typeof window === 'undefined') return DEFAULT_LANGUAGE;
+  const stored = localStorage.getItem(STORAGE_KEY);
+  return SUPPORTED_LANGUAGES.includes(stored) ? stored : DEFAULT_LANGUAGE;
+}
+
+/**
+ * Set and persist the UI language. Updates document.lang.
+ */
+export function setLanguage(lang) {
+  if (!SUPPORTED_LANGUAGES.includes(lang)) return;
+  if (typeof window !== 'undefined') {
+    localStorage.setItem(STORAGE_KEY, lang);
+    document.documentElement.lang = lang;
+    window.dispatchEvent(new CustomEvent(LANGUAGE_EVENT, { detail: lang }));
+  }
+}
+
+export function useLanguage() {
+  const [language, setCurrentLanguage] = useState(DEFAULT_LANGUAGE);
+
+  useEffect(() => {
+    const updateLanguage = () => setCurrentLanguage(getStoredLanguage());
+    updateLanguage();
+    window.addEventListener(LANGUAGE_EVENT, updateLanguage);
+    return () => window.removeEventListener(LANGUAGE_EVENT, updateLanguage);
+  }, []);
+
+  return { language, setLanguage, t: (key) => t(key, language) };
+}
+
+/**
+ * Get the label for a language code. Used in the language selector.
+ */
+export function getLanguageLabel(lang) {
+  return {
+    en: 'English',
+    te: 'తెలుగు',
+  }[lang] || lang;
+}
+
+/**
+ * Translate a key using the current language.
+ * Falls back to English if the key or translation is not found.
+ */
+export function t(key, language = null) {
+  const lang = language || getStoredLanguage();
+  const translations = TRANSLATION_DICTIONARY[lang];
+  if (!translations || !translations[key]) {
+    // Fallback to English
+    const english = TRANSLATION_DICTIONARY[DEFAULT_LANGUAGE];
+    return english?.[key] || key;
+  }
+  return translations[key];
+}
+
+/**
+ * Curated translations for ValueWeave UI.
+ * Only UI labels and reusable strings.
+ * Factual knowledge (skills, schemes, districts, etc.) are NOT translated.
+ */
+export const TRANSLATION_DICTIONARY = {
+  en: {
+    // Navigation
+    'nav.discover': 'Discover',
+    'nav.districts': 'Districts',
+    'nav.readiness': 'Readiness',
+    'nav.manufacturing': 'Manufacturing',
+    'nav.scale': 'Scale',
+    'nav.network': 'Network',
+    'nav.ai': 'AI',
+    'nav.home': 'Home',
+    'nav.about': 'About',
+    'nav.ideas': 'Idea Library',
+    'nav.research': 'Research',
+    'nav.opportunity-radar': 'Opportunity Radar',
+    'nav.collaborators': 'Collaborators',
+    'nav.privacy': 'Privacy',
+    'nav.terms': 'Terms',
+    'nav.signin': 'Sign in',
+    'nav.join': 'Join ValueWeave →',
+
+    // Search
+    'search.placeholder': 'What do you want to learn, build or earn?',
+    'search.no_results': "We couldn't find what you're looking for.",
+    'search.try_different': 'Try a different search',
+    'search.search_everything': 'Search everything',
+    'search.button': 'Search',
+    'search.try': 'Try:',
+    'search.suggestions': 'Suggestions',
+    'search.see_all': 'See everything for',
+
+    // Onboarding / Get Started
+    'onboarding.title': 'What are you here to do?',
+    'onboarding.student': 'I want to learn a skill',
+    'onboarding.entrepreneur': 'I want to start a business',
+    'onboarding.job_seeker': 'I\'m looking for work',
+    'onboarding.farmer': 'I\'m in agriculture',
+    'onboarding.corporate': 'I\'m building a team',
+
+    // Common buttons
+    'btn.next': 'Next →',
+    'btn.back': '← Back',
+    'btn.submit': 'Submit',
+    'btn.close': 'Close',
+    'btn.learn_more': 'Learn more',
+    'btn.explore': 'Explore',
+    'btn.view': 'View',
+    'btn.get_started': 'Get Started',
+
+    // Language selector
+    'language.select': 'Language',
+    'language.english': 'English',
+    'language.telugu': 'తెలుగు',
+
+    // Common UI
+    'ui.menu': 'Menu',
+    'ui.close_menu': 'Close menu',
+    'ui.open_menu': 'Open menu',
+    'ui.loading': 'Loading...',
+    'ui.error': 'Something went wrong',
+    'ui.try_again': 'Try again',
+    'ui.back_to_home': 'Back to home',
+  },
+  te: {
+    // Navigation
+    'nav.discover': 'కనుగొనండి',
+    'nav.districts': 'జిల్లాలు',
+    'nav.readiness': 'సంసిద్ధత',
+    'nav.manufacturing': 'తయారీ',
+    'nav.scale': 'స్కేల్',
+    'nav.network': 'నెట్‌వర్క్',
+    'nav.ai': 'ఏఐ',
+    'nav.home': 'హోమ్',
+    'nav.about': 'గురించి',
+    'nav.ideas': 'ఐడియా లైబ్రరీ',
+    'nav.research': 'పరిశోధన',
+    'nav.opportunity-radar': 'అవకాశ రాడార్',
+    'nav.collaborators': 'సహకారులు',
+    'nav.privacy': 'గోప్యత',
+    'nav.terms': 'నిబంధనలు',
+    'nav.signin': 'సైన్ ఇన్',
+    'nav.join': 'వ్యూ వీవ్‌కు చేరండి →',
+
+    // Search
+    'search.placeholder': 'మీరు ఏమి నేర్చుకోవాలి, నిర్మించాలి లేదా సంపాదించాలనుకుంటున్నారు?',
+    'search.no_results': 'మీరు చేసిన శోధన కోసం ఫలితాలు లేవు.',
+    'search.try_different': 'వేరే శోధన ప్రయత్నించండి',
+    'search.search_everything': 'అన్నిటిని శోధించండి',
+    'search.button': 'శోధించండి',
+    'search.try': 'ప్రయత్నించండి:',
+    'search.suggestions': 'సూచనలు',
+    'search.see_all': 'వీటి కోసం అన్నింటినీ చూడండి',
+
+    // Onboarding / Get Started
+    'onboarding.title': 'మీరు ఇక్కడ ఏ పనిని చేయవాలనుకుంటున్నారు?',
+    'onboarding.student': 'నేను కौశల్యం నేర్చుకోవాలనుకుంటున్నాను',
+    'onboarding.entrepreneur': 'నేను ఒక వ్యాపారాన్ని ప్రారంభించాలనుకుంటున్నాను',
+    'onboarding.job_seeker': 'నేను ఉద్యోగం కోసం చేస్తున్నాను',
+    'onboarding.farmer': 'నేను వ్యవసాయంలో ఉన్నాను',
+    'onboarding.corporate': 'నేను ఒక జట్టును నిర్మించటానికి ఉన్నాను',
+
+    // Common buttons
+    'btn.next': 'తరువాత →',
+    'btn.back': '← వెనుకకు',
+    'btn.submit': 'సమర్పించండి',
+    'btn.close': 'మూయండి',
+    'btn.learn_more': 'మరిన్ని తెలుసుకోండి',
+    'btn.explore': 'అన్వేషించండి',
+    'btn.view': 'చూడండి',
+    'btn.get_started': 'ప్రారంభించండి',
+
+    // Language selector
+    'language.select': 'భాష',
+    'language.english': 'English',
+    'language.telugu': 'తెలుగు',
+
+    // Common UI
+    'ui.menu': 'మెను',
+    'ui.close_menu': 'మెను మూయండి',
+    'ui.open_menu': 'మెను తెరండి',
+    'ui.loading': 'లోడ్ చేస్తోంది...',
+    'ui.error': 'ఏదో విషయం సరిగా లేదు',
+    'ui.try_again': 'మళ్లీ ప్రయత్నించండి',
+    'ui.back_to_home': 'హోమ్‌కు తిరిగి వెళ్లండి',
+  },
+};
+
+/**
+ * Restore language preference on page load.
+ * Must be called early in client-side initialization.
+ */
+export function restoreLanguagePreference() {
+  if (typeof window === 'undefined') return;
+  const lang = getStoredLanguage();
+  document.documentElement.lang = lang;
+}

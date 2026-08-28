@@ -7,6 +7,8 @@ import { LogOut, User as UserIcon, Inbox, Plus, Home } from "lucide-react";
 import SocialLinks from "@/components/SocialLinks";
 import NotificationBell from "@/components/NotificationBell";
 import MobileNavMenu from "@/components/MobileNavMenu";
+import LanguageSelector from "@/components/LanguageSelector";
+import { useLanguage } from "@/lib/language";
 
 const PUBLIC_LINKS = [
   { href: "/discover", label: "Discover" },
@@ -25,6 +27,7 @@ export default function AppNavbar({ initialProfile = null }) {
   const [profile, setProfile] = useState(initialProfile);
   const [authed, setAuthed] = useState(initialProfile ? true : null);
   const [menuOpen, setMenuOpen] = useState(false);
+  const { t } = useLanguage();
 
   useEffect(() => {
     if (initialProfile) { setAuthed(true); return; }
@@ -83,11 +86,12 @@ export default function AppNavbar({ initialProfile = null }) {
               <div className="hidden lg:flex items-center gap-1">
                 {PUBLIC_LINKS.map((link) => (
                   <Link key={link.href} href={link.href} className={`btn-ghost text-xs ${isActive(link.href) ? "!bg-amber-100 !text-amber-700" : ""}`}>
-                    {link.label}
+                    {t(`nav.${link.label.toLowerCase()}`)}
                   </Link>
                 ))}
               </div>
               <SocialLinks className="hidden sm:flex !gap-2" size={16} />
+                            <LanguageSelector />
               {/* PX Phase 10: at 390px this wrapped to two lines — a pill
                   reading "Sign / in". Found in a screenshot, not by the crawl:
                   a wrapped button gets TALLER, so no height check catches it.

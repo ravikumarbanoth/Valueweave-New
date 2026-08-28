@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import FeedbackWidget from "@/components/FeedbackWidget";
 import AnnouncementBanner from "@/components/AnnouncementBanner";
 import ThemeStyle from "@/components/ThemeStyle";
+import LanguageInitializer from "@/components/LanguageInitializer";
 import { organizationJsonLd } from "@/lib/seo";
 
 const jakarta = Plus_Jakarta_Sans({
@@ -40,6 +41,7 @@ export default function RootLayout({ children }) {
     <html lang="en" className={`${jakarta.variable} ${inter.variable}`}>
       <body className="font-body antialiased">
         <ThemeStyle />
+          <LanguageInitializer />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd()) }}

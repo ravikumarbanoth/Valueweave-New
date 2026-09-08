@@ -46,11 +46,21 @@ class LanguageModuleTests(unittest.TestCase):
 
 
 class NavigationIntegrationTests(unittest.TestCase):
-    def test_desktop_navigation_has_selector(self):
-        self.assertIn("<LanguageSelector />", source(FRONTEND / "components" / "AppNavbar.jsx"))
+    def test_global_layout_has_floating_language_switcher(self):
+        layout_src = source(FRONTEND / "app" / "layout.js")
+        self.assertIn("<FloatingLanguageSwitcher />", layout_src)
 
-    def test_mobile_navigation_has_selector(self):
-        self.assertIn("<LanguageSelector />", source(FRONTEND / "components" / "MobileNavMenu.jsx"))
+    def test_navigation_menus_have_no_duplicate_selectors(self):
+        navbar_src = source(FRONTEND / "components" / "AppNavbar.jsx")
+        menu_src = source(FRONTEND / "components" / "MobileNavMenu.jsx")
+        self.assertNotIn("<LanguageSelector", navbar_src)
+        self.assertNotIn("<LanguageSelector", menu_src)
+
+    def test_floating_switcher_has_toggles_and_testids(self):
+        switcher_src = source(FRONTEND / "components" / "LanguageSelector.jsx")
+        self.assertIn('data-testid="floating-language-switcher"', switcher_src)
+        self.assertIn('data-testid="language-toggle-en"', switcher_src)
+        self.assertIn('data-testid="language-toggle-te"', switcher_src)
 
     def test_mobile_nav_menu_passes_fallback_label(self):
         menu_src = source(FRONTEND / "components" / "MobileNavMenu.jsx")

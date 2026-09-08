@@ -5,6 +5,7 @@ import FeedbackWidget from "@/components/FeedbackWidget";
 import AnnouncementBanner from "@/components/AnnouncementBanner";
 import ThemeStyle from "@/components/ThemeStyle";
 import LanguageInitializer from "@/components/LanguageInitializer";
+import FloatingLanguageSwitcher from "@/components/FloatingLanguageSwitcher";
 import { organizationJsonLd } from "@/lib/seo";
 
 const jakarta = Plus_Jakarta_Sans({
@@ -50,6 +51,7 @@ export default function RootLayout({ children }) {
         {children}
         <Footer />
         <FeedbackWidget />
+        <FloatingLanguageSwitcher />
       </body>
     </html>
   );

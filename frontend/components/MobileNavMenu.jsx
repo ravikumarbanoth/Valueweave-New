@@ -4,7 +4,6 @@ import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { createClient } from "@/lib/supabase-browser";
 import { NAVIGATION_SETTING_KEYS } from "@/lib/settings-schema";
-import LanguageSelector from "@/components/LanguageSelector";
 import { useLanguage } from "@/lib/language";
 
 const LINKS = [
@@ -54,10 +53,6 @@ export default function MobileNavMenu() {
               {t(`nav.${l.label.toLowerCase().replaceAll(" ", "-")}`, l.label)}
             </Link>
           ))}
-          <div className="border-t border-stone-100 my-2" />
-          <div className="px-3 py-2">
-            <LanguageSelector />
-          </div>
           <div className="border-t border-stone-100 my-2" />
           <Link href="/signin" onClick={() => setOpen(false)} className="btn-secondary w-full justify-center text-sm">{t('nav.signin', 'Sign in')}</Link>
           <Link href="/get-started" onClick={() => setOpen(false)} className="btn-primary w-full justify-center text-sm mt-1">{t('nav.join', 'Join ValueWeave →')}</Link>

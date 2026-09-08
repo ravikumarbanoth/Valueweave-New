@@ -1,24 +1,8 @@
-import Link from "next/link";
-import { createClient } from "@/lib/supabase-server";
-import { MapPin, Briefcase, ArrowRight } from "lucide-react";
+"use client";
 
-async function fetchOpportunities() {
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
-    return [];
-  }
-  try {
-    const sb = createClient();
-    const { data } = await sb
-      .from("opportunities")
-      .select("id, title, category, district, state, investment_range, status")
-      .eq("status", "open")
-      .order("created_at", { ascending: false })
-      .limit(9);
-    return data || [];
-  } catch {
-    return [];
-  }
-}
+import Link from "next/link";
+import { MapPin, Briefcase, ArrowRight } from "lucide-react";
+import { useLanguage } from "@/lib/language";
 
 const SECTOR_COLORS = {
   Healthcare: "bg-rose-50 text-rose-700 border-rose-200",
@@ -38,13 +22,6 @@ function sectorColor(cat) {
 
 function OpportunityCard({ opp }) {
   return (
-    // `/explore/<id>` was never a route. `app/explore/` has only `page.js`, so
-    // every card on the landing page led to a 404 — the first thing a visitor
-    // clicked was the first thing that broke. The detail page has always lived
-    // at `/opportunities/<id>`.
-    //
-    // next.config.js keeps `/explore/<id>` redirecting here permanently, because
-    // this link has been wrong long enough to have been shared.
     <Link
       href={`/opportunities/${opp.id}`}
       className="card-base p-5 flex flex-col gap-3 hover:-translate-y-1 hover:shadow-lg transition-all group min-h-[44px]"
@@ -69,7 +46,7 @@ function OpportunityCard({ opp }) {
         )}
         {opp.investment_range && (
           <span className="inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-full border bg-amber-50 text-amber-700 border-amber-200">
-            ₹ {opp.investment_range}
+            ? {opp.investment_range}
           </span>
         )}
       </div>
@@ -77,9 +54,36 @@ function OpportunityCard({ opp }) {
   );
 }
 
-import HomeFeaturedOpportunitiesClient from "@/components/HomeFeaturedOpportunitiesClient";
+export default function HomeFeaturedOpportunitiesClient({ opportunities }) {
+  const { t } = useLanguage();
 
-export default async function HomeFeaturedOpportunities() {
-  const opportunities = await fetchOpportunities();
-  return <HomeFeaturedOpportunitiesClient opportunities={opportunities} />;
+  if (!opportunities || opportunities.length === 0) return null;
+
+  return (
+    <section className="py-20 sm:py-24 px-4 sm:px-6">
+      <div className="max-w-5xl mx-auto">
+        <div className="text-center mb-12">
+          <span className="chip bg-amber-100 text-amber-700 mb-4">{t("opps.chip", "LIVE NOW")}</span>
+          <h2 className="font-display font-extrabold text-3xl sm:text-4xl md:text-5xl tracking-tight leading-tight text-ink">
+            {t("opps.title", "Featured Opportunities")}
+          </h2>
+          <p className="mt-4 text-muted max-w-lg mx-auto text-base sm:text-lg">
+            {t("opps.subtitle", "Real business opportunities from across Telangana and Andhra Pradesh.")}
+          </p>
+        </div>
+
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {opportunities.map((opp) => (
+            <OpportunityCard key={opp.id} opp={opp} />
+          ))}
+        </div>
+
+        <div className="text-center mt-10">
+          <Link href="/explore" className="btn-primary">
+            {t("opps.view_all", "View All Opportunities ?")}
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
 }

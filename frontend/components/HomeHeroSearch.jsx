@@ -89,7 +89,7 @@ export default function HomeHeroSearch({ heading, subheading }) {
       <div className="inline-flex items-center gap-2 bg-amber-200 rounded-full px-4 py-1.5 mb-6">
         <span className="w-2 h-2 rounded-full bg-amber-500 ring-4 ring-amber-500/20" />
         <span className="text-xs font-display font-semibold text-amber-700">
-          Now Open · Bharat Edition
+          {t("home.bharat_edition", "Now Open · Bharat Edition")}
         </span>
       </div>
 
@@ -136,16 +136,16 @@ export default function HomeHeroSearch({ heading, subheading }) {
       {audience && !choosing ? (
         <div className="mt-10" data-testid="home-welcome-back">
           <p className="font-display font-bold text-base text-ink mb-1">
-            Welcome back 👋
+            {t("home.welcome_back", "Welcome back")} 👋
           </p>
           {/* Transparency in the same breath as the greeting. A reader should
               never have to wonder why one row is above another, and "we nudge
               these up" is the whole truth about what the memory does — it
               cannot hide anything, and saying so is cheaper than being asked. */}
           <p className="text-sm text-muted mb-4">
-            You were here as a{" "}
-            <span className="font-semibold text-ink">{audience.label.toLowerCase()}</span>,
-            so we nudge {audience.label.toLowerCase()} results up. Nothing is hidden.
+            {t("home.welcome_context_prefix", "You were here as a")}{" "}
+            <span className="font-semibold text-ink">{t(`audience.${audience.slug}`, audience.label).toLowerCase()}</span>,
+            {" "}{t("home.welcome_context_suffix", "so we nudge matching results up. Nothing is hidden.")}
           </p>
           <Link
             href={`/start/${audience.slug}`}
@@ -155,7 +155,7 @@ export default function HomeHeroSearch({ heading, subheading }) {
                        hover:bg-teal-600 transition-colors min-h-[44px]"
           >
             <span aria-hidden="true">{audience.emoji}</span>
-            Pick up where you left off →
+            {t("home.pickup_left", "Pick up where you left off →")}
           </Link>
           {/* Two separate controls, because they are two different intentions.
               "Change" is for somebody who is now a business owner; "Forget" is
@@ -168,7 +168,7 @@ export default function HomeHeroSearch({ heading, subheading }) {
               onClick={() => setChoosing(true)}
               className="text-xs font-semibold text-teal-700 underline hover:text-ink"
             >
-              Change
+              {t("home.change", "Change")}
             </button>
             <button
               type="button"
@@ -176,7 +176,7 @@ export default function HomeHeroSearch({ heading, subheading }) {
               onClick={() => { forget(); setKnown(null); setChoosing(false); }}
               className="text-xs text-stone-400 underline hover:text-ink"
             >
-              Forget me
+              {t("home.forget_me", "Forget me")}
             </button>
           </div>
         </div>
@@ -197,7 +197,7 @@ export default function HomeHeroSearch({ heading, subheading }) {
                            hover:border-teal-500 hover:bg-teal-50 transition-colors min-h-[44px]"
               >
                 <span aria-hidden="true">{option.emoji}</span>
-                {option.label}
+                {t(`audience.${option.slug}`, option.label)}
               </Link>
             ))}
           </div>
@@ -225,7 +225,7 @@ export default function HomeHeroSearch({ heading, subheading }) {
                          hover:border-amber-400 hover:bg-amber-50 transition-colors min-h-[44px]"
             >
               <span aria-hidden="true">{goal.emoji}</span>
-              {goal.label}
+              {t(`goal.${goal.label.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '')}`, goal.label)}
             </Link>
           ))}
         </div>

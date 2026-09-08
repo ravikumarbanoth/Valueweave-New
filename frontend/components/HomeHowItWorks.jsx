@@ -1,66 +1,71 @@
-import Link from "next/link";
+"use client";
 
-const STEPS = [
-  {
-    emoji: "🧠",
-    label: "Discover Yourself",
-    desc: "Find your founder archetype and strengths",
-    href: "/discover",
-    color: "bg-violet-50 border-violet-200",
-    iconBg: "bg-violet-100 text-violet-700",
-  },
-  {
-    emoji: "💡",
-    label: "Get Personalized Ideas",
-    desc: "Business ideas matched to your district and budget",
-    href: "/ideas",
-    color: "bg-amber-50 border-amber-200",
-    iconBg: "bg-amber-100 text-amber-700",
-  },
-  {
-    emoji: "📍",
-    label: "Explore District Opportunities",
-    desc: "Real opportunities in your own district",
-    href: "/district",
-    color: "bg-emerald-50 border-emerald-200",
-    iconBg: "bg-emerald-100 text-emerald-700",
-  },
-  {
-    emoji: "🤝",
-    label: "Find Collaborators",
-    desc: "Connect with co-founders and partners",
-    href: "/collaborators",
-    color: "bg-teal-50 border-teal-200",
-    iconBg: "bg-teal-100 text-teal-700",
-  },
-  {
-    emoji: "🚀",
-    label: "Build Your Venture",
-    desc: "Launch your project from your hometown",
-    href: "/explore",
-    color: "bg-rose-50 border-rose-200",
-    iconBg: "bg-rose-100 text-rose-700",
-  },
-];
+import Link from "next/link";
+import { useLanguage } from "@/lib/language";
 
 export default function HomeHowItWorks() {
+  const { t } = useLanguage();
+
+  const STEPS = [
+    {
+      emoji: "🧠",
+      label: t("step.step1_title", "Discover Yourself"),
+      desc: t("step.step1_desc", "Find your founder archetype and strengths"),
+      href: "/discover",
+      color: "bg-violet-50 border-violet-200",
+      iconBg: "bg-violet-100 text-violet-700",
+    },
+    {
+      emoji: "💡",
+      label: t("step.step2_title", "Get Personalized Ideas"),
+      desc: t("step.step2_desc", "Business ideas matched to your district and budget"),
+      href: "/ideas",
+      color: "bg-amber-50 border-amber-200",
+      iconBg: "bg-amber-100 text-amber-700",
+    },
+    {
+      emoji: "📍",
+      label: t("step.step3_title", "Explore District Opportunities"),
+      desc: t("step.step3_desc", "Real opportunities in your own district"),
+      href: "/district",
+      color: "bg-emerald-50 border-emerald-200",
+      iconBg: "bg-emerald-100 text-emerald-700",
+    },
+    {
+      emoji: "🤝",
+      label: t("step.step4_title", "Find Collaborators"),
+      desc: t("step.step4_desc", "Connect with co-founders and partners"),
+      href: "/collaborators",
+      color: "bg-teal-50 border-teal-200",
+      iconBg: "bg-teal-100 text-teal-700",
+    },
+    {
+      emoji: "🚀",
+      label: t("step.step5_title", "Build Your Venture"),
+      desc: t("step.step5_desc", "Launch your project from your hometown"),
+      href: "/explore",
+      color: "bg-rose-50 border-rose-200",
+      iconBg: "bg-rose-100 text-rose-700",
+    },
+  ];
+
   return (
     <section className="py-20 sm:py-24 px-4 sm:px-6">
       <div className="max-w-5xl mx-auto">
         <div className="text-center mb-14">
-          <span className="chip bg-amber-100 text-amber-700 mb-4">FIVE STEPS</span>
+          <span className="chip bg-amber-100 text-amber-700 mb-4">{t("how_it_works.chip", "FIVE STEPS")}</span>
           <h2 className="font-display font-extrabold text-3xl sm:text-4xl md:text-5xl tracking-tight leading-tight text-ink">
-            How this works
+            {t("how_it_works.title", "How this works")}
           </h2>
           <p className="mt-4 text-muted max-w-lg mx-auto text-base sm:text-lg">
-            Five steps from self-discovery to launching your venture.
+            {t("how_it_works.subtitle", "Five steps from self-discovery to launching your venture.")}
           </p>
         </div>
 
         {/* Desktop: horizontal flow */}
         <div className="hidden md:flex items-start gap-0">
           {STEPS.map((step, i) => (
-            <div key={step.label} className="flex items-start flex-1 min-w-0">
+            <div key={i} className="flex items-start flex-1 min-w-0">
               <Link
                 href={step.href}
                 className={`flex-1 min-w-0 border-2 rounded-2xl p-5 flex flex-col items-center text-center gap-3 hover:-translate-y-1 hover:shadow-md transition-all ${step.color}`}
@@ -87,7 +92,7 @@ export default function HomeHowItWorks() {
         {/* Mobile: vertical flow */}
         <div className="md:hidden flex flex-col items-center gap-0">
           {STEPS.map((step, i) => (
-            <div key={step.label} className="flex flex-col items-center w-full max-w-xs">
+            <div key={i} className="flex flex-col items-center w-full max-w-xs">
               <Link
                 href={step.href}
                 className={`w-full border-2 rounded-2xl p-5 flex items-center gap-4 hover:shadow-md transition-all ${step.color}`}

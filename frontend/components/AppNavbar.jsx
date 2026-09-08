@@ -56,7 +56,7 @@ export default function AppNavbar({ initialProfile = null }) {
         isActive(href) ? "bg-amber-100 text-amber-700" : "text-muted hover:text-ink hover:bg-stone-100"
       }`}
     >
-      <Icon size={15} /> {label}
+      <Icon size={15} /> {t(`nav.${label.toLowerCase()}`, label)}
     </Link>
   );
 
@@ -94,8 +94,8 @@ export default function AppNavbar({ initialProfile = null }) {
                   reading "Sign / in". Found in a screenshot, not by the crawl:
                   a wrapped button gets TALLER, so no height check catches it.
                   Nothing else changes; the words simply stay on one line. */}
-              <Link href="/signin" data-testid="nav-public-signin" className="btn-secondary !py-2 !px-4 text-sm whitespace-nowrap">Sign in</Link>
-              <Link href="/get-started" data-testid="nav-public-join" className="btn-primary !py-2 !px-4 text-sm">Join</Link>
+              <Link href="/signin" data-testid="nav-public-signin" className="btn-secondary !py-2 !px-4 text-sm whitespace-nowrap">{t("nav.signin", "Sign in")}</Link>
+              <Link href="/get-started" data-testid="nav-public-join" className="btn-primary !py-2 !px-4 text-sm">{t("nav.join_short", "Join")}</Link>
               <MobileNavMenu />
             </div>
           )}
@@ -126,16 +126,16 @@ export default function AppNavbar({ initialProfile = null }) {
                 <>
                   <div className="fixed inset-0 z-40" onClick={() => setMenuOpen(false)} />
                   <div className="absolute right-0 top-12 bg-white border border-stone-200 rounded-xl shadow-xl py-1.5 w-52 z-50">
-                    <Link href="/" data-testid="menu-home" className="block px-4 py-2.5 text-sm hover:bg-stone-50">Home</Link>
-                    <Link href="/profile" data-testid="menu-profile" className="block px-4 py-2.5 text-sm hover:bg-stone-50">My Profile</Link>
-                    <Link href="/connections" data-testid="menu-connections" className="block px-4 py-2.5 text-sm hover:bg-stone-50">Connections</Link>
+                    <Link href="/" data-testid="menu-home" className="block px-4 py-2.5 text-sm hover:bg-stone-50">{t("nav.home", "Home")}</Link>
+                    <Link href="/profile" data-testid="menu-profile" className="block px-4 py-2.5 text-sm hover:bg-stone-50">{t("nav.my_profile", "My Profile")}</Link>
+                    <Link href="/connections" data-testid="menu-connections" className="block px-4 py-2.5 text-sm hover:bg-stone-50">{t("nav.connections", "Connections")}</Link>
                     <div className="border-t border-stone-100 my-1" />
                     <button data-testid="menu-logout" onClick={logout} className="w-full text-left px-4 py-2.5 text-sm text-amber-700 hover:bg-amber-50 flex items-center gap-2">
-                      <LogOut size={14} /> Sign out
+                      <LogOut size={14} /> {t("nav.signout", "Sign out")}
                     </button>
                     <div className="border-t border-stone-100 my-1" />
                     <div className="px-2 py-1.5">
-                      <p className="px-2 text-[10px] uppercase tracking-wider text-stone-400 font-display font-bold mb-1">Follow ValueWeave</p>
+                      <p className="px-2 text-[10px] uppercase tracking-wider text-stone-400 font-display font-bold mb-1">{t("footer.follow_title", "Follow ValueWeave")}</p>
                       <SocialLinks variant="inline" size={16} />
                     </div>
                   </div>

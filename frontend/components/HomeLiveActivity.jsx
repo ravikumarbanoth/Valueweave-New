@@ -69,39 +69,9 @@ const PULSE_COLORS = [
   "bg-rose-400",
 ];
 
+import HomeLiveActivityClient from "@/components/HomeLiveActivityClient";
+
 export default async function HomeLiveActivity() {
   const items = await fetchActivity();
-
-  if (items.length === 0) return null;
-
-  return (
-    <section className="py-16 sm:py-20 px-4 sm:px-6 bg-warm">
-      <div className="max-w-2xl mx-auto">
-        <div className="text-center mb-10">
-          <span className="chip bg-emerald-100 text-emerald-700 mb-4 inline-flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-            LIVE ACTIVITY
-          </span>
-          <h2 className="font-display font-extrabold text-3xl sm:text-4xl tracking-tight text-ink mb-3">
-            What&apos;s Happening Now
-          </h2>
-          <p className="text-muted text-sm">
-            Anonymous activity from ValueWeave builders across India.
-          </p>
-        </div>
-
-        <div className="card-base divide-y divide-stone-100 overflow-hidden">
-          {items.map((item, i) => (
-            <div key={i} className="flex items-center gap-3 px-5 py-3.5">
-              <div className={`w-2 h-2 rounded-full shrink-0 ${PULSE_COLORS[i % PULSE_COLORS.length]}`} />
-              <p className="text-sm text-ink flex-1">{item.text}</p>
-              <span className="text-[11px] text-stone-400 shrink-0 font-semibold">
-                {timeAgo(item.created_at)}
-              </span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
+  return <HomeLiveActivityClient items={items} />;
 }

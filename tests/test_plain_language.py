@@ -61,6 +61,10 @@ ENTRY_SURFACES = [
     COMPONENTS / "HomeLiveActivity.jsx",
     COMPONENTS / "HomepageStats.jsx",
     COMPONENTS / "HomeFeaturedOpportunities.jsx",
+    COMPONENTS / "HomeWhySection.jsx",
+    COMPONENTS / "HomeDiscoverSection.jsx",
+    COMPONENTS / "HomeSectorsSection.jsx",
+    COMPONENTS / "HomeFinalCta.jsx",
 ]
 
 
@@ -84,7 +88,11 @@ def headings(path):
     out = []
     for tag, text in re.findall(r"<(h[123])\b[^>]*>\s*([^<>{}][^<>]*?)\s*</\1>", src, re.S):
         out.append(" ".join(text.split()))
+    for tag, text in re.findall(r'''<(h[123])\b[^>]*>\s*\{\s*t\([^,]+,\s*['"]([^'"]+)['"]\s*\)\s*\}\s*</\1>''', src, re.S):
+        out.append(" ".join(text.split()))
     for text in re.findall(r'className="chip[^"]*">\s*([A-Za-z][^<>{}]{2,60}?)\s*<', src):
+        out.append(" ".join(text.split()))
+    for text in re.findall(r'''className="chip[^"]*">\s*\{\s*t\([^,]+,\s*['"]([^'"]+)['"]\s*\)\s*\}\s*<''', src):
         out.append(" ".join(text.split()))
     out.extend(re.findall(r'^\s*title: "([^"]+)"', src, re.M))
     return [h for h in out if h]

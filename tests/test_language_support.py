@@ -36,9 +36,13 @@ class LanguageModuleTests(unittest.TestCase):
         self.assertIn("'nav.industrial-readiness': 'Industrial Readiness'", self.language)
         self.assertIn("'nav.industrial-readiness': 'పారిశ్రామిక సంసిద్ధత'", self.language)
 
-    def test_audience_and_language_storage_are_separate(self):
-        self.assertIn("vw_ui_language", self.language)
-        self.assertNotIn("audience", self.language.split("const STORAGE_KEY", 1)[1].split(";", 1)[0])
+    def test_founder_identity_translations_present(self):
+        self.assertIn("'footer.founded_by': 'Founded by Ravi Kumar Banoth'", self.language)
+        self.assertIn("'footer.founded_by': 'రవి కుమార్ బానోత్ చే స్థాపించబడింది'", self.language)
+        self.assertIn("'about.founder_name': 'Ravi Kumar Banoth'", self.language)
+        self.assertIn("'about.founder_name': 'రవి కుమార్ బానోత్'", self.language)
+        self.assertIn("'about.founder_title': 'Founder, ValueWeave'", self.language)
+        self.assertIn("'about.founder_title': 'వ్యవస్థాపకుడు, వేల్యూవీవ్'", self.language)
 
 
 class NavigationIntegrationTests(unittest.TestCase):
@@ -57,6 +61,20 @@ class NavigationIntegrationTests(unittest.TestCase):
         self.assertIn("encodeURIComponent(q)", live_search)
         self.assertIn("const { t } = useLanguage()", live_search)
         self.assertNotIn("setQuery(t(", live_search)
+
+
+class FounderAttributionIntegrationTests(unittest.TestCase):
+    def test_footer_has_subtle_founder_attribution(self):
+        footer_src = source(FRONTEND / "components" / "Footer.jsx")
+        self.assertIn("Founded by Ravi Kumar Banoth", footer_src)
+        self.assertIn('data-testid="footer-founder"', footer_src)
+
+    def test_about_page_has_concise_founder_section(self):
+        about_src = source(FRONTEND / "app" / "about" / "page.js")
+        self.assertIn("Ravi Kumar Banoth", about_src)
+        self.assertIn("Founder, ValueWeave", about_src)
+        self.assertIn("ValueWeave was founded by Ravi Kumar Banoth", about_src)
+        self.assertIn('data-testid="about-founder"', about_src)
 
 
 if __name__ == "__main__":

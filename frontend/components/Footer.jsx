@@ -37,6 +37,7 @@ export default async function Footer() {
               <span className="font-display font-extrabold text-lg tracking-tight">Value<span className="text-amber-500">Weave</span></span>
             </Link>
             <p className="text-sm text-muted leading-relaxed">{footerText}</p>
+            <p className="text-xs text-stone-500 mt-2 font-medium" data-testid="footer-founder">Founded by Ravi Kumar Banoth</p>
           </div>
 
           <div className="grid sm:grid-cols-2 gap-8 md:gap-12">

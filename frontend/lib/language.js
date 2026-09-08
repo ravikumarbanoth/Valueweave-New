@@ -217,6 +217,15 @@ export const TRANSLATION_DICTIONARY = {
     'ui.error': 'Something went wrong',
     'ui.try_again': 'Try again',
     'ui.back_to_home': 'Back to home',
+
+    // Founder / Attribution
+    'founder.title': 'Founder, ValueWeave',
+    'founder.founder': 'Founder',
+    'founder.founded_by': 'Founded by Ravi Kumar Banoth',
+    'footer.founded_by': 'Founded by Ravi Kumar Banoth',
+    'about.founder_name': 'Ravi Kumar Banoth',
+    'about.founder_title': 'Founder, ValueWeave',
+    'about.founder_bio': 'ValueWeave was founded by Ravi Kumar Banoth with a vision to make information about careers, skills, businesses, government schemes, industries and local opportunities easier to discover and act upon.',
   },
   te: {
     // Navigation
@@ -316,6 +325,15 @@ export const TRANSLATION_DICTIONARY = {
     'ui.error': 'ఏదో విషయం సరిగా లేదు',
     'ui.try_again': 'మళ్లీ ప్రయత్నించండి',
     'ui.back_to_home': 'హోమ్‌కు తిరిగి వెళ్లండి',
+
+    // Founder / Attribution
+    'founder.title': 'వ్యవస్థాపకుడు, వేల్యూవీవ్',
+    'founder.founder': 'వ్యవస్థాపకుడు',
+    'founder.founded_by': 'రవి కుమార్ బానోత్ చే స్థాపించబడింది',
+    'footer.founded_by': 'రవి కుమార్ బానోత్ చే స్థాపించబడింది',
+    'about.founder_name': 'రవి కుమార్ బానోత్',
+    'about.founder_title': 'వ్యవస్థాపకుడు, వేల్యూవీవ్',
+    'about.founder_bio': 'కెరీర్లు, నైపుణ్యాలు, వ్యాపారాలు, ప్రభుత్వ పథకాలు, పరిశ్రమలు మరియు స్థానిక అవకాశాల గురించిన సమాచారాన్ని సులభంగా కనుగొనడానికి మరియు ఉపయోగించుకోవడానికి రవి కుమార్ బానోత్ ద్వారా వేల్యూవీవ్ స్థాపించబడింది.',
   },
 };
 

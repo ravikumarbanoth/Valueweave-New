@@ -15,6 +15,18 @@ export default function AboutPage() {
         We are not a job portal. Not a freelance marketplace. Not a social network.
         ValueWeave is a productive collaboration ecosystem where people find each other and build things that matter — in their own towns and on their own terms.
       </p>
+
+      <div className="mt-10 pt-8 border-t border-stone-200" data-testid="about-founder">
+        <h2 className="font-display font-bold text-xl sm:text-2xl text-ink mb-1">
+          Ravi Kumar Banoth
+        </h2>
+        <p className="text-sm font-display font-semibold text-amber-600 mb-4">
+          Founder, ValueWeave
+        </p>
+        <p className="text-base text-ink leading-relaxed">
+          ValueWeave was founded by Ravi Kumar Banoth with a vision to make information about careers, skills, businesses, government schemes, industries and local opportunities easier to discover and act upon.
+        </p>
+      </div>
     </LegalShell>
   );
 }

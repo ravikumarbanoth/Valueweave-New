@@ -4,11 +4,11 @@ import { getPlatformSettings, setting } from "@/lib/settings";
 
 const FALLBACK_LINKS = [
   { href: "/about", label: "About" },
-  { href: "/ideas", label: "Idea Library" },
-  { href: "/research", label: "Research" },
-  { href: "/district", label: "Districts" },
-  { href: "/opportunity-radar", label: "Opportunity Radar" },
-  { href: "/collaborators", label: "Collaborators" },
+  { href: "/readiness", label: "Industrial Readiness" },
+  { href: "/manufacturing", label: "Manufacturing" },
+  { href: "/scale", label: "Scale" },
+  { href: "/network", label: "Network" },
+  { href: "/ai", label: "AI" },
   { href: "/privacy", label: "Privacy" },
   { href: "/terms", label: "Terms" },
 ];

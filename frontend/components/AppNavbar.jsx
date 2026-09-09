@@ -11,12 +11,11 @@ import { useLanguage } from "@/lib/language";
 
 const PUBLIC_LINKS = [
   { href: "/discover", label: "Discover" },
+  { href: "/ideas", label: "Idea Library" },
+  { href: "/research", label: "Research" },
   { href: "/districts", label: "Districts" },
-  { href: "/readiness", label: "Readiness" },
-  { href: "/manufacturing", label: "Manufacturing" },
-  { href: "/scale", label: "Scale" },
-  { href: "/network", label: "Network" },
-  { href: "/ai", label: "AI" },
+  { href: "/opportunity-radar", label: "Opportunity Radar" },
+  { href: "/collaborators", label: "Collaborators" },
 ];
 
 export default function AppNavbar({ initialProfile = null }) {

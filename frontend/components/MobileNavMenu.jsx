@@ -9,12 +9,11 @@ import { useLanguage } from "@/lib/language";
 const LINKS = [
   { href: "/", label: "Home" },
   { href: "/discover", label: "Discover", key: NAVIGATION_SETTING_KEYS.discover },
+  { href: "/ideas", label: "Idea Library" },
+  { href: "/research", label: "Research", key: NAVIGATION_SETTING_KEYS.research },
   { href: "/districts", label: "Districts", key: NAVIGATION_SETTING_KEYS.districts },
-  { href: "/readiness", label: "Industrial Readiness" },
-  { href: "/manufacturing", label: "Manufacturing" },
-  { href: "/scale", label: "Scale" },
-  { href: "/network", label: "Network", key: NAVIGATION_SETTING_KEYS.collaborators },
-  { href: "/ai", label: "AI" },
+  { href: "/opportunity-radar", label: "Opportunity Radar", key: NAVIGATION_SETTING_KEYS.radar },
+  { href: "/collaborators", label: "Collaborators", key: NAVIGATION_SETTING_KEYS.collaborators },
 ];
 
 export default function MobileNavMenu() {

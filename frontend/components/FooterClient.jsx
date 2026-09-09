@@ -9,15 +9,20 @@ export default function FooterClient({ footerText, contactEmail, footerLinks }) 
 
   const getLinkLabel = (link) => {
     const keyMap = {
-      "/about": "footer.about",
-      "/ideas": "footer.idea_library",
-      "/research": "footer.research",
-      "/district": "footer.districts",
-      "/districts": "footer.districts",
-      "/opportunity-radar": "footer.opp_radar",
-      "/collaborators": "footer.collaborators",
-      "/privacy": "footer.privacy",
-      "/terms": "footer.terms",
+      "/about": "nav.about",
+      "/readiness": "nav.industrial-readiness",
+      "/manufacturing": "nav.manufacturing",
+      "/scale": "nav.scale",
+      "/network": "nav.network",
+      "/ai": "nav.ai",
+      "/privacy": "nav.privacy",
+      "/terms": "nav.terms",
+      "/ideas": "nav.ideas",
+      "/research": "nav.research",
+      "/district": "nav.districts",
+      "/districts": "nav.districts",
+      "/opportunity-radar": "nav.opportunity-radar",
+      "/collaborators": "nav.collaborators",
     };
     const key = keyMap[link.href];
     return key ? t(key, link.label) : link.label;

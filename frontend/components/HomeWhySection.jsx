@@ -17,17 +17,17 @@ export default function HomeWhySection() {
 
   const GAP_CARDS = [
     {
-      icon: "??",
+      icon: "🔍",
       title: t("home.gap_1_title", "Talent without visibility"),
       desc: t("home.gap_1_desc", "An electrician in Warangal, a coder in Vizag, a baker in Guntur. Good at the work, unknown to the people who would hire or partner with them."),
     },
     {
-      icon: "??",
+      icon: "👥",
       title: t("home.gap_2_title", "Ideas without teams"),
       desc: t("home.gap_2_desc", "You can have a good idea and still not know a single person nearby who can help you build it."),
     },
     {
-      icon: "??",
+      icon: "🛡️",
       title: t("home.gap_3_title", "Trust without proof"),
       desc: t("home.gap_3_desc", "Job sites reward job titles. Freelance sites reward the lowest bid. Neither shows you what someone can actually do."),
     },

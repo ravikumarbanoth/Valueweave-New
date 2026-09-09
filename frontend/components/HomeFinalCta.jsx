@@ -25,7 +25,7 @@ export default function HomeFinalCta() {
         </p>
         <div className="flex items-center justify-center gap-3 flex-wrap">
           <Link href="/get-started" data-testid="footer-cta-join" className="btn-primary !px-7 !py-3.5 text-base">
-            {t("home.join_sparkle", "Join ValueWeave ?")}
+            {t("home.join_sparkle", "Join ValueWeave ✨")}
           </Link>
           <Link href="/signin" data-testid="footer-cta-signin" className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/15 border border-white/20 text-white rounded-full px-7 py-3.5 font-display font-semibold text-base transition-colors min-h-[44px]">
             {t("nav.signin", "Sign in")}

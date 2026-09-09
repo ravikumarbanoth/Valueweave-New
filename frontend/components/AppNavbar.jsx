@@ -156,7 +156,7 @@ export default function AppNavbar({ initialProfile = null }) {
           ].map(({ href, label, icon: Icon, testid }) => (
             <Link key={href} href={href} data-testid={testid} className={`flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-lg ${isActive(href) ? "text-amber-600" : "text-muted"}`}>
               <Icon size={20} />
-              <span className="text-[10px] font-semibold font-display">{label}</span>
+              <span className="text-[10px] font-semibold font-display">{label === "Me" ? t("nav.me", "Me") : t(`nav.${label.toLowerCase()}`, label)}</span>
             </Link>
           ))}
         </div>

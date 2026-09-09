@@ -23,13 +23,13 @@ export default function HomeHeroValueProps({ primaryCta, secondaryCta, tertiaryC
 
       <div className="flex flex-wrap justify-center gap-3 mt-6" data-testid="hero-secondary-ctas">
         <Link href="/discover" data-testid="hero-cta-discover" className="btn-secondary text-sm">
-          ?? {t("home.cta_discover", primaryCta || "Discover Yourself")}
+          ⚡ {t("home.cta_discover", primaryCta || "Discover Yourself")}
         </Link>
         <Link href="/ideas" data-testid="hero-cta-ideas" className="btn-secondary text-sm">
-          ?? {t("home.cta_ideas", secondaryCta || "Explore Ideas")}
+          💡 {t("home.cta_ideas", secondaryCta || "Explore Ideas")}
         </Link>
         <Link href="/network" data-testid="hero-cta-collabs" className="btn-secondary text-sm">
-          ?? {t("home.cta_network", tertiaryCta || "Find Collaborators")}
+          👥 {t("home.cta_network", tertiaryCta || "Find Collaborators")}
         </Link>
       </div>
     </>

@@ -114,6 +114,26 @@ class LanguageModuleTests(unittest.TestCase):
         ]:
             self.assertIn(f"'{key}':", self.language)
 
+    def test_expanded_public_page_keys_present_in_both_languages(self):
+        for key in [
+            'explore.title',
+            'explore.search_placeholder',
+            'ideas.title',
+            'ideas.badge',
+            'collab.title',
+            'collab.badge',
+            'signin.welcome_back',
+            'getstarted.chip',
+            'onboarding.step_chip',
+            'audience_start.start_with',
+            'audience_start.not_quite_you',
+            'search.could_not_find',
+            'search.understood_as',
+            'districts.intel_badge',
+            'districts.hero_title',
+        ]:
+            self.assertIn(f"'{key}':", self.language)
+
 
 class HomepageComponentLocalizationTests(unittest.TestCase):
     def test_client_components_wire_use_language(self):
@@ -131,11 +151,40 @@ class HomepageComponentLocalizationTests(unittest.TestCase):
             "HomeNavClient.jsx",
             "HomeHeroValueProps.jsx",
             "AppNavbar.jsx",
+            "FooterClient.jsx",
+            "AudienceStartClient.jsx",
+            "CollaboratorsClient.jsx",
+            "LegalShell.jsx",
+            "DistrictIndexClient.jsx",
+            "DistrictsPageClient.jsx",
+            "search/GroupedResults.jsx",
+            "search/NoResultsGuide.jsx",
         ]
         for comp in components:
             src = source(FRONTEND / "components" / comp)
             self.assertIn("useLanguage", src, f"{comp} must import or use useLanguage")
             self.assertIn("use client", src, f"{comp} must be a client component for dynamic translation")
+
+    def test_public_pages_wire_use_language(self):
+        pages = [
+            "explore/page.js",
+            "ideas/page.js",
+            "get-started/page.js",
+            "signin/page.js",
+            "onboarding/page.js",
+        ]
+        for p in pages:
+            src = source(FRONTEND / "app" / p)
+            self.assertIn("useLanguage", src, f"{p} must import or use useLanguage")
+
+    def test_no_corrupted_double_question_marks_in_components(self):
+        # Verify that emojis previously corrupted into "??" are intact and no JSX contains "??"
+        import re
+        for comp_file in (FRONTEND / "components").glob("*.jsx"):
+            text = source(comp_file)
+            # Find corrupted text like ">??", '"??', "'??", or "?? " inside JSX text
+            corrupted = re.findall(r'>\s*\?\?|[\"\']\?\?[a-zA-Z0-9\s]', text)
+            self.assertEqual(corrupted, [], f"{comp_file.name} contains corrupted ?? markers: {corrupted}")
 
     def test_landing_page_preserves_seo_and_test_contract(self):
         page_src = source(FRONTEND / "app" / "page.js")

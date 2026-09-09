@@ -7,6 +7,7 @@ import {
 } from "@/lib/idea-library";
 import AppNavbar from "@/components/AppNavbar";
 import { Search, MapPin, Sparkles, SlidersHorizontal, X } from "lucide-react";
+import { useLanguage } from "@/lib/language";
 
 const BUCKET_COLOR = {
   "local-physical": "bg-amber-100 text-amber-800",
@@ -24,6 +25,7 @@ const SORTS = [
 ];
 
 export default function IdeasPage() {
+  const { t } = useLanguage();
   const [search, setSearch] = useState("");
   const [sector, setSector] = useState("");
   const [bucket, setBucket] = useState("");
@@ -66,7 +68,6 @@ export default function IdeasPage() {
     return by[sort] ? [...out].sort(by[sort]) : out;
   }, [search, sector, bucket, district, invest, tag, beginnerOnly, sort]);
 
-  // Count ideas per investment range so empty ranges can be disabled.
   const investCounts = useMemo(() => {
     const c = {};
     for (const i of IDEAS) {
@@ -90,16 +91,15 @@ export default function IdeasPage() {
       <AppNavbar />
       <main className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
         <header className="mb-6">
-          <span className="chip bg-amber-100 text-amber-700 mb-3">IDEA LIBRARY · BETA</span>
+          <span className="chip bg-amber-100 text-amber-700 mb-3">{t("ideas.badge", "IDEA LIBRARY · BETA")}</span>
           <h1 data-testid="ideas-title" className="font-display font-extrabold text-3xl sm:text-4xl tracking-tight mb-2">
-            Start something <span className="text-amber-500">real.</span>
+            {t("ideas.title", "Start something real.")}
           </h1>
           <p className="text-muted text-base max-w-2xl">
-            A growing library of practical, Bharat-grounded business ideas. Pick one that fits your district, skills, and budget — then post it as an opportunity and find collaborators.
+            {t("ideas.subtitle", "A growing library of practical, Bharat-grounded business ideas. Pick one that fits your district, skills, and budget — then post it as an opportunity and find collaborators.")}
           </p>
         </header>
 
-        {/* Filter panel — sticky under the navbar so it stays reachable while scrolling */}
         <div className="card-base p-3 sm:p-4 mb-5 sticky top-16 z-30 bg-cream/95 backdrop-blur-md">
           <div className="relative mb-3">
             <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400" />
@@ -107,14 +107,13 @@ export default function IdeasPage() {
               data-testid="ideas-search"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search ideas by title, skill, or tag…"
+              placeholder={t("ideas.search_placeholder", "Search ideas by title, skill, or tag…")}
               className="input-field !pl-10"
             />
           </div>
 
-          {/* Execution type (bucket) */}
           <div className="flex gap-2 overflow-x-auto pb-1 mb-2">
-            <FilterChip active={bucket === ""} onClick={() => setBucket("")} testid="ideas-bucket-all">🌐 All types</FilterChip>
+            <FilterChip active={bucket === ""} onClick={() => setBucket("")} testid="ideas-bucket-all">{t("ideas.all_types", "🌐 All types")}</FilterChip>
             {BUCKETS.map((b) => (
               <FilterChip key={b.id} active={bucket === b.id} onClick={() => setBucket(b.id)} testid={`ideas-bucket-${b.id}`}>
                 {b.emoji} {b.label}
@@ -122,9 +121,8 @@ export default function IdeasPage() {
             ))}
           </div>
 
-          {/* Sector */}
           <div className="flex gap-2 overflow-x-auto pb-1 mb-2">
-            <FilterChip active={sector === ""} onClick={() => setSector("")} testid="ideas-sector-all">All sectors</FilterChip>
+            <FilterChip active={sector === ""} onClick={() => setSector("")} testid="ideas-sector-all">{t("ideas.all_sectors", "All sectors")}</FilterChip>
             {SECTORS.map((s) => (
               <FilterChip key={s.id} active={sector === s.id} onClick={() => setSector(s.id)} testid={`ideas-sector-${s.id}`}>
                 {s.emoji} {s.label}
@@ -132,10 +130,9 @@ export default function IdeasPage() {
             ))}
           </div>
 
-          {/* District — Telangana + AP priority */}
           <div className="flex gap-2 overflow-x-auto pb-1 mb-2">
             <FilterChip active={district === ""} onClick={() => setDistrict("")} testid="ideas-district-all">
-              <MapPin size={11} /> All districts
+              <MapPin size={11} /> {t("ideas.all_districts", "All districts")}
             </FilterChip>
             {PRIORITY_DISTRICTS.map((d) => (
               <FilterChip key={d} active={district === d} onClick={() => setDistrict(d)} testid={`ideas-district-${d}`}>
@@ -144,22 +141,21 @@ export default function IdeasPage() {
             ))}
           </div>
 
-          {/* More filters: investment range + tags (collapsible to keep mobile light) */}
           <button
             data-testid="ideas-more-filters"
             onClick={() => setMoreOpen((o) => !o)}
             className="inline-flex items-center gap-1.5 min-h-[44px] text-xs font-display font-semibold text-stone-600 hover:text-ink"
           >
-            <SlidersHorizontal size={13} /> {moreOpen ? "Fewer filters" : "More filters"}
+            <SlidersHorizontal size={13} /> {moreOpen ? t("ideas.fewer_filters", "Fewer filters") : t("ideas.more_filters", "More filters")}
             {!moreOpen && (invest || tag) && <span className="chip bg-amber-100 text-amber-700 ml-1">on</span>}
           </button>
 
           {moreOpen && (
             <div className="mt-3 pt-3 border-t border-stone-100 flex flex-col gap-3">
               <div>
-                <div className="label-display !mb-1.5">Investment needed</div>
+                <div className="label-display !mb-1.5">{t("ideas.invest_needed", "Investment needed")}</div>
                 <div className="flex gap-2 overflow-x-auto pb-1">
-                  <FilterChip active={invest === ""} onClick={() => setInvest("")} testid="ideas-invest-all">Any budget</FilterChip>
+                  <FilterChip active={invest === ""} onClick={() => setInvest("")} testid="ideas-invest-all">{t("ideas.any_budget", "Any budget")}</FilterChip>
                   {INVESTMENT_RANGES.map((r) => {
                     const count = investCounts[r.id] || 0;
                     return (
@@ -177,12 +173,12 @@ export default function IdeasPage() {
                 </div>
               </div>
               <div>
-                <div className="label-display !mb-1.5">Tags</div>
+                <div className="label-display !mb-1.5">{t("ideas.all_tags", "Tags")}</div>
                 <div className="flex gap-2 flex-wrap">
-                  <FilterChip active={tag === ""} onClick={() => setTag("")} testid="ideas-tag-all">All tags</FilterChip>
-                  {ALL_TAGS.map((t) => (
-                    <FilterChip key={t} active={tag === t} onClick={() => setTag(t)} testid={`ideas-tag-${t}`}>
-                      {t}
+                  <FilterChip active={tag === ""} onClick={() => setTag("")} testid="ideas-tag-all">{t("ideas.all_tags", "All tags")}</FilterChip>
+                  {ALL_TAGS.map((t_tag) => (
+                    <FilterChip key={t_tag} active={tag === t_tag} onClick={() => setTag(t_tag)} testid={`ideas-tag-${t_tag}`}>
+                      {t_tag}
                     </FilterChip>
                   ))}
                 </div>
@@ -190,15 +186,14 @@ export default function IdeasPage() {
             </div>
           )}
 
-          {/* Bottom row: beginner toggle · sort · clear */}
           <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mt-3 pt-3 border-t border-stone-100">
             <label className="inline-flex items-center gap-2 text-xs cursor-pointer select-none">
               <input type="checkbox" data-testid="ideas-beginner-toggle" checked={beginnerOnly} onChange={(e) => setBeginnerOnly(e.target.checked)} className="accent-amber-500 w-4 h-4" />
-              <span className="font-display font-semibold text-stone-600">Beginner friendly only</span>
+              <span className="font-display font-semibold text-stone-600">{t("ideas.beginner_only", "Beginner friendly only")}</span>
             </label>
 
             <label className="inline-flex items-center gap-2 text-xs ml-auto">
-              <span className="font-display font-semibold text-stone-600">Sort</span>
+              <span className="font-display font-semibold text-stone-600">{t("ideas.sort_label", "Sort")}</span>
               <select
                 data-testid="ideas-sort"
                 value={sort}
@@ -211,13 +206,12 @@ export default function IdeasPage() {
 
             {activeCount > 0 && (
               <button data-testid="ideas-clear" onClick={clearAll} className="inline-flex items-center gap-1 text-xs font-display font-semibold text-amber-700 hover:text-amber-800">
-                <X size={12} /> Clear all ({activeCount})
+                <X size={12} /> {t("ideas.clear_all", "Clear all")} ({activeCount})
               </button>
             )}
           </div>
         </div>
 
-        {/* Result count */}
         <div className="flex items-center justify-between mb-3">
           <p data-testid="ideas-count" className="text-xs font-display font-semibold text-muted">
             {ideas.length} {ideas.length === 1 ? "idea" : "ideas"}
@@ -228,9 +222,9 @@ export default function IdeasPage() {
         {ideas.length === 0 ? (
           <div data-testid="ideas-empty" className="card-base !border-dashed !border-2 p-12 text-center">
             <div className="text-5xl mb-3">🔍</div>
-            <h3 className="font-display font-bold text-lg mb-2">No ideas match those filters</h3>
-            <p className="text-muted text-sm mb-5">Try clearing a filter or widening your budget range.</p>
-            <button onClick={clearAll} className="btn-secondary" data-testid="ideas-empty-clear">Clear all filters</button>
+            <h3 className="font-display font-bold text-lg mb-2">{t("ideas.empty_title", "No ideas match those filters")}</h3>
+            <p className="text-muted text-sm mb-5">{t("ideas.empty_desc", "Try clearing a filter or widening your budget range.")}</p>
+            <button onClick={clearAll} className="btn-secondary" data-testid="ideas-empty-clear">{t("ideas.empty_clear_btn", "Clear all filters")}</button>
           </div>
         ) : (
           <div data-testid="ideas-list" className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -240,9 +234,9 @@ export default function IdeasPage() {
 
         <div className="mt-12 bg-gradient-to-r from-amber-50 to-teal-50 border border-amber-200 rounded-2xl p-6 text-center">
           <Sparkles className="inline-block text-amber-600 mb-2" size={22} />
-          <h3 className="font-display font-bold text-lg mb-1">Have an idea that's not listed?</h3>
-          <p className="text-sm text-muted mb-4 max-w-md mx-auto">Post it as an opportunity — other builders in your district can find and collaborate on it.</p>
-          <Link href="/opportunities/new" data-testid="ideas-post-cta" className="btn-primary">Post your idea →</Link>
+          <h3 className="font-display font-bold text-lg mb-1">{t("ideas.post_cta_title", "Have an idea that's not listed?")}</h3>
+          <p className="text-sm text-muted mb-4 max-w-md mx-auto">{t("ideas.post_cta_desc", "Post it as an opportunity — other builders in your district can find and collaborate on it.")}</p>
+          <Link href="/opportunities/new" data-testid="ideas-post-cta" className="btn-primary">{t("ideas.post_cta_btn", "Post your idea →")}</Link>
         </div>
       </main>
     </div>
@@ -270,6 +264,7 @@ function FilterChip({ active, onClick, children, testid, disabled = false }) {
 }
 
 function IdeaCard({ idea }) {
+  const { t } = useLanguage();
   const sector = getSector(idea.sector);
   return (
     <Link
@@ -285,8 +280,8 @@ function IdeaCard({ idea }) {
       <p className="text-sm text-muted leading-relaxed line-clamp-3">{idea.short_description}</p>
       <div className="flex flex-wrap gap-1.5">
         <span className="chip bg-amber-50 text-amber-700">{sector.emoji} {sector.label}</span>
-        {idea.beginner_friendly && <span className="chip bg-teal-50 text-teal-700">Beginner friendly</span>}
-        {idea.remote_possible && <span className="chip bg-blue-50 text-blue-700">Remote possible</span>}
+        {idea.beginner_friendly && <span className="chip bg-teal-50 text-teal-700">{t("ideas.beginner_friendly", "Beginner friendly")}</span>}
+        {idea.remote_possible && <span className="chip bg-blue-50 text-blue-700">{t("ideas.remote_possible", "Remote possible")}</span>}
       </div>
       <div className="flex items-center justify-between pt-3 border-t border-stone-100 text-xs">
         <span className="font-display font-bold text-ink">

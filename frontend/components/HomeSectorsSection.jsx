@@ -7,14 +7,14 @@ export default function HomeSectorsSection() {
   const { t } = useLanguage();
 
   const SECTORS = [
-    { e: "??", l: t("sector.ai_tech", "AI & Tech"), c: "bg-blue-50" },
-    { e: "??", l: t("sector.local_biz", "Local Biz"), c: "bg-amber-50" },
-    { e: "?", l: t("sector.ev_tech", "EV Tech"), c: "bg-green-50" },
-    { e: "??", l: t("sector.drone", "Drone"), c: "bg-violet-50" },
-    { e: "??", l: t("sector.agriculture", "Agriculture"), c: "bg-emerald-50" },
-    { e: "??", l: t("sector.student", "Student"), c: "bg-rose-50" },
-    { e: "??", l: t("sector.trades", "Trades"), c: "bg-yellow-50" },
-    { e: "??", l: t("sector.digital", "Digital"), c: "bg-sky-50" },
+    { e: "🤖", l: t("sector.ai_tech", "AI & Tech"), c: "bg-blue-50" },
+    { e: "🏪", l: t("sector.local_biz", "Local Biz"), c: "bg-amber-50" },
+    { e: "⚡", l: t("sector.ev_tech", "EV Tech"), c: "bg-green-50" },
+    { e: "🚁", l: t("sector.drone", "Drone"), c: "bg-violet-50" },
+    { e: "🌾", l: t("sector.agriculture", "Agriculture"), c: "bg-emerald-50" },
+    { e: "🎓", l: t("sector.student", "Student"), c: "bg-rose-50" },
+    { e: "🔧", l: t("sector.trades", "Trades"), c: "bg-yellow-50" },
+    { e: "📱", l: t("sector.digital", "Digital"), c: "bg-sky-50" },
   ];
 
   return (
@@ -35,7 +35,7 @@ export default function HomeSectorsSection() {
           ))}
         </div>
         <div className="text-center mt-10">
-          <Link href="/explore" className="btn-secondary">{t("home.explore_opps", "Explore opportunities ?")}</Link>
+          <Link href="/explore" className="btn-secondary">{t("home.explore_opps", "Explore opportunities →")}</Link>
         </div>
       </div>
     </section>

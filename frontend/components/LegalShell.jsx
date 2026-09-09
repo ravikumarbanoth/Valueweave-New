@@ -1,6 +1,10 @@
+"use client";
 import Link from "next/link";
+import { useLanguage } from "@/lib/language";
 
 export default function LegalShell({ title, children }) {
+  const { t } = useLanguage();
+
   return (
     <div className="min-h-screen bg-cream">
       <nav className="border-b border-stone-200 bg-cream/90 backdrop-blur sticky top-0 z-40">
@@ -11,7 +15,7 @@ export default function LegalShell({ title, children }) {
             </div>
             <span className="font-display font-extrabold tracking-tight">Value<span className="text-amber-500">Weave</span></span>
           </Link>
-          <Link href="/" className="inline-flex items-center min-h-[44px] text-sm text-muted hover:text-ink font-display font-semibold">← Back home</Link>
+          <Link href="/" className="inline-flex items-center min-h-[44px] text-sm text-muted hover:text-ink font-display font-semibold">{t("ui.back_home", "← Back home")}</Link>
         </div>
       </nav>
       <main className="max-w-3xl mx-auto px-4 sm:px-6 py-12">

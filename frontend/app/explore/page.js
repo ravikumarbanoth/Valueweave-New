@@ -8,6 +8,7 @@ import { FeedSkeleton } from "@/components/Skeleton";
 import PageTracker from "@/components/PageTracker";
 import { Search, Lock } from "lucide-react";
 import { MARKETPLACE_DISTRICTS } from "@/lib/collab";
+import { useLanguage } from "@/lib/language";
 
 const CATEGORIES = [
   { id: "", emoji: "🌐", label: "All" },
@@ -26,6 +27,7 @@ const CATEGORIES = [
 
 export default function ExplorePage() {
   const supabase = createClient();
+  const { t } = useLanguage();
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [category, setCategory] = useState("");
@@ -59,10 +61,10 @@ export default function ExplorePage() {
       <main className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
         <div className="mb-6">
           <h1 data-testid="explore-title" className="font-display font-extrabold text-3xl sm:text-4xl tracking-tight mb-2">
-            Explore opportunities
+            {t("explore.title", "Explore opportunities")}
           </h1>
           <p className="text-muted text-base max-w-xl">
-            Browse what builders across Bharat are creating. Sign in to connect or post your own.
+            {t("explore.subtitle", "Browse what builders across Bharat are creating. Sign in to connect or post your own.")}
           </p>
         </div>
 
@@ -73,7 +75,7 @@ export default function ExplorePage() {
               data-testid="explore-search"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search opportunities…"
+              placeholder={t("explore.search_placeholder", "Search opportunities…")}
               className="input-field !pl-10"
             />
           </div>
@@ -87,7 +89,7 @@ export default function ExplorePage() {
                   category === c.id ? "bg-ink text-white" : "bg-stone-100 text-stone-600 hover:bg-stone-200"
                 }`}
               >
-                {c.emoji} {c.label}
+                {c.emoji} {t(`explore.cat_${c.id || "all"}`, c.label)}
               </button>
             ))}
           </div>
@@ -97,7 +99,7 @@ export default function ExplorePage() {
             onChange={(e) => setDistrict(e.target.value)}
             className="rounded-lg border border-stone-200 bg-white px-3 py-2 text-xs font-display font-semibold text-ink outline-none focus:border-amber-500"
           >
-            <option value="">📍 All districts</option>
+            <option value="">{t("explore.all_districts", "📍 All districts")}</option>
             <optgroup label="Telangana">
               {MARKETPLACE_DISTRICTS.filter((d) => d.state === "Telangana").map((d) => (
                 <option key={d.slug} value={d.name}>{d.name}</option>
@@ -114,9 +116,9 @@ export default function ExplorePage() {
         {loading ? <FeedSkeleton count={6} /> : items.length === 0 ? (
           <div data-testid="explore-empty" className="card-base !border-dashed !border-2 p-12 text-center">
             <div className="text-5xl mb-3">🌱</div>
-            <h3 className="font-display font-bold text-lg mb-2">No opportunities yet</h3>
-            <p className="text-muted text-sm mb-4 max-w-sm mx-auto">Be among the first builders to post an opportunity for your community.</p>
-            <Link href="/get-started" className="btn-primary">Join & post the first →</Link>
+            <h3 className="font-display font-bold text-lg mb-2">{t("explore.empty_title", "No opportunities yet")}</h3>
+            <p className="text-muted text-sm mb-4 max-w-sm mx-auto">{t("explore.empty_desc", "Be among the first builders to post an opportunity for your community.")}</p>
+            <Link href="/get-started" className="btn-primary">{t("explore.post_first", "Join & post the first →")}</Link>
           </div>
         ) : (
           <>
@@ -125,11 +127,11 @@ export default function ExplorePage() {
             </div>
             <div className="mt-10 bg-gradient-to-r from-amber-50 to-teal-50 border border-amber-200 rounded-2xl p-6 text-center">
               <Lock className="inline-block text-amber-600 mb-2" size={22} />
-              <h3 className="font-display font-bold text-lg mb-1">Like what you see?</h3>
-              <p className="text-sm text-muted mb-4 max-w-md mx-auto">Join ValueWeave free to send connection requests, post your own opportunities, and build with other Bharat builders.</p>
+              <h3 className="font-display font-bold text-lg mb-1">{t("explore.join_title", "Like what you see?")}</h3>
+              <p className="text-sm text-muted mb-4 max-w-md mx-auto">{t("explore.join_desc", "Join ValueWeave free to send connection requests, post your own opportunities, and build with other Bharat builders.")}</p>
               <div className="flex items-center justify-center gap-2 flex-wrap">
-                <Link href="/get-started" data-testid="explore-join" className="btn-primary">Join ValueWeave</Link>
-                <Link href="/signin" data-testid="explore-signin" className="btn-secondary">Sign in</Link>
+                <Link href="/get-started" data-testid="explore-join" className="btn-primary">{t("explore.join_cta", "Join ValueWeave")}</Link>
+                <Link href="/signin" data-testid="explore-signin" className="btn-secondary">{t("explore.signin_cta", "Sign in")}</Link>
               </div>
             </div>
           </>

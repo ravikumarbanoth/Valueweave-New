@@ -1,13 +1,14 @@
 "use client";
-// REMINDER: DO NOT HARDCODE THE URL, OR ADD ANY FALLBACKS OR REDIRECT URLS, THIS BREAKS THE AUTH
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase-browser";
+import { useLanguage } from "@/lib/language";
 
 export default function SignInPage() {
   const supabase = createClient();
   const router = useRouter();
+  const { t } = useLanguage();
   const [state, setState] = useState("checking"); // checking | ready | redirecting | error
   const [err, setErr] = useState("");
 
@@ -15,7 +16,6 @@ export default function SignInPage() {
     (async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
-        // Already signed in — smart route
         const { data: profile } = await supabase
           .from("profiles")
           .select("profile_complete")
@@ -35,7 +35,6 @@ export default function SignInPage() {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: "google",
         options: {
-          // REMINDER: DO NOT HARDCODE THE URL, OR ADD ANY FALLBACKS OR REDIRECT URLS, THIS BREAKS THE AUTH
           redirectTo: `${window.location.origin}/auth/callback`,
         },
       });
@@ -57,16 +56,16 @@ export default function SignInPage() {
         </Link>
 
         <h1 className="font-display font-extrabold text-3xl sm:text-4xl tracking-tight mb-3">
-          Welcome back
+          {t("signin.welcome_back", "Welcome back")}
         </h1>
         <p className="text-muted text-base mb-8">
-          Sign in to your ValueWeave account to access your dashboard, connections, and opportunities.
+          {t("signin.desc", "Sign in to your ValueWeave account to access your dashboard, connections, and opportunities.")}
         </p>
 
         {state === "checking" && (
           <div data-testid="signin-loading" className="flex flex-col items-center gap-3 py-6">
             <div className="w-9 h-9 rounded-full border-[3px] border-amber-200 border-t-amber-500 animate-spin" />
-            <p className="text-sm text-muted">Checking your session…</p>
+            <p className="text-sm text-muted">{t("signin.checking_session", "Checking your session…")}</p>
           </div>
         )}
 
@@ -78,20 +77,25 @@ export default function SignInPage() {
               disabled={state === "redirecting"}
               className="btn-primary w-full !py-3.5 text-base disabled:opacity-60"
             >
-              {state === "redirecting" ? "Redirecting…" : (
+              {state === "redirecting" ? t("signin.redirecting", "Redirecting…") : (
                 <>
-                  <GoogleIcon /> Continue with Google
+                  <GoogleIcon /> {t("signin.continue_google", "Continue with Google")}
                 </>
               )}
             </button>
             {err && <div data-testid="signin-error" className="mt-4 text-sm text-rose-700 bg-rose-50 border border-rose-200 rounded-xl px-4 py-2.5">{err}</div>}
             <p className="text-xs text-stone-400 mt-5">
-              New to ValueWeave? <Link href="/get-started" className="inline-flex items-center min-h-[44px] text-amber-600 font-semibold hover:underline">Create your profile →</Link>
+              {t("signin.new_to_vw", "New to ValueWeave?")}{" "}
+              <Link href="/get-started" className="inline-flex items-center min-h-[44px] text-amber-600 font-semibold hover:underline">
+                {t("signin.create_profile", "Create your profile →")}
+              </Link>
             </p>
           </>
         )}
 
-        <Link href="/" className="inline-flex items-center min-h-[44px] mt-6 text-xs text-muted hover:text-ink">← Back to home</Link>
+        <Link href="/" className="inline-flex items-center min-h-[44px] mt-6 text-xs text-muted hover:text-ink">
+          {t("ui.back_home", "← Back to home")}
+        </Link>
       </div>
     </div>
   );

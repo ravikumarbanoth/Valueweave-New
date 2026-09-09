@@ -2,25 +2,19 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase-browser";
+import { useLanguage } from "@/lib/language";
 
 const SKILL_SUGGESTIONS = [
-  // Digital & Tech
   "Web Development","Mobile App Development","UI/UX Design","AI Engineering","Data Entry","Digital Marketing",
   "Video Editing","SEO","Social Media Management","Graphic Design","Content Writing",
-  // Business & Operations
   "Sales","Field Marketing","Customer Handling","Inventory Management","Procurement","Vendor Management",
   "Team Management","Operations Coordination","Business Development","Retail Management",
-  // Agriculture & Rural
   "Organic Farming","Dairy Management","Poultry Management","Soil Testing","Irrigation Systems",
   "Agri Equipment Handling","Seed Management","Crop Advisory",
-  // Local trades & services
   "Electrical Work","Plumbing","Welding","Carpentry","CCTV Installation","AC Repair","Bike Repair",
   "Mobile Repair","Tailoring","Beautician Services","Housekeeping Services",
-  // Manufacturing
   "Food Processing","Packaging","Machine Operations","Textile Production","Furniture Manufacturing","Printing Operations",
-  // Creative & media
   "Photography","Influencer Marketing","Voice Over","Local Advertising","Animation","Event Management",
-  // Financial & professional
   "Accounting","GST Filing","Loan Documentation","Financial Planning","Legal Documentation",
 ];
 
@@ -44,6 +38,7 @@ const LOOKING_FOR_OPTIONS = [
 export default function OnboardingPage() {
   const supabase = createClient();
   const router = useRouter();
+  const { t } = useLanguage();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [err, setErr] = useState("");
@@ -120,58 +115,62 @@ export default function OnboardingPage() {
     <div className="min-h-screen bg-cream py-12 px-6">
       <div className="max-w-2xl mx-auto">
         <div className="text-center mb-8">
-          <span className="chip bg-teal-100 text-teal-600 mb-3">STEP 2 OF 3</span>
+          <span className="chip bg-teal-100 text-teal-600 mb-3">{t("onboarding.step_chip", "STEP 2 OF 3")}</span>
           <h1 className="font-display font-extrabold text-3xl md:text-4xl tracking-tight mb-2">
-            Tell us about <span className="text-teal-500">you</span>
+            {t("onboarding.title_1", "Tell us about")} <span className="text-teal-500">{t("onboarding.title_2", "you")}</span>
           </h1>
-          <p className="text-muted text-sm">Two minutes. We use this to suggest skills, schemes and businesses that fit you.</p>
+          <p className="text-muted text-sm">{t("onboarding.subtitle", "Two minutes. We use this to suggest skills, schemes and businesses that fit you.")}</p>
         </div>
 
         <form onSubmit={submit} className="card-base p-6 md:p-8 flex flex-col gap-5">
-          <Field label="Your name" required>
-            <input data-testid="ob-name" className="input-field" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="e.g. Arjun Patil" />
+          <Field label={t("onboarding.name_label", "Your name")} required>
+            <input data-testid="ob-name" className="input-field" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder={t("onboarding.name_placeholder", "e.g. Arjun Patil")} />
           </Field>
 
-          <Field label="City" required>
-            <input data-testid="ob-city" className="input-field" value={form.city} onChange={(e) => setForm({ ...form, city: e.target.value })} placeholder="e.g. Hyderabad, Telangana" />
+          <Field label={t("onboarding.city_label", "City")} required>
+            <input data-testid="ob-city" className="input-field" value={form.city} onChange={(e) => setForm({ ...form, city: e.target.value })} placeholder={t("onboarding.city_placeholder", "e.g. Hyderabad, Telangana")} />
           </Field>
 
-          <Field label="Skills" required hint="What do you do best? Add 3–6 skills.">
+          <Field label={t("onboarding.skills_label", "Skills")} required hint={t("onboarding.skills_hint", "What do you do best? Add 3–6 skills.")}>
             <ChipInput
               testid="skill"
               value={skillInput}
               onChange={setSkillInput}
               onAdd={(v) => addToList("skills", v, setSkillInput)}
               suggestions={SKILL_SUGGESTIONS.filter(s => !form.skills.includes(s)).slice(0, 18)}
+              addLabel={t("onboarding.add_btn", "Add")}
+              placeholder={t("onboarding.type_and_press_enter", "Type and press Enter")}
             />
             <Chips items={form.skills} onRemove={(v) => removeFromList("skills", v)} testidPrefix="skill-chip" tone="amber" />
           </Field>
 
-          <Field label="Interests" hint="Domains you're excited about.">
+          <Field label={t("onboarding.interests_label", "Interests")} hint={t("onboarding.interests_hint", "Domains you're excited about.")}>
             <ChipInput
               testid="interest"
               value={interestInput}
               onChange={setInterestInput}
               onAdd={(v) => addToList("interests", v, setInterestInput)}
               suggestions={INTEREST_SUGGESTIONS.filter(s => !form.interests.includes(s)).slice(0, 16)}
+              addLabel={t("onboarding.add_btn", "Add")}
+              placeholder={t("onboarding.type_and_press_enter", "Type and press Enter")}
             />
             <Chips items={form.interests} onRemove={(v) => removeFromList("interests", v)} testidPrefix="interest-chip" tone="teal" />
           </Field>
 
-          <Field label="I'm here to…">
+          <Field label={t("onboarding.looking_for_label", "I'm here to…")}>
             <select data-testid="ob-looking-for" className="input-field" value={form.looking_for} onChange={(e) => setForm({ ...form, looking_for: e.target.value })}>
-              {LOOKING_FOR_OPTIONS.map(([id, l]) => <option key={id} value={id}>{l}</option>)}
+              {LOOKING_FOR_OPTIONS.map(([id, l]) => <option key={id} value={id}>{t(`intent.${id}_title`, l)}</option>)}
             </select>
           </Field>
 
-          <Field label="Short bio" hint="One or two sentences about what you build.">
-            <textarea data-testid="ob-bio" rows={3} className="input-field resize-y" value={form.bio} onChange={(e) => setForm({ ...form, bio: e.target.value })} placeholder="e.g. Electronics diploma holder building EV charging stations in tier-2 cities." />
+          <Field label={t("onboarding.bio_label", "Short bio")} hint={t("onboarding.bio_hint", "One or two sentences about what you build.")}>
+            <textarea data-testid="ob-bio" rows={3} className="input-field resize-y" value={form.bio} onChange={(e) => setForm({ ...form, bio: e.target.value })} placeholder={t("onboarding.bio_placeholder", "e.g. Electronics diploma holder building EV charging stations in tier-2 cities.")} />
           </Field>
 
           {err && <div data-testid="ob-error" className="bg-rose-50 text-rose-700 text-sm rounded-lg px-4 py-2.5">{err}</div>}
 
           <button data-testid="ob-submit" type="submit" disabled={saving} className="btn-primary !py-3.5 disabled:opacity-50">
-            {saving ? "Saving…" : "Continue to Dashboard →"}
+            {saving ? t("onboarding.saving", "Saving…") : t("onboarding.continue_dashboard", "Continue to Dashboard →")}
           </button>
         </form>
       </div>
@@ -191,7 +190,7 @@ function Field({ label, hint, required, children }) {
   );
 }
 
-function ChipInput({ value, onChange, onAdd, suggestions, testid }) {
+function ChipInput({ value, onChange, onAdd, suggestions, testid, addLabel = "Add", placeholder = "Type and press Enter" }) {
   return (
     <>
       <div className="flex gap-2">
@@ -201,9 +200,9 @@ function ChipInput({ value, onChange, onAdd, suggestions, testid }) {
           value={value}
           onChange={(e) => onChange(e.target.value)}
           onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); onAdd(value); } }}
-          placeholder="Type and press Enter"
+          placeholder={placeholder}
         />
-        <button type="button" data-testid={`${testid}-add`} onClick={() => onAdd(value)} className="btn-teal !px-5 !py-2.5 shrink-0">Add</button>
+        <button type="button" data-testid={`${testid}-add`} onClick={() => onAdd(value)} className="btn-teal !px-5 !py-2.5 shrink-0">{addLabel}</button>
       </div>
       {suggestions.length > 0 && (
         <div className="flex flex-wrap gap-1.5 mt-2">

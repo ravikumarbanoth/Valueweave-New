@@ -23,23 +23,22 @@
 name: Knowledge collection
 
 on:
-  schedule:
-    # 04:00 UTC daily — after the 03:00 Monday sync in knowledge-sync.yml, so
-    # the two never contend for the same checkout on the day they coincide.
-    - cron: "0 4 * * *"
+  # Automated schedule and pull_request triggers are paused for manual curation mode.
+  # Manual execution remains available on demand via workflow_dispatch.
+  # Paused triggers:
+  #   schedule:
+  #     - cron: "0 4 * * *"
+  #   pull_request:
+  #     paths:
+  #       - "collection/**"
+  #       - "knowledge_engine/collectors/**"
+  #       - "knowledge_engine/parsers/**"
   workflow_dispatch:
     inputs:
       force:
         description: "Check every active source regardless of its schedule"
         type: boolean
         default: false
-  # On a change to the registry or the collection code, so a new source is
-  # exercised in the pull request that adds it rather than a day later.
-  pull_request:
-    paths:
-      - "collection/**"
-      - "knowledge_engine/collectors/**"
-      - "knowledge_engine/parsers/**"
 
 permissions:
   contents: write

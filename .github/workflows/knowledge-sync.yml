@@ -28,25 +28,20 @@
 name: Knowledge sync
 
 on:
-  # Every merge to main that touches the research or the pipeline. A package
-  # edit and a live database that disagree is the state this whole sprint was
-  # called to diagnose.
-  push:
-    branches: [main]
-    paths:
-      - "packages/**"
-      - "knowledge_graph/**"
-      - "knowledge_sync/**"
-      - "governance/vocabulary/**"
-      - "scripts/**"
-      - ".github/workflows/knowledge-sync.yml"
-
-  # Weekly, so a missed push still converges rather than drifting silently.
-  schedule:
-    - cron: "0 3 * * 1"
-
-  # And on demand, with a dry run by default so the first thing anyone tries is
-  # the safe thing.
+  # Automated push and weekly schedule triggers are paused for manual curation mode.
+  # Manual sync remains available on demand via workflow_dispatch.
+  # Paused triggers:
+  #   push:
+  #     branches: [main]
+  #     paths:
+  #       - "packages/**"
+  #       - "knowledge_graph/**"
+  #       - "knowledge_sync/**"
+  #       - "governance/vocabulary/**"
+  #       - "scripts/**"
+  #       - ".github/workflows/knowledge-sync.yml"
+  #   schedule:
+  #     - cron: "0 3 * * 1"
   workflow_dispatch:
     inputs:
       apply:

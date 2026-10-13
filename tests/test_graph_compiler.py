@@ -120,6 +120,7 @@ IGNORED = {
     "Package007_Government_Schemes/datasets/scheme_application_status.csv",
     "Package007_Government_Schemes/datasets/scheme_benefits.csv",
     "Package007_Government_Schemes/datasets/scheme_categories.csv",
+    "Package007_Government_Schemes/datasets/scheme_support_resources.csv",
     "Package008_MSME/datasets/business_models.csv",
     "Package008_MSME/datasets/industry_mapping.csv",
     "Package008_MSME/datasets/investment_intelligence.csv",
@@ -138,7 +139,7 @@ MIN_CONSUMED = 39
 
 
 def on_disk():
-    return {str(p.relative_to(PACKAGES)) for p in PACKAGES.glob("*/datasets/*.csv")}
+    return {p.relative_to(PACKAGES).as_posix() for p in PACKAGES.glob("*/datasets/*.csv")}
 
 
 def builder_reads():

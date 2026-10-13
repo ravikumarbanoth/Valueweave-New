@@ -93,6 +93,8 @@ SUITES = {
                          "Bilingual UI language support and fallback hierarchy"),
     "search_intelligence": ("tests.test_search_intelligence",
                            "Multilingual query intelligence, intent, and location extraction"),
+    "scheme_support": ("tests.test_scheme_support_resources",
+                       "Workbook-imported schemes, support resources and public directory wiring"),
 }
 
 

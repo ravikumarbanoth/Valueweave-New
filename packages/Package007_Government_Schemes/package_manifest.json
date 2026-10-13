@@ -158,10 +158,20 @@
       "confidence_score_range": "60-60",
       "confidence_avg": 60.0,
       "verification_status": "VST-NEEDS_REVIEW"
+    },
+    {
+      "name": "scheme_support_resources",
+      "layer": "5 - Institutions and Support Resources",
+      "records": 56,
+      "columns": 23,
+      "primary_key": "resource_id",
+      "confidence_score_range": "60-60",
+      "confidence_avg": 60.0,
+      "verification_status": "VST-NEEDS_REVIEW"
     }
   ],
-  "total_datasets": 15,
-  "total_records": 655,
+  "total_datasets": 16,
+  "total_records": 711,
   "schemes_registered": 40,
   "import_order": [
     "scheme_categories",
@@ -178,15 +188,16 @@
     "skill_scheme_mapping",
     "industry_scheme_mapping",
     "district_scheme_mapping",
-    "scheme_ai_recommendations"
+    "scheme_ai_recommendations",
+    "scheme_support_resources"
   ],
-  "import_order_rationale": "Reference taxonomies first (categories, documents, agencies, institutions, statuses), then the canonical government_schemes registry, then its dependent child datasets (eligibility, benefits, process), then the five cross-package mappings, and scheme_ai_recommendations last because it references government_schemes three times including a semicolon-delimited multi-value column.",
+  "import_order_rationale": "Reference taxonomies first (categories, documents, agencies, institutions, statuses), then the canonical government_schemes registry, then its dependent child datasets (eligibility, benefits, process), then the five cross-package mappings, scheme_ai_recommendations, and the workbook-imported scheme_support_resources directory used by the public Schemes section.",
   "data_statistics": {
-    "total_datasets": 15,
-    "total_records": 655,
-    "total_cells": 10401,
-    "pending_verification_cells": 534,
-    "pending_verification_rate_pct": 5.13
+    "total_datasets": 16,
+    "total_records": 711,
+    "total_cells": 11689,
+    "pending_verification_cells": 625,
+    "pending_verification_rate_pct": 5.35
   },
   "confidence_statistics": {
     "overall_range": "60-78",

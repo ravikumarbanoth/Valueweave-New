@@ -62,8 +62,8 @@ def upstream(rel):
 
 # ---------------------------------------------------------------- per-dataset
 files = sorted(DATASETS.glob("*.csv"))
-if len(files) != 15:
-    vio("MANIFEST", "package", f"expected 15 datasets, found {len(files)}")
+if len(files) != 16:
+    vio("MANIFEST", "package", f"expected 16 datasets, found {len(files)}")
 
 for path in files:
     name = path.name

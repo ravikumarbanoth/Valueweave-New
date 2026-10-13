@@ -1,24 +1,38 @@
 import AppNavbar from "@/components/AppNavbar";
-import PublicEntityList from "@/components/kg/PublicEntityList";
+import GraphSourceNote from "@/components/knowledge/GraphSourceNote";
+import SchemeSupportDirectory from "@/components/schemes/SchemeSupportDirectory";
 import { getKgEntities } from "@/lib/knowledge-graph";
 import { withGraphFallback } from "@/lib/kg-fallback";
-import GraphSourceNote from "@/components/knowledge/GraphSourceNote";
+import {
+  getSchemeSupportCategories,
+  schemeSupportMetadata,
+  schemeSupportResources,
+} from "@/lib/scheme-support-resources";
 
 export const revalidate = 300;
-export const metadata = { title: "Government Schemes | ValueWeave", description: "Explore government schemes linked to skills, districts, and entrepreneurship opportunities." };
+export const metadata = {
+  title: "Schemes and Support Resources | ValueWeave",
+  description: "Explore government schemes, training centres, entrepreneurship support, awareness portals, and grievance resources.",
+};
 
 export default async function SchemesPage() {
   const cms = await getKgEntities("schemes");
-  // Served by the 40 researched schemes unless an admin has published their own.
-  // See lib/kg-fallback.js for which side is canonical and why.
   const { items, source } = await withGraphFallback("schemes", cms);
+  const graphItems = items.map((item) => ({
+    ...item,
+    href: source === "GRAPH" ? `/knowledge/scheme/${item.slug}` : `/schemes/${item.slug}`,
+  }));
+
   return (
     <>
       <AppNavbar />
       <GraphSourceNote source={source} kind="schemes" browseHref="/knowledge?type=scheme" />
-      <PublicEntityList title="Government Scheme Engine" eyebrow="SCHEMES" description="Find schemes, eligibility, subsidies, loan support, and application links." items={items} basePath={source === "GRAPH" ? "/knowledge/scheme" : "/schemes"} emptyTitle="More schemes coming soon"
-        emptyText="We add new government schemes regularly. In the meantime, browse business ideas — each one names the schemes that usually apply to it."
-        emptyHref="/opportunity-radar" emptyLabel="Browse business ideas" />
+      <SchemeSupportDirectory
+        records={schemeSupportResources}
+        categories={getSchemeSupportCategories()}
+        metadata={schemeSupportMetadata}
+        graphItems={graphItems}
+      />
     </>
   );
 }

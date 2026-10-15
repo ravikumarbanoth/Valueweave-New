@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-31T11:25:18+00:00",
+  "generated_at": "2026-10-12T12:51:25+00:00",
   "overview": {
     "entities": 647,
     "relationships": 865,
@@ -200,8 +200,8 @@
     "ageing": 0,
     "stale": 0,
     "unknown": 0,
-    "median_age_days": 3,
-    "oldest_days": 3,
+    "median_age_days": 45,
+    "oldest_days": 45,
     "stale_by_package": {}
   },
   "collection": {
@@ -224,19 +224,19 @@
         "check": "stale",
         "severity": "WARN",
         "source_id": "fix-rss-001",
-        "detail": "nothing new for 674h against a daily cadence (24h) — publishing may have stopped"
+        "detail": "nothing new for 1684h against a daily cadence (24h) — publishing may have stopped"
       },
       {
         "check": "stale",
         "severity": "WARN",
         "source_id": "fix-atom-001",
-        "detail": "nothing new for 674h against a daily cadence (24h) — publishing may have stopped"
+        "detail": "nothing new for 1684h against a daily cadence (24h) — publishing may have stopped"
       },
       {
         "check": "stale",
         "severity": "WARN",
         "source_id": "fix-json-001",
-        "detail": "nothing new for 674h against a weekly cadence (168h) — publishing may have stopped"
+        "detail": "nothing new for 1684h against a weekly cadence (168h) — publishing may have stopped"
       },
       {
         "check": "never_verified",

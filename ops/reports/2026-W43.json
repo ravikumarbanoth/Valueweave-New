@@ -1,0 +1,480 @@
+{
+  "generated_at": "2026-10-19T10:33:51+00:00",
+  "overview": {
+    "entities": 647,
+    "relationships": 865,
+    "entity_types_populated": 19,
+    "entity_types_registered": 19,
+    "by_type": {
+      "Industry": 78,
+      "Machinery": 69,
+      "Institution": 66,
+      "District": 61,
+      "BusinessOpportunity": 45,
+      "Crop": 45,
+      "Skill": 45,
+      "GovernmentScheme": 40,
+      "MSME": 40,
+      "Certification": 30,
+      "ExportCountry": 29,
+      "TrainingProvider": 25,
+      "FinancialInstitution": 21,
+      "RawMaterial": 21,
+      "Market": 11,
+      "Soil": 10,
+      "ClimateZone": 8,
+      "State": 2,
+      "Country": 1
+    },
+    "by_package": {
+      "Package008_MSME": 167,
+      "Package006_Skills_and_Training": 100,
+      "Package005_Agriculture": 99,
+      "Package001_Geography": 93,
+      "Package004_Industries": 70,
+      "Package002_Education": 66,
+      "Package007_Government_Schemes": 52
+    },
+    "packages": 7,
+    "package_names": [
+      "Package001_Geography",
+      "Package002_Education",
+      "Package003_Healthcare",
+      "Package004_Industries",
+      "Package005_Agriculture",
+      "Package007_Government_Schemes",
+      "Package008_MSME"
+    ],
+    "research_articles_in_repo": 3,
+    "crosswalk_rows": 202,
+    "crosswalk_resolved_pct": 41.1,
+    "graph_built_at": "2026-08-28"
+  },
+  "connectivity": {
+    "connected": 505,
+    "connected_pct": 78.1,
+    "isolated": 142,
+    "dead_ends": 264,
+    "median_degree": 1,
+    "most_connected": [
+      {
+        "name": "Scheduled Commercial Banks",
+        "type": "FinancialInstitution",
+        "degree": 39
+      },
+      {
+        "name": "Telangana",
+        "type": "State",
+        "degree": 34
+      },
+      {
+        "name": "Andhra Pradesh",
+        "type": "State",
+        "degree": 29
+      },
+      {
+        "name": "Loamy",
+        "type": "Soil",
+        "degree": 27
+      },
+      {
+        "name": "Spice Grinding and Packing Unit",
+        "type": "MSME",
+        "degree": 22
+      },
+      {
+        "name": "Red Soil",
+        "type": "Soil",
+        "degree": 21
+      },
+      {
+        "name": "Pradhan Mantri MUDRA Yojana",
+        "type": "GovernmentScheme",
+        "degree": 20
+      },
+      {
+        "name": "Semi-arid",
+        "type": "ClimateZone",
+        "degree": 20
+      },
+      {
+        "name": "Dal Milling Unit",
+        "type": "MSME",
+        "degree": 19
+      },
+      {
+        "name": "Fruit Pulp and Beverage Unit",
+        "type": "MSME",
+        "degree": 19
+      }
+    ],
+    "least_connected": [
+      {
+        "name": "ABB Robotics Customer Certification - Basic Robot Programming (IRC5)",
+        "type": "Certification",
+        "degree": 0
+      },
+      {
+        "name": "AWS Certified Cloud Practitioner",
+        "type": "Certification",
+        "degree": 0
+      },
+      {
+        "name": "Andhra Pradesh State Skill Development Corporation (APSSDC) Certification",
+        "type": "Certification",
+        "degree": 0
+      },
+      {
+        "name": "Autodesk Certified User (ACU) - AutoCAD",
+        "type": "Certification",
+        "degree": 0
+      },
+      {
+        "name": "Automotive Service Technician (Two and Three Wheelers) - ASC/Q1411",
+        "type": "Certification",
+        "degree": 0
+      },
+      {
+        "name": "CNC Operator - Turning - CSC/Q0115",
+        "type": "Certification",
+        "degree": 0
+      },
+      {
+        "name": "Cisco Certified Network Associate (CCNA)",
+        "type": "Certification",
+        "degree": 0
+      },
+      {
+        "name": "Course on Computer Concepts (CCC)",
+        "type": "Certification",
+        "degree": 0
+      },
+      {
+        "name": "Domestic Data Entry Operator - SSC/Q2212",
+        "type": "Certification",
+        "degree": 0
+      },
+      {
+        "name": "FANUC Certified Robot Operator / FANUC India Academy Training Certificate",
+        "type": "Certification",
+        "degree": 0
+      }
+    ],
+    "isolated_by_type": {
+      "Certification": 30,
+      "TrainingProvider": 22,
+      "GovernmentScheme": 21,
+      "Industry": 17,
+      "FinancialInstitution": 13,
+      "Market": 10,
+      "Institution": 8,
+      "Machinery": 8,
+      "ExportCountry": 7,
+      "Skill": 5,
+      "Soil": 1
+    },
+    "median_degree_by_type": {
+      "BusinessOpportunity": 1,
+      "Certification": 0.0,
+      "ClimateZone": 10.0,
+      "Country": 2,
+      "Crop": 5,
+      "District": 1,
+      "ExportCountry": 1,
+      "FinancialInstitution": 0,
+      "GovernmentScheme": 0.0,
+      "Industry": 1.0,
+      "Institution": 1.0,
+      "MSME": 6.0,
+      "Machinery": 1,
+      "Market": 0,
+      "RawMaterial": 1,
+      "Skill": 2,
+      "Soil": 7.0,
+      "State": 31.5,
+      "TrainingProvider": 0
+    }
+  },
+  "freshness": {
+    "fresh": 647,
+    "ageing": 0,
+    "stale": 0,
+    "unknown": 0,
+    "median_age_days": 52,
+    "oldest_days": 52,
+    "stale_by_package": {}
+  },
+  "collection": {
+    "sources": {
+      "total": 11,
+      "active": 4,
+      "pending_verification": 6,
+      "paused": 1,
+      "retired": 0,
+      "dead": 0,
+      "failing": 0,
+      "stale": 3,
+      "never_fetched": 6,
+      "errors_last_run": 0,
+      "queued_last_run": 0
+    },
+    "feed_status": "degraded",
+    "findings": [
+      {
+        "check": "stale",
+        "severity": "WARN",
+        "source_id": "fix-rss-001",
+        "detail": "nothing new for 1850h against a daily cadence (24h) — publishing may have stopped"
+      },
+      {
+        "check": "stale",
+        "severity": "WARN",
+        "source_id": "fix-atom-001",
+        "detail": "nothing new for 1850h against a daily cadence (24h) — publishing may have stopped"
+      },
+      {
+        "check": "stale",
+        "severity": "WARN",
+        "source_id": "fix-json-001",
+        "detail": "nothing new for 1850h against a weekly cadence (168h) — publishing may have stopped"
+      },
+      {
+        "check": "never_verified",
+        "severity": "WARN",
+        "source_id": "pib-msme-001",
+        "detail": "registered but never successfully fetched — run `collection.cli verify pib-msme-001` from a network that can reach it"
+      },
+      {
+        "check": "never_verified",
+        "severity": "WARN",
+        "source_id": "msme-gov-001",
+        "detail": "registered but never successfully fetched — run `collection.cli verify msme-gov-001` from a network that can reach it"
+      },
+      {
+        "check": "never_verified",
+        "severity": "WARN",
+        "source_id": "ncs-jobs-001",
+        "detail": "registered but never successfully fetched — run `collection.cli verify ncs-jobs-001` from a network that can reach it"
+      },
+      {
+        "check": "never_verified",
+        "severity": "WARN",
+        "source_id": "tg-industries-001",
+        "detail": "registered but never successfully fetched — run `collection.cli verify tg-industries-001` from a network that can reach it"
+      },
+      {
+        "check": "never_verified",
+        "severity": "WARN",
+        "source_id": "ap-industries-001",
+        "detail": "registered but never successfully fetched — run `collection.cli verify ap-industries-001` from a network that can reach it"
+      },
+      {
+        "check": "never_verified",
+        "severity": "WARN",
+        "source_id": "data-gov-001",
+        "detail": "registered but never successfully fetched — run `collection.cli verify data-gov-001` from a network that can reach it"
+      }
+    ],
+    "queue": {
+      "total": 76,
+      "by_state": {
+        "DUPLICATE": 1,
+        "NEEDS_REVIEW": 75
+      },
+      "awaiting_review_by_type": {
+        "Skill": 53,
+        "BusinessOpportunity": 10,
+        "GovernmentScheme": 4,
+        "TrainingProvider": 4,
+        "MSME": 2,
+        "Certification": 1,
+        "Machinery": 1
+      },
+      "awaiting_review_by_stars": {
+        "3": 6,
+        "2": 68,
+        "1": 1
+      }
+    },
+    "top_of_queue": [
+      {
+        "stars": 3,
+        "type": "GovernmentScheme",
+        "title": "Mission for Integrated Development of Horticulture (MIDH)",
+        "source": "doc-entrepreneurship-businesses-2026",
+        "why": "GovernmentScheme is worth 34; reads as “mission”"
+      },
+      {
+        "stars": 3,
+        "type": "GovernmentScheme",
+        "title": "FIXTURE Margin Money Subsidy Scheme for micro enterprises",
+        "source": "fix-rss-001",
+        "why": "GovernmentScheme is worth 34; reads as “subsidy”; a TG source"
+      },
+      {
+        "stars": 3,
+        "type": "BusinessOpportunity",
+        "title": "FIXTURE Battery recycling collection centre licences invited",
+        "source": "fix-json-001",
+        "why": "BusinessOpportunity is worth 30; reads as “applications invited”; a AP source"
+      },
+      {
+        "stars": 3,
+        "type": "GovernmentScheme",
+        "title": "Credit Linked Capital Subsidy Scheme (CLCSS)",
+        "source": "doc-entrepreneurship-businesses-2026",
+        "why": "GovernmentScheme is worth 34; reads as “subsidy”"
+      },
+      {
+        "stars": 3,
+        "type": "BusinessOpportunity",
+        "title": "FIXTURE Solar rooftop installation opportunity in Medak district",
+        "source": "fix-rss-001",
+        "why": "BusinessOpportunity is worth 30; a TG source; names Medak"
+      },
+      {
+        "stars": 3,
+        "type": "TrainingProvider",
+        "title": "FIXTURE Skill training centre empanelment for ITI graduates",
+        "source": "fix-rss-001",
+        "why": "TrainingProvider is worth 24; reads as “empanelment”; a TG source"
+      },
+      {
+        "stars": 2,
+        "type": "BusinessOpportunity",
+        "title": "FIXTURE Semiconductor assembly unit registration window opens",
+        "source": "fix-json-001",
+        "why": "BusinessOpportunity is worth 30; a AP source"
+      },
+      {
+        "stars": 2,
+        "type": "GovernmentScheme",
+        "title": "Dairy Entrepreneurship Development Scheme (DEDS)",
+        "source": "doc-entrepreneurship-businesses-2026",
+        "why": "GovernmentScheme is worth 34"
+      },
+      {
+        "stars": 2,
+        "type": "BusinessOpportunity",
+        "title": "AC Service & Repair Business",
+        "source": "doc-entrepreneurship-businesses-2026",
+        "why": "BusinessOpportunity is worth 30"
+      },
+      {
+        "stars": 2,
+        "type": "BusinessOpportunity",
+        "title": "CCTV Installation & Security Systems Business",
+        "source": "doc-entrepreneurship-businesses-2026",
+        "why": "BusinessOpportunity is worth 30"
+      }
+    ],
+    "last_run": "2026-08-27T14:51:02+00:00"
+  },
+  "sync": {
+    "runs": [],
+    "last_success": null,
+    "last_failure": null
+  },
+  "demand": {
+    "has_data": false,
+    "total": 0,
+    "top": [],
+    "zero_result": [],
+    "unique_terms": 0
+  },
+  "backlog": [],
+  "integrity": {
+    "status": "degraded",
+    "counts": {
+      "entities": 647,
+      "relationships": 865,
+      "isolated": 142,
+      "broken_references": 0,
+      "types_with_no_edges": 1,
+      "malformed_source_urls": 30,
+      "tables_that_shrank": 0
+    },
+    "findings": [
+      {
+        "check": "isolated_entities",
+        "severity": "WARN",
+        "subject": "",
+        "detail": "142 of 647 entities (22%) connect to nothing — mostly Certification (30), TrainingProvider (22), GovernmentScheme (21)"
+      },
+      {
+        "check": "missing_relationships",
+        "severity": "WARN",
+        "subject": "",
+        "detail": "1 entity type(s) have no edges at all — Certification — so nothing can lead to them"
+      },
+      {
+        "check": "malformed_source_urls",
+        "severity": "WARN",
+        "subject": "",
+        "detail": "30 source_url values are not URLs: skill_business_mapping.csv: Internal package mapping; skill_business_mapping.csv: Internal package mapping; skill_business_mapping.csv: Internal package mapping"
+      }
+    ]
+  },
+  "quality": {
+    "overall": 73.0,
+    "grade": "B",
+    "dimensions_scored": 7,
+    "dimensions_unknown": 1,
+    "dimensions": [
+      {
+        "name": "coverage",
+        "value": 100.0,
+        "detail": "19 of 19 registered entity types hold rows",
+        "formula": "populated entity types ÷ registered entity types"
+      },
+      {
+        "name": "connectivity",
+        "value": 78.1,
+        "detail": "505 of 647 entities lead somewhere; median 1 neighbours",
+        "formula": "entities with at least one edge ÷ all entities"
+      },
+      {
+        "name": "freshness",
+        "value": 100.0,
+        "detail": "647 fresh, 0 ageing, 0 stale",
+        "formula": "(fresh + ageing÷2) ÷ entities with a known date"
+      },
+      {
+        "name": "verification",
+        "value": 0.0,
+        "detail": "0 of 647 entities are not marked NEEDS_REVIEW — and no steward has recorded a review yet, so this measures the collector's confidence rather than a person's",
+        "formula": "entities without VST-NEEDS_REVIEW ÷ all entities"
+      },
+      {
+        "name": "research_completeness",
+        "value": 93.9,
+        "detail": "2551 of 42087 dataset cells hold PENDING_VERIFICATION",
+        "formula": "1 − (PENDING cells ÷ all cells)"
+      },
+      {
+        "name": "source_diversity",
+        "value": 97.6,
+        "detail": "7 source packages; the largest (Package008_MSME) supplies 25.8%",
+        "formula": "1 − Herfindahl index over rows per source package, normalised"
+      },
+      {
+        "name": "popularity",
+        "value": null,
+        "detail": "no popularity data — page views and search counts live in Supabase and are passed in, not fetched here",
+        "formula": "entities with at least one view ÷ all entities"
+      },
+      {
+        "name": "vocabulary_join",
+        "value": 41.1,
+        "detail": "83 of 202 user-facing terms resolve to an entity",
+        "formula": "resolved crosswalk terms ÷ all crosswalk terms"
+      }
+    ],
+    "concerns": [
+      "verification",
+      "vocabulary_join"
+    ]
+  },
+  "graph_validation": "PASS",
+  "engine_compatibility": "COMPATIBLE"
+}

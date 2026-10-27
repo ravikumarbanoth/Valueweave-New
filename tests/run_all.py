@@ -64,6 +64,9 @@ SUITES = {
                  "PX Phase 10: the defects found crawling the site at 390px"),
     "trade_vocabulary": ("tests.test_trade_vocabulary",
                          "Skilled-trade aliases and what the trades document may claim"),
+    "knowledge_intelligence": ("tests.test_knowledge_intelligence",
+                               "Promotion gate, queue inventory, derived entity "
+                               "profiles and knowledge gaps"),
     "stewardship": ("tests.test_stewardship", "Lifecycle, ledger and review queue"),
     "collection": ("tests.test_collection",
                    "Automated collection: registry, conditional fetch, review queue"),

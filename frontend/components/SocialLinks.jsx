@@ -7,7 +7,51 @@ export const SOCIAL_URLS = {
   youtube:   "https://www.youtube.com/@valueweave",
   x:         "https://x.com/TeamValueweave",
   instagram: "https://www.instagram.com/valueweave?igsh=MXRuazU0aW53dHVwdg==",
+  //: No official WhatsApp channel is configured. Left empty on purpose: an
+  //: invented number is worse than a missing icon, and `buildLinks` and the
+  //: header both drop a channel whose URL is falsy. An admin can fill this in
+  //: through platform_settings → social.whatsapp without a code change.
+  whatsapp:  "",
 };
+
+//: The settings rows that may override the defaults above. One list, so the
+//: footer and the header cannot drift apart about where a channel lives.
+export const SOCIAL_SETTING_KEYS = [
+  "social.youtube", "social.instagram", "social.x", "social.whatsapp",
+];
+
+/**
+ * The live social URLs: the defaults above, overridden by platform_settings.
+ *
+ * Extracted from the SocialLinks body so the header can show the SAME YouTube
+ * channel as the footer without a second copy of the URL or a second fetch
+ * pattern. A channel the admin has not configured comes back as "" and every
+ * caller is expected to render nothing for it.
+ */
+export function useSocialUrls() {
+  const [urls, setUrls] = useState(SOCIAL_URLS);
+
+  useEffect(() => {
+    let live = true;
+    createClient()
+      .from("platform_settings")
+      .select("key,value")
+      .in("key", SOCIAL_SETTING_KEYS)
+      .then(({ data }) => {
+        if (!live) return;
+        const map = Object.fromEntries((data || []).map((row) => [row.key, row.value]));
+        setUrls({
+          youtube: map["social.youtube"] || SOCIAL_URLS.youtube,
+          instagram: map["social.instagram"] || SOCIAL_URLS.instagram,
+          x: map["social.x"] || SOCIAL_URLS.x,
+          whatsapp: map["social.whatsapp"] || SOCIAL_URLS.whatsapp,
+        });
+      });
+    return () => { live = false; };
+  }, []);
+
+  return urls;
+}
 
 // Lucide (already in the project) ships Youtube + Instagram in v0.453.0. It has
 // no "X" mark, so X uses a small inline glyph below — no extra package needed.
@@ -54,23 +98,7 @@ function XGlyph({ size = 18, ...props }) {
  * All links open in a new tab, are rel-safe, and carry aria-labels + tooltips.
  */
 export default function SocialLinks({ variant = "icon", size = 18, className = "" }) {
-  const [urls, setUrls] = useState(SOCIAL_URLS);
-
-  useEffect(() => {
-    createClient()
-      .from("platform_settings")
-      .select("key,value")
-      .in("key", ["social.youtube", "social.instagram", "social.x"])
-      .then(({ data }) => {
-        const map = Object.fromEntries((data || []).map((row) => [row.key, row.value]));
-        setUrls({
-          youtube: map["social.youtube"] || SOCIAL_URLS.youtube,
-          instagram: map["social.instagram"] || SOCIAL_URLS.instagram,
-          x: map["social.x"] || SOCIAL_URLS.x,
-        });
-      });
-  }, []);
-
+  const urls = useSocialUrls();
   const socialLinks = useMemo(() => buildLinks(urls), [urls]);
 
   if (variant === "inline") {

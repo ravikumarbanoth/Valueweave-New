@@ -52,6 +52,10 @@ export const DEFAULT_PLATFORM_SETTINGS = {
   "social.youtube": "",
   "social.instagram": "",
   "social.x": "",
+  //: Empty until an official channel exists. The header renders its WhatsApp
+  //: tile only when this has a value, so switching it on is a settings change
+  //: rather than a code change — and no number is invented in the meantime.
+  "social.whatsapp": "",
   "modules.skills.enabled": true,
   "modules.schemes.enabled": true,
   "modules.resources.enabled": true,
@@ -104,6 +108,7 @@ export const PLATFORM_SETTING_DEFINITIONS = [
   { key: "social.youtube", label: "YouTube URL", type: "url", category: "Footer" },
   { key: "social.instagram", label: "Instagram URL", type: "url", category: "Footer" },
   { key: "social.x", label: "X URL", type: "url", category: "Footer" },
+  { key: "social.whatsapp", label: "WhatsApp URL (shows a header icon when set)", type: "url", category: "Footer" },
   { key: NAVIGATION_SETTING_KEYS.research, label: "Show Research", type: "boolean", category: "Navigation" },
   { key: NAVIGATION_SETTING_KEYS.districts, label: "Show Districts", type: "boolean", category: "Navigation" },
   { key: NAVIGATION_SETTING_KEYS.radar, label: "Show Radar", type: "boolean", category: "Navigation" },

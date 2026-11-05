@@ -23,22 +23,32 @@ export default function HomeNavClient({ navLinks = [] }) {
         between it and the icons — centring it there would push six links into
         the right half and leave the left empty.
       */}
-      <div className="relative max-w-6xl mx-auto h-16 px-4 sm:px-6 flex items-center gap-2 lg:gap-3">
-        <div className="lg:hidden shrink-0">
+      {/*
+        Same three-column grid as AppNavbar. The landing header was NOT the
+        one overlapping — it only ever shows two action tiles, so the old
+        absolute centring had room — but leaving one header on absolute
+        positioning and the other on a grid would mean the brand shifts as a
+        reader moves from the landing page to any other, and the next person
+        to add an icon here would reintroduce the same bug. Identical
+        structure, and the rendered desktop row is unchanged.
+      */}
+      <div className="max-w-6xl mx-auto h-16 px-3 sm:px-4 lg:px-6
+                      grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2
+                      md:flex md:gap-3">
+        <div className="flex items-center shrink-0 lg:hidden">
           <MobileNavMenu />
         </div>
 
         <Link
           href="/"
           data-testid="home-nav-logo"
-          className="flex items-center gap-2.5 shrink-0 min-h-[44px]
-                     absolute left-1/2 -translate-x-1/2
-                     lg:static lg:left-auto lg:translate-x-0"
+          className="flex items-center gap-2.5 min-w-0 min-h-[44px]
+                     justify-self-center md:justify-self-start md:shrink-0"
         >
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-500 to-yellow-400 flex items-center justify-center shadow-md shadow-amber-500/30">
+          <div className="w-9 h-9 shrink-0 rounded-xl bg-gradient-to-br from-amber-500 to-yellow-400 flex items-center justify-center shadow-md shadow-amber-500/30">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 3L4 7.5V16.5L12 21L20 16.5V7.5L12 3Z" stroke="#fff" strokeWidth="2" strokeLinejoin="round"/><path d="M4 7.5L12 12M12 12L20 7.5M12 12V21" stroke="#fff" strokeWidth="2" strokeLinecap="round"/></svg>
           </div>
-          <span className="font-display font-extrabold text-lg tracking-tight">Value<span className="text-amber-500">Weave</span></span>
+          <span className="truncate font-display font-extrabold text-lg tracking-tight">Value<span className="text-amber-500">Weave</span></span>
         </Link>
 
         {/* Desktop nav links */}
@@ -50,7 +60,7 @@ export default function HomeNavClient({ navLinks = [] }) {
           ))}
         </div>
 
-        <div className="ml-auto flex items-center gap-2">
+        <div className="flex items-center gap-1.5 sm:gap-2 justify-self-end md:ml-auto">
           <HeaderActions />
 
           {/*

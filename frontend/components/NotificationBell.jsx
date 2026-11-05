@@ -25,7 +25,13 @@ export default function NotificationBell() {
     <Link
       href="/notifications"
       aria-label={count > 0 ? `${count} unread notifications` : "Notifications"}
-      className="relative flex items-center justify-center w-8 h-8 rounded-lg text-muted hover:text-ink hover:bg-stone-100 transition-colors"
+      //: 44px, not 32. Measuring the signed-in mobile header to check the
+      //: overlap fix showed this was the one control in the row still under
+      //: the tap minimum PX Phase 10 set for the whole public site — the
+      //: search, YouTube and avatar controls beside it are all 44. The glyph
+      //: is unchanged at 17px; only the touchable box grew, and rounded-2xl
+      //: matches the tiles it now sits between.
+      className="relative flex items-center justify-center w-11 h-11 min-h-[44px] min-w-[44px] rounded-2xl text-muted hover:text-ink hover:bg-stone-100 transition-colors"
     >
       <Bell size={17} />
       {count > 0 && (

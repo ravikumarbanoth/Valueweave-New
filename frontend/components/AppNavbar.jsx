@@ -81,7 +81,15 @@ export default function AppNavbar({ initialProfile = null }) {
           looked like.
         */}
         <div className="relative max-w-6xl mx-auto h-16 px-4 sm:px-6 flex items-center gap-2 lg:gap-3">
-          {authed === false && (
+          {/*
+            `authed !== true` rather than `authed === false`, so the hamburger
+            is in the server-rendered HTML too. A signed-in reader loses it on
+            hydration and gets the bottom tab bar instead, which is the
+            existing behaviour; a signed-out one — and a crawler, and anyone
+            whose JavaScript has not arrived yet — sees it immediately rather
+            than watching the left of the header fill in.
+          */}
+          {authed !== true && (
             <div className="lg:hidden shrink-0">
               <MobileNavMenu />
             </div>
@@ -109,8 +117,23 @@ export default function AppNavbar({ initialProfile = null }) {
             </div>
           )}
 
-          {authed === false && (
-            <div className="ml-auto flex items-center gap-2">
+          {/*
+            ONE RIGHT-HAND CLUSTER, AND HeaderActions SITS OUTSIDE THE AUTH GATE.
+
+            This was a real bug, and a browser test could not see it. `authed`
+            starts as null and is resolved in an effect, so on the SERVER
+            neither the `authed === false` nor the `authed` branch renders.
+            With the icons inside those branches the server-rendered HTML of
+            all 36 AppNavbar routes had no search button, no YouTube link and
+            no hamburger — they appeared only once JavaScript had run. The
+            Playwright pass went green because by then it had.
+
+            Search and the YouTube channel do not depend on who is reading, so
+            they render unconditionally and are in the first HTML byte. Only
+            the things that genuinely differ by auth state stay gated.
+          */}
+          <div className="ml-auto flex items-center gap-2">
+            {authed === false && (
               <div className="hidden lg:flex items-center gap-1">
                 {PUBLIC_LINKS.map((link) => (
                   <Link key={link.href} href={link.href} className={`btn-ghost text-xs ${isActive(link.href) ? "!bg-amber-100 !text-amber-700" : ""}`}>
@@ -118,33 +141,35 @@ export default function AppNavbar({ initialProfile = null }) {
                   </Link>
                 ))}
               </div>
-              {/*
-                HeaderActions replaces the SocialLinks row that used to sit
-                here. It carries the same YouTube channel — both read
-                useSocialUrls() — so this is not a second copy of the URL, and
-                showing SocialLinks as well would put YouTube in the header
-                twice. X and Instagram remain in the footer and in the
-                signed-in user menu, which is where they were reachable from
-                on a phone anyway: that row was `hidden sm:flex`.
-              */}
-              <HeaderActions />
-              {/* PX Phase 10: at 390px this wrapped to two lines — a pill
-                  reading "Sign / in". Found in a screenshot, not by the crawl:
-                  a wrapped button gets TALLER, so no height check catches it.
-                  Nothing else changes; the words simply stay on one line.
-                  Both are hidden below lg now; the hamburger drawer ends with
-                  the same two links, so no route in is lost. */}
-              <Link href="/signin" data-testid="nav-public-signin" className="btn-secondary !py-2 !px-4 text-sm whitespace-nowrap hidden lg:inline-flex">{t("nav.signin", "Sign in")}</Link>
-              <Link href="/get-started" data-testid="nav-public-join" className="btn-primary !py-2 !px-4 text-sm whitespace-nowrap hidden lg:inline-flex">{t("nav.join_short", "Join")}</Link>
-            </div>
-          )}
+            )}
 
-          {authed && (
-            <div className="ml-auto flex items-center gap-2">
-              <HeaderActions />
-              <NotificationBell />
-            </div>
-          )}
+            {/*
+              HeaderActions replaces the SocialLinks row that used to sit here.
+              It carries the same YouTube channel — both read useSocialUrls() —
+              so this is not a second copy of the URL, and showing SocialLinks
+              as well would put YouTube in the header twice. X and Instagram
+              remain in the footer and in the signed-in user menu, which is
+              where they were reachable from on a phone anyway: that row was
+              `hidden sm:flex`.
+            */}
+            <HeaderActions />
+
+            {authed === false && (
+              <>
+                {/* PX Phase 10: at 390px this wrapped to two lines — a pill
+                    reading "Sign / in". Found in a screenshot, not by the
+                    crawl: a wrapped button gets TALLER, so no height check
+                    catches it. Nothing else changes; the words simply stay on
+                    one line. Both are hidden below lg now; the hamburger
+                    drawer ends with the same two links, so no route in is
+                    lost. */}
+                <Link href="/signin" data-testid="nav-public-signin" className="btn-secondary !py-2 !px-4 text-sm whitespace-nowrap hidden lg:inline-flex">{t("nav.signin", "Sign in")}</Link>
+                <Link href="/get-started" data-testid="nav-public-join" className="btn-primary !py-2 !px-4 text-sm whitespace-nowrap hidden lg:inline-flex">{t("nav.join_short", "Join")}</Link>
+              </>
+            )}
+
+            {authed && <NotificationBell />}
+          </div>
 
           {authed && (
             <div className="relative">

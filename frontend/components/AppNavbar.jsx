@@ -7,6 +7,7 @@ import { LogOut, User as UserIcon, Inbox, Plus, Home } from "lucide-react";
 import SocialLinks from "@/components/SocialLinks";
 import NotificationBell from "@/components/NotificationBell";
 import MobileNavMenu from "@/components/MobileNavMenu";
+import HeaderActions from "@/components/HeaderActions";
 import { useLanguage } from "@/lib/language";
 
 const PUBLIC_LINKS = [
@@ -62,8 +63,37 @@ export default function AppNavbar({ initialProfile = null }) {
   return (
     <>
       <nav className="sticky top-0 z-40 bg-cream/90 backdrop-blur-md border-b border-stone-200">
-        <div className="max-w-6xl mx-auto h-16 px-4 sm:px-6 flex items-center justify-between gap-3">
-          <Link href={logoHref} data-testid="navbar-logo" className="flex items-center gap-2.5 shrink-0 min-h-[44px]">
+        {/*
+          TWO LAYOUTS, ONE ROW — the same arrangement HomeNavClient uses, so
+          the header does not change shape as a reader moves between the
+          landing page and everything else.
+
+          Below lg: hamburger left, logo centred, icon tiles right. The logo is
+          centred absolutely rather than with a spacer, because the two sides
+          are different widths and a flex centre would drift.
+
+          From lg: logo back on the left with the navigation beside it.
+
+          The hamburger renders for signed-out readers only — that is existing
+          behaviour, not a change: a signed-in reader gets the bottom tab bar
+          at the end of this component instead. When it is absent the logo is
+          still centred, which is what the signed-in phone header already
+          looked like.
+        */}
+        <div className="relative max-w-6xl mx-auto h-16 px-4 sm:px-6 flex items-center gap-2 lg:gap-3">
+          {authed === false && (
+            <div className="lg:hidden shrink-0">
+              <MobileNavMenu />
+            </div>
+          )}
+
+          <Link
+            href={logoHref}
+            data-testid="navbar-logo"
+            className="flex items-center gap-2.5 shrink-0 min-h-[44px]
+                       absolute left-1/2 -translate-x-1/2
+                       lg:static lg:left-auto lg:translate-x-0"
+          >
             <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-500 to-yellow-400 flex items-center justify-center shadow-md shadow-amber-500/30">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 3L4 7.5V16.5L12 21L20 16.5V7.5L12 3Z" stroke="#fff" strokeWidth="2" strokeLinejoin="round"/><path d="M4 7.5L12 12M12 12L20 7.5M12 12V21" stroke="#fff" strokeWidth="2" strokeLinecap="round"/></svg>
             </div>
@@ -80,7 +110,7 @@ export default function AppNavbar({ initialProfile = null }) {
           )}
 
           {authed === false && (
-            <div className="flex items-center gap-2">
+            <div className="ml-auto flex items-center gap-2">
               <div className="hidden lg:flex items-center gap-1">
                 {PUBLIC_LINKS.map((link) => (
                   <Link key={link.href} href={link.href} className={`btn-ghost text-xs ${isActive(link.href) ? "!bg-amber-100 !text-amber-700" : ""}`}>
@@ -88,19 +118,30 @@ export default function AppNavbar({ initialProfile = null }) {
                   </Link>
                 ))}
               </div>
-              <SocialLinks className="hidden sm:flex !gap-2" size={16} />
+              {/*
+                HeaderActions replaces the SocialLinks row that used to sit
+                here. It carries the same YouTube channel — both read
+                useSocialUrls() — so this is not a second copy of the URL, and
+                showing SocialLinks as well would put YouTube in the header
+                twice. X and Instagram remain in the footer and in the
+                signed-in user menu, which is where they were reachable from
+                on a phone anyway: that row was `hidden sm:flex`.
+              */}
+              <HeaderActions />
               {/* PX Phase 10: at 390px this wrapped to two lines — a pill
                   reading "Sign / in". Found in a screenshot, not by the crawl:
                   a wrapped button gets TALLER, so no height check catches it.
-                  Nothing else changes; the words simply stay on one line. */}
-              <Link href="/signin" data-testid="nav-public-signin" className="btn-secondary !py-2 !px-4 text-sm whitespace-nowrap">{t("nav.signin", "Sign in")}</Link>
-              <Link href="/get-started" data-testid="nav-public-join" className="btn-primary !py-2 !px-4 text-sm">{t("nav.join_short", "Join")}</Link>
-              <MobileNavMenu />
+                  Nothing else changes; the words simply stay on one line.
+                  Both are hidden below lg now; the hamburger drawer ends with
+                  the same two links, so no route in is lost. */}
+              <Link href="/signin" data-testid="nav-public-signin" className="btn-secondary !py-2 !px-4 text-sm whitespace-nowrap hidden lg:inline-flex">{t("nav.signin", "Sign in")}</Link>
+              <Link href="/get-started" data-testid="nav-public-join" className="btn-primary !py-2 !px-4 text-sm whitespace-nowrap hidden lg:inline-flex">{t("nav.join_short", "Join")}</Link>
             </div>
           )}
 
           {authed && (
-            <div className="flex items-center gap-2">
+            <div className="ml-auto flex items-center gap-2">
+              <HeaderActions />
               <NotificationBell />
             </div>
           )}

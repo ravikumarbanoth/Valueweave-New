@@ -36,9 +36,13 @@ export default function MobileNavMenu() {
       <button
         onClick={() => setOpen((o) => !o)}
         aria-label={open ? "Close menu" : "Open menu"}
-        className="lg:hidden w-10 h-10 flex items-center justify-center rounded-lg hover:bg-stone-100 transition-colors min-h-[44px] min-w-[44px]"
+        data-testid="mobile-nav-toggle"
+        //: Rounded-square amber tile, matching the search / YouTube tiles in
+        //: HeaderActions so the three sit as one set rather than one plain
+        //: button beside two coloured ones. 44px is unchanged.
+        className="lg:hidden w-11 h-11 flex items-center justify-center rounded-2xl bg-amber-50 text-amber-600 hover:bg-amber-100 transition-colors min-h-[44px] min-w-[44px]"
       >
-        {open ? <X size={20} className="text-ink" /> : <Menu size={20} className="text-ink" />}
+        {open ? <X size={20} aria-hidden="true" /> : <Menu size={20} aria-hidden="true" />}
       </button>
 
       {open && (

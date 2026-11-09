@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-31T11:25:18+00:00",
+  "generated_at": "2026-11-09T13:40:13+00:00",
   "overview": {
     "entities": 647,
     "relationships": 865,
@@ -200,8 +200,8 @@
     "ageing": 0,
     "stale": 0,
     "unknown": 0,
-    "median_age_days": 3,
-    "oldest_days": 3,
+    "median_age_days": 73,
+    "oldest_days": 73,
     "stale_by_package": {}
   },
   "collection": {
@@ -224,19 +224,19 @@
         "check": "stale",
         "severity": "WARN",
         "source_id": "fix-rss-001",
-        "detail": "nothing new for 674h against a daily cadence (24h) — publishing may have stopped"
+        "detail": "nothing new for 2357h against a daily cadence (24h) — publishing may have stopped"
       },
       {
         "check": "stale",
         "severity": "WARN",
         "source_id": "fix-atom-001",
-        "detail": "nothing new for 674h against a daily cadence (24h) — publishing may have stopped"
+        "detail": "nothing new for 2357h against a daily cadence (24h) — publishing may have stopped"
       },
       {
         "check": "stale",
         "severity": "WARN",
         "source_id": "fix-json-001",
-        "detail": "nothing new for 674h against a weekly cadence (168h) — publishing may have stopped"
+        "detail": "nothing new for 2357h against a weekly cadence (168h) — publishing may have stopped"
       },
       {
         "check": "never_verified",
@@ -276,16 +276,17 @@
       }
     ],
     "queue": {
-      "total": 76,
+      "total": 80,
       "by_state": {
         "DUPLICATE": 1,
-        "NEEDS_REVIEW": 75
+        "NEEDS_REVIEW": 79
       },
       "awaiting_review_by_type": {
         "Skill": 53,
         "BusinessOpportunity": 10,
         "GovernmentScheme": 4,
         "TrainingProvider": 4,
+        "KnowledgeGap": 4,
         "MSME": 2,
         "Certification": 1,
         "Machinery": 1
@@ -293,7 +294,7 @@
       "awaiting_review_by_stars": {
         "3": 6,
         "2": 68,
-        "1": 1
+        "1": 5
       }
     },
     "top_of_queue": [
@@ -447,8 +448,8 @@
       },
       {
         "name": "research_completeness",
-        "value": 94.0,
-        "detail": "2460 of 40799 dataset cells hold PENDING_VERIFICATION",
+        "value": 93.9,
+        "detail": "2551 of 42087 dataset cells hold PENDING_VERIFICATION",
         "formula": "1 − (PENDING cells ÷ all cells)"
       },
       {

@@ -61,6 +61,11 @@ ENTRY_SURFACES = [
     COMPONENTS / "HomeLiveActivity.jsx",
     COMPONENTS / "HomepageStats.jsx",
     COMPONENTS / "HomeFeaturedOpportunities.jsx",
+    # The headings the opportunities section actually renders live in the
+    # client half; the server file only fetches. Likewise the research
+    # section, so its heading is held to the same vocabulary rules.
+    COMPONENTS / "HomeFeaturedOpportunitiesClient.jsx",
+    COMPONENTS / "HomeResearchArticlesClient.jsx",
     COMPONENTS / "HomeWhySection.jsx",
     COMPONENTS / "HomeDiscoverSection.jsx",
     COMPONENTS / "HomeSectorsSection.jsx",

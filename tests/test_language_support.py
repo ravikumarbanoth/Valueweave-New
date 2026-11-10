@@ -195,13 +195,15 @@ class HomepageComponentLocalizationTests(unittest.TestCase):
             "secondaryCta",
             "tertiaryCta",
             "<HomeHeroSearch",
-            "<HomepageStats",
             "<HomeHowItWorks",
             "<HomeFeatureGrid",
             "<HomeFeaturedOpportunities",
+            "<HomeResearchArticles",
         ]
         for ident in required_identifiers:
             self.assertIn(ident, page_src, f"Landing page must retain identifier/component {ident}")
+        # Removed from the homepage on purpose ("Who is here so far").
+        self.assertNotIn("<HomepageStats", page_src)
 
 
 class NavigationIntegrationTests(unittest.TestCase):

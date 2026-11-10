@@ -114,8 +114,9 @@ class HeroSearchTest(unittest.TestCase):
         """Being present is not the same as being first."""
         body = self.page[self.page.index("return ("):]
         first = body.index("<HomeHeroSearch")
-        for later in ("<HomepageStats", "<HomeHowItWorks", "<HomeFeatureGrid",
-                      "<HomeFeaturedOpportunities"):
+        # HomepageStats ("Who is here so far") is no longer on the homepage.
+        for later in ("<HomeHowItWorks", "<HomeFeatureGrid",
+                      "<HomeFeaturedOpportunities", "<HomeResearchArticles"):
             with self.subTest(section=later):
                 self.assertLess(first, body.index(later))
 

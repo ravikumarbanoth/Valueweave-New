@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { MapPin, Briefcase, ArrowRight } from "lucide-react";
 import { useLanguage } from "@/lib/language";
+import { formatBudgetLabel } from "@/lib/budget";
 
 const SECTOR_COLORS = {
   Healthcare: "bg-rose-50 text-rose-700 border-rose-200",
@@ -21,6 +22,19 @@ function sectorColor(cat) {
 }
 
 function OpportunityCard({ opp }) {
+  // THE "?" BEFORE EVERY BUDGET was a literal question mark in this file's
+  // source, not a font or data problem. This component was split out of
+  // HomeFeaturedOpportunities.jsx, where the line read `₹ {investment_range}`,
+  // and the copy was written through an encoder that could not represent the
+  // rupee sign, so it was saved as "?" (0x3F) — the file was left with no
+  // non-ASCII character at all, and "View All Opportunities →" lost its arrow
+  // the same way.
+  //
+  // Restoring the "₹" would not have been right either: the stored value
+  // already carries its own ("₹2L – ₹5L"), so the original prefix would have
+  // shown "₹ ₹2L – ₹5L". The value is now shown as stored, tidied by
+  // formatBudgetLabel, and an empty or placeholder budget shows no chip.
+  const budget = formatBudgetLabel(opp.investment_range);
   return (
     <Link
       href={`/opportunities/${opp.id}`}
@@ -44,9 +58,9 @@ function OpportunityCard({ opp }) {
             <MapPin size={10} /> {opp.district}
           </span>
         )}
-        {opp.investment_range && (
-          <span className="inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-full border bg-amber-50 text-amber-700 border-amber-200">
-            ? {opp.investment_range}
+        {budget && (
+          <span data-testid="home-opp-budget" className="inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-full border bg-amber-50 text-amber-700 border-amber-200">
+            {budget}
           </span>
         )}
       </div>
@@ -80,7 +94,7 @@ export default function HomeFeaturedOpportunitiesClient({ opportunities }) {
 
         <div className="text-center mt-10">
           <Link href="/explore" className="btn-primary">
-            {t("opps.view_all", "View All Opportunities ?")}
+            {t("opps.view_all", "View All Opportunities →")}
           </Link>
         </div>
       </div>

@@ -4,7 +4,7 @@
 // (e.g., CI builds with placeholder env vars).
 
 import { createClient } from "@supabase/supabase-js";
-import { CATEGORY_LABELS } from "@/lib/theme";
+import { resolveCategory } from "@/lib/theme";
 import { getYouTubeEmbedUrl, isValidYouTubeUrl } from "@/lib/youtube";
 
 function anonClient() {
@@ -12,18 +12,6 @@ function anonClient() {
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
   if (!url || !key) return null;
   return createClient(url, key, { auth: { persistSession: false } });
-}
-
-// Map free-text category ("Healthcare", "food processing") to a known
-// category id so cards, filters, and badges keep working.
-function normalizeCategory(raw) {
-  if (!raw) return "agriculture";
-  const slug = String(raw).trim().toLowerCase().replace(/\s+/g, "-");
-  if (CATEGORY_LABELS[slug]) return slug;
-  const byLabel = Object.entries(CATEGORY_LABELS).find(
-    ([, label]) => label.toLowerCase() === String(raw).trim().toLowerCase()
-  );
-  return byLabel ? byLabel[0] : slug;
 }
 
 function estimateReadingTime(content) {
@@ -48,6 +36,11 @@ function normalizeVideo(row) {
 export function normalizeDbArticle(row) {
   if (!row) return null;
   const faq = Array.isArray(row.faq_json) ? row.faq_json : [];
+  // The column is free text: a predefined id ("healthcare"), a custom
+  // category ("Drone Services"), or an older hand-typed spelling ("Food
+  // processing"). resolveCategory turns all three into one id for filtering
+  // and one label for display, so cards, chips and badges agree.
+  const cat = resolveCategory(row.category);
   return {
     source: "db",
     dbId: row.id,
@@ -56,8 +49,13 @@ export function normalizeDbArticle(row) {
     title: row.title || "",
     metaTitle: row.seo_title || row.title || "",
     metaDescription: row.seo_description || row.excerpt || "",
-    category: normalizeCategory(row.category),
-    sector: row.category || "Research",
+    category: cat.id,
+    categoryLabel: cat.label,
+    // `sector` is what the hub's search box and the universal search match
+    // on. It was the raw column, so an article filed under
+    // "government-schemes-public-welfare" could not be found by typing
+    // "government schemes"; the label can.
+    sector: row.category ? cat.label : "Research",
     districtTags: row.district
       ? [String(row.district).trim().toLowerCase().replace(/\s+/g, "-")]
       : [],

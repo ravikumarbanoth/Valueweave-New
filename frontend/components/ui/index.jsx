@@ -2,7 +2,7 @@
 // Styled to the existing ValueWeave theme (cream, amber/teal, font-display).
 
 import Link from "next/link";
-import { CATEGORY_LABELS } from "@/lib/theme";
+import { getCategoryLabel } from "@/lib/theme";
 
 export function ScoreBadge({ score, label, variant = "fit" }) {
   const color =
@@ -57,10 +57,13 @@ export function Breadcrumb({ items }) {
   );
 }
 
-export function CategoryBadge({ category }) {
+// `label` wins when the caller has one (a DB article carries the label its
+// author typed); otherwise it is derived, so a custom category reads
+// "Drone Services" rather than "drone-services".
+export function CategoryBadge({ category, label }) {
   return (
     <span className="chip bg-teal-50 text-teal-700 border border-teal-200">
-      {CATEGORY_LABELS[category] ?? category}
+      {label || getCategoryLabel(category) || category}
     </span>
   );
 }

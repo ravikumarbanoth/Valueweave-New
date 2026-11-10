@@ -15,6 +15,29 @@ const CATEGORY_EMOJI = {
   logistics: "🚚",
   "food-processing": "🥫",
   handicrafts: "🧵",
+  "entrepreneurship-startups": "🚀",
+  "msme-small-businesses": "🏬",
+  "employment-careers": "💼",
+  "skill-development-training": "🛠️",
+  "finance-financial-inclusion": "🏦",
+  "dairy-livestock": "🐄",
+  "fisheries-aquaculture": "🐟",
+  "rural-development": "🏡",
+  "construction-infrastructure": "🏗️",
+  "ev-battery-technology": "🔋",
+  "electronics-semiconductors": "🔌",
+  "defence-aerospace": "✈️",
+  "recycling-circular-economy": "♻️",
+  "ai-emerging-technologies": "🤖",
+  "software-it-services": "🖥️",
+  "biotechnology-pharmaceuticals": "🧬",
+  "research-innovation": "🔬",
+  "handlooms-textiles": "🪡",
+  "arts-culture-heritage": "🎭",
+  "tourism-hospitality": "🧭",
+  "government-schemes-public-welfare": "🏛️",
+  "environment-sustainability": "🌱",
+  "social-impact-community-development": "🤝",
 };
 
 const CATEGORY_GRADIENT = {
@@ -54,7 +77,7 @@ export function ArticleCard({ article, featured }) {
           </span>
         )}
         <div className="absolute top-3 left-3 flex flex-wrap gap-1.5">
-          <CategoryBadge category={article.category} />
+          <CategoryBadge category={article.category} label={article.categoryLabel} />
           {article.video && <span className="chip bg-white/90 text-ink shadow-sm">▶ Video Available</span>}
         </div>
       </div>

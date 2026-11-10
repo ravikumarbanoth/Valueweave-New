@@ -24,7 +24,7 @@ export function ArticleTemplate({ article, relatedLinks, relatedArticles, mdx })
         <div className="absolute -bottom-20 -left-20 w-96 h-96 rounded-full bg-teal-500/20 blur-3xl" />
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 pt-12 pb-10">
           <div className="flex items-center gap-2 mb-4 flex-wrap">
-            <CategoryBadge category={article.category} />
+            <CategoryBadge category={article.category} label={article.categoryLabel} />
             {article.video && <span className="chip bg-white/15 text-white border border-white/20">▶ Video Available</span>}
             {article.investmentRange?.label && (
               <span className="chip bg-white/15 text-white border border-white/20">{article.investmentRange.label}</span>
@@ -74,7 +74,7 @@ export function ArticleTemplate({ article, relatedLinks, relatedArticles, mdx })
                 "Who should read this": `Entrepreneurs, students, local operators, and collaborators exploring ${article.sector || article.category}.`,
                 "Investment Range": article.investmentRange?.label || "Varies by execution",
                 "District Relevance": districtRelevance,
-                "Business Potential": `Useful for validating ${article.category} opportunities and local demand signals.`,
+                "Business Potential": `Useful for validating ${article.categoryLabel || article.category} opportunities and local demand signals.`,
               }}
               faq={article.faq}
             />

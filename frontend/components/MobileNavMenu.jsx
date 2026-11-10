@@ -40,16 +40,25 @@ export default function MobileNavMenu() {
         //: Rounded-square amber tile, matching the search / YouTube tiles in
         //: HeaderActions so the three sit as one set rather than one plain
         //: button beside two coloured ones. 44px is unchanged.
-        className="lg:hidden w-11 h-11 flex items-center justify-center rounded-2xl bg-amber-50 text-amber-600 hover:bg-amber-100 transition-colors min-h-[44px] min-w-[44px]"
+        //:
+        //: Hides at 1152, not lg. AppNavbar's signed-out inline links now
+        //: appear at 1152 rather than 1024, and this button hiding at 1024
+        //: left 1024-1151px with NO navigation at all: no links and no
+        //: hamburger. The two breakpoints have to be the same number, so the
+        //: hamburger hands over to the links at the exact width they arrive.
+        //: HomeNavClient is unaffected: its wrapper is still `lg:hidden`, and
+        //: display:none on that wrapper hides this button, the backdrop and
+        //: the drawer with it, so the landing page keeps handing over at lg.
+        className="min-[1152px]:hidden w-11 h-11 flex items-center justify-center rounded-2xl bg-amber-50 text-amber-600 hover:bg-amber-100 transition-colors min-h-[44px] min-w-[44px]"
       >
         {open ? <X size={20} aria-hidden="true" /> : <Menu size={20} aria-hidden="true" />}
       </button>
 
       {open && (
-        <div className="fixed inset-0 z-40 bg-ink/30 backdrop-blur-sm lg:hidden" onClick={() => setOpen(false)} />
+        <div className="fixed inset-0 z-40 bg-ink/30 backdrop-blur-sm min-[1152px]:hidden" onClick={() => setOpen(false)} />
       )}
 
-      <div className={`lg:hidden fixed top-16 inset-x-0 z-50 bg-white border-b border-stone-200 shadow-xl transition-all duration-200 ${open ? "opacity-100 pointer-events-auto translate-y-0" : "opacity-0 pointer-events-none -translate-y-2"}`}>
+      <div className={`min-[1152px]:hidden fixed top-16 inset-x-0 z-50 bg-white border-b border-stone-200 shadow-xl transition-all duration-200 ${open ? "opacity-100 pointer-events-auto translate-y-0" : "opacity-0 pointer-events-none -translate-y-2"}`}>
         <nav className="px-4 py-3 flex flex-col gap-0.5 max-h-[calc(100vh-5rem)] overflow-y-auto">
           {links.map((l) => (
             <Link key={l.href} href={l.href} onClick={() => setOpen(false)} className="flex items-center px-3 py-3 rounded-xl text-sm font-display font-semibold text-ink hover:bg-amber-50 hover:text-amber-700 transition-colors min-h-[44px]">

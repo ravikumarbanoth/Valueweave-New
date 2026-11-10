@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { marked } from "marked";
 import { createClient } from "@/lib/supabase-browser";
-import { CATEGORY_LABELS } from "@/lib/theme";
+import { CATEGORY_GROUPS, CUSTOM_CATEGORY_MAX, resolveCategory, validateCustomCategory } from "@/lib/theme";
 import { DISTRICTS } from "@/lib/districts-data";
 import { getYouTubeEmbedUrl, isValidYouTubeUrl } from "@/lib/youtube";
 
@@ -49,6 +49,15 @@ export default function ArticleEditor({ id, mdxSlugs = [] }) {
   const [seoOpen, setSeoOpen] = useState(false);
   const [videoOpen, setVideoOpen] = useState(false);
   const [slugTouched, setSlugTouched] = useState(!!id);
+  // Custom-category entry. None of this is article data: `form.category` is
+  // still the only thing saved, and it only changes when the author presses
+  // "Use category". Until then the article keeps the category it had, so an
+  // auto-save landing mid-typing cannot store half a word.
+  const [customOpen, setCustomOpen] = useState(false);
+  const [customDraft, setCustomDraft] = useState("");
+  const [customError, setCustomError] = useState("");
+  const [customNote, setCustomNote] = useState("");
+  const [usedCustom, setUsedCustom] = useState([]);
   const formRef = useRef(form);
   const dirtyRef = useRef(false);
   formRef.current = form;
@@ -82,6 +91,69 @@ export default function ArticleEditor({ id, mdxSlugs = [] }) {
       setLoading(false);
     })();
   }, [id, supabase]);
+
+  // Custom categories other articles already use — offered in the dropdown so
+  // a second article joins the first one's category instead of re-typing it,
+  // and checked against so "Drone services" cannot be added beside "Drone
+  // Services". Read-only, and failure just means the list is empty.
+  useEffect(() => {
+    (async () => {
+      const { data } = await supabase.from("research_articles").select("category").not("category", "is", null).limit(1000);
+      const seen = new Map();
+      for (const r of data || []) {
+        const c = resolveCategory(r.category, null);
+        if (c.id && !c.known && !seen.has(c.id)) seen.set(c.id, r.category.trim());
+      }
+      setUsedCustom([...seen.values()].sort((a, b) => a.localeCompare(b)));
+    })();
+  }, [supabase]);
+
+  // What the dropdown shows for the stored value. A predefined category in
+  // any spelling ("healthcare", "Healthcare", "food processing") selects its
+  // option; anything else is a custom category and gets an option of its own,
+  // so opening an old article never silently displays the wrong category.
+  const currentCategory = resolveCategory(form.category, null);
+  const customOptions = useMemo(() => {
+    const list = [...usedCustom];
+    if (form.category && !currentCategory.known && !list.some((c) => resolveCategory(c, null).id === currentCategory.id)) {
+      list.push(form.category);
+    }
+    return list;
+  }, [usedCustom, form.category, currentCategory.known, currentCategory.id]);
+  const categorySelectValue = customOpen
+    ? "__custom__"
+    : currentCategory.known
+    ? currentCategory.id
+    : (customOptions.find((c) => resolveCategory(c, null).id === currentCategory.id) ?? "");
+
+  function onCategorySelect(value) {
+    setCustomError("");
+    setCustomNote("");
+    if (value === "__custom__") {
+      setCustomOpen(true);
+      return;
+    }
+    setCustomOpen(false);
+    setCustomDraft("");
+    update("category", value);
+  }
+
+  function applyCustomCategory() {
+    const res = validateCustomCategory(customDraft, customOptions);
+    if (!res.ok) {
+      setCustomError(res.error);
+      return;
+    }
+    setCustomError("");
+    setCustomNote(
+      res.existing === "predefined" ? `“${res.label}” is already in the list — selected it instead of adding a duplicate.`
+      : res.existing === "custom" ? `“${res.label}” is already used by another article — using that category.`
+      : `Custom category “${res.label}” will be saved with this article.`
+    );
+    update("category", res.value);
+    setCustomOpen(false);
+    setCustomDraft("");
+  }
 
   function update(key, value) {
     setForm((prev) => {
@@ -250,9 +322,60 @@ export default function ArticleEditor({ id, mdxSlugs = [] }) {
         <div className="grid sm:grid-cols-2 gap-4">
           <div>
             <label className="label-display">Category</label>
-            <select value={form.category} onChange={(e) => update("category", e.target.value)} className="input-field">
-              {Object.entries(CATEGORY_LABELS).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
+            {/* A native <select> on purpose: on a phone it opens the system
+                picker — full-height, scrollable, type-to-jump, and themed by
+                the OS in light and dark — which no custom dropdown inside a
+                form this long would do better. The groups are what make 33
+                entries navigable in it. */}
+            <select data-testid="editor-category" value={categorySelectValue} onChange={(e) => onCategorySelect(e.target.value)} className="input-field">
+              {/* Only for an article saved with no category at all: shows
+                  that honestly instead of appearing to be the first option. */}
+              {!form.category && !customOpen && <option value="" disabled>Select a category</option>}
+              {CATEGORY_GROUPS.map((g) => (
+                <optgroup key={g.label} label={g.label}>
+                  {g.items.map(([k, v]) => <option key={k} value={k}>{v}</option>)}
+                </optgroup>
+              ))}
+              {customOptions.length > 0 && (
+                <optgroup label="Custom categories">
+                  {customOptions.map((c) => <option key={c} value={c}>{resolveCategory(c, null).label}</option>)}
+                </optgroup>
+              )}
+              <option value="__custom__">+ Add Custom Category</option>
             </select>
+            {customOpen && (
+              <div data-testid="editor-custom-category" className="mt-2 rounded-xl border border-amber-200 bg-amber-50/60 p-3">
+                <label htmlFor="vw-custom-category" className="label-display">New category name</label>
+                <input
+                  id="vw-custom-category"
+                  data-testid="editor-custom-category-input"
+                  value={customDraft}
+                  maxLength={CUSTOM_CATEGORY_MAX}
+                  autoFocus
+                  onChange={(e) => { setCustomDraft(e.target.value); setCustomError(""); }}
+                  onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); applyCustomCategory(); } }}
+                  placeholder="e.g. Drone Services"
+                  aria-invalid={!!customError}
+                  className={`input-field ${customError ? "!border-red-400" : ""}`}
+                />
+                {customError
+                  ? <p data-testid="editor-custom-category-error" className="text-xs text-red-600 mt-1">{customError}</p>
+                  : <p className="text-xs text-muted mt-1">Name the subject, not the place — the district has its own field.</p>}
+                <div className="flex flex-wrap gap-2 mt-2">
+                  <button type="button" data-testid="editor-custom-category-apply" onClick={applyCustomCategory}
+                    className="btn-primary !py-2 !px-4 text-xs">Use category</button>
+                  <button type="button" data-testid="editor-custom-category-cancel"
+                    onClick={() => { setCustomOpen(false); setCustomDraft(""); setCustomError(""); }}
+                    className="btn-ghost !py-2 !px-4 text-xs border border-stone-200">Cancel</button>
+                </div>
+                {currentCategory.label && (
+                  <p className="text-xs text-muted mt-2">Stays “{currentCategory.label}” until you press Use category.</p>
+                )}
+              </div>
+            )}
+            {customNote && !customOpen && (
+              <p data-testid="editor-custom-category-note" className="text-xs text-teal-700 mt-1">{customNote}</p>
+            )}
           </div>
           <div>
             <label className="label-display">District</label>

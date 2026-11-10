@@ -5,10 +5,10 @@
 import { useState, useMemo } from "react";
 import { ArticleCard } from "@/components/research/ArticleCard";
 import { EmptyState } from "@/components/ui/index";
-import { CATEGORY_LABELS } from "@/lib/theme";
+import { CATEGORY_LABELS, getCategoryLabel } from "@/lib/theme";
 
 const PER_PAGE = 12;
-const CATEGORIES = Object.entries(CATEGORY_LABELS);
+const KNOWN_ORDER = Object.keys(CATEGORY_LABELS);
 
 export function ResearchHubClient({ articles }) {
   const [search, setSearch] = useState("");
@@ -16,10 +16,26 @@ export function ResearchHubClient({ articles }) {
   const [page, setPage] = useState(1);
 
   // Only show category chips that actually have articles, plus "All".
+  //
+  // Built from the ARTICLES, not from the predefined list. It used to filter
+  // the predefined list by what was in use, which meant an article in a
+  // custom category was published, was on the page, and could not be
+  // filtered to — its chip never appeared. Predefined categories keep the
+  // taxonomy's order; custom ones follow, alphabetically.
   const activeCategories = useMemo(() => {
-    const used = new Set(articles.map((a) => a.category));
-    return CATEGORIES.filter(([key]) => used.has(key));
+    const labels = new Map();
+    for (const a of articles) {
+      if (a.category && !labels.has(a.category)) {
+        labels.set(a.category, a.categoryLabel || getCategoryLabel(a.category));
+      }
+    }
+    const known = KNOWN_ORDER.filter((id) => labels.has(id)).map((id) => [id, labels.get(id)]);
+    const custom = [...labels].filter(([id]) => !CATEGORY_LABELS[id])
+      .sort((x, y) => x[1].localeCompare(y[1]));
+    return [...known, ...custom];
   }, [articles]);
+  const selectedLabel = activeCategories.find(([id]) => id === selectedCategory)?.[1]
+    || getCategoryLabel(selectedCategory);
 
   const filtered = useMemo(() => {
     let results = articles;
@@ -32,7 +48,9 @@ export function ResearchHubClient({ articles }) {
         (a) =>
           a.title.toLowerCase().includes(q) ||
           a.metaDescription.toLowerCase().includes(q) ||
-          a.sector.toLowerCase().includes(q) ||
+          (a.sector || "").toLowerCase().includes(q) ||
+          (a.categoryLabel || getCategoryLabel(a.category)).toLowerCase().includes(q) ||
+          (a.keywords || []).some((k) => String(k).toLowerCase().includes(q)) ||
           a.districtTags.some((d) => d.toLowerCase().includes(q)) ||
           a.stateTags.some((s) => s.toLowerCase().includes(q))
       );
@@ -102,7 +120,7 @@ export function ResearchHubClient({ articles }) {
             {search
               ? `"${search}" — ${filtered.length} result${filtered.length !== 1 ? "s" : ""}`
               : selectedCategory !== "all"
-              ? `${CATEGORY_LABELS[selectedCategory]} Research`
+              ? `${selectedLabel} Research`
               : "Latest Research"}
           </h2>
           <span data-testid="research-count" className="text-xs font-display font-semibold text-muted hidden md:block">

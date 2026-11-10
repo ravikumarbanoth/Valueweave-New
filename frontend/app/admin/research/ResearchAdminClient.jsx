@@ -6,7 +6,7 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase-browser";
-import { CATEGORY_LABELS } from "@/lib/theme";
+import { resolveCategory } from "@/lib/theme";
 import { isValidYouTubeUrl } from "@/lib/youtube";
 
 const STATUS_FILTERS = [
@@ -48,7 +48,7 @@ export default function ResearchAdminClient({ mdxArticles }) {
   const filtered = useMemo(() => {
     return articles.filter((a) => {
       if (status && a.status !== status) return false;
-      if (category && (a.category || "").toLowerCase() !== category.toLowerCase()) return false;
+      if (category && resolveCategory(a.category, null).id !== category) return false;
       if (search.trim()) {
         const q = search.toLowerCase();
         return (
@@ -62,7 +62,12 @@ export default function ResearchAdminClient({ mdxArticles }) {
   }, [articles, search, category, status]);
 
   const usedCategories = useMemo(
-    () => [...new Set(articles.map((a) => a.category).filter(Boolean))].sort(),
+    // Keyed by resolved id, so "healthcare", "Healthcare" and a custom
+    // category typed two ways are one filter option, not three.
+    () => [...new Map(articles.filter((a) => a.category).map((a) => {
+      const c = resolveCategory(a.category, null);
+      return [c.id, c.label];
+    }))].sort((x, y) => x[1].localeCompare(y[1])),
     [articles]
   );
 
@@ -159,8 +164,8 @@ export default function ResearchAdminClient({ mdxArticles }) {
             className="rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-xs font-display font-semibold text-ink outline-none focus:border-amber-500"
           >
             <option value="">All categories</option>
-            {usedCategories.map((c) => (
-              <option key={c} value={c}>{CATEGORY_LABELS[c] || c}</option>
+            {usedCategories.map(([id, label]) => (
+              <option key={id} value={id}>{label}</option>
             ))}
           </select>
           <span className="text-xs text-muted ml-auto">{filtered.length} shown</span>

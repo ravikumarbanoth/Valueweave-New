@@ -2,6 +2,7 @@ import AdminShell from "@/components/admin/AdminShell";
 import { createClient } from "@/lib/supabase-server";
 import Link from "next/link";
 import { BookOpen, Eye, TrendingUp, MapPin, Briefcase, Star, ExternalLink } from "lucide-react";
+import { getCategoryLabel } from "@/lib/theme";
 
 export const dynamic = "force-dynamic";
 export const metadata = {
@@ -234,7 +235,7 @@ export default async function ResearchPerformancePage() {
                         <p className="text-stone-400 text-[11px] truncate">/research/{a.slug}</p>
                       </td>
                       <td className="py-3 px-4">
-                        <span className="chip bg-amber-50 text-amber-700 text-[10px] capitalize">{a.category || "—"}</span>
+                        <span className="chip bg-amber-50 text-amber-700 text-[10px]">{getCategoryLabel(a.category) || "—"}</span>
                       </td>
                       <td className="py-3 px-4">
                         {a.topDistrict

@@ -9,17 +9,13 @@
 // confidence-scored data — 647 entities across Packages 001–008 — so the section
 // reads the projection and shows what the platform actually holds.
 //
-// "Future Infrastructure Roadmap" kept its six modules but lost the "Planned"
-// chip. None of them has a data source in any package, and that is a different
-// and more honest statement than "planned": it says the research does not exist,
-// not that the wiring is pending. Each now names the package that would have to
-// exist first.
+// "What we are building next" (formerly "Future Infrastructure Roadmap") has
+// been removed from the homepage — see the note where it used to render.
 import Link from "next/link";
 import InfrastructureCard from "@/components/platform/InfrastructureCard";
 import KnowledgeSearch from "@/components/platform/KnowledgeSearch";
 import ConfidenceBadge from "@/components/knowledge/ConfidenceBadge";
 import SourceBadge from "@/components/knowledge/SourceBadge";
-import CapabilityCard from "@/components/knowledge/CapabilityStatus";
 import KnowledgeEmptyState from "@/components/knowledge/KnowledgeEmptyState";
 import { featuredByType, typeCounts, hrefFor, URL_BY_TYPE } from "@/lib/knowledge";
 
@@ -106,56 +102,6 @@ const TYPE_LABEL = {
   GovernmentScheme: "Government scheme",
   Crop: "Crop",
 };
-
-//: The six roadmap modules, each with the package that does not exist yet. The
-//: dependency is the point: "Planned" told the reader nothing they could check.
-const FUTURE_MODULES = [
-  {
-    emoji: "🔬",
-    title: "Patents and innovation labs",
-    description: "How research turns into a business you could run.",
-    dependency: "Patents, innovation labs and how research turns into a business are being researched now.",
-  },
-  {
-    emoji: "🎓",
-    title: "University research",
-    description: "What the labs near you are working on, and how to get involved.",
-    dependency:
-      "We list 66 universities and colleges, but not their research labs or " +
-      "capabilities. Browse the institutions we do have.",
-  },
-  {
-    emoji: "🚚",
-    title: "Suppliers and storage",
-    description: "Who supplies what you need, and where to keep goods before they sell.",
-    dependency:
-      "We list 21 raw materials businesses use, but not the firms that supply them " +
-      "or where to store goods.",
-  },
-  {
-    emoji: "🌍",
-    title: "Selling abroad",
-    description: "Buyers in other countries, and the paperwork it takes to reach them.",
-    dependency:
-      "We list 29 countries local businesses export to, but not buyers, tariffs or " +
-      "the paperwork involved.",
-  },
-  {
-    emoji: "🏦",
-    title: "Loans and investors",
-    description: "Who lends to a business like yours, on what terms, and who qualifies.",
-    dependency:
-      "We list 21 kinds of funder, but not their loan products, interest rates or " +
-      "who qualifies.",
-  },
-  {
-    emoji: "♻️",
-    title: "Green manufacturing",
-    description: "Recycling, solar and cutting waste — and what each one saves you.",
-    dependency: "Emissions, recycling and renewable energy capacity are being researched now.",
-  },
-];
-
 
 export default async function HomeFeatureGrid() {
   // Both return empty when the projection is not deployed — lib/knowledge.js
@@ -269,29 +215,10 @@ export default async function HomeFeatureGrid() {
           <KnowledgeSearch />
         </section>
 
-        <section data-testid="home-future-modules">
-          <div className="text-center mb-10">
-            <span className="chip bg-violet-100 text-violet-700 border border-violet-200 mb-4">COMING NEXT</span>
-            <h2 className="font-display font-extrabold text-3xl sm:text-4xl text-ink">What we are building next</h2>
-            <p className="text-muted mt-3 max-w-2xl mx-auto leading-relaxed">
-              Six areas our research is moving into. Each card says what is already
-              here and what is being gathered now.
-            </p>
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {FUTURE_MODULES.map((module) => (
-              <CapabilityCard
-                key={module.title}
-                testId="future-module"
-                emoji={module.emoji}
-                title={module.title}
-                description={module.description}
-                status="NO_DATA_SOURCE"
-                dependency={module.dependency}
-              />
-            ))}
-          </div>
-        </section>
+        {/* "What we are building next" — six roadmap cards for research that
+            does not exist yet — was removed from the homepage. The page should
+            lead with what a visitor can use today; a list of what they cannot
+            is better said on the pages those areas will eventually live on. */}
       </div>
     </section>
   );

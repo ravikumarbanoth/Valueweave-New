@@ -1,4 +1,3 @@
-import HomepageStats from "@/components/HomepageStats";
 import HomeHeroSearch from "@/components/HomeHeroSearch";
 import HomeHeroValueProps from "@/components/HomeHeroValueProps";
 import HomeHowItWorks from "@/components/HomeHowItWorks";
@@ -10,6 +9,7 @@ import HomeLiveActivity from "@/components/HomeLiveActivity";
 import HomeWhySection from "@/components/HomeWhySection";
 import HomeDiscoverSection from "@/components/HomeDiscoverSection";
 import HomeSectorsSection from "@/components/HomeSectorsSection";
+import HomeResearchArticles from "@/components/HomeResearchArticles";
 import HomeFinalCta from "@/components/HomeFinalCta";
 import HomeNavClient from "@/components/HomeNavClient";
 import { getPlatformSettings, enabled, setting } from "@/lib/settings";
@@ -53,8 +53,10 @@ export default async function LandingPage() {
         </div>
       </section>
 
-      {/* ── 2. STATS ──────────────────────────────────────────── */}
-      <HomepageStats />
+      {/* "Who is here so far" (HomepageStats — visitors, profiles, open
+          opportunities, collaborators, districts) was removed from the
+          homepage: counts of the platform say little to a first-time visitor
+          about what they can do here. The component is kept, not deleted. */}
 
       {/* ── 3. HOW VALUEWEAVE WORKS ───────────────────────────── */}
       <HomeHowItWorks />
@@ -82,6 +84,11 @@ export default async function LandingPage() {
 
       {/* ── 11. BUILT FOR INDIA'S BUILDERS ────────────────────── */}
       <HomeSectorsSection />
+
+      {/* ── RESEARCH ARTICLES ─────────────────────────────────── */}
+      {/* After the opportunity and discovery content, before the closing
+          call to action: real published articles, newest first. */}
+      <HomeResearchArticles />
 
       {/* ── 12. FINAL CTA ─────────────────────────────────────── */}
       <HomeFinalCta />

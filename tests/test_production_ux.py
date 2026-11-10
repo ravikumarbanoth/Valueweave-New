@@ -483,7 +483,11 @@ class LegacyRouteTest(unittest.TestCase):
                          "link opportunities to /opportunities/<id>")
 
     def test_the_landing_page_links_to_the_real_detail_route(self):
-        src = code(COMPONENTS / "HomeFeaturedOpportunities.jsx")
+        # The card that renders is in the client component. This test used to
+        # read HomeFeaturedOpportunities.jsx, which held a second copy of the
+        # card that was never rendered — so it was checking a link no visitor
+        # could click. That copy has been removed.
+        src = code(COMPONENTS / "HomeFeaturedOpportunitiesClient.jsx")
         self.assertIn("/opportunities/${opp.id}", src)
 
     def test_the_legacy_url_still_redirects(self):

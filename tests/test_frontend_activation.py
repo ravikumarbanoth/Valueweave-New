@@ -411,15 +411,16 @@ class CapabilityStatusTest(unittest.TestCase):
         self.assertIn("Mentors", network)
         self.assertIn("Events", network)
 
-    def test_the_homepage_roadmap_modules_all_carry_a_dependency(self):
+    def test_the_homepage_no_longer_shows_a_roadmap(self):
+        """"What we are building next" was removed from the homepage.
+
+        It listed six areas with no data behind them yet. This test used to
+        check each card named its missing dependency; with the section gone,
+        what matters is that it does not quietly come back.
+        """
         src = read(COMPONENTS / "HomeFeatureGrid.jsx")
-        block = src[src.index("const FUTURE_MODULES = ["):]
-        block = block[:block.index("\n];")]
-        titles = re.findall(r'title:\s*"([^"]+)"', block)
-        deps = re.findall(r"dependency:", block)
-        self.assertEqual(len(titles), 6)
-        self.assertEqual(len(deps), len(titles),
-                         "every roadmap module names what it would need first")
+        self.assertNotIn("FUTURE_MODULES", src)
+        self.assertNotIn('data-testid="home-future-modules"', src)
 
     def test_infrastructure_card_no_longer_takes_a_boolean(self):
         """`comingSoon` could only ever say "not yet", never why."""

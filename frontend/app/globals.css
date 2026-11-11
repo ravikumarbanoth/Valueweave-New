@@ -92,3 +92,56 @@ h1, h2, h3, h4, .font-display {
 ::-webkit-scrollbar { width: 8px; height: 8px; }
 ::-webkit-scrollbar-thumb { background: #E7E5E4; border-radius: 4px; }
 ::selection { background: #FED7AA; color: #1C1917; }
+
+/* ─── Homepage network (components/network/*) ───────────────────────────────
+   Shared by every homepage section wrapper and the footer hub. Strokes use
+   vector-effect: non-scaling-stroke, so a rail stretched over a 2,000px
+   section is exactly as thin as one over a 400px section. */
+.vw-net-warm {
+  /* The warm band that used to be each section's own solid background. It
+     fades in and out, so tone changes never leave a hard edge across the
+     rails, and it sits BELOW the network layer instead of on top of it. */
+  background: linear-gradient(to bottom, rgba(255, 248, 240, 0) 0%, #fff8f0 14%, #fff8f0 86%, rgba(255, 248, 240, 0) 100%);
+}
+.vw-net > .vw-net-layer:first-child { display: none; }
+.vw-rail,
+.vw-fork {
+  fill: none;
+  stroke: rgb(245 158 11 / 0.28);
+  stroke-width: 1.25;
+  vector-effect: non-scaling-stroke;
+}
+.vw-fork { stroke: rgb(245 158 11 / 0.34); }
+.vw-node,
+.vw-seam {
+  position: absolute;
+  border-radius: 9999px;
+  transform: translate(-50%, -50%);
+}
+.vw-node {
+  width: 7px;
+  height: 7px;
+  background: #fbbf24;
+  box-shadow: 0 0 0 3px rgb(251 191 36 / 0.18), 0 0 14px 2px rgb(245 158 11 / 0.25);
+}
+.vw-seam {
+  width: 11px;
+  height: 11px;
+  background: #f59e0b;
+  box-shadow: 0 0 0 4px rgb(245 158 11 / 0.16), 0 0 28px 8px rgb(245 158 11 / 0.22);
+  z-index: 1;
+}
+@keyframes vw-pulse {
+  0%, 100% { box-shadow: 0 0 0 4px rgb(245 158 11 / 0.16), 0 0 28px 8px rgb(245 158 11 / 0.22); }
+  50%      { box-shadow: 0 0 0 7px rgb(245 158 11 / 0.10), 0 0 36px 12px rgb(245 158 11 / 0.30); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .vw-seam { animation: vw-pulse 5s ease-in-out infinite; }
+  .vw-hub-pulse { animation: vw-pulse 5s ease-in-out infinite; }
+}
+.vw-hub-spoke {
+  fill: none;
+  stroke: rgb(245 158 11 / 0.55);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+}

@@ -19,7 +19,7 @@ export default function HomeVideoEmbed({
     : null;
 
   return (
-    <section className="py-16 sm:py-20 px-4 sm:px-6 bg-warm">
+    <section className="py-16 sm:py-20 px-4 sm:px-6">
       <div className="max-w-3xl mx-auto">
         <div className="text-center mb-10">
           <span className="chip bg-teal-100 text-teal-600 mb-4">🎥 EXPLAINER</span>

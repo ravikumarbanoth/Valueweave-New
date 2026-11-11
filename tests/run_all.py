@@ -96,6 +96,8 @@ SUITES = {
                          "Bilingual UI language support and fallback hierarchy"),
     "search_intelligence": ("tests.test_search_intelligence",
                            "Multilingual query intelligence, intent, and location extraction"),
+    "homepage_network": ("tests.test_homepage_network",
+                         "Homepage: continuous network layer, hub and graph trails"),
     "homepage_content": ("tests.test_homepage_content",
                          "Homepage: removed sections, research articles, budget labels"),
     "research_categories": ("tests.test_research_categories",

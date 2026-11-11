@@ -1,5 +1,7 @@
 "use client";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import NetworkFooterHub from "@/components/network/NetworkFooterHub";
 import SocialLinks from "@/components/SocialLinks";
 import FooterFounder from "@/components/FooterFounder";
 import { useLanguage } from "@/lib/language";
@@ -28,9 +30,23 @@ export default function FooterClient({ footerText, contactEmail, footerLinks }) 
     return key ? t(key, link.label) : link.label;
   };
 
+  // On the homepage the footer is where the page's network ends: the last
+  // section's rails converge on a hub on this footer's top edge. Every other
+  // page keeps the plain footer, border and all.
+  const onHome = usePathname() === "/";
+
   return (
-    <footer className="border-t border-stone-200 bg-cream" data-testid="site-footer">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10">
+    <footer
+      className={onHome ? "relative isolate overflow-x-clip bg-cream" : "border-t border-stone-200 bg-cream"}
+      data-testid="site-footer"
+    >
+      {onHome && <NetworkFooterHub />}
+      <div className={`max-w-6xl mx-auto px-4 sm:px-6 ${onHome ? "pt-14 pb-10" : "py-10"}`}>
+        {onHome && (
+          <p data-testid="footer-network-line" className="text-center font-display font-semibold text-sm text-amber-700 mb-8">
+            {t("footer.network_line", "Everything is connected — and every connection can lead to an opportunity.")}
+          </p>
+        )}
         <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-8">
           <div className="max-w-sm">
             <Link href="/" className="flex items-center gap-2.5 mb-3 min-h-[44px] py-1">

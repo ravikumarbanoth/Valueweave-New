@@ -113,7 +113,7 @@ export default async function HomeFeatureGrid() {
   const total = Object.values(counts).reduce((a, b) => a + b, 0);
 
   return (
-    <section className="py-20 sm:py-24 px-4 sm:px-6 bg-warm">
+    <section className="py-20 sm:py-24 px-4 sm:px-6">
       <div className="max-w-6xl mx-auto space-y-16">
         <div>
           <div className="text-center mb-12">

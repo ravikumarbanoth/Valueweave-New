@@ -24,7 +24,7 @@ export default function HomeLiveActivityClient({ items }) {
   if (!items || items.length === 0) return null;
 
   return (
-    <section className="py-16 sm:py-20 px-4 sm:px-6 bg-warm">
+    <section className="py-16 sm:py-20 px-4 sm:px-6">
       <div className="max-w-2xl mx-auto">
         <div className="text-center mb-10">
           <span className="chip bg-emerald-100 text-emerald-700 mb-4 inline-flex items-center gap-1.5">

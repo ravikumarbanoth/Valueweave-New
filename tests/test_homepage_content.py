@@ -158,9 +158,11 @@ class ResearchArticlesSectionTest(unittest.TestCase):
             self.assertIn(f't( "{key}"'.replace("( ", "("), self.client_code.replace("t( ", "t("))
 
     def test_it_sits_after_opportunities_and_before_the_final_cta(self):
+        # Directly after opportunities: Discover → Opportunities → Research.
+        # (It sat near the bottom until the network redesign moved it up.)
         body = self.page[self.page.index("return ("):]
         self.assertLess(body.index("<HomeFeaturedOpportunities"), body.index("<HomeResearchArticles"))
-        self.assertLess(body.index("<HomeDiscoverSection"), body.index("<HomeResearchArticles"))
+        self.assertLess(body.index("<HomeResearchArticles"), body.index("<HomeConnections"))
         self.assertLess(body.index("<HomeResearchArticles"), body.index("<HomeFinalCta"))
 
 

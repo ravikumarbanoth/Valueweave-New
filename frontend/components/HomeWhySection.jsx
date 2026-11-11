@@ -34,7 +34,7 @@ export default function HomeWhySection() {
   ];
 
   return (
-    <section id="why" className="bg-warm py-20 sm:py-24 px-4 sm:px-6">
+    <section id="why" className="py-20 sm:py-24 px-4 sm:px-6">
       <div className="max-w-5xl mx-auto">
         <div className="text-center mb-12">
           <span className="chip bg-teal-100 text-teal-600 mb-4">{t("home.why_chip", "WHY WE BUILT THIS")}</span>

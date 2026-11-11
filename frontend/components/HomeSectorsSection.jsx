@@ -18,7 +18,7 @@ export default function HomeSectorsSection() {
   ];
 
   return (
-    <section className="py-20 sm:py-24 px-4 sm:px-6 bg-warm">
+    <section className="py-20 sm:py-24 px-4 sm:px-6">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12">
           <span className="chip bg-amber-100 text-amber-700 mb-4">{t("home.fits_chip", "WHATEVER YOU DO")}</span>

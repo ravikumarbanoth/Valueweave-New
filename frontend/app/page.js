@@ -10,6 +10,9 @@ import HomeWhySection from "@/components/HomeWhySection";
 import HomeDiscoverSection from "@/components/HomeDiscoverSection";
 import HomeSectorsSection from "@/components/HomeSectorsSection";
 import HomeResearchArticles from "@/components/HomeResearchArticles";
+import HomeConnections from "@/components/HomeConnections";
+import HomeHeroHub from "@/components/HomeHeroHub";
+import NetworkSection from "@/components/network/NetworkSection";
 import HomeFinalCta from "@/components/HomeFinalCta";
 import HomeNavClient from "@/components/HomeNavClient";
 import { getPlatformSettings, enabled, setting } from "@/lib/settings";
@@ -38,60 +41,63 @@ export default async function LandingPage() {
   const homepageVideoUrl = setting(settings, "homepage.video.url");
   const jsonLd = [websiteJsonLd(), webApplicationJsonLd(), speakableJsonLd({ url: BASE_URL })];
 
+  // The page is one network. Every section sits in a <NetworkSection>, which
+  // draws the same two rails and the same seam forks in one shared
+  // coordinate system (components/network/geometry.js), so the lines run
+  // unbroken from the hero to the footer — where FooterClient draws the hub
+  // they converge on. `index` only varies how far each pair of rails bows;
+  // it is a fixed sequence, not randomness.
+  //
+  // Order follows Discover → Opportunities → Research → how it all connects →
+  // Explore → Learn → Connect → Participate. No section was removed in this
+  // change; two moved up (opportunities, research) and one is new
+  // (HomeConnections, real paths through the knowledge graph).
   return (
     <div className="min-h-screen bg-cream font-body">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       {/* ── NAV ───────────────────────────────────────────────── */}
       <HomeNavClient navLinks={navLinks} />
 
-      {/* ── HERO ────────────────────────────────────────────────── */}
-      <section className="pt-28 sm:pt-32 pb-16 sm:pb-20 px-4 sm:px-6 relative overflow-hidden">
-        <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_60%_60%_at_80%_20%,rgba(249,115,22,0.14)_0%,transparent_60%),radial-gradient(ellipse_50%_50%_at_10%_80%,rgba(13,148,136,0.12)_0%,transparent_55%)]" />
-        <div className="max-w-6xl mx-auto">
-          <HomeHeroSearch heading={heroHeading} subheading={heroSubheading} />
-          <HomeHeroValueProps primaryCta={primaryCta} secondaryCta={secondaryCta} tertiaryCta={tertiaryCta} />
-        </div>
-      </section>
+      {/* ── HERO: the question, the search, and the hub ─────────── */}
+      <NetworkSection index={0} first testId="net-hero">
+        <section className="pt-28 sm:pt-32 pb-16 sm:pb-20 px-4 sm:px-6 relative overflow-hidden">
+          <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_60%_50%_at_50%_62%,rgba(249,115,22,0.13)_0%,transparent_60%),radial-gradient(ellipse_50%_50%_at_10%_80%,rgba(13,148,136,0.08)_0%,transparent_55%)]" />
+          <div className="max-w-6xl mx-auto">
+            <HomeHeroSearch heading={heroHeading} subheading={heroSubheading} />
+            <HomeHeroValueProps primaryCta={primaryCta} secondaryCta={secondaryCta} tertiaryCta={tertiaryCta} />
+            <HomeHeroHub />
+          </div>
+        </section>
+      </NetworkSection>
 
-      {/* "Who is here so far" (HomepageStats — visitors, profiles, open
-          opportunities, collaborators, districts) was removed from the
-          homepage: counts of the platform say little to a first-time visitor
-          about what they can do here. The component is kept, not deleted. */}
+      {/* "Who is here so far" (HomepageStats) was removed from the homepage
+          earlier; the component is kept, not deleted. */}
 
-      {/* ── 3. HOW VALUEWEAVE WORKS ───────────────────────────── */}
-      <HomeHowItWorks />
+      {/* ── OPPORTUNITIES ─────────────────────────────────────── */}
+      <NetworkSection index={1} testId="net-opportunities"><HomeFeaturedOpportunities /></NetworkSection>
 
-      {/* ── 4. EXPLAINER VIDEO ────────────────────────────────── */}
-      <HomeVideoEmbed youtubeUrl={homepageVideoUrl} />
+      {/* ── RESEARCH ──────────────────────────────────────────── */}
+      <NetworkSection index={2} tone="warm" testId="net-research"><HomeResearchArticles /></NetworkSection>
 
-      {/* ── 5. WHAT YOU CAN DO HERE ───────────────────────────── */}
-      <HomeFeatureGrid />
+      {/* ── HOW IT CONNECTS: real knowledge-graph paths ───────── */}
+      <NetworkSection index={3} testId="net-connections"><HomeConnections /></NetworkSection>
 
-      {/* ── 6. FEATURED OPPORTUNITIES ─────────────────────────── */}
-      <HomeFeaturedOpportunities />
+      {/* ── EXPLORE: districts, skills, schemes, industries ───── */}
+      <NetworkSection index={4} tone="warm" testId="net-explore"><HomeFeatureGrid /></NetworkSection>
 
-      {/* ── 7. SUCCESS JOURNEY ───────────────────────────────── */}
-      <HomeSuccessJourney />
+      {/* ── LEARN: how it works, the video, the path ──────────── */}
+      <NetworkSection index={5} testId="net-how"><HomeHowItWorks /></NetworkSection>
+      <NetworkSection index={6} tone="warm" testId="net-video"><HomeVideoEmbed youtubeUrl={homepageVideoUrl} /></NetworkSection>
+      <NetworkSection index={7} testId="net-journey"><HomeSuccessJourney /></NetworkSection>
 
-      {/* ── 8. LIVE ACTIVITY ──────────────────────────────────── */}
-      <HomeLiveActivity />
+      {/* ── CONNECT: people, and the gap they fill ────────────── */}
+      <NetworkSection index={8} tone="warm" testId="net-activity"><HomeLiveActivity /></NetworkSection>
+      <NetworkSection index={9} testId="net-why"><HomeWhySection /></NetworkSection>
+      <NetworkSection index={10} tone="warm" testId="net-discover"><HomeDiscoverSection /></NetworkSection>
+      <NetworkSection index={11} testId="net-sectors"><HomeSectorsSection /></NetworkSection>
 
-      {/* ── 9. COLLABORATION GAP ──────────────────────────────── */}
-      <HomeWhySection />
-
-      {/* ── 10. DISCOVER YOURSELF DETAIL ──────────────────────── */}
-      <HomeDiscoverSection />
-
-      {/* ── 11. BUILT FOR INDIA'S BUILDERS ────────────────────── */}
-      <HomeSectorsSection />
-
-      {/* ── RESEARCH ARTICLES ─────────────────────────────────── */}
-      {/* After the opportunity and discovery content, before the closing
-          call to action: real published articles, newest first. */}
-      <HomeResearchArticles />
-
-      {/* ── 12. FINAL CTA ─────────────────────────────────────── */}
-      <HomeFinalCta />
+      {/* ── PARTICIPATE ───────────────────────────────────────── */}
+      <NetworkSection index={12} last testId="net-final"><HomeFinalCta /></NetworkSection>
     </div>
   );
 }

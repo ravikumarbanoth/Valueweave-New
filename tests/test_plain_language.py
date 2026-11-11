@@ -66,6 +66,8 @@ ENTRY_SURFACES = [
     # section, so its heading is held to the same vocabulary rules.
     COMPONENTS / "HomeFeaturedOpportunitiesClient.jsx",
     COMPONENTS / "HomeResearchArticlesClient.jsx",
+    COMPONENTS / "HomeHeroHub.jsx",
+    COMPONENTS / "HomeConnectionsClient.jsx",
     COMPONENTS / "HomeWhySection.jsx",
     COMPONENTS / "HomeDiscoverSection.jsx",
     COMPONENTS / "HomeSectorsSection.jsx",

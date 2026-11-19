@@ -119,7 +119,8 @@ const SECTIONS = [
   },
 ];
 
-export default async function KnowledgeExplorerPage({ searchParams }) {
+export default async function KnowledgeExplorerPage(props) {
+  const searchParams = await props.searchParams;
   const urlType = searchParams?.type || "";
   const entityType = TYPE_BY_URL[urlType] || "";
   const q = (searchParams?.q || "").slice(0, 80);

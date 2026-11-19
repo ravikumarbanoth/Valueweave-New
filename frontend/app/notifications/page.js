@@ -20,7 +20,7 @@ const TYPE_COLORS = {
 };
 
 async function getNotifications() {
-  const sb = createClient();
+  const sb = await createClient();
   const { data: { user } } = await sb.auth.getUser();
   if (!user) return null;
 

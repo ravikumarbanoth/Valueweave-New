@@ -70,7 +70,7 @@ function computeOpportunities({ searches, requests, articles, existingIdeas }) {
 
 async function fetchData() {
   try {
-    const sb = createClient();
+    const sb = await createClient();
     const [
       { data: searches },
       { data: requests },

@@ -18,7 +18,8 @@ export async function generateStaticParams() {
   return Object.keys(STATE_SLUGS).map((id) => ({ id }));
 }
 
-export async function generateMetadata({ params }) {
+export async function generateMetadata(props) {
+  const params = await props.params;
   const stateName = STATE_SLUGS[params.id];
   if (!stateName) return {};
   return buildBaseMetadata({
@@ -28,7 +29,8 @@ export async function generateMetadata({ params }) {
   });
 }
 
-export default async function OpportunityIdOrStatePage({ params }) {
+export default async function OpportunityIdOrStatePage(props) {
+  const params = await props.params;
   const stateName = STATE_SLUGS[params.id];
   if (!stateName) return <OpportunityDetailClient />;
 

@@ -9,7 +9,8 @@ export function generateStaticParams() {
   return AUDIENCES.map((a) => ({ audience: a.slug }));
 }
 
-export function generateMetadata({ params }) {
+export async function generateMetadata(props) {
+  const params = await props.params;
   const audience = AUDIENCE_BY_SLUG[params.audience];
   if (!audience) return {};
   return buildBaseMetadata({
@@ -19,7 +20,8 @@ export function generateMetadata({ params }) {
   });
 }
 
-export default function AudienceStartPage({ params }) {
+export default async function AudienceStartPage(props) {
+  const params = await props.params;
   const audience = AUDIENCE_BY_SLUG[params.audience];
   if (!audience) notFound();
 

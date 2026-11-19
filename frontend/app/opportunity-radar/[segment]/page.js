@@ -9,7 +9,8 @@ export async function generateStaticParams() {
   return getAllSegments().map((segment) => ({ segment }));
 }
 
-export async function generateMetadata({ params }) {
+export async function generateMetadata(props) {
+  const params = await props.params;
   const label = SEGMENT_LABELS[params.segment];
   if (!label) return {};
   return buildBaseMetadata({
@@ -19,7 +20,8 @@ export async function generateMetadata({ params }) {
   });
 }
 
-export default function RadarSegmentPage({ params }) {
+export default async function RadarSegmentPage(props) {
+  const params = await props.params;
   const segment = params.segment;
   if (!getAllSegments().includes(segment)) notFound();
 

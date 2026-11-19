@@ -12,7 +12,7 @@ export const metadata = {
 
 async function fetchQuestions() {
   try {
-    const sb = createClient();
+    const sb = await createClient();
     const { data } = await sb
       .from("questions")
       .select("id,title,body,district,sector,upvotes,answer_count,created_at")

@@ -11,7 +11,7 @@ export async function getAdminStatus() {
     return { user: { email: "dev@localhost" }, isAdmin: true, dev: true };
   }
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return { user: null, isAdmin: false };
 

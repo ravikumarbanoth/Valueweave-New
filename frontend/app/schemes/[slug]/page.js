@@ -18,7 +18,8 @@ const FIELDS = [
   { key: "application_link", label: "Application Link" },
 ];
 
-export async function generateMetadata({ params }) {
+export async function generateMetadata(props) {
+  const params = await props.params;
   const imported = getSchemeSupportResource(params.slug);
   if (imported) {
     return {
@@ -39,7 +40,8 @@ export function generateStaticParams() {
 // publishes — hand off to the researched knowledge graph's detail page rather
 // than 404ing on a record the platform demonstrably holds. One redirect, no
 // duplicated detail view. See lib/kg-fallback.js.
-export default async function DetailPage({ params }) {
+export default async function DetailPage(props) {
+  const params = await props.params;
   const imported = getSchemeSupportResource(params.slug);
   if (imported) {
     return (

@@ -60,7 +60,7 @@ function MetricCard({ icon: Icon, label, value, prev, accent = "amber", href }) 
 
 async function fetchEngagement() {
   try {
-    const sb = createClient();
+    const sb = await createClient();
     const now = new Date();
     const d7  = new Date(now - 7  * 86400000).toISOString();
     const d14 = new Date(now - 14 * 86400000).toISOString();

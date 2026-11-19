@@ -463,6 +463,13 @@ class AdditiveTest(unittest.TestCase):
             "@supabase/ssr", "@supabase/supabase-js", "clsx", "gray-matter",
             "lucide-react", "marked", "next", "next-mdx-remote", "react",
             "react-dom", "remark-gfm",
+            # Cloudflare compatibility (Phase 2A): lib/mdx-render.js renders
+            # articles without evaluating code. These six were already in the
+            # tree as next-mdx-remote's own dependencies (@mdx-js/mdx), at these
+            # versions; they are now DECLARED so they cannot vanish in a future
+            # install, not added. No new client library and no new backend.
+            "unified", "remark-parse", "remark-mdx", "remark-rehype",
+            "hast-util-to-jsx-runtime", "unist-util-visit",
         }
         self.assertEqual(set(pkg["dependencies"]), expected,
                          "a runtime dependency was added")
@@ -788,6 +795,13 @@ class KnowledgeUiTest(unittest.TestCase):
             "@supabase/ssr", "@supabase/supabase-js", "clsx", "gray-matter",
             "lucide-react", "marked", "next", "next-mdx-remote", "react",
             "react-dom", "remark-gfm",
+            # Cloudflare compatibility (Phase 2A): lib/mdx-render.js renders
+            # articles without evaluating code. These six were already in the
+            # tree as next-mdx-remote's own dependencies (@mdx-js/mdx), at these
+            # versions; they are now DECLARED so they cannot vanish in a future
+            # install, not added. No new client library and no new backend.
+            "unified", "remark-parse", "remark-mdx", "remark-rehype",
+            "hast-util-to-jsx-runtime", "unist-util-visit",
         }
         self.assertEqual(set(pkg["dependencies"]), expected,
                          "Step 3 added a runtime dependency")

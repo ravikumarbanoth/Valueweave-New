@@ -3,7 +3,7 @@ import { Activity } from "lucide-react";
 
 async function computeHealthScore() {
   try {
-    const sb = createClient();
+    const sb = await createClient();
     const d7 = new Date(Date.now() - 7 * 86400000).toISOString();
 
     const [

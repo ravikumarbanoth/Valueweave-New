@@ -1,0 +1,19 @@
+{
+  // Cloudflare Workers configuration for LOCAL build and preview of ValueWeave
+  // (Phase 2A). Used by `npm run cf:build` and `npm run cf:preview`; Vercel does
+  // not read it. No deploy script exists in this phase.
+  //
+  // Deliberately absent from the official OpenNext template: the R2 cache bucket
+  // and the Images binding (billable services, out of scope), and the
+  // self-reference service binding (only needed alongside a cache). No KV,
+  // Durable Objects, Queues, routes, custom domains or secrets are configured.
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "main": ".open-next/worker.js",
+  "name": "valueweave",
+  "compatibility_date": "2026-11-01",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  }
+}

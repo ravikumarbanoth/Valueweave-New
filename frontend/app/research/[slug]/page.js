@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { compileMDX } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
 import { marked } from "marked";
+import { renderMdx } from "@/lib/mdx-render";
 import { getAllArticleSlugs } from "@/lib/mdx";
 import { getCombinedArticles, getCombinedArticleBySlug } from "@/lib/research";
 import { buildArticleMetadata, articleJsonLd, faqJsonLd, breadcrumbJsonLd, BASE_URL } from "@/lib/seo";
@@ -21,16 +22,30 @@ export async function generateStaticParams() {
   return getAllArticleSlugs().map((slug) => ({ slug }));
 }
 
-export async function generateMetadata({ params }) {
+export async function generateMetadata(props) {
+  const params = await props.params;
   const article = await getCombinedArticleBySlug(params.slug);
   if (!article) return {};
   return buildArticleMetadata(article);
 }
 
 // Render markdown/MDX defensively: admin-typed content may contain
-// characters that are invalid MDX (e.g. a stray "{"). Try the rich MDX
-// pipeline first (Callouts, themed tables); fall back to plain markdown.
+// characters that are invalid MDX (e.g. a stray "{"). Three tiers:
+//
+//   1. renderMdx — the rich MDX output (Callouts, themed tables) built without
+//      evaluating any code. Byte-identical to compileMDX for every article
+//      (tests/test_research_registry.py), and the only rich renderer that works
+//      on Cloudflare Workers, where generating code from strings is forbidden.
+//   2. compileMDX — reached only for MDX that needs real evaluation, such as a
+//      `{1 + 1}` expression. Works on Node exactly as before; on Workers it
+//      throws and falls through.
+//   3. plain markdown — unchanged, for content that is not valid MDX at all.
 async function renderBody(article) {
+  try {
+    return renderMdx(article.content, mdxComponents);
+  } catch {
+    // fall through to tier 2
+  }
   try {
     const { content } = await compileMDX({
       source: article.content,
@@ -44,7 +59,8 @@ async function renderBody(article) {
   }
 }
 
-export default async function ResearchArticlePage({ params }) {
+export default async function ResearchArticlePage(props) {
+  const params = await props.params;
   const article = await getCombinedArticleBySlug(params.slug);
   if (!article) notFound();
 

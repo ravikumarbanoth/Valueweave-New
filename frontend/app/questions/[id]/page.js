@@ -7,9 +7,10 @@ import UpvoteButton from "@/components/UpvoteButton";
 
 export const revalidate = 30;
 
-export async function generateMetadata({ params }) {
+export async function generateMetadata(props) {
+  const params = await props.params;
   try {
-    const sb = createClient();
+    const sb = await createClient();
     const { data } = await sb.from("questions").select("title").eq("id", params.id).single();
     return { title: `${data?.title || "Question"} | ValueWeave` };
   } catch {
@@ -19,7 +20,7 @@ export async function generateMetadata({ params }) {
 
 async function fetchQuestion(id) {
   try {
-    const sb = createClient();
+    const sb = await createClient();
     const [{ data: q, error }, { data: answers }] = await Promise.all([
       sb.from("questions").select("*").eq("id", id).eq("status", "open").single(),
       sb.from("answers").select("*").eq("question_id", id).order("upvotes", { ascending: false }).limit(50),
@@ -40,7 +41,8 @@ function timeAgo(ts) {
   return `${days}d ago`;
 }
 
-export default async function QuestionPage({ params }) {
+export default async function QuestionPage(props) {
+  const params = await props.params;
   const data = await fetchQuestion(params.id);
   if (!data) notFound();
 

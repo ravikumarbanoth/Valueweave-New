@@ -6,7 +6,8 @@ import { detailWithGraphFallback, rowHref } from "@/lib/kg-fallback";
 
 export const revalidate = 300;
 
-export async function generateMetadata({ params }) {
+export async function generateMetadata(props) {
+  const params = await props.params;
   const resource = await getKgEntityBySlug("resources", params.slug);
   if (!resource) return {};
   return { title: resource.meta_title || `${resource.name} Resource | ValueWeave`, description: resource.meta_description || resource.summary || resource.description };
@@ -19,7 +20,8 @@ export async function generateMetadata({ params }) {
 // The redirect target comes from rowHref, not a hardcoded string, because a
 // resource can be a training provider, a bank or an institution and those are
 // three different URLs.
-export default async function ResourceDetailPage({ params }) {
+export default async function ResourceDetailPage(props) {
+  const params = await props.params;
   const cms = await getKgEntityBySlug("resources", params.slug);
   const { row, source } = await detailWithGraphFallback("resources", params.slug, cms);
   if (!row) notFound();

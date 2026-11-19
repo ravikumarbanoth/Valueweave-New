@@ -46,7 +46,8 @@ export function generateStaticParams() {
   return getAllKnowledgeItems().map((item) => ({ type: item.type, slug: item.slug }));
 }
 
-export async function generateMetadata({ params }) {
+export async function generateMetadata(props) {
+  const params = await props.params;
   if (TYPE_BY_URL[params.type]) {
     const entity = await getEntityBySlug(params.type, params.slug);
     if (!entity) return {};
@@ -224,7 +225,8 @@ const UNAVAILABLE_SECTIONS = {
 
 const DESCRIPTION_KEYS = ["description", "objective", "benefit_summary", "scientific_name"];
 
-export default async function KnowledgeDetailPage({ params }) {
+export default async function KnowledgeDetailPage(props) {
+  const params = await props.params;
   if (TYPE_BY_URL[params.type]) return <GraphDetail params={params} />;
 
   const item = getKnowledgeItem(params.type, params.slug);

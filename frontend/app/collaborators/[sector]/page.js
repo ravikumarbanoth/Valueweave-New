@@ -15,7 +15,8 @@ export async function generateStaticParams() {
   return MARKETPLACE_SECTORS.map((s) => ({ sector: s.id }));
 }
 
-export async function generateMetadata({ params }) {
+export async function generateMetadata(props) {
+  const params = await props.params;
   const sector = MARKETPLACE_SECTORS.find((s) => s.id === params.sector);
   if (!sector) return {};
   return buildBaseMetadata({
@@ -25,7 +26,8 @@ export async function generateMetadata({ params }) {
   });
 }
 
-export default async function SectorCollaboratorsPage({ params }) {
+export default async function SectorCollaboratorsPage(props) {
+  const params = await props.params;
   const sector = MARKETPLACE_SECTORS.find((s) => s.id === params.sector);
   if (!sector) notFound();
 

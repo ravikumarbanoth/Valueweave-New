@@ -50,7 +50,7 @@ function SectionCard({ icon: Icon, iconColor, title, subtitle, children }) {
 
 async function fetchSearchData(since) {
   try {
-    const sb = createClient();
+    const sb = await createClient();
     let q = sb.from("search_events").select("query,page,results_count,district,sector,created_at").limit(5000);
     if (since) q = q.gte("created_at", since);
 
@@ -164,7 +164,8 @@ async function fetchSearchData(since) {
   }
 }
 
-export default async function SearchIntelligencePage({ searchParams }) {
+export default async function SearchIntelligencePage(props) {
+  const searchParams = await props.searchParams;
   const days = parseInt(searchParams?.days) || 30;
   const since = days > 0 ? new Date(Date.now() - days * 86400000).toISOString() : null;
   const d = await fetchSearchData(since);

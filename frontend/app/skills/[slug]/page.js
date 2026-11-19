@@ -17,7 +17,8 @@ const FIELDS = [
   { key: "investment_needed", label: "Investment Needed" },
 ];
 
-export async function generateMetadata({ params }) {
+export async function generateMetadata(props) {
+  const params = await props.params;
   const row = await getKgEntityBySlug("skills", params.slug);
   if (!row) return {};
   return { title: row.meta_title || `${row.name} | ValueWeave`, description: row.meta_description || row.summary || "" };
@@ -27,7 +28,8 @@ export async function generateMetadata({ params }) {
 // publishes — hand off to the researched knowledge graph's detail page rather
 // than 404ing on a record the platform demonstrably holds. One redirect, no
 // duplicated detail view. See lib/kg-fallback.js.
-export default async function DetailPage({ params }) {
+export default async function DetailPage(props) {
+  const params = await props.params;
   const cms = await getKgEntityBySlug("skills", params.slug);
   const { row, source } = await detailWithGraphFallback("skills", params.slug, cms);
   if (!row) notFound();

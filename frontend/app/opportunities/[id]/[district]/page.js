@@ -23,7 +23,8 @@ export async function generateStaticParams() {
   return MARKETPLACE_DISTRICTS.map((d) => ({ id: stateToSlug(d.state), district: d.slug }));
 }
 
-export async function generateMetadata({ params }) {
+export async function generateMetadata(props) {
+  const params = await props.params;
   const stateName = STATE_SLUGS[params.id];
   const district = getMarketplaceDistrict(params.district);
   if (!stateName || !district || district.state !== stateName) return {};
@@ -34,7 +35,8 @@ export async function generateMetadata({ params }) {
   });
 }
 
-export default async function DistrictOpportunitiesPage({ params }) {
+export default async function DistrictOpportunitiesPage(props) {
+  const params = await props.params;
   const stateName = STATE_SLUGS[params.id];
   const district = getMarketplaceDistrict(params.district);
   if (!stateName || !district || district.state !== stateName) notFound();

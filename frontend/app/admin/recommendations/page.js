@@ -27,7 +27,7 @@ function ReasonTag({ icon: Icon, text, color }) {
 
 async function fetchRecommendations() {
   try {
-    const sb = createClient();
+    const sb = await createClient();
 
     const [
       { data: searches },

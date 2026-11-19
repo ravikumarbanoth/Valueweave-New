@@ -68,7 +68,7 @@ const EVENT_ICONS = {
 
 async function fetchAnalytics(since) {
   try {
-    const sb = createClient();
+    const sb = await createClient();
 
     // Build time-filtered queries
     const maybe = (q) => since ? q.gte("created_at", since) : q;
@@ -235,7 +235,8 @@ async function fetchAnalytics(since) {
   }
 }
 
-export default async function AnalyticsPage({ searchParams }) {
+export default async function AnalyticsPage(props) {
+  const searchParams = await props.searchParams;
   const days = parseInt(searchParams?.days) || 30;
   const since = getDateFilter(days);
   const data = await fetchAnalytics(since);

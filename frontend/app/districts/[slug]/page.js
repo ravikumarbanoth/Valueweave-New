@@ -33,7 +33,8 @@ export function generateStaticParams() {
   return Array.from(slugs).map((slug) => ({ slug }));
 }
 
-export function generateMetadata({ params }) {
+export async function generateMetadata(props) {
+  const params = await props.params;
   const district = DISTRICTS.find((item) => item.slug === params.slug);
   const districtKnowledge = staticDistricts.find((item) => item.slug === params.slug);
   if (!district && !districtKnowledge) return {};
@@ -71,7 +72,8 @@ async function loadDistrictKnowledge(districtName) {
   return { grouped: await getDistrictKnowledge(hit.global_entity_id), status: null, note: null };
 }
 
-export default async function DistrictDetailPage({ params }) {
+export default async function DistrictDetailPage(props) {
+  const params = await props.params;
   const district = DISTRICTS.find((item) => item.slug === params.slug);
   const districtKnowledge = staticDistricts.find((item) => item.slug === params.slug);
   if (!district && !districtKnowledge) notFound();

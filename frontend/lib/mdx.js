@@ -1,22 +1,24 @@
 // ValueWeave — MDX / CMS-lite content loader.
 // Admin publishing workflow (Option A): drop an .mdx file into
 // content/research/ and it appears on /research automatically at the next
-// build (instantly in dev). Set `published: false` in frontmatter to
-// unpublish without deleting the file.
+// build (in dev, at the next `npm run dev`). Set `published: false` in
+// frontmatter to unpublish without deleting the file.
+//
+// The files are read at BUILD time by scripts/build-research-registry.mjs,
+// not here at request time. This module used to call fs.readdirSync and
+// fs.readFileSync on every request, which cannot work on Cloudflare Workers
+// (no project filesystem: every article 404'd). The registry holds the same
+// frontmatter and body gray-matter produced before; everything below — the
+// slug guard, the visibility rule, the field defaults — is unchanged.
 
-import fs from "fs";
-import path from "path";
-import matter from "gray-matter";
+import REGISTRY from "@/lib/generated/research-registry.js";
 import { getYouTubeEmbedUrl, isValidYouTubeUrl } from "@/lib/youtube";
 
-const CONTENT_DIR = path.join(process.cwd(), "content/research");
+const BY_SLUG = new Map(REGISTRY.map((entry) => [entry.slug, entry]));
 
 export function getAllArticleSlugs({ includeDrafts = false } = {}) {
-  if (!fs.existsSync(CONTENT_DIR)) return [];
-  return fs
-    .readdirSync(CONTENT_DIR)
-    .filter((f) => f.endsWith(".mdx"))
-    .map((f) => f.replace(/\.mdx$/, ""))
+  return REGISTRY
+    .map((entry) => entry.slug)
     .filter((slug) => {
       if (includeDrafts) return true;
       const a = getArticleBySlug(slug, { includeDrafts: true });
@@ -25,13 +27,13 @@ export function getAllArticleSlugs({ includeDrafts = false } = {}) {
 }
 
 export function getArticleBySlug(slug, { includeDrafts = false } = {}) {
-  // Guard against path traversal — slug comes from the URL.
+  // Slug comes from the URL. There is no path to traverse any more, but the
+  // same rule decides what counts as a valid article slug, as before.
   if (!/^[a-z0-9-]+$/i.test(slug || "")) return null;
-  const filePath = path.join(CONTENT_DIR, `${slug}.mdx`);
-  if (!fs.existsSync(filePath)) return null;
+  const entry = BY_SLUG.get(slug);
+  if (!entry) return null;
 
-  const raw = fs.readFileSync(filePath, "utf-8");
-  const { data, content } = matter(raw);
+  const { data, content } = entry;
   const published = data.published !== false;
   if (!published && !includeDrafts) return null;
   const video = data.youtubeUrl && isValidYouTubeUrl(data.youtubeUrl)

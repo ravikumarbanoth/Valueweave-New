@@ -29,7 +29,7 @@ function ScoreRing({ score }) {
 
 async function fetchSEOData() {
   try {
-    const sb = createClient();
+    const sb = await createClient();
     const [
       { data: articles, count: articleCount },
       { data: opportunities, count: oppCount },

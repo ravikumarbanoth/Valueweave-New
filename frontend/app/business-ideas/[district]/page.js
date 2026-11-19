@@ -16,7 +16,8 @@ export async function generateStaticParams() {
   return MARKETPLACE_DISTRICTS.map((d) => ({ district: d.slug }));
 }
 
-export async function generateMetadata({ params }) {
+export async function generateMetadata(props) {
+  const params = await props.params;
   const district = getMarketplaceDistrict(params.district);
   if (!district) return {};
   return buildBaseMetadata({
@@ -26,7 +27,8 @@ export async function generateMetadata({ params }) {
   });
 }
 
-export default function DistrictBusinessIdeasPage({ params }) {
+export default async function DistrictBusinessIdeasPage(props) {
+  const params = await props.params;
   const district = getMarketplaceDistrict(params.district);
   if (!district) notFound();
 

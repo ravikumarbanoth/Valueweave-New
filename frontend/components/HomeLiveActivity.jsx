@@ -29,7 +29,7 @@ async function fetchActivity() {
     return [];
   }
   try {
-    const sb = createClient();
+    const sb = await createClient();
     const { data } = await sb
       .from("visitor_sessions")
       .select("page_path, device_type, created_at")

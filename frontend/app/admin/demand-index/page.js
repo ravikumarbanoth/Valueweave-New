@@ -90,7 +90,7 @@ function computeDemandMap(searches, requests, interests, collabData, getKey, pag
 
 async function fetchDemandData() {
   try {
-    const sb = createClient();
+    const sb = await createClient();
 
     const [
       { data: searches },

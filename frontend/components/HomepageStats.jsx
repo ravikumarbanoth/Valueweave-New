@@ -9,7 +9,7 @@ async function fetchStats() {
     return { visitors: 0, collaborators: 0, opportunities: 0, districts: 0, assessments: 0 };
   }
   try {
-    const sb = createClient();
+    const sb = await createClient();
     const [
       { count: visitors },
       { count: collaborators },

@@ -25,7 +25,7 @@ function HeatCell({ value, max }) {
 
 async function fetchDistrictData() {
   try {
-    const sb = createClient();
+    const sb = await createClient();
     const [
       { data: oppsByDistrict },
       { data: collabsByDistrict },
@@ -85,7 +85,8 @@ async function fetchDistrictData() {
   }
 }
 
-export default async function DistrictsPage({ searchParams }) {
+export default async function DistrictsPage(props) {
+  const searchParams = await props.searchParams;
   const { enriched } = await fetchDistrictData();
   const sortBy = searchParams?.sort || "opportunityPotential";
 

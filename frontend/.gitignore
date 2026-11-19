@@ -23,3 +23,11 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# build-time research registry (scripts/build-research-registry.mjs)
+/lib/generated/
+
+# Cloudflare Workers (OpenNext / Wrangler) build and local state
+/.open-next/
+/.wrangler/
+/.dev.vars*

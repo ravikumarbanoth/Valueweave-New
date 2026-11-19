@@ -23,7 +23,7 @@ function potentialScore({ visits, demand, collabs, opps, articles }) {
 
 async function fetchDistrictIndex() {
   try {
-    const sb = createClient();
+    const sb = await createClient();
 
     const [
       { data: pageViewsData },
@@ -119,7 +119,8 @@ function DistrictRankCard({ rank, district, showMedal }) {
   );
 }
 
-export default async function DistrictOpportunityIndexPage({ searchParams }) {
+export default async function DistrictOpportunityIndexPage(props) {
+  const searchParams = await props.searchParams;
   const view = searchParams?.view || "ts";
   const { enriched, tsRanked, apRanked } = await fetchDistrictIndex();
 

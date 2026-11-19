@@ -6,7 +6,7 @@ async function fetchOpportunities() {
     return [];
   }
   try {
-    const sb = createClient();
+    const sb = await createClient();
     const { data } = await sb
       .from("opportunities")
       .select("id, title, category, district, state, investment_range, status")

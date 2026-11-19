@@ -44,13 +44,15 @@ export async function generateStaticParams() {
   return getAllDistrictSlugs().map((slug) => ({ slug }));
 }
 
-export async function generateMetadata({ params }) {
+export async function generateMetadata(props) {
+  const params = await props.params;
   const district = getDistrictBySlug(params.slug);
   if (!district) return {};
   return buildDistrictMetadata(district);
 }
 
-export default async function DistrictPage({ params }) {
+export default async function DistrictPage(props) {
+  const params = await props.params;
   const district = getDistrictBySlug(params.slug);
   if (!district) notFound();
 

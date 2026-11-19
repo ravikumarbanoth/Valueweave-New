@@ -3,28 +3,39 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3000 -H 0.0.0.0",
+    "registry": "node scripts/build-research-registry.mjs",
+    "dev": "npm run registry && next dev -p 3000 -H 0.0.0.0",
     "start": "next start -p 3000 -H 0.0.0.0",
-    "build": "next build",
+    "build": "npm run registry && next build",
     "serve": "next start -p 3000 -H 0.0.0.0",
-    "lint": "next lint"
+    "lint": "next lint",
+    "cf:build": "opennextjs-cloudflare build",
+    "cf:preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview"
   },
   "dependencies": {
     "@supabase/ssr": "^0.5.1",
     "@supabase/supabase-js": "^2.45.4",
     "clsx": "^2.1.1",
     "gray-matter": "^4.0.3",
+    "hast-util-to-jsx-runtime": "2.3.6",
     "lucide-react": "^0.453.0",
     "marked": "^18.0.5",
-    "next": "14.2.15",
+    "next": "15.5.29",
     "next-mdx-remote": "^6.0.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "remark-gfm": "^4.0.1"
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "remark-gfm": "^4.0.1",
+    "remark-mdx": "3.1.1",
+    "remark-parse": "11.0.0",
+    "remark-rehype": "11.1.2",
+    "unified": "11.0.5",
+    "unist-util-visit": "5.1.0"
   },
   "devDependencies": {
+    "@opennextjs/cloudflare": "1.20.17",
     "autoprefixer": "^10.4.20",
     "postcss": "^8.4.49",
-    "tailwindcss": "^3.4.17"
+    "tailwindcss": "^3.4.17",
+    "wrangler": "4.165.0"
   }
 }

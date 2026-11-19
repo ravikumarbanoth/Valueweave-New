@@ -10,7 +10,7 @@ export const metadata = {
 
 async function fetchDemandSuggestions() {
   try {
-    const sb = createClient();
+    const sb = await createClient();
     const [{ data: searches }, { data: requests }, { data: collabSectors }] = await Promise.all([
       sb.from("search_events").select("sector,district").not("sector", "is", null).limit(2000),
       sb.from("user_requests").select("sector,district").not("sector", "is", null).limit(1000),

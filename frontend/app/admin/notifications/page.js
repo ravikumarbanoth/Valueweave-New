@@ -38,7 +38,7 @@ function timeAgo(dateStr) {
 
 async function fetchNotifications(filterStatus) {
   try {
-    const sb = createClient();
+    const sb = await createClient();
     let q = sb
       .from("admin_notifications")
       .select("id,type,title,body,entity_type,status,priority,created_at")
@@ -66,7 +66,8 @@ async function fetchNotifications(filterStatus) {
 
 const STATUS_FILTERS = ["all", "unread", "read", "archived"];
 
-export default async function NotificationsPage({ searchParams }) {
+export default async function NotificationsPage(props) {
+  const searchParams = await props.searchParams;
   const filterStatus = searchParams?.status || "unread";
   const { notifications, unreadCount, total, byType } = await fetchNotifications(filterStatus);
 

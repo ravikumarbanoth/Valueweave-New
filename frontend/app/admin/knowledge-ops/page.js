@@ -68,7 +68,7 @@ const SEVERITY = {
 /** Searches, live. Fails to an empty list — this page must render without it. */
 async function liveDemand() {
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     const since = new Date(Date.now() - 7 * 86400000).toISOString();
     const { data } = await supabase
       .from("search_events")

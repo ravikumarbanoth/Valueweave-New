@@ -72,7 +72,7 @@ function determineMatchType(a, b) {
 
 async function fetchMatchData() {
   try {
-    const sb = createClient();
+    const sb = await createClient();
 
     const [{ data: collabs }, { data: savedMatches }] = await Promise.all([
       sb.from("collaborator_profiles")

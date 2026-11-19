@@ -54,7 +54,7 @@ function SectionCard({ icon: Icon, iconColor, title, subtitle, children }) {
 
 async function fetchIntentData() {
   try {
-    const sb = createClient();
+    const sb = await createClient();
 
     const [
       { data: searches },

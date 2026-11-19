@@ -1,13 +1,18 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase-server";
 
+// Dynamic on purpose and explicitly: it exchanges a one-time OAuth code from
+// the query string for a session cookie, so it can never be cached. Already
+// dynamic on Next.js 14 (it reads the request); stated so no default can change it.
+export const dynamic = "force-dynamic";
+
 export async function GET(request) {
   const { searchParams, origin } = new URL(request.url);
   const code = searchParams.get("code");
   const intent = searchParams.get("intent");
 
   if (code) {
-    const supabase = createClient();
+    const supabase = await createClient();
     const { error } = await supabase.auth.exchangeCodeForSession(code);
     if (!error) {
       // Check whether profile is complete

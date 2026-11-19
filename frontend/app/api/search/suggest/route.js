@@ -22,6 +22,13 @@ import { NextResponse } from "next/server";
 import { suggest, MIN_QUERY } from "@/lib/search/universal.js";
 import { boostFor, isAudience } from "@/lib/journey";
 
+// Dynamic on purpose and explicitly: the answer depends on the query string.
+// Next.js 14 already treated this handler as dynamic because it reads the
+// request; Next.js 15 makes every GET handler dynamic by default. Stated here
+// so neither default can change it. Caching is the Cache-Control header below,
+// as before.
+export const dynamic = "force-dynamic";
+
 //: Everything the answer depends on is in the URL — the query and, since
 //: Phase 9, the audience — so two people typing "elec" as a student in the
 //: same minute still cost one computation, and a farmer typing the same thing

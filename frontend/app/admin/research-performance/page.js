@@ -25,7 +25,7 @@ function MiniBar({ value, max, color = "amber" }) {
 
 async function fetchResearchPerformance() {
   try {
-    const sb = createClient();
+    const sb = await createClient();
 
     const [
       { data: articles },

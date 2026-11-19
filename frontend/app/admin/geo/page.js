@@ -69,7 +69,7 @@ async function fetchGeoAudit() {
 
   let opportunities = [];
   try {
-    const sb = createClient();
+    const sb = await createClient();
     const { data } = await sb.from("opportunities").select("id,title,description,investment_range,district,category").limit(300);
     opportunities = data || [];
   } catch {

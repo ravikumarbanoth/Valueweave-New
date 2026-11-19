@@ -17,7 +17,7 @@ export const metadata = {
 
 async function fetchDashboardData() {
   try {
-    const sb = createClient();
+    const sb = await createClient();
 
     const [
       { count: totalUsers },

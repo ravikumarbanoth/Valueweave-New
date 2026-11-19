@@ -24,7 +24,7 @@ function PerformanceBar({ value, max, color = "amber" }) {
 
 async function fetchOpportunityPerformance() {
   try {
-    const sb = createClient();
+    const sb = await createClient();
 
     const [
       { data: opportunities },

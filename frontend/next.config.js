@@ -1,6 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+
+  // Next.js 15 changed the client router cache: a dynamic page visited in the
+  // last 30 seconds used to be reused on back/forward and link navigation; in
+  // 15 the default is 0, so every navigation refetches it. These are the
+  // Next.js 14 values, set explicitly so the upgrade does not change how often
+  // the browser asks the server for a page.
+  experimental: {
+    staleTimes: { dynamic: 30, static: 300 },
+  },
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "**" },

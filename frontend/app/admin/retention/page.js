@@ -11,7 +11,7 @@ export const metadata = {
 
 async function fetchRetentionData() {
   try {
-    const sb = createClient();
+    const sb = await createClient();
     const now = new Date();
     const d7   = new Date(now - 7  * 86400000).toISOString();
     const d14  = new Date(now - 14 * 86400000).toISOString();

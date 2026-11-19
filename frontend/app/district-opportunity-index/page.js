@@ -11,7 +11,7 @@ export const metadata = buildBaseMetadata({
 
 async function fetchIndex() {
   try {
-    const sb = createClient();
+    const sb = await createClient();
     const [{ data: districts }, { data: opportunities }, { data: skills }, { data: relationships }, { data: collaborators }] = await Promise.all([
       sb.from("kg_district_profiles").select("id,name,slug,state,logistics_score,education_score,healthcare_score,industrial_score,tourism_score,status").eq("status", "published").limit(500),
       sb.from("opportunities").select("id,district,category,status").eq("status", "open").limit(1000),

@@ -18,11 +18,16 @@
 // Node (Vercel) and on Workers. tests/test_research_registry.py renders every
 // article both ways on Node and requires byte-identical HTML.
 //
-// WHAT IT DOES NOT DO: MDX expressions (`{...}`), expression attributes and
-// import/export need real evaluation. They throw here, and renderBody's
-// existing fallback renders the article as plain markdown — the path a stray
-// "{" in admin-typed content already takes today. No current article uses any
-// of them.
+// EXPRESSIONS ARE REMOVED, NOT EVALUATED — exactly as in production today.
+// next-mdx-remote v6 blocks JavaScript in MDX by default (`blockJS`): before
+// compiling it deletes every `{...}` expression, every expression-valued JSX
+// attribute and every import/export. So on the live site `Two plus two is
+// {2 + 2}.` renders as "Two plus two is ." with the rest of the article intact.
+// The two plugins below reproduce those removals (next-mdx-remote's
+// removeJavaScriptExpressions and removeImportsExportsPlugin), in the same
+// position in the pipeline, so this renderer matches it for such content too.
+// Content that is not valid MDX at all (a stray "{") still throws, and
+// renderBody falls back to plain markdown as before.
 
 import { unified } from "unified";
 import remarkParse from "remark-parse";
@@ -30,7 +35,7 @@ import remarkMdx from "remark-mdx";
 import remarkGfm from "remark-gfm";
 import remarkRehype from "remark-rehype";
 import { toJsxRuntime } from "hast-util-to-jsx-runtime";
-import { visit } from "unist-util-visit";
+import { visit, SKIP } from "unist-util-visit";
 import { Fragment, jsx, jsxs } from "react/jsx-runtime";
 
 // MDX node types remark-rehype hands through untouched, as @mdx-js/mdx does.
@@ -87,11 +92,11 @@ function remarkMdxParity() {
 }
 
 // hast-util-to-jsx-runtime asks an "evaluater" to resolve capitalised JSX
-// names (`Callout`) and any expression. This one INTERPRETS a syntax tree; it
-// never turns a string into code. It resolves a bare identifier to the
-// matching component (or, for the renamed raw tags, to the plain HTML tag) and
-// a literal to its value. Anything else — a function call, an object, a
-// variable — is refused, which lands on renderBody's markdown fallback.
+// names (`Callout`). This one INTERPRETS a syntax tree; it never turns a
+// string into code. It resolves a bare identifier to the matching component
+// (or, for the renamed raw tags, to the plain HTML tag) and a literal to its
+// value. Expressions never reach it — they are removed above, as in
+// production — and anything else is refused.
 function createEvaluater(components) {
   const refuse = () => {
     throw new Error("MDX expression requires evaluation, which is not available here");
@@ -111,11 +116,50 @@ function createEvaluater(components) {
   });
 }
 
+// next-mdx-remote's removeImportsExportsPlugin: drop import/export statements.
+function remarkRemoveEsm() {
+  return (tree) => {
+    visit(tree, "mdxjsEsm", (node, index, parent) => {
+      if (parent && typeof index === "number") {
+        parent.children.splice(index, 1);
+        return [SKIP, index];
+      }
+    });
+  };
+}
+
+// next-mdx-remote's removeJavaScriptExpressions (its default `blockJS`):
+// drop `{...}` expressions, expression-valued JSX attributes and spreads.
+function remarkRemoveExpressions() {
+  return (tree) => {
+    visit(tree, (node, index, parent) => {
+      if (node.type === "mdxFlowExpression" || node.type === "mdxTextExpression") {
+        if (parent && typeof index === "number") {
+          parent.children.splice(index, 1);
+          return [SKIP, index];
+        }
+      }
+      if ((node.type === "mdxJsxFlowElement" || node.type === "mdxJsxTextElement") && node.attributes) {
+        node.attributes = node.attributes.filter((attr) =>
+          attr.type === "mdxJsxAttribute"
+            ? attr.value === null || typeof attr.value === "string"
+              || (attr.value && attr.value.type !== "mdxJsxAttributeValueExpression")
+            : attr.type !== "mdxJsxExpressionAttribute"
+        );
+      }
+    });
+  };
+}
+
+// The same order as compileMDX: MDX's own unravelling first, then the page's
+// remark plugins (remark-gfm), then next-mdx-remote's two removals.
 const processor = unified()
   .use(remarkParse)
   .use(remarkMdx)
-  .use(remarkGfm)
   .use(remarkMdxParity)
+  .use(remarkGfm)
+  .use(remarkRemoveEsm)
+  .use(remarkRemoveExpressions)
   .use(remarkRehype, { allowDangerousHtml: true, passThrough: MDX_NODE_TYPES });
 
 /**

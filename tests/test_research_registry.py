@@ -214,6 +214,14 @@ class RenderParityTest(unittest.TestCase):
                   ["admin-style markdown", "## Overview\\n\\nSome *text*.\\n\\n1. First\\n2. Second\\n\\n> quote\\n\\n---\\n\\n```js\\nconst a = 1;\\n```"],
                   ["explicit lowercase JSX", "Text with <a href=\\"/x\\">raw</a> and [md](/y)."],
                   ["inline JSX in a sentence", "A sentence with <Callout type=\\"info\\">inline</Callout> inside."],
+                  // next-mdx-remote strips JavaScript by default (blockJS); so must renderMdx.
+                  ["inline expression", "Two plus two is {{2 + 2}}.\\n\\n<Callout type=\\"info\\">Still here</Callout>"],
+                  ["expression-only paragraph", "Before.\\n\\n{{someVariable}}\\n\\nAfter."],
+                  ["comment expression", "Visible {{/* hidden */}} text."],
+                  ["attribute expression", "<Callout type={{\\"warning\\"}}>Typed by expression</Callout>"],
+                  ["spread attribute", "<Callout {{...props}}>Spread</Callout>"],
+                  ["import and export", "import X from \\"y\\"\\nexport const a = 1\\n\\n## Still renders\\n\\nBody."],
+                  ["expression in list and table", "- one {{1}}\\n- two\\n\\n| a | b |\\n|---|---|\\n| {{x}} | y |"],
                 );
                 const out = [];
                 for (const [name, src] of cases) {{
@@ -225,7 +233,6 @@ class RenderParityTest(unittest.TestCase):
                 console.log(JSON.stringify({{
                   out,
                   strayBraceThrows: throws(() => renderMdx("Price is {{about 5 lakh", mdxComponents)),
-                  expressionThrows: throws(() => renderMdx("Total: {{1 + 1}}", mdxComponents)),
                   unknownComponentThrows: throws(() => renderMdx("<Nope>x</Nope>", mdxComponents)),
                 }}));
             """), encoding="utf-8")
@@ -250,11 +257,18 @@ class RenderParityTest(unittest.TestCase):
         for o in self.result["out"]:
             self.assertTrue(o["same"], o["name"])
 
-    def test_what_needs_evaluation_is_refused_not_evaluated(self):
-        # These reach renderBody's next tier, exactly as invalid MDX did before.
+    def test_invalid_mdx_and_unknown_components_reach_the_next_tier(self):
+        # Exactly the inputs compileMDX also fails on (at compile, or for an
+        # unknown component while rendering), so renderBody behaves as before.
         self.assertTrue(self.result["strayBraceThrows"])
-        self.assertTrue(self.result["expressionThrows"])
         self.assertTrue(self.result["unknownComponentThrows"])
+
+    def test_javascript_is_stripped_like_production_not_evaluated(self):
+        names = {o["name"]: o["same"] for o in self.result["out"]}
+        for case in ("inline expression", "expression-only paragraph", "comment expression",
+                     "attribute expression", "spread attribute", "import and export",
+                     "expression in list and table"):
+            self.assertTrue(names[case], case)
 
 
 class RendererSourceTest(unittest.TestCase):
@@ -281,11 +295,17 @@ class NextFifteenBehaviourTest(unittest.TestCase):
         self.assertEqual(deps["react"], "19.3.1")
         self.assertEqual(deps["react-dom"], "19.3.1")
 
-    def test_registry_is_built_before_every_build_and_dev(self):
-        scripts = json.loads(read(FE / "package.json"))["scripts"]
-        self.assertTrue(scripts["build"].startswith("npm run registry && next build"))
-        self.assertTrue(scripts["dev"].startswith("npm run registry && next dev"))
+    def test_registry_is_built_by_next_itself_for_any_build_command(self):
+        # Not by an npm script: Vercel's build command can be overridden in its
+        # project settings, and OpenNext runs the build itself. next.config.js
+        # is loaded by every one of them.
+        cfg = read(FE / "next.config.js")
+        self.assertIn("PHASE_PRODUCTION_BUILD", cfg)
+        self.assertIn("PHASE_DEVELOPMENT_SERVER", cfg)
+        self.assertIn("build-research-registry.mjs", cfg)
+        self.assertIn("module.exports = (phase) =>", cfg)
         self.assertIn("lib/generated", read(FE / ".gitignore"))
+        self.assertIn("renameSync", read(GENERATOR))  # atomic: parallel build workers
 
     def test_client_router_cache_keeps_next_14_values(self):
         cfg = read(FE / "next.config.js")

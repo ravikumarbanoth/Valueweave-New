@@ -1,3 +1,21 @@
+const { execFileSync } = require("node:child_process");
+const path = require("node:path");
+const { PHASE_PRODUCTION_BUILD, PHASE_DEVELOPMENT_SERVER } = require("next/constants");
+
+// The research-article registry (scripts/build-research-registry.mjs) must
+// exist before any build. It is generated HERE rather than only in the npm
+// `build` script because the command that runs the build is not always ours:
+// Vercel uses package.json's `build` script unless the project overrides it,
+// a person may run `next build` directly, and OpenNext runs the build for
+// Cloudflare. Every one of those loads this file, so the registry is always
+// current. Only in the build and dev phases — `next start` and the deployed
+// runtimes never rebuild it.
+function buildResearchRegistry() {
+  execFileSync(process.execPath, [path.join(__dirname, "scripts", "build-research-registry.mjs")], {
+    stdio: "inherit",
+  });
+}
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -39,4 +57,7 @@ const nextConfig = {
     ];
   },
 };
-module.exports = nextConfig;
+module.exports = (phase) => {
+  if (phase === PHASE_PRODUCTION_BUILD || phase === PHASE_DEVELOPMENT_SERVER) buildResearchRegistry();
+  return nextConfig;
+};

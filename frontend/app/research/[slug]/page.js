@@ -33,13 +33,18 @@ export async function generateMetadata(props) {
 // characters that are invalid MDX (e.g. a stray "{"). Three tiers:
 //
 //   1. renderMdx — the rich MDX output (Callouts, themed tables) built without
-//      evaluating any code. Byte-identical to compileMDX for every article
-//      (tests/test_research_registry.py), and the only rich renderer that works
-//      on Cloudflare Workers, where generating code from strings is forbidden.
-//   2. compileMDX — reached only for MDX that needs real evaluation, such as a
-//      `{1 + 1}` expression. Works on Node exactly as before; on Workers it
-//      throws and falls through.
-//   3. plain markdown — unchanged, for content that is not valid MDX at all.
+//      evaluating any code, so it also works on Cloudflare Workers. Byte-
+//      identical to compileMDX for every article and for every JavaScript form
+//      compileMDX strips (expressions, attribute expressions, import/export —
+//      next-mdx-remote removes them by default, so production never evaluated
+//      them either). tests/test_research_registry.py holds that.
+//   2. compileMDX — now reached only when tier 1 throws: content that is not
+//      valid MDX (which compileMDX rejects too, landing on tier 3), or an
+//      undefined component such as <Nope>. For the latter, compileMDX returns
+//      and React then fails while rendering the page: HTTP 500 on Vercel today,
+//      kept exactly so by this tier. On Workers compileMDX throws instead, so
+//      that one input shows as plain markdown there.
+//   3. plain markdown — unchanged.
 async function renderBody(article) {
   try {
     return renderMdx(article.content, mdxComponents);
